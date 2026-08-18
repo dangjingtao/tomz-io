@@ -8,6 +8,7 @@ const distRoot = resolve(root, "dist");
 const siteUrl = "https://tomz.io";
 const failures = [];
 const removedRoots = ["docs", "mira-docs-api", "design-md"];
+const removedBlogCategories = ["product-journal", "engineering"];
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -42,6 +43,9 @@ function routeUrl(route) {
 
 for (const removedRoot of removedRoots) {
   if (existsSync(resolve(pagesRoot, removedRoot))) failures.push(`removed source category still exists: ${removedRoot}`);
+}
+for (const category of removedBlogCategories) {
+  if (existsSync(resolve(pagesRoot, "blogs", category))) failures.push(`removed blog category still exists: ${category}`);
 }
 
 const visibleRoutes = new Set(["/"]);
@@ -96,15 +100,19 @@ const sitemap = existsSync(resolve(distRoot, "sitemap.xml")) ? readFileSync(reso
 for (const route of visibleRoutes) {
   if (sitemap && !sitemap.includes(`<loc>${routeUrl(route)}</loc>`)) failures.push(`sitemap missing ${route}`);
 }
-for (const fragment of ["/mira-docs-api/", "/design-md/", "/about/author/"]) {
+for (const fragment of [
+  "/mira-docs-api/",
+  "/design-md/",
+  "/about/author/",
+  "/blogs/product-journal/",
+  "/blogs/engineering/",
+]) {
   if (sitemap.includes(fragment)) failures.push(`sitemap still contains removed content: ${fragment}`);
 }
 
 for (const route of [
   "/blogs/shared-thinking/matter-awakens",
   "/blogs/mira-letters/a-seat-at-the-writing-table",
-  "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem",
-  "/blogs/engineering/insight-capture-pipeline",
 ]) {
   if (!existsSync(routeFile(route))) failures.push(`representative blog route missing: ${route}`);
 }
@@ -113,6 +121,8 @@ for (const route of [
   "/about/author",
   "/mira-docs-api/guide/what-is-mira-docs",
   "/design-md/视觉/product-design-system",
+  "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem",
+  "/blogs/engineering/insight-capture-pipeline",
 ]) {
   if (existsSync(routeFile(route))) failures.push(`removed static route still exists: ${route}`);
 }
@@ -123,4 +133,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`BR003B root static verification passed: ${visibleRoutes.size} visible routes; removed docs/MiraDocs sources and representative outputs are absent; canonical/assets/sitemap/JSON-LD/404 verified.`);
+console.log(`BR003B root static verification passed: ${visibleRoutes.size} visible routes; removed docs/MiraDocs/product-journal/engineering sources and representative outputs are absent; canonical/assets/sitemap/JSON-LD/404 verified.`);
