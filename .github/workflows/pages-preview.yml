@@ -1,16 +1,16 @@
-name: Pages Preview
+name: BR003A Pages Preview
 
 on:
   push:
     branches:
-      - work/br003-content-migration
+      - work/br003a-full-mirror
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: pages-preview
+  group: br003a-pages-preview
   cancel-in-progress: true
 
 jobs:
@@ -23,7 +23,17 @@ jobs:
           node-version: 22
       - run: npm install
       - run: npm run build:github-pages
-      - run: npm run verify:static-output -- --base=/tomz-io/
+      - name: Verify GitHub Pages static output
+        env:
+          EXPECTED_BASE: tomz-io
+        run: npm run verify:static-output
+      - name: Apply preview-only noindex
+        run: node scripts/prepare-pages-preview.mjs
+      - name: Verify preview isolation
+        run: |
+          grep -q 'noindex,nofollow' dist/index.html
+          grep -q 'noindex,nofollow' dist/blogs/shared-thinking/matter-awakens/index.html
+          grep -q 'Disallow: /' dist/robots.txt
       - name: Publish build:github-pages output to gh-pages
         env:
           PREVIEW_SHA: ${{ github.sha }}
@@ -38,5 +48,5 @@ jobs:
           touch .nojekyll
           printf '%s\n' "$PREVIEW_SHA" > .preview-source-sha
           git add -A
-          git commit -m "deploy: BR003 preview $PREVIEW_SHA"
+          git commit -m "deploy: BR003A mirror preview $PREVIEW_SHA"
           git push --force origin HEAD:gh-pages
