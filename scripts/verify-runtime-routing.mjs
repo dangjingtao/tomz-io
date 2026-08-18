@@ -22,6 +22,10 @@ if (!app.includes("allDocs.find") || !app.includes('path="*" element={<ContentRo
   failures.push("The client router must resolve MiraDocs content paths before the fallback redirect.");
 }
 
+if (!app.includes("normalizeContentPath(pathname)") || !app.includes('pathname.replace(/\\/+$/, "")') || !app.includes("candidate.path === contentPath")) {
+  failures.push("ContentRoute must normalize a static host trailing slash before matching a MiraDocs article path.");
+}
+
 if (!app.includes('path="thoughts" element={<ThoughtsPage />}')) {
   failures.push("/thoughts must render the real shared-thinking aggregation page.");
 }
@@ -54,4 +58,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Runtime routing verification passed: basename, real content routing, thoughts aggregation, and document-navigation metadata strategy are present.");
+console.log("Runtime routing verification passed: basename, real content routing, trailing-slash refresh normalization, thoughts aggregation, and document-navigation metadata strategy are present.");
