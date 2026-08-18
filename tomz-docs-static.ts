@@ -114,6 +114,19 @@ function websiteJsonLd(context: MiraDocsStaticBuildContext, path: string): Recor
   };
 }
 
+function isoPublishedDate(value?: string): string | undefined {
+  if (!value) return undefined;
+  const localized = value.match(/^\s*(\d{4})年(\d{1,2})月(\d{1,2})日\s*$/);
+  if (localized) {
+    const [, year, month, day] = localized;
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  const iso = value.match(/^\s*(\d{4})-(\d{2})-(\d{2})(?:[T\s].*)?\s*$/);
+  if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`;
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? undefined : new Date(parsed).toISOString().slice(0, 10);
+}
+
 function articleJsonLd(context: MiraDocsStaticBuildContext, doc: TomzDoc): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
@@ -121,7 +134,7 @@ function articleJsonLd(context: MiraDocsStaticBuildContext, doc: TomzDoc): Recor
     headline: doc.title,
     description: doc.description,
     url: miraDocsAbsoluteRouteUrl(context.config.siteUrl || "", context.base, doc.path),
-    datePublished: doc.date,
+    datePublished: isoPublishedDate(doc.date),
     author: doc.author.map((author) => ({ "@type": "Person", name: authorDisplayName(author) })),
     publisher: { "@type": "Person", name: "Tomz Dang" },
   };
