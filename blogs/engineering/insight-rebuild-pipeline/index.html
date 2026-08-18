@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f3ec" />
+    <title>洞见重建流程：从材料、证据到可复核结果 · Tomz Dang</title>
+    <script type="module" crossorigin src="/tomz-io/assets/index-nAwzr2SB.js"></script>
+    <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-V97Y_mbE.css">
+  <meta name="description" content="记录全量重建、文本分块、观点提取、证据关联和结果校验如何组成一条可重复执行的业务流水线。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/engineering/insight-rebuild-pipeline/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="洞见重建流程：从材料、证据到可复核结果 · Tomz Dang"><meta property="og:description" content="记录全量重建、文本分块、观点提取、证据关联和结果校验如何组成一条可重复执行的业务流水线。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/engineering/insight-rebuild-pipeline/"><meta property="og:site_name" content="Tomz Dang"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="洞见重建流程：从材料、证据到可复核结果 · Tomz Dang"><meta name="twitter:description" content="记录全量重建、文本分块、观点提取、证据关联和结果校验如何组成一条可重复执行的业务流水线。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"洞见重建流程：从材料、证据到可复核结果","description":"记录全量重建、文本分块、观点提取、证据关联和结果校验如何组成一条可重复执行的业务流水线。","url":"https://tomz.io/tomz-io/blogs/engineering/insight-rebuild-pipeline/","datePublished":"2026-07-13","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang"}}</script></head>
+  <body>
+    <div id="root"><header class="site-header seo-static-header"><div class="wrap header-inner"><a class="wordmark" href="/tomz-io/">Tomz Dang</a><nav class="primary-nav" aria-label="一级导航"><a href="/tomz-io/">首页</a><a href="/tomz-io/blogs">博客</a><a href="/tomz-io/thoughts">共用的床</a><a href="/tomz-io/reading">阅读</a><a href="/tomz-io/projects">项目</a><a href="/tomz-io/about">关于</a></nav></div></header><main><div class="wrap page-frame"><article class="article-header"><span class="eyebrow">工程现场</span><h1>洞见重建流程：从材料、证据到可复核结果</h1><p class="hero-note">记录全量重建、文本分块、观点提取、证据关联和结果校验如何组成一条可重复执行的业务流水线。</p><p>Tomz Dang · 2026年7月13日 · 8 分钟阅读</p></article><article class="markdown"><p>洞见重建不能设计成一个“点击后让模型重新总结”的接口。只保存最后一段文字，会导致三个问题：不知道它依据了哪些材料，不知道中间处理到哪一步，也无法在更换模型或清洗规则后重新得到同样的结果。</p>
+<p>因此重建首先是任务管理问题，其次才是模型调用问题。一次重建应该有自己的 ID、模式、状态、输入范围和处理统计：</p>
+<pre><code class="language-json">{
+  &quot;rebuildId&quot;: &quot;rebuild_123&quot;,
+  &quot;mode&quot;: &quot;full&quot;,
+  &quot;status&quot;: &quot;running&quot;,
+  &quot;startedAt&quot;: &quot;2026-07-13T08:00:00.000Z&quot;,
+  &quot;finishedAt&quot;: null,
+  &quot;totalMaterials&quot;: 120,
+  &quot;processedMaterials&quot;: 45,
+  &quot;failedMaterials&quot;: 2,
+  &quot;modelProfile&quot;: &quot;insight-balanced&quot;
+}</code></pre><p><code>full</code> 和增量处理必须区分。增量处理只分析新材料及其关联主题，全量重建则重新读取所有有效材料，重新计算主题、观点和关系。采集页面上的“是否触发洞见重建”检查项，控制的就是这两个业务动作之间的边界，而不是一个普通的刷新按钮。</p>
+<h2 id="先处理材料状态再调用模型">先处理材料状态，再调用模型<a class="md-anchor" href="#先处理材料状态再调用模型">#</a></h2>
+<p>材料进入知识库后，不应立即全部送给模型。每份材料都需要经过状态流转：</p>
+<pre><code class="language-text">captured -&gt; cleaning -&gt; cleaned -&gt; processing -&gt; ready
+                         \
+                          -&gt; failed</code></pre><p>被删除的材料进入 <code>deleted</code>，不再参与后续重建。只有 <code>cleaned</code> 或 <code>ready</code> 的材料可以进入分析阶段。这样可以避免一篇正文为空、图片下载失败或格式不完整的材料污染整个重建任务。</p>
+<p>清洗完成后，文本需要切成可追溯的内容块。切分顺序应当优先遵守标题、段落、列表和引用，再对过长段落做二次切分。每个块都要保留来源定位：</p>
+<pre><code class="language-json">{
+  &quot;chunkId&quot;: &quot;chunk_001&quot;,
+  &quot;materialId&quot;: &quot;mat_123&quot;,
+  &quot;index&quot;: 4,
+  &quot;text&quot;: &quot;一个完整的语义段落&quot;,
+  &quot;sourceLocator&quot;: {
+    &quot;blockIndex&quot;: 7,
+    &quot;charStart&quot;: 1200,
+    &quot;charEnd&quot;: 1680
+  }
+}</code></pre><p>如果分块只保存文字，不保存 <code>materialId</code> 和位置，模型生成的结论就无法回到原文。结果页面可以显示一个来源链接，但用户点击后仍然要自己在长文中寻找依据，这不算真正的证据链。</p>
+<h2 id="主题观点和关系分开保存">主题、观点和关系分开保存<a class="md-anchor" href="#主题观点和关系分开保存">#</a></h2>
+<p>主题是材料的组织方式，观点是对材料的判断，关系是它们之间的连接，三者不应该合并成一张“洞见文本”表。</p>
+<p>主题可以先作为候选结果保存：</p>
+<pre><code class="language-json">{
+  &quot;topicId&quot;: &quot;topic_001&quot;,
+  &quot;name&quot;: &quot;本地优先应用&quot;,
+  &quot;aliases&quot;: [&quot;local-first&quot;, &quot;本地化架构&quot;],
+  &quot;evidenceChunkIds&quot;: [&quot;chunk_001&quot;, &quot;chunk_014&quot;],
+  &quot;confidence&quot;: 0.82,
+  &quot;status&quot;: &quot;candidate&quot;
+}</code></pre><p>多个材料重复出现同一主题时，再根据别名和上下文合并。用户手工标签是明确输入，应该和模型推断的主题分开保存，不能在重新处理时被模型覆盖。</p>
+<p>观点则使用固定模板，限制模型只输出业务需要的字段：</p>
+<pre><code class="language-json">{
+  &quot;claim&quot;: &quot;本地优先架构可以减少外部服务不可用对核心工作流的影响。&quot;,
+  &quot;scope&quot;: &quot;桌面知识工作台&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;materialId&quot;: &quot;mat_123&quot;,
+      &quot;chunkId&quot;: &quot;chunk_001&quot;,
+      &quot;quote&quot;: &quot;原文中的关键句子&quot;
+    }
+  ],
+  &quot;counterEvidence&quot;: [],
+  &quot;assumptions&quot;: [&quot;应用主要面向单用户或小团队使用&quot;],
+  &quot;confidence&quot;: &quot;medium&quot;
+}</code></pre><p><code>claim</code> 是观点，<code>evidence</code> 是证据，<code>assumptions</code> 是前提，<code>confidence</code> 是当前可信度。没有证据的句子不能直接进入已发布洞见。模型认为两个来源互相矛盾时，也不能强行选一个答案，而应保存一条关系：</p>
+<pre><code class="language-json">{
+  &quot;relationType&quot;: &quot;contradicts&quot;,
+  &quot;from&quot;: &quot;claim_001&quot;,
+  &quot;to&quot;: &quot;claim_009&quot;,
+  &quot;reason&quot;: &quot;两个来源对部署方式的要求相反&quot;,
+  &quot;status&quot;: &quot;unresolved&quot;
+}</code></pre><p>这一步是知识图谱的基础。图谱不是把文章标题连成网络，而是把材料、内容块、主题、观点和冲突关系都保存成可查询的节点和边。</p>
+<h2 id="结果发布前必须校验">结果发布前必须校验<a class="md-anchor" href="#结果发布前必须校验">#</a></h2>
+<p>洞见生成完成后，不能直接显示给用户。至少要检查：</p>
+<pre><code class="language-text">1. 是否至少引用一份有效材料
+2. 引用内容是否真实存在于原文
+3. 来源材料是否已被删除
+4. 是否把假设写成了事实
+5. 是否存在未处理的冲突观点
+6. 标题和摘要是否为空
+7. 是否和已有洞见重复</code></pre><p>校验通过的结果进入 <code>reviewable</code> 或 <code>published</code>，失败的结果保留为 <code>draft</code> 或 <code>invalid</code>，并记录失败原因。系统宁可少展示一条结果，也不能把没有证据的推断伪装成确定结论。</p>
+<p>模型配置也要按任务拆开。清洗、分类、主题合并、复杂观点提取对模型能力的要求不同，不应该所有环节都调用最大模型。每次调用记录模型、任务类型、提示词版本和输入指纹：</p>
+<pre><code class="language-json">{
+  &quot;model&quot;: &quot;configured-model-id&quot;,
+  &quot;task&quot;: &quot;claim-extraction&quot;,
+  &quot;promptVersion&quot;: &quot;insight-v3&quot;,
+  &quot;inputHash&quot;: &quot;sha256:...&quot;,
+  &quot;outputHash&quot;: &quot;sha256:...&quot;
+}</code></pre><p>将来更换模型时，可以根据输入指纹判断哪些结果需要重建，而不是整库盲目重跑。</p>
+<h2 id="最终结果要能沿链路返回原文">最终结果要能沿链路返回原文<a class="md-anchor" href="#最终结果要能沿链路返回原文">#</a></h2>
+<p>最终洞见至少保存以下内容：</p>
+<pre><code class="language-json">{
+  &quot;insightId&quot;: &quot;insight_001&quot;,
+  &quot;title&quot;: &quot;本地优先并不等于完全离线&quot;,
+  &quot;summary&quot;: &quot;洞见摘要&quot;,
+  &quot;claimIds&quot;: [&quot;claim_001&quot;],
+  &quot;evidenceMaterialIds&quot;: [&quot;mat_123&quot;, &quot;mat_145&quot;],
+  &quot;relatedTopicIds&quot;: [&quot;topic_001&quot;],
+  &quot;confidence&quot;: &quot;medium&quot;,
+  &quot;status&quot;: &quot;reviewable&quot;
+}</code></pre><p>用户看到一条洞见时，应当能够按下面的顺序回溯：</p>
+<pre><code class="language-text">洞见
+  -&gt; 观点
+  -&gt; 证据内容块
+  -&gt; 清洗后的材料
+  -&gt; 原始文章和来源链接</code></pre><p>这条链路决定了洞见是可复核的知识结果，还是一段无法解释的模型输出。全量重建的价值也不只是重新生成文字，而是让同一批材料在规则、模型或关系结构变化后，仍然可以按照明确步骤重新计算。只要材料、分块、观点和证据关系都被保存，知识库就具备持续演进的基础。</p>
+</article></div></main><footer class="site-footer"><div class="wrap footer-inner"><p>Tomz Dang · 写作、思考，以及正在做的事。</p><p>© 2026 Tomz Dang</p></div></footer></div>
+  </body>
+</html>
