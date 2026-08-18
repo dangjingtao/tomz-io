@@ -131,6 +131,29 @@ function br003aStaticSeoGuard(): Plugin {
   };
 }
 
+function br003bStaticBuild() {
+  const sourceRoutes = miraDocsStaticBuild.routes;
+  return {
+    ...miraDocsStaticBuild,
+    routes: (context: any) => {
+      const routes = typeof sourceRoutes === "function"
+        ? sourceRoutes(context)
+        : sourceRoutes;
+      return routes
+        .filter((route: any) => route.path !== "/design-md")
+        .map((route: any) => ({
+          ...route,
+          body: typeof route.body === "string"
+            ? route.body.replace(
+                /<li><a href="[^"]*\/(?:about\/origin|mira-docs-api)">(?:文档|MiraDocs)<\/a><\/li>/g,
+                "",
+              )
+            : route.body,
+        }));
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   // Cloudflare Pages injects CF_PAGES=1. Treat it as a root deployment even if
   // an external build setting accidentally invokes the github-pages mode.
@@ -151,7 +174,7 @@ export default defineConfig(({ mode }) => {
           description: "本地优先的多模型智能体工作空间",
           siteUrl,
         },
-        staticRoutes: seoConfig.enabled ? miraDocsStaticBuild : false,
+        staticRoutes: seoConfig.enabled ? br003bStaticBuild() : false,
         exclude: (sourcePath) => /(^|\/)README\.md$/i.test(sourcePath),
         route: (_sourcePath, doc) => {
           const path = doc.path.replace(/^\/docs(?=\/|$)/, "");
