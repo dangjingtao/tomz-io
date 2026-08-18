@@ -8,6 +8,7 @@ const distRoot = resolve(root, "dist");
 const siteUrl = "https://tomz.io";
 const expectedBase = `/${(process.env.EXPECTED_BASE || "uichat-mira-docs").replace(/^\/+|\/+$/g, "")}`;
 const removedRoots = ["docs", "mira-docs-api", "design-md"];
+const removedBlogCategories = ["product-journal", "engineering"];
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -42,6 +43,9 @@ function routeUrl(route) {
 const failures = [];
 for (const removedRoot of removedRoots) {
   if (existsSync(resolve(pagesRoot, removedRoot))) failures.push(`已删除分类仍存在: ${removedRoot}`);
+}
+for (const category of removedBlogCategories) {
+  if (existsSync(resolve(pagesRoot, "blogs", category))) failures.push(`已删除博客分类仍存在: ${category}`);
 }
 
 const visibleRoutes = new Set(["/"]);
@@ -105,7 +109,13 @@ if (existsSync(sitemapPath)) {
     const url = routeUrl(route);
     if (!sitemap.includes(`<loc>${url}</loc>`)) failures.push(`sitemap 缺少路由: ${route}`);
   }
-  for (const fragment of ["/mira-docs-api/", "/design-md/", "/about/author/"]) {
+  for (const fragment of [
+    "/mira-docs-api/",
+    "/design-md/",
+    "/about/author/",
+    "/blogs/product-journal/",
+    "/blogs/engineering/",
+  ]) {
     if (sitemap.includes(fragment)) failures.push(`sitemap 仍包含已删除内容: ${fragment}`);
   }
 }
@@ -120,6 +130,8 @@ for (const route of [
   "/about/author",
   "/mira-docs-api/guide/what-is-mira-docs",
   "/design-md/视觉/product-design-system",
+  "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem",
+  "/blogs/engineering/insight-capture-pipeline",
 ]) {
   if (existsSync(routeFile(route))) failures.push(`已删除静态页面仍存在: ${route}`);
 }
@@ -130,4 +142,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`BR003B static output passed: ${visibleRoutes.size} routes; docs/MiraDocs categories are absent; remaining blog/static/canonical/JSON-LD/404/sitemap/robots verified.`);
+console.log(`BR003B static output passed: ${visibleRoutes.size} routes; docs/MiraDocs/product-journal/engineering categories are absent; remaining blog/static/canonical/JSON-LD/404/sitemap/robots verified.`);
