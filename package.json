@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "verify:mira-docs": "node scripts/verify-mira-docs-compat.mjs",
+    "verify:static-output": "node scripts/verify-mira-docs-static-output.mjs",
+    "build": "npm run verify:mira-docs && tsc --noEmit && vite build",
+    "build:github-pages": "npm run build -- --mode github-pages",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@uichat-mira/docs": "^0.1.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.30.1"
