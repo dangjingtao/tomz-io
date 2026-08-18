@@ -1,10 +1,10 @@
 name: Verify
 
 on:
+  pull_request:
   push:
     branches:
-      - work/site-foundation
-  pull_request:
+      - main
 
 jobs:
   build:
