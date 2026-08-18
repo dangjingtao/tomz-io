@@ -55,8 +55,6 @@ jobs:
           check_html "/blogs/" "博客"
           check_html "/blogs/shared-thinking/matter-awakens/" "物质为什么会醒来"
           check_html "/blogs/mira-letters/a-seat-at-the-writing-table/" "Mira"
-          check_html "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem/" '"@type":"Article"'
-          check_html "/blogs/engineering/insight-capture-pipeline/" '"@type":"Article"'
 
           # Direct deep-route refresh without a trailing slash must still resolve.
           check_html "/blogs/shared-thinking/matter-awakens" "物质为什么会醒来"
@@ -67,6 +65,10 @@ jobs:
           check_removed "/mira-docs-api/guide/what-is-mira-docs/"
           check_removed "/design-md/"
           check_removed "/design-md/%E8%A7%86%E8%A7%89/product-design-system/"
+          check_removed "/blogs/product-journal/"
+          check_removed "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem/"
+          check_removed "/blogs/engineering/"
+          check_removed "/blogs/engineering/insight-capture-pipeline/"
 
           curl -fsSL --max-time 20 "$base/mira-logo.png" -o /tmp/mira-logo.png
           test -s /tmp/mira-logo.png
