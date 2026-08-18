@@ -13,3 +13,6 @@ jobs:
           node-version: 22
       - run: npm install
       - run: npm run build
+      - run: npm run verify:static-output
+      - run: npm run build:github-pages
+      - run: npm run verify:static-output -- --base=/tomz-io/
