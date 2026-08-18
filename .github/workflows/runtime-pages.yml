@@ -1,4 +1,4 @@
-name: Verify BR003A Pages Runtime
+name: Verify BR003B Pages Runtime
 
 on:
   pull_request:
@@ -41,29 +41,42 @@ jobs:
             rm -f "$file"
           }
 
+          check_removed() {
+            route="$1"
+            file="$(mktemp)"
+            status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base$route")"
+            echo "$route -> $status (expected removed)"
+            test "$status" = "404"
+            grep -Fq 'noindex,nofollow' "$file"
+            rm -f "$file"
+          }
+
           check_html "/" "本地优先的多模型智能体"
           check_html "/blogs/" "博客"
           check_html "/blogs/shared-thinking/matter-awakens/" "物质为什么会醒来"
           check_html "/blogs/mira-letters/a-seat-at-the-writing-table/" "Mira"
           check_html "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem/" '"@type":"Article"'
           check_html "/blogs/engineering/insight-capture-pipeline/" '"@type":"Article"'
-          check_html "/about/author/" "Tomz"
-          check_html "/mira-docs-api/guide/what-is-mira-docs/" "MiraDocs"
-          check_html "/design-md/%E8%A7%86%E8%A7%89/product-design-system/" "product-design-system"
 
-          # Direct deep-route refresh without a trailing slash must also resolve.
+          # Direct deep-route refresh without a trailing slash must still resolve.
           check_html "/blogs/shared-thinking/matter-awakens" "物质为什么会醒来"
-          check_html "/mira-docs-api/guide/what-is-mira-docs" "MiraDocs"
+
+          # Removed author-site categories and representative descendants must be gone.
+          check_removed "/about/author/"
+          check_removed "/mira-docs-api/"
+          check_removed "/mira-docs-api/guide/what-is-mira-docs/"
+          check_removed "/design-md/"
+          check_removed "/design-md/%E8%A7%86%E8%A7%89/product-design-system/"
 
           curl -fsSL --max-time 20 "$base/mira-logo.png" -o /tmp/mira-logo.png
           test -s /tmp/mira-logo.png
           curl -fsSL --max-time 20 "$base/robots.txt" | grep -Fq 'Disallow: /'
 
           file="$(mktemp)"
-          status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base/__br003a_not_found__")"
-          echo "/__br003a_not_found__ -> $status"
+          status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base/__br003b_not_found__")"
+          echo "/__br003b_not_found__ -> $status"
           test "$status" = "404"
           grep -Fq 'noindex,nofollow' "$file"
           rm -f "$file"
 
-          echo "BR003A public Pages runtime smoke passed for $PREVIEW_SHA."
+          echo "BR003B public Pages runtime smoke passed for $PREVIEW_SHA."

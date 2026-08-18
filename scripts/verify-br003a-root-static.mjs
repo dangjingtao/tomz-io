@@ -7,6 +7,7 @@ const pagesRoot = resolve(root, "src/pages");
 const distRoot = resolve(root, "dist");
 const siteUrl = "https://tomz.io";
 const failures = [];
+const removedRoots = ["docs", "mira-docs-api", "design-md"];
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -37,6 +38,10 @@ function routeFile(route) {
 
 function routeUrl(route) {
   return `${siteUrl}${route === "/" ? "/" : `${route}/`}`;
+}
+
+for (const removedRoot of removedRoots) {
+  if (existsSync(resolve(pagesRoot, removedRoot))) failures.push(`removed source category still exists: ${removedRoot}`);
 }
 
 const visibleRoutes = new Set(["/"]);
@@ -79,7 +84,10 @@ for (const file of ["index.html", "404.html", "sitemap.xml", "robots.txt"]) {
 
 const index = existsSync(resolve(distRoot, "index.html")) ? readFileSync(resolve(distRoot, "index.html"), "utf8") : "";
 if (index && !index.includes('/assets/')) failures.push("root index does not reference /assets/");
-if (index && !index.includes('property="og:site_name" content="UIChat Mira"')) failures.push("root index lost UIChat Mira mirror identity");
+if (index && !index.includes('property="og:site_name" content="UIChat Mira"')) failures.push("root index lost current mirror identity");
+if (index && (index.includes('>MiraDocs</a>') || index.includes('href="/mira-docs-api') || index.includes('href="/design-md'))) {
+  failures.push("root navigation still exposes removed MiraDocs category");
+}
 
 const notFound = existsSync(resolve(distRoot, "404.html")) ? readFileSync(resolve(distRoot, "404.html"), "utf8") : "";
 if (notFound && !notFound.includes('content="noindex,nofollow"')) failures.push("404 lacks noindex,nofollow");
@@ -88,21 +96,31 @@ const sitemap = existsSync(resolve(distRoot, "sitemap.xml")) ? readFileSync(reso
 for (const route of visibleRoutes) {
   if (sitemap && !sitemap.includes(`<loc>${routeUrl(route)}</loc>`)) failures.push(`sitemap missing ${route}`);
 }
+for (const fragment of ["/mira-docs-api/", "/design-md/", "/about/author/"]) {
+  if (sitemap.includes(fragment)) failures.push(`sitemap still contains removed content: ${fragment}`);
+}
 
 for (const route of [
   "/blogs/shared-thinking/matter-awakens",
+  "/blogs/mira-letters/a-seat-at-the-writing-table",
+  "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem",
+  "/blogs/engineering/insight-capture-pipeline",
+]) {
+  if (!existsSync(routeFile(route))) failures.push(`representative blog route missing: ${route}`);
+}
+
+for (const route of [
+  "/about/author",
   "/mira-docs-api/guide/what-is-mira-docs",
   "/design-md/视觉/product-design-system",
-  "/about/author",
 ]) {
-  const file = routeFile(route);
-  if (!existsSync(file)) failures.push(`representative deep route missing: ${route}`);
+  if (existsSync(routeFile(route))) failures.push(`removed static route still exists: ${route}`);
 }
 
 if (failures.length) {
-  console.error("BR003A root static verification failed:");
+  console.error("BR003B root static verification failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`BR003A root static verification passed: ${visibleRoutes.size} visible routes, root canonical/assets, sitemap, JSON-LD, 404 and representative deep routes verified.`);
+console.log(`BR003B root static verification passed: ${visibleRoutes.size} visible routes; removed docs/MiraDocs sources and representative outputs are absent; canonical/assets/sitemap/JSON-LD/404 verified.`);

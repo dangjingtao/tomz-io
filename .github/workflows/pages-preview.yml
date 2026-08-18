@@ -1,16 +1,16 @@
-name: BR003A Pages Preview
+name: BR003B Pages Preview
 
 on:
   push:
     branches:
-      - work/br003a-full-mirror
+      - work/br003b-author-reduction
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: br003a-pages-preview
+  group: br003b-pages-preview
   cancel-in-progress: true
 
 jobs:
@@ -49,5 +49,5 @@ jobs:
           printf '%s\n' "$PREVIEW_SHA" > .preview-source-sha
           printf '%s\n' "$PREVIEW_SHA" > preview-source-sha.txt
           git add -A
-          git commit -m "deploy: BR003A mirror preview $PREVIEW_SHA"
+          git commit -m "deploy: BR003B author reduction preview $PREVIEW_SHA"
           git push --force origin HEAD:gh-pages

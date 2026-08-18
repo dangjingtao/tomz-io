@@ -1,4 +1,4 @@
-name: Verify BR003A
+name: Verify BR003B
 
 on:
   pull_request:
@@ -7,22 +7,13 @@ permissions:
   contents: read
 
 jobs:
-  mirror-and-build:
+  reduction-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Fetch pinned mature source
-        run: |
-          git clone --filter=blob:none --no-checkout https://github.com/dangjingtao/uichat-mira-docs.git /tmp/br003a-source
-          git -C /tmp/br003a-source fetch --depth 1 origin "$(cat .br003a-source-sha)"
-          git -C /tmp/br003a-source checkout --detach "$(cat .br003a-source-sha)"
-
-      - name: Verify full mirror integrity
-        run: node scripts/verify-br003a-mirror.mjs /tmp/br003a-source
 
       - run: npm install
 

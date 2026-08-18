@@ -3,8 +3,6 @@
  * unlisted directories are appended in their generated order.
  */
 export const topNavigationOrder = [
-  "docs",
-  "mira-docs-api",
   "blogs",
   "works",
 ] as const;
