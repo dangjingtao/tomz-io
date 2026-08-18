@@ -7,6 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import { miraDocs } from "@uichat-mira/docs/vite";
 import { miraDocsStaticBuild } from "./mira-docs-static";
+import { br003aStaticSeoGuard } from "./br003a-static-seo-guard";
 import { seo as seoConfig, siteUrl } from "./src/site.config";
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
@@ -131,6 +132,7 @@ export default defineConfig(({ mode }) => {
           cleanupOutdatedCaches: true,
         },
       }),
+      br003aStaticSeoGuard(),
     ],
     base,
   };
