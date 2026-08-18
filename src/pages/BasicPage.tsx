@@ -1,6 +1,7 @@
+import type { ReactNode } from "react";
 import { Seo } from "../lib/seo";
 
-export function BasicPage({ title, eyebrow, description, path, children }: { title: string; eyebrow: string; description: string; path: string; children?: React.ReactNode }) {
+export function BasicPage({ title, eyebrow, description, path, children }: { title: string; eyebrow: string; description: string; path: string; children?: ReactNode }) {
   return (
     <div className="wrap page-frame">
       <Seo title={title} description={description} path={path} />
