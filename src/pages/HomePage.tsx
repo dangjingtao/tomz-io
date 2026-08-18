@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { Section } from "../components/Section";
 import { blogPosts } from "../content";
+import { siteHref } from "../lib/site-path";
 import { collaborations, currentThoughts, projects } from "../site";
 
 export function HomePage() {
@@ -32,11 +32,11 @@ export function HomePage() {
         {recentPosts.length ? (
           <div className="post-list">
             {recentPosts.map((post) => (
-              <Link className="post-row" to={post.path} key={post.path}>
+              <a className="post-row" href={siteHref(post.path)} key={post.path}>
                 <span>{post.group}</span>
                 <div><h3>{post.title}</h3><p>{post.description}</p></div>
                 <time>{post.date}</time>
-              </Link>
+              </a>
             ))}
           </div>
         ) : (
@@ -50,9 +50,9 @@ export function HomePage() {
       <Section eyebrow="TOGETHER" title="我和 Mira">
         <div className="card-grid three-up">
           {collaborations.map((item) => (
-            <Link className="quiet-card" to={item.href} key={item.title}>
+            <a className="quiet-card" href={siteHref(item.href)} key={item.title}>
               <h3>{item.title}</h3><p>{item.description}</p><span>进入 →</span>
-            </Link>
+            </a>
           ))}
         </div>
       </Section>
