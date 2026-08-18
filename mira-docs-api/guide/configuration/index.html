@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>站点配置与扩展 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="MiraDocs 核心配置、Vite 插件选项和当前站点扩展。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/mira-docs-api/guide/configuration/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="站点配置与扩展 · UIChat Mira"><meta property="og:description" content="MiraDocs 核心配置、Vite 插件选项和当前站点扩展。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/mira-docs-api/guide/configuration/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="站点配置与扩展 · UIChat Mira"><meta name="twitter:description" content="MiraDocs 核心配置、Vite 插件选项和当前站点扩展。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"站点配置与扩展","description":"MiraDocs 核心配置、Vite 插件选项和当前站点扩展。","url":"https://tomz.io/tomz-io/mira-docs-api/guide/configuration/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/mira-docs-api">MiraDocs</a></h5></div><div class="docnav-group"><h5>guide</h5><ul><li><a href="/tomz-io/mira-docs-api/guide/what-is-mira-docs">MiraDocs 是什么</a></li><li><a href="/tomz-io/mira-docs-api/guide/getting-started">快速开始</a></li><li><a href="/tomz-io/mira-docs-api/guide/content-model">内容模型</a></li><li><a href="/tomz-io/mira-docs-api/guide/authoring">编写文档</a></li><li><a href="/tomz-io/mira-docs-api/guide/navigation">导航如何生成</a></li><li><a class="active" aria-current="page" href="/tomz-io/mira-docs-api/guide/configuration">站点配置与扩展</a></li><li><a href="/tomz-io/mira-docs-api/guide/architecture">仓库与 Skill 边界</a></li><li><a href="/tomz-io/mira-docs-api/guide/migration-status">生产迁移状态</a></li><li><a href="/tomz-io/mira-docs-api/guide/deployment-cloudflare-pages">部署到 Cloudflare Pages</a></li><li><a href="/tomz-io/mira-docs-api/guide/deployment-github-pages">部署到 GitHub Pages</a></li></ul></div><div class="docnav-group"><h5>reference</h5><ul><li><a href="/tomz-io/mira-docs-api/reference/typora-r2-guide">在 Typora 中自动将图片上传到 Cloudflare R2</a></li><li><a href="/tomz-io/mira-docs-api/reference/frontmatter">Frontmatter 参考</a></li><li><a href="/tomz-io/mira-docs-api/reference/build-integration">Vite 构建集成</a></li><li><a href="/tomz-io/mira-docs-api/reference/seo">静态构建与 SEO</a></li></ul></div><div class="docnav-group"><h5>视觉</h5><ul><li><a href="/tomz-io/design-md/视觉/product-design-system">产品设计系统</a></li><li><a href="/tomz-io/design-md/视觉/theme/apple">Apple</a></li><li><a href="/tomz-io/design-md/视觉/theme/claude">Claude</a></li><li><a href="/tomz-io/design-md/视觉/theme/supabase">Supabase</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">快速开始 · 06</div><div class="doc-title-block"><h1>站点配置与扩展</h1><p class="doc-lede">MiraDocs 核心配置、Vite 插件选项和当前站点扩展。</p></div><article class="markdown"><p>MiraDocs 把配置分为三层：运行时站点配置、Vite 内容配置、消费者自己的视觉与业务配置。</p>
+<h2 id="运行时配置">运行时配置<a class="md-anchor" href="#运行时配置">#</a></h2>
+<pre><code class="language-ts">type MiraDocsConfig = {
+  title: string
+  description: string
+  logo?: string
+  siteUrl?: string
+  base?: string
+  navigation?: { label: string; href: string }[]
+  footer?: string
+  github?: string
+}</code></pre><p>这组字段描述站点身份和公共链接，不包含某个消费者专属的主题实现。</p>
+<h2 id="vite-插件">Vite 插件<a class="md-anchor" href="#vite-插件">#</a></h2>
+<pre><code class="language-ts">miraDocs({
+  contentDir: &quot;src/pages&quot;,
+  config: {
+    title: &quot;UIChat Mira&quot;,
+    description: &quot;本地优先的多模型智能体工作空间&quot;,
+    siteUrl,
+  },
+  exclude,
+  route,
+  staticRoutes,
+})</code></pre><p>主要选项：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>contentDir</code></td>
+<td>Markdown 根目录，默认 <code>content</code></td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>MiraDocs 站点配置</td>
+</tr>
+<tr>
+<td><code>exclude</code></td>
+<td>排除某些源文件</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>修改解析后的页面路径</td>
+</tr>
+<tr>
+<td><code>staticRoutes</code></td>
+<td>关闭、启用默认静态构建，或传入自定义静态构建契约</td>
+</tr>
+</tbody></table>
+<h2 id="react-扩展">React 扩展<a class="md-anchor" href="#react-扩展">#</a></h2>
+<p>使用 MiraDocs 默认运行时时，可以通过 slots 注入：</p>
+<pre><code class="language-ts">type MiraDocsSlots = {
+  home?: ReactNode
+  headerActions?: ReactNode
+  articleFooter?: ReactNode
+}</code></pre><p>消费者也可以完全保留自己的 React 应用，只使用内容与构建能力。当前旧站就是这种模式。</p>
+<h2 id="uichat-mira-站点配置">UIChat Mira 站点配置<a class="md-anchor" href="#uichat-mira-站点配置">#</a></h2>
+<p>以下内容仍由当前站点维护，而不是写入 MiraDocs 核心：</p>
+<ul>
+<li>Claude、Apple、Supabase 主题。</li>
+<li>顶部导航顺序。</li>
+<li>目录中文显示名。</li>
+<li>Logo 回退策略。</li>
+<li>PWA 与 Workbox。</li>
+<li>博客目录检查。</li>
+<li>作者关系与合并页。</li>
+<li>UIChat Mira 品牌静态 HTML 和 JSON-LD。</li>
+</ul>
+<p>这种边界保证 MiraDocs 可以被其他项目复用，又不会把 UIChat Mira 的设计系统硬编码进运行时。</p>
+</article><div class="page-nav"><a href="/tomz-io/mira-docs-api/guide/navigation"><span class="dir">上一篇</span><span class="to">← 导航如何生成</span></a><a class="next" href="/tomz-io/mira-docs-api/guide/architecture"><span class="dir">下一篇</span><span class="to">仓库与 Skill 边界 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#运行时配置">运行时配置</a></li><li class="toc-depth-2"><a href="#vite-插件">Vite 插件</a></li><li class="toc-depth-2"><a href="#react-扩展">React 扩展</a></li><li class="toc-depth-2"><a href="#uichat-mira-站点配置">UIChat Mira 站点配置</a></li></ul></aside></div></div></div>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>文档系统 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="公共产品文档、主仓库工程文档、内容生命周期与写作语言合同。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/engineering/docs-system/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="文档系统 · UIChat Mira"><meta property="og:description" content="公共产品文档、主仓库工程文档、内容生命周期与写作语言合同。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/engineering/docs-system/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="文档系统 · UIChat Mira"><meta name="twitter:description" content="公共产品文档、主仓库工程文档、内容生命周期与写作语言合同。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"文档系统","description":"公共产品文档、主仓库工程文档、内容生命周期与写作语言合同。","url":"https://tomz.io/tomz-io/engineering/docs-system/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/engineering">UIChat Mira 文档</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/engineering/development-console">开发与诊断</a></li><li><a href="/tomz-io/engineering/repository">源码地图</a></li><li><a class="active" aria-current="page" href="/tomz-io/engineering/docs-system">文档系统</a></li><li><a href="/tomz-io/engineering/development">开发与验证</a></li><li><a href="/tomz-io/engineering/comic-image-pipeline">画册图片管线契约</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">工程 · 15</div><div class="doc-title-block"><h1>文档系统</h1><p class="doc-lede">公共产品文档、主仓库工程文档、内容生命周期与写作语言合同。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页定义 UIChat Mira 公共文档站与主仓库工程文档的职责、生命周期、内容结构和写作规则。</p>
+<h2 id="两套文档视图">两套文档视图<a class="md-anchor" href="#两套文档视图">#</a></h2>
+<h3 id="主仓库工程文档">主仓库工程文档<a class="md-anchor" href="#主仓库工程文档">#</a></h3>
+<p>主仓库 <code>uichat-mira/dev</code> 中的 <code>docs/</code> 用于：</p>
+<ul>
+<li>保存 current-contract 和 current-snapshot；</li>
+<li>记录施工任务、测试、评审和缺陷；</li>
+<li>归档历史方案和迁移过程；</li>
+<li>为工程人员和 Agent 提供完整检索入口；</li>
+<li>核对代码、合同和验证证据。</li>
+</ul>
+<p>完整性优先于简洁性。</p>
+<h3 id="tomzio-公共文档">tomz.io 公共文档<a class="md-anchor" href="#tomzio-公共文档">#</a></h3>
+<p><code>uichat-mira-docs</code> 中的 <code>src/pages/docs/</code> 用于：</p>
+<ul>
+<li>解释当前产品定义；</li>
+<li>提供用户操作说明；</li>
+<li>说明稳定架构和边界；</li>
+<li>展示当前状态和明确计划；</li>
+<li>为公开读者提供可维护的阅读路径。</li>
+</ul>
+<p>可读性和当前事实优先，不复制全部施工材料。</p>
+<h2 id="真相优先级">真相优先级<a class="md-anchor" href="#真相优先级">#</a></h2>
+<p>公开文档的事实来源顺序：</p>
+<pre><code class="language-text">Current Code + Repeatable Verification
+→ Main Repository Current Contract / Snapshot
+→ Public Product Documentation
+→ Construction Record / Review / Test Evidence
+→ Design / Proposal / POC
+→ Historical Archive</code></pre><p>公开文档不能使用旧 Proposal 覆盖当前代码，也不能用未验证代码覆盖 settled contract。</p>
+<h2 id="内容生命周期">内容生命周期<a class="md-anchor" href="#内容生命周期">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+<th>可以回答当前行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Current</td>
+<td>已由当前代码、测试或重复验证支持</td>
+<td>是</td>
+</tr>
+<tr>
+<td>Partial</td>
+<td>已有部分实现，但入口、合同或验证不完整</td>
+<td>只回答已明确部分</td>
+</tr>
+<tr>
+<td>Experimental</td>
+<td>有真实代码或入口，接口仍可能变化</td>
+<td>需明确限制</td>
+</tr>
+<tr>
+<td>Planned</td>
+<td>已定义目标或方向，尚未完成</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Historical</td>
+<td>仅用于解释过去</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<p>公共页面在描述混合状态的模块时，应逐项标记，不使用一个“已支持”覆盖所有子能力。</p>
+<h2 id="文档语言合同">文档语言合同<a class="md-anchor" href="#文档语言合同">#</a></h2>
+<h3 id="文档区负责">文档区负责<a class="md-anchor" href="#文档区负责">#</a></h3>
+<p>文档区使用说明书和技术文档语言，优先回答：</p>
+<ol>
+<li>这页定义什么；</li>
+<li>适用范围是什么；</li>
+<li>当前有哪些对象和入口；</li>
+<li>调用链和状态如何流转；</li>
+<li>需要哪些前置条件；</li>
+<li>有哪些限制和非目标；</li>
+<li>如何验证；</li>
+<li>应继续阅读哪份文档。</li>
+</ol>
+<p>推荐结构：</p>
+<pre><code class="language-text">文档范围
+当前结论
+核心对象 / 数据模型
+调用链 / 操作步骤
+能力或状态矩阵
+边界与非目标
+验证清单
+相关文档</code></pre><h3 id="博客区负责">博客区负责<a class="md-anchor" href="#博客区负责">#</a></h3>
+<p>博客可以记录：</p>
+<ul>
+<li>为什么做出某个判断；</li>
+<li>施工过程和经验；</li>
+<li>失败、争议和演进；</li>
+<li>产品观点与个人叙事；</li>
+<li>更自由的语气和结构。</li>
+</ul>
+<p>博客文章不能自动成为当前产品合同。</p>
+<h3 id="禁止的混写">禁止的混写<a class="md-anchor" href="#禁止的混写">#</a></h3>
+<p>文档区避免：</p>
+<ul>
+<li>用“为什么值得做”替代当前能力；</li>
+<li>用品牌愿景替代产品定义；</li>
+<li>用情绪化自述替代操作和状态；</li>
+<li>用手写 HTML 展示卡代替表格和字段；</li>
+<li>用“我们将会”描述成已经实现；</li>
+<li>用入口卡片存在推断 Runtime Ready；</li>
+<li>用模型表述或 UI 文案证明任务完成；</li>
+<li>把作者私人信息写入产品说明。</li>
+</ul>
+<p>品牌句、截图和示例可以保留，但必须服务于明确文档目标。</p>
+<h2 id="frontmatter-约定">Frontmatter 约定<a class="md-anchor" href="#frontmatter-约定">#</a></h2>
+<p>公共文档至少使用：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>title</code></td>
+<td>页面标题</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>搜索和列表摘要</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td>侧栏分组</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td>分组内顺序</td>
+</tr>
+</tbody></table>
+<p>博客可额外使用 <code>date</code>、<code>readTime</code>、<code>tags</code>、<code>author</code>、<code>writingMode</code>、<code>writtenBy</code> 和 <code>reviewedBy</code>。</p>
+<p>Frontmatter 不替代正文中的状态说明。对于 Partial、Experimental 或 Planned 能力，正文仍需明确边界。</p>
+<h2 id="目录职责">目录职责<a class="md-anchor" href="#目录职责">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>回答的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>认识 Mira</td>
+<td>产品是什么、由谁维护、有哪些一级产品域</td>
+</tr>
+<tr>
+<td>产品哲学</td>
+<td>哪些设计原则是稳定约束</td>
+</tr>
+<tr>
+<td>产品能力</td>
+<td>用户如何使用具体能力，当前支持什么</td>
+</tr>
+<tr>
+<td>架构</td>
+<td>Runtime、职责、调用链和不变量是什么</td>
+</tr>
+<tr>
+<td>配置</td>
+<td>前置条件、配置项、验证和失败处理是什么</td>
+</tr>
+<tr>
+<td>工程</td>
+<td>仓库、开发、诊断和文档维护方式是什么</td>
+</tr>
+<tr>
+<td>现状与方向</td>
+<td>当前事实、已知偏差和明确计划是什么</td>
+</tr>
+</tbody></table>
+<h2 id="搜索与-sitemap">搜索与 Sitemap<a class="md-anchor" href="#搜索与-sitemap">#</a></h2>
+<ul>
+<li><code>Ctrl + K</code> / <code>Command + K</code> 搜索标题、描述和正文；</li>
+<li>Sitemap 提供人工维护的推荐阅读顺序；</li>
+<li>侧栏由 <code>group</code> 和 <code>order</code> 生成；</li>
+<li>页内导航由 Markdown 标题生成。</li>
+</ul>
+<p>搜索结果可能同时包含当前、计划和历史内容。读者仍需检查页面状态和核验日期。</p>
+<h2 id="更新流程">更新流程<a class="md-anchor" href="#更新流程">#</a></h2>
+<p>修改公共文档时：</p>
+<ol>
+<li>先确认主仓库当前代码和合同；</li>
+<li>确定页面属于定义、操作、架构还是状态；</li>
+<li>保留已验证事实，删除过时绝对表述；</li>
+<li>明确 Partial、Experimental 和 Planned；</li>
+<li>补充边界、失败处理和验证方式；</li>
+<li>运行内容兼容、生产 Build 和静态输出检查；</li>
+<li>通过 PR 合入主分支。</li>
+</ol>
+<h2 id="防回退检查">防回退检查<a class="md-anchor" href="#防回退检查">#</a></h2>
+<p>评审文档改动时检查：</p>
+<ul>
+<li>页面是否先说明范围；</li>
+<li>是否区分当前与计划；</li>
+<li>是否存在无法核验的宣传用语；</li>
+<li>表格中的状态是否有代码或验证依据；</li>
+<li>是否把博客语言带入说明书；</li>
+<li>是否破坏链接和内容发现；</li>
+<li>是否通过生产构建和静态输出验证。</li>
+</ul>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/sitemap">Sitemap</a></li>
+<li><a href="/docs/status/current">当前实现快照</a></li>
+<li><a href="/docs/status/roadmap">下一段路</a></li>
+<li><a href="/docs/engineering/development">开发与验证</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/engineering/repository"><span class="dir">上一篇</span><span class="to">← 源码地图</span></a><a class="next" href="/tomz-io/engineering/development"><span class="dir">下一篇</span><span class="to">开发与验证 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#两套文档视图">两套文档视图</a></li><li class="toc-depth-3"><a href="#主仓库工程文档">主仓库工程文档</a></li><li class="toc-depth-3"><a href="#tomzio-公共文档">tomz.io 公共文档</a></li><li class="toc-depth-2"><a href="#真相优先级">真相优先级</a></li><li class="toc-depth-2"><a href="#内容生命周期">内容生命周期</a></li><li class="toc-depth-2"><a href="#文档语言合同">文档语言合同</a></li><li class="toc-depth-3"><a href="#文档区负责">文档区负责</a></li><li class="toc-depth-3"><a href="#博客区负责">博客区负责</a></li><li class="toc-depth-3"><a href="#禁止的混写">禁止的混写</a></li><li class="toc-depth-2"><a href="#frontmatter-约定">Frontmatter 约定</a></li><li class="toc-depth-2"><a href="#目录职责">目录职责</a></li><li class="toc-depth-2"><a href="#搜索与-sitemap">搜索与 Sitemap</a></li><li class="toc-depth-2"><a href="#更新流程">更新流程</a></li><li class="toc-depth-2"><a href="#防回退检查">防回退检查</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>快速开始 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="在当前迁移分支中安装、开发、构建和验证 MiraDocs。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/mira-docs-api/guide/getting-started/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="快速开始 · UIChat Mira"><meta property="og:description" content="在当前迁移分支中安装、开发、构建和验证 MiraDocs。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/mira-docs-api/guide/getting-started/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="快速开始 · UIChat Mira"><meta name="twitter:description" content="在当前迁移分支中安装、开发、构建和验证 MiraDocs。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"快速开始","description":"在当前迁移分支中安装、开发、构建和验证 MiraDocs。","url":"https://tomz.io/tomz-io/mira-docs-api/guide/getting-started/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/mira-docs-api">MiraDocs</a></h5></div><div class="docnav-group"><h5>guide</h5><ul><li><a href="/tomz-io/mira-docs-api/guide/what-is-mira-docs">MiraDocs 是什么</a></li><li><a class="active" aria-current="page" href="/tomz-io/mira-docs-api/guide/getting-started">快速开始</a></li><li><a href="/tomz-io/mira-docs-api/guide/content-model">内容模型</a></li><li><a href="/tomz-io/mira-docs-api/guide/authoring">编写文档</a></li><li><a href="/tomz-io/mira-docs-api/guide/navigation">导航如何生成</a></li><li><a href="/tomz-io/mira-docs-api/guide/configuration">站点配置与扩展</a></li><li><a href="/tomz-io/mira-docs-api/guide/architecture">仓库与 Skill 边界</a></li><li><a href="/tomz-io/mira-docs-api/guide/migration-status">生产迁移状态</a></li><li><a href="/tomz-io/mira-docs-api/guide/deployment-cloudflare-pages">部署到 Cloudflare Pages</a></li><li><a href="/tomz-io/mira-docs-api/guide/deployment-github-pages">部署到 GitHub Pages</a></li></ul></div><div class="docnav-group"><h5>reference</h5><ul><li><a href="/tomz-io/mira-docs-api/reference/typora-r2-guide">在 Typora 中自动将图片上传到 Cloudflare R2</a></li><li><a href="/tomz-io/mira-docs-api/reference/frontmatter">Frontmatter 参考</a></li><li><a href="/tomz-io/mira-docs-api/reference/build-integration">Vite 构建集成</a></li><li><a href="/tomz-io/mira-docs-api/reference/seo">静态构建与 SEO</a></li></ul></div><div class="docnav-group"><h5>视觉</h5><ul><li><a href="/tomz-io/design-md/视觉/product-design-system">产品设计系统</a></li><li><a href="/tomz-io/design-md/视觉/theme/apple">Apple</a></li><li><a href="/tomz-io/design-md/视觉/theme/claude">Claude</a></li><li><a href="/tomz-io/design-md/视觉/theme/supabase">Supabase</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">快速开始 · 02</div><div class="doc-title-block"><h1>快速开始</h1><p class="doc-lede">在当前迁移分支中安装、开发、构建和验证 MiraDocs。</p></div><article class="markdown"><p>当前站点已经接入 MiraDocs，但仍处于 Draft PR 的迁移阶段。它通过固定 Git commit 安装 <code>@uichat-mira/docs</code>，不依赖尚未发布的 npm 版本。</p>
+<h2 id="环境">环境<a class="md-anchor" href="#环境">#</a></h2>
+<p>需要：</p>
+<ul>
+<li>Node.js 22</li>
+<li>pnpm 11.5.2</li>
+<li>Git</li>
+</ul>
+<p>在仓库根目录安装锁定依赖：</p>
+<pre><code class="language-bash">pnpm install --frozen-lockfile</code></pre><p><code>pnpm-lock.yaml</code> 已锁定 MiraDocs 预览 commit。除非明确升级运行时，否则不要手动改写这个依赖。</p>
+<h2 id="开发">开发<a class="md-anchor" href="#开发">#</a></h2>
+<pre><code class="language-bash">pnpm run dev</code></pre><p>MiraDocs Vite 插件会监听 <code>src/pages</code>。新增、删除或修改 Markdown 时，虚拟内容模块失效并触发页面刷新。</p>
+<h2 id="构建">构建<a class="md-anchor" href="#构建">#</a></h2>
+<p>根路径部署：</p>
+<pre><code class="language-bash">pnpm run build</code></pre><p>GitHub Pages 项目路径部署：</p>
+<pre><code class="language-bash">pnpm run build:github-pages</code></pre><p>构建链路包括：</p>
+<pre><code class="language-text">真实 Markdown 兼容检查
+→ TypeScript
+→ Vite
+→ MiraDocs 静态路由
+→ SEO 与发布文件</code></pre><p>输出目录为 <code>dist</code>。</p>
+<h2 id="验证">验证<a class="md-anchor" href="#验证">#</a></h2>
+<p>迁移分支提供两项永久检查：</p>
+<pre><code class="language-bash">pnpm run verify:mira-docs
+pnpm run verify:static-output</code></pre><p>第一项验证所有真实 Markdown、Frontmatter、正文和 URL 唯一性；第二项验证静态 HTML、canonical、JSON-LD、404、Sitemap 和 robots。</p>
+<p>完整验证直接运行：</p>
+<pre><code class="language-bash">pnpm run build:github-pages
+pnpm run verify:static-output</code></pre><h2 id="当前依赖方式">当前依赖方式<a class="md-anchor" href="#当前依赖方式">#</a></h2>
+<p><code>package.json</code> 使用固定 Git commit：</p>
+<pre><code class="language-json">{
+  &quot;dependencies&quot;: {
+    &quot;@uichat-mira/docs&quot;: &quot;github:dangjingtao/mira-docs#&lt;commit-sha&gt;&quot;
+  }
+}</code></pre><p>这是预发布阶段的临时分发方式。稳定顺序是：</p>
+<pre><code class="language-text">MiraDocs 内核 CI
+→ 生成可安装预览 commit
+→ 旧站锁定 commit
+→ 真实内容与构建验证
+→ npm 正式发布</code></pre><h2 id="预览">预览<a class="md-anchor" href="#预览">#</a></h2>
+<p>本分支会生成 Cloudflare Pages 分支预览。GitHub Pages 预览由新的 <code>mira-docs</code> 仓库承载，避免覆盖旧站线上根路径。</p>
+</article><div class="page-nav"><a href="/tomz-io/mira-docs-api/guide/what-is-mira-docs"><span class="dir">上一篇</span><span class="to">← MiraDocs 是什么</span></a><a class="next" href="/tomz-io/mira-docs-api/guide/content-model"><span class="dir">下一篇</span><span class="to">内容模型 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#环境">环境</a></li><li class="toc-depth-2"><a href="#开发">开发</a></li><li class="toc-depth-2"><a href="#构建">构建</a></li><li class="toc-depth-2"><a href="#验证">验证</a></li><li class="toc-depth-2"><a href="#当前依赖方式">当前依赖方式</a></li><li class="toc-depth-2"><a href="#预览">预览</a></li></ul></aside></div></div></div>
+</body>
+</html>

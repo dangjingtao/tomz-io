@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>评测工作台 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从 Knowledge Base 生成或上传评测包，校验 Dataset，运行检索或 RAG 评测，并正确解释结果。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/product/evaluation/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="评测工作台 · UIChat Mira"><meta property="og:description" content="从 Knowledge Base 生成或上传评测包，校验 Dataset，运行检索或 RAG 评测，并正确解释结果。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/product/evaluation/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="评测工作台 · UIChat Mira"><meta name="twitter:description" content="从 Knowledge Base 生成或上传评测包，校验 Dataset，运行检索或 RAG 评测，并正确解释结果。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"评测工作台","description":"从 Knowledge Base 生成或上传评测包，校验 Dataset，运行检索或 RAG 评测，并正确解释结果。","url":"https://tomz.io/tomz-io/product/evaluation/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/product">产品能力</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/product/workspace">对话工作区</a></li><li><a href="/tomz-io/product/knowledge">知识库与 RAG</a></li><li><a class="active" aria-current="page" href="/tomz-io/product/evaluation">评测工作台</a></li><li><a href="/tomz-io/product/roles-microapps">角色工作台</a></li><li><a href="/tomz-io/product/microapps">微应用中心</a></li><li><a href="/tomz-io/product/enterprise-integrations">企业集成</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">产品能力 · 09</div><div class="doc-title-block"><h1>评测工作台</h1><p class="doc-lede">从 Knowledge Base 生成或上传评测包，校验 Dataset，运行检索或 RAG 评测，并正确解释结果。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页说明如何完成一次当前 Mira Evaluation 闭环：</p>
+<pre><code class="language-text">准备 Knowledge Base 与模型
+→ 生成或上传 Evaluation ZIP
+→ 检查 Dataset 校验
+→ 启动 Run
+→ 查看 Sample / Sources / Logs
+→ 导出 Markdown 报告</code></pre><p>Evaluation 用于定位检索、生成和稳定性问题。它不自动证明专业结论正确，也不是上线 Gate。</p>
+<h2 id="前置条件">前置条件<a class="md-anchor" href="#前置条件">#</a></h2>
+<p>开始前至少需要：</p>
+<ul>
+<li>一个存在且包含 <code>ready + enabled</code> 文档的 Knowledge Base；</li>
+<li>可用的 Embedding 模型；</li>
+<li>可用的主模型 <code>llm</code>；</li>
+<li>需要自动生成评测包时，额外配置 <code>evaluation</code> 模型；</li>
+<li>需要 Rerank 时，配置可用 Rerank 模型。</li>
+</ul>
+<p>当前 <code>evaluation</code> 模型只用于生成评测样本：</p>
+<pre><code class="language-text">Knowledge Base Chunk
+→ question
+→ expectedAnswer
+→ tags</code></pre><p>它不承担 Run 的 LLM Judge。Faithfulness、Relevance 和 Completeness 当前由本地词项重合启发式计算。</p>
+<p>模型配置见：<a href="/docs/configuration/model-settings">模型设置</a>。</p>
+<h2 id="产品入口">产品入口<a class="md-anchor" href="#产品入口">#</a></h2>
+<p>进入：</p>
+<pre><code class="language-text">设置
+→ 评测中心</code></pre><p>评测中心用于：</p>
+<ul>
+<li>查看历史 Run；</li>
+<li>搜索 Run、Dataset 或 Knowledge Base；</li>
+<li>查看详情；</li>
+<li>导出 Markdown；</li>
+<li>删除已结束 Run。</li>
+</ul>
+<p>点击“新建评测”进入工作台。</p>
+<h2 id="完成标准">完成标准<a class="md-anchor" href="#完成标准">#</a></h2>
+<p>一次评测不能只看“Run 已完成”。完整验收至少包括：</p>
+<pre><code class="language-text">Dataset 无 validation error
+→ Run 实际进入 running
+→ Sample Results 持续产生
+→ Sources 对应当前 Knowledge Base
+→ 失败样本已检查
+→ 指标按当前算法解释
+→ 报告可以导出</code></pre><p>以下状态不能互相替代：</p>
+<pre><code class="language-text">ZIP 已生成
+!= Dataset 已通过校验
+
+Run completed
+!= 指标是标准学术实现
+
+分数较高
+!= 真实业务已经通过验收</code></pre><h2 id="路径一生成评测包">路径一：生成评测包<a class="md-anchor" href="#路径一生成评测包">#</a></h2>
+<p>在新建评测页打开评测包生成器。</p>
+<h3 id="1-选择-knowledge-base">1. 选择 Knowledge Base<a class="md-anchor" href="#1-选择-knowledge-base">#</a></h3>
+<p>目标 Knowledge Base 必须存在，并至少包含一个 <code>ready + enabled</code> 文档。</p>
+<p>生成器会根据当前 ready 文档和 Chunk 数显示可用范围。</p>
+<h3 id="2-选择-preset">2. 选择 Preset<a class="md-anchor" href="#2-选择-preset">#</a></h3>
+<p>当前提供：</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fast</td>
+<td>小样本快速冒烟</td>
+</tr>
+<tr>
+<td>Balanced</td>
+<td>日常回归</td>
+</tr>
+<tr>
+<td>Strict</td>
+<td>更大样本与 Repeat</td>
+</tr>
+</tbody></table>
+<p>Preset 只是参数起点，不是质量等级证明。</p>
+<h3 id="3-检查参数">3. 检查参数<a class="md-anchor" href="#3-检查参数">#</a></h3>
+<p>主要参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sample Count</td>
+<td>生成多少问题</td>
+</tr>
+<tr>
+<td>Document Count</td>
+<td>从多少文档中抽样</td>
+</tr>
+<tr>
+<td>Chunks per Document</td>
+<td>每份文档候选 Chunk 数</td>
+</tr>
+<tr>
+<td>Mode</td>
+<td>只检索或检索 + 生成</td>
+</tr>
+<tr>
+<td>topK</td>
+<td>初始召回数量</td>
+</tr>
+<tr>
+<td>topN</td>
+<td>最终保留数量</td>
+</tr>
+<tr>
+<td>Repeat</td>
+<td>每条样本重复次数</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td>同时处理的 Sample worker 数</td>
+</tr>
+<tr>
+<td>Timeout</td>
+<td>每次 Attempt 的等待上限</td>
+</tr>
+</tbody></table>
+<p>服务端当前会限制自动生成参数：</p>
+<ul>
+<li>Sample Count：1–100；</li>
+<li>Chunks per Document：1–20；</li>
+<li>Concurrency：1–10；</li>
+<li>Timeout：5–300 秒；</li>
+<li>topK：1–50；</li>
+<li>topN：1–20；</li>
+<li>Repeat：1–10。</li>
+</ul>
+<p>当前 Strict preset 在界面中可能显示 600 秒，但服务端会把生成包中的 Timeout 限制为 300 秒。</p>
+<h3 id="4-生成人工可审阅的-zip">4. 生成人工可审阅的 ZIP<a class="md-anchor" href="#4-生成人工可审阅的-zip">#</a></h3>
+<p>生成器会随机抽取文档和 Chunk，并调用 <code>evaluation</code> 模型生成 JSON 样本。</p>
+<p>生成成功证明模型返回了可解析且不重复的问题，但不能证明参考答案一定正确。运行前应人工检查 Sample 预览。</p>
+<h3 id="5-注意语料快照边界">5. 注意语料快照边界<a class="md-anchor" href="#5-注意语料快照边界">#</a></h3>
+<p>自动生成 ZIP 的 <code>documents/*</code> 只是同名占位文件，不包含真实知识库正文。</p>
+<pre><code class="language-text">Evaluation ZIP
+!= Frozen Knowledge Base Snapshot</code></pre><p>同一个 ZIP 运行时仍查询当前本机 <code>knowledgeBaseId</code>。文档、Chunk、模型或 RAG Runtime 变化后，结果会变化。</p>
+<h2 id="路径二上传评测包">路径二：上传评测包<a class="md-anchor" href="#路径二上传评测包">#</a></h2>
+<p>工作台当前只接受：</p>
+<pre><code class="language-text">一个 .zip 文件
+最大 100 MB</code></pre><p>推荐结构：</p>
+<pre><code class="language-text">manifest.json
+evalset.json
+documents/*</code></pre><p>Dataset 中至少需要：</p>
+<ul>
+<li>有效 <code>knowledgeBaseId</code>；</li>
+<li>至少一个 documents 条目；</li>
+<li>至少一条非空 question；</li>
+<li>无 validation error。</li>
+</ul>
+<p>详细格式见：<a href="/docs/architecture/evaluation-runtime">Evaluation Runtime 与指标语义</a>。</p>
+<h2 id="校验结果">校验结果<a class="md-anchor" href="#校验结果">#</a></h2>
+<p>当前校验包括：</p>
+<table>
+<thead>
+<tr>
+<th>校验</th>
+<th>Error</th>
+<th>Warning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>包结构</td>
+<td>缺少 manifest、documents 或有效 Sample</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Reference Answer</td>
+<td>无有效 Sample</td>
+<td>部分或全部缺失参考答案</td>
+</tr>
+<tr>
+<td>Gold Sources</td>
+<td>无有效 Sample</td>
+<td>部分或全部缺失 Gold Source</td>
+</tr>
+<tr>
+<td>Knowledge Base</td>
+<td>ID 缺失或当前实例不存在</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<p>规则：</p>
+<pre><code class="language-text">存在 error
+→ 不能启动 Run
+
+只有 warning
+→ 可以运行，但部分指标解释能力下降</code></pre><p>Gold Source 当前必须填写 RAG 返回的准确 <code>documentName</code>。系统只做 trim 和 lowercase 后的精确名称匹配，不做语义或模糊匹配。</p>
+<h2 id="dataset-预览">Dataset 预览<a class="md-anchor" href="#dataset-预览">#</a></h2>
+<p>上传后可以查看：</p>
+<ul>
+<li>Dataset 名和文件信息；</li>
+<li>Knowledge Base；</li>
+<li>mode / topK / topN / Repeat；</li>
+<li>Document 和 Sample 数；</li>
+<li>documents 清单；</li>
+<li>前四条 Sample；</li>
+<li>校验结果。</li>
+</ul>
+<p>预览不展示完整 Dataset，也不会读取 ZIP documents 正文作为运行语料。</p>
+<h2 id="启动-run">启动 Run<a class="md-anchor" href="#启动-run">#</a></h2>
+<p>点击运行后：</p>
+<pre><code class="language-text">Run queued
+→ Backend 进程内调度
+→ Run running
+→ Sample workers 执行
+→ completed 或 failed</code></pre><p>工作台大约每 1.5 秒读取一次 Run 状态。</p>
+<p><code>queued</code> 不是 durable job queue；Backend 重启后当前不会自动续跑。</p>
+<h2 id="两种模式">两种模式<a class="md-anchor" href="#两种模式">#</a></h2>
+<h3 id="retrieve">Retrieve<a class="md-anchor" href="#retrieve">#</a></h3>
+<p>目标是只检查 Sources 和检索指标。</p>
+<p>但当前底层仍执行完整 RAG Graph，包括 Generate，再丢弃 Answer。因此当前 Retrieve 模式可能产生额外 LLM 延迟和成本。</p>
+<p>在该模式中：</p>
+<pre><code class="language-text">Faithfulness = 0
+Relevance = 0
+Completeness = 0</code></pre><p>这里的 0 表示“当前不评估”，不是生成质量为零。</p>
+<h3 id="retrieve-generate">Retrieve + Generate<a class="md-anchor" href="#retrieve-generate">#</a></h3>
+<p>执行检索、可选 Rerank 和回答生成，并计算当前生成启发式分数。</p>
+<h2 id="日志与进度">日志与进度<a class="md-anchor" href="#日志与进度">#</a></h2>
+<p>日志中可以检查：</p>
+<ul>
+<li>Dataset 加载与校验；</li>
+<li>Run 创建和启动；</li>
+<li>Worker、Sample 和 Repeat；</li>
+<li>命中、耗时和错误；</li>
+<li>最终汇总。</li>
+</ul>
+<p>Run 最多保存 200 条日志。进度条是基于已完成 Sample 数的估算，不是底层每个 RAG Node 的精确进度。</p>
+<h2 id="sample-与-repeat">Sample 与 Repeat<a class="md-anchor" href="#sample-与-repeat">#</a></h2>
+<p>每条 Sample 可以重复执行多次。</p>
+<p>当前规则：</p>
+<ul>
+<li>成功 Attempt 的分数和耗时取平均；</li>
+<li>任一成功 Attempt 命中，Sample 的 hit 为 true；</li>
+<li>展示 Recall 更高、命中更好、耗时更低的最佳 Attempt；</li>
+<li>只要任一 Repeat 失败，Sample 最终状态就是 failed；</li>
+<li>任一 Sample failed，Run 最终状态就是 failed。</li>
+</ul>
+<p>因此：</p>
+<pre><code class="language-text">Run failed
+!= 所有 Sample 都失败</code></pre><p>必须打开 Sample 详情和 failed count 一起判断。</p>
+<h2 id="当前指标怎么读">当前指标怎么读<a class="md-anchor" href="#当前指标怎么读">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>当前适合的解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hit@K</td>
+<td>至少命中一个 Gold documentName 的 Sample 比例</td>
+</tr>
+<tr>
+<td>Recall@K</td>
+<td>Gold documentName 的覆盖率</td>
+</tr>
+<tr>
+<td>MRR</td>
+<td>当前历史近似值，不是真实首个正确来源排名倒数</td>
+</tr>
+<tr>
+<td>Faithfulness</td>
+<td>Answer 与 Retrieved Sources 的词项重合</td>
+</tr>
+<tr>
+<td>Relevance</td>
+<td>Answer 与 Question / Reference 的词项重合</td>
+</tr>
+<tr>
+<td>Completeness</td>
+<td>Reference tokens 在 Answer 中的覆盖</td>
+</tr>
+<tr>
+<td>Source Hit Rate</td>
+<td>当前实质与 Hit@K 同义</td>
+</tr>
+<tr>
+<td>Average Latency</td>
+<td>Sample 总耗时，不是纯检索节点耗时</td>
+</tr>
+<tr>
+<td>Failed Count</td>
+<td>最终 status=failed 的 Sample 数</td>
+</tr>
+</tbody></table>
+<p>当前没有 RAGAS、LLM Judge、人工评分、统计显著性或 Token / Cost 指标。</p>
+<p>完整算法见：<a href="/docs/architecture/evaluation-runtime">Evaluation Runtime 与指标语义</a>。</p>
+<h2 id="评测中心">评测中心<a class="md-anchor" href="#评测中心">#</a></h2>
+<p>Run 结束后，评测中心支持：</p>
+<ul>
+<li>查看历史记录；</li>
+<li>客户端搜索；</li>
+<li>查看 Sample、Attempt、Sources 和日志；</li>
+<li>导出 Markdown；</li>
+<li>删除单条或批量删除。</li>
+</ul>
+<p>当前没有：</p>
+<ul>
+<li>分页；</li>
+<li>Run Compare；</li>
+<li>Baseline；</li>
+<li>Retry；</li>
+<li>Cancel / Pause / Resume；</li>
+<li>Dataset 管理；</li>
+<li>Release Gate。</li>
+</ul>
+<p>排队中或运行中的 Run 不能删除。</p>
+<h2 id="markdown-报告">Markdown 报告<a class="md-anchor" href="#markdown-报告">#</a></h2>
+<p>报告在桌面客户端根据当前 Run JSON 即时生成，可以包含：</p>
+<ul>
+<li>配置和校验；</li>
+<li>指标表；</li>
+<li>Sample 与 Sources；</li>
+<li>日志；</li>
+<li>风险建议；</li>
+<li>Mermaid 图和加权概览。</li>
+</ul>
+<p>加权概览只存在于当前前端报告代码，不保存在 Run，也不是服务端质量合同。旧 Run 以后重新导出时会使用届时最新的报告算法和文案。</p>
+<h2 id="常见问题">常见问题<a class="md-anchor" href="#常见问题">#</a></h2>
+<h3 id="run-一直停在-queued-或-running">Run 一直停在 queued 或 running<a class="md-anchor" href="#run-一直停在-queued-或-running">#</a></h3>
+<p>Backend 如果在运行期间重启，当前记录会保持原状态，但不会重新排队或恢复。当前删除 API 又不允许删除这两种状态。</p>
+<p>这是已知生命周期缺口，不表示工作仍在后台继续。</p>
+<h3 id="timeout-后资源仍占用">Timeout 后资源仍占用<a class="md-anchor" href="#timeout-后资源仍占用">#</a></h3>
+<p>当前 Timeout 通过 <code>Promise.race</code> 返回失败，没有取消底层 RAG 或 Provider 请求。底层调用可能继续执行。</p>
+<h3 id="同一个-zip-两次分数不同">同一个 ZIP 两次分数不同<a class="md-anchor" href="#同一个-zip-两次分数不同">#</a></h3>
+<p>可能原因：</p>
+<ul>
+<li>Knowledge Base 内容变化；</li>
+<li>Embedding、Rerank 或 LLM 变化；</li>
+<li>RAG Runtime 变化；</li>
+<li>模型随机性；</li>
+<li>自动包最初没有冻结语料；</li>
+<li>Repeat 和并发差异。</li>
+</ul>
+<h3 id="mrr-与其他系统差很多">MRR 与其他系统差很多<a class="md-anchor" href="#mrr-与其他系统差很多">#</a></h3>
+<p>Mira 当前 <code>mrr</code> 不是标准 rank MRR，不能与外部基准直接比较。</p>
+<h2 id="验证清单">验证清单<a class="md-anchor" href="#验证清单">#</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"> Knowledge Base 当前存在且资料版本已记录；</li>
+<li><input disabled="" type="checkbox"> Embedding 和 LLM 真实可用；</li>
+<li><input disabled="" type="checkbox"> 自动 Sample 已人工预览；</li>
+<li><input disabled="" type="checkbox"> Dataset 没有 validation error；</li>
+<li><input disabled="" type="checkbox"> Gold Source 使用准确 documentName；</li>
+<li><input disabled="" type="checkbox"> Run 实际产生 Sample Results；</li>
+<li><input disabled="" type="checkbox"> failed Sample 已逐条检查；</li>
+<li><input disabled="" type="checkbox"> Sources 与问题相关；</li>
+<li><input disabled="" type="checkbox"> 指标按当前启发式解释；</li>
+<li><input disabled="" type="checkbox"> 报告未被当作版本化服务端 Artifact；</li>
+<li><input disabled="" type="checkbox"> 分数没有被直接当作上线或专业正确性证明。</li>
+</ul>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/configuration/model-settings">模型设置</a></li>
+<li><a href="/docs/product/knowledge">知识库与 RAG</a></li>
+<li><a href="/docs/architecture/knowledge-rag">Knowledge Base 与 RAG Runtime</a></li>
+<li><a href="/docs/architecture/evaluation-runtime">Evaluation Runtime 与指标语义</a></li>
+<li><a href="/docs/status/current">当前实现快照</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/product/knowledge"><span class="dir">上一篇</span><span class="to">← 知识库与 RAG</span></a><a class="next" href="/tomz-io/product/roles-microapps"><span class="dir">下一篇</span><span class="to">角色工作台 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#前置条件">前置条件</a></li><li class="toc-depth-2"><a href="#产品入口">产品入口</a></li><li class="toc-depth-2"><a href="#完成标准">完成标准</a></li><li class="toc-depth-2"><a href="#路径一生成评测包">路径一：生成评测包</a></li><li class="toc-depth-3"><a href="#1-选择-knowledge-base">1. 选择 Knowledge Base</a></li><li class="toc-depth-3"><a href="#2-选择-preset">2. 选择 Preset</a></li><li class="toc-depth-3"><a href="#3-检查参数">3. 检查参数</a></li><li class="toc-depth-3"><a href="#4-生成人工可审阅的-zip">4. 生成人工可审阅的 ZIP</a></li><li class="toc-depth-3"><a href="#5-注意语料快照边界">5. 注意语料快照边界</a></li><li class="toc-depth-2"><a href="#路径二上传评测包">路径二：上传评测包</a></li><li class="toc-depth-2"><a href="#校验结果">校验结果</a></li><li class="toc-depth-2"><a href="#dataset-预览">Dataset 预览</a></li><li class="toc-depth-2"><a href="#启动-run">启动 Run</a></li><li class="toc-depth-2"><a href="#两种模式">两种模式</a></li><li class="toc-depth-3"><a href="#retrieve">Retrieve</a></li><li class="toc-depth-3"><a href="#retrieve-generate">Retrieve + Generate</a></li><li class="toc-depth-2"><a href="#日志与进度">日志与进度</a></li><li class="toc-depth-2"><a href="#sample-与-repeat">Sample 与 Repeat</a></li><li class="toc-depth-2"><a href="#当前指标怎么读">当前指标怎么读</a></li><li class="toc-depth-2"><a href="#评测中心">评测中心</a></li><li class="toc-depth-2"><a href="#markdown-报告">Markdown 报告</a></li><li class="toc-depth-2"><a href="#常见问题">常见问题</a></li><li class="toc-depth-3"><a href="#run-一直停在-queued-或-running">Run 一直停在 queued 或 running</a></li><li class="toc-depth-3"><a href="#timeout-后资源仍占用">Timeout 后资源仍占用</a></li><li class="toc-depth-3"><a href="#同一个-zip-两次分数不同">同一个 ZIP 两次分数不同</a></li><li class="toc-depth-3"><a href="#mrr-与其他系统差很多">MRR 与其他系统差很多</a></li><li class="toc-depth-2"><a href="#验证清单">验证清单</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

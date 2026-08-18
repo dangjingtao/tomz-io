@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>源码地图 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="dev 分支中桌面端、服务端、共享包与文档的职责。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/engineering/repository/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="源码地图 · UIChat Mira"><meta property="og:description" content="dev 分支中桌面端、服务端、共享包与文档的职责。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/engineering/repository/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="源码地图 · UIChat Mira"><meta name="twitter:description" content="dev 分支中桌面端、服务端、共享包与文档的职责。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"源码地图","description":"dev 分支中桌面端、服务端、共享包与文档的职责。","url":"https://tomz.io/tomz-io/engineering/repository/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/engineering">UIChat Mira 文档</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/engineering/development-console">开发与诊断</a></li><li><a class="active" aria-current="page" href="/tomz-io/engineering/repository">源码地图</a></li><li><a href="/tomz-io/engineering/docs-system">文档系统</a></li><li><a href="/tomz-io/engineering/development">开发与验证</a></li><li><a href="/tomz-io/engineering/comic-image-pipeline">画册图片管线契约</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">工程 · 14</div><div class="doc-title-block"><h1>源码地图</h1><p class="doc-lede">dev 分支中桌面端、服务端、共享包与文档的职责。</p></div><article class="markdown"><p>UIChat Mira 使用 pnpm workspace 组织多个运行边界。阅读源码时，先按职责定位，再沿调用链深入。</p>
+<h2 id="desktop">desktop<a class="md-anchor" href="#desktop">#</a></h2>
+<p>desktop 包含 React/Vite Renderer、Electron main/preload 和 Tauri 并行壳。页面路由、聊天界面、设置与桌面生命周期在这里汇合。</p>
+<h2 id="server">server<a class="md-anchor" href="#server">#</a></h2>
+<p>server 基于 Fastify，承载 API、数据库访问、Provider、知识、评测、Agent、工具、集成和微应用后端。路由注册表是了解产品能力的可靠入口。</p>
+<h2 id="packages">packages<a class="md-anchor" href="#packages">#</a></h2>
+<p>共享包沉淀类型、契约和跨端能力。修改公共类型时，要同时核对 Renderer、桌面桥接与服务端消费者，避免局部编译通过但运行契约漂移。</p>
+<h2 id="docs">docs<a class="md-anchor" href="#docs">#</a></h2>
+<p>docs 不只是说明书，还包含架构入口、area map、current contract、知识系统规范和工程任务记录。packages/docs-site 则负责源码文档索引。</p>
+<h2 id="推荐阅读顺序">推荐阅读顺序<a class="md-anchor" href="#推荐阅读顺序">#</a></h2>
+<p>先读项目 README 与当前文档目录，再看 architecture 与 area maps；确认 current contract 后，进入对应路由、类型、数据库表和实现文件。</p>
+</article><div class="page-nav"><a href="/tomz-io/engineering/development-console"><span class="dir">上一篇</span><span class="to">← 开发与诊断</span></a><a class="next" href="/tomz-io/engineering/docs-system"><span class="dir">下一篇</span><span class="to">文档系统 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#desktop">desktop</a></li><li class="toc-depth-2"><a href="#server">server</a></li><li class="toc-depth-2"><a href="#packages">packages</a></li><li class="toc-depth-2"><a href="#docs">docs</a></li><li class="toc-depth-2"><a href="#推荐阅读顺序">推荐阅读顺序</a></li></ul></aside></div></div></div>
+</body>
+</html>

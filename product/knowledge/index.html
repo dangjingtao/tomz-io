@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>知识库与 RAG · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="创建知识库、上传 Markdown 或 TXT、预览分段、等待索引完成，并在 Chat 中验证真实检索来源。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/product/knowledge/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="知识库与 RAG · UIChat Mira"><meta property="og:description" content="创建知识库、上传 Markdown 或 TXT、预览分段、等待索引完成，并在 Chat 中验证真实检索来源。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/product/knowledge/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="知识库与 RAG · UIChat Mira"><meta name="twitter:description" content="创建知识库、上传 Markdown 或 TXT、预览分段、等待索引完成，并在 Chat 中验证真实检索来源。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"知识库与 RAG","description":"创建知识库、上传 Markdown 或 TXT、预览分段、等待索引完成，并在 Chat 中验证真实检索来源。","url":"https://tomz.io/tomz-io/product/knowledge/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/product">产品能力</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/product/workspace">对话工作区</a></li><li><a class="active" aria-current="page" href="/tomz-io/product/knowledge">知识库与 RAG</a></li><li><a href="/tomz-io/product/evaluation">评测工作台</a></li><li><a href="/tomz-io/product/roles-microapps">角色工作台</a></li><li><a href="/tomz-io/product/microapps">微应用中心</a></li><li><a href="/tomz-io/product/enterprise-integrations">企业集成</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">产品能力 · 08</div><div class="doc-title-block"><h1>知识库与 RAG</h1><p class="doc-lede">创建知识库、上传 Markdown 或 TXT、预览分段、等待索引完成，并在 Chat 中验证真实检索来源。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页说明如何使用 Mira 当前正式知识库：</p>
+<pre><code class="language-text">创建知识库
+→ 上传文本文件
+→ 预览 Chunk
+→ 等待索引 ready
+→ 绑定到 Chat
+→ 用真实问题验证 Sources</code></pre><p>本页不把以下能力混在一起：</p>
+<pre><code class="language-text">Knowledge Base
+!= Evaluation
+!= Markdown Workspace
+!= Long-term Memory
+!= 任意文档解析</code></pre><p>评测中心会使用知识库和 RAG 结果，但属于独立产品入口。</p>
+<h2 id="前置条件">前置条件<a class="md-anchor" href="#前置条件">#</a></h2>
+<p>首次使用知识库前，至少需要：</p>
+<ul>
+<li>一个已经通过真实 Chat 验证的主模型；</li>
+<li>一个已绑定的 Embedding 模型；</li>
+<li>本地模型服务已启动，或云端 Provider 当前可访问。</li>
+</ul>
+<p>进入添加向导第二步时，当前界面会同时检查主模型和 Embedding 模型是否已绑定。</p>
+<pre><code class="language-text">llm role 已绑定
++
+embedding role 已绑定
+→ Add Wizard 可以继续</code></pre><p>从后端索引链看，生成向量的直接依赖是 Embedding；主模型用于后续 Chat 和 RAG 生成。这两层不要混淆。</p>
+<p>模型设置见：<a href="/docs/configuration/model-settings">模型设置</a>。</p>
+<h2 id="完成标准">完成标准<a class="md-anchor" href="#完成标准">#</a></h2>
+<p>一份资料进入知识库，不能只看上传请求成功。</p>
+<p>完整验收是：</p>
+<pre><code class="language-text">Document 已创建
+→ indexStatus = ready
+→ 文档保持 enabled
+→ Chat 绑定该知识库
+→ 真实问题命中正确 Chunk
+→ 回答展示真实 Sources</code></pre><p>以下状态不能互相替代：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>实际含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上传成功</td>
+<td>文档记录已创建，索引已进入队列</td>
+</tr>
+<tr>
+<td><code>processing</code></td>
+<td>正在等待或执行切分、Embedding 和写入</td>
+</tr>
+<tr>
+<td><code>ready</code></td>
+<td>当前 Chunk 与向量索引已完成</td>
+</tr>
+<tr>
+<td><code>failed</code></td>
+<td>索引失败，文档不会进入检索</td>
+</tr>
+<tr>
+<td><code>enabled=false</code></td>
+<td>即使 ready，也不会进入检索</td>
+</tr>
+<tr>
+<td>Chat 有来源</td>
+<td>本次问题真实命中了知识库</td>
+</tr>
+</tbody></table>
+<h2 id="数据对象">数据对象<a class="md-anchor" href="#数据对象">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>当前职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Knowledge Base</td>
+<td>文档、元信息和索引的归属边界</td>
+</tr>
+<tr>
+<td>Document</td>
+<td>上传文本、来源和索引状态</td>
+</tr>
+<tr>
+<td>Chunk</td>
+<td>检索使用的文本单元</td>
+</tr>
+<tr>
+<td>Vector Index</td>
+<td>Chunk 的 sqlite-vec 向量表</td>
+</tr>
+<tr>
+<td>Lexical Index</td>
+<td>当前进程中的中文词法索引缓存</td>
+</tr>
+<tr>
+<td>RAG Source</td>
+<td>最终进入回答的 Document / Chunk 来源</td>
+</tr>
+</tbody></table>
+<p>Mira 当前支持多个知识库，并保留一个不可删除的默认知识库。</p>
+<h2 id="创建知识库">创建知识库<a class="md-anchor" href="#创建知识库">#</a></h2>
+<p>进入：</p>
+<pre><code class="language-text">设置
+→ 知识库
+→ 新建知识库</code></pre><p>可填写：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名称</td>
+<td>识别知识库</td>
+</tr>
+<tr>
+<td>描述</td>
+<td>说明资料范围</td>
+</tr>
+<tr>
+<td>人格</td>
+<td>资料适合的专业身份标签</td>
+</tr>
+<tr>
+<td>场景</td>
+<td>资料适用场景标签</td>
+</tr>
+<tr>
+<td>标签</td>
+<td>搜索和分类</td>
+</tr>
+</tbody></table>
+<p>人格、场景和标签是知识库元信息，不会自动成为角色 Prompt，也不会替代线程角色设置。</p>
+<p>默认知识库不能删除；用户创建的知识库可以编辑和删除。</p>
+<h2 id="当前支持的文件">当前支持的文件<a class="md-anchor" href="#当前支持的文件">#</a></h2>
+<p>上传当前只接受：</p>
+<pre><code class="language-text">.md
+.markdown
+.txt</code></pre><p>规则：</p>
+<ul>
+<li>每次只能选择一个文件；</li>
+<li>最大 100 MB；</li>
+<li>空文件拒绝；</li>
+<li>优先按 UTF-8 解码；</li>
+<li>TXT 在 UTF-8 失败时可以回退 GB18030。</li>
+</ul>
+<p>当前知识库上传不是 PDF、DOCX、PPTX、网页或扫描件解析器。Office 与 PDF 能力属于文枢等其他 Runtime。</p>
+<h2 id="添加文档">添加文档<a class="md-anchor" href="#添加文档">#</a></h2>
+<p>进入：</p>
+<pre><code class="language-text">设置
+→ 知识库
+→ 选择目标知识库
+→ 添加文档</code></pre><p>添加向导分三步。</p>
+<h3 id="1-选择文件">1. 选择文件<a class="md-anchor" href="#1-选择文件">#</a></h3>
+<p>选择一个 Markdown 或 TXT 文件。</p>
+<p>如果列表里已经有一个待上传文件，需要先移除，再选择另一个文件。</p>
+<h3 id="2-配置与预览-chunk">2. 配置与预览 Chunk<a class="md-anchor" href="#2-配置与预览-chunk">#</a></h3>
+<p><img src="/images/knowledge-base/kb-upload-chunking.webp" alt="设置文本分段与清洗参数"></p>
+<p>当前可以配置：</p>
+<ul>
+<li>Character、Recursive、Markdown 或 Token splitter；</li>
+<li>Chunk 大小和重叠；</li>
+<li>是否保留分隔符；</li>
+<li>单个或多个分隔符；</li>
+<li>Markdown、Python、Java、Rust 等语言预设；</li>
+<li>字符数或 UTF-8 Bytes 长度；</li>
+<li>空白归一化；</li>
+<li>URL 与邮箱移除；</li>
+<li>问答结构切分。</li>
+</ul>
+<p>默认值：</p>
+<pre><code class="language-text">Recursive splitter
+Chunk Size: 1024
+Overlap: 50
+Markdown preset
+Replace Whitespace: true</code></pre><p>预览返回：</p>
+<ul>
+<li>Chunk 总数；</li>
+<li>最短、最长与平均长度；</li>
+<li>规范化文本长度；</li>
+<li>当前有效配置；</li>
+<li>最多 10 个抽样 Chunk。</li>
+</ul>
+<p>抽样预览不是完整文本，也不保证每次出现完全相同的样本位置。</p>
+<h3 id="3-上传与索引">3. 上传与索引<a class="md-anchor" href="#3-上传与索引">#</a></h3>
+<p><img src="/images/knowledge-base/kb-upload-complete.webp" alt="知识文档处理完成"></p>
+<p>上传后，桌面端会轮询 Document 状态。</p>
+<ul>
+<li>轮询间隔约 1.5 秒；</li>
+<li>当前桌面等待上限约 10 分钟；</li>
+<li><code>ready</code> 表示本次索引完成；</li>
+<li><code>failed</code> 会显示后端保存的错误信息。</li>
+</ul>
+<p>索引在当前 backend 进程中串行执行。它不是可以跨重启恢复的持久任务系统。</p>
+<h2 id="文档管理">文档管理<a class="md-anchor" href="#文档管理">#</a></h2>
+<p><img src="/images/knowledge-base/kb-list-overview.webp" alt="知识库文档列表"></p>
+<p>当前列表支持：</p>
+<ul>
+<li>切换和搜索知识库；</li>
+<li>搜索、筛选和排序文档；</li>
+<li>查看 <code>processing / ready / failed</code>；</li>
+<li>启用或停用文档；</li>
+<li>单条或批量删除；</li>
+<li>编辑知识库元信息；</li>
+<li>查看文档详情。</li>
+</ul>
+<p>只有 <code>ready + enabled</code> 的文档进入检索。</p>
+<h3 id="删除文档">删除文档<a class="md-anchor" href="#删除文档">#</a></h3>
+<p>删除文档会同时清理：</p>
+<ul>
+<li>Document；</li>
+<li>关联 Chunk；</li>
+<li>该 Chunk 在知识库向量表中的数据；</li>
+<li>当前词法索引缓存。</li>
+</ul>
+<p>删除不可撤销。</p>
+<h3 id="重建索引">重建索引<a class="md-anchor" href="#重建索引">#</a></h3>
+<p>当前列表中存在“重建索引”确认入口，但确认后只显示等待提示，没有完成后端重建调用。</p>
+<p>因此它目前不能作为修复 Embedding 维度不匹配的正式操作。</p>
+<p>需要更换 Embedding 时，当前可靠做法是：</p>
+<ol>
+<li>保留原 Embedding 继续使用现有索引；或</li>
+<li>在确认资料可恢复后，删除并使用新 Embedding 重新上传文档。</li>
+</ol>
+<p>不要把未完成的重建按钮当成已经交付的能力。</p>
+<h2 id="文档详情">文档详情<a class="md-anchor" href="#文档详情">#</a></h2>
+<p><img src="/images/knowledge-base/kb-document-detail.webp" alt="知识库文档详情与分段预览"></p>
+<p>详情页用于检查：</p>
+<ul>
+<li>Document ID；</li>
+<li>知识库归属；</li>
+<li>来源、扩展名、大小和编码；</li>
+<li>字符数、Chunk 数和索引状态；</li>
+<li>完整文本；</li>
+<li>真实 Chunk、位置和长度。</li>
+</ul>
+<p>检查重点：</p>
+<ul>
+<li>是否出现乱码；</li>
+<li>标题、列表和段落是否被错误切断；</li>
+<li>Chunk 是否过长或过短；</li>
+<li>关键上下文是否被分散到互不完整的 Chunk；</li>
+<li>无关页眉、模板文本或链接是否占据索引。</li>
+</ul>
+<h2 id="当前检索方式">当前检索方式<a class="md-anchor" href="#当前检索方式">#</a></h2>
+<p>当前检索不是纯向量搜索。</p>
+<pre><code class="language-text">Query Rewrite（必要时）
+→ Query Embedding
+→ Vector Retrieval
++
+Chinese Lexical Retrieval
+→ Reciprocal Rank Fusion
+→ Optional Rerank
+→ Generate</code></pre><h3 id="向量检索">向量检索<a class="md-anchor" href="#向量检索">#</a></h3>
+<p>使用 sqlite-vec，从当前知识库的 enabled + ready 文档中召回候选。</p>
+<h3 id="词法检索">词法检索<a class="md-anchor" href="#词法检索">#</a></h3>
+<p>当前主链使用 Orama 和中文 tokenizer，在 backend 进程中按知识库缓存索引。</p>
+<p>数据库虽然维护 FTS5 表，但当前主检索链不通过 SQLite FTS5 执行词法召回。</p>
+<h3 id="rerank">Rerank<a class="md-anchor" href="#rerank">#</a></h3>
+<p>Rerank 是可选阶段。</p>
+<ul>
+<li>配置并调用成功：按远端相关性重新排序；</li>
+<li>没有配置：直接使用融合结果；</li>
+<li>Provider 调用失败：降级使用融合结果；</li>
+<li>失败不会阻断整次 RAG。</li>
+</ul>
+<h2 id="在-chat-中使用">在 Chat 中使用<a class="md-anchor" href="#在-chat-中使用">#</a></h2>
+<p>普通线程当前绑定一个知识库。</p>
+<p>在 Chat 中选择知识库后，真实链路是：</p>
+<pre><code class="language-text">User Question
+→ Thread knowledgeBaseId
+→ RAG Runtime
+→ Sources
+→ Model Answer
+→ Message Persistence</code></pre><p>验证问题应接近真实使用，不要只输入文件名。</p>
+<pre><code class="language-text">不推荐：产后康复指南
+推荐：剖宫产后多久可以开始低强度核心训练？</code></pre><p>检查：</p>
+<ol>
+<li>是否命中正确文档；</li>
+<li>Sources 是否包含实际相关 Chunk；</li>
+<li>向量、词法或混合命中是否合理；</li>
+<li>回答是否超出来源；</li>
+<li>未命中时是否错误声称“根据知识库”。</li>
+</ol>
+<p>知识库为空时，Chat 会返回固定无上下文回答，不执行完整 RAG。</p>
+<h2 id="agent-与企业集成">Agent 与企业集成<a class="md-anchor" href="#agent-与企业集成">#</a></h2>
+<h3 id="agent">Agent<a class="md-anchor" href="#agent">#</a></h3>
+<p>Main Agent 可以在 Planner 选择 retrieve 时读取当前线程知识库，并把 Sources 记录为 Retrieval Evidence。</p>
+<p>当前 Agent retrieve 存在一处实现偏差：它实际调用完整 RAG，包括一次 Generate，随后只使用 Sources。该偏差可能增加延迟与模型成本，但本轮文档没有修改 Runtime。</p>
+<h3 id="企业微信知识问答">企业微信知识问答<a class="md-anchor" href="#企业微信知识问答">#</a></h3>
+<p><code>knowledge_query</code> MicroApp 当前可以绑定企业微信智能机器人 AccessPoint：</p>
+<pre><code class="language-text">WeCom Smart Robot
+→ knowledge_query binding
+→ selected knowledgeBaseId
+→ full RAG
+→ text reply</code></pre><p>该入口与 Chat 的缺失知识库行为不同：无效绑定当前会回退默认知识库。</p>
+<h2 id="embedding-兼容">Embedding 兼容<a class="md-anchor" href="#embedding-兼容">#</a></h2>
+<p>知识库向量索引会记录实际使用的：</p>
+<pre><code class="language-text">Embedding Model
+Model Config ID
+Dimensions</code></pre><p>查询时，当前默认 Embedding 必须和索引兼容。</p>
+<p>更换模型或维度后，如果找不到兼容索引，检索会要求重建或切回原模型。</p>
+<p>虽然 Knowledge Base 数据中存在 <code>embeddingModelConfigId</code> 字段，当前索引与查询仍使用全局默认 Embedding role。它还不是已经生效的每知识库独立模型配置。</p>
+<h2 id="常见问题">常见问题<a class="md-anchor" href="#常见问题">#</a></h2>
+<h3 id="页面显示有-embedding但不能添加">页面显示有 Embedding，但不能添加<a class="md-anchor" href="#页面显示有-embedding但不能添加">#</a></h3>
+<p>检查：</p>
+<ul>
+<li>主模型是否也已绑定；</li>
+<li>Embedding Connection 是否只是保存，还是服务真正在线；</li>
+<li>本地模型是否已经下载并启动；</li>
+<li>Add Wizard 是否刷新到最新角色配置。</li>
+</ul>
+<h3 id="文档长期停在-processing">文档长期停在 processing<a class="md-anchor" href="#文档长期停在-processing">#</a></h3>
+<p>当前索引队列不支持重启恢复。若 backend 在处理中退出，状态可能留在 processing。</p>
+<p>确认服务日志和 Document 状态；当前没有正式的 retry / resume 按钮。</p>
+<h3 id="文档-failed">文档 failed<a class="md-anchor" href="#文档-failed">#</a></h3>
+<p>常见原因：</p>
+<ul>
+<li>Embedding Provider 不可访问；</li>
+<li>模型 ID 不存在；</li>
+<li>模型返回维度异常；</li>
+<li>文本过大或上游超时；</li>
+<li>向量表与预期维度冲突。</li>
+</ul>
+<h3 id="chat-没有命中">Chat 没有命中<a class="md-anchor" href="#chat-没有命中">#</a></h3>
+<p>依次检查：</p>
+<ol>
+<li>线程是否绑定正确知识库；</li>
+<li>文档是否 ready；</li>
+<li>文档是否 enabled；</li>
+<li>问题是否接近资料中的真实语义或术语；</li>
+<li>Sources 是否为空；</li>
+<li>当前 Embedding 是否与索引兼容；</li>
+<li>Rerank 是否因阈值过滤掉结果。</li>
+</ol>
+<h2 id="与评测的边界">与评测的边界<a class="md-anchor" href="#与评测的边界">#</a></h2>
+<p>知识库负责资料、索引与查询链；评测负责用固定样本验证检索和回答质量。</p>
+<pre><code class="language-text">Knowledge Base Runtime
+→ produces Retrieval / RAG Result
+
+Evaluation Runtime
+→ measures that Result</code></pre><p>当前页面不承诺具体评测指标和报告合同。评测系统将在独立文档中说明。</p>
+<h2 id="当前边界">当前边界<a class="md-anchor" href="#当前边界">#</a></h2>
+<p>Mira 当前没有承诺：</p>
+<ul>
+<li>PDF、Office、网页和扫描件自动入库；</li>
+<li>多文件批量上传；</li>
+<li>索引任务跨重启自动恢复；</li>
+<li>切换 Embedding 后自动重建；</li>
+<li>一个线程同时查询多个知识库；</li>
+<li>每个知识库独立选择并实际使用 Embedding；</li>
+<li>Rerank 始终可用；</li>
+<li>Knowledge Base 等同于长期记忆；</li>
+<li>检索命中等同于专业结论正确。</li>
+</ul>
+<h2 id="验证清单">验证清单<a class="md-anchor" href="#验证清单">#</a></h2>
+<ol>
+<li>主模型已经通过真实 Chat；</li>
+<li>Embedding 请求真实可用；</li>
+<li>文件是单个 Markdown 或 TXT，且不超过 100 MB；</li>
+<li>Chunk 预览符合资料结构；</li>
+<li>Document 最终进入 ready；</li>
+<li>文档保持 enabled；</li>
+<li>线程绑定正确知识库；</li>
+<li>真实问题能命中正确 Source；</li>
+<li>回答没有超出来源；</li>
+<li>删除后 Chunk 和 Sources 不再出现。</li>
+</ol>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/configuration/model-settings">模型设置</a></li>
+<li><a href="/docs/architecture/knowledge-rag">Knowledge Base 与 RAG Runtime</a></li>
+<li><a href="/docs/product/workspace">对话工作区</a></li>
+<li><a href="/docs/architecture/provider-context">Provider 与模型运行时</a></li>
+<li><a href="/docs/philosophy/evidence">证据优先原则</a></li>
+<li><a href="/docs/status/current">当前实现快照</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/product/workspace"><span class="dir">上一篇</span><span class="to">← 对话工作区</span></a><a class="next" href="/tomz-io/product/evaluation"><span class="dir">下一篇</span><span class="to">评测工作台 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#前置条件">前置条件</a></li><li class="toc-depth-2"><a href="#完成标准">完成标准</a></li><li class="toc-depth-2"><a href="#数据对象">数据对象</a></li><li class="toc-depth-2"><a href="#创建知识库">创建知识库</a></li><li class="toc-depth-2"><a href="#当前支持的文件">当前支持的文件</a></li><li class="toc-depth-2"><a href="#添加文档">添加文档</a></li><li class="toc-depth-3"><a href="#1-选择文件">1. 选择文件</a></li><li class="toc-depth-3"><a href="#2-配置与预览-chunk">2. 配置与预览 Chunk</a></li><li class="toc-depth-3"><a href="#3-上传与索引">3. 上传与索引</a></li><li class="toc-depth-2"><a href="#文档管理">文档管理</a></li><li class="toc-depth-3"><a href="#删除文档">删除文档</a></li><li class="toc-depth-3"><a href="#重建索引">重建索引</a></li><li class="toc-depth-2"><a href="#文档详情">文档详情</a></li><li class="toc-depth-2"><a href="#当前检索方式">当前检索方式</a></li><li class="toc-depth-3"><a href="#向量检索">向量检索</a></li><li class="toc-depth-3"><a href="#词法检索">词法检索</a></li><li class="toc-depth-3"><a href="#rerank">Rerank</a></li><li class="toc-depth-2"><a href="#在-chat-中使用">在 Chat 中使用</a></li><li class="toc-depth-2"><a href="#agent-与企业集成">Agent 与企业集成</a></li><li class="toc-depth-3"><a href="#agent">Agent</a></li><li class="toc-depth-3"><a href="#企业微信知识问答">企业微信知识问答</a></li><li class="toc-depth-2"><a href="#embedding-兼容">Embedding 兼容</a></li><li class="toc-depth-2"><a href="#常见问题">常见问题</a></li><li class="toc-depth-3"><a href="#页面显示有-embedding但不能添加">页面显示有 Embedding，但不能添加</a></li><li class="toc-depth-3"><a href="#文档长期停在-processing">文档长期停在 processing</a></li><li class="toc-depth-3"><a href="#文档-failed">文档 failed</a></li><li class="toc-depth-3"><a href="#chat-没有命中">Chat 没有命中</a></li><li class="toc-depth-2"><a href="#与评测的边界">与评测的边界</a></li><li class="toc-depth-2"><a href="#当前边界">当前边界</a></li><li class="toc-depth-2"><a href="#验证清单">验证清单</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>Chat 与 UChat Runtime · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="Thread、Message、request-only context、Normal / RAG / Agent 路由、持久化、取消和媒体扩展的当前实现边界。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/architecture/chat-runtime/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="Chat 与 UChat Runtime · UIChat Mira"><meta property="og:description" content="Thread、Message、request-only context、Normal / RAG / Agent 路由、持久化、取消和媒体扩展的当前实现边界。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/architecture/chat-runtime/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Chat 与 UChat Runtime · UIChat Mira"><meta name="twitter:description" content="Thread、Message、request-only context、Normal / RAG / Agent 路由、持久化、取消和媒体扩展的当前实现边界。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Chat 与 UChat Runtime","description":"Thread、Message、request-only context、Normal / RAG / Agent 路由、持久化、取消和媒体扩展的当前实现边界。","url":"https://tomz.io/tomz-io/architecture/chat-runtime/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/architecture">架构</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a class="active" aria-current="page" href="/tomz-io/architecture/chat-runtime">Chat 与 UChat Runtime</a></li><li><a href="/tomz-io/architecture/runtime">桌面运行时</a></li><li><a href="/tomz-io/architecture/agent">Agent 当前运行真相</a></li><li><a href="/tomz-io/architecture/role-runtime">Role Runtime 与请求上下文</a></li><li><a href="/tomz-io/architecture/harness">Harness 与工具边界</a></li><li><a href="/tomz-io/architecture/agent-strategy">Agent 策略</a></li><li><a href="/tomz-io/architecture/microapps">MicroApps 与独立 Runtime</a></li><li><a href="/tomz-io/architecture/provider-context">Provider 与模型运行时</a></li><li><a href="/tomz-io/architecture/knowledge-rag">Knowledge Base 与 RAG Runtime</a></li><li><a href="/tomz-io/architecture/evaluation-runtime">Evaluation Runtime 与指标语义</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">架构 · 07</div><div class="doc-title-block"><h1>Chat 与 UChat Runtime</h1><p class="doc-lede">Thread、Message、request-only context、Normal / RAG / Agent 路由、持久化、取消和媒体扩展的当前实现边界。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页说明 Mira 当前 Chat 的状态所有权和调用链。重点不是页面长什么样，而是：</p>
+<ul>
+<li>Thread 保存什么；</li>
+<li>Message 何时持久化；</li>
+<li>Normal、RAG 和 Agent 如何分流；</li>
+<li>UChat core、UI 和 desktop integration 如何分层；</li>
+<li>Role、Summary、附件与媒体在哪一层生效；</li>
+<li>Stop、Edit 和 Delete 的真实语义。</li>
+</ul>
+<p>主项目最终核验依据是 <code>docs/CHAT_CURRENT_TRUTH.md</code>。</p>
+<h2 id="总体结构">总体结构<a class="md-anchor" href="#总体结构">#</a></h2>
+<pre><code class="language-text">UChat Core / UI
+→ Desktop Chat Integration
+→ Thread REST + Attachment REST + Chat SSE
+→ Request Context Assembly
+→ Normal Chat | RAG Pipeline | Agent Runtime
+→ Message / AgentRun / ChatMedia Persistence</code></pre><p>状态所有权：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>真相来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Thread 配置</td>
+<td>SQLite <code>threads</code></td>
+</tr>
+<tr>
+<td>可见消息</td>
+<td>SQLite <code>messages</code></td>
+</tr>
+<tr>
+<td>Agent 运行</td>
+<td><code>agent_runs</code></td>
+</tr>
+<tr>
+<td>Knowledge Base / Sources</td>
+<td>Knowledge Base 与 RAG Runtime</td>
+</tr>
+<tr>
+<td>Tool execution</td>
+<td>Harness Invocation / Evidence</td>
+</tr>
+<tr>
+<td>当前 Composer / Streaming</td>
+<td>UChat runtime memory</td>
+</tr>
+<tr>
+<td>用户上传附件</td>
+<td>Attachment storage + Message parts</td>
+</tr>
+<tr>
+<td>系统生成音频 / 图片</td>
+<td>ChatMedia + 领域 Runtime</td>
+</tr>
+</tbody></table>
+<h2 id="chatworkspace">ChatWorkspace<a class="md-anchor" href="#chatworkspace">#</a></h2>
+<p>Chat Workspace 保存：</p>
+<pre><code class="language-text">id
+userId
+name
+rootPath
+status</code></pre><p>Thread 只保存 <code>workspaceId</code>。文件系统位置通过 Workspace row 的 <code>rootPath</code> 解析。</p>
+<p>Agent Thread 必须有 Workspace；普通 Thread 可以没有。</p>
+<p>默认 Workspace 名为 <code>Mira BASE</code>，指向当前 Harness 默认 workspace root。</p>
+<h2 id="thread">Thread<a class="md-anchor" href="#thread">#</a></h2>
+<p>Thread 当前保存：</p>
+<pre><code class="language-text">title
+modelName
+workspaceId
+knowledgeBaseId
+roleId
+agentEnabled
+ttsEnabled
+imageEnabled
+contextSummary
+status</code></pre><h3 id="modelname"><code>modelName</code><a class="md-anchor" href="#modelname">#</a></h3>
+<p>字段存在并被 desktop 展示，但默认 Chat route 没有根据它选择模型。</p>
+<p>真实 Provider Resolution 仍从全局 <code>llm</code> role 开始：</p>
+<pre><code class="language-text">llm role
+→ Provider Connection
+→ model id
+→ adapter</code></pre><p>因此 <code>Thread.modelName</code> 不是可靠的 per-thread model binding。</p>
+<h3 id="knowledgebaseid"><code>knowledgeBaseId</code><a class="md-anchor" href="#knowledgebaseid">#</a></h3>
+<ul>
+<li>非 Agent：满足文本问题条件时选择独立 RAG route；</li>
+<li>Agent：作为 Agent Runtime 的检索输入；</li>
+<li>不代表每一轮都一定发生检索。</li>
+</ul>
+<h3 id="roleid"><code>roleId</code><a class="md-anchor" href="#roleid">#</a></h3>
+<p>Role 有两类作用：</p>
+<ol>
+<li>把 Prompt fragments 拼成 request-only system context；</li>
+<li>在 persisted Normal / Agent path 合并数值生成参数。</li>
+</ol>
+<p>独立 RAG route 会收到 Role Prompt，但当前没有接收 Role LLM profile 的数值参数覆盖。</p>
+<h3 id="contextsummary"><code>contextSummary</code><a class="md-anchor" href="#contextsummary">#</a></h3>
+<p>Summary 持久化在 Thread，每轮临时注入，不创建可见 system Message。</p>
+<p>当前没有自动滚动 Summary 机制。</p>
+<h2 id="message">Message<a class="md-anchor" href="#message">#</a></h2>
+<p>SQLite Message schema：</p>
+<pre><code class="language-text">id
+threadId
+role
+content
+partsJson
+metadata
+createdAt</code></pre><p>没有：</p>
+<pre><code class="language-text">parentId
+status
+updatedAt
+version
+branchId
+error</code></pre><p>Canonical parts：</p>
+<ul>
+<li>text；</li>
+<li>image；</li>
+<li>file；</li>
+<li>data。</li>
+</ul>
+<p><code>content</code> 是兼容文本字段；富消息以 parts 为主要来源。</p>
+<h2 id="request-only-context">Request-only Context<a class="md-anchor" href="#request-only-context">#</a></h2>
+<p>Thread-level context 在每轮请求时装配：</p>
+<pre><code class="language-text">Role
+→ Context Summary
+→ Memory Slot
+→ Agent Execution Context</code></pre><p>这些 system messages 不进入可见历史。</p>
+<h3 id="memory-slot">Memory Slot<a class="md-anchor" href="#memory-slot">#</a></h3>
+<p>代码已经预留 <code>memoryContext</code> resolver，但当前 Thread schema 和桌面 API 没有持久化该值。</p>
+<p>所以它只是接入插槽，不是当前长期记忆能力。</p>
+<h2 id="路由分流">路由分流<a class="md-anchor" href="#路由分流">#</a></h2>
+<h3 id="normal-chat">Normal Chat<a class="md-anchor" href="#normal-chat">#</a></h3>
+<pre><code class="language-text">agentEnabled = false
++ RAG conditions not satisfied
+→ persist User
+→ global llm
+→ SSE text
+→ persist Assistant on stop</code></pre><p>Normal Chat 当前不经过 Agent Planner。</p>
+<p>项目中存在 Default Chat Tool Loop 文件，但当前调用条件使它不可达：</p>
+<ul>
+<li>route 在 Normal branch 传 <code>agentEnabled=false</code>；</li>
+<li>Tool Loop 立即返回 null；</li>
+<li>Agent=true 时 route 已转入 Agent Runtime。</li>
+</ul>
+<p>不能从代码文件存在推断 Normal Chat 已支持 Harness Tool Calling。</p>
+<h3 id="rag-chat">RAG Chat<a class="md-anchor" href="#rag-chat">#</a></h3>
+<pre><code class="language-text">knowledgeBaseId exists
++ agentEnabled = false
++ authenticated Thread
++ latest User text exists
+→ RAG route</code></pre><p>RAG route 保存 Answer 和 Sources metadata。</p>
+<p>Knowledge Base 为空时返回固定无上下文回答。</p>
+<p>只有 File / Image parts、没有文本时，RAG input 可能为 null，route 回退 Normal Chat。</p>
+<h3 id="agent-chat">Agent Chat<a class="md-anchor" href="#agent-chat">#</a></h3>
+<pre><code class="language-text">agentEnabled = true
+→ persist User
+→ create AgentRun
+→ Agent Runtime
+→ Assistant projection</code></pre><p>AgentRun 持有 approval、checkpoint、Evidence 和 terminal state。Message 不是 Agent 运行真相。</p>
+<h2 id="uchat-分层">UChat 分层<a class="md-anchor" href="#uchat-分层">#</a></h2>
+<h3 id="core">Core<a class="md-anchor" href="#core">#</a></h3>
+<p>负责：</p>
+<ul>
+<li>canonical types；</li>
+<li>Thread list / hydration；</li>
+<li>Composer Draft；</li>
+<li>Attachment upload state；</li>
+<li>optimistic messages；</li>
+<li>send / edit / regenerate / stop；</li>
+<li>run event state transition。</li>
+</ul>
+<p>Core 不认识 Mira REST、Provider 或 Agent backend。</p>
+<h3 id="ui">UI<a class="md-anchor" href="#ui">#</a></h3>
+<p>负责：</p>
+<ul>
+<li>Thread、Message、Composer；</li>
+<li>Markdown 与 streaming text；</li>
+<li>Execution Trace；</li>
+<li>Agent status / approval；</li>
+<li>extension slots。</li>
+</ul>
+<h3 id="desktop-integration">Desktop Integration<a class="md-anchor" href="#desktop-integration">#</a></h3>
+<p>负责：</p>
+<ul>
+<li>Thread REST adapter；</li>
+<li>Attachment adapter；</li>
+<li>SSE protocol mapping；</li>
+<li>Agent submission options；</li>
+<li>TTS / Image post-send lifecycle。</li>
+</ul>
+<h2 id="应用级生命周期">应用级生命周期<a class="md-anchor" href="#应用级生命周期">#</a></h2>
+<p>同一登录会话内 UChat runtime 不随普通页面切换重建。</p>
+<p>它保存：</p>
+<ul>
+<li>Thread summaries；</li>
+<li>hydrated histories；</li>
+<li>per-thread Composer Draft；</li>
+<li>active Run ownership；</li>
+<li>optimistic / streaming Message state。</li>
+</ul>
+<p>同一 runtime 当前只允许一个进行中发送。</p>
+<p>Welcome 状态不会立即创建数据库 Thread；第一次发送才创建。</p>
+<h2 id="持久化时序">持久化时序<a class="md-anchor" href="#持久化时序">#</a></h2>
+<h3 id="发送开始">发送开始<a class="md-anchor" href="#发送开始">#</a></h3>
+<pre><code class="language-text">UChat append optimistic User
++ optimistic Assistant
+→ POST Chat
+→ backend persist latest User
+→ execute</code></pre><h3 id="assistant-成功">Assistant 成功<a class="md-anchor" href="#assistant-成功">#</a></h3>
+<p>只有：</p>
+<pre><code class="language-text">finishReason = stop
++ non-empty answer</code></pre><p>才写入 Message 表。</p>
+<p>发送后 UChat refresh Thread 和列表，与 backend truth 对账。</p>
+<h3 id="error">Error<a class="md-anchor" href="#error">#</a></h3>
+<p>普通 Chat / RAG error 通常不会持久化 Assistant Message。</p>
+<p>UChat 当前可以显示 error bubble，但刷新后可能只剩 User。</p>
+<h3 id="stop">Stop<a class="md-anchor" href="#stop">#</a></h3>
+<p>Desktop AbortController 取消 Fetch 和本地流读取。</p>
+<p>Server 没有统一 cancellation token 传给 Provider、RAG、Agent 或 Tool。因此：</p>
+<pre><code class="language-text">client stopped reading
+!= backend work stopped</code></pre><h2 id="edit-与-regenerate">Edit 与 Regenerate<a class="md-anchor" href="#edit-与-regenerate">#</a></h2>
+<p>Backend 会根据请求携带的 parent / lineage 找到锚点，并删除后续 Message、File attachment 和 ChatMedia。</p>
+<p>Message 表没有 parentId 或版本表。Desktop hydration 又按返回顺序重建线性 parentId。</p>
+<p>所以当前行为是：</p>
+<pre><code class="language-text">replace linear tail</code></pre><p>不是持久化 Branch Tree。</p>
+<h2 id="attachment-runtime">Attachment Runtime<a class="md-anchor" href="#attachment-runtime">#</a></h2>
+<p>上传 endpoint 限制：</p>
+<ul>
+<li>单文件；</li>
+<li>最大 8 MB；</li>
+<li>常见图片和文档白名单；</li>
+<li>非图片先经过本地 Structured Document Reader。</li>
+</ul>
+<p>File attachment 在生成前转换为最新 User Message 的文本 context。</p>
+<p>历史 File 不会每轮重新解析。</p>
+<p>当前清理缺口：</p>
+<ul>
+<li>uploaded-but-unsent file；</li>
+<li>Composer 移除后的 uploaded file；</li>
+<li>普通 Image attachment 删除；</li>
+<li>没有 asset reference count 或周期 GC。</li>
+</ul>
+<h2 id="chatmedia">ChatMedia<a class="md-anchor" href="#chatmedia">#</a></h2>
+<p>ChatMedia 是系统生成媒体，与用户上传 Attachment 分开。</p>
+<h3 id="tts">TTS<a class="md-anchor" href="#tts">#</a></h3>
+<p>成功 Assistant 后调用 TTS Runtime，绑定 audio media。</p>
+<h3 id="image">Image<a class="md-anchor" href="#image">#</a></h3>
+<p>当前自动条件：</p>
+<pre><code class="language-text">imageEnabled
++ roleId
++ no knowledgeBaseId</code></pre><p>Assistant text 作为 prompt。媒体失败只更新 metadata，不回滚文本回答。</p>
+<h2 id="删除语义">删除语义<a class="md-anchor" href="#删除语义">#</a></h2>
+<h3 id="thread">Thread<a class="md-anchor" href="#thread">#</a></h3>
+<p>删除 Thread 清理 ChatMedia 和 File attachment，再通过外键级联 Messages。</p>
+<h3 id="workspace">Workspace<a class="md-anchor" href="#workspace">#</a></h3>
+<p>删除非默认 Workspace 当前硬删除其 active Threads。Archived Threads 通过 <code>SET NULL</code> 解绑。</p>
+<h3 id="knowledge-basehigh-缺陷">Knowledge Base：High 缺陷<a class="md-anchor" href="#knowledge-basehigh-缺陷">#</a></h3>
+<p>当前外键：</p>
+<pre><code class="language-text">threads.knowledge_base_id
+ON DELETE CASCADE</code></pre><p>Knowledge Base service 直接删除 row，SQLite foreign keys 开启。</p>
+<p>所以删除 KB 会删除绑定 Thread 和 Messages。</p>
+<p>目标语义不应如此。合理修复需要：</p>
+<pre><code class="language-text">migration: ON DELETE SET NULL
++ service explicit detach
++ regression tests
++ destructive UI warning</code></pre><p>在修复前，产品层必须明确警告用户。</p>
+<h2 id="已知漂移">已知漂移<a class="md-anchor" href="#已知漂移">#</a></h2>
+<ul>
+<li>Normal Chat Tool Loop 不可达；</li>
+<li>Thread modelName 不驱动模型；</li>
+<li>Role 数值参数未统一进入 RAG；</li>
+<li>Edit / Regenerate 不保存分支；</li>
+<li>Stop 不保证 backend cancellation；</li>
+<li>Error Assistant 不完整持久化；</li>
+<li>Attachment storage 缺少完整 GC；</li>
+<li>Memory resolver 没有 persistence source；</li>
+<li>Workspace 删除活动 Thread 是破坏性行为；</li>
+<li>Knowledge Base 删除级联 Thread 是 High 数据缺陷。</li>
+</ul>
+<h2 id="当前非目标">当前非目标<a class="md-anchor" href="#当前非目标">#</a></h2>
+<p>Chat Runtime 当前没有承诺：</p>
+<ul>
+<li>Normal Chat 自主 Tool Calling；</li>
+<li>per-thread model selection；</li>
+<li>三条路径完全一致的 Role 参数；</li>
+<li>durable Message Branch；</li>
+<li>backend cooperative cancellation；</li>
+<li>persistent error timeline；</li>
+<li>attachment reference counting；</li>
+<li>automatic rolling summary；</li>
+<li>integrated long-term memory；</li>
+<li>Workspace 作为强隔离 Sandbox。</li>
+</ul>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/product/workspace">对话工作区</a></li>
+<li><a href="/docs/architecture/provider-context">Provider 与模型运行时</a></li>
+<li><a href="/docs/architecture/knowledge-rag">Knowledge Base 与 RAG Runtime</a></li>
+<li><a href="/docs/architecture/agent">Agent 当前运行真相</a></li>
+<li><a href="/docs/architecture/harness">Harness 与工具边界</a></li>
+<li><a href="/docs/architecture/microapps">MicroApps 与独立 Runtime</a></li>
+</ul>
+</article><div class="page-nav"><span></span><a class="next" href="/tomz-io/architecture/runtime"><span class="dir">下一篇</span><span class="to">桌面运行时 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#总体结构">总体结构</a></li><li class="toc-depth-2"><a href="#chatworkspace">ChatWorkspace</a></li><li class="toc-depth-2"><a href="#thread">Thread</a></li><li class="toc-depth-3"><a href="#modelname">modelName</a></li><li class="toc-depth-3"><a href="#knowledgebaseid">knowledgeBaseId</a></li><li class="toc-depth-3"><a href="#roleid">roleId</a></li><li class="toc-depth-3"><a href="#contextsummary">contextSummary</a></li><li class="toc-depth-2"><a href="#message">Message</a></li><li class="toc-depth-2"><a href="#request-only-context">Request-only Context</a></li><li class="toc-depth-3"><a href="#memory-slot">Memory Slot</a></li><li class="toc-depth-2"><a href="#路由分流">路由分流</a></li><li class="toc-depth-3"><a href="#normal-chat">Normal Chat</a></li><li class="toc-depth-3"><a href="#rag-chat">RAG Chat</a></li><li class="toc-depth-3"><a href="#agent-chat">Agent Chat</a></li><li class="toc-depth-2"><a href="#uchat-分层">UChat 分层</a></li><li class="toc-depth-3"><a href="#core">Core</a></li><li class="toc-depth-3"><a href="#ui">UI</a></li><li class="toc-depth-3"><a href="#desktop-integration">Desktop Integration</a></li><li class="toc-depth-2"><a href="#应用级生命周期">应用级生命周期</a></li><li class="toc-depth-2"><a href="#持久化时序">持久化时序</a></li><li class="toc-depth-3"><a href="#发送开始">发送开始</a></li><li class="toc-depth-3"><a href="#assistant-成功">Assistant 成功</a></li><li class="toc-depth-3"><a href="#error">Error</a></li><li class="toc-depth-3"><a href="#stop">Stop</a></li><li class="toc-depth-2"><a href="#edit-与-regenerate">Edit 与 Regenerate</a></li><li class="toc-depth-2"><a href="#attachment-runtime">Attachment Runtime</a></li><li class="toc-depth-2"><a href="#chatmedia">ChatMedia</a></li><li class="toc-depth-3"><a href="#tts">TTS</a></li><li class="toc-depth-3"><a href="#image">Image</a></li><li class="toc-depth-2"><a href="#删除语义">删除语义</a></li><li class="toc-depth-3"><a href="#thread-2">Thread</a></li><li class="toc-depth-3"><a href="#workspace">Workspace</a></li><li class="toc-depth-3"><a href="#knowledge-basehigh-缺陷">Knowledge Base：High 缺陷</a></li><li class="toc-depth-2"><a href="#已知漂移">已知漂移</a></li><li class="toc-depth-2"><a href="#当前非目标">当前非目标</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

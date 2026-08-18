@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>导航如何生成 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="MiraDocs 如何通过内容清单与站点适配生成导航。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/mira-docs-api/guide/navigation/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="导航如何生成 · UIChat Mira"><meta property="og:description" content="MiraDocs 如何通过内容清单与站点适配生成导航。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/mira-docs-api/guide/navigation/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="导航如何生成 · UIChat Mira"><meta name="twitter:description" content="MiraDocs 如何通过内容清单与站点适配生成导航。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"导航如何生成","description":"MiraDocs 如何通过内容清单与站点适配生成导航。","url":"https://tomz.io/tomz-io/mira-docs-api/guide/navigation/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/mira-docs-api">MiraDocs</a></h5></div><div class="docnav-group"><h5>guide</h5><ul><li><a href="/tomz-io/mira-docs-api/guide/what-is-mira-docs">MiraDocs 是什么</a></li><li><a href="/tomz-io/mira-docs-api/guide/getting-started">快速开始</a></li><li><a href="/tomz-io/mira-docs-api/guide/content-model">内容模型</a></li><li><a href="/tomz-io/mira-docs-api/guide/authoring">编写文档</a></li><li><a class="active" aria-current="page" href="/tomz-io/mira-docs-api/guide/navigation">导航如何生成</a></li><li><a href="/tomz-io/mira-docs-api/guide/configuration">站点配置与扩展</a></li><li><a href="/tomz-io/mira-docs-api/guide/architecture">仓库与 Skill 边界</a></li><li><a href="/tomz-io/mira-docs-api/guide/migration-status">生产迁移状态</a></li><li><a href="/tomz-io/mira-docs-api/guide/deployment-cloudflare-pages">部署到 Cloudflare Pages</a></li><li><a href="/tomz-io/mira-docs-api/guide/deployment-github-pages">部署到 GitHub Pages</a></li></ul></div><div class="docnav-group"><h5>reference</h5><ul><li><a href="/tomz-io/mira-docs-api/reference/typora-r2-guide">在 Typora 中自动将图片上传到 Cloudflare R2</a></li><li><a href="/tomz-io/mira-docs-api/reference/frontmatter">Frontmatter 参考</a></li><li><a href="/tomz-io/mira-docs-api/reference/build-integration">Vite 构建集成</a></li><li><a href="/tomz-io/mira-docs-api/reference/seo">静态构建与 SEO</a></li></ul></div><div class="docnav-group"><h5>视觉</h5><ul><li><a href="/tomz-io/design-md/视觉/product-design-system">产品设计系统</a></li><li><a href="/tomz-io/design-md/视觉/theme/apple">Apple</a></li><li><a href="/tomz-io/design-md/视觉/theme/claude">Claude</a></li><li><a href="/tomz-io/design-md/视觉/theme/supabase">Supabase</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">快速开始 · 05</div><div class="doc-title-block"><h1>导航如何生成</h1><p class="doc-lede">MiraDocs 如何通过内容清单与站点适配生成导航。</p></div><article class="markdown"><p>MiraDocs 不在页面组件里扫描文件。内容发现统一由 Vite 插件完成，React 端只消费生成后的清单。</p>
+<h2 id="虚拟内容模块">虚拟内容模块<a class="md-anchor" href="#虚拟内容模块">#</a></h2>
+<pre><code class="language-ts">import docs, { roots } from &quot;virtual:mira-docs/content&quot;</code></pre><p>它导出：</p>
+<ul>
+<li><code>docs</code>：排序后的 <code>MiraDoc[]</code></li>
+<li><code>roots</code>：内容源中的顶层目录</li>
+</ul>
+<p>虚拟模块会随 Markdown 变化失效，开发服务器随后完整刷新。</p>
+<h2 id="当前站点的导航边界">当前站点的导航边界<a class="md-anchor" href="#当前站点的导航边界">#</a></h2>
+<p>当前 UIChat Mira 站点仍保留原有信息架构：</p>
+<pre><code class="language-text">src/pages/
+├── docs/            # 默认文档区，URL 不显示 docs
+├── blogs/           # 博客
+├── mira-docs-api/   # MiraDocs 文档区
+└── ...</code></pre><p><code>design-md</code> 继续作为视觉内容的物理来源，因此既有 <code>/design-md/...</code> 文章地址保持不变；站点适配层只把它的导航归属映射到 MiraDocs。顶部不再生成独立视觉入口，MiraDocs 左栏统一显示“视觉”分组，物理目录不会变成空栏目。</p>
+<p>旧的 <code>/design-md</code> 栏目根路径会明确引导到 <code>/mira-docs-api</code>，不会继续暴露空目录页面；深层视觉文章仍使用原地址。</p>
+<p>Vite 插件负责发现文件，<code>src/content/mira-docs-adapter.ts</code> 负责把通用 <code>MiraDoc</code> 映射成旧站需要的文档模型。</p>
+<h2 id="url-兼容">URL 兼容<a class="md-anchor" href="#url-兼容">#</a></h2>
+<p>当前配置使用：</p>
+<pre><code class="language-ts">miraDocs({
+  contentDir: &quot;src/pages&quot;,
+  exclude: (sourcePath) =&gt; /(^|\/)README\.md$/i.test(sourcePath),
+  route: (_sourcePath, doc) =&gt; {
+    const path = doc.path.replace(/^\/docs(?=\/|$)/, &quot;&quot;)
+    return path || &quot;/&quot;
+  },
+  // ...
+})</code></pre><p>因此迁移前后的历史 URL 保持不变。MiraDocs 不要求消费者采用某一种目录前缀。</p>
+<h2 id="顶部与侧边导航">顶部与侧边导航<a class="md-anchor" href="#顶部与侧边导航">#</a></h2>
+<p>MiraDocs 提供内容数据，不强制导航 UI。当前站点继续使用：</p>
+<ul>
+<li><code>roots</code> 确定内容的物理来源。</li>
+<li>物理目录、<code>group</code> 与站点适配映射共同生成侧边分组。</li>
+<li><code>src/site.config.ts</code> 控制顶层顺序和显示名称。</li>
+<li>站点适配层保留博客、作者、逻辑归属和合并页规则。</li>
+</ul>
+<h2 id="合并页">合并页<a class="md-anchor" href="#合并页">#</a></h2>
+<p>具有相同 <code>merge</code> 的旧站内容会在适配层按 <code>order</code> 拼接，只有 <code>mergeIndex: true</code> 的入口保留路由。合并正文中的 Markdown 与 HTML 标题都会进入统一目录。</p>
+<p>这项规则是兼容扩展，而不是 MiraDocs 对所有消费者的强制约定。</p>
+</article><div class="page-nav"><a href="/tomz-io/mira-docs-api/guide/authoring"><span class="dir">上一篇</span><span class="to">← 编写文档</span></a><a class="next" href="/tomz-io/mira-docs-api/guide/configuration"><span class="dir">下一篇</span><span class="to">站点配置与扩展 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#虚拟内容模块">虚拟内容模块</a></li><li class="toc-depth-2"><a href="#当前站点的导航边界">当前站点的导航边界</a></li><li class="toc-depth-2"><a href="#url-兼容">URL 兼容</a></li><li class="toc-depth-2"><a href="#顶部与侧边导航">顶部与侧边导航</a></li><li class="toc-depth-2"><a href="#合并页">合并页</a></li></ul></aside></div></div></div>
+</body>
+</html>

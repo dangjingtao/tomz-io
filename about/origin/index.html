@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>Mira 是什么 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="UIChat Mira 的当前产品定义、核心组成、运行边界与非目标。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/about/origin/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="Mira 是什么 · UIChat Mira"><meta property="og:description" content="UIChat Mira 的当前产品定义、核心组成、运行边界与非目标。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/about/origin/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Mira 是什么 · UIChat Mira"><meta name="twitter:description" content="UIChat Mira 的当前产品定义、核心组成、运行边界与非目标。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Mira 是什么","description":"UIChat Mira 的当前产品定义、核心组成、运行边界与非目标。","url":"https://tomz.io/tomz-io/about/origin/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/about">认识 Mira</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a class="active" aria-current="page" href="/tomz-io/about/origin">Mira 是什么</a></li><li><a href="/tomz-io/about/author">项目与维护者</a></li><li><a href="/tomz-io/about/product-map">产品地图</a></li><li><a href="/tomz-io/about/product-about">关于页说明</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">认识 Mira · 01</div><div class="doc-title-block"><h1>Mira 是什么</h1><p class="doc-lede">UIChat Mira 的当前产品定义、核心组成、运行边界与非目标。</p></div><article class="markdown"><blockquote>
+<p>从聊天出发，最终回到「接住你」。</p>
+</blockquote>
+<h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页定义 UIChat Mira 当前的产品定位和一级能力边界。具体运行时、工具合同与功能状态以对应架构页和<a href="/docs/status/current">当前实现快照</a>为准。</p>
+<p>本页不用于记录：</p>
+<ul>
+<li>单次版本的施工过程；</li>
+<li>尚未验证的功能设想；</li>
+<li>历史 Agent 或 Tool 方案；</li>
+<li>博客式产品叙事。</li>
+</ul>
+<h2 id="产品定义">产品定义<a class="md-anchor" href="#产品定义">#</a></h2>
+<p>UIChat Mira 是一个<strong>本地优先、桌面优先、多 Provider 的个人 AI 工作台</strong>。</p>
+<p>聊天是主要入口。模型、知识库、角色、Agent、工具、MCP、微应用和集成在同一工作环境中协作，并共享用户身份、配置、运行状态和审计边界。</p>
+<pre><code class="language-text">Desktop Workspace
+├─ Conversation / Thread / Message
+├─ Provider / Model Configuration
+├─ Knowledge Base / RAG / Evaluation
+├─ Role / Prompt Prototype
+├─ Agent / Harness / Tool Runtime
+├─ MCP Host
+├─ Skill / SubAgent
+└─ MicroApps Hub / Integration</code></pre><h2 id="核心产品域">核心产品域<a class="md-anchor" href="#核心产品域">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>产品域</th>
+<th>职责</th>
+<th>当前入口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对话工作区</td>
+<td>承载线程、消息、附件、任务状态与最终交付</td>
+<td>Chat</td>
+</tr>
+<tr>
+<td>Provider 与模型</td>
+<td>管理连接、模型目录、默认用途与能力画像</td>
+<td>模型设置</td>
+</tr>
+<tr>
+<td>知识与评测</td>
+<td>文档入库、分段、索引、检索、RAG 与质量评测</td>
+<td>知识库、评测中心</td>
+</tr>
+<tr>
+<td>角色</td>
+<td>管理可复用的提示词原型与生成参数</td>
+<td>角色工作台</td>
+</tr>
+<tr>
+<td>Agent 与工具</td>
+<td>规划下一步、执行受治理的具体动作、形成 Evidence 与 Artifact</td>
+<td>Chat、工具工作台</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>发现和调用外部工具，Mira 当前以 MCP Host 为主</td>
+<td>MCP 设置</td>
+</tr>
+<tr>
+<td>MicroApps Hub</td>
+<td>提供独立 Studio、领域 Runtime、连接和企业集成入口</td>
+<td>微应用、企业集成</td>
+</tr>
+</tbody></table>
+<h2 id="运行边界">运行边界<a class="md-anchor" href="#运行边界">#</a></h2>
+<p>Mira 当前以桌面应用为主要交付形态：</p>
+<pre><code class="language-text">React / Vite Renderer
+→ Electron（主桌面壳）或 Tauri（并行路径）
+→ Fastify Backend
+→ SQLite / Local Artifact / External Provider</code></pre><p>基础状态优先保存在用户侧。云端模型、MCP Server、企业平台和外部服务可以被接入，但它们不自动取得全部数据或执行权限。</p>
+<h2 id="当前原则">当前原则<a class="md-anchor" href="#当前原则">#</a></h2>
+<h3 id="本地优先">本地优先<a class="md-anchor" href="#本地优先">#</a></h3>
+<p>对话、配置、知识、任务状态和本地产物优先由用户自己的运行环境持有。本地优先不等于离线限定，外部能力仍可按配置接入。</p>
+<h3 id="provider-可替换">Provider 可替换<a class="md-anchor" href="#provider-可替换">#</a></h3>
+<p>聊天、任务模型、Embedding、Rerank、语音、图像和评测可以使用不同 Provider。产品能力不应绑定某一家模型厂商。</p>
+<h3 id="具体调用受治理">具体调用受治理<a class="md-anchor" href="#具体调用受治理">#</a></h3>
+<p>模型能够看到工具，不等于可以直接执行。具体 Invocation 需要经过 schema、Policy、审批、Runtime availability 和结果审计。</p>
+<h3 id="evidence-先于完成声明">Evidence 先于完成声明<a class="md-anchor" href="#evidence-先于完成声明">#</a></h3>
+<p>检索、Tool Result、SubAgent Result 和 Artifact 必须先形成可追踪证据，再由 Main Planner 判断用户目标是否完成。</p>
+<h2 id="当前非目标">当前非目标<a class="md-anchor" href="#当前非目标">#</a></h2>
+<p>Mira 当前不是：</p>
+<ul>
+<li>单一厂商的聊天客户端；</li>
+<li>开放式多 Agent 自治平台；</li>
+<li>所有操作默认自动执行的黑盒代理；</li>
+<li>强制用户迁移全部数据的云端平台；</li>
+<li>所有微应用共享同一套 Runtime 的应用操作系统；</li>
+<li>已完成的通用长期记忆系统或强隔离 Sandbox。</li>
+</ul>
+<h2 id="状态判断规则">状态判断规则<a class="md-anchor" href="#状态判断规则">#</a></h2>
+<p>文档中出现一个能力名称，不代表该能力已经完整交付。至少需要分别确认：</p>
+<pre><code class="language-text">产品入口
+→ Runtime / Service
+→ 可用性条件
+→ Agent 或外部调用入口
+→ 验证与失败语义</code></pre><p>当前事实见：<a href="/docs/status/current">当前实现快照</a>。</p>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/about/product-map">产品地图</a></li>
+<li><a href="/docs/architecture/runtime">桌面运行时</a></li>
+<li><a href="/docs/architecture/agent">Agent 当前运行真相</a></li>
+<li><a href="/docs/architecture/harness">Harness 与工具边界</a></li>
+<li><a href="/docs/architecture/microapps">MicroApps 与独立 Runtime</a></li>
+</ul>
+</article><div class="page-nav"><span></span><a class="next" href="/tomz-io/about/author"><span class="dir">下一篇</span><span class="to">项目与维护者 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#产品定义">产品定义</a></li><li class="toc-depth-2"><a href="#核心产品域">核心产品域</a></li><li class="toc-depth-2"><a href="#运行边界">运行边界</a></li><li class="toc-depth-2"><a href="#当前原则">当前原则</a></li><li class="toc-depth-3"><a href="#本地优先">本地优先</a></li><li class="toc-depth-3"><a href="#provider-可替换">Provider 可替换</a></li><li class="toc-depth-3"><a href="#具体调用受治理">具体调用受治理</a></li><li class="toc-depth-3"><a href="#evidence-先于完成声明">Evidence 先于完成声明</a></li><li class="toc-depth-2"><a href="#当前非目标">当前非目标</a></li><li class="toc-depth-2"><a href="#状态判断规则">状态判断规则</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

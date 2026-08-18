@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>开发与诊断 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="UIChat Mira 文档"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/engineering/development-console/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="开发与诊断 · UIChat Mira"><meta property="og:description" content="UIChat Mira 文档"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/engineering/development-console/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="开发与诊断 · UIChat Mira"><meta name="twitter:description" content="UIChat Mira 文档"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"开发与诊断","description":"","url":"https://tomz.io/tomz-io/engineering/development-console/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/engineering">UIChat Mira 文档</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a class="active" aria-current="page" href="/tomz-io/engineering/development-console">开发与诊断</a></li><li><a href="/tomz-io/engineering/repository">源码地图</a></li><li><a href="/tomz-io/engineering/docs-system">文档系统</a></li><li><a href="/tomz-io/engineering/development">开发与验证</a></li><li><a href="/tomz-io/engineering/comic-image-pipeline">画册图片管线契约</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">工程 · 05</div><div class="doc-title-block"><h1>开发与诊断</h1></div><article class="markdown"><p>开发页把运行日志、数据库、客户端测试、服务端测试、基础信息、开发文档和接口文档收进同一个桌面入口。</p>
+<p><img src="/images/guide/development-overview.svg" alt="开发页概览"></p>
+<p><em>截图展示了服务端测试报告：用例结果、耗时、覆盖率和文件级摘要可以直接在 Mira 中查看。</em></p>
+<h2 id="这一页服务谁">这一页服务谁<a class="md-anchor" href="#这一页服务谁">#</a></h2>
+<p>开发页主要服务项目作者、协作者和需要排查本地环境的高级用户。</p>
+<p>它不是普通聊天用户每天都要进入的页面，但对一个持续演化的本地桌面应用非常重要：维护者不必在命令行、日志目录、测试报告和独立文档之间反复切换。</p>
+<h2 id="当前入口">当前入口<a class="md-anchor" href="#当前入口">#</a></h2>
+<p>页面顶部包含：</p>
+<ul>
+<li>日志；</li>
+<li>数据库；</li>
+<li>客户端测试；</li>
+<li>服务端测试；</li>
+<li>基础信息；</li>
+<li>开发文档；</li>
+<li>接口文档。</li>
+</ul>
+<p>这些入口覆盖了从运行状态到代码验证的主要维护面。</p>
+<h2 id="测试报告">测试报告<a class="md-anchor" href="#测试报告">#</a></h2>
+<p>当前服务端测试页会显示：</p>
+<ul>
+<li>总用例、通过和失败数量；</li>
+<li>本次测试耗时；</li>
+<li>Statements、Branches、Functions、Lines 覆盖率；</li>
+<li>文件级测试与覆盖率摘要；</li>
+<li>单个文件的详情入口。</li>
+</ul>
+<p>测试通过数量只是第一层信息。覆盖率和失败文件列表可以帮助维护者判断：问题是局部回归、未覆盖路径，还是整条链路已经不可用。</p>
+<h2 id="日志与数据库">日志与数据库<a class="md-anchor" href="#日志与数据库">#</a></h2>
+<p>日志页适合查看本地后端和错误日志，并在需要时导出或清理日志。</p>
+<p>数据库页用于检查本地数据状态。对知识库、角色、会话和配置这类本地数据而言，能够直接查看数据库连通与基础状态，有助于把“界面异常”和“数据异常”区分开。</p>
+<h2 id="开发文档与接口文档">开发文档与接口文档<a class="md-anchor" href="#开发文档与接口文档">#</a></h2>
+<p>文档入口用于把稳定合同、架构说明和接口信息留在应用附近。</p>
+<p>Mira 的文档不只是给最终用户阅读，也承担项目记忆：当系统复杂到一个人无法记住所有调用链和边界时，结构化文档可以成为人和 AI 共同使用的稳定入口。</p>
+<h2 id="使用边界">使用边界<a class="md-anchor" href="#使用边界">#</a></h2>
+<p>开发页展示的是诊断与验证信息，不应被理解为“测试全绿就代表产品一定没有问题”。</p>
+<p>真实验收还需要结合：</p>
+<ul>
+<li>用户流程；</li>
+<li>数据迁移与兼容性；</li>
+<li>权限和副作用边界；</li>
+<li>本地与云端 Provider 的实际运行环境；</li>
+<li>黑盒场景和人工判断。</li>
+</ul>
+</article><div class="page-nav"><span></span><a class="next" href="/tomz-io/engineering/repository"><span class="dir">下一篇</span><span class="to">源码地图 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#这一页服务谁">这一页服务谁</a></li><li class="toc-depth-2"><a href="#当前入口">当前入口</a></li><li class="toc-depth-2"><a href="#测试报告">测试报告</a></li><li class="toc-depth-2"><a href="#日志与数据库">日志与数据库</a></li><li class="toc-depth-2"><a href="#开发文档与接口文档">开发文档与接口文档</a></li><li class="toc-depth-2"><a href="#使用边界">使用边界</a></li></ul></aside></div></div></div>
+</body>
+</html>

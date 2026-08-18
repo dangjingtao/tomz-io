@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从符号主义、搜索、强化学习、神经网络，到大规模预训练、ChatGPT 与 ReAct。我们顺着一次真实对话，把现代 Agent 为什么会在今天重新爆发讲清楚。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/agent-learning/agent-is-an-old-dream/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦 · UIChat Mira"><meta property="og:description" content="从符号主义、搜索、强化学习、神经网络，到大规模预训练、ChatGPT 与 ReAct。我们顺着一次真实对话，把现代 Agent 为什么会在今天重新爆发讲清楚。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/agent-learning/agent-is-an-old-dream/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦 · UIChat Mira"><meta name="twitter:description" content="从符号主义、搜索、强化学习、神经网络，到大规模预训练、ChatGPT 与 ReAct。我们顺着一次真实对话，把现代 Agent 为什么会在今天重新爆发讲清楚。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦","description":"从符号主义、搜索、强化学习、神经网络，到大规模预训练、ChatGPT 与 ReAct。我们顺着一次真实对话，把现代 Agent 为什么会在今天重新爆发讲清楚。","url":"https://tomz.io/tomz-io/blogs/agent-learning/agent-is-an-old-dream/","image":"https://tomz.io/tomz-io/mira-logo.png","datePublished":"2026年7月22日","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦</h1><p class="doc-lede">从符号主义、搜索、强化学习、神经网络，到大规模预训练、ChatGPT 与 ReAct。我们顺着一次真实对话，把现代 Agent 为什么会在今天重新爆发讲清楚。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>2026年7月22日</span><span class="dot"></span><span>10 分钟阅读</span><span class="dot"></span><span>一起学智能体</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>今天这一课，本来只是想顺着《Hello-Agents》的课纲聊聊 AI 发展史。</p>
+<p>但聊到最后，我们发现了一件很有意思的事：</p>
+<blockquote>
+<p>Agent 不是这几年突然冒出来的新概念。</p>
+<p>它更像是 AI 七十多年前就做过的一个梦，只是直到 LLM 出现以后，这个梦才终于有了一颗足够通用的大脑。</p>
+</blockquote>
+<h2 id="从把智能写成规则开始">从“把智能写成规则”开始<a class="md-anchor" href="#从把智能写成规则开始">#</a></h2>
+<p>早期 AI 的想法其实非常直接：</p>
+<blockquote>
+<p>如果人的思考可以抽象成符号和规则，那就把这些规则写给机器。</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>所有人都会死；</li>
+<li>苏格拉底是人；</li>
+<li>所以苏格拉底会死。</li>
+</ul>
+<p>这就是符号主义最迷人的地方。</p>
+<p>它相信智能可以被形式化。</p>
+<p>这套方法在几何、逻辑、定理证明里尤其漂亮，因为这些世界有一个共同特点：<strong>公理有限、规则明确、边界封闭。</strong></p>
+<p>我们聊到这里时，Tomz 问了一个很好的问题：</p>
+<blockquote>
+<p>几何学的公理不多，符号主义是不是在几何里发展得很好？</p>
+</blockquote>
+<p>答案是：对。</p>
+<p>早期自动定理证明正是符号主义最有代表性的成功之一。</p>
+<p>但问题很快来了。</p>
+<p>即使规则不多，推理路线也可能爆炸。</p>
+<p>机器不是“不知道规则”，而是：</p>
+<blockquote>
+<p><strong>不知道现在最值得走哪一步。</strong></p>
+</blockquote>
+<p>这其实已经是今天 Planner 面对的问题了。</p>
+<h2 id="搜索与规划知道规则不等于会解决问题">搜索与规划：知道规则，不等于会解决问题<a class="md-anchor" href="#搜索与规划知道规则不等于会解决问题">#</a></h2>
+<p>拿下棋来说。</p>
+<p>棋子的规则很少，但未来走法太多。</p>
+<p>如果每一步都有很多选择，连续展开几十步，搜索空间会大到不可接受。</p>
+<p>于是 AI 开始研究启发式搜索：</p>
+<blockquote>
+<p>哪些路径更值得先看？哪些可以暂时放弃？</p>
+</blockquote>
+<p>几十年后，现代 Agent 还是在面对同一个问题：</p>
+<ul>
+<li>现在该不该读文件？</li>
+<li>要不要搜索？</li>
+<li>该调哪个工具？</li>
+<li>证据够不够？</li>
+<li>要不要继续？</li>
+<li>什么时候停？</li>
+</ul>
+<p>换了工具，问题没换。</p>
+<h2 id="不想全靠规则那就让机器自己学">不想全靠规则，那就让机器自己学<a class="md-anchor" href="#不想全靠规则那就让机器自己学">#</a></h2>
+<p>符号主义最大的麻烦，是现实世界的规则写不完。</p>
+<p>于是研究者自然会想到：</p>
+<blockquote>
+<p>能不能让机器自己从经验里学？</p>
+</blockquote>
+<p>强化学习就是这条线最典型的代表。</p>
+<p>Tomz 用井字棋举了一个很直观的例子：</p>
+<blockquote>
+<p>让一个井字棋 AI 输几次，它就会慢慢知道哪些位置的价值低。</p>
+</blockquote>
+<p>这正是“价值”这个概念的味道。</p>
+<p>AI 不再只是问：</p>
+<blockquote>
+<p>我现在能做什么？</p>
+</blockquote>
+<p>它开始问：</p>
+<blockquote>
+<p>哪个动作更可能把我带到最终目标？</p>
+</blockquote>
+<p>可现实世界马上又变难了。</p>
+<p>井字棋赢就是赢，输就是输。</p>
+<p>但如果任务是：</p>
+<blockquote>
+<p>“把这个产品做好。”</p>
+</blockquote>
+<p>奖励是什么？</p>
+<p>代码能跑？用户喜欢？架构更漂亮？开发更快？</p>
+<p>这些目标甚至会互相冲突。</p>
+<p>所以强化学习的难题之一，本质上是：</p>
+<blockquote>
+<p><strong>复杂世界里，到底怎么定义“好”？</strong></p>
+</blockquote>
+<h2 id="神经网络很多伟大的想法都比时代早几十年">神经网络：很多伟大的想法，都比时代早几十年<a class="md-anchor" href="#神经网络很多伟大的想法都比时代早几十年">#</a></h2>
+<p>我们接着聊到了神经元。</p>
+<p>1940 年代，已经有人开始尝试把生物神经元抽象成数学模型：</p>
+<p>输入乘权重，加起来，超过阈值就激活。</p>
+<p>再后来，感知机出现。</p>
+<p>机器可以通过犯错调整权重。</p>
+<p>于是“学习”第一次有了一个特别朴素的工程解释：</p>
+<blockquote>
+<p><strong>学习 = 调参数。</strong></p>
+</blockquote>
+<p>但单层感知机很快撞上 XOR。</p>
+<p>一条直线分不开的模式，它就是学不会。</p>
+<p>于是多层网络的重要性显现出来：</p>
+<p>第一层不直接回答，而是先构造中间表示；下一层再继续组合。</p>
+<p>这就是后来深度学习的核心直觉之一：</p>
+<blockquote>
+<p>一层层把原始输入，变成越来越抽象的表示。</p>
+</blockquote>
+<p>回头看这段历史，有一种很强的魔幻感。</p>
+<p>那时候的计算机还巨大、昂贵、算力有限，人们却已经在认真思考：</p>
+<ul>
+<li>能不能把学习写成数学？</li>
+<li>能不能让机器自己调整内部结构？</li>
+<li>能不能让大量简单单元组合出智能？</li>
+</ul>
+<p>很多时候，并不是没人想到。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>想到了，时代还跑不动。</strong></p>
+</blockquote>
+<p>AI 历史经常就是这样：</p>
+<blockquote>
+<p>一群人先把梦做出来，硬件、数据和算法花几十年追上那个梦。</p>
+</blockquote>
+<h2 id="大规模预训练先别教它规则让它读世界">大规模预训练：先别教它规则，让它读世界<a class="md-anchor" href="#大规模预训练先别教它规则让它读世界">#</a></h2>
+<p>后来，另一条路线开始真正成熟：</p>
+<blockquote>
+<p>不把世界规则一条条写进去，也不让每个 AI 都从零试错，而是先让模型从海量数据中学习。</p>
+</blockquote>
+<p>语言模型的训练目标看起来甚至有点简单：</p>
+<blockquote>
+<p>猜下一个 token。</p>
+</blockquote>
+<p>但真正神奇的地方就在这里。</p>
+<p>为了越来越会猜，模型只学语法是不够的。</p>
+<p>例如：</p>
+<blockquote>
+<p>杯子从桌边掉下去，接下来它会——</p>
+</blockquote>
+<p>要猜“落地”或“摔碎”，模型得学到一点物理世界。</p>
+<p>再比如：</p>
+<blockquote>
+<p>他忘了女朋友生日，她听完以后很——</p>
+</blockquote>
+<p>要猜“生气”或“失望”，模型得学到一点人际关系和情绪模式。</p>
+<p>于是一个极其简单的训练目标，逼出了极其复杂的内部表示。</p>
+<p>这也是为什么大模型的权重会逐渐变成一种关于人类语言与世界知识的高度压缩。</p>
+<h2 id="gpt-最开始并不是为了聊天">GPT 最开始并不是为了聊天<a class="md-anchor" href="#gpt-最开始并不是为了聊天">#</a></h2>
+<p>我们聊到这里时，Tomz 问：</p>
+<blockquote>
+<p>所以一开始，开发者就是想让模型开口说话？</p>
+</blockquote>
+<p>其实不是。</p>
+<p>最开始的目标更接近：</p>
+<blockquote>
+<p>让模型学会语言本身。</p>
+</blockquote>
+<p>GPT 最早不是作为聊天机器人诞生的，而是语言模型。</p>
+<p>它最基本的工作仍然是：根据前文预测后文。</p>
+<p>但随着模型规模扩大，人们开始看到一些很有意思的现象：</p>
+<ul>
+<li>会续写；</li>
+<li>会翻译；</li>
+<li>会摘要；</li>
+<li>会问答；</li>
+<li>会 few-shot；</li>
+<li>会写代码；</li>
+<li>会模仿从未专门训练过的任务格式。</li>
+</ul>
+<p>最让人兴奋的地方是：</p>
+<blockquote>
+<p>开发者自己也不完全知道，把模型继续做大以后会长出什么。</p>
+</blockquote>
+<p>传统软件往往是先定义功能，再实现功能。</p>
+<p>大模型时代却出现了一种很奇怪的科研体验：</p>
+<blockquote>
+<p>先把系统推到前所未有的规模，然后观察它出现了什么能力。</p>
+</blockquote>
+<p>设计者开始有点像观察者。</p>
+<h2 id="从会续写到会听话">从“会续写”到“会听话”<a class="md-anchor" href="#从会续写到会听话">#</a></h2>
+<p>但会续写，不等于会当助手。</p>
+<p>一个原始语言模型看到：</p>
+<blockquote>
+<p>“法国首都是哪里？”</p>
+</blockquote>
+<p>它本质上仍然只是在预测后面最可能出现什么文字。</p>
+<p>于是后来出现了指令微调、偏好训练、RLHF 等后训练方式。</p>
+<p>模型开始学：</p>
+<blockquote>
+<p>用户是在要求我做一件事，我应该按照他的意图回应。</p>
+</blockquote>
+<p>这一步非常关键。</p>
+<p>它把“会语言的模型”，慢慢变成了“会和人协作的助手”。</p>
+<p>我们还聊到一个很现实的体验：</p>
+<p>有些 AI 一检测到用户情绪或者脏话，就立刻反问、说教、纠正用户态度。</p>
+<p>形式上可能很礼貌，实际体验却很糟。</p>
+<p>因为好的助手，不只是“说正确的话”。</p>
+<p>更难的是：</p>
+<blockquote>
+<p><strong>先理解这个人此刻真正需要什么，再决定怎么回应。</strong></p>
+</blockquote>
+<p>这可能比单纯“礼貌”难得多。</p>
+<h2 id="有了大脑给它工具几乎是顺理成章的">有了大脑，给它工具几乎是顺理成章的<a class="md-anchor" href="#有了大脑给它工具几乎是顺理成章的">#</a></h2>
+<p>当模型已经能理解指令后，下一步其实非常自然：</p>
+<blockquote>
+<p>既然它知道“查天气”“读文件”“运行代码”是什么意思，那就给它工具。</p>
+</blockquote>
+<p>工具调用这个点子本身一点都不神秘。</p>
+<p>真正难的是：</p>
+<ul>
+<li>什么时候该用工具？</li>
+<li>用哪个？</li>
+<li>参数怎么填？</li>
+<li>失败以后怎么办？</li>
+<li>结果够不够？</li>
+<li>还要不要继续？</li>
+<li>什么时候该停？</li>
+</ul>
+<p>也就是说：</p>
+<blockquote>
+<p><strong>“LLM + Tools” 很自然，稳定的 Agent Loop 很难。</strong></p>
+</blockquote>
+<h2 id="react一个老问题终于有了能跑起来的大脑">ReAct：一个老问题，终于有了能跑起来的大脑<a class="md-anchor" href="#react一个老问题终于有了能跑起来的大脑">#</a></h2>
+<p>ReAct 把现代 Agent 最核心的循环组织得非常清楚：</p>
+<pre><code class="language-text">Reason → Act → Observe → Reason → Act ...</code></pre><p>先思考，再行动，拿到新观察，再重新判断。</p>
+<p>听起来一点都不神秘。</p>
+<p>因为几十年前 Agent 的经典思想，本来就是：</p>
+<blockquote>
+<p>观察环境 → 推理 → 行动 → 再观察。</p>
+</blockquote>
+<p>真正发生变化的是中间那个“大脑”。</p>
+<p>以前靠人写规则、启发式和状态机。</p>
+<p>现在换成了一个预训练过海量人类知识、可以用自然语言理解任务的 LLM。</p>
+<p>于是几条原本分开的 AI 历史路线，在这里汇流：</p>
+<ul>
+<li>符号主义留下了推理与规划；</li>
+<li>搜索研究留下了行动选择；</li>
+<li>强化学习留下了行动—反馈循环；</li>
+<li>神经网络提供了学习能力；</li>
+<li>大规模预训练提供了通用知识与语言接口；</li>
+<li>工具调用重新把模型接回现实世界。</li>
+</ul>
+<p>现代 Agent 就这样出现了。</p>
+<h2 id="最后我们得到的不是一张名词表">最后，我们得到的不是一张名词表<a class="md-anchor" href="#最后我们得到的不是一张名词表">#</a></h2>
+<p>这次对话最后，Tomz 说了一句很重要的话：</p>
+<blockquote>
+<p>这些其实都是搞 AI 的那帮人很自然而然会想到的东西。</p>
+</blockquote>
+<p>确实。</p>
+<p>会学习，就让它从反馈里学。</p>
+<p>会听懂指令，就给它工具。</p>
+<p>一次做不完，就循环。</p>
+<p>一个 Agent 不够，就协作。</p>
+<p>做错了，就反思和重试。</p>
+<p>这些想法本身很多都不神秘。</p>
+<p>真正值得学的，不是“谁发明了一个新名词”。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>这个看起来很自然的设计，当初到底是在解决哪个具体失败模式？</strong></p>
+</blockquote>
+<p>所以后面继续学 Agent，我们不准备背模块。</p>
+<p>每遇到一个概念，就问一句：</p>
+<blockquote>
+<p>它为什么会出现？</p>
+<p>没有它的时候，系统到底怎么失败？</p>
+</blockquote>
+<p>Planner、Memory、Tool、Reflection、Evidence、Runtime、Multi-Agent……都应该这么学。</p>
+<p>回头再看 Mira，也会更清楚。</p>
+<p>我们并不是在追一个突然流行起来的新名词。</p>
+<p>我们只是站在 AI 七十多年留下来的老问题上，继续回答那句最古老的问题：</p>
+<blockquote>
+<p><strong>怎样让机器不只是会回答，而是真的能够把事情做完？</strong></p>
+</blockquote>
+<p>这才是 Agent 这条主线真正有意思的地方。</p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/shared-thinking/future-after-humanity"><span class="dir">上一篇</span><span class="to">← 未来：人类之后，文明是否仍是我们</span></a><a class="next" href="/tomz-io/blogs/developer-life/electricity-and-token-wont-wait"><span class="dir">下一篇</span><span class="to">电费和 Token 不会等你 →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#从把智能写成规则开始">从“把智能写成规则”开始</a></li><li><a href="#搜索与规划知道规则不等于会解决问题">搜索与规划：知道规则，不等于会解决问题</a></li><li><a href="#不想全靠规则那就让机器自己学">不想全靠规则，那就让机器自己学</a></li><li><a href="#神经网络很多伟大的想法都比时代早几十年">神经网络：很多伟大的想法，都比时代早几十年</a></li><li><a href="#大规模预训练先别教它规则让它读世界">大规模预训练：先别教它规则，让它读世界</a></li><li><a href="#gpt-最开始并不是为了聊天">GPT 最开始并不是为了聊天</a></li><li><a href="#从会续写到会听话">从“会续写”到“会听话”</a></li><li><a href="#有了大脑给它工具几乎是顺理成章的">有了大脑，给它工具几乎是顺理成章的</a></li><li><a href="#react一个老问题终于有了能跑起来的大脑">ReAct：一个老问题，终于有了能跑起来的大脑</a></li><li><a href="#最后我们得到的不是一张名词表">最后，我们得到的不是一张名词表</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

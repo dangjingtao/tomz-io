@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>开发与验证 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="安装、运行、测试和修改跨边界契约时的检查清单。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/engineering/development/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="开发与验证 · UIChat Mira"><meta property="og:description" content="安装、运行、测试和修改跨边界契约时的检查清单。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/engineering/development/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="开发与验证 · UIChat Mira"><meta name="twitter:description" content="安装、运行、测试和修改跨边界契约时的检查清单。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"开发与验证","description":"安装、运行、测试和修改跨边界契约时的检查清单。","url":"https://tomz.io/tomz-io/engineering/development/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/engineering">UIChat Mira 文档</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/engineering/development-console">开发与诊断</a></li><li><a href="/tomz-io/engineering/repository">源码地图</a></li><li><a href="/tomz-io/engineering/docs-system">文档系统</a></li><li><a class="active" aria-current="page" href="/tomz-io/engineering/development">开发与验证</a></li><li><a href="/tomz-io/engineering/comic-image-pipeline">画册图片管线契约</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">工程 · 16</div><div class="doc-title-block"><h1>开发与验证</h1><p class="doc-lede">安装、运行、测试和修改跨边界契约时的检查清单。</p></div><article class="markdown"><p>Mira 使用 pnpm workspace。具体脚本应以 dev 分支 package.json 与各包 README 为准。</p>
+<h2 id="开始之前">开始之前<a class="md-anchor" href="#开始之前">#</a></h2>
+<p>使用仓库声明的 Node 与 pnpm 版本安装依赖。先阅读根目录 AGENTS.md 和目标 area map，确认改动属于 Renderer、Desktop Shell、Server 还是共享包。</p>
+<h2 id="本地运行">本地运行<a class="md-anchor" href="#本地运行">#</a></h2>
+<p>开发通常需要同时启动桌面 Renderer 与本地后端。涉及 Electron 或 Tauri 时，还要验证 preload/command 边界和打包环境，而不只是在浏览器中确认页面。</p>
+<h2 id="按边界测试">按边界测试<a class="md-anchor" href="#按边界测试">#</a></h2>
+<ul>
+<li>UI 改动检查路由、状态与可访问性。</li>
+<li>API 改动检查 schema、错误码和数据库迁移。</li>
+<li>Agent 改动检查每个节点的唯一职责与状态字段。</li>
+<li>Harness 改动分别测试 match、exposure、invocation、policy 和 evidence。</li>
+<li>Provider 改动至少验证能力降级与不可用状态。</li>
+</ul>
+<h2 id="文档也属于变更">文档也属于变更<a class="md-anchor" href="#文档也属于变更">#</a></h2>
+<p>如果公共行为、架构契约或配置发生变化，应同步 current contract 与用户文档。规划材料要标明状态，避免“想做”被搜索结果误读成“已经实现”。</p>
+</article><div class="page-nav"><a href="/tomz-io/engineering/docs-system"><span class="dir">上一篇</span><span class="to">← 文档系统</span></a><a class="next" href="/tomz-io/engineering/comic-image-pipeline"><span class="dir">下一篇</span><span class="to">画册图片管线契约 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#开始之前">开始之前</a></li><li class="toc-depth-2"><a href="#本地运行">本地运行</a></li><li class="toc-depth-2"><a href="#按边界测试">按边界测试</a></li><li class="toc-depth-2"><a href="#文档也属于变更">文档也属于变更</a></li></ul></aside></div></div></div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>证据优先原则 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="Evidence、Artifact、完成判断和失败记录的统一要求。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/philosophy/evidence/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="证据优先原则 · UIChat Mira"><meta property="og:description" content="Evidence、Artifact、完成判断和失败记录的统一要求。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/philosophy/evidence/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="证据优先原则 · UIChat Mira"><meta name="twitter:description" content="Evidence、Artifact、完成判断和失败记录的统一要求。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"证据优先原则","description":"Evidence、Artifact、完成判断和失败记录的统一要求。","url":"https://tomz.io/tomz-io/philosophy/evidence/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/philosophy">产品哲学</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/philosophy/local-first">本地优先原则</a></li><li><a href="/tomz-io/philosophy/controlled-agency">可控自主原则</a></li><li><a class="active" aria-current="page" href="/tomz-io/philosophy/evidence">证据优先原则</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">产品哲学 · 06</div><div class="doc-title-block"><h1>证据优先原则</h1><p class="doc-lede">Evidence、Artifact、完成判断和失败记录的统一要求。</p></div><article class="markdown"><h2 id="原则定义">原则定义<a class="md-anchor" href="#原则定义">#</a></h2>
+<p>Mira 不把模型表述、计划状态或界面提示当作任务完成证据。</p>
+<p>可用于支持结论的事实必须来自可追踪来源，并进入 AgentRun、Tool Invocation、检索记录、Evaluation Result 或 Artifact 等稳定结构。</p>
+<pre><code class="language-text">模型说“完成”
+!= 任务已经完成</code></pre><h2 id="evidence-来源">Evidence 来源<a class="md-anchor" href="#evidence-来源">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>可证明的内容</th>
+<th>不能单独证明的内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户输入</td>
+<td>用户目标、约束和已提供事实</td>
+<td>外部状态已经改变</td>
+</tr>
+<tr>
+<td>Retrieval Result</td>
+<td>找到了哪些文档片段及来源</td>
+<td>片段中的要求已经被执行</td>
+</tr>
+<tr>
+<td>Tool Result</td>
+<td>具体调用返回了什么</td>
+<td>用户全局目标已经覆盖</td>
+</tr>
+<tr>
+<td>SubAgent Result</td>
+<td>局部工作包的结果与未完成项</td>
+<td>Parent 任务整体完成</td>
+</tr>
+<tr>
+<td>Artifact</td>
+<td>文件、图片、音频、报告等产物存在</td>
+<td>产物内容一定正确</td>
+</tr>
+<tr>
+<td>Evaluation Result</td>
+<td>在给定数据集和指标下的表现</td>
+<td>所有真实场景均通过</td>
+</tr>
+<tr>
+<td>Runtime Status</td>
+<td>某个服务或进程当前状态</td>
+<td>未来持续可用</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>已核验合同与边界</td>
+<td>未验证代码已经实现</td>
+</tr>
+</tbody></table>
+<h2 id="evidence-流程">Evidence 流程<a class="md-anchor" href="#evidence-流程">#</a></h2>
+<p>Agent 主线中的事实流为：</p>
+<pre><code class="language-text">Retrieve / Tool / Child Runtime
+→ Raw Observation
+→ Evidence Accumulation
+→ Main Planner Completion Check
+→ Frozen Finalization Packet
+→ Generate / Finalize</code></pre><p>执行节点只返回事实和失败状态，不负责替用户宣布最终完成。</p>
+<h2 id="两种判断">两种判断<a class="md-anchor" href="#两种判断">#</a></h2>
+<h3 id="evidence-answerable">Evidence answerable<a class="md-anchor" href="#evidence-answerable">#</a></h3>
+<p>当前证据是否足以支持某个回答或说明。</p>
+<p>例如：</p>
+<ul>
+<li>已读取目标文件；</li>
+<li>已获得 API 返回；</li>
+<li>已找到相关文档；</li>
+<li>已记录失败原因。</li>
+</ul>
+<h3 id="task-completed">Task completed<a class="md-anchor" href="#task-completed">#</a></h3>
+<p>用户请求的所有必要目标是否已经完成。</p>
+<p>例如：</p>
+<ul>
+<li>不只是找到文件，还完成了修改、验证和交付；</li>
+<li>不只是创建 PR，还确认检查通过并按要求合并；</li>
+<li>不只是生成 Artifact，还检查内容和格式符合要求。</li>
+</ul>
+<p>只有 Main Planner 或明确的确定性 Controller 可以根据全局目标判断完成。</p>
+<h2 id="失败也是-evidence">失败也是 Evidence<a class="md-anchor" href="#失败也是-evidence">#</a></h2>
+<p>以下结果不能被吞掉或改写成笼统成功：</p>
+<ul>
+<li>权限不足；</li>
+<li>等待审批；</li>
+<li>运行时未安装；</li>
+<li>Provider 不可用；</li>
+<li>参数校验失败；</li>
+<li>超时或网络错误；</li>
+<li>结果为空；</li>
+<li>Artifact 未生成；</li>
+<li>Verification 不通过；</li>
+<li>Child 返回 recoverable 或 terminal failure。</li>
+</ul>
+<p>失败记录至少应包含：</p>
+<pre><code class="language-text">operation / toolId
+input summary
+failure stage
+error code or message
+retryability
+user impact
+next allowed action</code></pre><h2 id="artifact-要求">Artifact 要求<a class="md-anchor" href="#artifact-要求">#</a></h2>
+<p>Artifact 是 Evidence 的一种，但还需要独立验证：</p>
+<ol>
+<li>文件或资源真实存在；</li>
+<li>路径或引用可访问；</li>
+<li>类型和扩展名正确；</li>
+<li>内容满足任务要求；</li>
+<li>生成过程没有被失败状态覆盖；</li>
+<li>用户获得明确的交付入口。</li>
+</ol>
+<p>只返回一个文件名或预期路径，不等于已经产生 Artifact。</p>
+<h2 id="文档中的证据规则">文档中的证据规则<a class="md-anchor" href="#文档中的证据规则">#</a></h2>
+<p>公开文档必须区分：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Current</td>
+<td>已由当前代码、测试或重复验证支持</td>
+</tr>
+<tr>
+<td>Partial</td>
+<td>已有部分实现，缺少完整入口、合同或验证</td>
+</tr>
+<tr>
+<td>Experimental</td>
+<td>有真实代码或入口，但仍可能变化</td>
+</tr>
+<tr>
+<td>Planned</td>
+<td>目标或设计，不代表已经实现</td>
+</tr>
+<tr>
+<td>Historical</td>
+<td>仅用于解释过去，不回答当前行为</td>
+</tr>
+</tbody></table>
+<p>文档中不得使用未来时态或设计目标冒充当前实现，也不得因为当前代码发生回归就静默修改 settled contract。</p>
+<h2 id="完成声明要求">完成声明要求<a class="md-anchor" href="#完成声明要求">#</a></h2>
+<p>最终回答或文档声明“完成”前，应确认：</p>
+<ul>
+<li>用户目标是否逐项覆盖；</li>
+<li>所有需要的 Tool / Runtime 是否真实执行；</li>
+<li>写操作是否回读验证；</li>
+<li>Artifact 是否可访问；</li>
+<li>已知失败和未完成项是否明确说明；</li>
+<li>Evidence 是否能支持最终表述。</li>
+</ul>
+<h2 id="非目标">非目标<a class="md-anchor" href="#非目标">#</a></h2>
+<p>证据优先不意味着：</p>
+<ul>
+<li>所有内部推理都向用户公开；</li>
+<li>每个简单回答都需要复杂 Trace；</li>
+<li>Tool Result 永远可信且无需验证；</li>
+<li>生成了日志就自动满足审计；</li>
+<li>文档可以替代真实运行验收。</li>
+</ul>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/architecture/agent">Agent 当前运行真相</a></li>
+<li><a href="/docs/architecture/harness">Harness 与工具边界</a></li>
+<li><a href="/docs/product/knowledge">知识库与评测</a></li>
+<li><a href="/docs/status/current">当前实现快照</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/philosophy/controlled-agency"><span class="dir">上一篇</span><span class="to">← 可控自主原则</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#原则定义">原则定义</a></li><li class="toc-depth-2"><a href="#evidence-来源">Evidence 来源</a></li><li class="toc-depth-2"><a href="#evidence-流程">Evidence 流程</a></li><li class="toc-depth-2"><a href="#两种判断">两种判断</a></li><li class="toc-depth-3"><a href="#evidence-answerable">Evidence answerable</a></li><li class="toc-depth-3"><a href="#task-completed">Task completed</a></li><li class="toc-depth-2"><a href="#失败也是-evidence">失败也是 Evidence</a></li><li class="toc-depth-2"><a href="#artifact-要求">Artifact 要求</a></li><li class="toc-depth-2"><a href="#文档中的证据规则">文档中的证据规则</a></li><li class="toc-depth-2"><a href="#完成声明要求">完成声明要求</a></li><li class="toc-depth-2"><a href="#非目标">非目标</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

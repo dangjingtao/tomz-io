@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>微应用中心 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="MicroApps Hub 的入口类型、能力状态、Runtime 关系与 Agent 接入边界。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/product/microapps/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="微应用中心 · UIChat Mira"><meta property="og:description" content="MicroApps Hub 的入口类型、能力状态、Runtime 关系与 Agent 接入边界。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/product/microapps/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="微应用中心 · UIChat Mira"><meta name="twitter:description" content="MicroApps Hub 的入口类型、能力状态、Runtime 关系与 Agent 接入边界。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"微应用中心","description":"MicroApps Hub 的入口类型、能力状态、Runtime 关系与 Agent 接入边界。","url":"https://tomz.io/tomz-io/product/microapps/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/product">产品能力</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/product/workspace">对话工作区</a></li><li><a href="/tomz-io/product/knowledge">知识库与 RAG</a></li><li><a href="/tomz-io/product/evaluation">评测工作台</a></li><li><a href="/tomz-io/product/roles-microapps">角色工作台</a></li><li><a class="active" aria-current="page" href="/tomz-io/product/microapps">微应用中心</a></li><li><a href="/tomz-io/product/enterprise-integrations">企业集成</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">产品能力 · 15</div><div class="doc-title-block"><h1>微应用中心</h1><p class="doc-lede">MicroApps Hub 的入口类型、能力状态、Runtime 关系与 Agent 接入边界。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页说明设置页“微应用”入口中包含哪些能力、各能力通过什么 Runtime 工作，以及如何判断它是否可以被 Agent 或外部平台调用。</p>
+<p>MicroApps Hub 是产品能力中心，不是一套统一后端 Runtime。</p>
+<pre><code class="language-text">MicroApps Hub
+!= MicroAppDefinition Registry
+!= Studio HTTP Routes
+!= Harness Tool Registry
+!= Skill Runtime</code></pre><p><img src="/images/guide/microapps-overview.svg" alt="微应用总览"></p>
+<h2 id="五层状态">五层状态<a class="md-anchor" href="#五层状态">#</a></h2>
+<p>判断一项微应用能力时，需要分别确认：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>判断问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>产品入口</td>
+<td>是否有可进入和配置的页面</td>
+</tr>
+<tr>
+<td>Shared Definition</td>
+<td>是否有稳定 ID、Runtime Key 和配置 Schema</td>
+</tr>
+<tr>
+<td>Domain Runtime</td>
+<td>是否有真实 Service、Task、Artifact 和失败语义</td>
+</tr>
+<tr>
+<td>Integration Invoke</td>
+<td>是否可被外部 AccessPoint 统一调用</td>
+</tr>
+<tr>
+<td>Agent Access</td>
+<td>是否通过明确 Tool 或 Skill 进入 Agent</td>
+</tr>
+</tbody></table>
+<pre><code class="language-text">有卡片 ≠ Runtime Ready
+有 Definition ≠ Invoke 可用
+有 Studio ≠ Agent 可调用
+连接成功 ≠ 已获得权限</code></pre><h2 id="当前能力矩阵">当前能力矩阵<a class="md-anchor" href="#当前能力矩阵">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>产品入口</th>
+<th>领域 Runtime</th>
+<th>Agent / 外部入口</th>
+<th>当前状态摘要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Default Knowledge Query</td>
+<td>企业集成配置</td>
+<td>本地知识库 / RAG</td>
+<td>企业微信智能机器人</td>
+<td>当前唯一完成统一 Integration Invoke 的 MicroAPP</td>
+</tr>
+<tr>
+<td>News Hub</td>
+<td>资讯聚合台</td>
+<td>来源抓取、TTL、去重、缓存和查询</td>
+<td><code>news_search</code></td>
+<td>已有真实 Service；不等于实时公网搜索</td>
+</tr>
+<tr>
+<td>Image Generation</td>
+<td>Image Generation Studio</td>
+<td>Provider Task、进度、Artifact、ComfyUI</td>
+<td>当前不自动进入 Chat / Agent</td>
+<td>Studio 可用性取决于 Provider 或 ComfyUI 配置</td>
+</tr>
+<tr>
+<td>Computer Use</td>
+<td>Computer Use Studio</td>
+<td>Managed Browser、Task、Evidence、Approval</td>
+<td>Managed Browser Tools</td>
+<td>当前控制浏览器，不是宿主桌面万能遥控</td>
+</tr>
+<tr>
+<td>TTS</td>
+<td>TTS Studio</td>
+<td>Windows、Piper、GPT-SoVITS、API Provider</td>
+<td>当前不统一投影为 Agent Tool</td>
+<td>Provider 和本地 Runtime 需分别验证</td>
+</tr>
+<tr>
+<td>CodeGraph</td>
+<td>CodeGraph Studio</td>
+<td>Managed CodeGraph Runtime</td>
+<td><code>codebase_explore</code></td>
+<td>Planner 只看受控 Wrapper，不看原生命令</td>
+</tr>
+<tr>
+<td>智识进化库</td>
+<td>独立 Studio</td>
+<td>可选 Service 与本地数据</td>
+<td>不自动进入 Agent</td>
+<td>实验能力，合同仍在演进</td>
+</tr>
+<tr>
+<td>Mail Center</td>
+<td>邮件中心</td>
+<td>SMTP / IMAP、同步与本地缓存</td>
+<td><code>mail_query</code></td>
+<td>不属于 strict MicroAppDefinition Registry</td>
+</tr>
+<tr>
+<td>文枢</td>
+<td>Office Studio</td>
+<td>Office Domain Runtime / Skill-private Runtime</td>
+<td>Skill-owned Execution</td>
+<td>不把 Office 原子操作暴露给 Main Planner</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>GitHub 连接页</td>
+<td>Auth Context / GitHub Adapter</td>
+<td>四个 GitHub 领域工具</td>
+<td>页面负责连接，Tool Pack 负责协作</td>
+</tr>
+<tr>
+<td>问策</td>
+<td>External Expert 页面</td>
+<td>WebBridge / Provider Adapter</td>
+<td>External Expert Tool</td>
+<td>外部专家提供建议，不取得 Mira 执行权</td>
+</tr>
+<tr>
+<td>Notion</td>
+<td>Notion 页面</td>
+<td>连接、Token 校验和部分 AccessPoint</td>
+<td>完整 Tool 投影尚未完成</td>
+<td>部分实现</td>
+</tr>
+</tbody></table>
+<h2 id="studio-运行模式">Studio 运行模式<a class="md-anchor" href="#studio-运行模式">#</a></h2>
+<p>独立 Studio 通常遵循：</p>
+<pre><code class="language-text">User Configuration
+→ Domain Service
+→ Task / Job
+→ Runtime or Provider
+→ Status / Evidence / Artifact
+→ Result Presentation</code></pre><p>Studio 页面负责展示：</p>
+<ul>
+<li>配置是否完整；</li>
+<li>Runtime 是否 Ready；</li>
+<li>请求参数；</li>
+<li>任务状态；</li>
+<li>结果或 Artifact；</li>
+<li>失败原因；</li>
+<li>可执行的恢复动作。</li>
+</ul>
+<p>页面不能用静态“已启用”状态代替真实 Runtime 检查。</p>
+<h2 id="strict-microappdefinition">Strict MicroAppDefinition<a class="md-anchor" href="#strict-microappdefinition">#</a></h2>
+<p>当前严格 Registry 包含：</p>
+<pre><code class="language-text">knowledge_query
+news_hub
+image_generation
+computer_use
+tts
+codegraph
+evolving_knowledge</code></pre><p>其中只有 <code>knowledge_query</code> 完成统一外部调用闭环：</p>
+<pre><code class="language-text">WeCom Smart Robot
+→ AccessPoint Binding
+→ knowledge_query
+→ Local Knowledge Base / RAG
+→ Text Reply</code></pre><p>其他 Definition 主要承担共享注册、桌面入口标识和稳定 Runtime Key。它们的真实能力运行在各自 Domain Service 中，不代表已接入统一 Integration Invoke。</p>
+<h2 id="与-agent-的关系">与 Agent 的关系<a class="md-anchor" href="#与-agent-的关系">#</a></h2>
+<h3 id="通过-tool">通过 Tool<a class="md-anchor" href="#通过-tool">#</a></h3>
+<p>News、Mail、Browser、GitHub、CodeGraph 和 External Expert 等能力通过独立 concrete tools 进入 Harness。</p>
+<p>进入 Agent 前需要满足：</p>
+<pre><code class="language-text">Registered
+→ Public Surface
+→ Available
+→ Tool Exposure
+→ Concrete Invocation
+→ Policy / Approval</code></pre><h3 id="通过-skill">通过 Skill<a class="md-anchor" href="#通过-skill">#</a></h3>
+<p>文枢等领域能力通过 Skill Context、Execution Profile、Skill-owned SubAgent 和可选私有 Runtime 工作。</p>
+<p>Skill-private Runtime：</p>
+<ul>
+<li>不自动进入 Main Planner ToolExposure；</li>
+<li>不绕过 Parent 审批和 Evidence；</li>
+<li>只在对应任务边界中使用。</li>
+</ul>
+<h3 id="不自动进入-agent">不自动进入 Agent<a class="md-anchor" href="#不自动进入-agent">#</a></h3>
+<p>存在 Studio 或 HTTP API，不代表 Main Planner 可以调用。Image Generation 和 TTS 等能力需要独立的 Tool / Skill 产品合同后才能进入 Agent 公共面。</p>
+<h2 id="当前边界">当前边界<a class="md-anchor" href="#当前边界">#</a></h2>
+<p>MicroApps Hub 当前不保证：</p>
+<ul>
+<li>所有卡片均可用；</li>
+<li>所有能力共享统一任务模型；</li>
+<li>所有 Studio 可以被外部平台调用；</li>
+<li>所有 Runtime 自动安装；</li>
+<li>所有 Provider 已验证兼容；</li>
+<li>连接完成后自动获得 Agent Access；</li>
+<li>实验能力具备生产稳定性。</li>
+</ul>
+<h2 id="验证清单">验证清单<a class="md-anchor" href="#验证清单">#</a></h2>
+<p>使用一项微应用前确认：</p>
+<ol>
+<li>页面是否只是入口或占位；</li>
+<li>必要 Provider、连接或本地 Runtime 是否 Ready；</li>
+<li>Task 是否进入真实状态机；</li>
+<li>结果和 Artifact 是否可访问；</li>
+<li>失败是否提供可诊断信息；</li>
+<li>Agent 接入来自哪个 Tool 或 Skill；</li>
+<li>外部调用是否存在明确 Binding；</li>
+<li>高风险动作是否经过审批。</li>
+</ol>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/architecture/microapps">MicroApps 与独立 Runtime</a></li>
+<li><a href="/docs/product/enterprise-integrations">企业集成</a></li>
+<li><a href="/docs/architecture/harness">Harness 与工具边界</a></li>
+<li><a href="/docs/configuration/tools">工具工作台</a></li>
+<li><a href="/docs/status/current">当前实现快照</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/product/roles-microapps"><span class="dir">上一篇</span><span class="to">← 角色工作台</span></a><a class="next" href="/tomz-io/product/enterprise-integrations"><span class="dir">下一篇</span><span class="to">企业集成 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#五层状态">五层状态</a></li><li class="toc-depth-2"><a href="#当前能力矩阵">当前能力矩阵</a></li><li class="toc-depth-2"><a href="#studio-运行模式">Studio 运行模式</a></li><li class="toc-depth-2"><a href="#strict-microappdefinition">Strict MicroAppDefinition</a></li><li class="toc-depth-2"><a href="#与-agent-的关系">与 Agent 的关系</a></li><li class="toc-depth-3"><a href="#通过-tool">通过 Tool</a></li><li class="toc-depth-3"><a href="#通过-skill">通过 Skill</a></li><li class="toc-depth-3"><a href="#不自动进入-agent">不自动进入 Agent</a></li><li class="toc-depth-2"><a href="#当前边界">当前边界</a></li><li class="toc-depth-2"><a href="#验证清单">验证清单</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

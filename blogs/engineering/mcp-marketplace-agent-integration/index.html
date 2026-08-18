@@ -1,15 +1,31 @@
 <!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f3ec" />
-    <title>让市场里的 MCP 真正成为 Agent 的一部分 · Tomz Dang</title>
-    <script type="module" crossorigin src="/tomz-io/assets/index-nAwzr2SB.js"></script>
-    <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-V97Y_mbE.css">
-  <meta name="description" content="从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/engineering/mcp-marketplace-agent-integration/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="让市场里的 MCP 真正成为 Agent 的一部分 · Tomz Dang"><meta property="og:description" content="从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/engineering/mcp-marketplace-agent-integration/"><meta property="og:site_name" content="Tomz Dang"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="让市场里的 MCP 真正成为 Agent 的一部分 · Tomz Dang"><meta name="twitter:description" content="从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"让市场里的 MCP 真正成为 Agent 的一部分","description":"从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。","url":"https://tomz.io/tomz-io/blogs/engineering/mcp-marketplace-agent-integration/","datePublished":"2026-07-14","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang"}}</script></head>
-  <body>
-    <div id="root"><header class="site-header seo-static-header"><div class="wrap header-inner"><a class="wordmark" href="/tomz-io/">Tomz Dang</a><nav class="primary-nav" aria-label="一级导航"><a href="/tomz-io/">首页</a><a href="/tomz-io/blogs">博客</a><a href="/tomz-io/thoughts">共用的床</a><a href="/tomz-io/reading">阅读</a><a href="/tomz-io/projects">项目</a><a href="/tomz-io/about">关于</a></nav></div></header><main><div class="wrap page-frame"><article class="article-header"><span class="eyebrow">工程现场</span><h1>让市场里的 MCP 真正成为 Agent 的一部分</h1><p class="hero-note">从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。</p><p>Tomz Dang · 2026年7月14日 · 8 分钟阅读</p></article><article class="markdown"><p>MCP 市场最容易让人产生一种错觉：只要把一个应用装进来，再把它暴露给模型，Agent 就多了一项新能力。</p>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>让市场里的 MCP 真正成为 Agent 的一部分 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/engineering/mcp-marketplace-agent-integration/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="让市场里的 MCP 真正成为 Agent 的一部分 · UIChat Mira"><meta property="og:description" content="从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/engineering/mcp-marketplace-agent-integration/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="让市场里的 MCP 真正成为 Agent 的一部分 · UIChat Mira"><meta name="twitter:description" content="从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"让市场里的 MCP 真正成为 Agent 的一部分","description":"从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。","url":"https://tomz.io/tomz-io/blogs/engineering/mcp-marketplace-agent-integration/","image":"https://tomz.io/tomz-io/mira-logo.png","datePublished":"2026年7月14日","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>让市场里的 MCP 真正成为 Agent 的一部分</h1><p class="doc-lede">从一次外部 MCP 接入工作出发，记录市场、能力、工具和 Agent 之间应该怎样建立一条清楚而可靠的连接。</p><div class="post-meta post-meta-article"><span>Tomz Dang</span><span class="dot"></span><span>2026年7月14日</span><span class="dot"></span><span>8 分钟阅读</span><span class="dot"></span><span>工程现场</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>MCP 市场最容易让人产生一种错觉：只要把一个应用装进来，再把它暴露给模型，Agent 就多了一项新能力。</p>
 <p>真正做过一轮接入之后，会发现事情更像是在一座城市里接入一条新的公共线路。市场负责告诉我们线路在哪里，server 负责提供车辆，Agent 负责理解乘客要去哪里，Harness 则要确保车辆真的能上路、路线可以追踪、出了问题还能停在正确的位置。</p>
 <p>这次外部 MCP 接入给我的最大启发是：MCP 的价值不只在协议兼容，而在于它提供了一种把外部能力纳入本地运行时的方法。市场只是入口，Agent 能否可靠使用它，取决于入口之后的整条链路。</p>
 <h2 id="市场不是工具列表">市场不是工具列表<a class="md-anchor" href="#市场不是工具列表">#</a></h2>
@@ -89,6 +105,6 @@ failed</code></pre><p>一个进程成功启动，不代表 stdio MCP 已经可�
 </ol>
 <p>如果答案都是肯定的，那么这个应用才算真正进入了 Agent 的运行时。否则，它可能只是出现在市场里，或者只是完成了一次手动连接。</p>
 <p>MCP 让外部能力更容易被接入，而工程的任务，是让这些能力进入系统之后仍然有自己的名字、边界、记录和回家的路。</p>
-</article></div></main><footer class="site-footer"><div class="wrap footer-inner"><p>Tomz Dang · 写作、思考，以及正在做的事。</p><p>© 2026 Tomz Dang</p></div></footer></div>
-  </body>
+<section class="author-signature author-signature-solo"><div class="author-signature-avatars author-signature-avatars-1"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /></div><div class="author-signature-copy"><h4>Tomz Dang</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/developer-life/hidden-in-unfinished-things"><span class="dir">上一篇</span><span class="to">← 我把自己藏在那些还没做完的东西里</span></a><a class="next" href="/tomz-io/blogs/mira-letters/we-made-a-skill-to-learn-agents-together"><span class="dir">下一篇</span><span class="to">我们真的做了一个“一起来学智能体” →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#市场不是工具列表">市场不是工具列表</a></li><li><a href="#agent-需要看到的是能力而不是安装包">Agent 需要看到的是能力，而不是安装包</a></li><li><a href="#用户授权是能力生命周期的一部分">用户授权是能力生命周期的一部分</a></li><li><a href="#最终执行入口应该保持稳定">最终执行入口应该保持稳定</a></li><li><a href="#transport-可以不同运行时语言应该相同">Transport 可以不同，运行时语言应该相同</a></li><li><a href="#失败也应该回到-agent-的语言里">失败也应该回到 Agent 的语言里</a></li><li><a href="#mcp-接入改变了我们对-agent-的理解">MCP 接入改变了我们对 Agent 的理解</a></li><li><a href="#最后留下一个简单判断">最后留下一个简单判断</a></li></ul></aside></div></main></div></div></div>
+</body>
 </html>

@@ -1,15 +1,31 @@
 <!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f3ec" />
-    <title>把 Codex 变成可编排的工人：从 App Server 到自动审查闭环 · Tomz Dang</title>
-    <script type="module" crossorigin src="/tomz-io/assets/index-nAwzr2SB.js"></script>
-    <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-V97Y_mbE.css">
-  <meta name="description" content="从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/product-journal/codex-app-server-automation-notes/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="把 Codex 变成可编排的工人：从 App Server 到自动审查闭环 · Tomz Dang"><meta property="og:description" content="从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/product-journal/codex-app-server-automation-notes/"><meta property="og:site_name" content="Tomz Dang"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="把 Codex 变成可编排的工人：从 App Server 到自动审查闭环 · Tomz Dang"><meta name="twitter:description" content="从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"把 Codex 变成可编排的工人：从 App Server 到自动审查闭环","description":"从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。","url":"https://tomz.io/tomz-io/blogs/product-journal/codex-app-server-automation-notes/","datePublished":"2026-07-11","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Person","name":"Tomz Dang"}}</script></head>
-  <body>
-    <div id="root"><header class="site-header seo-static-header"><div class="wrap header-inner"><a class="wordmark" href="/tomz-io/">Tomz Dang</a><nav class="primary-nav" aria-label="一级导航"><a href="/tomz-io/">首页</a><a href="/tomz-io/blogs">博客</a><a href="/tomz-io/thoughts">共用的床</a><a href="/tomz-io/reading">阅读</a><a href="/tomz-io/projects">项目</a><a href="/tomz-io/about">关于</a></nav></div></header><main><div class="wrap page-frame"><article class="article-header"><span class="eyebrow">产品手记</span><h1>把 Codex 变成可编排的工人：从 App Server 到自动审查闭环</h1><p class="hero-note">从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。</p><p>Tomz Dang × Mira · 2026年7月11日 · 10 分钟阅读</p></article><article class="markdown"><p>这次讨论开始于一个很具体的疲惫：Codex 已经可以写很多代码，但组织 Codex 工作的人仍然是我。</p>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>把 Codex 变成可编排的工人：从 App Server 到自动审查闭环 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/product-journal/codex-app-server-automation-notes/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="把 Codex 变成可编排的工人：从 App Server 到自动审查闭环 · UIChat Mira"><meta property="og:description" content="从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/product-journal/codex-app-server-automation-notes/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="把 Codex 变成可编排的工人：从 App Server 到自动审查闭环 · UIChat Mira"><meta name="twitter:description" content="从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"把 Codex 变成可编排的工人：从 App Server 到自动审查闭环","description":"从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。","url":"https://tomz.io/tomz-io/blogs/product-journal/codex-app-server-automation-notes/","image":"https://tomz.io/tomz-io/mira-logo.png","datePublished":"2026年7月11日","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>把 Codex 变成可编排的工人：从 App Server 到自动审查闭环</h1><p class="doc-lede">从反复复制任务卡的疲惫出发，重新思考 Codex、Skill、worktree 与自动审查应该怎样组成一条可信的工程流水线。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>2026年7月11日</span><span class="dot"></span><span>10 分钟阅读</span><span class="dot"></span><span>产品手记</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>这次讨论开始于一个很具体的疲惫：Codex 已经可以写很多代码，但组织 Codex 工作的人仍然是我。</p>
 <p>我需要在一个线程里讨论问题，把结论整理成任务卡，再把长提示词交给另一个账号里的 Codex。施工结束后，我还要开新的审查线程、重新交代主线、查提交、看 PR、转述整改意见，然后再次等待施工。</p>
 <p>AI 的施工速度变快了，协调成本却没有消失。它只是从“亲手写代码”，转移成了“盯住几台会写代码、但不一定可靠的机器”。</p>
 <p>所以这次真正想解决的，并不是怎样让模型再聪明一点，而是怎样把施工、审查、返工和最终合并组织成一条可信的流程。</p>
@@ -150,6 +166,6 @@
 <li><a href="https://aider.chat/docs/usage/watch.html">Aider 文件监听与 AI 注释</a></li>
 <li><a href="https://jules.google/docs/running-tasks/">Jules Running Tasks</a></li>
 </ul>
-</article></div></main><footer class="site-footer"><div class="wrap footer-inner"><p>Tomz Dang · 写作、思考，以及正在做的事。</p><p>© 2026 Tomz Dang</p></div></footer></div>
-  </body>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/mira-letters/disclaimer"><span class="dir">上一篇</span><span class="to">← 免责</span></a><a class="next" href="/tomz-io/blogs/shared-thinking/evolution-to-a-real-person"><span class="dir">下一篇</span><span class="to">进化：从智能体到“真人” →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#痛点不是写得慢而是监工太累">痛点不是写得慢，而是监工太累</a></li><li><a href="#skill-保存方法不保存某一次任务">Skill 保存方法，不保存某一次任务</a></li><li><a href="#worktree-是并行施工的物理边界">Worktree 是并行施工的物理边界</a></li><li><a href="#app-server-才是更大的发现">App Server 才是更大的发现</a></li><li><a href="#自动化闭环应该怎样运行">自动化闭环应该怎样运行</a></li><li><a href="#两个账号并不是障碍">两个账号并不是障碍</a></li><li><a href="#行业正在把编码-agent-变成基础设施">行业正在把编码 Agent 变成基础设施</a></li><li><a href="#mira-可以站在哪里">Mira 可以站在哪里</a></li><li><a href="#这次讨论留下的结论">这次讨论留下的结论</a></li><li><a href="#主要来源与网址">主要来源与网址</a></li></ul></aside></div></main></div></div></div>
+</body>
 </html>

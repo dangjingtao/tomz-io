@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>下一段路 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="UIChat Mira 当前阶段的工程优先级、计划边界与完成判断。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/status/roadmap/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="下一段路 · UIChat Mira"><meta property="og:description" content="UIChat Mira 当前阶段的工程优先级、计划边界与完成判断。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/status/roadmap/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="下一段路 · UIChat Mira"><meta name="twitter:description" content="UIChat Mira 当前阶段的工程优先级、计划边界与完成判断。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"下一段路","description":"UIChat Mira 当前阶段的工程优先级、计划边界与完成判断。","url":"https://tomz.io/tomz-io/status/roadmap/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/status">现状与方向</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/status/current">当前实现快照</a></li><li><a class="active" aria-current="page" href="/tomz-io/status/roadmap">下一段路</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">现状与方向 · 18</div><div class="doc-title-block"><h1>下一段路</h1><p class="doc-lede">UIChat Mira 当前阶段的工程优先级、计划边界与完成判断。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页记录从当前代码和已知缺陷出发的近期工程方向。</p>
+<p>这里的内容属于计划和优先级，不代表已经交付。当前能力见：<a href="/docs/status/current">当前实现快照</a>。</p>
+<h2 id="当前阶段">当前阶段<a class="md-anchor" href="#当前阶段">#</a></h2>
+<p>从 2026 年 8 月开始，Mira 进入<strong>功能稳定迭代阶段</strong>。</p>
+<p>阶段目标：</p>
+<pre><code class="language-text">先确认已有能力真实可用
+→ 修复合同漂移和失败路径
+→ 建立回归保护
+→ 再增加小步、可验证的新能力</code></pre><p>当前不以扩大 Agent Graph、增加更多概念层或重做大型 UI 为主要目标。</p>
+<h2 id="优先级">优先级<a class="md-anchor" href="#优先级">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>方向</th>
+<th>当前问题</th>
+<th>完成判断</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P0</td>
+<td>Agent 恢复与终止语义</td>
+<td>recoverable recovery exhausted 与 settled C contract 不一致</td>
+<td>恢复耗尽进入 guarded answer；terminal failure 保持 failed 且不 Generate</td>
+</tr>
+<tr>
+<td>P0</td>
+<td>Exact Approval Identity</td>
+<td>core matcher 尚未使用完整 <code>toolId + toolCallId + inputHash</code></td>
+<td>参数或调用身份变化后不能复用旧批准</td>
+</tr>
+<tr>
+<td>P0</td>
+<td>已有功能真实验收</td>
+<td>页面存在不等于 Runtime Ready</td>
+<td>关键入口具备可重复 Smoke / E2E 与失败诊断</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Evidence 与 Artifact</td>
+<td>局部结果容易被提前解释为整体完成</td>
+<td>Evidence 来源清楚，Artifact 可访问，未完成项显式返回</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Tool / Skill 稳定性</td>
+<td>动态工具、SubAgent 和私有 Runtime 边界仍需回归保护</td>
+<td>Public Surface、Exposure、Approval 和 Child 边界有稳定测试</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Provider 兼容与失败语义</td>
+<td>多 Provider 协议差异可能被隐藏</td>
+<td>连接、模型能力、请求失败和降级状态可诊断</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>MicroApp 成熟度</td>
+<td>产品入口、Definition、Runtime 和 Agent Access 容易混淆</td>
+<td>每项能力有独立状态、验证和非目标说明</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>发布与迁移</td>
+<td>桌面升级、备份和恢复仍需持续收稳</td>
+<td>安装、升级、备份、迁移和回滚路径可验证</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>可观测与评测</td>
+<td>优化缺少统一对照</td>
+<td>固定数据集、Trace 和指标能够复现变化影响</td>
+</tr>
+</tbody></table>
+<h2 id="agent-稳定工作">Agent 稳定工作<a class="md-anchor" href="#agent-稳定工作">#</a></h2>
+<p>近期 Agent 工作聚焦：</p>
+<ul>
+<li>修复已确认的终止合同漂移；</li>
+<li>稳定 waiting approval 和 checkpoint resume；</li>
+<li>减少 Planner 提前回答和局部 completed 误判；</li>
+<li>验证 Skill-owned SubAgent 完成后不被 Main Planner 重做；</li>
+<li>保护单层委派和禁止递归委派；</li>
+<li>完善失败、Requirement、Evidence 和最终交付的一致性。</li>
+</ul>
+<p>当前不主动重开：</p>
+<ul>
+<li>Agent V2；</li>
+<li>通用 DAG Scheduler；</li>
+<li>开放式多 Agent 编排；</li>
+<li>并发 Tool Fan-out 主链；</li>
+<li>长期记忆大系统。</li>
+</ul>
+<h2 id="tool-与-harness-稳定工作">Tool 与 Harness 稳定工作<a class="md-anchor" href="#tool-与-harness-稳定工作">#</a></h2>
+<p>近期 Tool 工作聚焦：</p>
+<ul>
+<li>exact Invocation Identity；</li>
+<li>Public Surface 和 Runtime Registry 的一致性；</li>
+<li><code>&lt;=20</code> 全量暴露、<code>&gt;20</code> 排名前 20 的回归保护；</li>
+<li>Workspace、Network、Approval 和 Artifact 的真实执行边界；</li>
+<li>GitHub、Mail、Browser、External Expert 和 External MCP 的动态可用性；</li>
+<li>Tool Result 到 Evidence 的稳定投影。</li>
+</ul>
+<p>不通过增加正则或隐藏工具来替代 Schema、Availability 和 Policy。</p>
+<h2 id="microapp-稳定工作">MicroApp 稳定工作<a class="md-anchor" href="#microapp-稳定工作">#</a></h2>
+<p>每项 MicroApp 或 Studio 单独推进：</p>
+<ol>
+<li>产品入口可用；</li>
+<li>Runtime / Provider 状态可检测；</li>
+<li>Task / Job 状态明确；</li>
+<li>失败可诊断；</li>
+<li>Artifact 可验证；</li>
+<li>Agent 或 Integration 接入有明确合同；</li>
+<li>Smoke / E2E 可重复。</li>
+</ol>
+<p>不会为了“统一”而强行把所有 Studio 塞进 strict MicroAppDefinition Invoke。</p>
+<h2 id="provider-与模型">Provider 与模型<a class="md-anchor" href="#provider-与模型">#</a></h2>
+<p>近期方向：</p>
+<ul>
+<li>保持多 Provider 和 OpenAI-compatible 基础路径；</li>
+<li>明确火山等非标准协议的独立适配；</li>
+<li>完善 Chat、Task、Embedding、Rerank、Voice 和 Image 能力画像；</li>
+<li>不把连接存在解释为所有模型能力均可用；</li>
+<li>改善同步、超时、限流和错误归一化。</li>
+</ul>
+<h2 id="知识与评测">知识与评测<a class="md-anchor" href="#知识与评测">#</a></h2>
+<p>近期方向：</p>
+<ul>
+<li>保护文档解析、Chunk、索引和检索链；</li>
+<li>使用真实问题和固定数据集验证变化；</li>
+<li>让 Evaluation 覆盖 Provider、知识、Prompt 和 Agent 改动；</li>
+<li>区分检索命中、回答质量和业务正确性；</li>
+<li>保留来源、版本和运行参数。</li>
+</ul>
+<h2 id="桌面交付">桌面交付<a class="md-anchor" href="#桌面交付">#</a></h2>
+<p>持续完善：</p>
+<ul>
+<li>Electron 主路径与 Tauri 并行路径；</li>
+<li>安装包和更新；</li>
+<li>SQLite Migration；</li>
+<li>本地 Runtime 与资源打包；</li>
+<li>Artifact 清理；</li>
+<li>数据备份与迁移；</li>
+<li>Windows 平台诊断；</li>
+<li>Web 独立运行边界。</li>
+</ul>
+<h2 id="进入-current-的条件">进入 Current 的条件<a class="md-anchor" href="#进入-current-的条件">#</a></h2>
+<p>计划能力只有同时满足以下条件，才进入当前实现文档：</p>
+<ul>
+<li>有真实产品入口；</li>
+<li>有明确 Runtime 和状态持有者；</li>
+<li>有失败语义；</li>
+<li>有代码锚点；</li>
+<li>有重复验证或回归测试；</li>
+<li>文档明确已实现和未实现部分；</li>
+<li>不依赖施工线程口头结论。</li>
+</ul>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/status/current">当前实现快照</a></li>
+<li><a href="/docs/architecture/agent">Agent 当前运行真相</a></li>
+<li><a href="/docs/architecture/harness">Harness 与工具边界</a></li>
+<li><a href="/docs/architecture/microapps">MicroApps 与独立 Runtime</a></li>
+<li><a href="/docs/engineering/development">开发与验证</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/status/current"><span class="dir">上一篇</span><span class="to">← 当前实现快照</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#当前阶段">当前阶段</a></li><li class="toc-depth-2"><a href="#优先级">优先级</a></li><li class="toc-depth-2"><a href="#agent-稳定工作">Agent 稳定工作</a></li><li class="toc-depth-2"><a href="#tool-与-harness-稳定工作">Tool 与 Harness 稳定工作</a></li><li class="toc-depth-2"><a href="#microapp-稳定工作">MicroApp 稳定工作</a></li><li class="toc-depth-2"><a href="#provider-与模型">Provider 与模型</a></li><li class="toc-depth-2"><a href="#知识与评测">知识与评测</a></li><li class="toc-depth-2"><a href="#桌面交付">桌面交付</a></li><li class="toc-depth-2"><a href="#进入-current-的条件">进入 Current 的条件</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>

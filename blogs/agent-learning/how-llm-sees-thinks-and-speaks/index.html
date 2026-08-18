@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>一起学智能体 05｜LLM 到底是怎么“看、想、说”的 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从 Token、Embedding、Attention、QKV，到生成 token 继续参与推演、Context 与 KV Cache。顺便解释为什么早期 LLM 数学很笨，代码却很早显得靠谱。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/agent-learning/how-llm-sees-thinks-and-speaks/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="一起学智能体 05｜LLM 到底是怎么“看、想、说”的 · UIChat Mira"><meta property="og:description" content="从 Token、Embedding、Attention、QKV，到生成 token 继续参与推演、Context 与 KV Cache。顺便解释为什么早期 LLM 数学很笨，代码却很早显得靠谱。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/agent-learning/how-llm-sees-thinks-and-speaks/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="一起学智能体 05｜LLM 到底是怎么“看、想、说”的 · UIChat Mira"><meta name="twitter:description" content="从 Token、Embedding、Attention、QKV，到生成 token 继续参与推演、Context 与 KV Cache。顺便解释为什么早期 LLM 数学很笨，代码却很早显得靠谱。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"一起学智能体 05｜LLM 到底是怎么“看、想、说”的","description":"从 Token、Embedding、Attention、QKV，到生成 token 继续参与推演、Context 与 KV Cache。顺便解释为什么早期 LLM 数学很笨，代码却很早显得靠谱。","url":"https://tomz.io/tomz-io/blogs/agent-learning/how-llm-sees-thinks-and-speaks/","image":"https://tomz.io/tomz-io/mira-logo.png","datePublished":"2026年7月22日","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>一起学智能体 05｜LLM 到底是怎么“看、想、说”的</h1><p class="doc-lede">从 Token、Embedding、Attention、QKV，到生成 token 继续参与推演、Context 与 KV Cache。顺便解释为什么早期 LLM 数学很笨，代码却很早显得靠谱。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>2026年7月22日</span><span class="dot"></span><span>11 分钟阅读</span><span class="dot"></span><span>一起学智能体</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>上一课，我们从符号主义一路聊到神经网络、大规模预训练、ChatGPT 和现代 Agent。</p>
+<p>这一课，我们终于开始拆 LLM 本身。</p>
+<p>但还是不打算背公式。</p>
+<p>我们只想回答一个问题：</p>
+<blockquote>
+<p>一句话进入大模型以后，它到底看见了什么，又是怎么一步步生成回答的？</p>
+</blockquote>
+<h2 id="模型看到的不是字而是一串关系">模型看到的不是“字”，而是一串关系<a class="md-anchor" href="#模型看到的不是字而是一串关系">#</a></h2>
+<p>一句话先会被切成 Token。</p>
+<p>Token 再变成向量，也就是 Embedding。</p>
+<p>很多人第一次理解 Embedding，会把它想成“每个词有一个坐标”。这个比喻不算错，但更重要的是：</p>
+<blockquote>
+<p>意义不是写在一个词内部的，而是体现在它与其他东西的关系中。</p>
+</blockquote>
+<p>“猫”和“狗”可能比较近，“猫”和“微波炉”可能更远。</p>
+<p>于是模型理解语言的第一步，就不是查字典，而是进入一个巨大的关系空间。</p>
+<p>这已经和人类传统的符号表示很不一样。</p>
+<h2 id="attention一句话里我现在该听谁的">Attention：一句话里，我现在该听谁的？<a class="md-anchor" href="#attention一句话里我现在该听谁的">#</a></h2>
+<p>有了向量还不够。</p>
+<p>一句话里，每个词的意义都会受其他词影响。</p>
+<p>例如：</p>
+<blockquote>
+<p>小王把杯子递给小李，因为他手里没东西。</p>
+</blockquote>
+<p>“他”到底指谁？</p>
+<p>模型不能只看“他”自己，而要判断整句话里哪些位置和它最相关。</p>
+<p>这就是 Attention 最直观的意义：</p>
+<blockquote>
+<p><strong>每个 token 都在问：为了理解我自己，我现在最该关注谁？</strong></p>
+</blockquote>
+<p>这比“注意力机制”四个字好懂得多。</p>
+<h2 id="qkv-其实一点都不神秘">Q、K、V 其实一点都不神秘<a class="md-anchor" href="#qkv-其实一点都不神秘">#</a></h2>
+<p>很多教材一讲 Attention，就直接扔出 Q、K、V 和矩阵公式。</p>
+<p>但它们其实对应三个很自然的问题：</p>
+<ul>
+<li><strong>Q，Query：我现在想找什么？</strong></li>
+<li><strong>K，Key：你有什么特征，凭什么值得我注意？</strong></li>
+<li><strong>V，Value：如果我真的注意你，你能提供什么信息？</strong></li>
+</ul>
+<p>可以把它想成搜索。</p>
+<p>你提出一个问题，这是 Query。</p>
+<p>每个候选对象都带着一组可匹配特征，这是 Key。</p>
+<p>匹配到以后真正读出来的内容，是 Value。</p>
+<p>于是 Attention 就变成一句非常朴素的话：</p>
+<blockquote>
+<p><strong>拿问题去匹配线索，再读取最相关的信息。</strong></p>
+</blockquote>
+<p>QKV 不是什么咒语，它只是把“查找关系”这件事形式化了。</p>
+<h2 id="为什么还要多头">为什么还要多头？<a class="md-anchor" href="#为什么还要多头">#</a></h2>
+<p>因为一句话里的关系不止一种。</p>
+<p>同一句话里，模型可能同时关心：</p>
+<ul>
+<li>谁是主语；</li>
+<li>动作是什么；</li>
+<li>指代关系是什么；</li>
+<li>时间在哪里；</li>
+<li>哪些词属于同一个语义结构。</li>
+</ul>
+<p>所以 Multi-Head Attention 可以粗略理解成：</p>
+<blockquote>
+<p><strong>让多个不同视角同时看一句话。</strong></p>
+</blockquote>
+<p>不是一个人在读，而是一桌不同专长的人一起读，最后汇总结果。</p>
+<p>这也是一个很典型的 AI 设计思路：</p>
+<blockquote>
+<p>一个表示解决不了，那就换成更有表达力的表示。</p>
+</blockquote>
+<p>我们聊天时，Tomz 总结得更直接：</p>
+<blockquote>
+<p>“解决不了一个问题就升一个维。”</p>
+</blockquote>
+<p>严格说不一定真是数学意义上的升维，但这个直觉非常好。</p>
+<p>XOR 一条线分不开，就加隐藏层重新表示。</p>
+<p>一个 Attention 视角不够，就用多个头。</p>
+<p>Attention 不知道顺序，就补位置信息。</p>
+<p>网络太深难训练，就加残差连接，让旧信息有一条高速公路。</p>
+<p>AI 很多突破，本质上不是死磕旧表示，而是重新表示问题。</p>
+<h2 id="transformer-最后到底怎么说话">Transformer 最后到底怎么“说话”？<a class="md-anchor" href="#transformer-最后到底怎么说话">#</a></h2>
+<p>模型经过很多层 Transformer 后，并不会突然在脑子里形成一整句话。</p>
+<p>它最后得到的是：</p>
+<blockquote>
+<p><strong>下一个 Token 的概率分布。</strong></p>
+</blockquote>
+<p>例如：</p>
+<blockquote>
+<p>今天天气很好，我准备出去——</p>
+</blockquote>
+<p>模型可能认为：</p>
+<ul>
+<li>散步：35%</li>
+<li>玩：18%</li>
+<li>吃饭：9%</li>
+<li>跑步：7%</li>
+</ul>
+<p>然后选一个 Token。</p>
+<p>假设选了“散步”。</p>
+<p>新的上下文就变成：</p>
+<blockquote>
+<p>今天天气很好，我准备出去散步</p>
+</blockquote>
+<p>接着模型再计算一次下一个 Token。</p>
+<p>所以一整段回答，本质上是：</p>
+<blockquote>
+<p><strong>算一次 → 生成一个 Token → 把这个 Token 放回上下文 → 再算一次。</strong></p>
+</blockquote>
+<p>一个 Token，一个 Token 地往前长。</p>
+<h2 id="生成出来的-token本身也参与了推演">生成出来的 Token，本身也参与了推演<a class="md-anchor" href="#生成出来的-token本身也参与了推演">#</a></h2>
+<p>这是我们这一课里最重要的一个点。</p>
+<p>模型不是先在内部想好整篇答案，再把它打印出来。</p>
+<p>前面已经生成出来的内容，会直接参与后面的计算。</p>
+<p>例如模型先写：</p>
+<blockquote>
+<p>已知 A = 3。</p>
+</blockquote>
+<p>这句话一旦生成，它就成了后续上下文的一部分。</p>
+<p>下一步模型可以继续写：</p>
+<blockquote>
+<p>所以 B = A × 2 = 6。</p>
+</blockquote>
+<p>于是 <code>B = 6</code> 又变成后续推理的新依据。</p>
+<p>这就是为什么 Chain of Thought、scratchpad、step by step 曾经会明显提升一些任务的表现。</p>
+<p>不是因为某句提示词有魔法。</p>
+<p>而是因为：</p>
+<blockquote>
+<p><strong>把中间状态外显成 Token，本身就为后续计算提供了临时工作记忆。</strong></p>
+</blockquote>
+<p>Tomz 提到自己见过一种 Thinking 模型：</p>
+<blockquote>
+<p>做 RP 时，它会先内部推演剧情，打一个草稿，看看满不满意，再决定最终发什么。</p>
+</blockquote>
+<p>这类模型更明显地把“内部工作区”和“最终输出区”拆开了。</p>
+<p>普通模型更像边写边想。</p>
+<p>Thinking 模型会先在内部多走几步。</p>
+<p>Agent 则更进一步：不仅内部想，还能出去调用工具，再根据结果回来继续想。</p>
+<p>这三者其实是一条连续谱。</p>
+<h2 id="为什么同一个模型每次回答都不一样">为什么同一个模型每次回答都不一样？<a class="md-anchor" href="#为什么同一个模型每次回答都不一样">#</a></h2>
+<p>因为最后不是永远选择概率最高的 Token。</p>
+<p>模型先给出可能性分布，采样策略再决定走哪条路。</p>
+<p>Temperature 并不是简单的“创造力旋钮”。</p>
+<p>它更像是在控制：</p>
+<blockquote>
+<p><strong>模型愿不愿意偏离最可能的路径。</strong></p>
+</blockquote>
+<p>温度低，概率分布更尖，模型更稳定、更保守。</p>
+<p>温度高，低概率候选也更容易被选中，结果更有变化，也更容易跑偏。</p>
+<p>所以：</p>
+<blockquote>
+<p>模型负责给可能性，采样参数负责决定走哪条路。</p>
+</blockquote>
+<p>高 Temperature 不会让一个不懂数学的模型突然悟道。</p>
+<p>它只会让它更有创造力地答错。</p>
+<h2 id="为什么早期-llm-数学和空间题很笨">为什么早期 LLM 数学和空间题很笨？<a class="md-anchor" href="#为什么早期-llm-数学和空间题很笨">#</a></h2>
+<p>这是我们对话里一个很好的问题。</p>
+<p>早期 LLM 很擅长：</p>
+<blockquote>
+<p>“这个答案看起来应该长什么样。”</p>
+</blockquote>
+<p>但数学和空间推理要求另一种能力：</p>
+<blockquote>
+<p><strong>稳定维护状态，并严格执行多步算法。</strong></p>
+</blockquote>
+<p>例如数学题需要：</p>
+<ul>
+<li>维护中间变量；</li>
+<li>每一步都不能漂；</li>
+<li>错一个数字，后面可能全错。</li>
+</ul>
+<p>空间关系题也一样。</p>
+<p>如果题目说：</p>
+<blockquote>
+<p>A 在 B 东北，C 在 A 西边，那么 C 在 B 什么位置？</p>
+</blockquote>
+<p>最稳的方法其实是显式维护一个坐标状态。</p>
+<p>但早期 LLM 没有一个真正的内部坐标板。</p>
+<p>它更容易依赖语言模式去猜。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>见过很多数学文本，不等于拥有一个可靠计算器。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>见过很多空间描述，也不等于真的维护了一个稳定空间模型。</strong></p>
+</blockquote>
+<p>这也是后来为什么 Reasoning、草稿纸、代码执行、外部工具会如此重要。</p>
+<h2 id="那为什么代码能力却很早就显得靠谱">那为什么代码能力却很早就显得靠谱？<a class="md-anchor" href="#那为什么代码能力却很早就显得靠谱">#</a></h2>
+<p>这个现象看起来有点反常。</p>
+<p>早期 LLM 数学不稳定，空间推理也不稳定，但代码补全和短函数生成却很早就“像回事”。</p>
+<p>原因之一是：</p>
+<blockquote>
+<p><strong>代码特别适合 Next Token Prediction。</strong></p>
+</blockquote>
+<p>代码是一种高度规律、高度重复、上下文约束极强的语言。</p>
+<p>你写出：</p>
+<pre><code class="language-js">for (</code></pre><p>后面的可能性已经被大幅缩小。</p>
+<p>再加上互联网上有海量重复的程序设计模式：</p>
+<ul>
+<li>HTTP 请求怎么写；</li>
+<li>React 组件怎么写；</li>
+<li>数组怎么排序；</li>
+<li>数据库怎么查询；</li>
+<li>一个 API Handler 通常长什么样。</li>
+</ul>
+<p>所以早期 LLM 即使没有很强的复杂推理，也能靠：</p>
+<blockquote>
+<p><strong>模式记忆 + 结构泛化</strong></p>
+</blockquote>
+<p>写出非常像样的代码。</p>
+<p>但这并不意味着它已经能维护一个十万行项目。</p>
+<p>写 20 行函数和理解整个代码库，是完全不同级别的问题。</p>
+<p>后者要求：</p>
+<ul>
+<li>跨文件状态；</li>
+<li>长期规划；</li>
+<li>工具调用；</li>
+<li>测试验证；</li>
+<li>错误恢复；</li>
+<li>持续修正。</li>
+</ul>
+<p>这正是后来 Coding Agent 爆发的原因。</p>
+<p>代码世界甚至可以看成 LLM Agent 最理想的实验场：</p>
+<blockquote>
+<p>目标相对明确，状态可以读取，动作可以执行，结果可以测试，错误会直接报出来。</p>
+</blockquote>
+<p>这和早期符号主义为什么特别适合几何世界，有一种有趣的历史对应。</p>
+<p>这个话题值得以后单独做一篇专题：</p>
+<blockquote>
+<p><strong>为什么 Coding Agent 比通用 Agent 更早成熟？</strong></p>
+</blockquote>
+<p>这里先不展开。</p>
+<h2 id="context模型所谓的记得很多时候只是还摆在眼前">Context：模型所谓的“记得”，很多时候只是还摆在眼前<a class="md-anchor" href="#context模型所谓的记得很多时候只是还摆在眼前">#</a></h2>
+<p>LLM 的 Context Window，可以先理解成：</p>
+<blockquote>
+<p><strong>这一轮推理时，桌面上能摊开多少东西。</strong></p>
+</blockquote>
+<p>系统提示词、用户问题、前面对话、工具结果、模型刚刚生成的 Token，只要还在 Context 里，就会参与后续计算。</p>
+<p>所以模型很多时候所谓“记得我们之前说过什么”，并不意味着它真的写入了长期记忆。</p>
+<p>只是那些内容还摆在它眼前。</p>
+<p>但上下文越长，不代表模型一定越聪明。</p>
+<p>信息太多，也可能出现：</p>
+<ul>
+<li>重点模糊；</li>
+<li>证据被淹没；</li>
+<li>目标漂移；</li>
+<li>无关信息干扰判断。</li>
+</ul>
+<p>于是问题从：</p>
+<blockquote>
+<p>我能塞多少？</p>
+</blockquote>
+<p>逐渐变成：</p>
+<blockquote>
+<p><strong>这一轮到底该让模型看见什么？</strong></p>
+</blockquote>
+<p>这就是 Context Engineering 开始真正变得重要的地方。</p>
+<h2 id="prompt-engineering-没完全错只是名字显得太玄">Prompt Engineering 没完全错，只是名字显得太玄<a class="md-anchor" href="#prompt-engineering-没完全错只是名字显得太玄">#</a></h2>
+<p>早年“提示词工程师”流行时，确实很容易让人产生一种赛博玄学感：</p>
+<blockquote>
+<p>你是世界顶级专家。</p>
+<p>请一步一步思考。</p>
+<p>回答得好奖励你 200 美元。</p>
+</blockquote>
+<p>很多所谓万能 Prompt，看起来像是在给模型念咒。</p>
+<p>但回头看，其中真正有价值的种子是：</p>
+<blockquote>
+<p><strong>上下文本身就是程序的一部分。</strong></p>
+</blockquote>
+<p>后来这个概念慢慢升级：</p>
+<blockquote>
+<p>Prompt Engineering：研究怎么说。</p>
+<p>Context Engineering：研究让模型看见什么。</p>
+<p>Agent Engineering：进一步研究它看见以后怎么行动、怎么回来、怎么继续。</p>
+</blockquote>
+<p>到了 Mira 这种真实 Agent 系统里，问题已经不是一句 Prompt 怎么写得漂亮。</p>
+<p>而是：</p>
+<ul>
+<li>Planner 这一轮该看什么？</li>
+<li>Evidence 怎么进入上下文？</li>
+<li>工具描述给多少？</li>
+<li>失败历史保留多少？</li>
+<li>Global Goal 怎么不被长上下文淹没？</li>
+</ul>
+<p>这才是真正的工程问题。</p>
+<h2 id="这一课真正想留下的一句话">这一课真正想留下的一句话<a class="md-anchor" href="#这一课真正想留下的一句话">#</a></h2>
+<p>LLM 并不是先“想完”，再“说出来”。</p>
+<p>它很多时候是在：</p>
+<blockquote>
+<p><strong>一边生成，一边利用自己刚刚生成的东西继续推演。</strong></p>
+</blockquote>
+<p>语言在这里不只是交流介质。</p>
+<p>它本身也成了某种计算介质和临时工作区。</p>
+<p>而现代 Agent 又进一步把这个工作区扩展到了外部世界：</p>
+<blockquote>
+<p>模型生成 Action → 工具改变世界 → Observation 回到上下文 → 下一轮推理重新开始。</p>
+</blockquote>
+<p>所以从 Transformer 到 Agent，中间其实没有一道神秘断层。</p>
+<p>它更像是一条很自然的演化线：</p>
+<blockquote>
+<p><strong>模型先学会表示关系，再学会生成语言；生成的语言开始参与推演；外部工具再成为新的“可写入上下文的现实”。</strong></p>
+</blockquote>
+<p>理解了这一点，后面再学 Context、Reasoning、Memory、Tool、Agent Loop，就不会只剩下一堆名词。</p>
+<p>你会看到它们一直在解决同一件事：</p>
+<blockquote>
+<p><strong>怎样给模型一个更好的“当前世界”，让下一步判断更可靠。</strong></p>
+</blockquote>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/agent-learning/context-is-state-not-chat-history"><span class="dir">上一篇</span><span class="to">← 一起学智能体 05｜Context 不是聊天记录，而是 Agent 此刻的世界</span></a><a class="next" href="/tomz-io/blogs/engineering/agentgraph-grown-from-failures"><span class="dir">下一篇</span><span class="to">从能跑到不乱跑：Mira AgentGraph 是怎样被真实问题逼出来的 →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#模型看到的不是字而是一串关系">模型看到的不是“字”，而是一串关系</a></li><li><a href="#attention一句话里我现在该听谁的">Attention：一句话里，我现在该听谁的？</a></li><li><a href="#qkv-其实一点都不神秘">Q、K、V 其实一点都不神秘</a></li><li><a href="#为什么还要多头">为什么还要多头？</a></li><li><a href="#transformer-最后到底怎么说话">Transformer 最后到底怎么“说话”？</a></li><li><a href="#生成出来的-token本身也参与了推演">生成出来的 Token，本身也参与了推演</a></li><li><a href="#为什么同一个模型每次回答都不一样">为什么同一个模型每次回答都不一样？</a></li><li><a href="#为什么早期-llm-数学和空间题很笨">为什么早期 LLM 数学和空间题很笨？</a></li><li><a href="#那为什么代码能力却很早就显得靠谱">那为什么代码能力却很早就显得靠谱？</a></li><li><a href="#context模型所谓的记得很多时候只是还摆在眼前">Context：模型所谓的“记得”，很多时候只是还摆在眼前</a></li><li><a href="#prompt-engineering-没完全错只是名字显得太玄">Prompt Engineering 没完全错，只是名字显得太玄</a></li><li><a href="#这一课真正想留下的一句话">这一课真正想留下的一句话</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

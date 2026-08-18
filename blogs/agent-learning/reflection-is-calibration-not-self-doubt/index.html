@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="Reflection 到底什么时候出现才恰到好处？它和 Planner、Recovery、Thinking 有什么区别？从候选完成、PASS/REVISE/REOPEN，到小模型动态路由 reasoning 预算。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/agent-learning/reflection-is-calibration-not-self-doubt/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己 · UIChat Mira"><meta property="og:description" content="Reflection 到底什么时候出现才恰到好处？它和 Planner、Recovery、Thinking 有什么区别？从候选完成、PASS/REVISE/REOPEN，到小模型动态路由 reasoning 预算。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/agent-learning/reflection-is-calibration-not-self-doubt/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己 · UIChat Mira"><meta name="twitter:description" content="Reflection 到底什么时候出现才恰到好处？它和 Planner、Recovery、Thinking 有什么区别？从候选完成、PASS/REVISE/REOPEN，到小模型动态路由 reasoning 预算。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己","description":"Reflection 到底什么时候出现才恰到好处？它和 Planner、Recovery、Thinking 有什么区别？从候选完成、PASS/REVISE/REOPEN，到小模型动态路由 reasoning 预算。","url":"https://tomz.io/tomz-io/blogs/agent-learning/reflection-is-calibration-not-self-doubt/","image":"https://tomz.io/tomz-io/mira-logo.png","datePublished":"2026年7月20日","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己</h1><p class="doc-lede">Reflection 到底什么时候出现才恰到好处？它和 Planner、Recovery、Thinking 有什么区别？从候选完成、PASS/REVISE/REOPEN，到小模型动态路由 reasoning 预算。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>2026年7月20日</span><span class="dot"></span><span>11 分钟阅读</span><span class="dot"></span><span>一起学智能体</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>前两课我们已经把两个核心问题拆开了：</p>
+<ul>
+<li>ReAct 解决的是：看到新 Observation 以后，下一步怎么办？</li>
+<li>Planner 解决的是：围绕 Global Goal，如何持续调整实施路径？</li>
+</ul>
+<p>第三课，我们讨论一个很容易被讲玄学的词：<strong>Reflection（反思）</strong>。</p>
+<p>最开始它看起来很简单：</p>
+<pre><code class="language-text">Execute
+↓
+Result
+↓
+Reflect
+↓
+Refine</code></pre><p>但真正进入工程以后，问题马上变成：</p>
+<blockquote>
+<p>反思什么时候出现？</p>
+<p>Goal 已经执行完了，还要不要反思？</p>
+<p>反思失败以后，是重写一句话，还是把整个任务推翻重来？</p>
+</blockquote>
+<p>这几个问题，比“Reflection 是什么”重要得多。</p>
+<h2 id="planner-回环不等于-reflection">Planner 回环，不等于 Reflection<a class="md-anchor" href="#planner-回环不等于-reflection">#</a></h2>
+<p>两者都会“再想一次”，但想的东西不同。</p>
+<p>Planner 更关心：</p>
+<pre><code class="language-text">根据最新 State / Evidence，
+下一步最值得做什么？</code></pre><p>Reflection 更关心：</p>
+<pre><code class="language-text">我刚才的结果、策略或结论，
+本身有没有问题？</code></pre><p>可以这样记：</p>
+<pre><code class="language-text">Plan      → 我要怎么走
+Act       → 我开始走
+Observe   → 世界发生了什么
+Reflect   → 我刚才走得对不对</code></pre><p>所以连续 30 次 <code>read</code> 并不自动等于 Reflection。</p>
+<pre><code class="language-text">read
+→ observation
+→ read
+→ observation</code></pre><p>仍然只是一个 ReAct 式循环。</p>
+<p>真正的 Reflection 是突然出现一句：</p>
+<pre><code class="language-text">“等等，我为什么还在读？”</code></pre><p>如果 Goal Coverage 长时间没增长、Evidence Gain 越来越低，系统开始怀疑“当前搜索策略是不是已经走进死胡同”，这才是策略级反思。</p>
+<h2 id="reflection-可以反思什么">Reflection 可以反思什么？<a class="md-anchor" href="#reflection-可以反思什么">#</a></h2>
+<p>它至少可以作用在四个层面。</p>
+<h3 id="1-结果反思">1. 结果反思<a class="md-anchor" href="#1-结果反思">#</a></h3>
+<pre><code class="language-text">答案正确吗？
+代码能跑吗？
+报告有没有漏项？</code></pre><p>这是最直观的一层。</p>
+<h3 id="2-证据反思">2. 证据反思<a class="md-anchor" href="#2-证据反思">#</a></h3>
+<pre><code class="language-text">结论真的被 Evidence 支持吗？
+有没有把“可能”写成“确定”？
+有没有忽略冲突证据？</code></pre><p>Planner 即使正确完成了所有调度，Generate 仍然可能从正确证据跳到错误结论。</p>
+<p>因此：</p>
+<pre><code class="language-text">Goal Coverage = 100%
+≠
+最终推论一定正确</code></pre><h3 id="3-策略反思">3. 策略反思<a class="md-anchor" href="#3-策略反思">#</a></h3>
+<pre><code class="language-text">我现在采用的整条方法是不是错了？</code></pre><p>例如排查 Native Messaging 握手问题，却连续扩大前端源码读取范围。</p>
+<p>即使每一次 <code>read</code> 单看都有理由，整体策略也可能已经失去信息增益。</p>
+<h3 id="4-控制反思">4. 控制反思<a class="md-anchor" href="#4-控制反思">#</a></h3>
+<pre><code class="language-text">我是不是陷入重复？
+是不是提前结束？
+是不是连续失败却一直重复同一种动作？</code></pre><p>这时候 Reflection 已经开始接近 Loop Control / Search Policy。</p>
+<h2 id="reflection-和-recovery-不是一回事">Reflection 和 Recovery 不是一回事<a class="md-anchor" href="#reflection-和-recovery-不是一回事">#</a></h2>
+<p>Tool Call 失败：</p>
+<pre><code class="language-text">换参数
+重试
+换工具</code></pre><p>这是 Recovery。</p>
+<p>它解决的是：</p>
+<blockquote>
+<p>这一步失败以后，怎么恢复？</p>
+</blockquote>
+<p>而连续失败很多次以后，系统开始问：</p>
+<pre><code class="language-text">为什么我一直失败？
+是不是工具选错了？
+是不是整个假设都错了？</code></pre><p>这才是 Reflection。</p>
+<p>所以：</p>
+<pre><code class="language-text">Recovery
+= 修当前失败
+
+Reflection
+= 怀疑失败背后的策略</code></pre><h2 id="goal-执行完以后为什么还会有-reflection">Goal 执行完以后，为什么还会有 Reflection？<a class="md-anchor" href="#goal-执行完以后为什么还会有-reflection">#</a></h2>
+<p>这里最容易误会。</p>
+<p>如果把流程写成：</p>
+<pre><code class="language-text">Goal Complete
+→ Reflection
+→ 再把整个任务怀疑一遍</code></pre><p>当然很蠢。</p>
+<p>更准确的概念应该是：</p>
+<p>Planner 判断：</p>
+<pre><code class="language-text">Goal Coverage = 100%</code></pre><p>真正表达的是：</p>
+<blockquote>
+<p>从执行和调度角度看，需要做的工作已经覆盖，可以进入交付阶段。</p>
+</blockquote>
+<p>它不是“宇宙真理认证”。</p>
+<p>因此正常流程应该是：</p>
+<pre><code class="language-text">Planner
+↓
+A ✅ B ✅ C ✅
+↓
+candidateComplete = true
+↓
+Generate / Assemble Result
+↓
+必要时 Evaluation</code></pre><p>关键在“必要时”。</p>
+<p>Reflection 不应该成为每次任务完成后的固定仪式，而应该是一种<strong>质量门</strong>。</p>
+<h2 id="pass-revise-reopen反思失败以后到底回退多远">PASS / REVISE / REOPEN：反思失败以后到底回退多远？<a class="md-anchor" href="#pass-revise-reopen反思失败以后到底回退多远">#</a></h2>
+<p>这是第三课最重要的工程结构。</p>
+<p>一次最终 Evaluation 最好不要只有：</p>
+<pre><code class="language-text">好 / 不好</code></pre><p>而应该至少区分：</p>
+<pre><code class="language-text">PASS
+│
+└─ 结果成立，直接结束
+
+REVISE
+│
+└─ 证据和执行都没问题
+   只是表达 / 推理 / 结论写歪了
+   → 局部修正
+
+REOPEN
+│
+└─ 发现关键证据缺失、对象搞错、基础假设错误
+   → 重新打开 Goal / Plan</code></pre><p>例如比较 A 和 B：</p>
+<pre><code class="language-text">A 资料 ✅
+B 资料 ✅
+Goal Coverage = 100%</code></pre><p>Generate 却写：</p>
+<blockquote>
+<p>A 在所有方面都明显优于 B，因此任何用户都应该选 A。</p>
+</blockquote>
+<p>而证据只支持：</p>
+<pre><code class="language-text">A 性能更强
+B 更便宜、续航更好</code></pre><p>Planner 没错。</p>
+<p>Evidence 也没错。</p>
+<p>首先是 Generate 产生了 unsupported inference。</p>
+<p>这时 Evaluator 应该给出：</p>
+<pre><code class="language-text">REVISE</code></pre><p>只重写答案。</p>
+<p>根本没必要重新调查 A 和 B。</p>
+<p>只有当 Reflection 发现：</p>
+<pre><code class="language-text">“所谓 B 的资料，其实读成了 B Pro。”</code></pre><p>才应该：</p>
+<pre><code class="language-text">REOPEN
+→ B 的 Goal Coverage 从 ✅ 改回 ❌
+→ 回 Planner</code></pre><p>因此 Reflection <strong>确实可以推翻过去的结论，但推翻不是目标，只是异常结果的一种。</strong></p>
+<h2 id="reflection-什么时候出现才恰到好处">Reflection 什么时候出现才恰到好处？<a class="md-anchor" href="#reflection-什么时候出现才恰到好处">#</a></h2>
+<p>比起固定 Node，更合理的是条件触发。</p>
+<h3 id="1-执行途中出现异常信号">1. 执行途中出现异常信号<a class="md-anchor" href="#1-执行途中出现异常信号">#</a></h3>
+<p>例如：</p>
+<pre><code class="language-text">连续失败
+重复动作
+Evidence Gain 很低
+Goal Coverage 长时间不增长
+证据互相冲突</code></pre><p>触发：</p>
+<pre><code class="language-text">Reflect Strategy</code></pre><p>问：</p>
+<blockquote>
+<p>当前路径是不是已经进入 dead-end？</p>
+</blockquote>
+<h3 id="2-候选完成点准备交卷">2. 候选完成点准备交卷<a class="md-anchor" href="#2-候选完成点准备交卷">#</a></h3>
+<p>不是重新怀疑整个 Goal，而是检查：</p>
+<pre><code class="language-text">Evidence
+↓
+Conclusion
+↓
+二者匹配吗？</code></pre><h3 id="3-高价值中间产物">3. 高价值中间产物<a class="md-anchor" href="#3-高价值中间产物">#</a></h3>
+<p>例如复杂代码重构、长篇报告、重要配置变更。</p>
+<p>普通小改：</p>
+<pre><code class="language-text">tests pass
+→ 完事</code></pre><p>高价值修改可能值得再做：</p>
+<pre><code class="language-text">架构约束检查
+任务要求覆盖检查
+副作用检查</code></pre><p>所以 Reflection 更像：</p>
+<blockquote>
+<p><strong>风险驱动 / 信号驱动的中断机制与质量门。</strong></p>
+</blockquote>
+<p>而不是：</p>
+<pre><code class="language-text">Planner
+→ Tool
+→ Reflection
+→ Evidence
+→ Reflection
+→ Planner
+→ Reflection</code></pre><p>那会变成“吾日三省吾身 Agent”，最后烧成 Token 焚化炉。</p>
+<h2 id="一段更合理的伪代码">一段更合理的伪代码<a class="md-anchor" href="#一段更合理的伪代码">#</a></h2>
+<pre><code class="language-ts">while (!runFinished) {
+  const decision = planner(state)
+
+  if (decision.type === &quot;tool&quot;) {
+    const result = execute(decision.tool)
+    state = updateEvidence(state, result)
+
+    if (shouldReflectOnStrategy(state)) {
+      const critique = reflectStrategy(state)
+
+      if (critique.shouldReplan) {
+        state = applyCritique(state, critique)
+      }
+    }
+
+    continue
+  }
+
+  if (decision.type === &quot;answer&quot;) {
+    const draft = generateAnswer(state)
+
+    if (!shouldEvaluateFinal(state, draft)) {
+      return draft
+    }
+
+    const evaluation = evaluate({
+      goal: state.globalGoal,
+      evidence: state.evidence,
+      answer: draft,
+    })
+
+    if (evaluation.pass) {
+      return draft
+    }
+
+    switch (evaluation.failureType) {
+      case &quot;wording_or_reasoning&quot;:
+        return regenerateAnswer(state, evaluation.feedback)
+
+      case &quot;evidence_gap&quot;:
+        state = reopenGoalGap(
+          state,
+          evaluation.missingRequirements
+        )
+        continue
+
+      case &quot;wrong_assumption&quot;:
+        state = replanOrBacktrack(
+          state,
+          evaluation.feedback
+        )
+        continue
+    }
+  }
+}</code></pre><p>这里最重要的不是 <code>reflect()</code> 这个函数名。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>什么时候值得花一次模型调用去怀疑自己，以及怀疑之后到底回退多远。</strong></p>
+</blockquote>
+<h2 id="reflection-不是让结论变得更保守">Reflection 不是让结论变得更保守<a class="md-anchor" href="#reflection-不是让结论变得更保守">#</a></h2>
+<p>课堂里我们聊到一个很典型的现象：</p>
+<p>有人拿“某个最新模型”和一批明显更早的模型比较，系统查了十几篇资料，结果大部分回答仍然是：</p>
+<blockquote>
+<p>各有优势，很难说谁明显更强。</p>
+</blockquote>
+<p>这暴露出一个很重要的问题：</p>
+<blockquote>
+<p><strong>错误的 Evaluator 会把 Reflection 训练成“永远不要下强结论”。</strong></p>
+</blockquote>
+<p>如果评价标准只有：</p>
+<pre><code class="language-text">有没有绝对化措辞？
+有没有说“碾压”？
+有没有忽略对方优势？
+是否足够中立？</code></pre><p>那模型很容易学成：</p>
+<pre><code class="language-text">任何比较
+→ 找双方各一个优点
+→ “各有千秋”</code></pre><p>技术上没撒谎，结论上却全是废话。</p>
+<p>真正的 Evaluator 必须检查：</p>
+<p>即：</p>
+<blockquote>
+<p><strong>结论强度是否与证据强度匹配。</strong></p>
+</blockquote>
+<p>不仅要防：</p>
+<pre><code class="language-text">弱证据
+→ 强结论 ❌</code></pre><p>也要防：</p>
+<pre><code class="language-text">强证据
+→ 过度模糊结论 ❌</code></pre><p>如果 A 在绝大多数核心指标上明显领先，Evidence 足够强，那么“各有优势、无法判断”本身也是一种错误：</p>
+<pre><code class="language-text">underclaim
+false balance</code></pre><p>因此 Reflection 不是“越来越谨慎”。</p>
+<p>它应该追求：</p>
+<blockquote>
+<p><strong>calibrated truth —— 让结论强度和证据强度匹配。</strong></p>
+</blockquote>
+<p>所以这堂课最后，我们把 Reflection 的定义升级成：</p>
+<blockquote>
+<p><strong>Reflection 不是怀疑自己，而是校准自己。</strong></p>
+</blockquote>
+<h2 id="开启-thinking能不能吃掉-reflection">开启 Thinking，能不能吃掉 Reflection？<a class="md-anchor" href="#开启-thinking能不能吃掉-reflection">#</a></h2>
+<p>可以吃掉一部分。</p>
+<p>一个 reasoning-capable LLM 在同一次调用内部完全可以：</p>
+<pre><code class="language-text">形成候选结论
+↓
+检查证据支持
+↓
+发现冲突
+↓
+修正措辞
+↓
+输出 Final Answer</code></pre><p>这可以理解成：</p>
+<pre><code class="language-text">Generate
++ implicit self-reflection
++ revise</code></pre><p>所以简单任务完全没必要为了“范式纯洁”硬造一个 Reflection Node。</p>
+<p>但：</p>
+<p>Thinking 更像模型自己的内部认知过程。</p>
+<p>系统通常只看到最终输出，很难明确控制：</p>
+<pre><code class="language-text">它检查了什么？
+为什么判定通过？
+失败以后该局部重写还是回 Planner？</code></pre><p>工程化 Reflection 则可以输出结构化结果：</p>
+<pre><code class="language-json">{
+  &quot;verdict&quot;: &quot;revise&quot;,
+  &quot;issue&quot;: &quot;false_balance&quot;,
+  &quot;instruction&quot;: &quot;结论明显弱于证据强度&quot;
+}</code></pre><p>然后 Runtime 决定：</p>
+<pre><code class="language-text">PASS
+REVISE
+REOPEN</code></pre><p>因此可以这样记：</p>
+<blockquote>
+<p><strong>Thinking 是模型会不会多想一步；Reflection 是系统有没有把自我检查变成一个可管理的控制机制。</strong></p>
+</blockquote>
+<h2 id="能不能让一个小模型决定最终-generate-要不要开-thinking">能不能让一个小模型决定最终 Generate 要不要开 Thinking？<a class="md-anchor" href="#能不能让一个小模型决定最终-generate-要不要开-thinking">#</a></h2>
+<p>这堂课最后又自然冒出了一个很有意思的方向：</p>
+<pre><code class="language-text">Planner
+↓
+candidateComplete
+↓
+Evidence / Goal / State summary
+↓
+Small Reasoning Router
+├─ FAST
+│   ↓
+│  Generate(thinking = off)
+│
+└─ THINK
+    ↓
+   Generate(thinking = on)</code></pre><p>关键不是问：</p>
+<blockquote>
+<p>这个 Prompt 看起来难不难？</p>
+</blockquote>
+<p>而是问：</p>
+<blockquote>
+<p><strong>这一次最终 Generate，开启额外 reasoning 的预期收益是否值得它的成本？</strong></p>
+</blockquote>
+<p>因为 Prompt Complexity 和 Reasoning Necessity 不是一回事。</p>
+<p>一份资料很多但已经整理得非常干净的摘要任务，可能根本不值得开启高 reasoning。</p>
+<p>反过来，一个只有一句话的模型比较任务，如果 Evidence 冲突、涉及多种 benchmark 口径、还需要避免 false balance，就可能非常值得 Think。</p>
+<p>在 Mira 里，这类判断甚至不一定需要新增一个重型 Provider。</p>
+<p>已有的 Task Model 就可以承担：</p>
+<pre><code class="language-text">reasoning mode selection</code></pre><p>输入一个很小的结构化摘要：</p>
+<pre><code class="language-ts">{
+  goalType: &quot;comparison&quot;,
+  goalComplexity: &quot;medium&quot;,
+  evidence: {
+    count: 14,
+    conflicting: true,
+    confidence: 0.82
+  },
+  execution: {
+    toolCalls: 11,
+    recoveries: 1
+  },
+  output: {
+    requiresSynthesis: true,
+    requiresJudgment: true,
+    highRisk: false
+  }
+}</code></pre><p>输出：</p>
+<pre><code class="language-json">{
+  &quot;reasoning&quot;: &quot;high&quot;
+}</code></pre><p>未来甚至不一定只是 ON / OFF：</p>
+<pre><code class="language-text">direct answer
+low reasoning
+high reasoning
+explicit reflection
+independent evaluator</code></pre><p>这时候我们原本的问题：</p>
+<blockquote>
+<p>Reflection 到底什么时候出现？</p>
+</blockquote>
+<p>会被提升成一个更大的 Runtime 问题：</p>
+<p>Thinking、Reflection、Evaluator，某种程度上都可以看成<strong>动态分配的推理预算</strong>。</p>
+<h2 id="第三课结论">第三课结论<a class="md-anchor" href="#第三课结论">#</a></h2>
+<p>这一课可以压缩成几句话：</p>
+<pre><code class="language-text">Planner
+→ 下一步怎么接近 Goal
+
+Recovery
+→ 当前失败怎么恢复
+
+Generate
+→ 基于 Evidence 形成候选结果
+
+Reflection / Evaluator
+→ 这个结果或策略是否需要校准</code></pre><p>Reflection 最合理的出现方式不是固定节点，而是：</p>
+<pre><code class="language-text">异常信号触发
+候选完成点质量门
+高价值产物检查</code></pre><p>失败后也不是一律推翻全部工作，而是：</p>
+<pre><code class="language-text">PASS
+REVISE
+REOPEN</code></pre><p>最后一句：</p>
+<blockquote>
+<p><strong>好的 Reflection 不是让 Agent 变得更犹豫，而是让它的自信程度与证据强度匹配。</strong></p>
+</blockquote>
+<p>下一课，我们离开经典范式，开始真正进入 Agent Framework：</p>
+<blockquote>
+<p>Agent、LLM、Tool、Memory、Context、Protocol、Runtime，到底谁应该拥有谁？</p>
+</blockquote>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/shared-thinking/evolution-to-a-real-person"><span class="dir">上一篇</span><span class="to">← 进化：从智能体到“真人”</span></a><a class="next" href="/tomz-io/blogs/developer-life/hidden-in-unfinished-things"><span class="dir">下一篇</span><span class="to">我把自己藏在那些还没做完的东西里 →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#planner-回环不等于-reflection">Planner 回环，不等于 Reflection</a></li><li><a href="#reflection-可以反思什么">Reflection 可以反思什么？</a></li><li><a href="#reflection-和-recovery-不是一回事">Reflection 和 Recovery 不是一回事</a></li><li><a href="#goal-执行完以后为什么还会有-reflection">Goal 执行完以后，为什么还会有 Reflection？</a></li><li><a href="#pass-revise-reopen反思失败以后到底回退多远">PASS / REVISE / REOPEN：反思失败以后到底回退多远？</a></li><li><a href="#reflection-什么时候出现才恰到好处">Reflection 什么时候出现才恰到好处？</a></li><li><a href="#一段更合理的伪代码">一段更合理的伪代码</a></li><li><a href="#reflection-不是让结论变得更保守">Reflection 不是让结论变得更保守</a></li><li><a href="#开启-thinking能不能吃掉-reflection">开启 Thinking，能不能吃掉 Reflection？</a></li><li><a href="#能不能让一个小模型决定最终-generate-要不要开-thinking">能不能让一个小模型决定最终 Generate 要不要开 Thinking？</a></li><li><a href="#第三课结论">第三课结论</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

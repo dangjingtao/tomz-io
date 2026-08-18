@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="supabase">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="UIChat Mira" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="UIChat Mira" />
+  <link rel="author" href="/about/" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <title>Role Runtime 与请求上下文 · UIChat Mira</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-CSHGhvlD.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BtX1zYgc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="Role 的数据所有权、Thread 绑定、Prompt 编译、三条 Chat 路径、状态漂移与媒体边界。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/architecture/role-runtime/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="Role Runtime 与请求上下文 · UIChat Mira"><meta property="og:description" content="Role 的数据所有权、Thread 绑定、Prompt 编译、三条 Chat 路径、状态漂移与媒体边界。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/architecture/role-runtime/"><meta property="og:site_name" content="UIChat Mira"><meta property="og:image" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/mira-logo.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="940"><meta property="og:image:height" content="760"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Role Runtime 与请求上下文 · UIChat Mira"><meta name="twitter:description" content="Role 的数据所有权、Thread 绑定、Prompt 编译、三条 Chat 路径、状态漂移与媒体边界。"><meta name="twitter:image" content="https://tomz.io/tomz-io/mira-logo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Role Runtime 与请求上下文","description":"Role 的数据所有权、Thread 绑定、Prompt 编译、三条 Chat 路径、状态漂移与媒体边界。","url":"https://tomz.io/tomz-io/architecture/role-runtime/","image":"https://tomz.io/tomz-io/mira-logo.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Organization","name":"UIChat Mira"}}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/"><img class="brand-logo" alt="" src="/tomz-io/mira-logo.png" />UIChat Mira</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/about/origin">文档</a></li><li><a href="/tomz-io/mira-docs-api">MiraDocs</a></li><li><a href="/tomz-io/blogs">博客</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/architecture">架构与运行时</a></h5></div><div class="docnav-group"><h5>文档</h5><ul><li><a href="/tomz-io/architecture/chat-runtime">Chat 与 UChat Runtime</a></li><li><a href="/tomz-io/architecture/runtime">桌面运行时</a></li><li><a href="/tomz-io/architecture/agent">Agent 当前运行真相</a></li><li><a class="active" aria-current="page" href="/tomz-io/architecture/role-runtime">Role Runtime 与请求上下文</a></li><li><a href="/tomz-io/architecture/harness">Harness 与工具边界</a></li><li><a href="/tomz-io/architecture/agent-strategy">Agent 策略</a></li><li><a href="/tomz-io/architecture/microapps">MicroApps 与独立 Runtime</a></li><li><a href="/tomz-io/architecture/provider-context">Provider 与模型运行时</a></li><li><a href="/tomz-io/architecture/knowledge-rag">Knowledge Base 与 RAG Runtime</a></li><li><a href="/tomz-io/architecture/evaluation-runtime">Evaluation Runtime 与指标语义</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">架构与运行时 · 11</div><div class="doc-title-block"><h1>Role Runtime 与请求上下文</h1><p class="doc-lede">Role 的数据所有权、Thread 绑定、Prompt 编译、三条 Chat 路径、状态漂移与媒体边界。</p></div><article class="markdown"><h2 id="文档范围">文档范围<a class="md-anchor" href="#文档范围">#</a></h2>
+<p>本页说明 Role 如何从设置页数据进入 Thread 和模型请求，并记录当前实现偏差。</p>
+<p>Role 当前对象链：</p>
+<pre><code class="language-text">Role Row
+→ Prompt Fields / LLM Profile
+→ Welcome draftRoleId | Thread.roleId
+→ Role Context Resolver
+→ Normal Chat | RAG Generate | Agent Runtime
+→ Optional TTS / Image</code></pre><h2 id="状态所有权">状态所有权<a class="md-anchor" href="#状态所有权">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>当前真相源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Role 内容</td>
+<td><code>roles</code> 表</td>
+</tr>
+<tr>
+<td>欢迎态选择</td>
+<td>Desktop draft state</td>
+</tr>
+<tr>
+<td>已有线程绑定</td>
+<td><code>threads.role_id</code></td>
+</tr>
+<tr>
+<td>可见聊天历史</td>
+<td><code>messages</code> 表</td>
+</tr>
+<tr>
+<td>请求中的 Role Prompt</td>
+<td>Backend request-context resolver</td>
+</tr>
+<tr>
+<td>Role 采样参数</td>
+<td><code>roles.llm_profile_json</code></td>
+</tr>
+<tr>
+<td>Chat 头像和标签</td>
+<td>Desktop 当前加载的 active Role 列表</td>
+</tr>
+</tbody></table>
+<p>Role Prompt 不写入 Message。</p>
+<h2 id="role-数据">Role 数据<a class="md-anchor" href="#role-数据">#</a></h2>
+<p>Role 持久化：</p>
+<pre><code class="language-text">id
+userId
+name
+summary
+avatarId
+status
+tags
+prompt
+llmProfile
+createdAt
+updatedAt</code></pre><p>真实 Role Prompt 只使用：</p>
+<pre><code class="language-text">name
+description
+worldview
+persona
+scenario
+exampleDialogues
+style
+constraints</code></pre><p>当前不进入 Prompt：</p>
+<pre><code class="language-text">summary
+tags
+avatarId
+status</code></pre><h2 id="thread-绑定">Thread 绑定<a class="md-anchor" href="#thread-绑定">#</a></h2>
+<h3 id="welcome-状态">Welcome 状态<a class="md-anchor" href="#welcome-状态">#</a></h3>
+<pre><code class="language-text">选择 Role
+→ draftRoleId
+→ 首次发送创建 Thread
+→ Thread.roleId</code></pre><h3 id="已有-thread">已有 Thread<a class="md-anchor" href="#已有-thread">#</a></h3>
+<pre><code class="language-text">选择或移除 Role
+→ PATCH Thread metadata.roleId
+→ 重新读取 Thread</code></pre><p>Thread 只保存 Role id，不保存内容快照。</p>
+<p>修改 Role 会影响所有绑定 Thread 的后续请求；当前没有版本锁定或 per-thread Role snapshot。</p>
+<h2 id="request-context-编译">Request Context 编译<a class="md-anchor" href="#request-context-编译">#</a></h2>
+<p>Backend 根据 Thread.roleId 读取 Role，并生成一条 request-only system message。</p>
+<p>当前结构近似：</p>
+<pre><code class="language-text">角色遵循说明
+角色名
+角色描述
+世界观
+人设
+场景
+示例对话
+表达风格
+约束</code></pre><p>空字段不会生成对应 section。</p>
+<p>当前实现不是前端 Prompt Manager，也没有把七个字段编译为多条可独立排序的 Prompt entry。</p>
+<p><code>{{user}}</code> 和 <code>{{char}}</code> 不做变量替换。</p>
+<h2 id="上下文顺序">上下文顺序<a class="md-anchor" href="#上下文顺序">#</a></h2>
+<p>线程 request-only context 当前按顺序装配：</p>
+<pre><code class="language-text">Role
+→ Context Summary
+→ Memory Slot
+→ Agent Execution Context</code></pre><p>Memory Slot 当前没有稳定的 Thread 持久化来源，不能据此声明长期记忆已经完成。</p>
+<p>RAG Generate 之后还会加入知识库回答规则和检索上下文。</p>
+<h2 id="normal-chat">Normal Chat<a class="md-anchor" href="#normal-chat">#</a></h2>
+<pre><code class="language-text">Role system message
+→ visible Thread history
+→ Role LLM params
+→ global llm role
+→ Provider Resolution</code></pre><p>Normal Chat 中：</p>
+<ul>
+<li>Role Prompt 生效；</li>
+<li>Role LLM Profile 生效；</li>
+<li>Role 不选择实际 Provider 或模型。</li>
+</ul>
+<h2 id="rag-chat">RAG Chat<a class="md-anchor" href="#rag-chat">#</a></h2>
+<pre><code class="language-text">Role system message
+→ requestContextMessages
+→ RAG Generate</code></pre><p>Role 只进入 Generate，不进入：</p>
+<ul>
+<li>Query Rewrite；</li>
+<li>Embedding；</li>
+<li>Vector / Lexical Retrieval；</li>
+<li>Rerank；</li>
+<li>Sources。</li>
+</ul>
+<p>当前独立 RAG 路径没有接收 Role LLM Profile。所以同一个 Role 在普通 Chat 与 RAG 中可能使用不同的采样参数。</p>
+<h2 id="agent-chat">Agent Chat<a class="md-anchor" href="#agent-chat">#</a></h2>
+<pre><code class="language-text">Role system message
+→ Agent request context
+
+Role LLM Profile
+→ Agent Runtime params</code></pre><p>Role 不能：</p>
+<ul>
+<li>扩大 Tool Exposure；</li>
+<li>绕过 Harness Policy；</li>
+<li>自动批准 Invocation；</li>
+<li>选择 Skill Runtime；</li>
+<li>改变 Agent terminal contract；</li>
+<li>替代 Workspace boundary。</li>
+</ul>
+<p>Role.constraints 是模型 Prompt，不是可执行权限规则。</p>
+<h2 id="llm-profile">LLM Profile<a class="md-anchor" href="#llm-profile">#</a></h2>
+<p>当前字段：</p>
+<pre><code class="language-text">temperature
+topP
+topK
+maxTokens
+frequencyPenalty
+presencePenalty</code></pre><p>Role LLM Profile：</p>
+<pre><code class="language-text">!= Provider Connection
+!= Remote Model ID
+!= Model Capability Profile
+!= Context Window</code></pre><h3 id="参数范围">参数范围<a class="md-anchor" href="#参数范围">#</a></h3>
+<p>Desktop 和 API 当前只确认值是数字，没有统一的范围和整数约束。</p>
+<p>Provider 可能忽略不支持的参数，也可能返回请求错误。</p>
+<h3 id="参数清除缺陷">参数清除缺陷<a class="md-anchor" href="#参数清除缺陷">#</a></h3>
+<p>当前更新流程是 merge：</p>
+<pre><code class="language-text">Existing Profile
++ PATCH Payload
+→ Next Profile</code></pre><p>Desktop 清空输入后会省略该字段，因此旧值不会被删除。</p>
+<pre><code class="language-text">清空已保存参数
+→ key 不进入 PATCH
+→ Backend 保留 existing value</code></pre><p>这是当前配置缺陷，不是预期合同。</p>
+<h2 id="active-draft-状态漂移"><code>active / draft</code> 状态漂移<a class="md-anchor" href="#active-draft-状态漂移">#</a></h2>
+<p>Chat picker 请求：</p>
+<pre><code class="language-text">GET /roles?status=active</code></pre><p>Backend resolver 请求：</p>
+<pre><code class="language-text">getRoleById(roleId)</code></pre><p>Resolver 当前不检查 status。</p>
+<p>所以一个已绑定 Role 若被改为 draft：</p>
+<ul>
+<li>Chat UI 可能不再显示头像、标签和角色名；</li>
+<li>Backend 仍继续注入 Role Prompt；</li>
+<li>Role LLM Profile 仍可能影响 Normal / Agent。</li>
+</ul>
+<p>当前严重度为 Medium，属于 UI 与实际请求状态分叉。</p>
+<h2 id="preview-边界">Preview 边界<a class="md-anchor" href="#preview-边界">#</a></h2>
+<p>Workbench Prompt Preview 是前端手写说明文本；Chat Preview 是固定模板回复。</p>
+<p>两者都不调用：</p>
+<ul>
+<li>Backend Role resolver；</li>
+<li>RAG Graph；</li>
+<li>Agent Runtime；</li>
+<li>Provider；</li>
+<li>Model Observation。</li>
+</ul>
+<p>Preview 还展示 summary，而真实 Prompt 不使用 summary。</p>
+<p>因此 Preview 不能作为 Runtime 验证证据。</p>
+<h2 id="删除行为">删除行为<a class="md-anchor" href="#删除行为">#</a></h2>
+<p>Thread 外键当前使用：</p>
+<pre><code class="language-text">role_id REFERENCES roles(id) ON DELETE SET NULL</code></pre><p>删除 Role 会：</p>
+<pre><code class="language-text">删除 Role row
+→ Thread.roleId = null
+→ Thread 与 Messages 保留</code></pre><p>当前没有专门覆盖此行为的回归测试，仍应防止未来 Migration 把它误改成 Cascade。</p>
+<p>Role 删除或解绑不会自动清空 Context Summary。</p>
+<h2 id="媒体联动">媒体联动<a class="md-anchor" href="#媒体联动">#</a></h2>
+<h3 id="tts">TTS<a class="md-anchor" href="#tts">#</a></h3>
+<p>TTS 是 Assistant 成功后的独立 Runtime。Role 只影响被合成的文字，不选择声音或 TTS Provider。</p>
+<h3 id="image">Image<a class="md-anchor" href="#image">#</a></h3>
+<p>选择 Role 时，Desktop 当前可能自动写入：</p>
+<pre><code class="language-text">imageEnabled = true</code></pre><p>自动图片任务要求：</p>
+<pre><code class="language-text">imageEnabled
++ roleId
++ no knowledgeBaseId
++ configured Image capability</code></pre><p>Assistant 文本直接作为图片 Prompt。这是产品集成副作用，不是 Role 数据模型的能力。</p>
+<h2 id="starter-role-初始化">Starter Role 初始化<a class="md-anchor" href="#starter-role-初始化">#</a></h2>
+<p>Backend 只有在整张 roles 表为空时，才为当时存在的 active users 写入三个英文示例 Role。</p>
+<pre><code class="language-text">roles table count &gt; 0
+→ 后创建用户不会得到 starter roles</code></pre><p>Desktop 还有一份可本地化 starter builder，但当前没有实际调用方。</p>
+<h2 id="当前问题矩阵">当前问题矩阵<a class="md-anchor" href="#当前问题矩阵">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>影响</th>
+<th>严重度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>draft Role 仍被 Backend 注入</td>
+<td>UI 与请求分叉</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>RAG 不使用 Role LLM Profile</td>
+<td>模式间采样不一致</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>已保存参数无法通过清空删除</td>
+<td>配置无法可靠恢复默认</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>参数没有范围校验</td>
+<td>Provider 拒绝或行为漂移</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Preview 不是真实请求或回复</td>
+<td>用户误判 Role 已生效</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>选择 Role 隐式启用 Image</td>
+<td>额外任务和成本</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Starter seed 不是 per-user</td>
+<td>新用户体验不一致</td>
+<td>Low–Medium</td>
+</tr>
+<tr>
+<td>示例变量不替换</td>
+<td>示例按字面文本发送</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>删除后保留对话缺少专项测试</td>
+<td>Migration 回归风险</td>
+<td>Low</td>
+</tr>
+</tbody></table>
+<p>这些问题目前只记录在文档，尚未在本轮修复。</p>
+<h2 id="当前没有的能力">当前没有的能力<a class="md-anchor" href="#当前没有的能力">#</a></h2>
+<ul>
+<li>Role Copy / Import / Export；</li>
+<li>Role Version；</li>
+<li>Thread Role Snapshot；</li>
+<li>Role Inheritance；</li>
+<li>Role 专属模型；</li>
+<li>Role 专属 Knowledge Base；</li>
+<li>Role Long-term Memory；</li>
+<li>Role Growth State；</li>
+<li>Role Tool Policy；</li>
+<li>实际 Request Snapshot Viewer；</li>
+<li>实际 Model Preview；</li>
+<li>完整发布与下架工作流。</li>
+</ul>
+<h2 id="验证依据">验证依据<a class="md-anchor" href="#验证依据">#</a></h2>
+<p>当前事实来自：</p>
+<ul>
+<li>Role SQLite schema、Repository、Service 和 Route；</li>
+<li>Personas Workbench 与 <code>useRoles</code>；</li>
+<li>Role Preview 与 LLM Profile Drawer；</li>
+<li>Chat Role picker 和 Thread binding；</li>
+<li>Thread request-context Role resolver；</li>
+<li>Normal / RAG / Agent route；</li>
+<li>Chat media lifecycle；</li>
+<li>Thread Role foreign key。</li>
+</ul>
+<h2 id="相关文档">相关文档<a class="md-anchor" href="#相关文档">#</a></h2>
+<ul>
+<li><a href="/docs/product/roles-microapps">角色工作台</a></li>
+<li><a href="/docs/product/workspace">对话工作区</a></li>
+<li><a href="/docs/architecture/chat-runtime">Chat 与 UChat Runtime</a></li>
+<li><a href="/docs/architecture/provider-context">Provider 与模型运行时</a></li>
+<li><a href="/docs/architecture/knowledge-rag">Knowledge Base 与 RAG Runtime</a></li>
+<li><a href="/docs/architecture/agent">Agent 当前运行真相</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/architecture/agent"><span class="dir">上一篇</span><span class="to">← Agent 当前运行真相</span></a><a class="next" href="/tomz-io/architecture/harness"><span class="dir">下一篇</span><span class="to">Harness 与工具边界 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#文档范围">文档范围</a></li><li class="toc-depth-2"><a href="#状态所有权">状态所有权</a></li><li class="toc-depth-2"><a href="#role-数据">Role 数据</a></li><li class="toc-depth-2"><a href="#thread-绑定">Thread 绑定</a></li><li class="toc-depth-3"><a href="#welcome-状态">Welcome 状态</a></li><li class="toc-depth-3"><a href="#已有-thread">已有 Thread</a></li><li class="toc-depth-2"><a href="#request-context-编译">Request Context 编译</a></li><li class="toc-depth-2"><a href="#上下文顺序">上下文顺序</a></li><li class="toc-depth-2"><a href="#normal-chat">Normal Chat</a></li><li class="toc-depth-2"><a href="#rag-chat">RAG Chat</a></li><li class="toc-depth-2"><a href="#agent-chat">Agent Chat</a></li><li class="toc-depth-2"><a href="#llm-profile">LLM Profile</a></li><li class="toc-depth-3"><a href="#参数范围">参数范围</a></li><li class="toc-depth-3"><a href="#参数清除缺陷">参数清除缺陷</a></li><li class="toc-depth-2"><a href="#active-draft-状态漂移">active / draft 状态漂移</a></li><li class="toc-depth-2"><a href="#preview-边界">Preview 边界</a></li><li class="toc-depth-2"><a href="#删除行为">删除行为</a></li><li class="toc-depth-2"><a href="#媒体联动">媒体联动</a></li><li class="toc-depth-3"><a href="#tts">TTS</a></li><li class="toc-depth-3"><a href="#image">Image</a></li><li class="toc-depth-2"><a href="#starter-role-初始化">Starter Role 初始化</a></li><li class="toc-depth-2"><a href="#当前问题矩阵">当前问题矩阵</a></li><li class="toc-depth-2"><a href="#当前没有的能力">当前没有的能力</a></li><li class="toc-depth-2"><a href="#验证依据">验证依据</a></li><li class="toc-depth-2"><a href="#相关文档">相关文档</a></li></ul></aside></div></div></div>
+</body>
+</html>
