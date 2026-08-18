@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "verify:mira-docs": "node scripts/verify-mira-docs-compat.mjs",
+    "verify:runtime-routing": "node scripts/verify-runtime-routing.mjs",
     "verify:static-output": "node scripts/verify-mira-docs-static-output.mjs",
-    "build": "npm run verify:mira-docs && tsc --noEmit && vite build",
+    "build": "npm run verify:mira-docs && npm run verify:runtime-routing && tsc --noEmit && vite build",
     "build:github-pages": "npm run build -- --mode github-pages",
     "preview": "vite preview"
   },
