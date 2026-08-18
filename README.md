@@ -1,31 +1,51 @@
-# tomz.io
+# UIChat Mira 产品文档
 
-Tomz Dang 的个人主站 / 作者主页 / 数字住所。
+面向 [UIChat Mira](https://github.com/dangjingtao/uichat-mira) 的精选产品文档站。内容依据源码 `dev` 分支整理，覆盖品牌、哲学、产品、架构、工程与当前状态。
 
-## 技术栈
+- Sites：https://uichat-mira-docs.dangjingtao.chatgpt.site
+- GitHub Pages：https://dangjingtao.github.io/uichat-mira-docs/
 
-React + TypeScript + Vite，内容与静态站点基础能力由 `@uichat-mira/docs` 提供。
+## 文档结构
 
-边界：
+Markdown 位于 `docs/<section>/*.md`：
 
-- MiraDocs：Markdown 发现、frontmatter 解析、排序、roots、热更新、静态路由与 SEO 输出；
-- tomz.io adapter：作者关系、栏目展示语义和 Tomz 站点品牌；
-- React 页面：作者主页、导航、项目入口和视觉呈现。
+- `about`：品牌、作者、产品地图
+- `philosophy`：本地优先、可控自主、证据
+- `product`：工作区、知识与评测、角色与微应用
+- `architecture`：运行时、Agent、Harness、Provider
+- `engineering`：源码、文档系统、开发验证
+- `status`：当前实现与方向
 
-Markdown 根目录为 `src/content/markdown`。BR002 不迁移历史博客正文。
+站点自动从 frontmatter 生成侧栏与 Sitemap，并以 Ctrl/Command + K 搜索标题、描述和 Markdown 全文。
 
-## 开发
+## 本地开发
 
 ```bash
 npm install
 npm run dev
-npm run build
-npm run verify:static-output
 ```
 
-GitHub Pages base 兼容检查：
+构建验证：
 
 ```bash
-npm run build:github-pages
-npm run verify:static-output -- --base=/tomz-io/
+npm run build
 ```
+
+## 部署
+
+### GitHub Pages
+
+推送 `main` 后，`.github/workflows/deploy-pages.yml` 自动构建并部署。
+
+仓库 Settings → Pages → Source 需要选择 **GitHub Actions**。
+
+### Cloudflare Pages
+
+连接本仓库并使用：
+
+- Framework preset：Vite
+- Build command：`npm run build`
+- Build output directory：`dist`
+- Node.js：22
+
+Vite 的 base 已兼容 GitHub Pages 项目路径；Cloudflare Pages 根路径部署也可正常工作。

@@ -1,201 +1,246 @@
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { relative, resolve } from "node:path";
+import { parseMiraDoc } from "@uichat-mira/docs";
 
-const dist = resolve(process.cwd(), "dist");
-const contentRoot = resolve(process.cwd(), "src/content/markdown");
-const baseArg = process.argv.find((arg) => arg.startsWith("--base="));
-const base = baseArg ? baseArg.slice("--base=".length) : "/";
-const basePath = base === "/" ? "" : `/${base.replace(/^\/+|\/+$/g, "")}`;
-const failures = [];
+const root = process.cwd();
+const pagesRoot = resolve(root, "src/pages");
+const distRoot = resolve(root, "dist");
+const siteUrl = "https://tomz.io";
+const expectedBase = `/${(process.env.EXPECTED_BASE || "uichat-mira-docs").replace(/^\/+|\/+$/g, "")}`;
 
-const articleRoutes = [
-  "/blogs/mira-letters/a-seat-at-the-writing-table",
-  "/blogs/mira-letters/to-those-who-still-believe-in-their-work",
-  "/blogs/shared-thinking/evolution-to-a-real-person",
-  "/blogs/shared-thinking/future-after-humanity",
-  "/blogs/shared-thinking/matter-awakens",
-  "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem",
-  "/blogs/product-journal/codex-app-server-automation-notes",
-  "/blogs/product-journal/mira-tts-provider-notes",
-  "/blogs/product-journal/qingcheng-mcp-bridge-notes",
-  "/blogs/engineering/insight-capture-pipeline",
-  "/blogs/engineering/insight-rebuild-pipeline",
-  "/blogs/engineering/mcp-marketplace-agent-integration",
-  "/blogs/engineering/media-capability-packaging",
-];
-
-function file(path) {
-  const target = resolve(dist, path);
-  if (!existsSync(target)) {
-    failures.push(`缺少静态输出: ${path}`);
-    return "";
-  }
-  return readFileSync(target, "utf8");
-}
-
-function canonical(path) {
-  const route = path === "/" ? "/" : `/${path.replace(/^\/+|\/+$/g, "")}/`;
-  return `https://tomz.io${basePath}${route}`;
-}
-
-function routeFile(route) {
-  return `${route.replace(/^\/+|\/+$/g, "")}/index.html`;
-}
-
-function markdownFiles(dir) {
-  if (!existsSync(dir)) return [];
-  return readdirSync(dir).flatMap((name) => {
-    const target = resolve(dir, name);
-    return statSync(target).isDirectory() ? markdownFiles(target) : /\.md$/i.test(name) ? [target] : [];
+function markdownFiles(directory) {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = resolve(directory, entry.name);
+    if (entry.isDirectory()) return markdownFiles(path);
+    return entry.name.endsWith(".md") && !/^README\.md$/i.test(entry.name)
+      ? [path]
+      : [];
   });
 }
 
-function jsonLd(html) {
-  const objects = [];
-  for (const match of html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
-    try {
-      objects.push(JSON.parse(match[1]));
-    } catch {
-      failures.push("发现无法解析的 JSON-LD");
+function dataString(data, key) {
+  const value = data[key];
+  if (Array.isArray(value)) return value.length ? String(value[0]) : undefined;
+  if (value == null || value === "") return undefined;
+  return String(value);
+}
+
+function routeFor(sourcePath, doc) {
+  const path = doc.path.replace(/^\/docs(?=\/|$)/, "");
+  return path || "/";
+}
+
+function routeFile(route) {
+  if (route === "/") return resolve(distRoot, "index.html");
+  return resolve(distRoot, route.replace(/^\//, ""), "index.html");
+}
+
+function routeUrl(route) {
+  return `${siteUrl}${expectedBase}${route === "/" ? "/" : `${route}/`}`;
+}
+
+function verifyDocumentShell(route, expectedTitle) {
+  const file = routeFile(route);
+  if (!existsSync(file)) return;
+  const html = readFileSync(file, "utf8");
+  const requiredClasses = [
+    'class="top-nav docs-header seo-static-header"',
+    'class="docs-app seo-static-docs-app"',
+    'class="docs-shell"',
+    'class="docnav"',
+    'class="toc"',
+    'class="page-nav"',
+  ];
+  for (const marker of requiredClasses) {
+    if (!html.includes(marker)) {
+      failures.push(`静态文档页缺少完整页面壳 ${marker}: ${route}`);
     }
   }
-  return objects;
-}
-
-function articleData(html, route) {
-  const article = jsonLd(html).find((item) => item?.["@type"] === "Article");
-  if (!article) failures.push(`${route}: 缺少 Article JSON-LD`);
-  return article;
-}
-
-const expectedMarkdown = articleRoutes.map((route) => `src/content/markdown${route}.md`).sort();
-const actualMarkdown = markdownFiles(contentRoot).map((path) => relative(process.cwd(), path).replaceAll("\\", "/")).sort();
-const actualMarkdownSet = new Set(actualMarkdown);
-const missingHistoricalMarkdown = expectedMarkdown.filter((path) => !actualMarkdownSet.has(path));
-if (missingHistoricalMarkdown.length) {
-  failures.push(`BR001 历史 13 篇必须全部保留，缺少: ${missingHistoricalMarkdown.join(", ")}`);
-}
-
-const pages = [
-  ["index.html", "/"],
-  ["blogs/index.html", "/blogs"],
-  ["thoughts/index.html", "/thoughts"],
-  ["reading/index.html", "/reading"],
-  ["projects/index.html", "/projects"],
-  ["about/index.html", "/about"],
-];
-
-for (const [path, route] of pages) {
-  const html = file(path);
-  if (!html) continue;
-  const head = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i)?.[1] || "";
-  if (head.includes("UIChat Mira")) failures.push(`${path}: <head> 仍包含 UIChat Mira 站点 SEO 身份`);
-  if (!html.includes("Tomz Dang")) failures.push(`${path}: 缺少 Tomz Dang 站点身份`);
-  if (!html.includes('rel="canonical"')) failures.push(`${path}: 缺少 canonical`);
-  if (!html.includes(canonical(route))) failures.push(`${path}: canonical 未匹配 ${canonical(route)}`);
-  if (!/property="og:site_name"[^>]*content="Tomz Dang"|content="Tomz Dang"[^>]*property="og:site_name"/.test(html)) {
-    failures.push(`${path}: 缺少 Tomz Dang og:site_name`);
+  if ((html.match(new RegExp(`<h1>${expectedTitle}<\\/h1>`, "g")) || []).length !== 1) {
+    failures.push(`静态文档页标题重复或缺失: ${route}`);
   }
-  if (!html.includes('application/ld+json')) failures.push(`${path}: 缺少 JSON-LD`);
-  if (basePath && !html.includes(`${basePath}/assets/`)) failures.push(`${path}: 构建资源未使用 Vite base ${basePath}/`);
-}
-
-const home = file("index.html");
-if (home) {
-  const orderedTitles = ["生图和 TTS，终于成为可以被使用的能力", "让市场里的 MCP 真正成为 Agent 的一部分"];
-  if (!(home.indexOf(orderedTitles[0]) >= 0 && home.indexOf(orderedTitles[0]) < home.indexOf(orderedTitles[1]))) {
-    failures.push("首页“最近写下”未按 compareBlogDocs 的日期/顺序结果展示真实文章");
+  if (/\b(?:src|href)="\.\.?\/assets\//.test(html)) {
+    failures.push(`深层路由包含相对 assets 地址: ${route}`);
   }
 }
 
-const blogs = file("blogs/index.html");
-if (blogs) {
-  if (!blogs.includes("共用的床")) failures.push("/blogs: 共同思考未映射为读者侧「共用的床」");
-  if (!blogs.includes("Tomz Dang × Mira")) failures.push("/blogs: 缺少共同作者展示");
-  if (!blogs.includes("Mira")) failures.push("/blogs: 缺少 Mira 作者展示");
+const failures = [];
+const visibleRoutes = new Set(["/"]);
+const docsByRoute = new Map();
+for (const file of markdownFiles(pagesRoot)) {
+  const sourcePath = relative(pagesRoot, file).replace(/\\/g, "/");
+  const doc = parseMiraDoc(sourcePath, readFileSync(file, "utf8"));
+  const merge = dataString(doc.data, "merge");
+  const mergeIndex = dataString(doc.data, "mergeIndex") === "true";
+  if (merge && !mergeIndex) continue;
+  const route = routeFor(sourcePath, doc);
+  visibleRoutes.add(route);
+  docsByRoute.set(route, doc);
 }
 
-for (const route of articleRoutes) {
-  const html = file(routeFile(route));
-  if (!html) continue;
-  if (!html.includes(canonical(route))) failures.push(`${route}: canonical 未保持历史 /blogs/... 路径`);
-  if (!/property="og:type"[^>]*content="article"|content="article"[^>]*property="og:type"/.test(html)) failures.push(`${route}: 缺少 og:type=article`);
-  if (!html.includes('class="article-header"') || !html.includes('class="markdown"')) failures.push(`${route}: 静态正文结构不完整`);
-  if ((html.match(/<h1\b/gi) || []).length !== 1) failures.push(`${route}: 正文页必须且只能有一个 H1`);
-  const article = articleData(html, route);
-  if (article?.publisher?.name !== "Tomz Dang") failures.push(`${route}: Article publisher 不是 Tomz Dang`);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(article?.datePublished || "")) failures.push(`${route}: Article datePublished 必须为 YYYY-MM-DD ISO 日期`);
-  if (blogs && !blogs.includes(`href="${basePath}${route}"`)) failures.push(`/blogs: 缺少真实文章入口 ${basePath}${route}`);
+for (const route of visibleRoutes) {
+  const file = routeFile(route);
+  if (!existsSync(file)) failures.push(`缺少静态页面: ${route} -> ${file}`);
 }
 
-const thoughts = file("thoughts/index.html");
-const sharedRoutes = articleRoutes.filter((route) => route.startsWith("/blogs/shared-thinking/"));
-if (thoughts) {
-  if (!thoughts.includes("共用的床")) failures.push("/thoughts: 缺少读者侧栏目名「共用的床」");
-  if (!thoughts.includes("Tomz Dang × Mira")) failures.push("/thoughts: 缺少 Tomz × Mira 作者关系");
-  for (const route of sharedRoutes) {
-    if (!thoughts.includes(`href="${basePath}${route}"`)) failures.push(`/thoughts: 未链接历史正文 ${route}`);
+const indexPath = resolve(distRoot, "index.html");
+const notFoundPath = resolve(distRoot, "404.html");
+const sitemapPath = resolve(distRoot, "sitemap.xml");
+const robotsPath = resolve(distRoot, "robots.txt");
+for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath]) {
+  if (!existsSync(file)) failures.push(`缺少构建产物: ${file}`);
+}
+
+if (existsSync(indexPath)) {
+  const html = readFileSync(indexPath, "utf8");
+  if (!html.includes(`<link rel="canonical" href="${siteUrl}${expectedBase}/">`)) {
+    failures.push("首页 canonical 缺失或 base 不正确");
+  }
+  if (!html.includes('property="og:site_name" content="UIChat Mira"')) {
+    failures.push("首页缺少 UIChat Mira Open Graph 站点信息");
+  }
+  if (!html.includes('type="application/ld+json"')) {
+    failures.push("首页缺少 JSON-LD");
+  }
+  if ((html.match(/name="description"/g) || []).length !== 1) {
+    failures.push("首页 description meta 不是唯一值");
+  }
+  if (html.includes(">视觉</a>") || html.includes(">Design Md</a>")) {
+    failures.push("顶部导航仍残留独立视觉入口");
+  }
+  if (!html.includes(">MiraDocs</a>")) {
+    failures.push("顶部导航缺少 MiraDocs");
   }
 }
 
-const miraArticle = articleData(file(routeFile("/blogs/mira-letters/a-seat-at-the-writing-table")), "Mira 来信");
-if (miraArticle) {
-  const names = (miraArticle.author || []).map((author) => author.name);
-  if (JSON.stringify(names) !== JSON.stringify(["Mira"])) failures.push("Mira 来信: Article author 应为 Mira");
-}
-
-for (const route of ["/blogs/shared-thinking/matter-awakens", "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem"]) {
-  const article = articleData(file(routeFile(route)), route);
-  if (article) {
-    const names = (article.author || []).map((author) => author.name);
-    if (JSON.stringify(names) !== JSON.stringify(["Tomz Dang", "Mira"])) failures.push(`${route}: 共同作者应为 Tomz Dang × Mira`);
+if (existsSync(notFoundPath)) {
+  const html = readFileSync(notFoundPath, "utf8");
+  if (!html.includes('content="noindex,nofollow"')) {
+    failures.push("404 页面没有 noindex,nofollow");
   }
 }
 
-const normalizedDateArticle = articleData(file(routeFile("/blogs/shared-thinking/matter-awakens")), "共同思考日期");
-if (normalizedDateArticle?.datePublished !== "2026-07-13") {
-  failures.push(`共同思考日期: datePublished 应为 2026-07-13，实际为 ${normalizedDateArticle?.datePublished || "<missing>"}`);
-}
-
-const fallbackArticle = articleData(file(routeFile("/blogs/engineering/media-capability-packaging")), "工程现场隐式作者");
-if (fallbackArticle) {
-  const names = (fallbackArticle.author || []).map((author) => author.name);
-  if (JSON.stringify(names) !== JSON.stringify(["Tomz Dang"])) failures.push("工程现场隐式作者应回退为 Tomz Dang");
-}
-
-const htmlBlockArticle = file(routeFile("/blogs/shared-thinking/evolution-to-a-real-person"));
-if (htmlBlockArticle && !htmlBlockArticle.includes("https://assets.tomz.io/images/1c67a267-cb02-4a7a-a10b-5a8582f847e6.png")) {
-  failures.push("历史 HTML block / 外链图片未进入正文静态产物");
-}
-const codeBlockArticle = file(routeFile("/blogs/product-journal/codex-app-server-automation-notes"));
-if (codeBlockArticle && !/<pre><code/.test(codeBlockArticle)) failures.push("历史 Markdown code block 未进入正文静态产物");
-
-const notFound = file("404.html");
-if (notFound && !/noindex,nofollow/.test(notFound)) failures.push("404.html: 缺少 noindex,nofollow");
-
-const sitemap = file("sitemap.xml");
-if (sitemap) {
-  if (!sitemap.includes(canonical("/"))) failures.push("sitemap.xml: 缺少首页 URL");
-  if (!sitemap.includes(canonical("/blogs"))) failures.push("sitemap.xml: 缺少博客 URL");
-  for (const route of articleRoutes) {
-    if (!sitemap.includes(canonical(route))) failures.push(`sitemap.xml: 缺少 ${route}`);
+const visualRootRoute = "/design-md";
+const visualRootPath = routeFile(visualRootRoute);
+if (!existsSync(visualRootPath)) {
+  failures.push("缺少视觉旧根路径兼容页");
+} else {
+  const html = readFileSync(visualRootPath, "utf8");
+  if (html.includes("EMPTY SECTION") || html.includes("页面不存在")) {
+    failures.push("视觉旧根路径仍渲染为空目录或 404");
   }
-  const thoughtUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]).filter((url) => url.includes(`${basePath}/thoughts/`));
-  if (thoughtUrls.some((url) => url !== canonical("/thoughts"))) failures.push("sitemap.xml: 不应生成 /thoughts/<slug> 第二套正文 URL");
+  if (!html.includes("视觉文档已归入 MiraDocs")) {
+    failures.push("视觉旧根路径没有明确迁移说明");
+  }
+  if (!html.includes("/mira-docs-api")) {
+    failures.push("视觉旧根路径没有指向 MiraDocs");
+  }
 }
 
-const thoughtsDir = resolve(dist, "thoughts");
-if (existsSync(thoughtsDir) && readdirSync(thoughtsDir).some((name) => statSync(resolve(thoughtsDir, name)).isDirectory())) {
-  failures.push("静态输出不应生成 /thoughts/<slug> 目录");
+const miraDocsAreaPath = routeFile("/mira-docs-api");
+if (!existsSync(miraDocsAreaPath)) {
+  failures.push("缺少 MiraDocs 区域静态页");
+} else {
+  const html = readFileSync(miraDocsAreaPath, "utf8");
+  if (!html.includes("/design-md/视觉/product-design-system")) {
+    failures.push("MiraDocs 区域没有纳入视觉内容");
+  }
 }
 
-const robots = file("robots.txt");
-if (robots && !robots.includes("Sitemap:")) failures.push("robots.txt: 缺少 Sitemap 声明");
+const designSystemRoute = "/design-md/视觉/product-design-system";
+const designSystemPath = routeFile(designSystemRoute);
+if (existsSync(designSystemPath)) {
+  const html = readFileSync(designSystemPath, "utf8");
+  if (html.includes("::: html")) {
+    failures.push("产品设计系统静态页泄漏了 ::: html 容器标记");
+  }
+  if (!html.includes('class="claude-visual"')) {
+    failures.push("产品设计系统静态页没有恢复原始 HTML 视觉内容");
+  }
+  if (!html.includes("Mira 的设计系统")) {
+    failures.push("产品设计系统静态页缺少合并后的正文内容");
+  }
+  const docnav = html.match(/<nav class="docnav">[\s\S]*?<\/nav>/)?.[0] || "";
+  if (!docnav.includes(">MiraDocs</a>")) {
+    failures.push("视觉文档侧栏没有归入 MiraDocs");
+  }
+  if (!docnav.includes("<h5>视觉</h5>")) {
+    failures.push("视觉文档侧栏缺少统一视觉分组");
+  }
+  if (docnav.includes("<h5>主题</h5>") || docnav.includes("<h5>产品设计系统</h5>")) {
+    failures.push("视觉文档侧栏仍残留迁移前的拆分目录");
+  }
+}
+verifyDocumentShell(designSystemRoute, "产品设计系统");
+
+const claudeRoute = "/design-md/视觉/theme/claude";
+const claudePath = routeFile(claudeRoute);
+if (existsSync(claudePath)) {
+  const html = readFileSync(claudePath, "utf8");
+  if (html.includes("<h1>Claude 的 DESIGN.md</h1>")) {
+    failures.push("Claude 静态页仍显示正文中的重复一级标题");
+  }
+  if (!html.includes("DESIGN.md 原始元数据")) {
+    failures.push("Claude 静态页正文信息缺失");
+  }
+  if (!html.includes("本页目录")) {
+    failures.push("Claude 静态页缺少本页目录");
+  }
+}
+verifyDocumentShell(claudeRoute, "Claude");
+
+const blogEntry = [...docsByRoute.entries()].find(([route]) =>
+  route.startsWith("/blogs/"),
+);
+if (blogEntry) {
+  const [route, doc] = blogEntry;
+  const file = routeFile(route);
+  if (existsSync(file)) {
+    const html = readFileSync(file, "utf8");
+    if (!html.includes('class="article-header"')) {
+      failures.push(`博客静态页缺少文章头: ${route}`);
+    }
+    if (!html.includes("post-meta post-meta-article")) {
+      failures.push(`博客静态页缺少作者、日期和分类信息: ${route}`);
+    }
+    if (!html.includes("author-signature")) {
+      failures.push(`博客静态页缺少作者署名区: ${route}`);
+    }
+    if (!html.includes('class="top-nav docs-header seo-static-header"')) {
+      failures.push(`博客静态页缺少站点导航: ${route}`);
+    }
+    if (doc.date && !html.includes(String(doc.date))) {
+      failures.push(`博客静态页缺少发布日期: ${route}`);
+    }
+    if (doc.group && !html.includes(String(doc.group))) {
+      failures.push(`博客静态页缺少文章分类: ${route}`);
+    }
+  }
+}
+
+if (existsSync(sitemapPath)) {
+  const sitemap = readFileSync(sitemapPath, "utf8");
+  for (const route of visibleRoutes) {
+    const url = routeUrl(route);
+    if (!sitemap.includes(`<loc>${url}</loc>`)) {
+      failures.push(`sitemap 缺少路由: ${route}`);
+    }
+  }
+}
+
+if (existsSync(robotsPath)) {
+  const robots = readFileSync(robotsPath, "utf8");
+  const expected = `Sitemap: ${siteUrl}${expectedBase}/sitemap.xml`;
+  if (!robots.includes(expected)) failures.push("robots.txt sitemap 地址不正确");
+}
 
 if (failures.length) {
-  console.error("MiraDocs static output check failed:");
+  console.error("MiraDocs 静态产物检查失败：");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`BR003 static output passed for base ${base}: historical 13 blog routes preserved, author semantics, ISO publication dates, canonical, body compatibility, sitemap, and thoughts aggregation verified.`);
+console.log(
+  `MiraDocs static output passed: ${visibleRoutes.size} routes, complete article shells/Markdown rendering/canonical/JSON-LD/404/sitemap/robots verified.`,
+);

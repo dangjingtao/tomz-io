@@ -2,68 +2,75 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { relative, resolve } from "node:path";
 import { parseMiraDoc } from "@uichat-mira/docs";
 
-const contentRoot = resolve(process.cwd(), "src/content/markdown");
+const contentRoot = resolve(process.cwd(), "src/pages");
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = resolve(directory, entry.name);
     if (entry.isDirectory()) return markdownFiles(path);
-    return entry.name.endsWith(".md") && !/^README\.md$/i.test(entry.name) ? [path] : [];
+    return entry.name.endsWith(".md") && !/^README\.md$/i.test(entry.name)
+      ? [path]
+      : [];
   });
 }
 
-function authors(doc) {
-  const value = doc.data.author;
-  if (Array.isArray(value)) return value.map(String).map((item) => item.trim()).filter(Boolean);
-  if (typeof value !== "string") return [];
-  return value.split(/[|,，]/).map((item) => item.trim()).filter(Boolean);
+function legacyRoute(sourcePath) {
+  const normalized = sourcePath.replace(/\\/g, "/").replace(/\.md$/i, "");
+  const withoutDocsRoot = normalized.replace(/^docs\//, "");
+  return `/${withoutDocsRoot}`.replace(/\/{2,}/g, "/");
 }
 
 const failures = [];
 const routes = new Map();
+const counts = new Map();
+const files = markdownFiles(contentRoot);
 
-const fixtures = [
-  [
-    "scalar author",
-    `---\ntitle: Scalar author\ndescription: fixture\ngroup: 产品手记\norder: 1\nauthor: tomz | mira\n---\n\n# Scalar author\n`,
-  ],
-  [
-    "YAML list author",
-    `---\ntitle: YAML list author\ndescription: fixture\ngroup: 产品手记\norder: 2\nauthor:\n  - tomz\n  - mira\n---\n\n# YAML list author\n`,
-  ],
-];
-
-for (const [name, raw] of fixtures) {
-  try {
-    const doc = parseMiraDoc(`blogs/fixtures/${name.replace(/\s+/g, "-")}.md`, raw);
-    const parsedAuthors = authors(doc);
-    if (parsedAuthors.join("|") !== "tomz|mira") {
-      failures.push(`${name}: author 解析结果为 ${JSON.stringify(parsedAuthors)}`);
-    }
-  } catch (error) {
-    failures.push(`${name}: ${error instanceof Error ? error.message : String(error)}`);
-  }
-}
-
-for (const file of markdownFiles(contentRoot)) {
+for (const file of files) {
   const sourcePath = relative(contentRoot, file).replace(/\\/g, "/");
+  const raw = readFileSync(file, "utf8");
+
   try {
-    const doc = parseMiraDoc(sourcePath, readFileSync(file, "utf8"));
-    const previous = routes.get(doc.path);
-    if (previous) failures.push(`重复路由 ${doc.path}: ${previous}, ${sourcePath}`);
-    else routes.set(doc.path, sourcePath);
-    if (!doc.title.trim()) failures.push(`缺少 title: ${sourcePath}`);
-    if (!doc.body.trim()) failures.push(`正文为空: ${sourcePath}`);
+    const doc = parseMiraDoc(sourcePath, raw);
+    const route = legacyRoute(sourcePath);
+    const previous = routes.get(route);
+
+    if (previous) {
+      failures.push(`重复路由 ${route}: ${previous}, ${sourcePath}`);
+    } else {
+      routes.set(route, sourcePath);
+    }
+
+    if (!doc.title.trim() || doc.title === doc.path) {
+      failures.push(`缺少 title: ${sourcePath}`);
+    }
+    if (!doc.body.trim()) {
+      failures.push(`正文为空: ${sourcePath}`);
+    }
+
+    counts.set(doc.type, (counts.get(doc.type) ?? 0) + 1);
   } catch (error) {
-    failures.push(`${sourcePath}: ${error instanceof Error ? error.message : String(error)}`);
+    failures.push(
+      `${sourcePath}: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }
 
-if (failures.length) {
-  console.error("MiraDocs compatibility check failed:");
+if (files.length === 0) {
+  failures.push(`没有在 ${contentRoot} 找到 Markdown 内容`);
+}
+
+if (failures.length > 0) {
+  console.error("MiraDocs 兼容检查失败：");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`MiraDocs compatibility passed: author fixtures=2, content routes=${routes.size}.`);
+const summary = [...counts.entries()]
+  .sort(([left], [right]) => left.localeCompare(right))
+  .map(([type, count]) => `${type}=${count}`)
+  .join(", ");
+
+console.log(
+  `MiraDocs compatibility passed: ${files.length} files, ${routes.size} routes (${summary}).`,
+);
