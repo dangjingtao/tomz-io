@@ -1,18 +1,44 @@
-name: Verify
+name: Verify BR003A
 
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  build:
+  mirror-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Fetch pinned mature source
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/dangjingtao/uichat-mira-docs.git /tmp/br003a-source
+          git -C /tmp/br003a-source fetch --depth 1 origin "$(cat .br003a-source-sha)"
+          git -C /tmp/br003a-source checkout --detach "$(cat .br003a-source-sha)"
+
+      - name: Verify full mirror integrity
+        run: node scripts/verify-br003a-mirror.mjs /tmp/br003a-source
+
       - run: npm install
-      - run: npm run build
-      - run: npm run verify:static-output
-      - run: npm run build:github-pages
-      - run: npm run verify:static-output -- --base=/tomz-io/
+
+      - name: MiraDocs parse and route uniqueness
+        run: npm run verify:mira-docs
+
+      - name: Root build
+        run: npm run build
+
+      - name: Root static output
+        run: node scripts/verify-br003a-root-static.mjs
+
+      - name: GitHub Pages build
+        run: npm run build:github-pages
+
+      - name: GitHub Pages static output
+        env:
+          EXPECTED_BASE: tomz-io
+        run: npm run verify:static-output
