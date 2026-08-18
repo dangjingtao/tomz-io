@@ -100,3 +100,12 @@ jobs:
           test -s /tmp/mira-logo.png
           curl -fsSL --max-time 20 "$base/robots.txt" | grep -Fq 'Disallow: /'
           echo "Public Pages runtime smoke passed for final source $PREVIEW_SHA."
+
+      - name: Record successful public runtime smoke
+        env:
+          PREVIEW_SHA: ${{ github.sha }}
+        run: |
+          printf '%s\n' "$PREVIEW_SHA" > runtime-smoke-passed.txt
+          git add runtime-smoke-passed.txt
+          git commit -m "verify: Pages runtime smoke $PREVIEW_SHA"
+          git push --force origin HEAD:gh-pages
