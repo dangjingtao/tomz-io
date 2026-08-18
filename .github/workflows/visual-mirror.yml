@@ -6,6 +6,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: br003a-visual-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   visual-mirror:
     runs-on: ubuntu-latest
@@ -22,11 +26,14 @@ jobs:
           git -C /tmp/br003a-visual-source fetch --depth 1 origin "$(cat .br003a-source-sha)"
           git -C /tmp/br003a-visual-source checkout --detach "$(cat .br003a-source-sha)"
 
-      - name: Install shared dependencies and Chromium
+      - name: Install shared dependencies and use runner Chrome
         run: |
           npm install
-          npm install --no-save --no-package-lock playwright@1.55.0 pixelmatch@7.1.0 pngjs@7.0.0
-          npx playwright install --with-deps chromium
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm install --no-save --no-package-lock playwright@1.55.0 pixelmatch@7.1.0 pngjs@7.0.0
+          CHROME_PATH="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME_PATH"
+          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
+          "$CHROME_PATH" --version
           ln -s "$GITHUB_WORKSPACE/node_modules" /tmp/br003a-visual-source/node_modules
 
       - name: Build source and target root sites
@@ -122,7 +129,7 @@ jobs:
             if (ratio > maxDiffRatio) throw new Error(`${name}: visual diff ${(ratio * 100).toFixed(4)}% exceeds ${(maxDiffRatio * 100).toFixed(2)}%`);
           }
 
-          const browser = await chromium.launch();
+          const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, args: ['--no-sandbox'] });
           try {
             for (const [viewportName, viewport] of viewports) {
               const sourceContext = await browser.newContext({ viewport, serviceWorkers: 'block', colorScheme: 'light' });
