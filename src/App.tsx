@@ -9,9 +9,14 @@ import { HomePage } from "./pages/HomePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { ThoughtsPage } from "./pages/ThoughtsPage";
 
+function normalizeContentPath(pathname: string) {
+  return pathname === "/" ? pathname : pathname.replace(/\/+$/, "");
+}
+
 function ContentRoute() {
   const { pathname } = useLocation();
-  const doc = allDocs.find((candidate) => candidate.path === pathname);
+  const contentPath = normalizeContentPath(pathname);
+  const doc = allDocs.find((candidate) => candidate.path === contentPath);
   return doc ? <ArticlePage doc={doc} /> : <Navigate to="/" replace />;
 }
 
