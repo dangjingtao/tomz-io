@@ -85,7 +85,8 @@ const pages = [
 for (const [path, route] of pages) {
   const html = file(path);
   if (!html) continue;
-  if (html.includes("UIChat Mira")) failures.push(`${path}: 仍包含 UIChat Mira SEO 身份`);
+  const head = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i)?.[1] || "";
+  if (head.includes("UIChat Mira")) failures.push(`${path}: <head> 仍包含 UIChat Mira 站点 SEO 身份`);
   if (!html.includes("Tomz Dang")) failures.push(`${path}: 缺少 Tomz Dang 站点身份`);
   if (!html.includes('rel="canonical"')) failures.push(`${path}: 缺少 canonical`);
   if (!html.includes(canonical(route))) failures.push(`${path}: canonical 未匹配 ${canonical(route)}`);
