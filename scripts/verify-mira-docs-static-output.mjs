@@ -70,8 +70,11 @@ function articleData(html, route) {
 
 const expectedMarkdown = articleRoutes.map((route) => `src/content/markdown${route}.md`).sort();
 const actualMarkdown = markdownFiles(contentRoot).map((path) => relative(process.cwd(), path).replaceAll("\\", "/")).sort();
-if (actualMarkdown.length !== 13) failures.push(`迁入 Markdown 数量应为 13，实际为 ${actualMarkdown.length}`);
-if (JSON.stringify(actualMarkdown) !== JSON.stringify(expectedMarkdown)) failures.push("迁入 Markdown 路径集合与 BR001 的 13 篇清单不一致");
+const actualMarkdownSet = new Set(actualMarkdown);
+const missingHistoricalMarkdown = expectedMarkdown.filter((path) => !actualMarkdownSet.has(path));
+if (missingHistoricalMarkdown.length) {
+  failures.push(`BR001 历史 13 篇必须全部保留，缺少: ${missingHistoricalMarkdown.join(", ")}`);
+}
 
 const pages = [
   ["index.html", "/"],
@@ -121,6 +124,7 @@ for (const route of articleRoutes) {
   if ((html.match(/<h1\b/gi) || []).length !== 1) failures.push(`${route}: 正文页必须且只能有一个 H1`);
   const article = articleData(html, route);
   if (article?.publisher?.name !== "Tomz Dang") failures.push(`${route}: Article publisher 不是 Tomz Dang`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(article?.datePublished || "")) failures.push(`${route}: Article datePublished 必须为 YYYY-MM-DD ISO 日期`);
   if (blogs && !blogs.includes(`href="${basePath}${route}"`)) failures.push(`/blogs: 缺少真实文章入口 ${basePath}${route}`);
 }
 
@@ -146,6 +150,11 @@ for (const route of ["/blogs/shared-thinking/matter-awakens", "/blogs/product-jo
     const names = (article.author || []).map((author) => author.name);
     if (JSON.stringify(names) !== JSON.stringify(["Tomz Dang", "Mira"])) failures.push(`${route}: 共同作者应为 Tomz Dang × Mira`);
   }
+}
+
+const normalizedDateArticle = articleData(file(routeFile("/blogs/shared-thinking/matter-awakens")), "共同思考日期");
+if (normalizedDateArticle?.datePublished !== "2026-07-13") {
+  failures.push(`共同思考日期: datePublished 应为 2026-07-13，实际为 ${normalizedDateArticle?.datePublished || "<missing>"}`);
 }
 
 const fallbackArticle = articleData(file(routeFile("/blogs/engineering/media-capability-packaging")), "工程现场隐式作者");
@@ -189,4 +198,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`BR003 static output passed for base ${base}: 13 historical blog routes, author semantics, canonical, body compatibility, sitemap, and thoughts aggregation verified.`);
+console.log(`BR003 static output passed for base ${base}: historical 13 blog routes preserved, author semantics, ISO publication dates, canonical, body compatibility, sitemap, and thoughts aggregation verified.`);
