@@ -97,13 +97,28 @@ for (const [path, route] of pages) {
   if (basePath && !html.includes(`${basePath}/assets/`)) failures.push(`${path}: 构建资源未使用 Vite base ${basePath}/`);
 }
 
+const home = file("index.html");
+if (home) {
+  const orderedTitles = ["生图和 TTS，终于成为可以被使用的能力", "让市场里的 MCP 真正成为 Agent 的一部分"];
+  if (!(home.indexOf(orderedTitles[0]) >= 0 && home.indexOf(orderedTitles[0]) < home.indexOf(orderedTitles[1]))) {
+    failures.push("首页“最近写下”未按 compareBlogDocs 的日期/顺序结果展示真实文章");
+  }
+}
+
 const blogs = file("blogs/index.html");
+if (blogs) {
+  if (!blogs.includes("共用的床")) failures.push("/blogs: 共同思考未映射为读者侧「共用的床」");
+  if (!blogs.includes("Tomz Dang × Mira")) failures.push("/blogs: 缺少共同作者展示");
+  if (!blogs.includes("Mira")) failures.push("/blogs: 缺少 Mira 作者展示");
+}
+
 for (const route of articleRoutes) {
   const html = file(routeFile(route));
   if (!html) continue;
   if (!html.includes(canonical(route))) failures.push(`${route}: canonical 未保持历史 /blogs/... 路径`);
   if (!/property="og:type"[^>]*content="article"|content="article"[^>]*property="og:type"/.test(html)) failures.push(`${route}: 缺少 og:type=article`);
   if (!html.includes('class="article-header"') || !html.includes('class="markdown"')) failures.push(`${route}: 静态正文结构不完整`);
+  if ((html.match(/<h1\b/gi) || []).length !== 1) failures.push(`${route}: 正文页必须且只能有一个 H1`);
   const article = articleData(html, route);
   if (article?.publisher?.name !== "Tomz Dang") failures.push(`${route}: Article publisher 不是 Tomz Dang`);
   if (blogs && !blogs.includes(`href="${basePath}${route}"`)) failures.push(`/blogs: 缺少真实文章入口 ${basePath}${route}`);
@@ -139,6 +154,13 @@ if (fallbackArticle) {
   if (JSON.stringify(names) !== JSON.stringify(["Tomz Dang"])) failures.push("工程现场隐式作者应回退为 Tomz Dang");
 }
 
+const htmlBlockArticle = file(routeFile("/blogs/shared-thinking/evolution-to-a-real-person"));
+if (htmlBlockArticle && !htmlBlockArticle.includes("https://assets.tomz.io/images/1c67a267-cb02-4a7a-a10b-5a8582f847e6.png")) {
+  failures.push("历史 HTML block / 外链图片未进入正文静态产物");
+}
+const codeBlockArticle = file(routeFile("/blogs/product-journal/codex-app-server-automation-notes"));
+if (codeBlockArticle && !/<pre><code/.test(codeBlockArticle)) failures.push("历史 Markdown code block 未进入正文静态产物");
+
 const notFound = file("404.html");
 if (notFound && !/noindex,nofollow/.test(notFound)) failures.push("404.html: 缺少 noindex,nofollow");
 
@@ -167,4 +189,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`BR003 static output passed for base ${base}: 13 historical blog routes, author semantics, canonical, sitemap, and thoughts aggregation verified.`);
+console.log(`BR003 static output passed for base ${base}: 13 historical blog routes, author semantics, canonical, body compatibility, sitemap, and thoughts aggregation verified.`);
