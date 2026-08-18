@@ -1,5 +1,6 @@
 import { Section } from "../components/Section";
 import { blogPosts } from "../content";
+import { groupDisplayName } from "../content/tomz-docs-adapter";
 import { siteHref } from "../lib/site-path";
 import { collaborations, currentThoughts, projects } from "../site";
 
@@ -28,12 +29,12 @@ export function HomePage() {
         </ol>
       </Section>
 
-      <Section eyebrow="WRITING" title="最近写下" intro="这里直接读取 MiraDocs 内容。BR002 不迁旧文章，所以现在保持诚实的空状态。">
+      <Section eyebrow="WRITING" title="最近写下" intro="由迁入后的 MiraDocs 内容按日期排序。">
         {recentPosts.length ? (
           <div className="post-list">
             {recentPosts.map((post) => (
               <a className="post-row" href={siteHref(post.path)} key={post.path}>
-                <span>{post.group}</span>
+                <span>{groupDisplayName(post.group)}</span>
                 <div><h3>{post.title}</h3><p>{post.description}</p></div>
                 <time>{post.date}</time>
               </a>
@@ -42,7 +43,7 @@ export function HomePage() {
         ) : (
           <div className="empty-state">
             <strong>文章还没有搬进来。</strong>
-            <p>旧文章仍留在原站与原 URL；迁移会在后续任务单独完成。</p>
+            <p>历史文章会保持原有 /blogs/... URL 迁入。</p>
           </div>
         )}
       </Section>

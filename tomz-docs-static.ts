@@ -8,8 +8,10 @@ import {
 } from "@uichat-mira/docs/vite";
 import {
   adaptTomzDocs,
+  authorDisplayLine,
   authorDisplayName,
   compareBlogDocs,
+  groupDisplayName,
   type TomzDoc,
 } from "./src/content/tomz-docs-adapter";
 import { collaborations, currentThoughts, navigation, projects } from "./src/site";
@@ -38,12 +40,16 @@ function pageHeader(eyebrow: string, title: string, description: string): string
   return `<header class="page-header"><span class="eyebrow">${miraDocsEscapeHtml(eyebrow)}</span><h1>${miraDocsEscapeHtml(title)}</h1><p>${miraDocsEscapeHtml(description)}</p></header>`;
 }
 
+function postMeta(doc: TomzDoc): string {
+  return [authorDisplayLine(doc), doc.readTime].filter(Boolean).join(" · ");
+}
+
 function homeBody(context: MiraDocsStaticBuildContext, docs: TomzDoc[]): string {
   const recent = docs.filter((doc) => doc.root === "blogs").sort(compareBlogDocs).slice(0, 4);
   const thoughts = currentThoughts.map((thought) => `<li>${miraDocsEscapeHtml(thought)}</li>`).join("");
   const posts = recent.length
-    ? `<div class="post-list">${recent.map((doc) => `<a class="post-row" href="${href(context, doc.path)}"><span>${miraDocsEscapeHtml(doc.group)}</span><div><h3>${miraDocsEscapeHtml(doc.title)}</h3><p>${miraDocsEscapeHtml(doc.description || "")}</p></div><time>${miraDocsEscapeHtml(doc.date || "")}</time></a>`).join("")}</div>`
-    : `<div class="empty-state"><strong>文章还没有搬进来。</strong><p>旧文章仍留在原站与原 URL；迁移会在后续任务单独完成。</p></div>`;
+    ? `<div class="post-list">${recent.map((doc) => `<a class="post-row" href="${href(context, doc.path)}"><span>${miraDocsEscapeHtml(groupDisplayName(doc.group))}</span><div><h3>${miraDocsEscapeHtml(doc.title)}</h3><p>${miraDocsEscapeHtml(doc.description || "")}</p></div><time>${miraDocsEscapeHtml(doc.date || "")}</time></a>`).join("")}</div>`
+    : `<div class="empty-state"><strong>文章还没有搬进来。</strong><p>历史文章会保持原有 /blogs/... URL 迁入。</p></div>`;
   const together = collaborations.map((item) => `<a class="quiet-card" href="${href(context, item.href)}"><h3>${miraDocsEscapeHtml(item.title)}</h3><p>${miraDocsEscapeHtml(item.description)}</p><span>进入 →</span></a>`).join("");
   const projectList = projects.map((project) => {
     const content = `<span class="project-meta">${miraDocsEscapeHtml(project.meta)}</span><h3>${miraDocsEscapeHtml(project.name)}</h3><p>${miraDocsEscapeHtml(project.description)}</p>`;
@@ -58,15 +64,15 @@ function homeBody(context: MiraDocsStaticBuildContext, docs: TomzDoc[]): string 
 function blogsBody(context: MiraDocsStaticBuildContext, docs: TomzDoc[]): string {
   const posts = docs.filter((doc) => doc.root === "blogs").sort(compareBlogDocs);
   const list = posts.length
-    ? `<div class="post-list">${posts.map((doc) => `<a class="post-row" href="${href(context, doc.path)}"><span>${miraDocsEscapeHtml(doc.group)}</span><div><h3>${miraDocsEscapeHtml(doc.title)}</h3><p>${miraDocsEscapeHtml(doc.description || "")}</p></div><time>${miraDocsEscapeHtml(doc.date || "")}</time></a>`).join("")}</div>`
-    : `<div class="empty-state"><strong>还没有迁入文章。</strong><p>BR002 只把新站站起来，历史博客会在后续任务保持原 URL 迁入。</p></div>`;
+    ? `<div class="post-list">${posts.map((doc) => `<a class="post-row" href="${href(context, doc.path)}"><span>${miraDocsEscapeHtml(groupDisplayName(doc.group))}</span><div><h3>${miraDocsEscapeHtml(doc.title)}</h3><p>${miraDocsEscapeHtml(doc.description || "")}</p><p>${miraDocsEscapeHtml(postMeta(doc))}</p></div><time>${miraDocsEscapeHtml(doc.date || "")}</time></a>`).join("")}</div>`
+    : `<div class="empty-state"><strong>还没有迁入文章。</strong><p>历史博客会保持原 URL 迁入。</p></div>`;
   return shell(context, `<div class="wrap page-frame">${pageHeader("BLOGS", "博客", "完成度相对高一些的文章，会留在这里。")}${list}</div>`);
 }
 
 function thoughtsBody(context: MiraDocsStaticBuildContext, docs: TomzDoc[]): string {
   const thoughts = docs.filter((doc) => doc.group === "共同思考").sort(compareBlogDocs);
   const list = thoughts.length
-    ? `<div class="post-list">${thoughts.map((doc) => `<a class="post-row" href="${href(context, doc.path)}"><span>共用的床</span><div><h3>${miraDocsEscapeHtml(doc.title)}</h3><p>${miraDocsEscapeHtml(doc.description || "")}</p></div><time>${miraDocsEscapeHtml(doc.date || "")}</time></a>`).join("")}</div>`
+    ? `<div class="post-list">${thoughts.map((doc) => `<a class="post-row" href="${href(context, doc.path)}"><span>共用的床</span><div><h3>${miraDocsEscapeHtml(doc.title)}</h3><p>${miraDocsEscapeHtml(doc.description || "")}</p><p>${miraDocsEscapeHtml(postMeta(doc))}</p></div><time>${miraDocsEscapeHtml(doc.date || "")}</time></a>`).join("")}</div>`
     : `<div class="empty-state"><strong>入口已经留好。</strong><p>历史文章仍保留原有 /blogs/shared-thinking/... 正文地址。</p></div>`;
   return shell(context, `<div class="wrap page-frame">${pageHeader("THOUGHTS", "共用的床", "还没有定型的想法，以及 Tomz 与 Mira 继续共同思考的地方。")}${list}</div>`);
 }
@@ -91,8 +97,8 @@ function aboutBody(context: MiraDocsStaticBuildContext): string {
 
 function articleBody(context: MiraDocsStaticBuildContext, doc: TomzDoc): string {
   const body = renderMiraMarkdown(doc.body, { removeH1: true });
-  const authors = doc.author.map(authorDisplayName).join(" × ");
-  return shell(context, `<div class="wrap page-frame"><article class="article-header"><span class="eyebrow">${miraDocsEscapeHtml(doc.group)}</span><h1>${miraDocsEscapeHtml(doc.title)}</h1>${doc.description ? `<p class="hero-note">${miraDocsEscapeHtml(doc.description)}</p>` : ""}<p>${miraDocsEscapeHtml([authors, doc.date, doc.readTime].filter(Boolean).join(" · "))}</p></article><article class="markdown">${body}</article></div>`);
+  const authors = authorDisplayLine(doc);
+  return shell(context, `<div class="wrap page-frame"><article class="article-header"><span class="eyebrow">${miraDocsEscapeHtml(groupDisplayName(doc.group))}</span><h1>${miraDocsEscapeHtml(doc.title)}</h1>${doc.description ? `<p class="hero-note">${miraDocsEscapeHtml(doc.description)}</p>` : ""}<p>${miraDocsEscapeHtml([authors, doc.date, doc.readTime].filter(Boolean).join(" · "))}</p></article><article class="markdown">${body}</article></div>`);
 }
 
 function notFoundBody(context: MiraDocsStaticBuildContext): string {

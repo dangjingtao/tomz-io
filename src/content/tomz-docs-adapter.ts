@@ -44,6 +44,14 @@ export function authorDisplayName(author: AuthorKey): string {
   return author === "mira" ? "Mira" : "Tomz Dang";
 }
 
+export function authorDisplayLine(doc: Pick<TomzDoc, "author">): string {
+  return doc.author.map(authorDisplayName).join(" × ");
+}
+
+export function groupDisplayName(group?: string): string {
+  return group === "共同思考" ? "共用的床" : group || "文章";
+}
+
 function authorFields(doc: MiraDoc): Pick<TomzDoc, "author" | "writingMode" | "writtenBy" | "reviewedBy" | "commitUrl"> {
   const explicitAuthors = dataList(doc.data, "author")
     .map(normalizeAuthorKey)
