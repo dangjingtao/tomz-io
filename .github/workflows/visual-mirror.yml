@@ -57,7 +57,7 @@ jobs:
       - name: Compare desktop, mobile and navigation states
         run: |
           mkdir -p visual-evidence
-          cat > /tmp/br003a-visual-compare.mjs <<'EOF'
+          cat > .br003a-visual-compare.mjs <<'EOF'
           import { chromium } from 'playwright';
           import pixelmatch from 'pixelmatch';
           import { PNG } from 'pngjs';
@@ -208,7 +208,7 @@ jobs:
 
           console.log('BR003A visual mirror passed: 9 representative routes at desktop/mobile plus opened mobile header nav, docs drawer and TOC; max diff <= 0.5%.');
           EOF
-          node /tmp/br003a-visual-compare.mjs
+          node .br003a-visual-compare.mjs
 
       - name: Upload visual evidence
         if: always()
