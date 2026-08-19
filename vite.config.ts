@@ -19,8 +19,6 @@ const projectRoot = dirname(fileURLToPath(import.meta.url));
 const pagesRoot = resolve(projectRoot, "src/pages");
 
 const blogDirectoryByGroup: Record<string, string> = {
-  "产品手记": "product-journal",
-  "工程现场": "engineering",
   "共同思考": "shared-thinking",
   "Mira 来信": "mira-letters",
   "开发者生活": "developer-life",
@@ -131,25 +129,44 @@ function br003aStaticSeoGuard(): Plugin {
   };
 }
 
+function staticHomeBody(base: string) {
+  const prefix = base === "/" ? "" : base.replace(/\/$/, "");
+  const href = (path: string) => `${prefix}${path}`;
+  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">Tomz Dang</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/works")}">作品</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>Tomz Dang</h1><p>我是 Tomz，一名独立开发者和产品设计师。这里记录我正在做的产品，以及关于 AI、产品和人的一些思考。</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section></main>`;
+}
+
 function br003bStaticBuild() {
   const sourceRoutes = miraDocsStaticBuild.routes;
   return {
     ...miraDocsStaticBuild,
+    siteName: "Tomz Dang",
     routes: (context: any) => {
       const routes = typeof sourceRoutes === "function"
         ? sourceRoutes(context)
         : sourceRoutes;
       return routes
         .filter((route: any) => route.path !== "/design-md")
-        .map((route: any) => ({
-          ...route,
-          body: typeof route.body === "string"
+        .map((route: any) => {
+          const cleanedBody = typeof route.body === "string"
             ? route.body.replace(
                 /<li><a href="[^"]*\/(?:about\/origin|mira-docs-api)">(?:文档|MiraDocs)<\/a><\/li>/g,
                 "",
               )
-            : route.body,
-        }));
+            : route.body;
+          if (route.path !== "/") return { ...route, body: cleanedBody };
+          return {
+            ...route,
+            title: "独立开发与产品设计",
+            description: "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
+            body: staticHomeBody(context.base),
+            jsonLd: {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Tomz Dang",
+              url: siteUrl,
+            },
+          };
+        });
     },
   };
 }
@@ -170,8 +187,8 @@ export default defineConfig(({ mode }) => {
       miraDocs({
         contentDir: "src/pages",
         config: {
-          title: "UIChat Mira",
-          description: "本地优先的多模型智能体工作空间",
+          title: "Tomz Dang",
+          description: "独立开发、产品设计，以及关于 AI、产品和人的持续思考",
           siteUrl,
         },
         staticRoutes: seoConfig.enabled ? br003bStaticBuild() : false,
@@ -196,9 +213,9 @@ export default defineConfig(({ mode }) => {
           "pwa-maskable-512.png",
         ],
         manifest: {
-          name: "UIChat Mira",
-          short_name: "Mira",
-          description: "本地优先的多模型智能体工作空间",
+          name: "tomz.io",
+          short_name: "tomz.io",
+          description: "Tomz Dang 的个人网站",
           lang: "zh-CN",
           start_url: "./",
           scope: "./",
