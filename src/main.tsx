@@ -12,6 +12,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
+import LegacyMobileHeaderMenu from "./components/LegacyMobileHeaderMenu";
 import ReleaseDownloadEnhancer from "./components/ReleaseDownloadEnhancer";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
@@ -19,6 +20,7 @@ import "./apple.theme.css";
 import "./Supabase.theme.css";
 import "./tailwind.css";
 import "./styles.css";
+import "./legacy-mobile-header.css";
 import "./release-download.css";
 import "./home.css";
 import "./homepage-v1.css";
@@ -82,6 +84,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
       <App />
+      <LegacyMobileHeaderMenu />
       <WorksExperience />
       <ReleaseDownloadEnhancer />
     </BrowserRouter>
