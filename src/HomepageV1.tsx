@@ -12,13 +12,6 @@ const themeOptions: { name: ThemeName; label: string }[] = [
   { name: "supabase", label: "Supabase" },
 ];
 
-const projects = [
-  { label: "UIChat Mira", href: "https://docs.uichat.tomz.io/" },
-  { label: "open-proxy-apis", href: "https://github.com/dangjingtao/open-proxy-apis" },
-  { label: "local-rerank", href: "https://github.com/dangjingtao/local-rerank" },
-  { label: "typora-r2", href: "https://github.com/dangjingtao/typora-r2" },
-] as const;
-
 const longTermQuestions = [
   "AI 如何真正进入人的日常生活。",
   "一个产品为什么会让人愿意留下。",
@@ -108,17 +101,8 @@ function HomepageHeader({
         <div className="home-v1-nav-links">
           <Link to="/blogs">博客</Link>
           <Link to="/works">作品</Link>
-          <details className="home-v1-nav-menu">
-            <summary>项目</summary>
-            <div className="home-v1-nav-popover">
-              {projects.map((project) => (
-                <a key={project.href} href={project.href} target="_blank" rel="noreferrer">
-                  <span>{project.label}</span>
-                  <ArrowUpRight size={13} aria-hidden="true" />
-                </a>
-              ))}
-            </div>
-          </details>
+          <Link to="/projects">项目</Link>
+          <Link to="/about">关于</Link>
           <details className="home-v1-nav-menu home-v1-theme-menu">
             <summary>主题</summary>
             <div className="home-v1-nav-popover">
@@ -172,14 +156,8 @@ function HomepageHeader({
         <div className="home-v1-mobile-panel wrap">
           <Link to="/blogs" onClick={() => setMobileOpen(false)}>博客</Link>
           <Link to="/works" onClick={() => setMobileOpen(false)}>作品</Link>
-          <div className="home-v1-mobile-group">
-            <strong>项目</strong>
-            {projects.map((project) => (
-              <a key={project.href} href={project.href} target="_blank" rel="noreferrer">
-                {project.label}
-              </a>
-            ))}
-          </div>
+          <Link to="/projects" onClick={() => setMobileOpen(false)}>项目</Link>
+          <Link to="/about" onClick={() => setMobileOpen(false)}>关于</Link>
           <div className="home-v1-mobile-group">
             <strong>主题</strong>
             <div className="home-v1-mobile-themes">
