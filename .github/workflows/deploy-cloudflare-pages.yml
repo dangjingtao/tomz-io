@@ -124,6 +124,42 @@ jobs:
             exit 1
           fi
 
+      - name: Wait for tomz.io Pages domain activation
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          DOMAIN_API="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/tomz-io/domains/tomz.io"
+
+          for ATTEMPT in $(seq 1 30); do
+            curl -fsS "$DOMAIN_API" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              > /tmp/tomz-domain-status.json
+
+            DOMAIN_STATUS="$(jq -r '.result.status // empty' /tmp/tomz-domain-status.json)"
+            VERIFY_STATUS="$(jq -r '.result.verification_data.status // empty' /tmp/tomz-domain-status.json)"
+            ERROR_MESSAGE="$(jq -r '.result.error_message // .result.verification_data.error_message // empty' /tmp/tomz-domain-status.json)"
+
+            echo "Attempt $ATTEMPT/30: domain=$DOMAIN_STATUS verification=$VERIFY_STATUS${ERROR_MESSAGE:+ error=$ERROR_MESSAGE}"
+
+            if [ "$DOMAIN_STATUS" = "active" ]; then
+              echo "tomz.io is active on Cloudflare Pages."
+              exit 0
+            fi
+
+            if [ "$DOMAIN_STATUS" = "error" ] || [ "$VERIFY_STATUS" = "error" ] || [ "$VERIFY_STATUS" = "blocked" ]; then
+              cat /tmp/tomz-domain-status.json
+              exit 1
+            fi
+
+            sleep 10
+          done
+
+          echo "tomz.io did not become active within 5 minutes."
+          cat /tmp/tomz-domain-status.json
+          exit 1
+
       - name: Verify final custom-domain ownership
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -147,4 +183,4 @@ jobs:
 
           jq -e '.result | any(.name == "mira.tomz.io")' /tmp/old-domains.json >/dev/null
           jq -e '.result | all(.name != "tomz.io")' /tmp/old-domains.json >/dev/null
-          jq -e '.result | any(.name == "tomz.io")' /tmp/new-domains.json >/dev/null
+          jq -e '.result | any(.name == "tomz.io" and .status == "active")' /tmp/new-domains.json >/dev/null
