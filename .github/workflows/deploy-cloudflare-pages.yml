@@ -37,6 +37,10 @@ jobs:
         run: pnpm run build
         env:
           CF_PAGES: "1"
+          HOMEPAGE_AI_BASE_URL: ${{ secrets.HOMEPAGE_AI_BASE_URL }}
+          HOMEPAGE_AI_API_KEY: ${{ secrets.HOMEPAGE_AI_API_KEY }}
+          HOMEPAGE_AI_MODEL: ${{ secrets.HOMEPAGE_AI_MODEL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Ensure dedicated Cloudflare Pages project exists
         env:
