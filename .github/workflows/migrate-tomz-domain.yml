@@ -1,0 +1,106 @@
+name: Migrate tomz.io custom domain
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/migrate-tomz-domain.yml
+
+permissions:
+  contents: read
+
+jobs:
+  migrate-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve Cloudflare account ID
+        id: account
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-}"
+          if [ -z "$ACCOUNT_ID" ]; then
+            ACCOUNT_ID="$(curl -fsS https://api.cloudflare.com/client/v4/accounts \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              | jq -r '.result[0].id // empty')"
+          fi
+          test -n "$ACCOUNT_ID"
+          echo "account_id=$ACCOUNT_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Verify Pages projects
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ steps.account.outputs.account_id }}
+        run: |
+          set -euo pipefail
+          curl -fsS "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/uichat-mira-docs" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" | jq -e '.success == true' >/dev/null
+          curl -fsS "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/tomz-io" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" | jq -e '.success == true' >/dev/null
+
+      - name: Detach tomz.io from old MiraDocs project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ steps.account.outputs.account_id }}
+        run: |
+          set -euo pipefail
+          STATUS="$(curl -sS -o /tmp/old-domain.json -w '%{http_code}' \
+            "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/uichat-mira-docs/domains/tomz.io" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+          if [ "$STATUS" = "200" ]; then
+            curl -fsS -X DELETE \
+              "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/uichat-mira-docs/domains/tomz.io" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              | jq -e '.success == true' >/dev/null
+            echo "Detached tomz.io from uichat-mira-docs."
+          elif [ "$STATUS" = "404" ]; then
+            echo "tomz.io is already detached from uichat-mira-docs."
+          else
+            cat /tmp/old-domain.json
+            exit 1
+          fi
+
+      - name: Attach tomz.io to new tomz-io project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ steps.account.outputs.account_id }}
+        run: |
+          set -euo pipefail
+          STATUS="$(curl -sS -o /tmp/new-domain.json -w '%{http_code}' \
+            "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/tomz-io/domains/tomz.io" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+          if [ "$STATUS" = "200" ]; then
+            echo "tomz.io is already attached to tomz-io."
+          elif [ "$STATUS" = "404" ]; then
+            curl -fsS -X POST \
+              "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/tomz-io/domains" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H 'Content-Type: application/json' \
+              --data '{"name":"tomz.io"}' \
+              | tee /tmp/add-domain.json \
+              | jq -e '.success == true' >/dev/null
+            echo "Attached tomz.io to tomz-io."
+          else
+            cat /tmp/new-domain.json
+            exit 1
+          fi
+
+      - name: Verify final custom-domain ownership
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ steps.account.outputs.account_id }}
+        run: |
+          set -euo pipefail
+          echo "uichat-mira-docs domains:"
+          curl -fsS "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/uichat-mira-docs/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            | jq -r '.result[] | "- \(.name): \(.status)"'
+          echo "tomz-io domains:"
+          curl -fsS "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/pages/projects/tomz-io/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            | tee /tmp/tomz-domains.json \
+            | jq -r '.result[] | "- \(.name): \(.status)"'
+          jq -e '.result | any(.name == "tomz.io")' /tmp/tomz-domains.json >/dev/null
