@@ -77,9 +77,11 @@ for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath]) {
 if (existsSync(indexPath)) {
   const html = readFileSync(indexPath, "utf8");
   if (!html.includes(`<link rel="canonical" href="${siteUrl}${expectedBase}/">`)) failures.push("首页 canonical 缺失或 base 不正确");
-  if (!html.includes('property="og:site_name" content="UIChat Mira"')) failures.push("首页缺少当前 Open Graph 站点信息");
+  if (!html.includes('property="og:site_name" content="Tomz Dang"')) failures.push("首页缺少个人站 Open Graph 站点信息");
   if (!html.includes('type="application/ld+json"')) failures.push("首页缺少 JSON-LD");
   if ((html.match(/name="description"/g) || []).length !== 1) failures.push("首页 description meta 不是唯一值");
+  if (!html.includes("独立开发与产品设计")) failures.push("首页缺少个人站定位");
+  if (!html.includes("我是 Tomz，一名独立开发者和产品设计师")) failures.push("首页缺少个人介绍");
   if (html.includes(">MiraDocs</a>") || html.includes('href="/mira-docs-api') || html.includes('href="/design-md')) failures.push("顶部导航仍残留 MiraDocs 分类");
 }
 
@@ -137,9 +139,9 @@ for (const route of [
 }
 
 if (failures.length) {
-  console.error("BR003B 静态产物检查失败：");
+  console.error("Homepage V1 静态产物检查失败：");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`BR003B static output passed: ${visibleRoutes.size} routes; docs/MiraDocs/product-journal/engineering categories are absent; remaining blog/static/canonical/JSON-LD/404/sitemap/robots verified.`);
+console.log(`Homepage V1 static output passed: ${visibleRoutes.size} routes; personal root plus previous BR003B removals verified.`);
