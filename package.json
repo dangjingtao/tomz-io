@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "generate:home-recent": "node scripts/generate-home-recent.mjs",
     "verify:mira-docs": "node scripts/verify-mira-docs-compat.mjs",
     "verify:static-output": "node scripts/verify-mira-docs-static-output.mjs",
     "comic:inspect": "node scripts/comic-pipeline/inspect.mjs",
@@ -12,7 +13,7 @@
     "comic:verify": "node scripts/comic-pipeline/verify.mjs",
     "comic:publish": "node scripts/comic-pipeline/publish-r2.mjs",
     "comic:test": "node scripts/comic-pipeline/test.mjs",
-    "build": "npm run verify:mira-docs && tsc -b && vite build",
+    "build": "npm run verify:mira-docs && npm run generate:home-recent && tsc -b && vite build",
     "build:github-pages": "npm run build -- --mode github-pages",
     "preview": "vite preview"
   },
