@@ -39,24 +39,112 @@ jobs:
           CF_PAGES: "1"
 
       - name: Ensure dedicated Cloudflare Pages project exists
-        run: |
-          set -euo pipefail
-          npx --yes wrangler@3.90.0 pages project list --json > /tmp/cloudflare-pages-projects.json
-          if node -e '
-            const fs = require("fs");
-            const projects = JSON.parse(fs.readFileSync("/tmp/cloudflare-pages-projects.json", "utf8"));
-            process.exit(projects.some((project) => project.name === "tomz-io") ? 0 : 1);
-          '; then
-            echo "Cloudflare Pages project tomz-io already exists."
-          else
-            npx --yes wrangler@3.90.0 pages project create tomz-io --production-branch=main
-          fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          API="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects"
+          STATUS="$(curl -sS -o /tmp/tomz-project.json -w '%{http_code}' \
+            "$API/tomz-io" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+
+          if [ "$STATUS" = "200" ]; then
+            jq -e '.success == true' /tmp/tomz-project.json >/dev/null
+            echo "Cloudflare Pages project tomz-io already exists."
+          elif [ "$STATUS" = "404" ]; then
+            CREATE_STATUS="$(curl -sS -o /tmp/tomz-project-create.json -w '%{http_code}' \
+              -X POST "$API" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H 'Content-Type: application/json' \
+              --data '{"name":"tomz-io","production_branch":"main"}')"
+            if [ "$CREATE_STATUS" != "200" ] && [ "$CREATE_STATUS" != "201" ]; then
+              cat /tmp/tomz-project-create.json
+              exit 1
+            fi
+            jq -e '.success == true' /tmp/tomz-project-create.json >/dev/null
+            echo "Created Cloudflare Pages project tomz-io."
+          else
+            cat /tmp/tomz-project.json
+            exit 1
+          fi
 
       - name: Deploy to tomz.io Cloudflare Pages project
         run: npx --yes wrangler@3.90.0 pages deploy dist --project-name=tomz-io --branch=main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Detach tomz.io from old MiraDocs project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          OLD_DOMAIN="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/uichat-mira-docs/domains/tomz.io"
+          STATUS="$(curl -sS -o /tmp/old-domain.json -w '%{http_code}' \
+            "$OLD_DOMAIN" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+
+          if [ "$STATUS" = "200" ]; then
+            curl -fsS -X DELETE "$OLD_DOMAIN" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              | jq -e '.success == true' >/dev/null
+            echo "Detached tomz.io from uichat-mira-docs."
+          elif [ "$STATUS" = "404" ]; then
+            echo "tomz.io is already detached from uichat-mira-docs."
+          else
+            cat /tmp/old-domain.json
+            exit 1
+          fi
+
+      - name: Attach tomz.io to new tomz-io project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          NEW_PROJECT="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/tomz-io"
+          STATUS="$(curl -sS -o /tmp/new-domain.json -w '%{http_code}' \
+            "$NEW_PROJECT/domains/tomz.io" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+
+          if [ "$STATUS" = "200" ]; then
+            echo "tomz.io is already attached to tomz-io."
+          elif [ "$STATUS" = "404" ]; then
+            curl -fsS -X POST "$NEW_PROJECT/domains" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H 'Content-Type: application/json' \
+              --data '{"name":"tomz.io"}' \
+              | tee /tmp/add-domain.json \
+              | jq -e '.success == true' >/dev/null
+            echo "Attached tomz.io to tomz-io."
+          else
+            cat /tmp/new-domain.json
+            exit 1
+          fi
+
+      - name: Verify final custom-domain ownership
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          OLD_PROJECT="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/uichat-mira-docs"
+          NEW_PROJECT="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/tomz-io"
+
+          curl -fsS "$OLD_PROJECT/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            > /tmp/old-domains.json
+          curl -fsS "$NEW_PROJECT/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            > /tmp/new-domains.json
+
+          echo "uichat-mira-docs domains:"
+          jq -r '.result[] | "- \(.name): \(.status)"' /tmp/old-domains.json
+          echo "tomz-io domains:"
+          jq -r '.result[] | "- \(.name): \(.status)"' /tmp/new-domains.json
+
+          jq -e '.result | any(.name == "mira.tomz.io")' /tmp/old-domains.json >/dev/null
+          jq -e '.result | all(.name != "tomz.io")' /tmp/old-domains.json >/dev/null
+          jq -e '.result | any(.name == "tomz.io")' /tmp/new-domains.json >/dev/null
