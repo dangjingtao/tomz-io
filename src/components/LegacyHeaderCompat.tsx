@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, Share2, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 type ThemeName = "claude" | "apple" | "supabase";
@@ -32,6 +32,7 @@ export default function LegacyHeaderCompat() {
   const [navRoot, setNavRoot] = useState<HTMLElement | null>(null);
   const [menuRoot, setMenuRoot] = useState<HTMLElement | null>(null);
   const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [hasDocShare, setHasDocShare] = useState(false);
   const [themeName, setThemeName] = useState<ThemeName>(() =>
     typeof document === "undefined" ? "claude" : currentTheme(),
   );
@@ -55,6 +56,7 @@ export default function LegacyHeaderCompat() {
         }),
       ),
     );
+    setHasDocShare(Boolean(document.querySelector(".doc-title-block > .share-button")));
     setMobileOpen(false);
     setDesktopOpen(null);
   }, [location.pathname]);
@@ -78,6 +80,10 @@ export default function LegacyHeaderCompat() {
 
   const toggleDarkMode = () => {
     document.querySelector<HTMLButtonElement>(".top-nav .theme-toggle")?.click();
+  };
+
+  const triggerShare = () => {
+    document.querySelector<HTMLButtonElement>(".doc-title-block > .share-button")?.click();
   };
 
   const selectTheme = (theme: ThemeName) => {
@@ -150,17 +156,27 @@ export default function LegacyHeaderCompat() {
       )
     : null;
 
-  const mobileButton = navRight
+  const mobileControls = navRight
     ? createPortal(
-        <button
-          type="button"
-          className="mobile-menu-button"
-          aria-label={mobileOpen ? "关闭导航" : "打开导航"}
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((value) => !value)}
-        >
-          {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-        </button>,
+        <>
+          {hasDocShare ? (
+            <div className="mobile-doc-share">
+              <button type="button" className="share-button" onClick={triggerShare} aria-label="分享页面">
+                <Share2 size={16} aria-hidden="true" />
+                <span>分享</span>
+              </button>
+            </div>
+          ) : null}
+          <button
+            type="button"
+            className="mobile-menu-button"
+            aria-label={mobileOpen ? "关闭导航" : "打开导航"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((value) => !value)}
+          >
+            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+          </button>
+        </>,
         navRight,
       )
     : null;
@@ -211,5 +227,5 @@ export default function LegacyHeaderCompat() {
       )
     : null;
 
-  return <>{desktopMenus}{mobileButton}{mobilePanel}</>;
+  return <>{desktopMenus}{mobileControls}{mobilePanel}</>;
 }
