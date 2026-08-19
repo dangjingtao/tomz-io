@@ -1,4 +1,4 @@
-name: Verify BR003B Pages Runtime
+name: Verify Homepage V1 Pages Runtime
 
 on:
   pull_request:
@@ -51,7 +51,7 @@ jobs:
             rm -f "$file"
           }
 
-          check_html "/" "本地优先的多模型智能体"
+          check_html "/" "我是 Tomz，一名独立开发者和产品设计师"
           check_html "/blogs/" "博客"
           check_html "/blogs/shared-thinking/matter-awakens/" "物质为什么会醒来"
           check_html "/blogs/mira-letters/a-seat-at-the-writing-table/" "Mira"
@@ -81,4 +81,4 @@ jobs:
           grep -Fq 'noindex,nofollow' "$file"
           rm -f "$file"
 
-          echo "BR003B public Pages runtime smoke passed for $PREVIEW_SHA."
+          echo "Homepage V1 public Pages runtime smoke passed for $PREVIEW_SHA."
