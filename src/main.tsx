@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import {registerSW} from "virtual:pwa-register";
 import "@fontsource/public-sans/400.css";
 import "@fontsource/public-sans/500.css";
@@ -12,6 +12,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
+import HomepageV1 from "./HomepageV1";
 import ReleaseDownloadEnhancer from "./components/ReleaseDownloadEnhancer";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
@@ -21,6 +22,7 @@ import "./tailwind.css";
 import "./styles.css";
 import "./release-download.css";
 import "./home.css";
+import "./homepage-v1.css";
 import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
@@ -39,8 +41,8 @@ const initialTheme =
     : defaultTheme;
 
 // Keep the deployment root aligned with BrowserRouter's basename. GitHub Pages
-// mounts the app at /uichat-mira-docs/; stripping that final slash makes the
-// basename fail to match and React renders an empty shell.
+// mounts the app at /tomz-io/; stripping that final slash makes the basename
+// fail to match and React renders an empty shell.
 const buildBase = import.meta.env.BASE_URL;
 const normalizedBuildBase = buildBase === "/" ? "/" : buildBase.replace(/\/+$/, "");
 
@@ -77,10 +79,15 @@ window.addEventListener("mira:pwa-update-confirmed", () => {
   void updateSW();
 });
 
+function SiteRoot() {
+  const location = useLocation();
+  return location.pathname === "/" ? <HomepageV1 /> : <App />;
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
-      <App />
+      <SiteRoot />
       <WorksExperience />
       <ReleaseDownloadEnhancer />
     </BrowserRouter>
