@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "target": "ES2022",
+    "outDir": "./node_modules/.cache/tsc-node",
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.node.tsbuildinfo",
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "vite.config.ts",
+    "mira-docs-static.ts",
+    "src/site.config.ts"
+  ]
+}

@@ -1,0 +1,84 @@
+name: Verify Homepage V1 Pages Runtime
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify deployed source and representative public routes
+        env:
+          PREVIEW_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          base="https://dangjingtao.github.io/tomz-io"
+
+          published=""
+          for attempt in $(seq 1 72); do
+            published="$(curl -fsSL --max-time 15 "$base/preview-source-sha.txt" 2>/dev/null || true)"
+            if [ "$published" = "$PREVIEW_SHA" ]; then
+              break
+            fi
+            echo "Pages still serves ${published:-<none>}; expecting $PREVIEW_SHA (attempt $attempt/72)"
+            sleep 5
+          done
+          test "$published" = "$PREVIEW_SHA"
+
+          check_html() {
+            route="$1"
+            needle="$2"
+            file="$(mktemp)"
+            status="$(curl -sS -L --max-time 20 -o "$file" -w '%{http_code}' "$base$route")"
+            echo "$route -> $status"
+            test "$status" = "200"
+            grep -Fq "$needle" "$file"
+            grep -Fq 'noindex,nofollow' "$file"
+            grep -Fq '/tomz-io/assets/' "$file"
+            rm -f "$file"
+          }
+
+          check_removed() {
+            route="$1"
+            file="$(mktemp)"
+            status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base$route")"
+            echo "$route -> $status (expected removed)"
+            test "$status" = "404"
+            grep -Fq 'noindex,nofollow' "$file"
+            rm -f "$file"
+          }
+
+          check_html "/" "我是 Tomz，一名独立开发者和产品设计师"
+          check_html "/blogs/" "博客"
+          check_html "/blogs/shared-thinking/matter-awakens/" "物质为什么会醒来"
+          check_html "/blogs/mira-letters/a-seat-at-the-writing-table/" "Mira"
+
+          # Direct deep-route refresh without a trailing slash must still resolve.
+          check_html "/blogs/shared-thinking/matter-awakens" "物质为什么会醒来"
+
+          # Removed author-site categories and representative descendants must be gone.
+          check_removed "/about/author/"
+          check_removed "/mira-docs-api/"
+          check_removed "/mira-docs-api/guide/what-is-mira-docs/"
+          check_removed "/design-md/"
+          check_removed "/design-md/%E8%A7%86%E8%A7%89/product-design-system/"
+          check_removed "/blogs/product-journal/"
+          check_removed "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem/"
+          check_removed "/blogs/engineering/"
+          check_removed "/blogs/engineering/insight-capture-pipeline/"
+
+          curl -fsSL --max-time 20 "$base/mira-logo.png" -o /tmp/mira-logo.png
+          test -s /tmp/mira-logo.png
+          curl -fsSL --max-time 20 "$base/robots.txt" | grep -Fq 'Disallow: /'
+
+          file="$(mktemp)"
+          status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base/__br003b_not_found__")"
+          echo "/__br003b_not_found__ -> $status"
+          test "$status" = "404"
+          grep -Fq 'noindex,nofollow' "$file"
+          rm -f "$file"
+
+          echo "Homepage V1 public Pages runtime smoke passed for $PREVIEW_SHA."

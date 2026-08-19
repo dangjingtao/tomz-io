@@ -1,15 +1,35 @@
-name: Verify
+name: Verify BR003B
 
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  build:
+  reduction-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
       - run: npm install
-      - run: npm run build
+
+      - name: MiraDocs parse and route uniqueness
+        run: npm run verify:mira-docs
+
+      - name: Root build
+        run: npm run build
+
+      - name: Root static output
+        run: node scripts/verify-br003a-root-static.mjs
+
+      - name: GitHub Pages build
+        run: npm run build:github-pages
+
+      - name: GitHub Pages static output
+        env:
+          EXPECTED_BASE: tomz-io
+        run: npm run verify:static-output
