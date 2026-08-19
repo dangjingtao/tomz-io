@@ -1,51 +1,59 @@
-# UIChat Mira 产品文档
+# tomz-io
 
-面向 [UIChat Mira](https://github.com/dangjingtao/uichat-mira) 的精选产品文档站。内容依据源码 `dev` 分支整理，覆盖品牌、哲学、产品、架构、工程与当前状态。
+Tomz Dang 的个人主站（静态页面）。
 
-- Sites：https://uichat-mira-docs.dangjingtao.chatgpt.site
-- GitHub Pages：https://dangjingtao.github.io/uichat-mira-docs/
+## 当前状态
 
-## 文档结构
+项目目前是一个极简落地页，包含：
 
-Markdown 位于 `docs/<section>/*.md`：
+- 页面标题：Tomz Dang
+- 页面文案：个人主站正在搭建。
 
-- `about`：品牌、作者、产品地图
-- `philosophy`：本地优先、可控自主、证据
-- `product`：工作区、知识与评测、角色与微应用
-- `architecture`：运行时、Agent、Harness、Provider
-- `engineering`：源码、文档系统、开发验证
-- `status`：当前实现与方向
+适合作为后续主页开发的起点。
 
-站点自动从 frontmatter 生成侧栏与 Sitemap，并以 Ctrl/Command + K 搜索标题、描述和 Markdown 全文。
+## 技术栈
 
-## 本地开发
+- HTML5
+- 无框架、无构建工具
 
-```bash
-npm install
-npm run dev
+## 项目结构
+
+```text
+.
+├── index.html
+└── README.MD
 ```
 
-构建验证：
+## 快速开始
+
+1. 克隆仓库并进入目录。
+2. 直接双击打开 `index.html`，或使用本地服务启动。
+
+本地服务方式：
 
 ```bash
-npm run build
+python3 -m http.server 8080
 ```
 
-## 部署
+浏览器访问：
 
-### GitHub Pages
+```text
+http://localhost:8080
+```
 
-推送 `main` 后，`.github/workflows/deploy-pages.yml` 自动构建并部署。
+## 开发建议
 
-仓库 Settings → Pages → Source 需要选择 **GitHub Actions**。
+- 将样式拆分到 `styles.css`，避免 HTML 内联样式膨胀。
+- 将交互逻辑拆分到 `main.js`，便于后续功能扩展。
+- 为导航、作品、关于等模块预留语义化结构。
 
-### Cloudflare Pages
+## 可选发布
 
-连接本仓库并使用：
+- GitHub Pages（最省心的静态托管方案）
+- Vercel / Netlify（便于后续接入构建流程）
 
-- Framework preset：Vite
-- Build command：`npm run build`
-- Build output directory：`dist`
-- Node.js：22
+## 计划路线（建议）
 
-Vite 的 base 已兼容 GitHub Pages 项目路径；Cloudflare Pages 根路径部署也可正常工作。
+1. 完成视觉样式（排版、颜色、间距体系）
+2. 增加核心模块（个人介绍、项目列表、联系方式）
+3. 补充 SEO 基础信息（`meta description`、Open Graph）

@@ -201,7 +201,7 @@ function HomepageHeader({
   );
 }
 
-export default function HomepageV1() {
+export default function HomepageV1({ showHeader = true }: { showHeader?: boolean } = {}) {
   const { themeName, setThemeName, darkMode, setDarkMode } = useHomepageTheme();
   const latestWriting = useMemo(
     () =>
@@ -223,12 +223,14 @@ export default function HomepageV1() {
 
   return (
     <div className="home-v1-site">
-      <HomepageHeader
-        darkMode={darkMode}
-        onToggleDark={() => setDarkMode((value) => !value)}
-        themeName={themeName}
-        onTheme={setThemeName}
-      />
+      {showHeader ? (
+        <HomepageHeader
+          darkMode={darkMode}
+          onToggleDark={() => setDarkMode((value) => !value)}
+          themeName={themeName}
+          onTheme={setThemeName}
+        />
+      ) : null}
 
       <main>
         <header className="home-v1-hero">

@@ -51,6 +51,7 @@ import {
   type AuthorKey,
   type Doc,
 } from "./content/mira-docs-adapter";
+import HomepageV1 from "./HomepageV1";
 
 type LinkItem = { label: string; href: string };
 type ConfiguredNavItem = { label: string; href: string };
@@ -1085,7 +1086,7 @@ function SiteHeaderBase({
       <div className="wrap">
         <Link className="brand" to="/">
           <img className="brand-logo" src={logoSrc} onError={handleLogoError} alt="" />
-          UIChat Mira
+          Tomz.io
         </Link>
         <ul className="menu">
           {content.nav.map((item) => {
@@ -1163,43 +1164,42 @@ function MobileHeaderPanel({
   onSelectTheme: (theme: ThemeName) => void;
 }) {
   return (
-    <div className="mobile-header-panel">
-      <div className="mobile-header-links">
-        {content.nav.map((item) => (
-          <Link
-            key={item.href}
-            to={item.href.slice(Math.max(appBase.length - 1, 0))}
-          >
-            {item.label}
-          </Link>
-        ))}
-        {configuredHeaderNav.map((group) => (
-          <div className="mobile-header-group" key={group.label}>
-            <strong>{group.label}</strong>
-            {group.items.map((item) => (
-              <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
-                {item.label}
-                <ArrowUpRight size={13} aria-hidden="true" />
-              </a>
-            ))}
-          </div>
-        ))}
+    <div className="home-v1-mobile-panel wrap">
+      {content.nav.map((item) => (
+        <Link
+          key={item.href}
+          to={item.href.slice(Math.max(appBase.length - 1, 0))}
+        >
+          {item.label}
+        </Link>
+      ))}
+      {configuredHeaderNav.map((group) => (
+        <div className="home-v1-mobile-group" key={group.label}>
+          <strong>{group.label}</strong>
+          {group.items.map((item) => (
+            <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
+              {item.label}
+            </a>
+          ))}
+        </div>
+      ))}
+      <div className="home-v1-mobile-group">
+        <strong>快捷操作</strong>
+        <div className="home-v1-mobile-themes">
+          <button type="button" onClick={onSearch}>搜索</button>
+          <button type="button" onClick={onToggleTheme}>
+            {darkMode ? "浅色模式" : "暗黑模式"}
+          </button>
+        </div>
       </div>
-      <div className="mobile-header-actions">
-        <button type="button" onClick={onSearch}>搜索</button>
-        <button type="button" onClick={onToggleTheme}>
-          {darkMode ? "浅色模式" : "暗黑模式"}
-        </button>
-      </div>
-      <div className="mobile-theme-picker">
+      <div className="home-v1-mobile-group">
         <strong>主题</strong>
-        <div>
+        <div className="home-v1-mobile-themes">
           {themeOptions.map((theme) => (
             <button
               key={theme.name}
               type="button"
               className={theme.name === themeName ? "active" : ""}
-              aria-pressed={theme.name === themeName}
               onClick={() => onSelectTheme(theme.name)}
             >
               {theme.label}
@@ -1256,96 +1256,88 @@ function SiteHeader({
     );
   };
   const showMobileDocShare = currentDoc?.root === "docs";
+  void wide;
   return (
-    <nav className={`top-nav${wide ? " docs-header" : ""}`}>
-      <div className="wrap">
-        <Link className="brand" to="/">
-          <img className="brand-logo" src={logoSrc} onError={handleLogoError} alt="" />
-          UIChat Mira
+    <nav className="home-v1-nav" aria-label="主导航">
+      <div className="wrap home-v1-nav-inner">
+        <Link className="home-v1-brand" to="/" aria-label="Tomz Dang 首页">
+          <span className="home-v1-brand-mark" aria-hidden="true">T</span>
+          <span>Tomz Dang</span>
         </Link>
-        <ul className="menu">
+
+        <div className="home-v1-nav-links">
           {content.nav.map((item) => {
             const active = isActive(item);
             return (
-              <li key={item.href}>
-                <Link
-                  className={active ? "active" : ""}
-                  aria-current={active ? "page" : undefined}
-                  to={item.href.slice(Math.max(appBase.length - 1, 0))}
-                >
-                  {item.label}
-                </Link>
-              </li>
+              <Link
+                key={item.href}
+                className={active ? "active" : ""}
+                aria-current={active ? "page" : undefined}
+                to={item.href.slice(Math.max(appBase.length - 1, 0))}
+              >
+                {item.label}
+              </Link>
             );
           })}
           {configuredHeaderNav.map((group) => (
-            <li
-              className={`menu-dropdown${openMenu === group.label ? " open" : ""}`}
+            <div
+              className={`home-v1-nav-menu${openMenu === group.label ? " open" : ""}`}
               key={group.label}
               onMouseEnter={() => setOpenMenu(group.label)}
               onMouseLeave={() => setOpenMenu(null)}
             >
               <button
                 type="button"
-                className="menu-dropdown-trigger"
+                className="home-v1-nav-trigger"
                 aria-expanded={openMenu === group.label}
                 onClick={() =>
-                  setOpenMenu((value) =>
-                    value === group.label ? null : group.label,
-                  )
+                  setOpenMenu((value) => (value === group.label ? null : group.label))
                 }
               >
                 {group.label}
                 <ChevronDown size={14} aria-hidden="true" />
               </button>
-              <div className="menu-dropdown-panel">
+              <div className="home-v1-nav-popover">
                 {group.items.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {item.label}
+                  <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
+                    <span>{item.label}</span>
                     <ArrowUpRight size={13} aria-hidden="true" />
                   </a>
                 ))}
               </div>
-            </li>
+            </div>
           ))}
-          <li
-            className={`menu-dropdown${openMenu === "主题" ? " open" : ""}`}
+          <div
+            className={`home-v1-nav-menu home-v1-theme-menu${openMenu === "主题" ? " open" : ""}`}
             onMouseEnter={() => setOpenMenu("主题")}
             onMouseLeave={() => setOpenMenu(null)}
           >
             <button
               type="button"
-              className="menu-dropdown-trigger"
+              className="home-v1-nav-trigger"
               aria-expanded={openMenu === "主题"}
-              onClick={() => setOpenMenu((value) => value === "主题" ? null : "主题")}
+              onClick={() => setOpenMenu((value) => (value === "主题" ? null : "主题"))}
             >
               主题
               <ChevronDown size={14} aria-hidden="true" />
             </button>
-            <div className="menu-dropdown-panel theme-menu-panel">
+            <div className="home-v1-nav-popover">
               {themeOptions.map((theme) => (
                 <button
                   key={theme.name}
                   type="button"
-                  className={`theme-menu-option${theme.name === themeName ? " active" : ""}`}
+                  className={theme.name === themeName ? "active" : ""}
                   aria-pressed={theme.name === themeName}
-                  onClick={() => {
-                    onSelectTheme(theme.name);
-                    setOpenMenu(null);
-                  }}
+                  onClick={() => onSelectTheme(theme.name)}
                 >
-                  <span>{theme.label}</span>
+                  {theme.label}
                 </button>
               ))}
             </div>
-          </li>
-        </ul>
-        <div className="nav-right">
+          </div>
+        </div>
+
+        <div className="home-v1-nav-actions">
           {showMobileDocShare ? (
             <div className="mobile-doc-share">
               <ShareButton title={currentDoc.title} text={currentDoc.description} />
@@ -1353,64 +1345,51 @@ function SiteHeader({
           ) : null}
           <button
             type="button"
-            className="mobile-menu-button"
-            aria-label={mobileOpen ? "关闭导航" : "打开导航"}
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((value) => !value)}
+            className="home-v1-search"
+            onClick={onSearch}
           >
-            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+            搜索
+            <kbd>Ctrl K</kbd>
           </button>
-          {mobileOpen ? (
-            <MobileHeaderPanel
-              onSearch={onSearch}
-              onToggleTheme={onToggleTheme}
-              darkMode={darkMode}
-              themeName={themeName}
-              onSelectTheme={onSelectTheme}
-            />
-          ) : null}
           <button
             type="button"
-            className="theme-toggle"
+            className="home-v1-theme-toggle"
             onClick={onToggleTheme}
             aria-label={darkMode ? "切换到浅色模式" : "切换到暗黑模式"}
             title={darkMode ? "浅色模式" : "暗黑模式"}
           >
-            {darkMode ? (
-              <Sun size={17} aria-hidden="true" />
-            ) : (
-              <Moon size={17} aria-hidden="true" />
-            )}
-          </button>
-          <button
-            type="button"
-            className="site-search inline-flex items-center gap-2 rounded-md border border-hairline bg-canvas px-2.5 font-sans text-[13px] text-muted-soft"
-            onClick={onSearch}
-          >
-            搜索{" "}
-            <kbd className="rounded bg-surface-card px-1.5 py-px font-mono text-[10px]">
-              Ctrl K
-            </kbd>
+            {darkMode ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
           </button>
           <a
-            className="text-link header-github"
+            className="home-v1-github"
             href={githubUrl}
-            aria-label="GitHub"
-            title="GitHub"
+            target="_blank"
+            rel="noreferrer"
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="currentColor"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 3.167 2.763 5.234v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"></path>
-            </svg>
+            GitHub
+            <ArrowUpRight size={13} aria-hidden="true" />
           </a>
+          <button
+            type="button"
+            className="home-v1-mobile-toggle"
+            onClick={() => setMobileOpen((value) => !value)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "关闭导航" : "打开导航"}
+          >
+            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+          </button>
         </div>
       </div>
+
+      {mobileOpen ? (
+        <MobileHeaderPanel
+          onSearch={onSearch}
+          onToggleTheme={onToggleTheme}
+          darkMode={darkMode}
+          themeName={themeName}
+          onSelectTheme={onSelectTheme}
+        />
+      ) : null}
     </nav>
   );
 }
@@ -1713,16 +1692,14 @@ function RoutedApp() {
   const navIsWide = location.pathname !== "/";
   return (
     <>
-      <SiteHeader
+      <SiteHeaderBase
         onSearch={openSearch}
         onToggleTheme={toggleTheme}
         darkMode={darkMode}
-        themeName={themeName}
-        onSelectTheme={setThemeName}
         wide={navIsWide}
       />
       <Routes>
-        <Route path="/" element={<HomePage darkMode={darkMode} />} />
+        <Route path="/" element={<HomepageV1 showHeader={false} />} />
         <Route element={<DocsLayout />}>
           <Route path="/sitemap" element={<DocPage path="/sitemap" />} />
           <Route
