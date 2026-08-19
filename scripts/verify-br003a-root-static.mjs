@@ -88,7 +88,9 @@ for (const file of ["index.html", "404.html", "sitemap.xml", "robots.txt"]) {
 
 const index = existsSync(resolve(distRoot, "index.html")) ? readFileSync(resolve(distRoot, "index.html"), "utf8") : "";
 if (index && !index.includes('/assets/')) failures.push("root index does not reference /assets/");
-if (index && !index.includes('property="og:site_name" content="UIChat Mira"')) failures.push("root index lost current mirror identity");
+if (index && !index.includes('property="og:site_name" content="Tomz Dang"')) failures.push("root index lost personal site identity");
+if (index && !index.includes("独立开发与产品设计")) failures.push("root index does not expose the personal homepage positioning");
+if (index && !index.includes("我是 Tomz，一名独立开发者和产品设计师")) failures.push("root index does not expose the personal homepage introduction");
 if (index && (index.includes('>MiraDocs</a>') || index.includes('href="/mira-docs-api') || index.includes('href="/design-md'))) {
   failures.push("root navigation still exposes removed MiraDocs category");
 }
@@ -128,9 +130,9 @@ for (const route of [
 }
 
 if (failures.length) {
-  console.error("BR003B root static verification failed:");
+  console.error("Homepage V1 root static verification failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`BR003B root static verification passed: ${visibleRoutes.size} visible routes; removed docs/MiraDocs/product-journal/engineering sources and representative outputs are absent; canonical/assets/sitemap/JSON-LD/404 verified.`);
+console.log(`Homepage V1 root static verification passed: ${visibleRoutes.size} visible routes; personal root identity plus previous BR003B removals verified.`);
