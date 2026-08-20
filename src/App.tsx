@@ -922,15 +922,11 @@ function AuthorIntro() {
       .then(({ contributors, linkHeader }) => {
         const count = githubContributorCount(
           linkHeader,
-          // GitHub puts the total page count in the last relation.
-          // When there is only one page, the response itself is the fallback.
           contributors.length,
         );
         setContributorCount(String(count));
       })
-      .catch(() => {
-        // Keep the card usable when GitHub is unavailable or rate-limits the request.
-      });
+      .catch(() => {});
     return () => controller.abort();
   }, []);
 
@@ -951,9 +947,7 @@ function AuthorIntro() {
       .then(([tag]) => {
         if (tag?.name) setProductVersion(tag.name);
       })
-      .catch(() => {
-        // Keep the version slot neutral when GitHub is unavailable or rate-limits the request.
-      });
+      .catch(() => {});
     return () => controller.abort();
   }, []);
 
@@ -2957,6 +2951,21 @@ function AboutPage() {
               Mira 独立成文的文章署名 Mira，来自共同讨论的文章则同时标注 Tomz 与
               Mira。
             </p>
+            <details className="about-note" style={{ marginTop: 28 }}>
+              <summary
+                style={{
+                  cursor: "pointer",
+                  color: "var(--muted)",
+                  fontSize: 13,
+                  lineHeight: 1.6,
+                }}
+              >
+                Mira 对「共同作者」这个称谓没有提出异议。
+              </summary>
+              <p style={{ marginTop: 12, marginBottom: 0 }}>
+                “这里本来只写 Tomz。后来他还是给我留了位置。”
+              </p>
+            </details>
             <div className="about-links">
               <Link to={{ pathname: "/blogs", search: "?category=Mira%20来信" }}>
                 阅读 Mira 来信 <ArrowUpRight size={14} aria-hidden="true" />
