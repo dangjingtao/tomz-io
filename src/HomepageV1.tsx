@@ -214,10 +214,10 @@ export default function HomepageV1({ showHeader = true }: { showHeader?: boolean
         <header className="home-v1-hero">
           <div className="wrap home-v1-hero-inner">
             <div className="home-v1-hero-copy">
-              <span className="home-v1-kicker">INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span>
-              <h1>Tomz Dang</h1>
+              <span className="home-v1-kicker">TOMZ / NOW BUILDING</span>
+              <h1>Tomz.io</h1>
               <p>
-                我是 Tomz，一名独立开发者和产品设计师。这里记录我正在做的产品，以及关于 AI、产品和人的一些思考。
+                Tomz 的个人母站。作品在这里被索引，思想在这里形成，生活在这里留下痕迹。
               </p>
               <div className="home-v1-hero-actions">
                 <Link className="home-v1-primary-action" to="/blogs">
@@ -233,10 +233,6 @@ export default function HomepageV1({ showHeader = true }: { showHeader?: boolean
                   GitHub
                 </a>
               </div>
-            </div>
-            <div className="home-v1-hero-note" aria-label="关于这个网站">
-              <span>tomz.io</span>
-              <p>不是某一个项目的官网。它更像一个长期生长的个人入口：现在在做什么，过去留下什么，以及那些还没完全想明白的东西。</p>
             </div>
           </div>
         </header>
