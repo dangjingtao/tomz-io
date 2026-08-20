@@ -3,8 +3,56 @@ import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs } from "./content/mira-docs-adapter";
 import { homeRecentSnapshot, type HomeRecentItem } from "./content/home-recent.generated";
+import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
+
+const tomzMarkSrc = `${import.meta.env.BASE_URL}brand/tomz-mark.png`;
+const tomzWordmarkSrc = `${import.meta.env.BASE_URL}brand/tomz-wordmark.png`;
+
+const blogGalaxyData: SitemapGalaxyData = (() => {
+  const docs = allDocs
+    .filter((doc) => doc.root === "blogs" && doc.group !== "归档")
+    .sort(compareBlogDocs);
+  const groups = new Map<string, typeof docs>();
+  docs.forEach((doc) => {
+    const group = doc.group || "Blog";
+    const current = groups.get(group) || [];
+    current.push(doc);
+    groups.set(group, current);
+  });
+  return {
+    root: "博客星图",
+    sections: [...groups.entries()].map(([title, groupDocs]) => ({
+      key: title,
+      title,
+      description: `${groupDocs.length} 篇文章`,
+      path: groupDocs[0]?.path || "/blogs",
+      docs: groupDocs.map((doc) => ({
+        title: doc.title,
+        path: doc.path,
+        description: doc.description,
+        date: doc.date,
+      })),
+    })),
+  };
+})();
 
 type ThemeName = "claude" | "apple" | "supabase";
+
+export function HomepageFooter() {
+  return (
+    <footer className="home-v1-footer">
+      <div className="wrap home-v1-footer-inner">
+        <div className="home-v1-footer-primary">
+          <img className="home-v1-footer-logo" src={tomzWordmarkSrc} alt="Tomz.io" />
+          <p className="home-v1-footer-built">
+            Built with <a href="https://dangjingtao.github.io/mira-docs/">@uichat-mira/docs</a>.
+          </p>
+        </div>
+        <p className="home-v1-footer-copyright">Copyright © 2026 Tomz Dang</p>
+      </div>
+    </footer>
+  );
+}
 
 const themeOptions: { name: ThemeName; label: string }[] = [
   { name: "claude", label: "Claude" },
@@ -19,7 +67,7 @@ const longTermQuestions = [
   "工作、创造和生活，怎样才能长期共存。",
 ] as const;
 
-function useHomepageTheme() {
+function useHomepageTheme(syncWithDocument: boolean) {
   const [themeName, setThemeName] = useState<ThemeName>(() => {
     if (typeof window === "undefined") return "claude";
     const saved = window.localStorage.getItem("mira-color-theme");
@@ -36,14 +84,16 @@ function useHomepageTheme() {
   });
 
   useEffect(() => {
+    if (!syncWithDocument) return;
     document.documentElement.dataset.theme = themeName;
     window.localStorage.setItem("mira-color-theme", themeName);
-  }, [themeName]);
+  }, [syncWithDocument, themeName]);
 
   useEffect(() => {
+    if (!syncWithDocument) return;
     document.documentElement.classList.toggle("dark", darkMode);
     window.localStorage.setItem("mira-theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
+  }, [darkMode, syncWithDocument]);
 
   return { themeName, setThemeName, darkMode, setDarkMode };
 }
@@ -94,14 +144,14 @@ function HomepageHeader({
     <nav className="home-v1-nav" aria-label="主导航">
       <div className="wrap home-v1-nav-inner">
         <Link className="home-v1-brand" to="/" aria-label="Tomz Dang 首页">
-          <span className="home-v1-brand-mark" aria-hidden="true">T</span>
-          <span>Tomz Dang</span>
+          <img className="home-v1-brand-mark" src={tomzMarkSrc} alt="" />
         </Link>
 
         <div className="home-v1-nav-links">
           <Link to="/blogs">博客</Link>
           <Link to="/works">作品</Link>
           <Link to="/projects">项目</Link>
+          <Link to="/books">书架</Link>
           <Link to="/about">关于</Link>
           <details className="home-v1-nav-menu home-v1-theme-menu">
             <summary>主题</summary>
@@ -157,6 +207,7 @@ function HomepageHeader({
           <Link to="/blogs" onClick={() => setMobileOpen(false)}>博客</Link>
           <Link to="/works" onClick={() => setMobileOpen(false)}>作品</Link>
           <Link to="/projects" onClick={() => setMobileOpen(false)}>项目</Link>
+          <Link to="/books" onClick={() => setMobileOpen(false)}>书架</Link>
           <Link to="/about" onClick={() => setMobileOpen(false)}>关于</Link>
           <div className="home-v1-mobile-group">
             <strong>主题</strong>
@@ -179,8 +230,18 @@ function HomepageHeader({
   );
 }
 
-export default function HomepageV1({ showHeader = true }: { showHeader?: boolean } = {}) {
-  const { themeName, setThemeName, darkMode, setDarkMode } = useHomepageTheme();
+export default function HomepageV1({
+  showHeader = true,
+  darkMode: controlledDarkMode,
+  themeName: controlledThemeName,
+}: {
+  showHeader?: boolean;
+  darkMode?: boolean;
+  themeName?: ThemeName;
+} = {}) {
+  const homepageTheme = useHomepageTheme(showHeader);
+  const darkMode = controlledDarkMode ?? homepageTheme.darkMode;
+  const themeName = controlledThemeName ?? homepageTheme.themeName;
   const latestWriting = useMemo(
     () =>
       allDocs
@@ -204,9 +265,9 @@ export default function HomepageV1({ showHeader = true }: { showHeader?: boolean
       {showHeader ? (
         <HomepageHeader
           darkMode={darkMode}
-          onToggleDark={() => setDarkMode((value) => !value)}
+          onToggleDark={() => homepageTheme.setDarkMode((value) => !value)}
           themeName={themeName}
-          onTheme={setThemeName}
+          onTheme={homepageTheme.setThemeName}
         />
       ) : null}
 
@@ -234,6 +295,9 @@ export default function HomepageV1({ showHeader = true }: { showHeader?: boolean
                 </a>
               </div>
             </div>
+            <div className="home-v1-hero-galaxy">
+              <SitemapGalaxy data={blogGalaxyData} theme={darkMode ? "dark" : "light"} />
+            </div>
           </div>
         </header>
 
@@ -244,7 +308,6 @@ export default function HomepageV1({ showHeader = true }: { showHeader?: boolean
                 <span className="home-v1-kicker">NOW / 最近</span>
                 <h2 id="home-v1-now-title">最近发生的事</h2>
               </div>
-              <p>从公开的项目、写作与生活记录里挑三件最能代表当下的事，由 AI 归纳；生成失败时继续使用最近一次可靠快照。</p>
             </div>
             <div className="home-v1-recent-grid">
               {homeRecentSnapshot.items.slice(0, 3).map((item) => (
@@ -294,24 +357,11 @@ export default function HomepageV1({ showHeader = true }: { showHeader?: boolean
                   <p>{question}</p>
                 </div>
               ))}
-              <p className="home-v1-about-note">这个网站只是我持续留下答案变化的地方。</p>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="home-v1-footer">
-        <div className="wrap home-v1-footer-inner">
-          <div>
-            <strong>Tomz Dang</strong>
-            <span>Independent Developer &amp; Product Designer</span>
-          </div>
-          <div className="home-v1-footer-links">
-            <Link to="/blogs">Blog</Link>
-            <a href="https://github.com/dangjingtao" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

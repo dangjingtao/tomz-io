@@ -1,55 +1,85 @@
-:root.works-route {
+:root.works-route:not(.dark) {
   color-scheme: light;
-  --canvas: #f7f3eb;
-  --ink: #1b1916;
-  --body-c: #5f5a52;
-  --muted: #756f66;
-  --muted-soft: #8b847a;
-  --surface-card: #eee7db;
-  --hairline: rgb(27 25 22 / 14%);
-  --primary: #be684f;
-  --primary-active: #9f513d;
-  --on-primary: #fff;
 }
 
-:root.works-route body,
-:root.works-route .top-nav,
-:root.works-route .docs-mobile-bar,
-:root.works-route .mobile-header-panel,
-:root.works-route .mobile-docs-drawer,
-:root.works-route .mobile-page-toc,
-:root.works-route .menu-dropdown-panel {
-  color: #1b1916;
-  background: #f7f3eb;
-  border-color: rgb(27 25 22 / 14%);
+:root.works-route:not(.dark) body,
+:root.works-route:not(.dark) .top-nav,
+:root.works-route:not(.dark) .docs-mobile-bar,
+:root.works-route:not(.dark) .mobile-header-panel,
+:root.works-route:not(.dark) .mobile-docs-drawer,
+:root.works-route:not(.dark) .mobile-page-toc,
+:root.works-route:not(.dark) .menu-dropdown-panel {
+  color: var(--ink);
+  background: var(--canvas);
+  border-color: var(--hairline);
 }
 
-:root.works-route .top-nav,
-:root.works-route .docs-mobile-bar {
+:root.works-route:not(.dark) .top-nav,
+:root.works-route:not(.dark) .docs-mobile-bar {
   box-shadow: none;
 }
 
-:root.works-route .mobile-menu-button,
-:root.works-route .theme-toggle,
-:root.works-route .site-search,
-:root.works-route .mobile-theme-picker button {
-  color: #1b1916;
-  background: #f7f3eb;
-  border-color: rgb(27 25 22 / 14%);
+:root.works-route:not(.dark) .mobile-menu-button,
+:root.works-route:not(.dark) .theme-toggle,
+:root.works-route:not(.dark) .site-search,
+:root.works-route:not(.dark) .mobile-theme-picker button {
+  color: var(--ink);
+  background: var(--canvas);
+  border-color: var(--hairline);
 }
 
-:root.works-route .menu a,
-:root.works-route .menu-dropdown-trigger,
-:root.works-route .docs-mobile-bar button,
-:root.works-route .mobile-header-links > a,
-:root.works-route .mobile-header-group > a {
-  color: #5f5a52;
+:root.works-route:not(.dark) .menu a,
+:root.works-route:not(.dark) .menu-dropdown-trigger,
+:root.works-route:not(.dark) .docs-mobile-bar button,
+:root.works-route:not(.dark) .mobile-header-links > a,
+:root.works-route:not(.dark) .mobile-header-group > a {
+  color: var(--body-c);
 }
 
-:root.works-route .brand,
-:root.works-route .mobile-header-group strong,
-:root.works-route .mobile-theme-picker strong {
-  color: #1b1916;
+:root.works-route:not(.dark) .brand,
+:root.works-route:not(.dark) .mobile-header-group strong,
+:root.works-route:not(.dark) .mobile-theme-picker strong {
+  color: var(--ink);
+}
+
+:root.works-route.dark {
+  color-scheme: dark;
+}
+
+:root.works-route.dark .works-experience {
+  background: var(--canvas);
+  background-image: none;
+}
+
+:root.works-route.dark .top-nav,
+:root.works-route.dark .docs-mobile-bar,
+:root.works-route.dark .mobile-header-panel,
+:root.works-route.dark .mobile-docs-drawer,
+:root.works-route.dark .mobile-page-toc,
+:root.works-route.dark .menu-dropdown-panel {
+  color: var(--ink);
+  background: var(--canvas);
+  border-color: var(--hairline);
+}
+
+:root.works-route.dark .menu a,
+:root.works-route.dark .menu-dropdown-trigger,
+:root.works-route.dark .docs-mobile-bar button,
+:root.works-route.dark .mobile-header-links > a,
+:root.works-route.dark .mobile-header-group > a,
+:root.works-route.dark .brand,
+:root.works-route.dark .mobile-header-group strong,
+:root.works-route.dark .mobile-theme-picker strong {
+  color: var(--ink);
+}
+
+:root.works-route.dark .mobile-menu-button,
+:root.works-route.dark .theme-toggle,
+:root.works-route.dark .site-search,
+:root.works-route.dark .mobile-theme-picker button {
+  color: var(--ink);
+  background: var(--canvas);
+  border-color: var(--hairline);
 }
 
 .works-experience {
@@ -77,8 +107,8 @@
     min-height: 0;
     align-items: stretch;
     padding: 30px 0;
-    border-top: 1px solid rgb(27 25 22 / 12%);
-    border-bottom: 1px solid rgb(27 25 22 / 12%);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
   }
 
   .work-book-cover {

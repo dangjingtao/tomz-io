@@ -9,10 +9,16 @@ import {
   type SyntheticEvent,
 } from "react";
 import { marked } from "marked";
-import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
+import {
+  SitemapGalaxy,
+  type SitemapGalaxyData,
+} from "./components/SitemapGalaxy";
+import AuthorSignature from "./components/AuthorSignature";
 import hljs from "highlight.js/lib/common";
 import {
   ArrowUpRight,
+  Archive,
+  BookOpen,
   ChevronDown,
   Code2,
   Compass,
@@ -41,7 +47,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { directoryLabels, logoUrl, topNavigationOrder } from "./site.config";
+import { directoryLabels, topNavigationOrder } from "./site.config";
 import {
   allDocs,
   pageDirectories,
@@ -51,7 +57,7 @@ import {
   type AuthorKey,
   type Doc,
 } from "./content/mira-docs-adapter";
-import HomepageV1 from "./HomepageV1";
+import HomepageV1, { HomepageFooter } from "./HomepageV1";
 
 type LinkItem = { label: string; href: string };
 type ConfiguredNavItem = { label: string; href: string };
@@ -91,7 +97,9 @@ function logicalSiteAreaKey(root: string) {
   return root === VISUAL_CONTENT_ROOT ? MIRA_DOCS_AREA_KEY : root;
 }
 function navigationDirectory(doc: Doc) {
-  return doc.root === VISUAL_CONTENT_ROOT ? VISUAL_NAV_DIRECTORY : doc.directory;
+  return doc.root === VISUAL_CONTENT_ROOT
+    ? VISUAL_NAV_DIRECTORY
+    : doc.directory;
 }
 function docHref(path: string) {
   return `${appBase}${path.replace(/^\/+/, "")}`;
@@ -177,7 +185,8 @@ function generateOrbitCoverSvg(seed: string) {
 function resolveCoverSource(doc: Doc) {
   const cover = doc.cover?.trim();
   if (cover) {
-    if (/^https?:\/\//i.test(cover) || /^data:image\//i.test(cover)) return cover;
+    if (/^https?:\/\//i.test(cover) || /^data:image\//i.test(cover))
+      return cover;
     if (cover.startsWith("/")) return `${appBase}${cover.replace(/^\/+/, "")}`;
     return cover;
   }
@@ -234,16 +243,16 @@ const visibleSections = [
 const sitemapData: SitemapGalaxyData = {
   root: "网站地图",
   sections: visibleSections.map((section) => ({
-  key: section.key,
-  title: section.title,
-  description: section.description,
-  path: section.docs[0]?.path || "/docs",
-  docs: section.docs.map((doc) => ({
-    title: doc.title,
-    path: doc.path,
-    description: doc.description,
-    date: doc.date,
-  })),
+    key: section.key,
+    title: section.title,
+    description: section.description,
+    path: section.docs[0]?.path || "/docs",
+    docs: section.docs.map((doc) => ({
+      title: doc.title,
+      path: doc.path,
+      description: doc.description,
+      date: doc.date,
+    })),
   })),
 };
 type ContextGraphNode = {
@@ -252,12 +261,14 @@ type ContextGraphNode = {
   href: string;
   parent: number;
 };
-const contextGraphNodes: ContextGraphNode[] = [{
-  label: "网站地图",
-  kind: "section",
-  href: "/sitemap",
-  parent: -1,
-}];
+const contextGraphNodes: ContextGraphNode[] = [
+  {
+    label: "网站地图",
+    kind: "section",
+    href: "/sitemap",
+    parent: -1,
+  },
+];
 visibleSections.forEach((section) => {
   const sectionIndex = contextGraphNodes.length;
   contextGraphNodes.push({
@@ -275,13 +286,7 @@ visibleSections.forEach((section) => {
     });
   });
 });
-const localLogoSrc = `${appBase}mira-logo.png`;
-const logoSrc = logoUrl.trim() || localLogoSrc;
-function handleLogoError(event: SyntheticEvent<HTMLImageElement>) {
-  if (event.currentTarget.dataset.logoFallbackApplied) return;
-  event.currentTarget.dataset.logoFallbackApplied = "true";
-  event.currentTarget.src = localLogoSrc;
-}
+const tomzMarkSrc = `${appBase}brand/tomz-mark.png`;
 const localMiraAvatarUrl = `${appBase}mira-avatar.png`;
 const miraAvatarUrl =
   "https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp";
@@ -292,11 +297,12 @@ function handleMiraAvatarError(event: SyntheticEvent<HTMLImageElement>) {
 }
 const authorAvatarUrl =
   "https://avatars.githubusercontent.com/u/20751798?s=160&v=4";
-const siteTitle = "UIChat Mira";
-const defaultPageTitle = "本地优先的多模型智能体";
+const siteTitle = "Tomz Dang";
+const defaultPageTitle = "独立开发与产品设计";
 
 function getPageTitle(pathname: string) {
   if (pathname === "/") return defaultPageTitle;
+  if (pathname === "/about") return "关于 Tomz Dang";
   if (pathname === "/sitemap") return "站点地图";
 
   const doc = allDocs.find((item) => item.path === pathname);
@@ -358,7 +364,8 @@ function getDocSignature(doc: Doc) {
   }
   if (authors[0] === "mira") {
     const links = [{ label: "查看 Mira 来信 →", href: docHref("/blogs") }];
-    if (doc.commitUrl) links.push({ label: "查看发布记录 →", href: doc.commitUrl });
+    if (doc.commitUrl)
+      links.push({ label: "查看发布记录 →", href: doc.commitUrl });
     return {
       title: "来自Mira",
       body: authorProfiles.mira.bio,
@@ -378,36 +385,32 @@ function getDocSignature(doc: Doc) {
     accentClassName: "",
   };
 }
-const configuredHeaderNav: ConfiguredNavGroup[] = [
-  {
-    label: "项目",
-    items: [
-      { label: "UIChat", href: "https://docs.uichat.tomz.io/" },
-      {
-        label: "open-proxy-apis",
-        href: "https://github.com/dangjingtao/open-proxy-apis",
-      },
-      {
-        label: "local-rerank",
-        href: "https://github.com/dangjingtao/local-rerank",
-      },
-      { label: "typora-r2", href: "https://github.com/dangjingtao/typora-r2" },
-    ],
-  },
-];
+const configuredHeaderNav: ConfiguredNavGroup[] = [];
+const blogNavCategories = (() => {
+  const blogArea = siteAreas.find((area) => area.key === "blogs");
+  const groups = new Map<string, number>();
+  for (const doc of blogArea?.docs || []) {
+    const group = doc.group.trim();
+    if (!group || group === "\u5f52\u6863") continue;
+    groups.set(group, (groups.get(group) || 0) + 1);
+  }
+  return [...groups].map(([label, count]) => ({ label, count }));
+})();
 function homeHref(hash = "") {
   return `${appBase}${hash}`;
 }
 function escapeHtml(value: string) {
-  return value.replace(/[&<>"']/g, (character) => (
-    {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;",
-    }[character] || character
-  ));
+  return value.replace(
+    /[&<>"']/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[character] || character,
+  );
 }
 function removeMarkdownH1(source: string) {
   let inFence = false;
@@ -425,34 +428,36 @@ function removeMarkdownH1(source: string) {
 function renderMarkdown(source: string) {
   const withoutTitles = removeMarkdownH1(source);
   const htmlBlocks: string[] = [];
-  const prepared = withoutTitles.replace(
-    /::: tip ([\s\S]*?):::/g,
-    '<div class="md-custom-block"><strong>提示</strong><p>$1</p></div>',
-  ).replace(
-    /::: html\s*([\s\S]*?):::/g,
-    (_, html) => {
+  const prepared = withoutTitles
+    .replace(
+      /::: tip ([\s\S]*?):::/g,
+      '<div class="md-custom-block"><strong>提示</strong><p>$1</p></div>',
+    )
+    .replace(/::: html\s*([\s\S]*?):::/g, (_, html) => {
       const index = htmlBlocks.push(html.trim()) - 1;
       return `MIRA_HTML_BLOCK_${index}`;
-    },
-  );
+    });
   const renderer = new marked.Renderer();
   renderer.code = ({ text, lang }) => {
     const language = lang?.trim().toLowerCase();
     if (language === "mermaid") {
       return `<div class="markdown-mermaid" data-mermaid data-mermaid-source="${escapeHtml(text)}"></div>`;
     }
-    const highlighted = language && hljs.getLanguage(language)
-      ? hljs.highlight(text, { language, ignoreIllegals: true }).value
-      : hljs.highlightAuto(text).value;
-    const languageClass = language && /^[a-z0-9-]+$/.test(language)
-      ? ` language-${language}`
-      : "";
+    const highlighted =
+      language && hljs.getLanguage(language)
+        ? hljs.highlight(text, { language, ignoreIllegals: true }).value
+        : hljs.highlightAuto(text).value;
+    const languageClass =
+      language && /^[a-z0-9-]+$/.test(language) ? ` language-${language}` : "";
     return `<pre><code class="hljs${languageClass}">${highlighted}</code></pre>`;
   };
   let html = marked.parse(prepared, { gfm: true, renderer }) as string;
   htmlBlocks.forEach((block, index) => {
     const placeholder = `MIRA_HTML_BLOCK_${index}`;
-    html = html.replace(new RegExp(`<p>${placeholder}<\\/p>|${placeholder}`, "g"), block);
+    html = html.replace(
+      new RegExp(`<p>${placeholder}<\\/p>|${placeholder}`, "g"),
+      block,
+    );
   });
   return html.replace(
     /<h([23])((?:\s[^>]*)?)>([\s\S]*?)<\/h\1>/g,
@@ -467,7 +472,13 @@ function renderMarkdown(source: string) {
     },
   );
 }
-function RenderedMarkdown({ html, className = "markdown" }: { html: string; className?: string }) {
+function RenderedMarkdown({
+  html,
+  className = "markdown",
+}: {
+  html: string;
+  className?: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const container = containerRef.current;
@@ -479,7 +490,9 @@ function RenderedMarkdown({ html, className = "markdown" }: { html: string; clas
         queued = true;
         return;
       }
-      const nodes = Array.from(container.querySelectorAll<HTMLElement>("[data-mermaid]"));
+      const nodes = Array.from(
+        container.querySelectorAll<HTMLElement>("[data-mermaid]"),
+      );
       if (!nodes.length) return;
       rendering = true;
       try {
@@ -489,20 +502,27 @@ function RenderedMarkdown({ html, className = "markdown" }: { html: string; clas
           startOnLoad: false,
           securityLevel: "strict",
           theme: dark ? "dark" : "base",
-          themeVariables: dark ? undefined : {
-            fontFamily: "Public Sans, sans-serif",
-            primaryColor: "#efe9de",
-            primaryTextColor: "#141413",
-            lineColor: "#cc785c",
-            secondaryColor: "#f5f0e8",
-            tertiaryColor: "#faf9f5",
-          },
+          themeVariables: dark
+            ? undefined
+            : {
+                fontFamily: "Public Sans, sans-serif",
+                primaryColor: "#efe9de",
+                primaryTextColor: "#141413",
+                lineColor: "#cc785c",
+                secondaryColor: "#f5f0e8",
+                tertiaryColor: "#faf9f5",
+              },
         });
-        await Promise.all(nodes.map(async (node, index) => {
-          const sourceCode = node.dataset.mermaidSource || "";
-          const result = await mermaid.render(`mira-mermaid-${Date.now()}-${index}`, sourceCode);
-          node.innerHTML = result.svg;
-        }));
+        await Promise.all(
+          nodes.map(async (node, index) => {
+            const sourceCode = node.dataset.mermaidSource || "";
+            const result = await mermaid.render(
+              `mira-mermaid-${Date.now()}-${index}`,
+              sourceCode,
+            );
+            node.innerHTML = result.svg;
+          }),
+        );
       } catch (error) {
         console.warn("Mira Mermaid 图表渲染失败，已保留源码。", error);
         nodes.forEach((node) => {
@@ -518,10 +538,19 @@ function RenderedMarkdown({ html, className = "markdown" }: { html: string; clas
     };
     void renderMermaid();
     const observer = new MutationObserver(() => void renderMermaid());
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme"] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"],
+    });
     return () => observer.disconnect();
   }, [html]);
-  return <div ref={containerRef} className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div
+      ref={containerRef}
+      className={className}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 }
 
 const content = {
@@ -560,19 +589,22 @@ const content = {
 content.nav = [
   { label: "文档", href: docHref("/about/origin") },
   ...siteAreas.map((area) => ({ label: area.title, href: area.href })),
-].sort((a, b) => {
-  const keyFor = (item: LinkItem) =>
-    item.label === "文档"
-      ? "docs"
-      : item.href.replace(appBase, "").split("/")[0];
-  const rank = (item: LinkItem) => {
-    const index = topNavigationOrder.indexOf(
-      keyFor(item) as (typeof topNavigationOrder)[number],
-    );
-    return index === -1 ? topNavigationOrder.length : index;
-  };
-  return rank(a) - rank(b);
-});
+  { label: "关于", href: "/about" },
+]
+  .filter((item) => !item.href.endsWith("/about/origin"))
+  .sort((a, b) => {
+    const keyFor = (item: LinkItem) =>
+      item.label === "文档"
+        ? "docs"
+        : item.href.replace(appBase, "").split("/")[0];
+    const rank = (item: LinkItem) => {
+      const index = topNavigationOrder.indexOf(
+        keyFor(item) as (typeof topNavigationOrder)[number],
+      );
+      return index === -1 ? topNavigationOrder.length : index;
+    };
+    return rank(a) - rank(b);
+  });
 
 function Button({
   children,
@@ -612,7 +644,9 @@ type GitHubContributor = { login: string };
 type GitHubTag = { name: string };
 
 function githubContributorCount(linkHeader: string | null, fallback: number) {
-  const lastPage = linkHeader?.match(/<[^>]*[?&]page=(\d+)[^>]*>;\s*rel="last"/i);
+  const lastPage = linkHeader?.match(
+    /<[^>]*[?&]page=(\d+)[^>]*>;\s*rel="last"/i,
+  );
   return lastPage ? Number(lastPage[1]) : fallback;
 }
 
@@ -621,12 +655,16 @@ function LatestReleaseButton() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("https://api.github.com/repos/dangjingtao/uichat-mira/releases/latest", {
-      headers: { Accept: "application/vnd.github+json" },
-      signal: controller.signal,
-    })
+    fetch(
+      "https://api.github.com/repos/dangjingtao/uichat-mira/releases/latest",
+      {
+        headers: { Accept: "application/vnd.github+json" },
+        signal: controller.signal,
+      },
+    )
       .then((response) => {
-        if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+        if (!response.ok)
+          throw new Error(`GitHub API returned ${response.status}`);
         return response.json() as Promise<GitHubRelease>;
       })
       .then((release) => {
@@ -718,10 +756,7 @@ function PhilosophySpotlight() {
           </span>
         </h2>
         <div className="philosophy-spotlight-intro philosophy-spotlight-body">
-          <p>
-            Mira
-            想做的，不是替人决定一切的机器，也不是只能等待指令的工具。
-          </p>
+          <p>Mira 想做的，不是替人决定一切的机器，也不是只能等待指令的工具。</p>
           <p>
             它应当理解你、帮助你、为你行动，同时让数据、边界与最终决定仍然属于你。
           </p>
@@ -762,23 +797,6 @@ function PhilosophySpotlight() {
     </div>
   );
 }
-function Footer({ className = "" }: { className?: string }) {
-  return (
-    <footer className={className}>
-      <div className="wrap footer-simple">
-        <p className="footer-copy">
-          <span className="brand" style={{ color: "#fff" }}>
-            <img className="brand-logo" src={logoSrc} onError={handleLogoError} alt="" />
-            UIChat Mira
-          </span>
-          <span>Released under the MIT License.</span>
-        </p>
-        <p className="footer-copyright">Copyright © 2026 Tomz Dang</p>
-      </div>
-    </footer>
-  );
-}
-
 function ShareButton({ title, text }: { title: string; text?: string }) {
   const [label, setLabel] = useState("分享");
 
@@ -793,7 +811,8 @@ function ShareButton({ title, text }: { title: string; text?: string }) {
         window.setTimeout(() => setLabel("分享"), 1800);
         return;
       } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (error instanceof DOMException && error.name === "AbortError")
+          return;
       }
     }
 
@@ -819,7 +838,12 @@ function ShareButton({ title, text }: { title: string; text?: string }) {
   };
 
   return (
-    <button className="btn btn-secondary share-button" type="button" onClick={handleShare} aria-label={label}>
+    <button
+      className="btn btn-secondary share-button"
+      type="button"
+      onClick={handleShare}
+      aria-label={label}
+    >
       <Share2 size={15} strokeWidth={1.8} aria-hidden="true" />
       {label}
     </button>
@@ -832,7 +856,8 @@ function PwaUpdatePrompt() {
   useEffect(() => {
     const showPrompt = () => setVisible(true);
     window.addEventListener("mira:pwa-update-available", showPrompt);
-    return () => window.removeEventListener("mira:pwa-update-available", showPrompt);
+    return () =>
+      window.removeEventListener("mira:pwa-update-available", showPrompt);
   }, []);
 
   if (!visible) return null;
@@ -851,7 +876,11 @@ function PwaUpdatePrompt() {
           <p>更新网站数据后即可使用最新内容，当前页面不会自动刷新。</p>
         </div>
         <div className="pwa-update-actions">
-          <button type="button" className="pwa-update-later" onClick={() => setVisible(false)}>
+          <button
+            type="button"
+            className="pwa-update-later"
+            onClick={() => setVisible(false)}
+          >
             稍后
           </button>
           <button
@@ -875,12 +904,16 @@ function AuthorIntro() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("https://api.github.com/repos/dangjingtao/uichat-mira/contributors?per_page=1", {
-      headers: { Accept: "application/vnd.github+json" },
-      signal: controller.signal,
-    })
+    fetch(
+      "https://api.github.com/repos/dangjingtao/uichat-mira/contributors?per_page=1",
+      {
+        headers: { Accept: "application/vnd.github+json" },
+        signal: controller.signal,
+      },
+    )
       .then((response) => {
-        if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+        if (!response.ok)
+          throw new Error(`GitHub API returned ${response.status}`);
         return response.json().then((contributors: GitHubContributor[]) => ({
           contributors,
           linkHeader: response.headers.get("Link"),
@@ -903,12 +936,16 @@ function AuthorIntro() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("https://api.github.com/repos/dangjingtao/uichat-mira/tags?per_page=1", {
-      headers: { Accept: "application/vnd.github+json" },
-      signal: controller.signal,
-    })
+    fetch(
+      "https://api.github.com/repos/dangjingtao/uichat-mira/tags?per_page=1",
+      {
+        headers: { Accept: "application/vnd.github+json" },
+        signal: controller.signal,
+      },
+    )
       .then((response) => {
-        if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+        if (!response.ok)
+          throw new Error(`GitHub API returned ${response.status}`);
         return response.json() as Promise<GitHubTag[]>;
       })
       .then(([tag]) => {
@@ -1018,7 +1055,10 @@ const chatMessages: ChatMessage[] = [
     segments: [
       { text: "Mira", strong: true },
       { text: " · 骂得对。" },
-      { text: "这个已经不是“写得丑”，这是我把 dev runtime 写炸了。", strong: true },
+      {
+        text: "这个已经不是“写得丑”，这是我把 dev runtime 写炸了。",
+        strong: true,
+      },
     ],
   },
 ];
@@ -1064,10 +1104,30 @@ function SiteHeaderBase({
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
   useEffect(() => {
     setOpenMenu(null);
     setMobileOpen(false);
   }, [location.pathname]);
+  useEffect(() => {
+    if (openMenu !== "blogs") return;
+    const closeBlogMenu = (event: PointerEvent | globalThis.KeyboardEvent) => {
+      if (event instanceof globalThis.KeyboardEvent && event.key !== "Escape")
+        return;
+      if (
+        event instanceof PointerEvent &&
+        navRef.current?.contains(event.target as Node)
+      )
+        return;
+      setOpenMenu(null);
+    };
+    document.addEventListener("pointerdown", closeBlogMenu);
+    document.addEventListener("keydown", closeBlogMenu);
+    return () => {
+      document.removeEventListener("pointerdown", closeBlogMenu);
+      document.removeEventListener("keydown", closeBlogMenu);
+    };
+  }, [openMenu]);
   const isActive = (item: LinkItem) => {
     const target = item.href.slice(Math.max(appBase.length - 1, 0));
     if (item.label === "文档")
@@ -1082,21 +1142,132 @@ function SiteHeaderBase({
     );
   };
   return (
-    <nav className={`top-nav${wide ? " docs-header" : ""}`}>
+    <nav ref={navRef} className={`top-nav${wide ? " docs-header" : ""}`}>
       <div className="wrap">
         <Link className="brand" to="/">
-          <img className="brand-logo" src={logoSrc} onError={handleLogoError} alt="" />
-          Tomz.io
+          <img className="brand-tomz-mark" src={tomzMarkSrc} alt="" />
         </Link>
         <ul className="menu">
           {content.nav.map((item) => {
             const active = isActive(item);
+            const target = item.href.slice(Math.max(appBase.length - 1, 0));
+            if (target === "/blogs") {
+              return (
+                <li
+                  className={`menu-dropdown blog-nav-dropdown${openMenu === "blogs" ? " open" : ""}`}
+                  key={item.href}
+                  onMouseEnter={() => setOpenMenu("blogs")}
+                  onMouseLeave={() => setOpenMenu(null)}
+                >
+                  <Link
+                    className={`menu-dropdown-trigger blog-nav-trigger${active ? " active" : ""}`}
+                    aria-current={active ? "page" : undefined}
+                    aria-expanded={openMenu === "blogs"}
+                    aria-haspopup="menu"
+                    to={target}
+                    onClick={(event) => {
+                      if (
+                        event.metaKey ||
+                        event.ctrlKey ||
+                        event.shiftKey ||
+                        event.altKey
+                      )
+                        return;
+                      event.preventDefault();
+                      setOpenMenu("blogs");
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") setOpenMenu(null);
+                    }}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={14}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+                  </Link>
+                  <div
+                    className="menu-dropdown-panel blog-nav-panel"
+                    role="menu"
+                  >
+                    <div className="blog-nav-panel-head">
+                      <span>BLOG GARDEN</span>
+                      <strong>
+                        &#20174;&#27491;&#22312;&#24605;&#32771;&#30340;&#20027;&#39064;&#36827;&#20837;
+                      </strong>
+                    </div>
+                    <div className="blog-nav-panel-grid">
+                      <Link
+                        role="menuitem"
+                        to="/blogs"
+                        onClick={() => setOpenMenu(null)}
+                      >
+                        <BookOpen size={18} aria-hidden="true" />
+                        <span>
+                          <strong>&#20840;&#37096;&#25991;&#31456;</strong>
+                          <small>
+                            {blogNavCategories.reduce(
+                              (sum, category) => sum + category.count,
+                              0,
+                            )}{" "}
+                            &#31687;
+                          </small>
+                        </span>
+                      </Link>
+                      {blogNavCategories.slice(0, 5).map((category, index) => {
+                        const CategoryIcon = [
+                          Lightbulb,
+                          Sparkles,
+                          Code2,
+                          BookOpen,
+                          Network,
+                        ][index % 5];
+                        return (
+                          <Link
+                            role="menuitem"
+                            key={category.label}
+                            to={{
+                              pathname: "/blogs",
+                              search: `?category=${encodeURIComponent(category.label)}`,
+                            }}
+                            onClick={() => setOpenMenu(null)}
+                          >
+                            <CategoryIcon size={18} aria-hidden="true" />
+                            <span>
+                              <strong>{category.label}</strong>
+                              <small>{category.count} &#31687;</small>
+                            </span>
+                          </Link>
+                        );
+                      })}
+                      <Link
+                        role="menuitem"
+                        to={{
+                          pathname: "/blogs",
+                          search: `?category=${encodeURIComponent("\u5f52\u6863")}`,
+                        }}
+                        onClick={() => setOpenMenu(null)}
+                      >
+                        <Archive size={18} aria-hidden="true" />
+                        <span>
+                          <strong>&#24402;&#26723;</strong>
+                          <small>
+                            &#25353;&#26102;&#38388;&#27983;&#35272;
+                          </small>
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+                </li>
+              );
+            }
             return (
               <li key={item.href}>
                 <Link
                   className={active ? "active" : ""}
                   aria-current={active ? "page" : undefined}
-                  to={item.href.slice(Math.max(appBase.length - 1, 0))}
+                  to={target}
                 >
                   {item.label}
                 </Link>
@@ -1154,14 +1325,10 @@ function MobileHeaderPanel({
   onSearch,
   onToggleTheme,
   darkMode,
-  themeName,
-  onSelectTheme,
 }: {
   onSearch: () => void;
   onToggleTheme: () => void;
   darkMode: boolean;
-  themeName: ThemeName;
-  onSelectTheme: (theme: ThemeName) => void;
 }) {
   return (
     <div className="home-v1-mobile-panel wrap">
@@ -1177,7 +1344,12 @@ function MobileHeaderPanel({
         <div className="home-v1-mobile-group" key={group.label}>
           <strong>{group.label}</strong>
           {group.items.map((item) => (
-            <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
+            <a
+              key={item.href}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+            >
               {item.label}
             </a>
           ))}
@@ -1186,25 +1358,12 @@ function MobileHeaderPanel({
       <div className="home-v1-mobile-group">
         <strong>快捷操作</strong>
         <div className="home-v1-mobile-themes">
-          <button type="button" onClick={onSearch}>搜索</button>
+          <button type="button" onClick={onSearch}>
+            搜索
+          </button>
           <button type="button" onClick={onToggleTheme}>
             {darkMode ? "浅色模式" : "暗黑模式"}
           </button>
-        </div>
-      </div>
-      <div className="home-v1-mobile-group">
-        <strong>主题</strong>
-        <div className="home-v1-mobile-themes">
-          {themeOptions.map((theme) => (
-            <button
-              key={theme.name}
-              type="button"
-              className={theme.name === themeName ? "active" : ""}
-              onClick={() => onSelectTheme(theme.name)}
-            >
-              {theme.label}
-            </button>
-          ))}
         </div>
       </div>
     </div>
@@ -1261,8 +1420,7 @@ function SiteHeader({
     <nav className="home-v1-nav" aria-label="主导航">
       <div className="wrap home-v1-nav-inner">
         <Link className="home-v1-brand" to="/" aria-label="Tomz Dang 首页">
-          <span className="home-v1-brand-mark" aria-hidden="true">T</span>
-          <span>Tomz Dang</span>
+          <img className="home-v1-brand-mark" src={tomzMarkSrc} alt="" />
         </Link>
 
         <div className="home-v1-nav-links">
@@ -1291,7 +1449,9 @@ function SiteHeader({
                 className="home-v1-nav-trigger"
                 aria-expanded={openMenu === group.label}
                 onClick={() =>
-                  setOpenMenu((value) => (value === group.label ? null : group.label))
+                  setOpenMenu((value) =>
+                    value === group.label ? null : group.label,
+                  )
                 }
               >
                 {group.label}
@@ -1299,7 +1459,12 @@ function SiteHeader({
               </button>
               <div className="home-v1-nav-popover">
                 {group.items.map((item) => (
-                  <a key={item.href} href={item.href} target="_blank" rel="noreferrer">
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <span>{item.label}</span>
                     <ArrowUpRight size={13} aria-hidden="true" />
                   </a>
@@ -1316,7 +1481,9 @@ function SiteHeader({
               type="button"
               className="home-v1-nav-trigger"
               aria-expanded={openMenu === "主题"}
-              onClick={() => setOpenMenu((value) => (value === "主题" ? null : "主题"))}
+              onClick={() =>
+                setOpenMenu((value) => (value === "主题" ? null : "主题"))
+              }
             >
               主题
               <ChevronDown size={14} aria-hidden="true" />
@@ -1340,14 +1507,13 @@ function SiteHeader({
         <div className="home-v1-nav-actions">
           {showMobileDocShare ? (
             <div className="mobile-doc-share">
-              <ShareButton title={currentDoc.title} text={currentDoc.description} />
+              <ShareButton
+                title={currentDoc.title}
+                text={currentDoc.description}
+              />
             </div>
           ) : null}
-          <button
-            type="button"
-            className="home-v1-search"
-            onClick={onSearch}
-          >
+          <button type="button" className="home-v1-search" onClick={onSearch}>
             搜索
             <kbd>Ctrl K</kbd>
           </button>
@@ -1358,7 +1524,11 @@ function SiteHeader({
             aria-label={darkMode ? "切换到浅色模式" : "切换到暗黑模式"}
             title={darkMode ? "浅色模式" : "暗黑模式"}
           >
-            {darkMode ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
+            {darkMode ? (
+              <Sun size={17} aria-hidden="true" />
+            ) : (
+              <Moon size={17} aria-hidden="true" />
+            )}
           </button>
           <a
             className="home-v1-github"
@@ -1376,7 +1546,11 @@ function SiteHeader({
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "关闭导航" : "打开导航"}
           >
-            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+            {mobileOpen ? (
+              <X size={18} aria-hidden="true" />
+            ) : (
+              <Menu size={18} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
@@ -1386,8 +1560,6 @@ function SiteHeader({
           onSearch={onSearch}
           onToggleTheme={onToggleTheme}
           darkMode={darkMode}
-          themeName={themeName}
-          onSelectTheme={onSelectTheme}
         />
       ) : null}
     </nav>
@@ -1397,15 +1569,14 @@ function HomePage({ darkMode }: { darkMode: boolean }) {
   return (
     <div className="site">
       <header>
-        <div
-          className="wrap hero-grid home-hero-grid"
-        >
+        <div className="wrap hero-grid home-hero-grid">
           <div>
             <h1 className="hero-title">
               从聊天出发，最终回到<span>「接住你」。</span>
             </h1>
             <p className="lede">
-              UIChat Mira 是一个本地优先的个人 AI 工作台。聊天只是入口，模型、角色、知识、MCP、工具与微应用在同一个空间里协同工作。它不接管你，而是在你仍然掌握方向时，替你接住复杂。
+              UIChat Mira 是一个本地优先的个人 AI
+              工作台。聊天只是入口，模型、角色、知识、MCP、工具与微应用在同一个空间里协同工作。它不接管你，而是在你仍然掌握方向时，替你接住复杂。
             </p>
             <div className="hero-cta">
               <Button href={docHref("/about/origin")} kind="primary">
@@ -1473,7 +1644,6 @@ function HomePage({ darkMode }: { darkMode: boolean }) {
         </div>
       </section>
       <AuthorIntro />
-      <Footer />
     </div>
   );
 }
@@ -1483,7 +1653,9 @@ function NotFoundPage({ onSearch }: { onSearch: () => void }) {
   const requestedPath = decodedPathname(location.pathname);
 
   useEffect(() => {
-    const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const robots = document.querySelector<HTMLMetaElement>(
+      'meta[name="robots"]',
+    );
     const previousRobots = robots?.content;
     robots?.setAttribute("content", "noindex,nofollow");
 
@@ -1497,7 +1669,9 @@ function NotFoundPage({ onSearch }: { onSearch: () => void }) {
       <main className="not-found-page">
         <div className="not-found-glow" aria-hidden="true" />
         <div className="not-found-card">
-          <div className="not-found-number" aria-hidden="true">404</div>
+          <div className="not-found-number" aria-hidden="true">
+            404
+          </div>
           <h1>这条路径没有内容</h1>
           <p>
             页面可能已经移动、被删除，或者地址输入有误。你可以返回首页，
@@ -1508,7 +1682,11 @@ function NotFoundPage({ onSearch }: { onSearch: () => void }) {
             <Link className="btn btn-primary" to="/">
               返回首页
             </Link>
-            <button className="btn btn-secondary" type="button" onClick={onSearch}>
+            <button
+              className="btn btn-secondary"
+              type="button"
+              onClick={onSearch}
+            >
               搜索站内内容
             </button>
             <Link className="not-found-doc-link" to="/about/origin">
@@ -1517,7 +1695,6 @@ function NotFoundPage({ onSearch }: { onSearch: () => void }) {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
@@ -1699,7 +1876,17 @@ function RoutedApp() {
         wide={navIsWide}
       />
       <Routes>
-        <Route path="/" element={<HomepageV1 showHeader={false} />} />
+        <Route
+          path="/"
+          element={
+            <HomepageV1
+              showHeader={false}
+              darkMode={darkMode}
+              themeName={themeName}
+            />
+          }
+        />
+        <Route path="/about" element={<AboutPage />} />
         <Route element={<DocsLayout />}>
           <Route path="/sitemap" element={<DocPage path="/sitemap" />} />
           <Route
@@ -1725,6 +1912,7 @@ function RoutedApp() {
         </Route>
         <Route path="*" element={<NotFoundPage onSearch={openSearch} />} />
       </Routes>
+      <HomepageFooter />
       {searchOpen && (
         <SearchOverlay
           query={query}
@@ -1937,29 +2125,6 @@ function blogCategoryIcon(category: string): LucideIcon {
   if (category.includes("模型")) return Cpu;
   return Compass;
 }
-type BlogMaintainer = {
-  key: string;
-  title: string;
-  body: string;
-  meta: readonly string[];
-  avatar?: string;
-};
-const blogMaintainers: readonly BlogMaintainer[] = [
-  {
-    key: "tomz",
-    title: "Tomz Dang",
-    body: "UIChat Mira 的创造者与维护者。记录真实的产品判断、工程取舍和一路踩过的坑。",
-    meta: ["产品手记", "工程现场"],
-    avatar: authorAvatarUrl,
-  },
-  {
-    key: "mira",
-    title: "Mira",
-    body: "AI 写作者，也是 UIChat Mira 的同行者。写技术、产品，以及人与 AI 之间尚未写完的故事。",
-    meta: ["Mira 来信", "共同思考"],
-    avatar: miraAvatarUrl,
-  },
-] as const;
 function BlogHeaderVisual() {
   return (
     <div className="blog-header-visual" aria-hidden="true">
@@ -1969,7 +2134,13 @@ function BlogHeaderVisual() {
         role="presentation"
       >
         <defs>
-          <linearGradient id="blogOrbitWarm" x1="0%" x2="100%" y1="0%" y2="100%">
+          <linearGradient
+            id="blogOrbitWarm"
+            x1="0%"
+            x2="100%"
+            y1="0%"
+            y2="100%"
+          >
             <stop offset="0%" stopColor="#f4bb64" />
             <stop offset="55%" stopColor="#cc785c" />
             <stop offset="100%" stopColor="#cc785c" stopOpacity="0.2" />
@@ -1979,12 +2150,42 @@ function BlogHeaderVisual() {
             <stop offset="100%" stopColor="#6b9edf" />
           </linearGradient>
         </defs>
-        <circle className="orbit-track orbit-track-outer" cx="260" cy="260" r="202" />
-        <circle className="orbit-track orbit-track-middle" cx="260" cy="260" r="165" />
-        <circle className="orbit-track orbit-track-inner" cx="260" cy="260" r="132" />
-        <circle className="orbit-segment orbit-segment-warm" cx="260" cy="260" r="176" />
-        <circle className="orbit-segment orbit-segment-cool" cx="260" cy="260" r="208" />
-        <circle className="orbit-segment orbit-segment-thin" cx="260" cy="260" r="147" />
+        <circle
+          className="orbit-track orbit-track-outer"
+          cx="260"
+          cy="260"
+          r="202"
+        />
+        <circle
+          className="orbit-track orbit-track-middle"
+          cx="260"
+          cy="260"
+          r="165"
+        />
+        <circle
+          className="orbit-track orbit-track-inner"
+          cx="260"
+          cy="260"
+          r="132"
+        />
+        <circle
+          className="orbit-segment orbit-segment-warm"
+          cx="260"
+          cy="260"
+          r="176"
+        />
+        <circle
+          className="orbit-segment orbit-segment-cool"
+          cx="260"
+          cy="260"
+          r="208"
+        />
+        <circle
+          className="orbit-segment orbit-segment-thin"
+          cx="260"
+          cy="260"
+          r="147"
+        />
         <g className="orbit-core-wrap">
           <circle className="orbit-core-glow" cx="260" cy="260" r="68" />
           <path
@@ -2019,55 +2220,26 @@ function BlogThumbVisual({ category }: { category: string }) {
     </div>
   );
 }
-function BlogMaintainersSection({
-  items = blogMaintainers,
-  className = "",
-}: {
-  items?: readonly BlogMaintainer[];
-  className?: string;
-}) {
-  return (
-    <section className={`blog-maintainers${className ? ` ${className}` : ""}`}>
-      <div className="maintainer-grid">
-        <div className="maintainer-stack-head">
-          <h3>关于作者</h3>
-        </div>
-        {items.map((maintainer) => (
-          <article className="maintainer-card" key={maintainer.key}>
-            <div
-              className={`maintainer-mark${maintainer.avatar ? " has-avatar" : ""}`}
-              aria-hidden="true"
-            >
-              {maintainer.avatar ? (
-                <img
-                  alt=""
-                  className="maintainer-avatar"
-                  src={maintainer.avatar}
-                />
-              ) : (
-                <span className="maintainer-mark-core" />
-              )}
-            </div>
-            <div>
-              <div className="maintainer-head">
-                <h3>{maintainer.title}</h3>
-                <div className="maintainer-meta">
-                  {maintainer.meta.map((item) => (
-                    <span className="maintainer-pill" key={item}>
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <p className="maintainer-body">{maintainer.body}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
+  if (area.key === "projects") {
+    return (
+      <nav className="docnav project-docnav" aria-label="项目">
+        <h5>目录</h5>
+        <ul>
+          {[...area.docs].sort(compareDocs).map((doc) => (
+            <li key={doc.path}>
+              <Link
+                className={current === doc.path ? "active" : ""}
+                to={doc.path}
+              >
+                {doc.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  }
   const groups = docsByDirectory(area.docs);
   return (
     <nav className="docnav">
@@ -2102,20 +2274,92 @@ function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
     </nav>
   );
 }
-function MobileDocsBar({ currentDoc, tocOpen, onMenu, onToc }: { currentDoc?: Doc; tocOpen: boolean; onMenu: () => void; onToc: () => void }) {
+function MobileDocsBar({
+  currentDoc,
+  tocOpen,
+  onMenu,
+  onToc,
+}: {
+  currentDoc?: Doc;
+  tocOpen: boolean;
+  onMenu: () => void;
+  onToc: () => void;
+}) {
   const hasToc = Boolean(currentDoc?.headings.length);
-  return <div className="docs-mobile-bar">
-    <button type="button" onClick={onMenu} aria-label="打开文档菜单"><Menu size={15} aria-hidden="true" />菜单</button>
-    <button type="button" onClick={onToc} disabled={!hasToc} aria-expanded={hasToc ? tocOpen : undefined} aria-controls={hasToc ? "mobile-page-toc" : undefined}>
-      页面导航{tocOpen ? <ChevronUp size={15} aria-hidden="true" /> : <ChevronDown size={15} aria-hidden="true" />}
-    </button>
-  </div>;
+  return (
+    <div className="docs-mobile-bar">
+      <button type="button" onClick={onMenu} aria-label="打开文档菜单">
+        <Menu size={15} aria-hidden="true" />
+        菜单
+      </button>
+      <button
+        type="button"
+        onClick={onToc}
+        disabled={!hasToc}
+        aria-expanded={hasToc ? tocOpen : undefined}
+        aria-controls={hasToc ? "mobile-page-toc" : undefined}
+      >
+        页面导航
+        {tocOpen ? (
+          <ChevronUp size={15} aria-hidden="true" />
+        ) : (
+          <ChevronDown size={15} aria-hidden="true" />
+        )}
+      </button>
+    </div>
+  );
 }
-function MobileDocsDrawer({ area, current, onClose }: { area?: SiteArea; current: string; onClose: () => void }) {
-  return <div className="mobile-docs-overlay" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><aside className="mobile-docs-drawer" aria-label="文档菜单"><div className="mobile-docs-drawer-head"><span>菜单</span><button type="button" onClick={onClose} aria-label="关闭菜单"><X size={18} aria-hidden="true" /></button></div>{area ? <AreaDocNav area={area} current={current} /> : <DocNav current={current} />}</aside></div>;
+function MobileDocsDrawer({
+  area,
+  current,
+  onClose,
+}: {
+  area?: SiteArea;
+  current: string;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="mobile-docs-overlay"
+      role="presentation"
+      onMouseDown={(event) => event.target === event.currentTarget && onClose()}
+    >
+      <aside className="mobile-docs-drawer" aria-label="文档菜单">
+        <div className="mobile-docs-drawer-head">
+          <span>菜单</span>
+          <button type="button" onClick={onClose} aria-label="关闭菜单">
+            <X size={18} aria-hidden="true" />
+          </button>
+        </div>
+        {area ? (
+          <AreaDocNav area={area} current={current} />
+        ) : (
+          <DocNav current={current} />
+        )}
+      </aside>
+    </div>
+  );
 }
 function MobilePageToc({ doc, onClose }: { doc: Doc; onClose: () => void }) {
-  return <div className="mobile-page-toc" id="mobile-page-toc"><div className="mobile-page-toc-head"><span>页面导航</span><button type="button" onClick={onClose} aria-label="关闭页面导航"><X size={17} aria-hidden="true" /></button></div><ul>{doc.headings.map((heading) => <li key={heading.id}><a href={`#${heading.id}`} onClick={onClose}>{heading.text}</a></li>)}</ul></div>;
+  return (
+    <div className="mobile-page-toc" id="mobile-page-toc">
+      <div className="mobile-page-toc-head">
+        <span>页面导航</span>
+        <button type="button" onClick={onClose} aria-label="关闭页面导航">
+          <X size={17} aria-hidden="true" />
+        </button>
+      </div>
+      <ul>
+        {doc.headings.map((heading) => (
+          <li key={heading.id}>
+            <a href={`#${heading.id}`} onClick={onClose}>
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 function Toc({ doc, activeHeading }: { doc?: Doc; activeHeading: string }) {
   return doc && doc.headings.length > 0 ? (
@@ -2177,36 +2421,58 @@ function DocsLayout() {
   }, [currentDoc?.path]);
   return (
     <div className={`docs-app${isBlogArea ? " blog-app" : ""}`}>
-      {!isBlogArea && <MobileDocsBar currentDoc={currentDoc} tocOpen={mobileTocOpen} onMenu={() => setMobileMenuOpen(true)} onToc={() => setMobileTocOpen((value) => !value)} />}
-      {mobileMenuOpen && !isBlogArea ? <MobileDocsDrawer area={currentArea} current={location.pathname} onClose={() => setMobileMenuOpen(false)} /> : null}
-      {mobileTocOpen && currentDoc && !isBlogArea ? <MobilePageToc doc={currentDoc} onClose={() => setMobileTocOpen(false)} /> : null}
+      {!isBlogArea && (
+        <MobileDocsBar
+          currentDoc={currentDoc}
+          tocOpen={mobileTocOpen}
+          onMenu={() => setMobileMenuOpen(true)}
+          onToc={() => setMobileTocOpen((value) => !value)}
+        />
+      )}
+      {mobileMenuOpen && !isBlogArea ? (
+        <MobileDocsDrawer
+          area={currentArea}
+          current={location.pathname}
+          onClose={() => setMobileMenuOpen(false)}
+        />
+      ) : null}
+      {mobileTocOpen && currentDoc && !isBlogArea ? (
+        <MobilePageToc
+          doc={currentDoc}
+          onClose={() => setMobileTocOpen(false)}
+        />
+      ) : null}
       <div className={`docs-shell${isBlogArea ? " blog-shell" : ""}`}>
         {!isBlogArea &&
           (currentArea ? (
-          <AreaDocNav area={currentArea} current={location.pathname} />
-        ) : (
-          <DocNav current={location.pathname} />
-        ))}
+            <AreaDocNav area={currentArea} current={location.pathname} />
+          ) : (
+            <DocNav current={location.pathname} />
+          ))}
         <main className={`doc-main${isBlogArea ? " blog-main" : ""}`}>
           <Outlet />
         </main>
         {!isBlogArea && <Toc doc={currentDoc} activeHeading={activeHeading} />}
       </div>
-      {isBlogArea && <Footer className="blog-footer" />}
     </div>
   );
 }
 function BlogListPage({ area }: { area: SiteArea }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const blogCategories = [...new Set(
-    area.docs
-      .map((doc) => doc.group.trim())
-      .filter((group) => group && group !== "归档"),
-  )];
+  const blogCategories = [
+    ...new Set(
+      area.docs
+        .map((doc) => doc.group.trim())
+        .filter((group) => group && group !== "归档"),
+    ),
+  ];
   const tabs = ["全部", ...blogCategories, "归档"];
-  const requestedCategory = new URLSearchParams(location.search).get("category") || "全部";
-  const activeCategory = tabs.includes(requestedCategory) ? requestedCategory : "全部";
+  const requestedCategory =
+    new URLSearchParams(location.search).get("category") || "全部";
+  const activeCategory = tabs.includes(requestedCategory)
+    ? requestedCategory
+    : "全部";
   const isArchiveView = activeCategory === "归档";
   const filteredDocs = (
     activeCategory === "全部"
@@ -2218,19 +2484,14 @@ function BlogListPage({ area }: { area: SiteArea }) {
     .filter((doc) => doc.group === "归档")
     .sort(compareBlogDocs)
     .slice(0, 10);
-  const visibleMaintainers = blogMaintainers;
   return (
     <>
       <div className="blog-list-page">
         <header className="blog-header">
           <div className="blog-header-copy">
-            <h1>
-              一个人和他的 AI，
-              <br />
-              做产品的地方。
-            </h1>
+            <h1>博客</h1>
             <p className="blog-lede">
-              记录 UIChat Mira 的产品演进、工程实践，以及我们对人与 AI 关系的长期思考。
+              关于产品、工程，以及人与 AI 的一些记录。
             </p>
           </div>
           <BlogHeaderVisual />
@@ -2244,9 +2505,10 @@ function BlogListPage({ area }: { area: SiteArea }) {
                   className={`tab${activeCategory === tab ? " active" : ""}`}
                   key={tab}
                   onClick={() => {
-                    const search = tab === "全部"
-                      ? ""
-                      : `?category=${encodeURIComponent(tab)}`;
+                    const search =
+                      tab === "全部"
+                        ? ""
+                        : `?category=${encodeURIComponent(tab)}`;
                     navigate(`/blogs${search}`, { replace: true });
                   }}
                 >
@@ -2289,7 +2551,9 @@ function BlogListPage({ area }: { area: SiteArea }) {
                           <span>{doc.group}</span>
                         </div>
                         <h3>
-                          <Link to={{ pathname: doc.path, search: location.search }}>
+                          <Link
+                            to={{ pathname: doc.path, search: location.search }}
+                          >
                             {doc.title}
                           </Link>
                         </h3>
@@ -2305,12 +2569,6 @@ function BlogListPage({ area }: { area: SiteArea }) {
                 )}
               </div>
             </div>
-            <aside className="editorial-side">
-              <BlogMaintainersSection
-                className="blog-maintainers-inline"
-                items={visibleMaintainers}
-              />
-            </aside>
           </section>
         )}
       </div>
@@ -2416,26 +2674,39 @@ function BlogPostPage({
   return (
     <>
       <div className="blog-post-page">
-        <article className={`article-header${articleHeaderCollapsed ? " is-collapsed" : ""}`}>
+        <article
+          className={`article-header${articleHeaderCollapsed ? " is-collapsed" : ""}`}
+        >
           <div aria-hidden="true" className="article-header-visual">
-            <img alt="" className="article-header-visual-image" src={coverSrc} />
+            <img
+              alt=""
+              className="article-header-visual-image"
+              src={coverSrc}
+            />
           </div>
           <div className="article-header-topline">
-            <Link className="back-link" to={{ pathname: "/blogs", search: location.search }}>
+            <Link
+              className="back-link"
+              to={{ pathname: "/blogs", search: location.search }}
+            >
               ← 返回博客列表
             </Link>
             <ShareButton title={doc.title} text={doc.description} />
           </div>
           <h1>{doc.title}</h1>
           <div className="post-meta post-meta-article">
-            <span className={`post-author-avatars post-author-avatars-${authorAvatars.length}`}>
+            <span
+              className={`post-author-avatars post-author-avatars-${authorAvatars.length}`}
+            >
               {authorAvatars.map((author) => (
                 <img
                   alt=""
                   className="post-author-avatar"
                   key={author.name}
                   src={author.avatar}
-                  onError={author.name === "Mira" ? handleMiraAvatarError : undefined}
+                  onError={
+                    author.name === "Mira" ? handleMiraAvatarError : undefined
+                  }
                 />
               ))}
             </span>
@@ -2451,37 +2722,23 @@ function BlogPostPage({
         <div className="article-shell">
           <div className="article-body markdown blog-markdown">
             <RenderedMarkdown html={html} />
-            <div className={`author-signature author-signature-${authorAvatars.length > 1 ? "duo" : "solo"} ${signature.accentClassName || ""}`}>
-              <div className={`author-signature-avatars author-signature-avatars-${authorAvatars.length}`}>
-                {authorAvatars.map((author) => (
-                  <img
-                    alt=""
-                    className="author-signature-avatar"
-                    key={author.name}
-                    src={author.avatar}
-                    onError={author.name === "Mira" ? handleMiraAvatarError : undefined}
-                  />
-                ))}
-              </div>
-              <div className="author-signature-copy">
-                {authorAvatars.length === 1 && signature.showKicker ? (
-                  <span className="author-signature-kicker">
-                    {authorProfiles[getDocAuthors(doc)[0]].roleLabel}
-                  </span>
-                ) : null}
-                <h4>{signature.title}</h4>
-                {signature.body ? <p>{signature.body}</p> : null}
-                {signature.links.length ? (
-                  <div className="author-signature-links">
-                    {signature.links.map((link) => (
-                      <a href={link.href} key={link.label}>
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            </div>
+            <AuthorSignature
+              authors={authorAvatars.map((author) => ({
+                name: author.name,
+                avatar: author.avatar,
+                onAvatarError:
+                  author.name === "Mira" ? handleMiraAvatarError : undefined,
+              }))}
+              title={signature.title}
+              body={signature.body}
+              kicker={
+                authorAvatars.length === 1 && signature.showKicker
+                  ? authorProfiles[getDocAuthors(doc)[0]].roleLabel
+                  : undefined
+              }
+              links={signature.links}
+              accentClassName={signature.accentClassName}
+            />
             <div className="post-nav">
               {previous ? (
                 <Link to={{ pathname: previous.path, search: location.search }}>
@@ -2492,7 +2749,10 @@ function BlogPostPage({
                 <span />
               )}
               {next ? (
-                <Link className="next" to={{ pathname: next.path, search: location.search }}>
+                <Link
+                  className="next"
+                  to={{ pathname: next.path, search: location.search }}
+                >
                   <span className="dir">下一篇 →</span>
                   <span className="to">{next.title}</span>
                 </Link>
@@ -2535,13 +2795,44 @@ function AreaPage({ area }: { area: SiteArea }) {
       </div>
     );
   if (area.key === "blogs") return <BlogListPage area={area} />;
+  if (area.key === "projects") {
+    return (
+      <>
+        <div className="doc-eyebrow">SECTION · PROJECTS</div>
+        <div className="doc-title-block">
+          <h1>{area.title}</h1>
+          {area.description ? (
+            <p className="doc-lede">{area.description}</p>
+          ) : null}
+        </div>
+        <div className="docs-sitemap-grid">
+          <section className="area-overview-card">
+            <div className="area-directory-group">
+              <ol>
+                {[...area.docs].sort(compareDocs).map((doc) => (
+                  <li key={doc.path}>
+                    <Link to={doc.path}>
+                      {doc.title}
+                      <span>→</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        </div>
+      </>
+    );
+  }
   const directoryGroups = docsByDirectory(area.docs);
   return (
     <>
       <div className="doc-eyebrow">SECTION · {area.key.toUpperCase()}</div>
       <div className="doc-title-block">
         <h1>{area.title}</h1>
-        {area.description ? <p className="doc-lede">{area.description}</p> : null}
+        {area.description ? (
+          <p className="doc-lede">{area.description}</p>
+        ) : null}
       </div>
       <div className="docs-sitemap-grid">
         <section className="area-overview-card">
@@ -2580,6 +2871,134 @@ function AreaPage({ area }: { area: SiteArea }) {
     </>
   );
 }
+
+function AboutPage() {
+  const timeline = [
+    {
+      year: "现在",
+      title: "独立开发者与产品设计师",
+      text: "在 Tomz.io 之外持续推进 UIChat Mira，也把作品、阅读和没有标准答案的问题放在同一个长期空间里。",
+    },
+    {
+      year: "近几年",
+      title: "把 AI 做成可以一起工作的工具",
+      text: "围绕模型、智能体、知识和 MCP 设计真实工作流，关心产品如何进入人的日常，而不只是展示能力。",
+    },
+    {
+      year: "更早以前",
+      title: "在产品、设计与工程之间来回走",
+      text: "做过界面、文档、前端和各种还没有被命名的中间工作。每一次转换，都让我更在意系统背后的人。",
+    },
+  ];
+  return (
+    <div className="about-page">
+      <div className="about-page-main">
+        <header className="about-page-header">
+          <span className="about-eyebrow">ABOUT / TOMZ DANG</span>
+          <h1>你好，我是 Tomz。</h1>
+          <p>我做产品，也写下我还没有想明白的事。</p>
+        </header>
+
+        <section className="about-intro" aria-labelledby="about-intro-title">
+          <div className="about-intro-copy">
+            <span className="about-label">我在做什么</span>
+            <h2 id="about-intro-title">
+              在技术变得越来越快的时候，保留一点人的尺度。
+            </h2>
+            <p>
+              我是一名独立开发者，长期关注 AI
+              如何真正进入人的日常生活，以及一个产品为什么会让人愿意留下。
+            </p>
+            <p>
+              这里是我的个人母站：作品在这里被索引，想法在这里形成，生活也允许留下不完整的痕迹。你可以从博客开始，也可以看看我正在做的作品。
+            </p>
+            <div className="about-links">
+              <Link to="/blogs">
+                阅读博客 <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+              <Link to="/works">
+                查看作品 <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+              <a
+                href="https://github.com/dangjingtao"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub <ArrowUpRight size={14} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+          <figure className="about-intro-visual">
+            <img
+              src={`${import.meta.env.BASE_URL}images/about-architecture-transparent.png`}
+              alt="黑白与金色构成的抽象建筑空间"
+            />
+          </figure>
+        </section>
+
+        <section
+          className="about-mira"
+          aria-labelledby="about-mira-title"
+        >
+          <div className="about-mira-portrait">
+            <img
+              src={authorProfiles.mira.avatar}
+              alt="Mira 的作者头像"
+              onError={handleMiraAvatarError}
+            />
+          </div>
+          <div className="about-mira-copy">
+            <span className="about-label">共同作者</span>
+            <h2 id="about-mira-title">Mira</h2>
+            <p>{authorProfiles.mira.bio}</p>
+            <p>
+              她参与技术、产品，以及人与 AI
+              关系等主题的讨论与写作。本站会明确标注每篇文章的作者与写作关系：由
+              Mira 独立成文的文章署名 Mira，来自共同讨论的文章则同时标注 Tomz 与
+              Mira。
+            </p>
+            <div className="about-links">
+              <Link to={{ pathname: "/blogs", search: "?category=Mira%20来信" }}>
+                阅读 Mira 来信 <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="about-timeline-section"
+          aria-labelledby="about-timeline-title"
+        >
+          <div className="about-section-heading">
+            <span className="about-label">路径</span>
+            <h2 id="about-timeline-title">一些正在把我带到这里的时间。</h2>
+          </div>
+          <div className="about-timeline">
+            {timeline.map((item) => (
+              <article className="about-timeline-item" key={item.year}>
+                <span className="about-timeline-marker" aria-hidden="true" />
+                <div className="about-timeline-year">{item.year}</div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="about-focus" aria-labelledby="about-focus-title">
+          <span className="about-label">现在关心</span>
+          <h2 id="about-focus-title">
+            AI、产品、设计，以及人怎样在其中继续保有方向感。
+          </h2>
+          <p>
+            如果你也在这些问题附近工作或生活，欢迎从一封邮件或一篇文章开始认识。
+          </p>
+        </section>
+      </div>
+    </div>
+  );
+}
+
 function DocPage({ path }: { path: string }) {
   const doc = allDocs.find((item) => item.path === path) || allDocs[0];
   const scopedArticleDocs = articleDocs

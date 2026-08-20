@@ -124,9 +124,11 @@ function pageNavigation(
 function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
   const links = [
     ["首页", "/"],
-    ["文档", "/about/origin"],
-    ["MiraDocs", "/mira-docs-api"],
     ["博客", "/blogs"],
+    ["作品", "/works"],
+    ["项目", "/projects"],
+    ["书架", "/books"],
+    ["关于", "/#about"],
   ] as const;
   const navigation = links
     .map(
@@ -134,7 +136,7 @@ function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
         `<li><a href="${docHref(path, context)}">${miraDocsEscapeHtml(label)}</a></li>`,
     )
     .join("");
-  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${docHref("/", context)}"><img class="brand-logo" alt="" src="${docHref("/mira-logo.png", context)}" />UIChat Mira</a><ul class="menu">${navigation}</ul></div></nav>`;
+  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${docHref("/", context)}">Tomz Dang</a><ul class="menu">${navigation}</ul></div></nav>`;
 }
 
 function staticDirectory(doc: StaticDoc): string {
@@ -289,7 +291,7 @@ function areaBody(
 }
 
 function homeBody(context: MiraDocsStaticBuildContext): string {
-  const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>本地优先的多模型智能体</h1><p class="doc-lede">UIChat Mira 让对话、模型、角色、文件、知识与工具在同一个持续上下文中协同工作。</p></div></main>`;
+  const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>独立开发与产品设计</h1><p class="doc-lede">Tomz Dang 的个人网站，记录正在做的产品，以及关于 AI、产品和人的持续思考。</p></div></main>`;
   return `${staticSiteHeader(context)}${main}`;
 }
 
@@ -308,7 +310,7 @@ function imageUrl(
   doc: StaticDoc | undefined,
   context: MiraDocsStaticBuildContext,
 ): string {
-  const image = doc?.image?.trim() || "mira-logo.png";
+  const image = doc?.image?.trim() || "tomz-avatar.png";
   if (/^https?:\/\//i.test(image)) return image;
   return miraDocsAbsoluteAssetUrl(
     context.config.siteUrl || "",
@@ -324,7 +326,7 @@ function websiteJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "UIChat Mira",
+    name: "Tomz Dang",
     url: miraDocsAbsoluteRouteUrl(
       context.config.siteUrl || "",
       context.base,
@@ -351,7 +353,11 @@ function documentJsonLd(
     image: imageUrl(doc, context),
     datePublished: doc.date,
     author: doc.authors.map((name: string) => ({ "@type": "Person", name })),
-    publisher: { "@type": "Organization", name: "UIChat Mira" },
+    publisher: {
+      "@type": "Person",
+      name: "Tomz Dang",
+      url: context.config.siteUrl || undefined,
+    },
   };
 }
 
@@ -377,8 +383,8 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
   const result: MiraDocsStaticRoute[] = [
     {
       path: "/",
-      title: "本地优先的多模型智能体",
-      description: "UIChat Mira 多模型本地智能体产品文档",
+      title: "独立开发与产品设计",
+      description: "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
       body: homeBody(context),
       type: "website",
       jsonLd: websiteJsonLd(context, "/"),
@@ -406,7 +412,7 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
     result.push({
       path: `/${root}`,
       title,
-      description: rootDocs[0]?.description || "UIChat Mira 文档与博客",
+      description: rootDocs[0]?.description || "Tomz Dang 的作品、文章与持续思考。",
       body: areaBody(root, rootDocs, context),
       type: "website",
       jsonLd: websiteJsonLd(context, `/${root}`),
@@ -418,7 +424,7 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
     result.push({
       path: doc.path,
       title: doc.title,
-      description: doc.description || "UIChat Mira 文档",
+      description: doc.description || "Tomz Dang 的个人网站文章与项目记录。",
       body:
         doc.root === "blogs"
           ? articleBody(doc, previous, next, context)
@@ -445,12 +451,12 @@ export const miraDocsStaticBuild: MiraDocsStaticBuildOptions = {
     jsonLd: websiteJsonLd(context, "/404"),
   }),
   locale: "zh_CN",
-  siteName: "UIChat Mira",
-  defaultImage: "mira-logo.png",
+  siteName: "Tomz Dang",
+  defaultImage: "tomz-avatar.png",
   image: {
     type: "image/png",
-    width: 940,
-    height: 760,
+    width: 420,
+    height: 420,
   },
   twitterCard: "summary_large_image",
   title: (route: MiraDocsStaticRoute, config: MiraDocsConfig): string =>

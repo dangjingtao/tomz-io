@@ -14,9 +14,10 @@ function measureHeaderOffset() {
   const topNav = document.querySelector<HTMLElement>(".top-nav");
   const mobileBar = document.querySelector<HTMLElement>(".docs-mobile-bar");
   const topNavHeight = topNav?.getBoundingClientRect().height ?? 0;
-  const mobileBarHeight = mobileBar && window.getComputedStyle(mobileBar).display !== "none"
-    ? mobileBar.getBoundingClientRect().height
-    : 0;
+  const mobileBarHeight =
+    mobileBar && window.getComputedStyle(mobileBar).display !== "none"
+      ? mobileBar.getBoundingClientRect().height
+      : 0;
   document.documentElement.style.setProperty(
     "--works-header-offset",
     `${Math.round(topNavHeight + mobileBarHeight)}px`,
@@ -32,7 +33,8 @@ export default function WorksExperience() {
   const [preferFullscreen, setPreferFullscreen] = useState(false);
   const savedPage = readSavedPage();
   const hasProgress = savedPage !== pageNumbers[0];
-  const active = location.pathname === "/works" || location.pathname === workRoute;
+  const active =
+    location.pathname === "/works" || location.pathname === workRoute;
   const { coverUrl } = useComicAssets(active);
   const displayCoverUrl = coverUrl || coverFallbackUrl;
 
@@ -47,9 +49,10 @@ export default function WorksExperience() {
       document.querySelector<HTMLElement>(".top-nav"),
       document.querySelector<HTMLElement>(".docs-mobile-bar"),
     ].filter((element): element is HTMLElement => Boolean(element));
-    const resizeObserver = typeof ResizeObserver === "undefined"
-      ? null
-      : new ResizeObserver(measureHeaderOffset);
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(measureHeaderOffset);
     observedElements.forEach((element) => resizeObserver?.observe(element));
     window.addEventListener("resize", measureHeaderOffset);
     window.requestAnimationFrame(measureHeaderOffset);
@@ -76,11 +79,16 @@ export default function WorksExperience() {
         return;
       }
       const height = cover.getBoundingClientRect().height;
-      if (height > 0) copy.style.setProperty("--work-detail-height", `${Math.round(height)}px`);
+      if (height > 0)
+        copy.style.setProperty(
+          "--work-detail-height",
+          `${Math.round(height)}px`,
+        );
     };
-    const resizeObserver = typeof ResizeObserver === "undefined"
-      ? null
-      : new ResizeObserver(syncDetailHeight);
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(syncDetailHeight);
     resizeObserver?.observe(cover);
     desktopQuery.addEventListener("change", syncDetailHeight);
     window.addEventListener("resize", syncDetailHeight);
@@ -102,8 +110,13 @@ export default function WorksExperience() {
   async function startReading(fullscreen: boolean) {
     if (fullscreen) {
       try {
-        if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
-          await document.documentElement.requestFullscreen({ navigationUI: "hide" });
+        if (
+          document.documentElement.requestFullscreen &&
+          !document.fullscreenElement
+        ) {
+          await document.documentElement.requestFullscreen({
+            navigationUI: "hide",
+          });
         }
       } catch {
         // Fullscreen is progressive enhancement; the reader still uses 100dvh.
@@ -126,7 +139,10 @@ export default function WorksExperience() {
   if (location.pathname === "/works") {
     return (
       <div className="works-experience">
-        <section className="works-library" aria-labelledby="works-library-title">
+        <section
+          className="works-library"
+          aria-labelledby="works-library-title"
+        >
           <header className="works-library-header">
             <div>
               <span>WORKS / 画册</span>
@@ -136,9 +152,16 @@ export default function WorksExperience() {
             <div className="works-library-count">01</div>
           </header>
           <div className="works-shelf">
-            <button className="work-book-card" type="button" onClick={() => navigate(workRoute)}>
+            <button
+              className="work-book-card"
+              type="button"
+              onClick={() => navigate(workRoute)}
+            >
               <span className="work-book-cover">
-                <img src={displayCoverUrl} alt={`《${work.title}：${work.subtitle}》封面`} />
+                <img
+                  src={displayCoverUrl}
+                  alt={`《${work.title}：${work.subtitle}》封面`}
+                />
                 <span className="work-book-status">{work.status}</span>
               </span>
               <span className="work-book-copy">
@@ -147,7 +170,9 @@ export default function WorksExperience() {
                   <strong>{work.title}</strong>
                   <em>{work.subtitle}</em>
                 </span>
-                <span className="work-book-description">{work.description}</span>
+                <span className="work-book-description">
+                  {work.description}
+                </span>
                 <span className="work-book-meta-line">
                   <small>Tomz × Mira · {work.pageCount} 页</small>
                   <span className="work-book-action">
@@ -173,37 +198,57 @@ export default function WorksExperience() {
           />
         ) : (
           <>
-            <button className="works-back" type="button" onClick={() => navigate("/works")}>
+            <button
+              className="works-back"
+              type="button"
+              onClick={() => navigate("/works")}
+            >
               ← 返回画册馆
             </button>
             <div className="work-detail-grid">
               <div className="work-detail-cover" ref={detailCoverRef}>
-                <img src={displayCoverUrl} alt={`《${work.title}：${work.subtitle}》`} />
+                <img
+                  src={displayCoverUrl}
+                  alt={`《${work.title}：${work.subtitle}》`}
+                />
               </div>
               <div className="work-detail-copy" ref={detailCopyRef}>
                 <div className="work-detail-main">
-                  <span className="work-detail-kicker">80 年代大陆成人彩色连环画 · 正式发行</span>
                   <h1 id="work-detail-title">{work.title}</h1>
                   <h2>{work.subtitle}</h2>
                   <p>{work.description}</p>
                   <dl>
-                    <div><dt>作者</dt><dd>{work.authors}</dd></div>
-                    <div><dt>版本</dt><dd>{work.edition}</dd></div>
-                    <div><dt>内容</dt><dd>封面 1 张 / 正文 {work.pageCount} 页</dd></div>
+                    <div>
+                      <dt>作者</dt>
+                      <dd>{work.authors}</dd>
+                    </div>
+                    <div>
+                      <dt>版本</dt>
+                      <dd>{work.edition}</dd>
+                    </div>
+                    <div>
+                      <dt>内容</dt>
+                      <dd>封面 1 张 / 正文 {work.pageCount} 页</dd>
+                    </div>
                   </dl>
                 </div>
                 <div className="work-detail-footer">
                   <div className="work-detail-actions">
-                    <button className="work-primary-action" type="button" onClick={() => void startReading(false)}>
+                    <button
+                      className="work-primary-action"
+                      type="button"
+                      onClick={() => void startReading(false)}
+                    >
                       {hasProgress ? `继续第 ${savedPage} 页` : "开始阅读"}
                     </button>
-                    <button className="work-landscape-action" type="button" onClick={() => void startReading(true)}>
+                    <button
+                      className="work-landscape-action"
+                      type="button"
+                      onClick={() => void startReading(true)}
+                    >
                       横屏全屏阅读
                     </button>
                   </div>
-                  <p className="work-detail-note">
-                    PC 阅读会进入关灯模式；手机会请求全屏与横屏。浏览器不允许锁定方向时，仍可手动旋转阅读。
-                  </p>
                 </div>
               </div>
             </div>

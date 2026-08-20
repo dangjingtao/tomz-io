@@ -24,24 +24,19 @@
 .home-v1-brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 600;
+  gap: 8px;
   white-space: nowrap;
 }
 
 .home-v1-brand-mark {
-  width: 27px;
+  width: 23px;
   height: 27px;
-  display: inline-grid;
-  place-items: center;
-  border: 1px solid var(--primary);
-  border-radius: 50%;
-  color: var(--primary-active);
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-style: italic;
+  object-fit: contain;
+}
+
+:root.dark .home-v1-brand-mark,
+:root.dark .home-v1-brand-wordmark {
+  filter: brightness(0) invert(1);
 }
 
 .home-v1-nav-links {
@@ -204,17 +199,35 @@
 }
 
 .home-v1-hero-inner {
-  min-height: 610px;
+  min-height: clamp(516px, calc(83.333vh - 130px), 634px);
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(270px, .55fr);
+  grid-template-columns: minmax(0, .82fr) minmax(440px, 1.18fr);
   align-items: center;
-  gap: clamp(56px, 9vw, 128px);
-  padding-top: 96px;
-  padding-bottom: 96px;
+  gap: clamp(36px, 5vw, 76px);
+  padding-top: clamp(34px, 5vh, 64px);
+  padding-bottom: clamp(34px, 5vh, 64px);
 }
 
 .home-v1-hero-copy {
   max-width: 760px;
+}
+
+.home-v1-hero-galaxy {
+  min-width: 0;
+}
+
+.home-v1-hero-galaxy .sitemap-galaxy {
+  padding: 0;
+}
+
+.home-v1-hero-galaxy .sitemap-galaxy-stage {
+  min-height: min(434px, calc(83.333vh - 159px));
+  border-radius: var(--r-lg);
+}
+
+.home-v1-hero-galaxy .sitemap-galaxy-title,
+.home-v1-hero-galaxy .sitemap-galaxy-legend {
+  display: none;
 }
 
 .home-v1-kicker,
@@ -369,13 +382,13 @@
 }
 
 .home-v1-recent-kind {
-  margin-bottom: auto;
+  margin-bottom: 0;
   color: var(--primary-active);
   font-size: 10px;
 }
 
 .home-v1-recent-card h3 {
-  margin: 32px 0 10px;
+  margin: 14px 0 10px;
   font-family: var(--font-display);
   font-size: 30px;
   font-weight: 500;
@@ -507,40 +520,64 @@
 }
 
 .home-v1-footer {
-  padding: 42px 0 48px;
+  padding: 36px 0 40px;
   background: var(--surface-dark);
   color: var(--on-dark);
+  border-top: 1px solid rgba(255, 255, 255, .08);
 }
 
 .home-v1-footer-inner {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.1vw, 14px);
+  text-align: center;
 }
 
-.home-v1-footer strong {
-  display: block;
-  margin-bottom: 6px;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.home-v1-footer span {
-  color: var(--on-dark-soft);
-  font-size: 12px;
-}
-
-.home-v1-footer-links {
+.home-v1-footer-primary {
   display: flex;
-  gap: 18px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px clamp(12px, 1.2vw, 16px);
+  min-width: 0;
+}
+
+.home-v1-footer-built {
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
   color: var(--on-dark-soft);
   font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
 }
 
-.home-v1-footer-links a:hover {
+.home-v1-footer-copyright {
+  margin: 0;
+  color: var(--on-dark-soft);
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.home-v1-footer-logo {
+  width: auto;
+  height: 13px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.home-v1-footer-built a {
   color: var(--on-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.home-v1-footer-built a:hover {
+  color: var(--primary-light);
 }
 
 [data-theme="claude"].dark .home-v1-nav-popover,
@@ -626,8 +663,12 @@
     min-height: auto;
     grid-template-columns: 1fr;
     gap: 52px;
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 66px;
+    padding-bottom: 66px;
+  }
+
+  .home-v1-hero-galaxy {
+    display: none;
   }
 
   .home-v1-hero-note {
@@ -683,8 +724,8 @@
   }
 
   .home-v1-hero-inner {
-    padding-top: 64px;
-    padding-bottom: 68px;
+    padding-top: 54px;
+    padding-bottom: 56px;
   }
 
   .home-v1-hero h1 {
@@ -745,8 +786,4 @@
     margin-left: 44px;
   }
 
-  .home-v1-footer-inner {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }

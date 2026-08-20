@@ -6,7 +6,8 @@ const root = process.cwd();
 const pagesRoot = resolve(root, "src/pages");
 const distRoot = resolve(root, "dist");
 const siteUrl = "https://tomz.io";
-const expectedBase = `/${(process.env.EXPECTED_BASE || "uichat-mira-docs").replace(/^\/+|\/+$/g, "")}`;
+const configuredBase = (process.env.EXPECTED_BASE || "").replace(/^\/+|\/+$/g, "");
+const expectedBase = configuredBase ? `/${configuredBase}` : "";
 const removedRoots = ["docs", "mira-docs-api", "design-md"];
 const removedBlogCategories = ["product-journal", "engineering"];
 
