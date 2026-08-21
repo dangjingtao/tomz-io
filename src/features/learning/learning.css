@@ -1,0 +1,33 @@
+.learning-hub {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 72px 24px;
+}
+
+.learning-hub header span {
+  font-family: monospace;
+  color: var(--primary-active);
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.learning-card {
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  padding: 28px;
+  background: var(--canvas);
+}
+
+.learning-card small {
+  display: block;
+  margin-top: 20px;
+}
+
+.learning-card p {
+  color: var(--muted);
+}
