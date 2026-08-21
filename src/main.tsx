@@ -12,6 +12,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
+import { HomepageFooter } from "./HomepageV1";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import ReleaseDownloadEnhancer from "./components/ReleaseDownloadEnhancer";
 import LearningHub from "./features/learning/LearningHub";
@@ -88,7 +89,12 @@ function AppEntry() {
   }
 
   if (location.pathname === "/learning") {
-    return <LearningHub />;
+    return (
+      <>
+        <LearningHub />
+        <HomepageFooter />
+      </>
+    );
   }
 
   return <App />;
