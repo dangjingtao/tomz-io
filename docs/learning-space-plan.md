@@ -302,7 +302,7 @@ V1 不新增 `/learning/agent`、`/learning/bible` 内容副本。
 - [x] 复用现有文章 URL
 - [x] 接入主站 Footer / Theme
 - [x] 移除旧书架内容根
-- [ ] 清理所有残留 `/books` 与「书架」实现
+- [x] 清理所有残留 `/books` 与「书架」实现
 - [ ] 最终 CI / Pages runtime 验收
 
 明确不做：
