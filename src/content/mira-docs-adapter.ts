@@ -27,6 +27,7 @@ export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   root: string;
   directory: string;
   nav?: string;
+  book?: string;
   merge?: string;
   mergeIndex?: boolean;
   author?: AuthorKey[];
@@ -163,7 +164,8 @@ function adaptSiteDoc(core: MiraDoc): Doc {
     source: core.body,
     root,
     directory: segments.slice(0, -1).join("/"),
-    nav: dataString(core.data, "nav"),
+    nav: dataString(core.data, "nav") || (root === "books" ? "书架" : undefined),
+    book: dataString(core.data, "book") || (root === "books" ? segments[0] : undefined),
     merge: dataString(core.data, "merge"),
     mergeIndex: dataString(core.data, "mergeIndex") === "true",
     ...authorInfo,

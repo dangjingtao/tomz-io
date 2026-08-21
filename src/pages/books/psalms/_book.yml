@@ -1,0 +1,8 @@
+id: psalms
+title: 读诗篇
+description: 按实际阅读顺序记录诗篇的背景、疑问、理解与仍然没有答案的地方。
+category: 读经札记
+kind: reading-notes
+order: 20
+status: active
+legacyPrefix: /blogs/bible-notes

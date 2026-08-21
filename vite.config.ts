@@ -5,7 +5,7 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
@@ -13,16 +13,17 @@ import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import { miraDocs } from "@uichat-mira/docs/vite";
 import { miraDocsStaticBuild } from "./mira-docs-static";
+import { parseBookManifest, type BookManifest } from "./src/content/book-manifest";
 import { seo as seoConfig, siteUrl } from "./src/site.config";
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 const pagesRoot = resolve(projectRoot, "src/pages");
+const booksRoot = resolve(pagesRoot, "books");
 
 const blogDirectoryByGroup: Record<string, string> = {
   "共同思考": "shared-thinking",
   "Mira 来信": "mira-letters",
   "开发者生活": "developer-life",
-  "一起学智能体": "agent-learning",
 };
 
 function markdownFiles(directory: string): string[] {
@@ -35,6 +36,21 @@ function markdownFiles(directory: string): string[] {
         ? [path]
         : [];
   });
+}
+
+function readBookManifests(): BookManifest[] {
+  if (!existsSync(booksRoot)) return [];
+  return readdirSync(booksRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => {
+      const path = resolve(booksRoot, entry.name, "_book.yml");
+      return existsSync(path)
+        ? parseBookManifest(readFileSync(path, "utf8"), path)
+        : undefined;
+    })
+    .filter((book): book is BookManifest => Boolean(book))
+    .filter((book) => book.status !== "archived" && book.status !== "draft")
+    .sort((left, right) => left.order - right.order || left.title.localeCompare(right.title));
 }
 
 function blogDirectoryCheck() {
@@ -129,10 +145,108 @@ function br003aStaticSeoGuard(): Plugin {
   };
 }
 
+function bookshelfRedirects(): Plugin {
+  return {
+    name: "bookshelf-legacy-redirects",
+    apply: "build",
+    enforce: "post",
+    closeBundle() {
+      const lines: string[] = [];
+      for (const book of readBookManifests()) {
+        if (!book.legacyPrefix) continue;
+        for (const file of markdownFiles(resolve(booksRoot, book.id))) {
+          const slug = basename(file).replace(/\.md$/i, "");
+          const legacy = `${book.legacyPrefix}/${slug}`;
+          const canonical = `/books/${book.id}/${slug}`;
+          lines.push(`${legacy} ${canonical} 301`);
+          lines.push(`${legacy}/ ${canonical} 301`);
+        }
+      }
+
+      if (!lines.length) return;
+      const output = resolve(process.cwd(), "dist/_redirects");
+      const existing = existsSync(output) ? readFileSync(output, "utf8").trim() : "";
+      const next = [existing, ...lines].filter(Boolean).join("\n") + "\n";
+      writeFileSync(output, next);
+      console.log(`Bookshelf redirects generated: ${lines.length} rules.`);
+    },
+  };
+}
+
+function basePath(base: string): string {
+  return base === "/" ? "" : base.replace(/\/$/, "");
+}
+
+function hrefFor(base: string, path: string): string {
+  return `${basePath(base)}${path}`;
+}
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function bookshelfStaticNav(base: string): string {
+  const links = [
+    ["首页", "/"],
+    ["博客", "/blogs"],
+    ["作品", "/works"],
+    ["项目", "/projects"],
+    ["书架", "/books"],
+    ["关于", "/#about"],
+  ];
+  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${hrefFor(base, "/")}">Tomz Dang</a><ul class="menu">${links.map(([label, path]) => `<li><a href="${hrefFor(base, path)}">${escapeHtml(label)}</a></li>`).join("")}</ul></div></nav>`;
+}
+
 function staticHomeBody(base: string) {
-  const prefix = base === "/" ? "" : base.replace(/\/$/, "");
-  const href = (path: string) => `${prefix}${path}`;
-  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">Tomz Dang</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/works")}">作品</a></li><li><a href="#about">关于</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>Tomz Dang</h1><p>我是 Tomz，一名独立开发者和产品设计师。这里记录我正在做的产品，以及关于 AI、产品和人的一些思考。</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section><section id="about" class="wrap"><h2>关于</h2><p>我关注独立开发、产品设计，以及 AI 如何进入真实的工作与生活。</p></section></main>`;
+  const href = (path: string) => hrefFor(base, path);
+  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">Tomz Dang</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/works")}">作品</a></li><li><a href="${href("/projects")}">项目</a></li><li><a href="${href("/books")}">书架</a></li><li><a href="#about">关于</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>Tomz Dang</h1><p>我是 Tomz，一名独立开发者和产品设计师。这里记录我正在做的产品，以及关于 AI、产品和人的一些思考。</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section><section id="about" class="wrap"><h2>关于</h2><p>我关注独立开发、产品设计，以及 AI 如何进入真实的工作与生活。</p></section></main>`;
+}
+
+function docsForBook(context: any, bookId: string): any[] {
+  return (context.docs || [])
+    .filter((doc: any) => doc.path.startsWith(`/books/${bookId}/`))
+    .sort((left: any, right: any) => left.order - right.order || left.path.localeCompare(right.path));
+}
+
+function bookshelfStaticBody(context: any, books: BookManifest[]): string {
+  const cards = books.map((book) => {
+    const entries = docsForBook(context, book.id);
+    const latest = [...entries].sort((left: any, right: any) => right.order - left.order)[0];
+    return `<article class="area-overview-card"><span class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</span><h2><a href="${hrefFor(context.base, `/books/${book.id}`)}">${escapeHtml(book.title)}</a></h2><p>${escapeHtml(book.description)}</p><p>${entries.length} 篇${latest ? ` · 最近：${escapeHtml(latest.title)}` : ""}</p></article>`;
+  }).join("");
+  const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>书架</h1><p class="doc-lede">专题、阅读札记与未来的小说，以一本本书的方式放在这里。</p></div><section class="docs-sitemap-grid">${cards}</section></main>`;
+  return `${bookshelfStaticNav(context.base)}${main}`;
+}
+
+function bookStaticBody(context: any, book: BookManifest): string {
+  const entries = docsForBook(context, book.id);
+  const list = entries.map((doc: any) => `<li><a href="${hrefFor(context.base, doc.path)}"><span>${String(doc.order).padStart(2, "0")}</span> ${escapeHtml(doc.title)}</a>${doc.description ? `<p>${escapeHtml(doc.description)}</p>` : ""}</li>`).join("");
+  const main = `<main class="doc-main seo-static-content"><div class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</div><div class="doc-title-block"><h1>${escapeHtml(book.title)}</h1><p class="doc-lede">${escapeHtml(book.description)}</p></div><section class="area-overview-card"><ol>${list}</ol></section></main>`;
+  return `${bookshelfStaticNav(context.base)}${main}`;
+}
+
+function collectionJsonLd(context: any, book: BookManifest, entries: any[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: book.title,
+    description: book.description,
+    url: `${siteUrl}/books/${book.id}`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: entries.map((entry: any, index: number) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: entry.title,
+        url: `${siteUrl}${entry.path}`,
+      })),
+    },
+  };
 }
 
 function br003bStaticBuild() {
@@ -141,32 +255,80 @@ function br003bStaticBuild() {
     ...miraDocsStaticBuild,
     siteName: "Tomz Dang",
     routes: (context: any) => {
+      const books = readBookManifests();
       const routes = typeof sourceRoutes === "function"
         ? sourceRoutes(context)
         : sourceRoutes;
-      return routes
-        .filter((route: any) => route.path !== "/design-md")
+      const transformed = routes
+        .filter((route: any) => route.path !== "/design-md" && route.path !== "/learning")
         .map((route: any) => {
           const cleanedBody = typeof route.body === "string"
-            ? route.body.replace(
-                /<li><a href="[^"]*\/(?:about\/origin|mira-docs-api)">(?:文档|MiraDocs)<\/a><\/li>/g,
-                "",
-              )
+            ? route.body
+                .replace(
+                  /<li><a href="[^"]*\/(?:about\/origin|mira-docs-api)">(?:文档|MiraDocs)<\/a><\/li>/g,
+                  "",
+                )
+                .replace(/href="([^"]*)\/learning">研习<\/a>/g, 'href="$1/books">书架</a>')
             : route.body;
-          if (route.path !== "/") return { ...route, body: cleanedBody };
-          return {
-            ...route,
-            title: "独立开发与产品设计",
-            description: "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
-            body: staticHomeBody(context.base),
-            jsonLd: {
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Tomz Dang",
-              url: siteUrl,
-            },
-          };
+
+          if (route.path === "/") {
+            return {
+              ...route,
+              title: "独立开发与产品设计",
+              description: "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
+              body: staticHomeBody(context.base),
+              jsonLd: {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "Tomz Dang",
+                url: siteUrl,
+              },
+            };
+          }
+
+          if (route.path === "/books") {
+            return {
+              ...route,
+              title: "书架",
+              description: "Tomz.io 的书架：专题、阅读札记与未来的小说。",
+              body: bookshelfStaticBody(context, books),
+              jsonLd: {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                name: "书架",
+                url: `${siteUrl}/books`,
+              },
+            };
+          }
+
+          if (route.path.startsWith("/books/") && route.doc) {
+            return {
+              ...route,
+              body: cleanedBody,
+              jsonLd: route.jsonLd
+                ? { ...route.jsonLd, "@type": "Article" }
+                : route.jsonLd,
+            };
+          }
+
+          return { ...route, body: cleanedBody };
         });
+
+      for (const book of books) {
+        const path = `/books/${book.id}`;
+        if (transformed.some((route: any) => route.path === path)) continue;
+        const entries = docsForBook(context, book.id);
+        transformed.push({
+          path,
+          title: book.title,
+          description: book.description,
+          body: bookStaticBody(context, book),
+          type: "website",
+          jsonLd: collectionJsonLd(context, book, entries),
+        });
+      }
+
+      return transformed;
     },
   };
 }
@@ -250,6 +412,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
       br003aStaticSeoGuard(),
+      bookshelfRedirects(),
     ],
     base,
   };

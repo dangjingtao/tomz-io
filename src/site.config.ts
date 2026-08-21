@@ -6,7 +6,7 @@ export const topNavigationOrder = [
   "blogs",
   "works",
   "projects",
-  "learning",
+  "books",
 ] as const;
 
 export const logoUrl = "https://assets.tomz.io/images/mira-logo.png";

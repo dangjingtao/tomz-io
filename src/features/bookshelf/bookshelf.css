@@ -1,0 +1,376 @@
+.bookshelf-wrap {
+  width: min(1120px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.bookshelf-site-nav {
+  border-bottom: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--canvas) 94%, transparent);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(18px);
+}
+
+.bookshelf-site-nav-inner {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.bookshelf-brand {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.bookshelf-site-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 14px;
+}
+
+.bookshelf-site-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.bookshelf-site-links a:hover,
+.bookshelf-site-links a.active {
+  color: var(--ink);
+}
+
+.bookshelf-main,
+.book-index-main {
+  padding: 76px 0 96px;
+}
+
+.bookshelf-hero {
+  max-width: 760px;
+  margin-bottom: 54px;
+}
+
+.bookshelf-eyebrow,
+.bookshelf-book-category,
+.book-index-header > span,
+.book-reader-category {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-active);
+}
+
+.bookshelf-hero h1,
+.book-index-header h1,
+.book-reader-header h1 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.bookshelf-hero h1 {
+  margin: 12px 0 16px;
+  font-size: clamp(48px, 7vw, 78px);
+  line-height: 0.98;
+}
+
+.bookshelf-hero p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.bookshelf-grid {
+  border-top: 1px solid var(--hairline);
+}
+
+.bookshelf-book {
+  position: relative;
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) 24px;
+  gap: 28px;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--hairline);
+  color: inherit;
+  text-decoration: none;
+}
+
+.bookshelf-book:hover .bookshelf-book-arrow {
+  transform: translate(3px, -3px);
+}
+
+.bookshelf-book-index {
+  padding-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted-soft);
+}
+
+.bookshelf-book-copy h2 {
+  margin: 7px 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.bookshelf-book-copy > p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.bookshelf-book-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 18px;
+  color: var(--muted-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.bookshelf-book-latest {
+  display: grid;
+  gap: 4px;
+  margin-top: 24px;
+}
+
+.bookshelf-book-latest span {
+  font-size: 12px;
+  color: var(--muted-soft);
+}
+
+.bookshelf-book-latest strong {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.bookshelf-book-arrow {
+  margin-top: 8px;
+  color: var(--muted-soft);
+  transition: transform 160ms ease;
+}
+
+.bookshelf-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 42px;
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.bookshelf-back:hover {
+  color: var(--ink);
+}
+
+.book-index-header {
+  max-width: 760px;
+  padding-bottom: 40px;
+}
+
+.book-index-header h1 {
+  margin: 10px 0 14px;
+  font-size: clamp(44px, 6vw, 70px);
+  line-height: 1;
+}
+
+.book-index-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.book-index-meta,
+.book-reader-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 20px;
+  color: var(--muted-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.book-entry-list {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.book-entry-list li {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.book-entry-list a {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto 18px;
+  gap: 18px;
+  align-items: center;
+  padding: 24px 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.book-entry-order,
+.book-entry-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-soft);
+}
+
+.book-entry-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.book-entry-copy strong {
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.book-entry-copy small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.book-entry-list a:hover .book-entry-copy strong {
+  color: var(--primary-active);
+}
+
+.book-reader {
+  width: min(900px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 70px 0 100px;
+}
+
+.book-reader-header {
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+.book-reader-header .bookshelf-back {
+  margin-bottom: 36px;
+}
+
+.book-reader-header h1 {
+  margin: 10px 0 16px;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.08;
+}
+
+.book-reader-header > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.book-reader-meta span + span::before {
+  content: "·";
+  margin-right: 12px;
+}
+
+.book-reader-body {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.book-reader-pagination {
+  max-width: 760px;
+  margin: 56px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.book-reader-pagination a {
+  display: grid;
+  gap: 7px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.book-reader-pagination a.next {
+  text-align: right;
+}
+
+.book-reader-pagination span {
+  color: var(--muted-soft);
+  font-size: 12px;
+}
+
+.book-reader-pagination strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 760px) {
+  .bookshelf-wrap,
+  .book-reader {
+    width: min(100% - 40px, 1120px);
+  }
+
+  .bookshelf-site-nav-inner {
+    min-height: 56px;
+  }
+
+  .bookshelf-site-links {
+    gap: 14px;
+    font-size: 12px;
+  }
+
+  .bookshelf-site-links a:nth-child(2),
+  .bookshelf-site-links a:nth-child(3) {
+    display: none;
+  }
+
+  .bookshelf-main,
+  .book-index-main,
+  .book-reader {
+    padding-top: 50px;
+  }
+
+  .bookshelf-book {
+    grid-template-columns: 40px minmax(0, 1fr) 18px;
+    gap: 14px;
+    padding: 28px 0;
+  }
+
+  .book-entry-list a {
+    grid-template-columns: 42px minmax(0, 1fr) 16px;
+    gap: 12px;
+  }
+
+  .book-entry-date {
+    display: none;
+  }
+
+  .book-reader-pagination {
+    grid-template-columns: 1fr;
+  }
+
+  .book-reader-pagination a.next {
+    text-align: left;
+  }
+}

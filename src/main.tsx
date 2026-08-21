@@ -15,7 +15,8 @@ import App from "./App";
 import { HomepageFooter } from "./HomepageV1";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import ReleaseDownloadEnhancer from "./components/ReleaseDownloadEnhancer";
-import LearningHub from "./features/learning/LearningHub";
+import { getBook, getBookEntry } from "./content/bookshelf";
+import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
 import "./apple.theme.css";
@@ -83,14 +84,38 @@ window.addEventListener("mira:pwa-update-confirmed", () => {
 
 function AppEntry() {
   const location = useLocation();
+  const segments = location.pathname.split("/").filter(Boolean);
 
-  if (location.pathname === "/learning") {
-    return (
-      <>
-        <LearningHub />
-        <HomepageFooter />
-      </>
-    );
+  if (segments[0] === "books") {
+    if (segments.length === 1) {
+      return (
+        <>
+          <BookshelfHub />
+          <HomepageFooter />
+        </>
+      );
+    }
+
+    const bookId = segments[1];
+    const book = getBook(bookId);
+    if (book && segments.length === 2) {
+      return (
+        <>
+          <BookshelfHub bookId={bookId} />
+          <HomepageFooter />
+        </>
+      );
+    }
+
+    const entrySlug = segments[2];
+    if (book && entrySlug && segments.length === 3 && getBookEntry(bookId, entrySlug)) {
+      return (
+        <>
+          <BookshelfHub bookId={bookId} entrySlug={entrySlug} />
+          <HomepageFooter />
+        </>
+      );
+    }
   }
 
   return <App />;
