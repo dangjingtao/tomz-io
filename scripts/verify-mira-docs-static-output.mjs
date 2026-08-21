@@ -4,12 +4,13 @@ import { parseMiraDoc } from "@uichat-mira/docs";
 
 const root = process.cwd();
 const pagesRoot = resolve(root, "src/pages");
+const booksRoot = resolve(pagesRoot, "books");
 const distRoot = resolve(root, "dist");
 const siteUrl = "https://tomz.io";
 const configuredBase = (process.env.EXPECTED_BASE || "").replace(/^\/+|\/+$/g, "");
 const expectedBase = configuredBase ? `/${configuredBase}` : "";
-const removedRoots = ["docs", "mira-docs-api", "design-md"];
-const removedBlogCategories = ["product-journal", "engineering"];
+const removedRoots = ["docs", "mira-docs-api", "design-md", "learning"];
+const removedBlogCategories = ["product-journal", "engineering", "agent-learning", "bible-notes"];
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -39,6 +40,40 @@ function routeFile(route) {
 
 function routeUrl(route) {
   return `${siteUrl}${expectedBase}${route === "/" ? "/" : `${route}/`}`;
+}
+
+function parseBookManifest(path) {
+  const values = new Map();
+  for (const rawLine of readFileSync(path, "utf8").split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const separator = line.indexOf(":");
+    if (separator <= 0) continue;
+    const key = line.slice(0, separator).trim();
+    let value = line.slice(separator + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    values.set(key, value);
+  }
+  return {
+    id: values.get("id") || "",
+    title: values.get("title") || "",
+    legacyPrefix: values.get("legacyPrefix") || "",
+  };
+}
+
+function bookManifests() {
+  if (!existsSync(booksRoot)) return [];
+  return readdirSync(booksRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => resolve(booksRoot, entry.name, "_book.yml"))
+    .filter(existsSync)
+    .map(parseBookManifest)
+    .filter((book) => book.id && book.title);
 }
 
 const failures = [];
@@ -71,6 +106,7 @@ const indexPath = resolve(distRoot, "index.html");
 const notFoundPath = resolve(distRoot, "404.html");
 const sitemapPath = resolve(distRoot, "sitemap.xml");
 const robotsPath = resolve(distRoot, "robots.txt");
+const redirectsPath = resolve(distRoot, "_redirects");
 for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath]) {
   if (!existsSync(file)) failures.push(`缺少构建产物: ${file}`);
 }
@@ -84,6 +120,7 @@ if (existsSync(indexPath)) {
   if (!html.includes("独立开发与产品设计")) failures.push("首页缺少个人站定位");
   if (!html.includes("我是 Tomz，一名独立开发者和产品设计师")) failures.push("首页缺少个人介绍");
   if (html.includes(">MiraDocs</a>") || html.includes('href="/mira-docs-api') || html.includes('href="/design-md')) failures.push("顶部导航仍残留 MiraDocs 分类");
+  if (!html.includes(">书架</a>")) failures.push("首页静态导航缺少书架");
 }
 
 if (existsSync(notFoundPath)) {
@@ -106,18 +143,87 @@ if (blogEntry) {
   }
 }
 
+const books = bookManifests();
+if (!books.length) {
+  failures.push("没有找到 Book Manifest");
+} else {
+  const shelfFile = routeFile("/books");
+  if (!existsSync(shelfFile)) {
+    failures.push("书架静态首页缺失: /books");
+  } else {
+    const html = readFileSync(shelfFile, "utf8");
+    if (!html.includes(`<link rel="canonical" href="${routeUrl("/books")}">`)) failures.push("/books canonical 缺失或 base 不正确");
+    if (!html.includes('"@type":"CollectionPage"')) failures.push("/books 缺少 CollectionPage JSON-LD");
+    for (const book of books) {
+      if (!html.includes(book.title)) failures.push(`/books 未展示书目: ${book.title}`);
+    }
+  }
+
+  const redirects = existsSync(redirectsPath) ? readFileSync(redirectsPath, "utf8") : "";
+  if (!existsSync(redirectsPath)) failures.push("缺少迁移重定向文件 dist/_redirects");
+
+  for (const book of books) {
+    const bookRoute = `/books/${book.id}`;
+    const bookFile = routeFile(bookRoute);
+    const entryFiles = markdownFiles(resolve(booksRoot, book.id));
+    if (!existsSync(bookFile)) {
+      failures.push(`缺少书首页: ${bookRoute}`);
+    } else {
+      const html = readFileSync(bookFile, "utf8");
+      if (!html.includes(`<link rel="canonical" href="${routeUrl(bookRoute)}">`)) failures.push(`书首页 canonical 错误: ${bookRoute}`);
+      if (!html.includes('"@type":"CollectionPage"')) failures.push(`书首页缺少 CollectionPage JSON-LD: ${bookRoute}`);
+      if (!html.includes('"@type":"ItemList"')) failures.push(`书首页缺少 ItemList JSON-LD: ${bookRoute}`);
+      for (const entryFile of entryFiles) {
+        const slug = relative(resolve(booksRoot, book.id), entryFile).replace(/\\/g, "/").replace(/\.md$/i, "");
+        const entryRoute = `${bookRoute}/${slug}`;
+        const doc = docsByRoute.get(entryRoute);
+        if (doc && !html.includes(doc.title)) failures.push(`书首页未列出条目: ${entryRoute}`);
+      }
+    }
+
+    for (const entryFile of entryFiles) {
+      const slug = relative(resolve(booksRoot, book.id), entryFile).replace(/\\/g, "/").replace(/\.md$/i, "");
+      const entryRoute = `${bookRoute}/${slug}`;
+      const entryStaticFile = routeFile(entryRoute);
+      if (!existsSync(entryStaticFile)) continue;
+      const html = readFileSync(entryStaticFile, "utf8");
+      if (!html.includes(`<link rel="canonical" href="${routeUrl(entryRoute)}">`)) failures.push(`迁移条目 canonical 错误: ${entryRoute}`);
+      if (!html.includes('"@type":"Article"')) failures.push(`迁移条目 JSON-LD 不是 Article: ${entryRoute}`);
+      if (!html.includes('"author"')) failures.push(`迁移条目 JSON-LD 缺少 author: ${entryRoute}`);
+      const doc = docsByRoute.get(entryRoute);
+      if (doc?.date && !html.includes('"datePublished"')) failures.push(`迁移条目 JSON-LD 缺少 datePublished: ${entryRoute}`);
+
+      if (book.legacyPrefix) {
+        const legacyRoute = `${book.legacyPrefix}/${slug}`;
+        if (existsSync(routeFile(legacyRoute))) failures.push(`旧 Blog 静态正文仍存在: ${legacyRoute}`);
+        if (redirects && !redirects.includes(`${legacyRoute} ${entryRoute} 301`)) failures.push(`缺少永久重定向: ${legacyRoute} -> ${entryRoute}`);
+      }
+    }
+  }
+}
+
 if (existsSync(sitemapPath)) {
   const sitemap = readFileSync(sitemapPath, "utf8");
   for (const route of visibleRoutes) {
     const url = routeUrl(route);
     if (!sitemap.includes(`<loc>${url}</loc>`)) failures.push(`sitemap 缺少路由: ${route}`);
   }
+  for (const book of books) {
+    for (const route of ["/books", `/books/${book.id}`]) {
+      const url = routeUrl(route);
+      if (!sitemap.includes(`<loc>${url}</loc>`)) failures.push(`sitemap 缺少书架 canonical: ${route}`);
+    }
+    if (book.legacyPrefix && sitemap.includes(`${book.legacyPrefix}/`)) failures.push(`sitemap 仍包含旧 Blog 内容: ${book.legacyPrefix}`);
+  }
   for (const fragment of [
     "/mira-docs-api/",
     "/design-md/",
     "/about/author/",
+    "/learning/",
     "/blogs/product-journal/",
     "/blogs/engineering/",
+    "/blogs/agent-learning/",
+    "/blogs/bible-notes/",
   ]) {
     if (sitemap.includes(fragment)) failures.push(`sitemap 仍包含已删除内容: ${fragment}`);
   }
@@ -133,16 +239,19 @@ for (const route of [
   "/about/author",
   "/mira-docs-api/guide/what-is-mira-docs",
   "/design-md/视觉/product-design-system",
+  "/learning/about",
   "/blogs/product-journal/2026-07-05-open-source-agent-ecosystem",
   "/blogs/engineering/insight-capture-pipeline",
+  "/blogs/agent-learning/agent-is-an-old-dream",
+  "/blogs/bible-notes/psalm-6-when-god-seems-silent",
 ]) {
   if (existsSync(routeFile(route))) failures.push(`已删除静态页面仍存在: ${route}`);
 }
 
 if (failures.length) {
-  console.error("Homepage V1 静态产物检查失败：");
+  console.error("Homepage V1 / Bookshelf V2 静态产物检查失败：");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`Homepage V1 static output passed: ${visibleRoutes.size} routes; personal root plus previous BR003B removals verified.`);
+console.log(`Homepage V1 / Bookshelf V2 static output passed: ${visibleRoutes.size} content routes; ${books.length} books; migration SEO and redirects verified.`);
