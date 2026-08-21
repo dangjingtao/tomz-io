@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { ArrowUpRight, BookOpen, BrainCircuit } from "lucide-react";
+import { ArrowUpRight, BookOpen, BrainCircuit, type LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs, type Doc } from "../../content/mira-docs-adapter";
 import "./learning.css";
@@ -11,7 +11,7 @@ type LearningPathConfig = {
   eyebrow: string;
   title: string;
   description: string;
-  icon: typeof BrainCircuit;
+  icon: LucideIcon;
   itemLabel: string;
 };
 
