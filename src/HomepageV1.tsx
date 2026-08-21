@@ -151,7 +151,7 @@ function HomepageHeader({
           <Link to="/blogs">博客</Link>
           <Link to="/works">作品</Link>
           <Link to="/projects">项目</Link>
-          <Link to="/books">书架</Link>
+          <Link to="/learning">研习</Link>
           <Link to="/about">关于</Link>
           <details className="home-v1-nav-menu home-v1-theme-menu">
             <summary>主题</summary>
@@ -207,7 +207,7 @@ function HomepageHeader({
           <Link to="/blogs" onClick={() => setMobileOpen(false)}>博客</Link>
           <Link to="/works" onClick={() => setMobileOpen(false)}>作品</Link>
           <Link to="/projects" onClick={() => setMobileOpen(false)}>项目</Link>
-          <Link to="/books" onClick={() => setMobileOpen(false)}>书架</Link>
+          <Link to="/learning" onClick={() => setMobileOpen(false)}>研习</Link>
           <Link to="/about" onClick={() => setMobileOpen(false)}>关于</Link>
           <div className="home-v1-mobile-group">
             <strong>主题</strong>

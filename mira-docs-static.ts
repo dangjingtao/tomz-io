@@ -127,7 +127,7 @@ function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
     ["博客", "/blogs"],
     ["作品", "/works"],
     ["项目", "/projects"],
-    ["书架", "/books"],
+    ["研习", "/learning"],
     ["关于", "/#about"],
   ] as const;
   const navigation = links
@@ -217,7 +217,6 @@ function staticDocToc(doc: StaticDoc): string {
     .join("");
   return `<aside class="toc"><h5>本页目录</h5><ul>${links}</ul></aside>`;
 }
-
 function documentBody(
   doc: StaticDoc,
   previous: StaticDoc | undefined,
