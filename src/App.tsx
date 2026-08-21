@@ -287,7 +287,7 @@ visibleSections.forEach((section) => {
   });
 });
 const tomzMarkSrc = `${appBase}brand/tomz-mark.png`;
-const localMiraAvatarUrl = `${appBase}mira-avatar.png`;
+const localMiraAvatarUrl = `${appBase}mira-avatar.webp`;
 const miraAvatarUrl =
   "https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp";
 function handleMiraAvatarError(event: SyntheticEvent<HTMLImageElement>) {
@@ -2214,22 +2214,36 @@ function BlogThumbVisual({ category }: { category: string }) {
     </div>
   );
 }
+function projectNavTitle(title: string) {
+  const match = title.match(/^(.+?)[：:]\s*(.+)$/);
+  return match
+    ? { category: match[1].trim(), title: match[2].trim() }
+    : { category: "", title };
+}
 function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
   if (area.key === "projects") {
     return (
       <nav className="docnav project-docnav" aria-label="项目">
         <h5>目录</h5>
         <ul>
-          {[...area.docs].sort(compareDocs).map((doc) => (
-            <li key={doc.path}>
-              <Link
-                className={current === doc.path ? "active" : ""}
-                to={doc.path}
-              >
-                {doc.title}
-              </Link>
-            </li>
-          ))}
+          {[...area.docs].sort(compareDocs).map((doc) => {
+            const navTitle = projectNavTitle(doc.title);
+            return (
+              <li key={doc.path}>
+                <Link
+                  className={current === doc.path ? "active" : ""}
+                  to={doc.path}
+                >
+                  {navTitle.category && (
+                    <span className="project-nav-category">
+                      {navTitle.category}
+                    </span>
+                  )}
+                  <span className="project-nav-title">{navTitle.title}</span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     );
@@ -2924,7 +2938,7 @@ function AboutPage() {
           </div>
           <figure className="about-intro-visual">
             <img
-              src={`${import.meta.env.BASE_URL}images/about-architecture-transparent.png`}
+              src={`${import.meta.env.BASE_URL}images/about-architecture-transparent.webp`}
               alt="黑白与金色构成的抽象建筑空间"
             />
           </figure>
