@@ -1,46 +1,68 @@
-import { BookOpen, Brain, Cross } from "lucide-react";
+import { ArrowRight, Brain, Cross, BookOpen } from "lucide-react";
 import "./learning.css";
 
-const shelves = [
+const paths = [
   {
     title: "一起学智能体",
-    tag: "AI / AGENT",
-    progress: "08 / 30",
-    description: "从 Agent 基础、工具调用到 MCP 与实践记录。",
+    label: "AI / AGENT",
+    progress: "第 08 节",
+    description:
+      "以课程路径理解 Agent、Tool Calling、MCP，并记录 Mira 实践过程。",
+    chapters: ["Agent 基础", "工具调用", "MCP 架构"],
     icon: Brain,
   },
   {
     title: "读经",
-    tag: "READING / BIBLE",
+    label: "READING / BIBLE",
     progress: "诗篇 04",
-    description: "经文阅读、背景理解与个人研读笔记。",
+    description:
+      "以阅读笔记形式记录经文背景、理解过程与个人思考。",
+    chapters: ["诗篇", "背景", "研读笔记"],
     icon: Cross,
   },
 ];
 
 export default function LearningHub() {
   return (
-    <section className="learning-hub">
-      <header>
+    <main className="learning-hub">
+      <header className="learning-header">
         <span>LEARNING SPACE</span>
         <h1>研习</h1>
-        <p>不是文档目录，而是持续成长的学习路径。</p>
+        <p>
+          不是文档目录，而是持续学习、实践和沉淀的路径。
+        </p>
       </header>
-      <div className="learning-grid">
-        {shelves.map((item) => {
+
+      <section className="learning-grid">
+        {paths.map((item) => {
           const Icon = item.icon;
           return (
-            <article key={item.title} className="learning-card">
-              <Icon size={28} />
-              <small>{item.tag}</small>
+            <article className="learning-card" key={item.title}>
+              <div className="learning-card-icon">
+                <Icon size={30} />
+              </div>
+              <small>{item.label}</small>
               <h2>{item.title}</h2>
               <p>{item.description}</p>
-              <div>{item.progress}</div>
-              <BookOpen size={16} />
+
+              <div className="learning-progress">
+                {item.progress}
+              </div>
+
+              <ul>
+                {item.chapters.map((chapter) => (
+                  <li key={chapter}>{chapter}</li>
+                ))}
+              </ul>
+
+              <button type="button">
+                进入研习 <ArrowRight size={16} />
+              </button>
+              <BookOpen className="learning-book" size={18} />
             </article>
           );
         })}
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
