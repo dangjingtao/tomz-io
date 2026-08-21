@@ -1,7 +1,7 @@
 ---
 title: 诗篇第六篇：当神似乎沉默的时候
 description: 读诗篇第六篇，思考痛苦、等待与在沉默中仍然向神呼求。
-group: bible-notes
+group: 读经札记
 order: 6
 date: 2026年8月21日
 readTime: 8 分钟阅读
