@@ -1,7 +1,7 @@
 ---
 title: 诗篇第五篇：把审判交还给神
 description: 读诗篇第五篇，思考愤怒、公义与人在神面前的位置。
-group: bible-notes
+group: 读经札记
 order: 5
 date: 2026年8月21日
 readTime: 8 分钟阅读
