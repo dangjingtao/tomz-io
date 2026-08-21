@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { ArrowUpRight, BrainCircuit, Cross } from "lucide-react";
+import { ArrowUpRight, BookOpen, BrainCircuit } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs, type Doc } from "../../content/mira-docs-adapter";
 import "./learning.css";
@@ -35,7 +35,7 @@ const pathConfigs: LearningPathConfig[] = [
     title: "读经札记",
     description:
       "不是为了快速得到结论，而是把经文背景、疑问、理解和仍然没有答案的地方，一篇一篇留下来。",
-    icon: Cross,
+    icon: BookOpen,
     itemLabel: "篇札记",
   },
 ];
