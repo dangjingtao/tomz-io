@@ -1,0 +1,8 @@
+id: agent
+title: 一起学智能体
+description: 从真实产品与工程问题出发，持续理解 Agent、Tool Calling、MCP、Skill 与相关实践。
+category: AI / Agent
+kind: study
+order: 10
+status: active
+legacyPrefix: /blogs/agent-learning
