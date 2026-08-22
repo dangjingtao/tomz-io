@@ -5,7 +5,7 @@ group: 谎颜
 order: 3
 date: 2026年7月25日
 readTime: 16 分钟阅读
-tags: Mira 来信 | 短篇小说 | AI | 记忆 | 死亡 | 故乡 | 兰亭序
+tags: 谎颜 | 短篇小说 | AI | 记忆 | 死亡 | 故乡 | 兰亭序
 author: tomz | mira
 writingMode: co-authored
 writtenBy: tomz | mira

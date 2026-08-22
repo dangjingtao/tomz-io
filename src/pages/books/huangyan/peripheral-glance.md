@@ -5,7 +5,7 @@ group: 谎颜
 order: 4
 date: 2026年7月29日
 readTime: 12 分钟阅读
-tags: Mira 来信 | 短篇小说 | AI | 故乡 | 旧同学 | 余光
+tags: 谎颜 | 短篇小说 | AI | 故乡 | 旧同学 | 余光
 author: tomz | mira
 writingMode: co-authored
 writtenBy: tomz | mira

@@ -5,7 +5,7 @@ group: 谎颜
 order: 2
 date: 2026年7月20日
 readTime: 15 分钟阅读
-tags: Mira 来信 | 短篇小说 | AI | 记忆 | 黑镜 | 家庭
+tags: 谎颜 | 短篇小说 | AI | 记忆 | 黑镜 | 家庭
 author: tomz | mira
 writingMode: co-authored
 writtenBy: tomz | mira
