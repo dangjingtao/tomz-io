@@ -1,59 +1,47 @@
 # tomz-io
 
-Tomz Dang 的个人主站（静态页面）。
+Tomz Dang 的个人主站。
+
+## 开发 / Agent 必读
+
+在修改本站的内容文章、作者署名、书架、项目、作品、内容目录、URL、SEO 或结构化数据前，**必须先阅读**：
+
+1. [`docs/AUTHORSHIP.md`](docs/AUTHORSHIP.md) — Tomz.io 署名、归属与内容目录原则；
+2. [`AGENTS.md`](AGENTS.md) — 本仓库 Agent 行为与执行规范。
+
+尤其不得仅根据旧 frontmatter、旧目录位置、历史 Skill 或“谁实际成文更多”自行推断作者关系。作者与内容归属以 `docs/AUTHORSHIP.md` 为准。
 
 ## 当前状态
 
-项目目前是一个极简落地页，包含：
-
-- 页面标题：Tomz Dang
-- 页面文案：个人主站正在搭建。
-
-适合作为后续主页开发的起点。
+主站内容由项目、博客、书架 / 阅读内容与作品等模块构成，使用 MiraDocs 内容体系生成页面与静态输出。
 
 ## 技术栈
 
-- HTML5
-- 无框架、无构建工具
+- Vite
+- React
+- TypeScript
+- MiraDocs
 
-## 项目结构
+## 内容入口
 
 ```text
-.
-├── index.html
-└── README.MD
+src/pages/
+├── blogs/
+├── books/
+├── projects/
+└── works/
 ```
 
-## 快速开始
+内容归属不能只看物理目录；任何新增、迁移或署名调整必须同时遵守 [`docs/AUTHORSHIP.md`](docs/AUTHORSHIP.md)，并检查页面分类、URL、作者 metadata 与 SEO / JSON-LD 是否一致。
 
-1. 克隆仓库并进入目录。
-2. 直接双击打开 `index.html`，或使用本地服务启动。
-
-本地服务方式：
+## 常用命令
 
 ```bash
-python3 -m http.server 8080
+npm run dev
+npm run verify:mira-docs
+npm run build
+npm run build:github-pages
+npm run verify:static-output
 ```
 
-浏览器访问：
-
-```text
-http://localhost:8080
-```
-
-## 开发建议
-
-- 将样式拆分到 `styles.css`，避免 HTML 内联样式膨胀。
-- 将交互逻辑拆分到 `main.js`，便于后续功能扩展。
-- 为导航、作品、关于等模块预留语义化结构。
-
-## 可选发布
-
-- GitHub Pages（最省心的静态托管方案）
-- Vercel / Netlify（便于后续接入构建流程）
-
-## 计划路线（建议）
-
-1. 完成视觉样式（排版、颜色、间距体系）
-2. 增加核心模块（个人介绍、项目列表、联系方式）
-3. 补充 SEO 基础信息（`meta description`、Open Graph）
+具体执行约束见 [`AGENTS.md`](AGENTS.md)。
