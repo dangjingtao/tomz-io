@@ -1,3 +1,4 @@
+# observable-pr-trigger
 name: One-time authorship migration
 
 on:
