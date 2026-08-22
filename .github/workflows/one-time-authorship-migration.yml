@@ -1,4 +1,4 @@
-# observable-pr-trigger
+# observable-pr-trigger-v2
 name: One-time authorship migration
 
 on:
@@ -284,11 +284,16 @@ jobs:
       - name: Build production site
         run: pnpm run build
 
+      - name: Verify root static output
+        run: node scripts/verify-br003a-root-static.mjs
+
       - name: Build GitHub Pages mode
         run: pnpm run build:github-pages
 
-      - name: Verify static output
+      - name: Verify GitHub Pages static output
         run: pnpm run verify:static-output
+        env:
+          EXPECTED_BASE: tomz-io
 
       - name: Commit migration
         shell: bash
