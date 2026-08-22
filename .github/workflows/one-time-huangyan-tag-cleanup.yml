@@ -1,0 +1,87 @@
+name: One-time 谎颜 tag cleanup
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/one-time-huangyan-tag-cleanup.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: one-time-huangyan-tag-cleanup
+  cancel-in-progress: true
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: Remove Mira Letters tags from 谎颜
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const dir = 'src/pages/books/huangyan';
+          const files = ['witness.md', 'after-june.md', 'between-glances.md', 'peripheral-glance.md'];
+          for (const name of files) {
+            const file = path.join(dir, name);
+            let source = fs.readFileSync(file, 'utf8');
+            if (!/^group:\s*谎颜\s*$/m.test(source)) throw new Error(`Not a 谎颜 entry: ${file}`);
+            source = source.replace(/^tags:\s*Mira 来信\s*\|\s*/m, 'tags: 谎颜 | ');
+            if (/Mira 来信/.test(source.match(/^---\r?\n([\s\S]*?)\r?\n---/m)?.[1] ?? '')) {
+              throw new Error(`Mira 来信 metadata remains in ${file}`);
+            }
+            fs.writeFileSync(file, source, 'utf8');
+          }
+          NODE
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify content
+        run: pnpm run verify:mira-docs
+
+      - name: Build production site
+        run: pnpm run build
+
+      - name: Verify root static output
+        run: node scripts/verify-br003a-root-static.mjs
+
+      - name: Build GitHub Pages mode
+        run: pnpm run build:github-pages
+
+      - name: Verify GitHub Pages static output
+        run: pnpm run verify:static-output
+        env:
+          EXPECTED_BASE: tomz-io
+
+      - name: Commit cleanup
+        shell: bash
+        run: |
+          rm -f .github/workflows/one-time-huangyan-tag-cleanup.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "content: remove Mira Letters metadata from 谎颜"
+          git push origin HEAD:main
