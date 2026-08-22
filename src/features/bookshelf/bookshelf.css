@@ -82,7 +82,7 @@
 
 .bookshelf-hero p {
   max-width: 680px;
-  margin: 0;
+  margin: 12px 0 0;
   color: var(--muted);
   font-size: 17px;
   line-height: 1.85;
@@ -261,6 +261,10 @@
   padding: 70px 0 100px;
 }
 
+.bookshelf-mobile-backbar {
+  display: none;
+}
+
 .book-reader-header {
   max-width: 780px;
   margin: 0 auto 48px;
@@ -348,7 +352,56 @@
   .bookshelf-main,
   .book-index-main,
   .book-reader {
-    padding-top: 50px;
+    padding-top: 32px;
+  }
+
+  .book-index-desktop-back,
+  .book-reader-desktop-back {
+    display: none;
+  }
+
+  .bookshelf-mobile-backbar {
+    display: block;
+    position: sticky;
+    top: 64px;
+    z-index: 49;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--canvas);
+  }
+
+  .bookshelf-mobile-backbar-inner {
+    width: min(100% - 40px, 1120px);
+    min-height: 48px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .bookshelf-mobile-backbar .bookshelf-back {
+    min-height: 48px;
+    margin: 0;
+  }
+
+  .book-reader-share {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  .book-reader-share:hover,
+  .book-reader-share:focus-visible {
+    background: var(--surface-card);
+    color: var(--ink);
   }
 
   .bookshelf-book {

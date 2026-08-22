@@ -1727,7 +1727,7 @@
   .docs-mobile-bar button:not(:disabled):active{transform:translateY(0)}
   .docs-mobile-bar button:disabled{opacity:.45}
   .mobile-docs-overlay{display:block;position:fixed;inset:64px 0 0;z-index:90;background:rgba(20,20,19,.42);animation:mobile-overlay-in .18s ease-out both}
-  .mobile-docs-drawer{width:min(82vw,320px);height:100%;overflow-y:auto;background:var(--canvas);box-shadow:12px 0 30px rgba(20,20,19,.16);animation:mobile-drawer-in .22s cubic-bezier(.22,.8,.2,1) both}
+  .mobile-docs-drawer{width:min(82vw,320px);height:100%;overflow-y:auto;background:var(--canvas);animation:mobile-drawer-in .22s cubic-bezier(.22,.8,.2,1) both}
   .mobile-docs-drawer-head,.mobile-page-toc-head{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 20px;border-bottom:1px solid var(--hairline);font-weight:600}
   .mobile-docs-drawer-head button,.mobile-page-toc-head button{display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:var(--muted);transition:color .16s ease,transform .16s ease}
   .mobile-docs-drawer-head button:hover,.mobile-page-toc-head button:hover{color:var(--ink);transform:rotate(4deg)}
@@ -1839,7 +1839,10 @@
 .about-mira { display: grid; grid-template-columns: minmax(220px, .62fr) minmax(0, 1.38fr); gap: clamp(48px, 9vw, 128px); align-items: center; padding: clamp(76px, 10vw, 140px) 0; border-bottom: 1px solid var(--hairline); }
 .about-mira-portrait { width: min(100%, 320px); aspect-ratio: 1; }
 .about-mira-portrait img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: saturate(.82) contrast(.96); }
-.about-mira-copy h2 { margin: 14px 0 22px; color: var(--ink); font: 500 clamp(40px, 5.5vw, 72px)/1 var(--font-display); }
+.about-mira-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px 20px; margin: 14px 0 22px; }
+.about-mira-copy h2 { margin: 0; color: var(--ink); font: 500 clamp(40px, 5.5vw, 72px)/1 var(--font-display); }
+.about-mira-heading a { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--hairline); padding-bottom: 5px; }
+.about-mira-heading a:hover { color: var(--primary-active); border-color: var(--primary); }
 .about-mira-copy p { max-width: 58ch; margin: 0 0 18px; color: var(--body-c); font-size: 16px; line-height: 1.8; }
 .about-timeline-section { display: grid; grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr); gap: clamp(48px, 9vw, 128px); padding: clamp(76px, 10vw, 140px) 0; }
 .about-timeline { position: relative; max-width: 650px; }

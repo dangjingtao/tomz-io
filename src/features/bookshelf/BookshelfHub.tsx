@@ -4,8 +4,10 @@ import {
   ArrowLeft,
   ArrowUpRight,
   BookOpen,
+  Check,
   Moon,
   Search,
+  Share2,
   Sun,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -30,6 +32,83 @@ function authorLabel(doc: Doc): string {
     .join(" × ");
 }
 
+function BookShareButton({ title, text }: { title: string; text?: string }) {
+  const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
+
+  const resetStatus = () => {
+    window.setTimeout(() => setStatus("idle"), 1800);
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title, text: text || title, url });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setStatus("copied");
+    } catch {
+      setStatus("failed");
+    }
+    resetStatus();
+  };
+
+  const label =
+    status === "copied"
+      ? "链接已复制"
+      : status === "failed"
+        ? "复制失败"
+        : `分享《${title}》`;
+
+  return (
+    <button
+      className="book-reader-share"
+      type="button"
+      onClick={handleShare}
+      aria-label={label}
+      title={label}
+    >
+      {status === "copied" ? (
+        <Check size={17} aria-hidden="true" />
+      ) : (
+        <Share2 size={17} aria-hidden="true" />
+      )}
+      <span className="sr-only" aria-live="polite">
+        {label}
+      </span>
+    </button>
+  );
+}
+
+function BookshelfMobileBackbar({
+  to,
+  label,
+  share,
+}: {
+  to: string;
+  label: string;
+  share?: { title: string; text?: string };
+}) {
+  return (
+    <div className="bookshelf-mobile-backbar">
+      <div className="bookshelf-mobile-backbar-inner">
+        <Link className="bookshelf-back" to={to}>
+          <ArrowLeft size={15} aria-hidden="true" />
+          {label}
+        </Link>
+        {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+      </div>
+    </div>
+  );
+}
+
 function syncHead(title: string, description: string, path: string) {
   document.title = `${title} · Tomz Dang`;
   const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
@@ -52,6 +131,28 @@ function entriesNewestFirst(entries: Doc[]) {
     );
     return dateCompare || right.order - left.order;
   });
+}
+
+function normalizeBookArticleHeadings(source: string, title: string) {
+  const lines = source.split(/\r?\n/);
+  const firstContentIndex = lines.findIndex((line) => line.trim() !== "");
+  let inFence = false;
+
+  return lines
+    .flatMap((line, index) => {
+      if (/^\s*(```|~~~)/.test(line)) {
+        inFence = !inFence;
+        return [line];
+      }
+      if (inFence) return [line];
+
+      const heading = line.match(/^#\s+(.+?)\s*#*\s*$/);
+      if (!heading) return [line];
+      if (index === firstContentIndex && heading[1].trim() === title.trim()) return [];
+      return [`#${line}`];
+    })
+    .join("\n")
+    .replace(/^\s*\n/, "");
 }
 
 function BookshelfSiteHeader() {
@@ -296,8 +397,9 @@ function BookIndex({ bookId }: { bookId: string }) {
   return (
     <>
       <BookshelfSiteHeader />
+      <BookshelfMobileBackbar to="/books" label="返回书架" />
       <main className="bookshelf-wrap book-index-main">
-        <Link className="bookshelf-back" to="/books">
+        <Link className="bookshelf-back book-index-desktop-back" to="/books">
           <ArrowLeft size={15} aria-hidden="true" />
           返回书架
         </Link>
@@ -337,7 +439,13 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
   const book = getBook(bookId);
   const entry = getBookEntry(bookId, entrySlug);
   const entries = useMemo(() => bookEntries(bookId), [bookId]);
-  const html = useMemo(() => (entry ? String(marked.parse(entry.source)) : ""), [entry]);
+  const html = useMemo(
+    () =>
+      entry
+        ? String(marked.parse(normalizeBookArticleHeadings(entry.source, entry.title)))
+        : "",
+    [entry],
+  );
 
   useEffect(() => {
     if (!book || !entry) return;
@@ -353,9 +461,14 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
   return (
     <>
       <BookshelfSiteHeader />
+      <BookshelfMobileBackbar
+        to={`/books/${book.id}`}
+        label={`返回《${book.title}》`}
+        share={{ title: entry.title, text: entry.description || book.description }}
+      />
       <main className="book-reader">
         <article className="book-reader-header">
-          <Link className="bookshelf-back" to={`/books/${book.id}`}>
+          <Link className="bookshelf-back book-reader-desktop-back" to={`/books/${book.id}`}>
             <ArrowLeft size={15} aria-hidden="true" />
             返回《{book.title}》
           </Link>

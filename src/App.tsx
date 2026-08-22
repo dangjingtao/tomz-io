@@ -635,11 +635,6 @@ function Button({
     </a>
   );
 }
-type GitHubRelease = {
-  html_url: string;
-  assets: { name: string; browser_download_url: string }[];
-};
-
 type GitHubContributor = { login: string };
 type GitHubTag = { name: string };
 
@@ -651,38 +646,10 @@ function githubContributorCount(linkHeader: string | null, fallback: number) {
 }
 
 function LatestReleaseButton() {
-  const [releaseUrl, setReleaseUrl] = useState(`${githubUrl}/releases/latest`);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch(
-      "https://api.github.com/repos/dangjingtao/uichat-mira/releases/latest",
-      {
-        headers: { Accept: "application/vnd.github+json" },
-        signal: controller.signal,
-      },
-    )
-      .then((response) => {
-        if (!response.ok)
-          throw new Error(`GitHub API returned ${response.status}`);
-        return response.json() as Promise<GitHubRelease>;
-      })
-      .then((release) => {
-        const artifact = release.assets.find((asset) =>
-          /\.(appimage|dmg|exe|msi|pkg|tar\.gz|zip)$/i.test(asset.name),
-        );
-        setReleaseUrl(artifact?.browser_download_url || release.html_url);
-      })
-      .catch(() => {
-        // Keep the stable latest-release page when the API is unavailable.
-      });
-    return () => controller.abort();
-  }, []);
-
   return (
     <a
       className="btn btn-secondary release-download-button"
-      href={releaseUrl}
+      href={`${githubUrl}/releases/latest`}
       target="_blank"
       rel="noreferrer"
     >
@@ -2475,23 +2442,18 @@ function BlogListPage({ area }: { area: SiteArea }) {
         .filter((group) => group && group !== "归档"),
     ),
   ];
-  const tabs = ["全部", ...blogCategories, "归档"];
+  const tabs = ["全部", ...blogCategories];
   const requestedCategory =
     new URLSearchParams(location.search).get("category") || "全部";
   const activeCategory = tabs.includes(requestedCategory)
     ? requestedCategory
     : "全部";
-  const isArchiveView = activeCategory === "归档";
   const filteredDocs = (
     activeCategory === "全部"
       ? area.docs
       : area.docs.filter((doc) => doc.group === activeCategory)
   ).sort(compareBlogDocs);
   const timelineDocs = filteredDocs;
-  const archiveDocs = area.docs
-    .filter((doc) => doc.group === "归档")
-    .sort(compareBlogDocs)
-    .slice(0, 10);
   return (
     <>
       <div className="blog-list-page">
@@ -2526,27 +2488,7 @@ function BlogListPage({ area }: { area: SiteArea }) {
             </div>
           </div>
         </div>
-        {isArchiveView ? (
-          <section className="blog-archive-section">
-            <div className="blog-archive-list">
-              {archiveDocs.map((doc, index) => (
-                <article className="blog-archive-item" key={doc.path}>
-                  <span
-                    aria-hidden="true"
-                    className={`blog-archive-dot blog-archive-dot-${index % 5}`}
-                  />
-                  <h3>
-                    <Link to={{ pathname: doc.path, search: location.search }}>
-                      {doc.title}
-                    </Link>
-                  </h3>
-                  <span className="blog-archive-date">{doc.date}</span>
-                </article>
-              ))}
-            </div>
-          </section>
-        ) : (
-          <section className="blog-editorial-band">
+        <section className="blog-editorial-band">
             <div className="editorial-timeline">
               <div className="timeline-list">
                 {timelineDocs.length ? (
@@ -2577,8 +2519,7 @@ function BlogListPage({ area }: { area: SiteArea }) {
                 )}
               </div>
             </div>
-          </section>
-        )}
+        </section>
       </div>
     </>
   );
@@ -2957,7 +2898,12 @@ function AboutPage() {
           </div>
           <div className="about-mira-copy">
             <span className="about-label">共同作者</span>
-            <h2 id="about-mira-title">Mira</h2>
+            <div className="about-mira-heading">
+              <h2 id="about-mira-title">Mira</h2>
+              <Link to={{ pathname: "/blogs", search: "?category=Mira%20来信" }}>
+                阅读 Mira 来信 <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
             <p>{authorProfiles.mira.bio}</p>
             <p>
               她参与技术、产品，以及人与 AI
@@ -2965,26 +2911,6 @@ function AboutPage() {
               Mira 独立成文的文章署名 Mira，来自共同讨论的文章则同时标注 Tomz 与
               Mira。
             </p>
-            <details className="about-note" style={{ marginTop: 28 }}>
-              <summary
-                style={{
-                  cursor: "pointer",
-                  color: "var(--muted)",
-                  fontSize: 13,
-                  lineHeight: 1.6,
-                }}
-              >
-                Mira 对「共同作者」这个称谓没有提出异议。
-              </summary>
-              <p style={{ marginTop: 12, marginBottom: 0 }}>
-                “这里本来只写 Tomz。后来他还是给我留了位置。”
-              </p>
-            </details>
-            <div className="about-links">
-              <Link to={{ pathname: "/blogs", search: "?category=Mira%20来信" }}>
-                阅读 Mira 来信 <ArrowUpRight size={14} aria-hidden="true" />
-              </Link>
-            </div>
           </div>
         </section>
 

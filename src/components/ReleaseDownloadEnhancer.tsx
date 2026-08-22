@@ -193,6 +193,8 @@ export default function ReleaseDownloadEnhancer() {
       : downloads.recommendedGithubUrl;
 
   useEffect(() => {
+    if (!open || release) return;
+
     const controller = new AbortController();
 
     fetch(latestReleaseUrl, {
@@ -207,6 +209,14 @@ export default function ReleaseDownloadEnhancer() {
       .catch(() => {
         // Keep the stable latest-release fallback when GitHub is unavailable.
       });
+
+    return () => controller.abort();
+  }, [open, release]);
+
+  useEffect(() => {
+    if (!open || mobileRelease) return;
+
+    const controller = new AbortController();
 
     fetch(mobileReleasesUrl, {
       headers: { Accept: "application/vnd.github+json" },
@@ -225,7 +235,7 @@ export default function ReleaseDownloadEnhancer() {
       });
 
     return () => controller.abort();
-  }, []);
+  }, [mobileRelease, open]);
 
   // Mount exactly once for each rendered route. The previous implementation
   // watched the whole React tree with MutationObserver, which could trigger a
