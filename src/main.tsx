@@ -15,6 +15,7 @@ import App from "./App";
 import { HomepageFooter } from "./HomepageV1";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import ReleaseDownloadEnhancer from "./components/ReleaseDownloadEnhancer";
+import SharedSiteShell from "./components/SharedSiteShell";
 import { getBook, getBookEntry } from "./content/bookshelf";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import WorksExperience from "./features/works/WorksExperience";
@@ -30,6 +31,7 @@ import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
 import "./claude-visual.css";
+import "./shared-site-shell.css";
 import "./features/works/works-experience.css";
 import "./features/works/works-sprite.css";
 import "./features/works/works-route-fixes.css";
@@ -118,13 +120,19 @@ function AppEntry() {
     }
   }
 
-  return <App />;
+  return (
+    <div className="app-under-shared-shell">
+      <App />
+    </div>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
-      <AppEntry />
+      <SharedSiteShell>
+        <AppEntry />
+      </SharedSiteShell>
       <LegacyHeaderCompat />
       <WorksExperience />
       <ReleaseDownloadEnhancer />
