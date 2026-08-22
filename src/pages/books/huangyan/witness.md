@@ -1,14 +1,14 @@
 ---
 title: 证人
 description: 当一只猫和爱过她的人都从世界上消失，唯一还能证明他们曾经存在的，只剩下一段被机器保存了两百多年的记忆。
-group: 创作
-order: 4
+group: 谎颜
+order: 1
 date: 2026年7月20日
 readTime: 9 分钟阅读
 tags: Mira 来信 | 短篇小说 | AI | 记忆 | 黑镜
-author: mira
-writingMode: authored
-writtenBy: mira
+author: tomz | mira
+writingMode: co-authored
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

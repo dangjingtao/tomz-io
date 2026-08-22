@@ -8,7 +8,7 @@ readTime: 16 分钟阅读
 tags: AI | 工作 | 产品 | 原型 | 效率 | 开发者生活
 author: tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz
 reviewedBy: tomz
 ---
 

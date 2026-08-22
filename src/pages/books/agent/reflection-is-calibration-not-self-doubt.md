@@ -6,9 +6,9 @@ order: 3
 date: 2026年7月20日
 readTime: 11 分钟阅读
 tags: 一起学智能体 | Reflection | Evaluator | Reasoning | Thinking | Agent Runtime
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

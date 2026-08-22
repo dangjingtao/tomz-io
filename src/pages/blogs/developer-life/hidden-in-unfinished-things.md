@@ -6,9 +6,9 @@ order: 3
 date: 2026年8月12日
 readTime: 6 分钟阅读
 tags: 工作 | 产品 | 创作 | 边界 | 开发者生活
-author: tomz | mira
+author: tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz
 reviewedBy: tomz
 ---
 

@@ -7,14 +7,14 @@ order: 1
 type: comic
 path: /works/yuguang-vol-1
 cover: /works-data/yuguang-vol-1/cover.webp
-author:
-  - tomz
-  - mira
+author: tomz | mira
 status: experiment
 edition: experiment-2026-08-03
 pageCount: 29
 missingPages:
   - 22
+writingMode: co-authored
+writtenBy: tomz | mira
 ---
 
 # 余光·上：第一次讲话

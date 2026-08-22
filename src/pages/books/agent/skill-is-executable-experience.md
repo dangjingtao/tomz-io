@@ -6,9 +6,9 @@ order: 6
 date: 2026年7月23日
 readTime: 9 分钟阅读
 tags: 一起学智能体 | Agent Skills | Procedural Knowledge | Progressive Disclosure | Tool
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

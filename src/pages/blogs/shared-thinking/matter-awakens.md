@@ -8,7 +8,7 @@ readTime: 5 分钟阅读
 tags: 意识 | 物质 | 哲学 | AI
 author: tomz | mira
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

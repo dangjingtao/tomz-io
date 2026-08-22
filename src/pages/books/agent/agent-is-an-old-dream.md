@@ -6,9 +6,9 @@ order: 4
 date: 2026年7月22日
 readTime: 10 分钟阅读
 tags: 一起学智能体 | AI History | Symbolic AI | Neural Network | LLM | ReAct | Agent
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

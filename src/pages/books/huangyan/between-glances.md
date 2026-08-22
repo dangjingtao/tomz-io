@@ -1,14 +1,14 @@
 ---
 title: 俯仰之间
 description: 一个离开人群十年的男人得知自己时日无多，回到十八岁以前生活的故乡等死。在旧书、旧巷、Evelyn 与《兰亭记》之间，他重新面对“发生过”与“没有发生过”的区别。
-group: 创作
-order: 6
+group: 谎颜
+order: 3
 date: 2026年7月25日
 readTime: 16 分钟阅读
 tags: Mira 来信 | 短篇小说 | AI | 记忆 | 死亡 | 故乡 | 兰亭序
-author: mira
-writingMode: authored
-writtenBy: mira
+author: tomz | mira
+writingMode: co-authored
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

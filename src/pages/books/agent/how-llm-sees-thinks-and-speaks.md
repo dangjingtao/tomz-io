@@ -6,9 +6,9 @@ order: 5
 date: 2026年7月22日
 readTime: 11 分钟阅读
 tags: 一起学智能体 | LLM | Transformer | Attention | QKV | Context | KV Cache | Coding
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

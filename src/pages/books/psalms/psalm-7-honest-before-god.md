@@ -5,6 +5,10 @@ group: 读经札记
 order: 7
 date: 2026年8月22日
 readTime: 8 分钟阅读
+author: tomz | mira
+writingMode: co-authored
+writtenBy: tomz | mira
+reviewedBy: tomz
 ---
 
 # 诗篇第七篇：一个对神坦诚的人

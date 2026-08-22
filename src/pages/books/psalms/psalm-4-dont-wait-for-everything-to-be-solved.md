@@ -8,7 +8,7 @@ readTime: 5 分钟阅读
 tags: 诗篇 | 读经札记 | 信仰 | 安息 | 怀疑
 author: tomz | mira
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

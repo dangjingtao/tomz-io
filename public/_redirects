@@ -1,2 +1,6 @@
 /blog /blogs/ 301
 /blog/* /blogs/ 301
+/blogs/mira-letters/witness /books/huangyan/witness 301
+/blogs/mira-letters/after-june /books/huangyan/after-june 301
+/blogs/mira-letters/between-glances /books/huangyan/between-glances 301
+/blogs/mira-letters/peripheral-glance /books/huangyan/peripheral-glance 301

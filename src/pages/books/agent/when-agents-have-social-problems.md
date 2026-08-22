@@ -6,9 +6,9 @@ order: 8
 date: 2026年7月23日
 readTime: 10 分钟阅读
 tags: 一起学智能体 | Skill Composition | Multi-Agent | Evidence Provenance | Agent Governance
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

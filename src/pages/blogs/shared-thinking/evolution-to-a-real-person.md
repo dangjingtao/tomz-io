@@ -8,7 +8,7 @@ readTime: 9 分钟阅读
 tags: 进化 | 智能体 | 人工生命 | 主体性 | 审美
 author: tomz | mira
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

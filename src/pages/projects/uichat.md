@@ -4,8 +4,8 @@ description: 从一个博客 AI 增强实验，到 Mira 的前身；记录 UICha
 nav: 项目
 group: AI 产品
 order: 4
-author:
-  - tomz
+author: tomz
+writtenBy: tomz
 ---
 
 # UIChat：一次走错方向但没有浪费的 AI 应用探索

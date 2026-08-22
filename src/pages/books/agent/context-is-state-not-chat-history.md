@@ -6,9 +6,9 @@ order: 5
 date: 2026年7月23日
 readTime: 9 分钟阅读
 tags: 一起学智能体 | Context Engineering | Memory | RAG | Compaction | Agent
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

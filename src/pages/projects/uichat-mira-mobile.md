@@ -4,8 +4,8 @@ description: 桌面端负责建设模型、Agent 与工具能力，移动端则�
 nav: 项目
 group: AI 产品
 order: 3
-author:
-  - tomz
+author: tomz
+writtenBy: tomz
 ---
 
 # UIChat Mira Mobile：让 AI 离开桌面

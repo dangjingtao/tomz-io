@@ -8,7 +8,7 @@ readTime: 5 分钟阅读
 tags: 未来 | AI | 文明 | 伦理 | 机器伴侣
 author: tomz | mira
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

@@ -8,7 +8,7 @@ readTime: 7 分钟阅读
 tags: 诗篇 | 读经札记 | 信仰 | 敬畏 | 投靠
 author: tomz | mira
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

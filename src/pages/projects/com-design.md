@@ -4,8 +4,8 @@ description: 探索如何用 Design Token、组件规范与视觉规则，让 AI
 nav: 项目
 group: AI 产品
 order: 2
-author:
-  - tomz
+author: tomz
+writtenBy: tomz
 ---
 
 # ComDesign：AI 时代的设计系统实验

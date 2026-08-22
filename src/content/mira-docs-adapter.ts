@@ -32,7 +32,7 @@ export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   mergeIndex?: boolean;
   author?: AuthorKey[];
   writingMode?: WritingMode;
-  writtenBy?: AuthorKey;
+  writtenBy?: AuthorKey[];
   reviewedBy?: AuthorKey;
   commitUrl?: string;
   headings: { text: string; id: string }[];
@@ -74,7 +74,9 @@ function inferDocAuthors(
     .map((item) => normalizeAuthorKey(item))
     .filter(Boolean) as AuthorKey[];
   const explicitWritingMode = dataString(data, "writingMode");
-  const explicitWrittenBy = normalizeAuthorKey(dataString(data, "writtenBy"));
+  const explicitWrittenBy = dataList(data, "writtenBy")
+    .map((item) => normalizeAuthorKey(item))
+    .filter(Boolean) as AuthorKey[];
   const explicitReviewedBy = normalizeAuthorKey(dataString(data, "reviewedBy"));
   const commitUrl = dataString(data, "commitUrl");
 
@@ -93,7 +95,7 @@ function inferDocAuthors(
     return {
       author: ["mira"],
       writingMode: "authored",
-      writtenBy: "mira",
+      writtenBy: ["mira"],
       reviewedBy: "tomz",
       commitUrl,
     };
@@ -103,7 +105,7 @@ function inferDocAuthors(
     return {
       author: ["tomz", "mira"],
       writingMode: "co-authored",
-      writtenBy: "mira",
+      writtenBy: ["tomz", "mira"],
       reviewedBy: "tomz",
       commitUrl,
     };
@@ -112,7 +114,7 @@ function inferDocAuthors(
   return {
     author: ["tomz"],
     writingMode: "authored",
-    writtenBy: path.includes("/mira-letters/") ? "mira" : "tomz",
+    writtenBy: [path.includes("/mira-letters/") ? "mira" : "tomz"],
     reviewedBy: path.includes("/mira-letters/") ? "tomz" : undefined,
     commitUrl,
   };

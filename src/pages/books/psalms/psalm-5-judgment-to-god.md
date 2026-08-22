@@ -5,6 +5,10 @@ group: 读经札记
 order: 5
 date: 2026年8月21日
 readTime: 8 分钟阅读
+author: tomz | mira
+writingMode: co-authored
+writtenBy: tomz | mira
+reviewedBy: tomz
 ---
 
 # 诗篇第五篇：把审判交还给神

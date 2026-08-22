@@ -6,9 +6,9 @@ order: 7
 date: 2026年7月23日
 readTime: 9 分钟阅读
 tags: 一起学智能体 | MCP | Model Context Protocol | Tool | Connector | Agent
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

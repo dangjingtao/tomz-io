@@ -355,8 +355,8 @@ function getDocSignature(doc: Doc) {
   const authors = getDocAuthors(doc);
   if (authors.length > 1 || doc.writingMode === "co-authored") {
     return {
-      title: `${authorProfiles.tomz.name} × ${authorProfiles.mira.name}`,
-      body: "这篇文章来自两人的共同讨论，由 Mira 完成写作，Tomz Dang 审定发布。",
+      title: authors.map((author) => authorProfiles[author].name).join(" × "),
+      body: "这篇文章来自署名作者之间的共同讨论与写作。",
       links: [],
       showKicker: false,
       accentClassName: "",

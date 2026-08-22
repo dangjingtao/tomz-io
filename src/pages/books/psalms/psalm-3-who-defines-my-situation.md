@@ -8,7 +8,7 @@ readTime: 6 分钟阅读
 tags: 诗篇 | 读经札记 | 大卫 | 信仰 | 怀疑
 author: tomz | mira
 writingMode: co-authored
-writtenBy: mira
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

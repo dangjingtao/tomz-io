@@ -6,9 +6,9 @@ order: 2
 date: 2026年7月19日
 readTime: 9 分钟阅读
 tags: 一起学智能体 | Planner | Plan-and-Solve | ReAct | Backtracking | Dynamic Planning
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 

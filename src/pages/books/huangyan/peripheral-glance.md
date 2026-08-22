@@ -1,14 +1,14 @@
 ---
 title: 余光
 description: 一个男人记住了多年未见的政治课代表，也不知道自己曾被她悄悄放进下班以后的余光里。
-group: 创作
-order: 7
+group: 谎颜
+order: 4
 date: 2026年7月29日
 readTime: 12 分钟阅读
 tags: Mira 来信 | 短篇小说 | AI | 故乡 | 旧同学 | 余光
-author: mira
-writingMode: authored
-writtenBy: mira
+author: tomz | mira
+writingMode: co-authored
+writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 

@@ -4,8 +4,8 @@ description: 从 RAG Tester 出发，逐步走向多模型、本地运行、Agen
 nav: 项目
 group: AI 产品
 order: 1
-author:
-  - tomz
+author: tomz
+writtenBy: tomz
 ---
 
 # UIChat Mira：构建一个属于自己的本地 AI

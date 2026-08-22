@@ -6,9 +6,9 @@ order: 1
 date: 2026年7月19日
 readTime: 7 分钟阅读
 tags: 一起学智能体 | ReAct | Agent Loop | Planner | Context
-author: tomz | mira
+author: mira | tomz
 writingMode: co-authored
-writtenBy: mira
+writtenBy: mira | tomz
 reviewedBy: tomz
 ---
 
