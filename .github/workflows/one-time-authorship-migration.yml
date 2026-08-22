@@ -1,3 +1,4 @@
+# merge-trigger: run migration through a GitHub merge push
 name: One-time authorship migration
 
 on:
@@ -78,12 +79,10 @@ jobs:
               .map((entry) => path.join(directory, entry.name));
           }
 
-          // Developer Life: public authorship is always Tomz.
           for (const file of markdownFiles('src/pages/blogs/developer-life')) {
             setFrontmatter(file, { author: 'tomz', writtenBy: 'tomz' });
           }
 
-          // Shared Thinking: Tomz × Mira, Tomz first.
           for (const file of markdownFiles('src/pages/blogs/shared-thinking')) {
             setFrontmatter(file, {
               author: 'tomz | mira',
@@ -93,7 +92,6 @@ jobs:
             });
           }
 
-          // Together Learning Agents: Mira × Tomz, Mira first.
           for (const file of markdownFiles('src/pages/books/agent')) {
             setFrontmatter(file, {
               author: 'mira | tomz',
@@ -103,7 +101,6 @@ jobs:
             });
           }
 
-          // Psalms 1–7 were read and written together: Tomz × Mira, Tomz first.
           for (const file of markdownFiles('src/pages/books/psalms')) {
             setFrontmatter(file, {
               author: 'tomz | mira',
@@ -113,19 +110,16 @@ jobs:
             });
           }
 
-          // Projects always belong to Tomz publicly.
           for (const file of markdownFiles('src/pages/projects')) {
             setFrontmatter(file, { author: 'tomz', writtenBy: 'tomz' });
           }
 
-          // Comics remain outside the bookshelf, with Tomz first when co-authored.
           setFrontmatter('src/pages/works/yuguang-vol-1.md', {
             author: 'tomz | mira',
             writingMode: 'co-authored',
             writtenBy: 'tomz | mira',
           });
 
-          // Move the four connected stories out of Mira Letters and into one real book: 《谎颜》.
           const huangyan = [
             ['witness.md', 1],
             ['after-june.md', 2],
@@ -161,23 +155,17 @@ jobs:
             ].join('\n'),
           );
 
-          // 《免责》 is removed, not migrated.
           const disclaimer = 'src/pages/blogs/mira-letters/disclaimer.md';
           if (fs.existsSync(disclaimer)) fs.unlinkSync(disclaimer);
 
-          // What remains in this directory must be a real Mira Letter.
           for (const file of markdownFiles('src/pages/blogs/mira-letters')) {
             setFrontmatter(file, { author: 'mira', writtenBy: 'mira' });
           }
 
-          // writtenBy is ordered authorship metadata, not a single-author field.
           const adapterPath = 'src/content/mira-docs-adapter.ts';
           let adapter = read(adapterPath);
           const replacements = [
-            [
-              'writtenBy?: AuthorKey;',
-              'writtenBy?: AuthorKey[];',
-            ],
+            ['writtenBy?: AuthorKey;', 'writtenBy?: AuthorKey[];'],
             [
               'const explicitWrittenBy = normalizeAuthorKey(dataString(data, "writtenBy"));',
               'const explicitWrittenBy = dataList(data, "writtenBy")\n    .map((item) => normalizeAuthorKey(item))\n    .filter(Boolean) as AuthorKey[];',
@@ -201,7 +189,6 @@ jobs:
           }
           write(adapterPath, adapter);
 
-          // Co-author UI must not reintroduce a hidden "Mira wrote / Tomz reviewed" ownership claim.
           const appPath = 'src/App.tsx';
           let app = read(appPath);
           const oldSignature = 'title: `${authorProfiles.tomz.name} × ${authorProfiles.mira.name}`,\n      body: "这篇文章来自两人的共同讨论，由 Mira 完成写作，Tomz Dang 审定发布。",';
@@ -210,13 +197,11 @@ jobs:
           app = app.replace(oldSignature, newSignature);
           write(appPath, app);
 
-          // Old contributor skill may not override the canonical authorship rules.
           write(
             '.agents/skills/mira-blog-contributor/SKILL.md',
             `# Mira Blog Contributor\n\n## Mandatory rule\n\nBefore adding, editing, moving, publishing, or reviewing site content, read:\n\n1. \`docs/AUTHORSHIP.md\` — canonical authorship, ownership, directory, URL, and metadata rules.\n2. \`AGENTS.md\` — repository execution and verification rules.\n\nDo not infer authorship from who drafted the Markdown, who used tools, historical paths, old frontmatter, or previous conventions. When this skill conflicts with \`docs/AUTHORSHIP.md\`, the authorship document wins.\n\n## Content workflow\n\n- Read the target content and neighboring content before editing.\n- Keep physical directory, public URL, visible author, \`writtenBy\`, SEO, and structured data semantically aligned.\n- Do not create a \`创作\` category. The four connected stories belong to the bookshelf book 《谎颜》.\n- Keep true Mira Letters under \`src/pages/blogs/mira-letters/\`; do not use that directory as a private bucket for other work.\n- For any new content type not covered by \`docs/AUTHORSHIP.md\`, ask Tomz to define authorship before publishing.\n- Run the repository checks required by \`AGENTS.md\` after content changes.\n`,
           );
 
-          // The principle doc should describe the post-migration state.
           const principlePath = 'docs/AUTHORSHIP.md';
           let principle = read(principlePath);
           principle = principle.replace(
@@ -225,7 +210,6 @@ jobs:
           );
           write(principlePath, principle);
 
-          // Preserve old inbound links only as 301 redirects; they are not current ownership paths.
           const redirectsPath = 'public/_redirects';
           let redirects = read(redirectsPath).trimEnd();
           const redirectLines = [
@@ -239,7 +223,6 @@ jobs:
           }
           write(redirectsPath, `${redirects}\n`);
 
-          // Assertions: fail before build if the repository is left in a half-migrated state.
           const mustExist = huangyan.map(([name]) => `src/pages/books/huangyan/${name}`);
           for (const file of mustExist) {
             if (!fs.existsSync(file)) throw new Error(`Missing migrated story: ${file}`);
