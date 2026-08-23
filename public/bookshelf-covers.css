@@ -1,0 +1,191 @@
+/* Book-cover layer kept separate from the core bookshelf layout.
+   Covers are 3:4 WebP assets and stay crisp on desktop + mobile. */
+
+.bookshelf-grid > a.bookshelf-book:is(
+  [href="/books/agent"],
+  [href="/books/psalms"],
+  [href="/books/huangyan"]
+) {
+  grid-template-columns: 56px 132px minmax(0, 1fr) 24px;
+  gap: 24px;
+  align-items: start;
+}
+
+.bookshelf-grid > a.bookshelf-book:is(
+  [href="/books/agent"],
+  [href="/books/psalms"],
+  [href="/books/huangyan"]
+)::before {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  width: 132px;
+  aspect-ratio: 3 / 4;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.bookshelf-grid > a.bookshelf-book[href="/books/agent"]::before {
+  background-image: url("/books/covers/agent.webp");
+}
+
+.bookshelf-grid > a.bookshelf-book[href="/books/psalms"]::before {
+  background-image: url("/books/covers/psalms.webp");
+}
+
+.bookshelf-grid > a.bookshelf-book[href="/books/huangyan"]::before {
+  background-image: url("/books/covers/huangyan.webp");
+}
+
+.bookshelf-grid > a.bookshelf-book:is(
+  [href="/books/agent"],
+  [href="/books/psalms"],
+  [href="/books/huangyan"]
+) > .bookshelf-book-index {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.bookshelf-grid > a.bookshelf-book:is(
+  [href="/books/agent"],
+  [href="/books/psalms"],
+  [href="/books/huangyan"]
+) > .bookshelf-book-copy {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.bookshelf-grid > a.bookshelf-book:is(
+  [href="/books/agent"],
+  [href="/books/psalms"],
+  [href="/books/huangyan"]
+) > .bookshelf-book-arrow {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+/* The collection credit stays secondary to the sharper description. */
+.bookshelf-grid > a.bookshelf-book[href="/books/huangyan"] .bookshelf-book-copy > p::after,
+html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > p::after {
+  content: "Tomz × Mira · 共同完成";
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted-soft);
+}
+
+/* Book landing pages: cover beside the title on wide screens. */
+html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header,
+html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header,
+html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header {
+  max-width: 940px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  column-gap: 52px;
+  align-items: start;
+}
+
+html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header > *,
+html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header > *,
+html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > * {
+  grid-column: 1;
+}
+
+html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header::after,
+html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header::after,
+html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1 / 5;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header::after {
+  background-image: url("/books/covers/agent.webp");
+}
+
+html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header::after {
+  background-image: url("/books/covers/psalms.webp");
+}
+
+html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header::after {
+  background-image: url("/books/covers/huangyan.webp");
+}
+
+@media (max-width: 760px) {
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) {
+    grid-template-columns: 32px 78px minmax(0, 1fr) 16px;
+    gap: 10px;
+    padding: 26px 0;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  )::before {
+    width: 78px;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-copy h2 {
+    font-size: clamp(25px, 8vw, 32px);
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-copy > p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header,
+  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header,
+  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    column-gap: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header,
+  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header,
+  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header {
+    grid-template-columns: 1fr;
+  }
+
+  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header::after,
+  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header::after,
+  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header::after {
+    grid-column: 1;
+    grid-row: auto;
+    width: 132px;
+    margin-top: 24px;
+  }
+}
