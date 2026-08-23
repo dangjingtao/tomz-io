@@ -1,0 +1,91 @@
+.home-v1-mobile-galaxy {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .home-v1-hero {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-v1-mobile-galaxy {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .home-v1-mobile-galaxy::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--canvas) 68%, transparent) 0%,
+        color-mix(in srgb, var(--canvas) 36%, transparent) 54%,
+        color-mix(in srgb, var(--canvas) 12%, transparent) 100%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--canvas) 12%, transparent) 0%,
+        color-mix(in srgb, var(--canvas) 8%, transparent) 46%,
+        color-mix(in srgb, var(--canvas) 72%, transparent) 100%
+      );
+  }
+
+  .mobile-hero-galaxy,
+  .mobile-hero-galaxy-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobile-hero-galaxy {
+    position: absolute;
+    inset: -3% -16% -1% -10%;
+    opacity: .72;
+    transform: scale(1.04);
+  }
+
+  .mobile-hero-galaxy-canvas {
+    display: block;
+    pointer-events: none;
+    touch-action: none;
+  }
+
+  .home-v1-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .home-v1-hero-copy {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .mobile-hero-galaxy {
+    inset: -1% -30% 0 -18%;
+    opacity: .66;
+    transform: scale(1.08);
+  }
+
+  .home-v1-mobile-galaxy::after {
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--canvas) 72%, transparent) 0%,
+        color-mix(in srgb, var(--canvas) 42%, transparent) 58%,
+        color-mix(in srgb, var(--canvas) 16%, transparent) 100%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--canvas) 8%, transparent) 0%,
+        color-mix(in srgb, var(--canvas) 8%, transparent) 52%,
+        color-mix(in srgb, var(--canvas) 78%, transparent) 100%
+      );
+  }
+}
