@@ -103,23 +103,56 @@ function extractJson(text) {
   const start = candidate.indexOf("{");
   const end = candidate.lastIndexOf("}");
   if (start < 0 || end <= start) throw new Error("AI response did not contain JSON");
-  return JSON.parse(candidate.slice(start, end + 1));
+
+  try {
+    return JSON.parse(candidate.slice(start, end + 1));
+  } catch (error) {
+    throw new Error(`AI JSON parse failed: ${error instanceof Error ? error.message : error}`);
+  }
 }
 
 function validateQuestions(value) {
-  if (!Array.isArray(value?.questions) || value.questions.length < 4 || value.questions.length > 6) {
-    throw new Error("AI response must contain 4 to 6 questions");
+  if (!Array.isArray(value?.questions)) {
+    throw new Error("AI response did not contain a questions array");
   }
+
   const questions = value.questions.map((item) => String(item).trim()).filter(Boolean);
-  if (questions.length < 4 || questions.length > 6) throw new Error("Invalid question count");
-  if (questions.some((item) => item.length > 42)) throw new Error("Question is too long");
+  if (questions.length < 4 || questions.length > 6) {
+    throw new Error(`AI question count out of range: ${questions.length}`);
+  }
+
+  const tooLongIndex = questions.findIndex((item) => item.length > 42);
+  if (tooLongIndex >= 0) {
+    throw new Error(`AI question ${tooLongIndex + 1} is too long: ${questions[tooLongIndex].length} chars`);
+  }
+
   return questions;
 }
 
+function compactLogPreview(value, limit = 240) {
+  return String(value)
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, limit);
+}
+
+function missingAiConfiguration() {
+  const missing = [];
+  if (!aiBaseUrl) missing.push("HOMEPAGE_AI_BASE_URL");
+  if (!aiApiKey) missing.push("HOMEPAGE_AI_API_KEY");
+  if (!aiModel) missing.push("HOMEPAGE_AI_MODEL");
+  return missing;
+}
+
 async function generateWithAi(evidence) {
-  if (!aiBaseUrl || !aiApiKey || !aiModel) return null;
+  const missing = missingAiConfiguration();
+  if (missing.length > 0) return null;
 
   const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 提炼“长期关注”的问题。\n\n这不是人格生成，也不是替 Tomz 决定他应该关心什么。你只能从公开内容中观察长期、反复出现的主题，并把它们写成 4 到 6 个没有标准答案的问题。\n\n要求：\n1. 每个问题必须能从多个不同内容条目中找到支持；不要因为单篇偶发内容新增长期主题。\n2. 主题类别完全开放，不预设技术、生活、创作或价值方向；只按证据归纳。\n3. 不要把 Tomz 写成专家、思想领袖或某种固定人格。\n4. 不写结论，只写开放问题。\n5. 措辞克制、自然、具体，每条不超过 42 个汉字；尽量保持长期稳定，不追逐短期热点。\n6. 不要机械复制标题，不要输出解释或证据列表。\n\n输出纯 JSON：{"questions":["问题1。","问题2。"]}\n\n公开内容证据：\n${JSON.stringify(evidence, null, 2)}`;
+
+  console.log(
+    `[home-focus] request model=${aiModel} evidence=${evidence.length} promptChars=${prompt.length} promptBytes=${Buffer.byteLength(prompt, "utf8")}`,
+  );
 
   const response = await fetch(`${aiBaseUrl}/chat/completions`, {
     method: "POST",
@@ -140,11 +173,35 @@ async function generateWithAi(evidence) {
     }),
   });
 
-  if (!response.ok) throw new Error(`AI endpoint returned ${response.status}`);
-  const payload = await response.json();
+  console.log(`[home-focus] response status=${response.status} ok=${response.ok}`);
+
+  const responseBody = await response.text();
+  if (!response.ok) {
+    throw new Error(
+      `AI endpoint returned ${response.status}; body=${compactLogPreview(responseBody, 320) || "<empty>"}`,
+    );
+  }
+
+  let payload;
+  try {
+    payload = JSON.parse(responseBody);
+  } catch (error) {
+    throw new Error(`AI HTTP response was not JSON: ${error instanceof Error ? error.message : error}`);
+  }
+
   const text = payload?.choices?.[0]?.message?.content;
   if (!text) throw new Error("AI response was empty");
-  return validateQuestions(extractJson(text));
+
+  console.log(
+    `[home-focus] completion chars=${text.length} preview=${JSON.stringify(compactLogPreview(text))}`,
+  );
+
+  const parsed = extractJson(text);
+  const questions = validateQuestions(parsed);
+  console.log(
+    `[home-focus] validation ok count=${questions.length} lengths=${questions.map((item) => item.length).join(",")}`,
+  );
+  return questions;
 }
 
 function serializeSnapshot({ generatedAt, generatedBy, questions }) {
@@ -153,7 +210,23 @@ function serializeSnapshot({ generatedAt, generatedBy, questions }) {
 
 async function main() {
   const evidence = await collectEvidence();
+  const sourceCounts = evidence.reduce((counts, item) => {
+    const rootName = String(item.source).split(":", 1)[0] || "unknown";
+    counts[rootName] = (counts[rootName] || 0) + 1;
+    return counts;
+  }, {});
+  const evidenceJson = JSON.stringify(evidence);
 
+  console.log(
+    `[home-focus] evidence collected total=${evidence.length} bySource=${JSON.stringify(sourceCounts)} chars=${evidenceJson.length} bytes=${Buffer.byteLength(evidenceJson, "utf8")}`,
+  );
+
+  const missing = missingAiConfiguration();
+  if (missing.length > 0) {
+    console.warn(`[home-focus] AI configuration missing: ${missing.join(", ")}`);
+  }
+
+  let failureReason = "";
   try {
     const questions = await generateWithAi(evidence);
     if (questions) {
@@ -170,12 +243,16 @@ async function main() {
       return;
     }
   } catch (error) {
-    console.warn(`Homepage focus AI failed: ${error instanceof Error ? error.message : error}`);
+    failureReason = error instanceof Error ? error.message : String(error);
+    console.warn(`[home-focus] AI generation failed: ${failureReason}`);
   }
 
   try {
     await fs.access(outputPath);
-    console.log("Homepage focus AI credentials unavailable; keeping committed snapshot as fallback.");
+    const reason = missing.length > 0
+      ? `missing configuration: ${missing.join(", ")}`
+      : failureReason || "AI returned no usable result";
+    console.log(`[home-focus] keeping committed snapshot; reason=${reason}`);
   } catch {
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
     await fs.writeFile(
@@ -187,7 +264,7 @@ async function main() {
       }),
       "utf8",
     );
-    console.log("Homepage focus snapshot missing; wrote deterministic fallback.");
+    console.log("[home-focus] snapshot missing; wrote deterministic fallback.");
   }
 }
 
