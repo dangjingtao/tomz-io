@@ -67,6 +67,38 @@ const longTermQuestions = [
   "工作、创造和生活，怎样才能长期共存。",
 ] as const;
 
+const bookshelfCatalog = [
+  {
+    id: "agent",
+    title: "一起学智能体",
+    category: "AI / Agent",
+    status: "持续更新",
+    description: "从真实产品与工程问题出发，持续理解 Agent、Tool Calling、MCP、Skill 与相关实践。",
+    path: "/books/agent",
+  },
+  {
+    id: "psalms",
+    title: "读诗篇",
+    category: "读经札记",
+    status: "持续阅读",
+    description: "按实际阅读顺序记录诗篇的背景、疑问、理解与仍然没有答案的地方。",
+    path: "/books/psalms",
+  },
+  {
+    id: "huangyan",
+    title: "谎颜",
+    category: "小说",
+    status: "已完成",
+    description: "Tomz 与 Mira 共同完成的四篇相连故事。",
+    path: "/books/huangyan",
+  },
+] as const;
+
+const bookshelfItems = bookshelfCatalog.map((item) => ({
+  ...item,
+  count: allDocs.filter((doc) => doc.root === "books" && doc.book === item.id).length,
+}));
+
 function useHomepageTheme(syncWithDocument: boolean) {
   const [themeName, setThemeName] = useState<ThemeName>(() => {
     if (typeof window === "undefined") return "claude";
@@ -151,7 +183,7 @@ function HomepageHeader({
           <Link to="/blogs">博客</Link>
           <Link to="/works">作品</Link>
           <Link to="/projects">项目</Link>
-          <Link to="/learning">研习</Link>
+          <Link to="/books">书架</Link>
           <Link to="/about">关于</Link>
           <details className="home-v1-nav-menu home-v1-theme-menu">
             <summary>主题</summary>
@@ -207,7 +239,7 @@ function HomepageHeader({
           <Link to="/blogs" onClick={() => setMobileOpen(false)}>博客</Link>
           <Link to="/works" onClick={() => setMobileOpen(false)}>作品</Link>
           <Link to="/projects" onClick={() => setMobileOpen(false)}>项目</Link>
-          <Link to="/learning" onClick={() => setMobileOpen(false)}>研习</Link>
+          <Link to="/books" onClick={() => setMobileOpen(false)}>书架</Link>
           <Link to="/about" onClick={() => setMobileOpen(false)}>关于</Link>
           <div className="home-v1-mobile-group">
             <strong>主题</strong>
@@ -315,6 +347,31 @@ export default function HomepageV1({
               ))}
             </div>
             <p className="home-v1-generated-at">最近一次摘要 · {homeRecentSnapshot.generatedAt}</p>
+          </div>
+        </section>
+
+        <section className="home-v1-section home-v1-bookshelf" aria-labelledby="home-v1-bookshelf-title">
+          <div className="wrap">
+            <div className="home-v1-section-head home-v1-section-head-inline">
+              <div>
+                <span className="home-v1-kicker">BOOKSHELF / 书架</span>
+                <h2 id="home-v1-bookshelf-title">一些需要慢慢写、慢慢读的东西。</h2>
+              </div>
+              <Link className="home-v1-text-link" to="/books">进入书架 →</Link>
+            </div>
+            <div className="home-v1-recent-grid">
+              {bookshelfItems.map((item) => (
+                <Link className="home-v1-recent-card" to={item.path} key={item.id}>
+                  <span className="home-v1-recent-kind">{item.category} · {item.status}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span className="home-v1-generated-at">{item.count} 篇</span>
+                  <span className="home-v1-recent-arrow" aria-hidden="true">
+                    <ArrowUpRight size={16} strokeWidth={1.7} />
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 
