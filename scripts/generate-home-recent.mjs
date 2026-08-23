@@ -13,6 +13,15 @@ const githubRepos = (process.env.HOMEPAGE_GITHUB_REPOS || "dangjingtao/tomz-io,d
   .map((item) => item.trim())
   .filter(Boolean);
 
+const staticSources = [
+  { sourceId: "section:blogs", href: "/blogs" },
+  { sourceId: "project:uichat-mira-docs", href: "https://docs.uichat.tomz.io/" },
+];
+const configuredGithubSources = githubRepos.map((repo) => ({
+  sourceId: `github:${repo}`,
+  href: `https://github.com/${repo}`,
+}));
+
 const fallback = {
   generatedAt: new Date().toISOString().slice(0, 10),
   generatedBy: "fallback",
@@ -21,19 +30,19 @@ const fallback = {
       kind: "在做",
       title: "tomz.io",
       summary: "最近仍在整理这个个人网站，以及它应该长期留下什么。",
-      href: "/blogs",
+      sourceId: "section:blogs",
     },
     {
       kind: "在做",
       title: "UIChat Mira",
       summary: "这个长期项目仍在继续推进，最近的变化可以从项目与公开记录里继续追踪。",
-      href: "https://docs.uichat.tomz.io/",
+      sourceId: "project:uichat-mira-docs",
     },
     {
       kind: "在写",
       title: "最近的写作",
       summary: "继续记录产品、阅读、工作与生活里值得留下来的部分。",
-      href: "/blogs",
+      sourceId: "section:blogs",
     },
   ],
 };
@@ -69,11 +78,18 @@ async function collectWritingFacts() {
     const description = frontmatterValue(source, "description");
     const relative = path.relative(blogsRoot, file).replaceAll(path.sep, "/");
     const category = relative.split("/")[0] || "";
-    facts.push({ title, date, description, category, relative });
+    const route = relative.replace(/\.md$/i, "");
+    facts.push({
+      sourceId: `writing:${route}`,
+      href: `/blogs/${route}`,
+      title,
+      date,
+      description,
+      category,
+      relative,
+    });
   }
-  return facts
-    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
-    .slice(0, 12);
+  return facts.sort((a, b) => String(b.date).localeCompare(String(a.date)));
 }
 
 async function collectGithubFacts() {
@@ -90,6 +106,8 @@ async function collectGithubFacts() {
       if (!response.ok) continue;
       const commits = await response.json();
       facts.push({
+        sourceId: `github:${repo}`,
+        href: `https://github.com/${repo}`,
         repo,
         commits: commits.slice(0, 8).map((commit) => ({
           sha: commit.sha?.slice(0, 8),
@@ -102,6 +120,85 @@ async function collectGithubFacts() {
     }
   }
   return facts;
+}
+
+function createLinkPolicy(writing, github) {
+  const sources = [...staticSources, ...configuredGithubSources, ...writing, ...github];
+  const registry = new Map(sources.map((source) => [source.sourceId, source.href]));
+  const internalRoutes = new Set(
+    sources
+      .map((source) => source.href)
+      .filter((href) => href.startsWith("/"))
+      .map((href) => href.split(/[?#]/, 1)[0] || "/"),
+  );
+  const externalHrefs = new Set(
+    sources
+      .map((source) => source.href)
+      .filter((href) => /^https?:\/\//i.test(href)),
+  );
+  return { registry, internalRoutes, externalHrefs };
+}
+
+function allowedHref(href, policy) {
+  if (href.startsWith("/")) {
+    const route = href.split(/[?#]/, 1)[0] || "/";
+    return policy.internalRoutes.has(route);
+  }
+  if (/^https?:\/\//i.test(href)) return policy.externalHrefs.has(href);
+  return false;
+}
+
+function resolveItems(items, policy) {
+  return items.map((item, index) => {
+    const { sourceId, ...content } = item;
+    if (!sourceId) {
+      console.warn(`[home-recent] item ${index + 1} has no sourceId; link removed`);
+      return content;
+    }
+
+    const href = policy.registry.get(sourceId);
+    if (!href) {
+      console.warn(`[home-recent] unknown sourceId "${sourceId}"; link removed`);
+      return content;
+    }
+
+    if (!allowedHref(href, policy)) {
+      console.warn(`[home-recent] invalid link for sourceId "${sourceId}": ${href}; link removed`);
+      return content;
+    }
+
+    return { ...content, href };
+  });
+}
+
+async function sanitizeExistingSnapshot(policy) {
+  let source;
+  try {
+    source = await fs.readFile(outputPath, "utf8");
+  } catch {
+    return 0;
+  }
+
+  let removed = 0;
+  const next = source.replace(
+    /^\s*"href":\s*("(?:[^"\\]|\\.)*")\s*,?\s*\n?/gm,
+    (line, encodedHref) => {
+      try {
+        const href = JSON.parse(encodedHref);
+        if (allowedHref(href, policy)) return line;
+      } catch {
+        // Invalid generated hrefs are removed below.
+      }
+      removed += 1;
+      return "";
+    },
+  );
+
+  if (removed > 0) {
+    await fs.writeFile(outputPath, next, "utf8");
+    console.warn(`[home-recent] removed ${removed} invalid committed link(s); build continues`);
+  }
+  return removed;
 }
 
 function serializeSnapshot(snapshot) {
@@ -123,21 +220,24 @@ function validateItems(value) {
   if (!Array.isArray(value?.items) || value.items.length !== 3) {
     throw new Error("AI response must contain exactly three items");
   }
-  return value.items.map((item) => {
+  return value.items.map((item, index) => {
     if (!allowedKinds.has(item.kind)) throw new Error(`Unsupported kind: ${item.kind}`);
     if (!item.title || !item.summary) throw new Error("Each item needs title and summary");
+    if (item.href) {
+      console.warn(`[home-recent] item ${index + 1} returned href directly; ignored`);
+    }
     return {
       kind: item.kind,
       title: String(item.title).slice(0, 48),
       summary: String(item.summary).slice(0, 180),
-      ...(item.href ? { href: String(item.href) } : {}),
+      ...(item.sourceId ? { sourceId: String(item.sourceId) } : {}),
     };
   });
 }
 
 async function generateWithAi(facts) {
   if (!aiBaseUrl || !aiApiKey || !aiModel) return null;
-  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。\n\n只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。\n\n输出纯 JSON：{"items":[{"kind":"在做|在想|在读|在写|生活|工作","title":"短标题","summary":"一两句自然中文","href":"可选"}]}。不要补充事实，不要输出 Markdown。\n\n事实：\n${JSON.stringify(facts, null, 2)}`;
+  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。\n\n只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。\n\n每一项必须引用事实中已有的 sourceId。不要生成、猜测或返回任何 href / URL，链接由程序根据 sourceId 映射。\n\n输出纯 JSON：{"items":[{"kind":"在做|在想|在读|在写|生活|工作","title":"短标题","summary":"一两句自然中文","sourceId":"事实中已有的 sourceId"}]}。不要补充事实，不要输出 Markdown。\n\n事实：\n${JSON.stringify(facts, null, 2)}`;
 
   const response = await fetch(`${aiBaseUrl}/chat/completions`, {
     method: "POST",
@@ -162,20 +262,27 @@ async function generateWithAi(facts) {
   return validateItems(parsed);
 }
 
-async function main() {
-  const [writing, github] = await Promise.all([
-    collectWritingFacts(),
-    collectGithubFacts(),
-  ]);
-  const facts = {
+function factsForAi(writing, github) {
+  const publicWriting = writing.slice(0, 12).map(({ href: _href, ...fact }) => fact);
+  const githubActivity = github.map(({ href: _href, ...fact }) => fact);
+  return {
     generatedAt: new Date().toISOString(),
-    publicWriting: writing,
-    githubActivity: github,
+    publicWriting,
+    githubActivity,
     constraints: {
       developerLifeIsPublicLifeSource: true,
       privateChatsCalendarsEmailsAreExcluded: true,
     },
   };
+}
+
+async function main() {
+  const [writing, github] = await Promise.all([
+    collectWritingFacts(),
+    collectGithubFacts(),
+  ]);
+  const policy = createLinkPolicy(writing, github);
+  const facts = factsForAi(writing, github);
 
   try {
     const aiItems = await generateWithAi(facts);
@@ -183,7 +290,7 @@ async function main() {
       const snapshot = {
         generatedAt: new Date().toISOString().slice(0, 10),
         generatedBy: "ai",
-        items: aiItems,
+        items: resolveItems(aiItems, policy),
       };
       await fs.writeFile(outputPath, serializeSnapshot(snapshot), "utf8");
       console.log(`Homepage recent snapshot generated by AI: ${snapshot.generatedAt}`);
@@ -195,10 +302,17 @@ async function main() {
 
   try {
     await fs.access(outputPath);
-    console.log("Homepage AI credentials unavailable; keeping committed recent snapshot as fallback.");
+    const removed = await sanitizeExistingSnapshot(policy);
+    if (removed === 0) {
+      console.log("Homepage AI credentials unavailable; keeping committed recent snapshot as fallback.");
+    }
   } catch {
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
-    await fs.writeFile(outputPath, serializeSnapshot(fallback), "utf8");
+    const snapshot = {
+      ...fallback,
+      items: resolveItems(fallback.items, policy),
+    };
+    await fs.writeFile(outputPath, serializeSnapshot(snapshot), "utf8");
     console.log("Homepage recent snapshot missing; wrote deterministic fallback.");
   }
 }
