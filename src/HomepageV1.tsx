@@ -3,6 +3,7 @@ import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs } from "./content/mira-docs-adapter";
 import { homeBookshelfItems, homeProjectItems } from "./content/home-catalog";
+import { homeFocusSnapshot } from "./content/home-focus.generated";
 import { homeRecentSnapshot, type HomeRecentItem } from "./content/home-recent.generated";
 import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
 
@@ -60,13 +61,6 @@ const themeOptions: { name: ThemeName; label: string }[] = [
   { name: "apple", label: "Apple" },
   { name: "supabase", label: "Supabase" },
 ];
-
-const longTermQuestions = [
-  "AI 如何真正进入人的日常生活。",
-  "一个产品为什么会让人愿意留下。",
-  "设计如何改变人与技术之间的关系。",
-  "工作、创造和生活，怎样才能长期共存。",
-] as const;
 
 function useHomepageTheme(syncWithDocument: boolean) {
   const [themeName, setThemeName] = useState<ThemeName>(() => {
@@ -406,7 +400,7 @@ export default function HomepageV1({
               <h2 id="home-v1-about-title">我长期关心一些没有标准答案的问题。</h2>
             </div>
             <div className="home-v1-question-list">
-              {longTermQuestions.map((question, index) => (
+              {homeFocusSnapshot.questions.map((question, index) => (
                 <div className="home-v1-question" key={question}>
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <p>{question}</p>
