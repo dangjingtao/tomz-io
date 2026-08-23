@@ -5,6 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      force_home_focus:
+        description: Force refresh homepage long-term focus
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: cloudflare-pages-production
@@ -14,7 +20,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,7 +46,29 @@ jobs:
           HOMEPAGE_AI_BASE_URL: ${{ secrets.HOMEPAGE_AI_BASE_URL }}
           HOMEPAGE_AI_API_KEY: ${{ secrets.HOMEPAGE_AI_API_KEY }}
           HOMEPAGE_AI_MODEL: ${{ secrets.HOMEPAGE_AI_MODEL }}
+          HOMEPAGE_AI_FORCE: ${{ inputs.force_home_focus || false }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Persist refreshed homepage focus snapshot
+        run: |
+          set -euo pipefail
+          FILE="src/content/home-focus.generated.ts"
+
+          if git diff --quiet -- "$FILE"; then
+            echo "Homepage focus snapshot unchanged; nothing to persist."
+            exit 0
+          fi
+
+          if ! grep -q 'generatedBy: "ai"' "$FILE"; then
+            echo "Homepage focus changed without a successful AI generation; not persisting fallback state."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "chore(home): refresh long-term focus [skip ci]"
+          git push origin HEAD:main
 
       - name: Ensure dedicated Cloudflare Pages project exists
         env:
