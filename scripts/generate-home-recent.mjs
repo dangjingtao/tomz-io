@@ -76,6 +76,9 @@ async function collectWritingFacts() {
     const title = frontmatterValue(source, "title") || path.basename(file, ".md");
     const date = frontmatterValue(source, "date");
     const description = frontmatterValue(source, "description");
+    const merge = frontmatterValue(source, "merge");
+    const mergeIndex = frontmatterValue(source, "mergeIndex") === "true";
+    if (merge && !mergeIndex) continue;
     const relative = path.relative(blogsRoot, file).replaceAll(path.sep, "/");
     const category = relative.split("/")[0] || "";
     const route = relative.replace(/\.md$/i, "");
