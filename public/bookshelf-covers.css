@@ -1,5 +1,5 @@
 /* Book-cover layer kept separate from the core bookshelf layout.
-   Covers are 3:4 WebP assets and stay crisp on desktop + mobile. */
+   Covers appear on the bookshelf overview only; book contents pages stay text-first. */
 
 .bookshelf-grid > a.bookshelf-book:is(
   [href="/books/agent"],
@@ -80,53 +80,8 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
   color: var(--muted-soft);
 }
 
-/* Book landing pages: cover beside the title on wide screens. */
-html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header,
-html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header,
-html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header {
-  max-width: 900px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 120px;
-  column-gap: 40px;
-  align-items: start;
-}
-
-html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header > *,
-html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header > *,
-html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > * {
-  grid-column: 1;
-}
-
-html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header::after,
-html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header::after,
-html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header::after {
-  content: "";
-  grid-column: 2;
-  grid-row: 1 / 5;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border: 1px solid var(--hairline);
-  border-radius: 4px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 0 16px 40px color-mix(in srgb, var(--ink) 12%, transparent);
-}
-
-html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header::after {
-  background-image: url("/books/covers/agent.webp");
-}
-
-html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header::after {
-  background-image: url("/books/covers/psalms.webp");
-}
-
-html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header::after {
-  background-image: url("/books/covers/huangyan.webp");
-}
-
 @media (max-width: 760px) {
-  /* Mobile is intentionally leaner than desktop: the whole row is already the affordance. */
+  /* Mobile bookshelf overview stays compact: the whole row is already the affordance. */
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
     [href="/books/psalms"],
@@ -225,71 +180,12 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
     white-space: nowrap;
     font-size: 10px;
   }
-
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header {
-    grid-template-columns: minmax(0, 1fr) 100px;
-    column-gap: 18px;
-  }
 }
 
 @media (max-width: 520px) {
-  /* On phones the book landing behaves like a compact title page, not a docs hero. */
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header {
-    grid-template-columns: minmax(0, 1fr) 104px;
-    column-gap: 16px;
-    row-gap: 0;
+  /* Keep the book contents list dense after removing the interior cover. */
+  .book-index-main .book-index-header {
     padding-bottom: 26px;
-  }
-
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header > span,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header > span,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > span {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header > h1,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header > h1,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > h1 {
-    grid-column: 1;
-    grid-row: 2;
-    margin: 8px 0 10px;
-    font-size: clamp(38px, 11vw, 46px);
-    line-height: 1;
-  }
-
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header > .book-index-meta,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header > .book-index-meta,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > .book-index-meta {
-    grid-column: 1;
-    grid-row: 3;
-    margin-top: 10px;
-    gap: 6px 9px;
-  }
-
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header > p,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header > p,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header > p {
-    grid-column: 1 / -1;
-    grid-row: 4;
-    margin-top: 18px;
-    font-size: 15px;
-    line-height: 1.72;
-  }
-
-  html:has(head link[rel="canonical"][href$="/books/agent"]) .book-index-header::after,
-  html:has(head link[rel="canonical"][href$="/books/psalms"]) .book-index-header::after,
-  html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header::after {
-    grid-column: 2;
-    grid-row: 1 / 4;
-    width: 104px;
-    margin-top: 0;
-    align-self: start;
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--ink) 12%, transparent);
   }
 
   .book-index-main .book-entry-list {
