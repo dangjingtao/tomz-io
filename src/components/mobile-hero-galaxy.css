@@ -68,9 +68,9 @@
 
 @media (max-width: 640px) {
   .mobile-hero-galaxy {
-    inset: -1% -30% 0 -18%;
+    inset: -13% -40% 16% 4%;
     opacity: .66;
-    transform: scale(1.08);
+    transform: scale(1.02);
   }
 
   .home-v1-mobile-galaxy::after {
