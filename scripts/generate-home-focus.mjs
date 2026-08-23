@@ -12,6 +12,10 @@ const contentRoots = [
 const aiBaseUrl = process.env.HOMEPAGE_AI_BASE_URL?.replace(/\/+$/, "");
 const aiApiKey = process.env.HOMEPAGE_AI_API_KEY;
 const aiModel = process.env.HOMEPAGE_AI_MODEL;
+const refreshIntervalDays = 7;
+const forceAiRefresh = ["1", "true", "yes"].includes(
+  String(process.env.HOMEPAGE_AI_FORCE || "").toLowerCase(),
+);
 
 const fallbackQuestions = [
   "AI 如何真正进入人的日常生活。",
@@ -144,6 +148,25 @@ function missingAiConfiguration() {
   return missing;
 }
 
+async function readSnapshotMeta() {
+  try {
+    const source = await fs.readFile(outputPath, "utf8");
+    return {
+      generatedAt: source.match(/generatedAt:\s*["']([^"']+)["']/)?.[1] || "",
+      generatedBy: source.match(/generatedBy:\s*["']([^"']+)["']/)?.[1] || "",
+    };
+  } catch {
+    return null;
+  }
+}
+
+function snapshotAgeDays(generatedAt) {
+  if (!generatedAt) return Number.POSITIVE_INFINITY;
+  const timestamp = Date.parse(`${generatedAt}T00:00:00Z`);
+  if (Number.isNaN(timestamp)) return Number.POSITIVE_INFINITY;
+  return Math.max(0, Math.floor((Date.now() - timestamp) / 86_400_000));
+}
+
 async function generateWithAi(evidence) {
   const missing = missingAiConfiguration();
   if (missing.length > 0) return null;
@@ -209,6 +232,28 @@ function serializeSnapshot({ generatedAt, generatedBy, questions }) {
 }
 
 async function main() {
+  const snapshotMeta = await readSnapshotMeta();
+  const ageDays = snapshotMeta ? snapshotAgeDays(snapshotMeta.generatedAt) : Number.POSITIVE_INFINITY;
+
+  if (
+    !forceAiRefresh
+    && snapshotMeta?.generatedBy === "ai"
+    && ageDays < refreshIntervalDays
+  ) {
+    console.log(
+      `[home-focus] refresh skipped; last AI snapshot=${snapshotMeta.generatedAt} ageDays=${ageDays} minimumIntervalDays=${refreshIntervalDays}`,
+    );
+    return;
+  }
+
+  if (forceAiRefresh) {
+    console.log("[home-focus] forced refresh requested; ignoring 7-day throttle.");
+  } else if (snapshotMeta) {
+    console.log(
+      `[home-focus] refresh eligible; generatedBy=${snapshotMeta.generatedBy || "unknown"} generatedAt=${snapshotMeta.generatedAt || "unknown"} ageDays=${Number.isFinite(ageDays) ? ageDays : "unknown"}`,
+    );
+  }
+
   const evidence = await collectEvidence();
   const sourceCounts = evidence.reduce((counts, item) => {
     const rootName = String(item.source).split(":", 1)[0] || "unknown";
