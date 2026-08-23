@@ -4,6 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const outputPath = path.join(root, "src/content/home-recent.generated.ts");
 const blogsRoot = path.join(root, "src/pages/blogs");
+const projectsRoot = path.join(root, "src/pages/projects");
 const aiBaseUrl = process.env.HOMEPAGE_AI_BASE_URL?.replace(/\/+$/, "");
 const aiApiKey = process.env.HOMEPAGE_AI_API_KEY;
 const aiModel = process.env.HOMEPAGE_AI_MODEL;
@@ -15,6 +16,7 @@ const githubRepos = (process.env.HOMEPAGE_GITHUB_REPOS || "dangjingtao/tomz-io,d
 
 const staticSources = [
   { sourceId: "section:blogs", href: "/blogs" },
+  { sourceId: "section:projects", href: "/projects" },
   { sourceId: "project:uichat-mira-docs", href: "https://docs.uichat.tomz.io/" },
 ];
 const configuredGithubSources = githubRepos.map((repo) => ({
@@ -68,8 +70,8 @@ function frontmatterValue(source, key) {
   return match?.[1]?.trim() || "";
 }
 
-async function collectWritingFacts() {
-  const files = await walkMarkdown(blogsRoot);
+async function collectMarkdownFacts(contentRoot, routeRoot, sourcePrefix) {
+  const files = await walkMarkdown(contentRoot);
   const facts = [];
   for (const file of files) {
     const source = await fs.readFile(file, "utf8");
@@ -79,12 +81,13 @@ async function collectWritingFacts() {
     const merge = frontmatterValue(source, "merge");
     const mergeIndex = frontmatterValue(source, "mergeIndex") === "true";
     if (merge && !mergeIndex) continue;
-    const relative = path.relative(blogsRoot, file).replaceAll(path.sep, "/");
-    const category = relative.split("/")[0] || "";
+
+    const relative = path.relative(contentRoot, file).replaceAll(path.sep, "/");
     const route = relative.replace(/\.md$/i, "");
+    const category = relative.split("/")[0] || "";
     facts.push({
-      sourceId: `writing:${route}`,
-      href: `/blogs/${route}`,
+      sourceId: `${sourcePrefix}:${route}`,
+      href: `/${routeRoot}/${route}`,
       title,
       date,
       description,
@@ -119,14 +122,20 @@ async function collectGithubFacts() {
         })),
       });
     } catch {
-      // GitHub activity is optional. Local published writing remains a valid source.
+      // GitHub activity is optional. Local published content remains a valid source.
     }
   }
   return facts;
 }
 
-function createLinkPolicy(writing, github) {
-  const sources = [...staticSources, ...configuredGithubSources, ...writing, ...github];
+function createLinkPolicy(writing, projects, github) {
+  const sources = [
+    ...staticSources,
+    ...configuredGithubSources,
+    ...writing,
+    ...projects,
+    ...github,
+  ];
   const registry = new Map(sources.map((source) => [source.sourceId, source.href]));
   const internalRoutes = new Set(
     sources
@@ -240,7 +249,7 @@ function validateItems(value) {
 
 async function generateWithAi(facts) {
   if (!aiBaseUrl || !aiApiKey || !aiModel) return null;
-  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。\n\n只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。\n\n每一项必须引用事实中已有的 sourceId。不要生成、猜测或返回任何 href / URL，链接由程序根据 sourceId 映射。\n\n输出纯 JSON：{"items":[{"kind":"在做|在想|在读|在写|生活|工作","title":"短标题","summary":"一两句自然中文","sourceId":"事实中已有的 sourceId"}]}。不要补充事实，不要输出 Markdown。\n\n事实：\n${JSON.stringify(facts, null, 2)}`;
+  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。\n\n只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、项目记录、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。\n\n每一项必须引用事实中已有的 sourceId。不要生成、猜测或返回任何 href / URL，链接由程序根据 sourceId 映射。\n\n输出纯 JSON：{"items":[{"kind":"在做|在想|在读|在写|生活|工作","title":"短标题","summary":"一两句自然中文","sourceId":"事实中已有的 sourceId"}]}。不要补充事实，不要输出 Markdown。\n\n事实：\n${JSON.stringify(facts, null, 2)}`;
 
   const response = await fetch(`${aiBaseUrl}/chat/completions`, {
     method: "POST",
@@ -261,31 +270,34 @@ async function generateWithAi(facts) {
   const payload = await response.json();
   const text = payload?.choices?.[0]?.message?.content;
   if (!text) throw new Error("AI response was empty");
-  const parsed = extractJson(text);
-  return validateItems(parsed);
+  return validateItems(extractJson(text));
 }
 
-function factsForAi(writing, github) {
+function factsForAi(writing, projects, github) {
   const publicWriting = writing.slice(0, 12).map(({ href: _href, ...fact }) => fact);
+  const publicProjects = projects.slice(0, 12).map(({ href: _href, ...fact }) => fact);
   const githubActivity = github.map(({ href: _href, ...fact }) => fact);
   return {
     generatedAt: new Date().toISOString(),
     publicWriting,
+    publicProjects,
     githubActivity,
     constraints: {
       developerLifeIsPublicLifeSource: true,
+      projectPagesArePublicProjectSources: true,
       privateChatsCalendarsEmailsAreExcluded: true,
     },
   };
 }
 
 async function main() {
-  const [writing, github] = await Promise.all([
-    collectWritingFacts(),
+  const [writing, projects, github] = await Promise.all([
+    collectMarkdownFacts(blogsRoot, "blogs", "writing"),
+    collectMarkdownFacts(projectsRoot, "projects", "project-page"),
     collectGithubFacts(),
   ]);
-  const policy = createLinkPolicy(writing, github);
-  const facts = factsForAi(writing, github);
+  const policy = createLinkPolicy(writing, projects, github);
+  const facts = factsForAi(writing, projects, github);
 
   try {
     const aiItems = await generateWithAi(facts);
