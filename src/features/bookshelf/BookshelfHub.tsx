@@ -397,7 +397,11 @@ function BookIndex({ bookId }: { bookId: string }) {
   return (
     <>
       <BookshelfSiteHeader />
-      <BookshelfMobileBackbar to="/books" label="返回书架" />
+      <BookshelfMobileBackbar
+        to="/books"
+        label="返回书架"
+        share={{ title: book.title, text: book.description }}
+      />
       <main className="bookshelf-wrap book-index-main">
         <Link className="bookshelf-back book-index-desktop-back" to="/books">
           <ArrowLeft size={15} aria-hidden="true" />
