@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import type { SitemapGalaxyData } from "./SitemapGalaxy";
+import "./mobile-hero-galaxy.css";
 
 const palette = [
   0xcc785c, 0xe8a55a, 0x5db8a6, 0x6b8fb0, 0x9b8bc4,
@@ -121,7 +122,12 @@ export function MobileHeroGalaxy({
     const sectionPositions = fibonacciSphere(data.sections.length, 7.5);
     const linePositions: number[] = [];
     const glowTexture = makeGlowTexture();
-    const animatedNodes: Array<{ mesh: THREE.Mesh; glow: THREE.Sprite; phase: number }> = [];
+    const animatedNodes: Array<{
+      mesh: THREE.Mesh;
+      glow: THREE.Sprite;
+      phase: number;
+      glowOpacity: number;
+    }> = [];
 
     const addLine = (from: THREE.Vector3, to: THREE.Vector3) => {
       linePositions.push(from.x, from.y, from.z, to.x, to.y, to.z);
@@ -156,7 +162,7 @@ export function MobileHeroGalaxy({
       glow.position.copy(position);
       galaxy.add(glow);
       disposableMaterials.push(glowMaterial);
-      animatedNodes.push({ mesh, glow, phase });
+      animatedNodes.push({ mesh, glow, phase, glowOpacity });
     };
 
     addNode(rootPosition, rootColor, 0.24, 0.5, 0);
@@ -200,10 +206,10 @@ export function MobileHeroGalaxy({
 
     const render = () => {
       const elapsed = clock.elapsedTime;
-      animatedNodes.forEach(({ mesh, glow, phase }) => {
+      animatedNodes.forEach(({ mesh, glow, phase, glowOpacity }) => {
         const pulse = 1 + Math.sin(elapsed * 0.75 + phase) * 0.07;
         mesh.scale.setScalar(pulse);
-        glow.material.opacity *= 0.9998;
+        glow.material.opacity = glowOpacity * (0.92 + Math.sin(elapsed * 0.55 + phase) * 0.08);
       });
       renderer.render(scene, camera);
     };
