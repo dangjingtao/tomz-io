@@ -15,15 +15,25 @@
 
 ### 2.1 开发者生活
 
-- 公开作者只能是 **Tomz**。
-- 即使 Mira 参与讨论、整理、润色或成文，也不得将 Mira 加入公开作者。
+- 默认公开作者为 **Tomz**。
+- 即使 Mira 参与讨论、整理、润色或成文，也不得仅因参与程度自动取得公开作者身份。
+- **若 Tomz 对某一篇文章明确指定共同署名，则以该篇的明确指令为准；共同署名时 Tomz 必须排在第一位。**
 
-标准：
+默认标准：
 
 ```yaml
 author:
   - tomz
 writtenBy: tomz
+```
+
+Tomz 明确指定 Mira 为共同作者时：
+
+```yaml
+author:
+  - tomz
+  - mira
+writtenBy: tomz | mira
 ```
 
 ### 2.2 Mira 来信
