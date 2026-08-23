@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs } from "./content/mira-docs-adapter";
 import { homeFocusSnapshot } from "./content/home-focus.generated";
 import { homeRecentSnapshot, type HomeRecentItem } from "./content/home-recent.generated";
+import { MobileHeroGalaxy } from "./components/MobileHeroGalaxy";
 import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
 
 const tomzMarkSrc = `${import.meta.env.BASE_URL}brand/tomz-mark.png`;
@@ -267,6 +268,9 @@ export default function HomepageV1({
 
       <main>
         <header className="home-v1-hero">
+          <div className="home-v1-mobile-galaxy" aria-hidden="true">
+            <MobileHeroGalaxy data={blogGalaxyData} theme={darkMode ? "dark" : "light"} />
+          </div>
           <div className="wrap home-v1-hero-inner">
             <div className="home-v1-hero-copy">
               <span className="home-v1-kicker">TOMZ / NOW BUILDING</span>
