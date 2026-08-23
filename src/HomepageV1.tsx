@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs } from "./content/mira-docs-adapter";
+import { homeBookshelfItems, homeProjectItems } from "./content/home-catalog";
 import { homeRecentSnapshot, type HomeRecentItem } from "./content/home-recent.generated";
 import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
 
@@ -66,38 +67,6 @@ const longTermQuestions = [
   "设计如何改变人与技术之间的关系。",
   "工作、创造和生活，怎样才能长期共存。",
 ] as const;
-
-const bookshelfCatalog = [
-  {
-    id: "agent",
-    title: "一起学智能体",
-    category: "AI / Agent",
-    status: "持续更新",
-    description: "从真实产品与工程问题出发，持续理解 Agent、Tool Calling、MCP、Skill 与相关实践。",
-    path: "/books/agent",
-  },
-  {
-    id: "psalms",
-    title: "读诗篇",
-    category: "读经札记",
-    status: "持续阅读",
-    description: "按实际阅读顺序记录诗篇的背景、疑问、理解与仍然没有答案的地方。",
-    path: "/books/psalms",
-  },
-  {
-    id: "huangyan",
-    title: "谎颜",
-    category: "小说",
-    status: "已完成",
-    description: "Tomz 与 Mira 共同完成的四篇相连故事。",
-    path: "/books/huangyan",
-  },
-] as const;
-
-const bookshelfItems = bookshelfCatalog.map((item) => ({
-  ...item,
-  count: allDocs.filter((doc) => doc.root === "books" && doc.book === item.id).length,
-}));
 
 function useHomepageTheme(syncWithDocument: boolean) {
   const [themeName, setThemeName] = useState<ThemeName>(() => {
@@ -350,6 +319,35 @@ export default function HomepageV1({
           </div>
         </section>
 
+        <section className="home-v1-section home-v1-projects" aria-labelledby="home-v1-projects-title">
+          <div className="wrap">
+            <div className="home-v1-section-head home-v1-section-head-inline">
+              <div>
+                <span className="home-v1-kicker">PROJECTS / 项目</span>
+                <h2 id="home-v1-projects-title">一些还在生长的东西。</h2>
+              </div>
+              <Link className="home-v1-text-link" to="/projects">查看全部项目 →</Link>
+            </div>
+            <div className="home-v1-recent-grid">
+              {homeProjectItems.slice(0, 3).map((item) => (
+                <Link className="home-v1-recent-card" to={item.path} key={item.id}>
+                  <span className="home-v1-recent-kind">
+                    {item.category} · {item.count > 0 ? `${item.count} 篇记录` : "项目主页"}
+                  </span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span className="home-v1-generated-at">
+                    {item.latest ? `最近 · ${item.latest.title}` : "持续建设中"}
+                  </span>
+                  <span className="home-v1-recent-arrow" aria-hidden="true">
+                    <ArrowUpRight size={16} strokeWidth={1.7} />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="home-v1-section home-v1-bookshelf" aria-labelledby="home-v1-bookshelf-title">
           <div className="wrap">
             <div className="home-v1-section-head home-v1-section-head-inline">
@@ -360,7 +358,7 @@ export default function HomepageV1({
               <Link className="home-v1-text-link" to="/books">进入书架 →</Link>
             </div>
             <div className="home-v1-recent-grid">
-              {bookshelfItems.map((item) => (
+              {homeBookshelfItems.slice(0, 3).map((item) => (
                 <Link className="home-v1-recent-card" to={item.path} key={item.id}>
                   <span className="home-v1-recent-kind">{item.category} · {item.status}</span>
                   <h3>{item.title}</h3>
@@ -418,7 +416,6 @@ export default function HomepageV1({
           </div>
         </section>
       </main>
-
     </div>
   );
 }
