@@ -313,60 +313,6 @@ export default function HomepageV1({
           </div>
         </section>
 
-        <section className="home-v1-section home-v1-projects" aria-labelledby="home-v1-projects-title">
-          <div className="wrap">
-            <div className="home-v1-section-head home-v1-section-head-inline">
-              <div>
-                <span className="home-v1-kicker">PROJECTS / 项目</span>
-                <h2 id="home-v1-projects-title">一些还在生长的东西。</h2>
-              </div>
-              <Link className="home-v1-text-link" to="/projects">查看全部项目 →</Link>
-            </div>
-            <div className="home-v1-recent-grid">
-              {homeProjectItems.slice(0, 3).map((item) => (
-                <Link className="home-v1-recent-card" to={item.path} key={item.id}>
-                  <span className="home-v1-recent-kind">
-                    {item.category} · {item.count > 0 ? `${item.count} 篇记录` : "项目主页"}
-                  </span>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <span className="home-v1-generated-at">
-                    {item.latest ? `最近 · ${item.latest.title}` : "持续建设中"}
-                  </span>
-                  <span className="home-v1-recent-arrow" aria-hidden="true">
-                    <ArrowUpRight size={16} strokeWidth={1.7} />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="home-v1-section home-v1-bookshelf" aria-labelledby="home-v1-bookshelf-title">
-          <div className="wrap">
-            <div className="home-v1-section-head home-v1-section-head-inline">
-              <div>
-                <span className="home-v1-kicker">BOOKSHELF / 书架</span>
-                <h2 id="home-v1-bookshelf-title">一些需要慢慢写、慢慢读的东西。</h2>
-              </div>
-              <Link className="home-v1-text-link" to="/books">进入书架 →</Link>
-            </div>
-            <div className="home-v1-recent-grid">
-              {homeBookshelfItems.slice(0, 3).map((item) => (
-                <Link className="home-v1-recent-card" to={item.path} key={item.id}>
-                  <span className="home-v1-recent-kind">{item.category} · {item.status}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <span className="home-v1-generated-at">{item.count} 篇</span>
-                  <span className="home-v1-recent-arrow" aria-hidden="true">
-                    <ArrowUpRight size={16} strokeWidth={1.7} />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="home-v1-section home-v1-writing" aria-labelledby="home-v1-writing-title">
           <div className="wrap">
             <div className="home-v1-section-head home-v1-section-head-inline">
@@ -396,8 +342,12 @@ export default function HomepageV1({
         <section className="home-v1-section home-v1-about" aria-labelledby="home-v1-about-title">
           <div className="wrap home-v1-about-grid">
             <div>
-              <span className="home-v1-kicker">ABOUT / 长期关注</span>
-              <h2 id="home-v1-about-title">我长期关心一些没有标准答案的问题。</h2>
+              <span className="home-v1-kicker">ABOUT / 关于</span>
+              <h2 id="home-v1-about-title">Tomz Dang</h2>
+              <p>
+                这里记录我做过和正在做的项目、写作、阅读，以及一些反复回到的问题。
+              </p>
+              <Link className="home-v1-text-link" to="/about">更多关于我 →</Link>
             </div>
             <div className="home-v1-question-list">
               {homeFocusSnapshot.questions.map((question, index) => (
@@ -405,6 +355,54 @@ export default function HomepageV1({
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <p>{question}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="home-v1-section home-v1-projects" aria-labelledby="home-v1-projects-title">
+          <div className="wrap">
+            <div className="home-v1-section-head home-v1-section-head-inline">
+              <span className="home-v1-kicker" id="home-v1-projects-title">PROJECTS / 项目</span>
+              <Link className="home-v1-text-link" to="/projects">查看全部项目 →</Link>
+            </div>
+            <div className="home-v1-recent-grid">
+              {homeProjectItems.slice(0, 3).map((item) => (
+                <Link className="home-v1-recent-card" to={item.path} key={item.id}>
+                  <span className="home-v1-recent-kind">
+                    {item.category} · {item.count > 0 ? `${item.count} 篇记录` : "项目主页"}
+                  </span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span className="home-v1-generated-at">
+                    {item.latest ? `最近 · ${item.latest.title}` : "持续建设中"}
+                  </span>
+                  <span className="home-v1-recent-arrow" aria-hidden="true">
+                    <ArrowUpRight size={16} strokeWidth={1.7} />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="home-v1-section home-v1-bookshelf" aria-labelledby="home-v1-bookshelf-title">
+          <div className="wrap">
+            <div className="home-v1-section-head home-v1-section-head-inline">
+              <span className="home-v1-kicker" id="home-v1-bookshelf-title">BOOKSHELF / 书架</span>
+              <Link className="home-v1-text-link" to="/books">进入书架 →</Link>
+            </div>
+            <div className="home-v1-recent-grid">
+              {homeBookshelfItems.slice(0, 3).map((item) => (
+                <Link className="home-v1-recent-card" to={item.path} key={item.id}>
+                  <span className="home-v1-recent-kind">{item.category} · {item.status}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span className="home-v1-generated-at">{item.count} 篇</span>
+                  <span className="home-v1-recent-arrow" aria-hidden="true">
+                    <ArrowUpRight size={16} strokeWidth={1.7} />
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
