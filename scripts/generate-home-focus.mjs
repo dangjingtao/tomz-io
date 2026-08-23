@@ -119,7 +119,7 @@ function validateQuestions(value) {
 async function generateWithAi(evidence) {
   if (!aiBaseUrl || !aiApiKey || !aiModel) return null;
 
-  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 提炼“长期关注”的问题。\n\n这不是人格生成，也不是替 Tomz 决定他应该关心什么。你只能从公开内容中观察长期、反复出现的主题，并把它们写成 4 到 6 个没有标准答案的问题。\n\n要求：\n1. 每个问题必须能从多个不同内容条目中找到支持；不要因为单篇偶发内容新增长期主题。\n2. 可以识别技术、产品、设计、工作、生活、创作、信仰等主题，但只能在证据足够时出现。\n3. 不要把 Tomz 写成专家、思想领袖或某种固定人格。\n4. 不写结论，只写开放问题。\n5. 措辞克制、自然、具体，每条不超过 42 个汉字；尽量保持长期稳定，不追逐短期热点。\n6. 不要机械复制标题，不要输出解释或证据列表。\n\n输出纯 JSON：{"questions":["问题1。","问题2。"]}\n\n公开内容证据：\n${JSON.stringify(evidence, null, 2)}`;
+  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 提炼“长期关注”的问题。\n\n这不是人格生成，也不是替 Tomz 决定他应该关心什么。你只能从公开内容中观察长期、反复出现的主题，并把它们写成 4 到 6 个没有标准答案的问题。\n\n要求：\n1. 每个问题必须能从多个不同内容条目中找到支持；不要因为单篇偶发内容新增长期主题。\n2. 主题类别完全开放，不预设技术、生活、创作或价值方向；只按证据归纳。\n3. 不要把 Tomz 写成专家、思想领袖或某种固定人格。\n4. 不写结论，只写开放问题。\n5. 措辞克制、自然、具体，每条不超过 42 个汉字；尽量保持长期稳定，不追逐短期热点。\n6. 不要机械复制标题，不要输出解释或证据列表。\n\n输出纯 JSON：{"questions":["问题1。","问题2。"]}\n\n公开内容证据：\n${JSON.stringify(evidence, null, 2)}`;
 
   const response = await fetch(`${aiBaseUrl}/chat/completions`, {
     method: "POST",
