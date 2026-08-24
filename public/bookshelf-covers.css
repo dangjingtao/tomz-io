@@ -3,6 +3,7 @@
 
 .bookshelf-grid > a.bookshelf-book:is(
   [href="/books/agent"],
+  [href="/books/product"],
   [href="/books/psalms"],
   [href="/books/huangyan"]
 ) {
@@ -13,6 +14,7 @@
 
 .bookshelf-grid > a.bookshelf-book:is(
   [href="/books/agent"],
+  [href="/books/product"],
   [href="/books/psalms"],
   [href="/books/huangyan"]
 )::before {
@@ -33,6 +35,10 @@
   background-image: url("/books/covers/agent.webp");
 }
 
+.bookshelf-grid > a.bookshelf-book[href="/books/product"]::before {
+  background-image: url("/books/covers/product.webp");
+}
+
 .bookshelf-grid > a.bookshelf-book[href="/books/psalms"]::before {
   background-image: url("/books/covers/psalms.webp");
 }
@@ -43,6 +49,7 @@
 
 .bookshelf-grid > a.bookshelf-book:is(
   [href="/books/agent"],
+  [href="/books/product"],
   [href="/books/psalms"],
   [href="/books/huangyan"]
 ) > .bookshelf-book-index {
@@ -52,6 +59,7 @@
 
 .bookshelf-grid > a.bookshelf-book:is(
   [href="/books/agent"],
+  [href="/books/product"],
   [href="/books/psalms"],
   [href="/books/huangyan"]
 ) > .bookshelf-book-copy {
@@ -61,6 +69,7 @@
 
 .bookshelf-grid > a.bookshelf-book:is(
   [href="/books/agent"],
+  [href="/books/product"],
   [href="/books/psalms"],
   [href="/books/huangyan"]
 ) > .bookshelf-book-arrow {
@@ -84,6 +93,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
   /* Mobile bookshelf overview stays compact: the whole row is already the affordance. */
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) {
@@ -95,6 +105,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   )::before {
@@ -105,6 +116,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) > .bookshelf-book-copy {
@@ -115,16 +127,19 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) > .bookshelf-book-index,
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) > .bookshelf-book-arrow,
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) .bookshelf-book-latest {
@@ -133,6 +148,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) .bookshelf-book-category {
@@ -142,6 +158,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) .bookshelf-book-copy h2 {
@@ -152,6 +169,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) .bookshelf-book-copy > p {
@@ -170,6 +188,7 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
 
   .bookshelf-grid > a.bookshelf-book:is(
     [href="/books/agent"],
+    [href="/books/product"],
     [href="/books/psalms"],
     [href="/books/huangyan"]
   ) .bookshelf-book-meta {
