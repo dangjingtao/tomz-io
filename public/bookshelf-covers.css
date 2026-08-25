@@ -89,6 +89,141 @@ html:has(head link[rel="canonical"][href$="/books/huangyan"]) .book-index-header
   color: var(--muted-soft);
 }
 
+/* Desktop: keep the text block visually tied to the cover instead of
+   letting the metadata/latest-entry stack make every shelf row too tall. */
+@media (min-width: 761px) {
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) {
+    padding: 30px 0;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) > .bookshelf-book-copy {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 26px;
+    align-content: start;
+    min-width: 0;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-category,
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-copy h2,
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-copy > p {
+    grid-column: 1 / -1;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-copy h2 {
+    margin: 6px 0 8px;
+    font-size: clamp(32px, 3.6vw, 40px);
+    line-height: 1.08;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-copy > p {
+    max-width: 760px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-meta {
+    grid-column: 1;
+    grid-row: 4;
+    flex-wrap: nowrap;
+    margin-top: 14px;
+    white-space: nowrap;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-latest {
+    grid-column: 2;
+    grid-row: 4;
+    display: flex;
+    align-items: baseline;
+    min-width: 0;
+    gap: 8px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-latest span {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-latest span::after {
+    content: "·";
+    margin-left: 8px;
+    color: var(--muted-soft);
+  }
+
+  .bookshelf-grid > a.bookshelf-book:is(
+    [href="/books/agent"],
+    [href="/books/product"],
+    [href="/books/psalms"],
+    [href="/books/huangyan"]
+  ) .bookshelf-book-latest strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
 @media (max-width: 760px) {
   /* Mobile bookshelf overview stays compact: the whole row is already the affordance. */
   .bookshelf-grid > a.bookshelf-book:is(
