@@ -1,10 +1,13 @@
 ---
+type: project
 title: UIChat Mira Mobile：让 AI 离开桌面
 description: 桌面端负责建设模型、Agent 与工具能力，移动端则探索如何让这些能力更自然地进入日常场景。
 nav: 项目
 group: AI 产品
+status: active
 order: 3
-author: tomz
+author:
+  - tomz
 writtenBy: tomz
 ---
 

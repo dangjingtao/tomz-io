@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { relative, resolve } from "node:path";
+import { basename, dirname, relative, resolve } from "node:path";
 import { parseMiraDoc } from "@uichat-mira/docs";
 
 const contentRoot = resolve(process.cwd(), "src/pages");
@@ -15,16 +15,34 @@ function markdownFiles(directory) {
   });
 }
 
-function legacyRoute(sourcePath) {
-  const normalized = sourcePath.replace(/\\/g, "/").replace(/\.md$/i, "");
-  const withoutDocsRoot = normalized.replace(/^docs\//, "");
-  return `/${withoutDocsRoot}`.replace(/\/{2,}/g, "/");
-}
-
 const failures = [];
 const routes = new Map();
 const counts = new Map();
 const files = markdownFiles(contentRoot);
+const projectDirectories = new Map();
+const projectsRoot = resolve(contentRoot, "projects");
+
+if (existsSync(projectsRoot)) {
+  for (const entry of readdirSync(projectsRoot, { withFileTypes: true })) {
+    if (entry.isDirectory() && !existsSync(resolve(projectsRoot, entry.name, "index.md"))) {
+      failures.push(`项目目录缺少概览 index.md: projects/${entry.name}`);
+    }
+  }
+}
+
+for (const file of markdownFiles(projectsRoot)) {
+  const sourcePath = relative(contentRoot, file).replace(/\\/g, "/");
+  if (basename(file).toLowerCase() !== "index.md") {
+    failures.push(`项目文章必须使用独立目录和 index.md: ${sourcePath}`);
+  }
+  const directory = dirname(file);
+  projectDirectories.set(directory, (projectDirectories.get(directory) ?? 0) + 1);
+}
+for (const [directory, count] of projectDirectories) {
+  if (count !== 1) {
+    failures.push(`项目文章目录必须且只能包含一个 Markdown: ${relative(contentRoot, directory)}`);
+  }
+}
 
 for (const file of files) {
   const sourcePath = relative(contentRoot, file).replace(/\\/g, "/");
@@ -32,7 +50,7 @@ for (const file of files) {
 
   try {
     const doc = parseMiraDoc(sourcePath, raw);
-    const route = legacyRoute(sourcePath);
+    const route = doc.path;
     const previous = routes.get(route);
 
     if (previous) {
@@ -46,6 +64,23 @@ for (const file of files) {
     }
     if (!doc.body.trim()) {
       failures.push(`正文为空: ${sourcePath}`);
+    }
+    if (sourcePath.startsWith("projects/")) {
+      const authors = Array.isArray(doc.data.author)
+        ? doc.data.author.map(String)
+        : [];
+      if (Object.hasOwn(doc.data, "project")) {
+        failures.push(`项目归属由目录决定，不应维护 project 字段: ${sourcePath}`);
+      }
+      if (doc.type !== "project") failures.push(`项目 type 必须为 project: ${sourcePath}`);
+      if (!doc.description.trim()) failures.push(`项目缺少 description: ${sourcePath}`);
+      if (!doc.group.trim()) failures.push(`项目缺少 group: ${sourcePath}`);
+      if (!doc.status?.trim()) failures.push(`项目缺少 status: ${sourcePath}`);
+      if (authors.length !== 1 || authors[0] !== "tomz" || doc.data.writtenBy !== "tomz") {
+        failures.push(`项目署名必须为 Tomz: ${sourcePath}`);
+      }
+      const h1 = doc.body.match(/^#\s+(.+)$/m)?.[1]?.trim();
+      if (h1 !== doc.title) failures.push(`项目首个 H1 必须与 title 一致: ${sourcePath}`);
     }
 
     counts.set(doc.type, (counts.get(doc.type) ?? 0) + 1);

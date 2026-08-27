@@ -1,10 +1,13 @@
 ---
+type: project
 title: ComDesign：AI 时代的设计系统实验
 description: 探索如何用 Design Token、组件规范与视觉规则，让 AI 更准确地执行人的设计意图，并守住软件界面的设计质量下限。
 nav: 项目
 group: AI 产品
+status: active
 order: 2
-author: tomz
+author:
+  - tomz
 writtenBy: tomz
 ---
 

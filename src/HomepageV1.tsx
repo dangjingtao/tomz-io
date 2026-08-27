@@ -6,6 +6,7 @@ import { homeFocusSnapshot } from "./content/home-focus.generated";
 import { homeRecentSnapshot, type HomeRecentItem } from "./content/home-recent.generated";
 import { MobileHeroGalaxy } from "./components/MobileHeroGalaxy";
 import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
+import { githubProfileUrl, homeIntro, siteName } from "./site.config";
 
 const tomzMarkSrc = `${import.meta.env.BASE_URL}brand/tomz-mark.png`;
 const tomzWordmarkSrc = `${import.meta.env.BASE_URL}brand/tomz-wordmark.png`;
@@ -50,7 +51,7 @@ export function HomepageFooter() {
             Built with <a href="https://dangjingtao.github.io/mira-docs/">@uichat-mira/docs</a>.
           </p>
         </div>
-        <p className="home-v1-footer-copyright">Copyright © 2026 Tomz Dang</p>
+        <p className="home-v1-footer-copyright">Copyright © 2026 {siteName}</p>
       </div>
     </footer>
   );
@@ -178,7 +179,7 @@ function HomepageHeader({
           </button>
           <a
             className="home-v1-github"
-            href="https://github.com/dangjingtao"
+            href={githubProfileUrl}
             target="_blank"
             rel="noreferrer"
           >
@@ -247,11 +248,11 @@ export default function HomepageV1({
   );
 
   useEffect(() => {
-    document.title = "Tomz Dang · 独立开发与产品设计";
+    document.title = `${siteName} · 独立开发与产品设计`;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     description?.setAttribute(
       "content",
-      "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
+      homeIntro,
     );
   }, []);
 
@@ -285,7 +286,7 @@ export default function HomepageV1({
                 </Link>
                 <a
                   className="home-v1-secondary-action"
-                  href="https://github.com/dangjingtao"
+                  href={githubProfileUrl}
                   target="_blank"
                   rel="noreferrer"
                 >

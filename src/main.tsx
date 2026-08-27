@@ -14,7 +14,6 @@ import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
 import { HomepageFooter } from "./HomepageV1";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
-import ReleaseDownloadEnhancer from "./components/ReleaseDownloadEnhancer";
 import { getBook, getBookEntry } from "./content/bookshelf";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import WorksExperience from "./features/works/WorksExperience";
@@ -23,8 +22,6 @@ import "./apple.theme.css";
 import "./Supabase.theme.css";
 import "./tailwind.css";
 import "./styles.css";
-import "./release-download.css";
-import "./home.css";
 import "./homepage-v1.css";
 import "./blog-list.css";
 import "./markdown.css";
@@ -127,7 +124,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AppEntry />
       <LegacyHeaderCompat />
       <WorksExperience />
-      <ReleaseDownloadEnhancer />
     </BrowserRouter>
   </React.StrictMode>,
 );

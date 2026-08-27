@@ -1,14 +1,13 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { relative, resolve } from "node:path";
 import { parseMiraDoc } from "@uichat-mira/docs";
+import policy from "../site-policy.json" with { type: "json" };
 
 const root = process.cwd();
 const pagesRoot = resolve(root, "src/pages");
 const distRoot = resolve(root, "dist");
-const siteUrl = "https://tomz.io";
+const { siteUrl, removedRoots, removedBlogCategories } = policy;
 const failures = [];
-const removedRoots = ["docs", "mira-docs-api", "design-md"];
-const removedBlogCategories = ["product-journal", "engineering"];
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -27,7 +26,7 @@ function dataString(data, key) {
 }
 
 function routeFor(sourcePath, doc) {
-  const path = doc.path.replace(/^\/docs(?=\/|$)/, "");
+  const path = doc.path;
   return path || "/";
 }
 

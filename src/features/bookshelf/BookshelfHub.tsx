@@ -19,16 +19,16 @@ import {
   latestBookEntry,
 } from "../../content/bookshelf";
 import { allDocs, type Doc } from "../../content/mira-docs-adapter";
+import { githubProfileUrl, siteName, siteUrl } from "../../site.config";
 import "./bookshelf.css";
 
-const siteUrl = "https://tomz.io";
 const tomzMarkSrc = `${import.meta.env.BASE_URL}brand/tomz-mark.png`;
-const githubUrl = "https://github.com/dangjingtao/uichat-mira";
+const githubUrl = githubProfileUrl;
 
 function authorLabel(doc: Doc): string {
   const authors = doc.author?.length ? doc.author : ["tomz"];
   return authors
-    .map((author) => (author === "mira" ? "Mira" : "Tomz Dang"))
+    .map((author) => (author === "mira" ? "Mira" : siteName))
     .join(" × ");
 }
 
@@ -110,7 +110,7 @@ function BookshelfMobileBackbar({
 }
 
 function syncHead(title: string, description: string, path: string) {
-  document.title = `${title} · Tomz Dang`;
+  document.title = `${title} · ${siteName}`;
   const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
   descriptionMeta?.setAttribute("content", description);
 
@@ -210,7 +210,7 @@ function BookshelfSiteHeader() {
     <>
       <nav className="top-nav docs-header" aria-label="主导航">
         <div className="wrap">
-          <Link className="brand" to="/" aria-label="Tomz Dang 首页">
+          <Link className="brand" to="/" aria-label={`${siteName} 首页`}>
             <img className="brand-tomz-mark" src={tomzMarkSrc} alt="" />
           </Link>
           <ul className="menu">

@@ -1,16 +1,15 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { relative, resolve } from "node:path";
 import { parseMiraDoc } from "@uichat-mira/docs";
+import policy from "../site-policy.json" with { type: "json" };
 
 const root = process.cwd();
 const pagesRoot = resolve(root, "src/pages");
 const booksRoot = resolve(pagesRoot, "books");
 const distRoot = resolve(root, "dist");
-const siteUrl = "https://tomz.io";
+const { siteUrl, removedRoots, removedBlogCategories } = policy;
 const configuredBase = (process.env.EXPECTED_BASE || "").replace(/^\/+|\/+$/g, "");
 const expectedBase = configuredBase ? `/${configuredBase}` : "";
-const removedRoots = ["docs", "mira-docs-api", "design-md", "learning"];
-const removedBlogCategories = ["product-journal", "engineering", "agent-learning", "bible-notes"];
 
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -29,7 +28,7 @@ function dataString(data, key) {
 }
 
 function routeFor(sourcePath, doc) {
-  const path = doc.path.replace(/^\/docs(?=\/|$)/, "");
+  const path = doc.path;
   return path || "/";
 }
 
@@ -140,6 +139,27 @@ if (blogEntry) {
     if (!html.includes('class="top-nav docs-header seo-static-header"')) failures.push(`博客静态页缺少站点导航: ${route}`);
     if (doc.date && !html.includes(String(doc.date))) failures.push(`博客静态页缺少发布日期: ${route}`);
     if (doc.group && !html.includes(String(doc.group))) failures.push(`博客静态页缺少文章分类: ${route}`);
+  }
+}
+
+const projectEntries = [...docsByRoute.entries()].filter(([route]) =>
+  route.startsWith("/projects/"),
+);
+for (const [route, doc] of projectEntries) {
+  const file = routeFile(route);
+  if (!existsSync(file)) continue;
+  const html = readFileSync(file, "utf8");
+  if (!html.includes(`<link rel="canonical" href="${routeUrl(route)}">`)) {
+    failures.push(`项目页 canonical 错误: ${route}`);
+  }
+  if (!html.includes(`<h1>${doc.title}</h1>`)) {
+    failures.push(`项目页标题与元数据不一致: ${route}`);
+  }
+  if (!html.includes('"author":[{"@type":"Person","name":"Tomz Dang"}]')) {
+    failures.push(`项目页 JSON-LD 作者不是 Tomz: ${route}`);
+  }
+  if (existsSync(routeFile(`${route}/index`))) {
+    failures.push(`项目页生成了冗余 index 路由: ${route}/index`);
   }
 }
 

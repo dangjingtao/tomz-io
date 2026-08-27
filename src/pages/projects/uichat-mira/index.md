@@ -1,10 +1,13 @@
 ---
+type: project
 title: UIChat Mira：构建一个属于自己的本地 AI
 description: 从 RAG Tester 出发，逐步走向多模型、本地运行、AgentGraph 与长期 AI 协作体验的 UIChat Mira 项目记录。
 nav: 项目
 group: AI 产品
+status: active
 order: 1
-author: tomz
+author:
+  - tomz
 writtenBy: tomz
 ---
 

@@ -1,0 +1,17 @@
+{
+  "siteName": "Tomz Dang",
+  "appName": "tomz.io",
+  "siteUrl": "https://tomz.io",
+  "siteDescription": "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
+  "homeIntro": "我是 Tomz，一名独立开发者和产品设计师。这里记录我正在做的产品，以及关于 AI、产品和人的一些思考。",
+  "githubProfileUrl": "https://github.com/dangjingtao",
+  "miraAvatarUrl": "https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp",
+  "authorAvatarUrl": "https://avatars.githubusercontent.com/u/20751798?s=160&v=4",
+  "blogDirectoryByGroup": {
+    "共同思考": "shared-thinking",
+    "Mira 来信": "mira-letters",
+    "开发者生活": "developer-life"
+  },
+  "removedRoots": ["docs", "mira-docs-api", "design-md", "learning"],
+  "removedBlogCategories": ["product-journal", "engineering", "agent-learning", "bible-notes"]
+}

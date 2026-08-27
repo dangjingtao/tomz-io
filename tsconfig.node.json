@@ -12,6 +12,7 @@
   "include": [
     "vite.config.ts",
     "mira-docs-static.ts",
+    "site-policy.json",
     "src/site.config.ts",
     "src/content/book-manifest.ts"
   ]

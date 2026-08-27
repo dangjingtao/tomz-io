@@ -1,10 +1,13 @@
 ---
+type: project
 title: UIChat：一次走错方向但没有浪费的 AI 应用探索
 description: 从一个博客 AI 增强实验，到 Mira 的前身；记录 UIChat 如何从浏览器聊天视图演变为 AI 智能体应用。
 nav: 项目
 group: AI 产品
+status: active
 order: 4
-author: tomz
+author:
+  - tomz
 writtenBy: tomz
 ---
 

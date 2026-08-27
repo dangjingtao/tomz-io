@@ -75,6 +75,7 @@ async function collectMarkdownFacts(contentRoot, routeRoot, sourcePrefix) {
   const facts = [];
   for (const file of files) {
     const source = await fs.readFile(file, "utf8");
+    const relative = path.relative(contentRoot, file).replaceAll(path.sep, "/");
     const title = frontmatterValue(source, "title") || path.basename(file, ".md");
     const date = frontmatterValue(source, "date");
     const description = frontmatterValue(source, "description");
@@ -82,8 +83,7 @@ async function collectMarkdownFacts(contentRoot, routeRoot, sourcePrefix) {
     const mergeIndex = frontmatterValue(source, "mergeIndex") === "true";
     if (merge && !mergeIndex) continue;
 
-    const relative = path.relative(contentRoot, file).replaceAll(path.sep, "/");
-    const route = relative.replace(/\.md$/i, "");
+    const route = relative.replace(/\/index\.md$/i, "").replace(/\.md$/i, "");
     const category = relative.split("/")[0] || "";
     facts.push({
       sourceId: `${sourcePrefix}:${route}`,

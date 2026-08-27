@@ -12,6 +12,13 @@ import {
   type MiraDocsStaticBuildOptions,
   type MiraDocsStaticRoute,
 } from "@uichat-mira/docs/vite";
+import {
+  authorAvatarUrl,
+  miraAvatarUrl,
+  siteDescription,
+  siteName,
+  siteUrl,
+} from "./src/site.config";
 
 type StaticDoc = MiraDoc & {
   root: string;
@@ -44,15 +51,13 @@ function dataList(data: Record<string, unknown>, key: string): string[] {
 
 function authorName(value: string): string {
   const normalized = value.trim().toLowerCase();
-  if (normalized === "tomz") return "Tomz Dang";
+  if (normalized === "tomz") return siteName;
   if (normalized === "mira") return "Mira";
   return value;
 }
 
 function authorAvatar(name: string): string {
-  return name === "Mira"
-    ? "https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp"
-    : "https://avatars.githubusercontent.com/u/20751798?s=160&v=4";
+  return name === "Mira" ? miraAvatarUrl : authorAvatarUrl;
 }
 
 function staticDocs(docs: MiraDoc[]): StaticDoc[] {
@@ -62,7 +67,7 @@ function staticDocs(docs: MiraDoc[]): StaticDoc[] {
       ...doc,
       root: doc.path.split("/")[1] || "docs",
       source: doc.body,
-      authors: explicitAuthors.length ? explicitAuthors : ["Tomz Dang"],
+      authors: explicitAuthors.length ? explicitAuthors : [siteName],
       readTime:
         dataString(doc.data, "readTime") ||
         dataString(doc.data, "readtime") ||
@@ -99,13 +104,6 @@ function docHref(path: string, context: MiraDocsStaticBuildContext): string {
   return `${basePath(context.base)}${path}`;
 }
 
-const MIRA_DOCS_AREA_KEY = "mira-docs-api";
-const VISUAL_CONTENT_ROOT = "design-md";
-const VISUAL_NAV_DIRECTORY = "视觉";
-function logicalStaticAreaKey(root: string): string {
-  return root === VISUAL_CONTENT_ROOT ? MIRA_DOCS_AREA_KEY : root;
-}
-
 function pageNavigation(
   previous: StaticDoc | undefined,
   next: StaticDoc | undefined,
@@ -136,7 +134,7 @@ function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
         `<li><a href="${docHref(path, context)}">${miraDocsEscapeHtml(label)}</a></li>`,
     )
     .join("");
-  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${docHref("/", context)}">Tomz Dang</a><ul class="menu">${navigation}</ul></div></nav>`;
+  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${docHref("/", context)}">${siteName}</a><ul class="menu">${navigation}</ul></div></nav>`;
 }
 
 function staticDirectory(doc: StaticDoc): string {
@@ -144,10 +142,13 @@ function staticDirectory(doc: StaticDoc): string {
   return parts.slice(1, -1).join("/");
 }
 
+function staticProjectId(path: string): string | undefined {
+  const [root, projectId] = path.split("/").filter(Boolean);
+  return root === "projects" ? projectId : undefined;
+}
+
 function staticNavigationDirectory(doc: StaticDoc): string {
-  return doc.root === VISUAL_CONTENT_ROOT
-    ? VISUAL_NAV_DIRECTORY
-    : staticDirectory(doc);
+  return staticDirectory(doc);
 }
 
 function staticDirectoryTitle(directory: string): string {
@@ -159,14 +160,62 @@ function staticDirectoryTitle(directory: string): string {
     .join(" / ");
 }
 
+function staticProjectDocNav(
+  doc: StaticDoc,
+  docs: StaticDoc[],
+  context: MiraDocsStaticBuildContext,
+): string {
+  const groups = new Map<
+    string,
+    { title: string; order: number; overview?: StaticDoc; articles: StaticDoc[] }
+  >();
+  for (const candidate of docs.filter((item) => item.root === "projects")) {
+    const id = staticProjectId(candidate.path);
+    if (!id) continue;
+    const group = groups.get(id) || {
+      title: candidate.title,
+      order: candidate.order,
+      articles: [],
+    };
+    if (candidate.path === `/projects/${id}`) {
+      group.overview = candidate;
+      group.title = candidate.title;
+      group.order = candidate.order;
+    } else {
+      group.articles.push(candidate);
+    }
+    groups.set(id, group);
+  }
+
+  const content = [...groups.entries()]
+    .sort(([, left], [, right]) => left.order - right.order)
+    .map(([id, group]) => {
+      const overviewPath = group.overview?.path || `/projects/${id}`;
+      const overview = `<a class="project-nav-overview${doc.path === overviewPath ? " active" : ""}" href="${docHref(overviewPath, context)}"><span class="project-nav-title">${miraDocsEscapeHtml(group.title)}</span></a>`;
+      const articles = group.articles
+        .sort((left, right) => left.order - right.order || left.path.localeCompare(right.path))
+        .map(
+          (article) =>
+            `<li><a${article.path === doc.path ? ' class="active" aria-current="page"' : ""} href="${docHref(article.path, context)}">${miraDocsEscapeHtml(article.title)}</a></li>`,
+        )
+        .join("");
+      return `<div class="project-nav-group">${overview}${articles ? `<ul class="project-nav-articles">${articles}</ul>` : ""}</div>`;
+    })
+    .join("");
+  return `<nav class="docnav project-docnav"><h5>目录</h5><div class="project-nav-groups">${content}</div></nav>`;
+}
+
 function staticDocNav(
   doc: StaticDoc,
   docs: StaticDoc[],
   context: MiraDocsStaticBuildContext,
 ): string {
-  const logicalRoot = logicalStaticAreaKey(doc.root);
+  const root = doc.root;
+  if (root === "projects") {
+    return staticProjectDocNav(doc, docs, context);
+  }
   const scoped = docs
-    .filter((candidate) => logicalStaticAreaKey(candidate.root) === logicalRoot)
+    .filter((candidate) => candidate.root === root)
     .sort(
       (left, right) =>
         left.order - right.order || left.path.localeCompare(right.path),
@@ -178,22 +227,15 @@ function staticDocNav(
     group.push(candidate);
     groups.set(directory, group);
   }
-  const rootPath = logicalRoot === "docs" ? "/" : `/${logicalRoot}`;
+  const rootPath = `/${root}`;
   const rootTitle =
-    logicalRoot === MIRA_DOCS_AREA_KEY
-      ? "MiraDocs"
-      : scoped
-          .filter((candidate) => candidate.root === logicalRoot)
-          .map((candidate) => dataString(candidate.data, "nav"))
-          .find(Boolean) ||
-        doc.group ||
-        logicalRoot;
+    scoped
+      .filter((candidate) => candidate.root === root)
+      .map((candidate) => dataString(candidate.data, "nav"))
+      .find(Boolean) ||
+    doc.group ||
+    root;
   const sections = [...groups.entries()]
-    .sort(([left], [right]) => {
-      if (left === VISUAL_NAV_DIRECTORY) return 1;
-      if (right === VISUAL_NAV_DIRECTORY) return -1;
-      return 0;
-    })
     .map(([directory, items]) => {
       const links = items
         .map(
@@ -275,11 +317,50 @@ function areaBody(
   const title =
     root === "blogs"
       ? "博客"
-      : root === MIRA_DOCS_AREA_KEY
-        ? "MiraDocs"
+      : root === "projects"
+        ? docs.map((doc) => dataString(doc.data, "nav")).find(Boolean) || "项目"
         : docs.find((doc: StaticDoc) => doc.root === root)?.title || root;
+  if (root === "projects") {
+    const groups = new Map<
+      string,
+      { title: string; order: number; overview?: StaticDoc; articles: StaticDoc[] }
+    >();
+    for (const doc of docs) {
+      const id = staticProjectId(doc.path);
+      if (!id) continue;
+      const group = groups.get(id) || {
+        title: doc.title,
+        order: doc.order,
+        articles: [],
+      };
+      if (doc.path === `/projects/${id}`) {
+        group.overview = doc;
+        group.title = doc.title;
+        group.order = doc.order;
+      } else {
+        group.articles.push(doc);
+      }
+      groups.set(id, group);
+    }
+    const sections = [...groups.entries()]
+      .sort(([, left], [, right]) => left.order - right.order)
+      .map(([id, group]) => {
+        const overviewPath = group.overview?.path || `/projects/${id}`;
+        const articles = group.articles
+          .sort((left, right) => left.order - right.order || left.path.localeCompare(right.path))
+          .map(
+            (article) =>
+              `<li><a href="${docHref(article.path, context)}">${miraDocsEscapeHtml(article.title)}</a></li>`,
+          )
+          .join("");
+        return `<section class="area-directory-group"><h3><a href="${docHref(overviewPath, context)}">${miraDocsEscapeHtml(group.title)}</a></h3>${group.overview?.description ? `<p>${miraDocsEscapeHtml(group.overview.description)}</p>` : ""}${articles ? `<ol>${articles}</ol>` : ""}</section>`;
+      })
+      .join("");
+    const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>${miraDocsEscapeHtml(title)}</h1></div><div class="area-directory-groups project-area-groups">${sections}</div></main>`;
+    return `${staticSiteHeader(context)}<div class="docs-app seo-static-docs-app"><div class="docs-shell">${main}</div></div>`;
+  }
   const links = docs
-    .filter((doc: StaticDoc) => logicalStaticAreaKey(doc.root) === root)
+    .filter((doc: StaticDoc) => doc.root === root)
     .map(
       (doc: StaticDoc) =>
         `<li><a href="${docHref(doc.path, context)}">${miraDocsEscapeHtml(doc.title)}</a><p>${miraDocsEscapeHtml(doc.description)}</p></li>`,
@@ -290,13 +371,7 @@ function areaBody(
 }
 
 function homeBody(context: MiraDocsStaticBuildContext): string {
-  const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>独立开发与产品设计</h1><p class="doc-lede">Tomz Dang 的个人网站，记录正在做的产品，以及关于 AI、产品和人的持续思考。</p></div></main>`;
-  return `${staticSiteHeader(context)}${main}`;
-}
-
-function visualRootRedirectBody(context: MiraDocsStaticBuildContext): string {
-  const target = docHref(`/${MIRA_DOCS_AREA_KEY}`, context);
-  const main = `<main class="doc-main seo-static-content"><div class="doc-not-found"><div class="doc-eyebrow">MIRADOCS · VISUAL</div><h1>视觉文档已归入 MiraDocs</h1><p>产品设计系统与主题参考仍保留原有文章地址，现在统一由 MiraDocs 导航承载。</p><a class="btn btn-primary" href="${target}">前往 MiraDocs</a></div><script>window.location.replace(${JSON.stringify(target)});</script></main>`;
+  const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>独立开发与产品设计</h1><p class="doc-lede">${siteDescription}</p></div></main>`;
   return `${staticSiteHeader(context)}${main}`;
 }
 
@@ -325,7 +400,7 @@ function websiteJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Tomz Dang",
+    name: siteName,
     url: miraDocsAbsoluteRouteUrl(
       context.config.siteUrl || "",
       context.base,
@@ -354,7 +429,7 @@ function documentJsonLd(
     author: doc.authors.map((name: string) => ({ "@type": "Person", name })),
     publisher: {
       "@type": "Person",
-      name: "Tomz Dang",
+      name: siteName,
       url: context.config.siteUrl || undefined,
     },
   };
@@ -364,8 +439,13 @@ function siblingDocs(
   doc: StaticDoc,
   docs: StaticDoc[],
 ): { previous?: StaticDoc; next?: StaticDoc } {
+  const project = staticProjectId(doc.path);
   const scoped = docs
-    .filter((candidate) => candidate.root === doc.root)
+    .filter(
+      (candidate) =>
+        candidate.root === doc.root &&
+        (!project || staticProjectId(candidate.path) === project),
+    )
     .sort(
       (left, right) =>
         left.order - right.order || left.path.localeCompare(right.path),
@@ -383,35 +463,21 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
     {
       path: "/",
       title: "独立开发与产品设计",
-      description: "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
+      description: siteDescription,
       body: homeBody(context),
       type: "website",
       jsonLd: websiteJsonLd(context, "/"),
     },
-    {
-      path: `/${VISUAL_CONTENT_ROOT}`,
-      title: "视觉文档已归入 MiraDocs",
-      description: "产品设计系统与主题参考现由 MiraDocs 统一导航。",
-      body: visualRootRedirectBody(context),
-      type: "website",
-      robots: "noindex,follow",
-      jsonLd: websiteJsonLd(context, `/${VISUAL_CONTENT_ROOT}`),
-    },
   ];
 
-  const roots = [
-    ...new Set(docs.map((doc: StaticDoc) => logicalStaticAreaKey(doc.root))),
-  ];
+  const roots = [...new Set(docs.map((doc: StaticDoc) => doc.root))];
   for (const root of roots) {
-    if (root === "docs") continue;
-    const rootDocs = docs.filter(
-      (doc: StaticDoc) => logicalStaticAreaKey(doc.root) === root,
-    );
+    const rootDocs = docs.filter((doc: StaticDoc) => doc.root === root);
     const title = root === "blogs" ? "博客" : rootDocs[0]?.title || root;
     result.push({
       path: `/${root}`,
       title,
-      description: rootDocs[0]?.description || "Tomz Dang 的作品、文章与持续思考。",
+      description: rootDocs[0]?.description || `${siteName} 的作品、文章与持续思考。`,
       body: areaBody(root, rootDocs, context),
       type: "website",
       jsonLd: websiteJsonLd(context, `/${root}`),
@@ -423,7 +489,7 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
     result.push({
       path: doc.path,
       title: doc.title,
-      description: doc.description || "Tomz Dang 的个人网站文章与项目记录。",
+      description: doc.description || `${siteName} 的个人网站文章与项目记录。`,
       body:
         doc.root === "blogs"
           ? articleBody(doc, previous, next, context)
@@ -450,7 +516,7 @@ export const miraDocsStaticBuild: MiraDocsStaticBuildOptions = {
     jsonLd: websiteJsonLd(context, "/404"),
   }),
   locale: "zh_CN",
-  siteName: "Tomz Dang",
+  siteName,
   defaultImage: "tomz-avatar.png",
   image: {
     type: "image/png",

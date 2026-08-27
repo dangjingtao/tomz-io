@@ -14,17 +14,19 @@ import { VitePWA } from "vite-plugin-pwa";
 import { miraDocs } from "@uichat-mira/docs/vite";
 import { miraDocsStaticBuild } from "./mira-docs-static";
 import { parseBookManifest, type BookManifest } from "./src/content/book-manifest";
-import { seo as seoConfig, siteUrl } from "./src/site.config";
+import {
+  blogDirectoryByGroup,
+  appName,
+  homeIntro,
+  seo as seoConfig,
+  siteDescription,
+  siteName,
+  siteUrl,
+} from "./src/site.config";
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 const pagesRoot = resolve(projectRoot, "src/pages");
 const booksRoot = resolve(pagesRoot, "books");
-
-const blogDirectoryByGroup: Record<string, string> = {
-  "共同思考": "shared-thinking",
-  "Mira 来信": "mira-letters",
-  "开发者生活": "developer-life",
-};
 
 function markdownFiles(directory: string): string[] {
   if (!existsSync(directory)) return [];
@@ -199,12 +201,12 @@ function bookshelfStaticNav(base: string): string {
     ["书架", "/books"],
     ["关于", "/#about"],
   ];
-  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${hrefFor(base, "/")}">Tomz Dang</a><ul class="menu">${links.map(([label, path]) => `<li><a href="${hrefFor(base, path)}">${escapeHtml(label)}</a></li>`).join("")}</ul></div></nav>`;
+  return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${hrefFor(base, "/")}">${siteName}</a><ul class="menu">${links.map(([label, path]) => `<li><a href="${hrefFor(base, path)}">${escapeHtml(label)}</a></li>`).join("")}</ul></div></nav>`;
 }
 
 function staticHomeBody(base: string) {
   const href = (path: string) => hrefFor(base, path);
-  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">Tomz Dang</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/works")}">作品</a></li><li><a href="${href("/projects")}">项目</a></li><li><a href="${href("/books")}">书架</a></li><li><a href="#about">关于</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>Tomz Dang</h1><p>我是 Tomz，一名独立开发者和产品设计师。这里记录我正在做的产品，以及关于 AI、产品和人的一些思考。</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section><section id="about" class="wrap"><h2>关于</h2><p>我关注独立开发、产品设计，以及 AI 如何进入真实的工作与生活。</p></section></main>`;
+  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">${siteName}</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/works")}">作品</a></li><li><a href="${href("/projects")}">项目</a></li><li><a href="${href("/books")}">书架</a></li><li><a href="#about">关于</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>${siteName}</h1><p>${homeIntro}</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section><section id="about" class="wrap"><h2>关于</h2><p>我关注独立开发、产品设计，以及 AI 如何进入真实的工作与生活。</p></section></main>`;
 }
 
 function docsForBook(context: any, bookId: string): any[] {
@@ -253,34 +255,23 @@ function br003bStaticBuild() {
   const sourceRoutes = miraDocsStaticBuild.routes;
   return {
     ...miraDocsStaticBuild,
-    siteName: "Tomz Dang",
+    siteName,
     routes: (context: any) => {
       const books = readBookManifests();
       const routes = typeof sourceRoutes === "function"
         ? sourceRoutes(context)
         : sourceRoutes;
-      const transformed = routes
-        .filter((route: any) => route.path !== "/design-md" && route.path !== "/learning")
-        .map((route: any) => {
-          const cleanedBody = typeof route.body === "string"
-            ? route.body
-                .replace(
-                  /<li><a href="[^"]*\/(?:about\/origin|mira-docs-api)">(?:文档|MiraDocs)<\/a><\/li>/g,
-                  "",
-                )
-                .replace(/href="([^"]*)\/learning">研习<\/a>/g, 'href="$1/books">书架</a>')
-            : route.body;
-
+      const transformed = routes.map((route: any) => {
           if (route.path === "/") {
             return {
               ...route,
               title: "独立开发与产品设计",
-              description: "Tomz Dang 的个人网站。记录独立开发、产品设计，以及关于 AI、产品和人的持续思考。",
+              description: siteDescription,
               body: staticHomeBody(context.base),
               jsonLd: {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                name: "Tomz Dang",
+                name: siteName,
                 url: siteUrl,
               },
             };
@@ -304,14 +295,13 @@ function br003bStaticBuild() {
           if (route.path.startsWith("/books/") && route.doc) {
             return {
               ...route,
-              body: cleanedBody,
               jsonLd: route.jsonLd
                 ? { ...route.jsonLd, "@type": "Article" }
                 : route.jsonLd,
             };
           }
 
-          return { ...route, body: cleanedBody };
+          return route;
         });
 
       for (const book of books) {
@@ -349,16 +339,12 @@ export default defineConfig(({ mode }) => {
       miraDocs({
         contentDir: "src/pages",
         config: {
-          title: "Tomz Dang",
-          description: "独立开发、产品设计，以及关于 AI、产品和人的持续思考",
+          title: siteName,
+          description: siteDescription,
           siteUrl,
         },
         staticRoutes: seoConfig.enabled ? br003bStaticBuild() : false,
         exclude: (sourcePath) => /(^|\/)README\.md$/i.test(sourcePath),
-        route: (_sourcePath, doc) => {
-          const path = doc.path.replace(/^\/docs(?=\/|$)/, "");
-          return path || "/";
-        },
       }),
       blogDirectoryCheck(),
       react(),
@@ -376,9 +362,9 @@ export default defineConfig(({ mode }) => {
         ],
         manifest: {
           id: "./",
-          name: "tomz.io",
-          short_name: "tomz.io",
-          description: "Tomz Dang 的个人网站",
+          name: appName,
+          short_name: appName,
+          description: siteDescription,
           lang: "zh-CN",
           start_url: "./",
           scope: "./",
