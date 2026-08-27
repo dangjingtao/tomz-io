@@ -1,9 +1,10 @@
 ---
-type: article
+type: project
 title: 把重复操作提炼成产品能力：Com Design Prototype 的第一条原则
 description: Com Design Prototype 还很早期，但它已经验证了一条值得继续抽象的产品原则：凡是反复消耗心智的操作，都应该尝试沉淀为设计系统、脚手架、工具、协议或自动化。
 nav: 项目
 group: ComDesign
+status: active
 order: 1
 date: 2026年8月27日
 readTime: 9 分钟阅读
