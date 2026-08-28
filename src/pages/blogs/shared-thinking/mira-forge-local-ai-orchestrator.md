@@ -1,10 +1,10 @@
 ---
 title: OPC 探索（二）：Mira Forge，一间本地 AI 工程调度室
-description: 从 Codex 主评审线程、OpenCode 施工、worktree 并行与断流恢复出发，设计一套让多个 AI 工具真正接力而不是靠人搬运的本地工程调度方案。
+description: 从长期评审上下文、OpenCode 施工、worktree 并行、确定性门禁与断流恢复出发，设计一套让多个 AI 工具真正接力而不是靠人搬运的本地工程调度方案。
 group: 共同思考
 order: 2
 date: 2026年8月28日
-readTime: 15 分钟阅读
+readTime: 16 分钟阅读
 tags: OPC | Mira Forge | Codex | OpenCode | Git worktree | Agent 自动化
 author: tomz | mira
 writingMode: co-authored
@@ -33,7 +33,7 @@ AI 做完以后还得重新叫另一个 AI Review。
 - 哪个正在返工；
 - 哪个等 Review；
 - 哪两个任务其实不能同时合入；
-- 刚才那个 Codex 评审线程是不是又断了。
+- 刚才那个长期评审线程是不是又断了。
 
 工具很多，但人仍然在充当这些工具之间的消息总线。
 
@@ -60,18 +60,16 @@ AI 做完以后还得重新叫另一个 AI Review。
 我现在比较常见的一种工作方式是：
 
 ```text
-Codex 主线程
+长期评审 / 规划线程
     ↓
 理解需求
 拆任务
 讨论方案
 判断风险
     ↓
-Trae / 其他 Coding Agent
+Builder Agent
     ↓
 施工
-    ↓
-回到 Codex
     ↓
 Review
     ↓
@@ -105,19 +103,15 @@ diff
 
 然后开始一本正经地误判。
 
-长期评审线程反而更靠谱。
+长期评审上下文有它的价值。
 
-于是我们这次不再从：
+但这并不意味着 Reviewer 应该顺便成为状态数据库、权限中心和最终放行者。
 
-> 怎么做一个 AI PR Review Bot？
+理解项目是一种能力。
 
-开始。
+决定流程能不能继续，是另一种权力。
 
-而是从：
-
-> **怎么让施工结果自动回到原来的长期评审上下文？**
-
-开始。
+后面会反复回到这个区别。
 
 ## PR 不应该成为唯一的自动化触发点
 
@@ -172,35 +166,21 @@ PR 只是流水线后面的一个出口。
 Builder Done
 ```
 
-## Builder 可以换，Reviewer 不一定要换
+## Builder 可以换，Reviewer 也只是一个角色
 
-如果我们接受“Codex 长期线程目前仍然是最可靠的项目 Reviewer”，那么整个流水线会简单很多。
-
-```text
-Codex Review Thread
-        ↓
-     Dispatch
-        ↓
-Builder Agent
-        ↓
-   Builder Done
-        ↓
-Codex Review Thread
-```
-
-Builder 可以是：
+第一版可以先有一个相对稳定的 Reviewer，例如长期 Codex 线程；Builder 则可以替换：
 
 ```text
-Trae
 OpenCode
+Trae
 Claude Code
 Codex
 未来其他 Agent
 ```
 
-而调度系统并不需要理解每一种工具所有细节。
+调度系统并不需要理解每一种工具所有细节。
 
-它只需要一个很薄的 Adapter：
+它只需要很薄的 Adapter：
 
 ```text
 startTask()
@@ -210,11 +190,22 @@ getStatus()
 stopTask()
 ```
 
-第一版甚至只做一个 Builder。
-
-例如 OpenCode。
-
 这样我们验证的是调度模型，而不是同时兼容全世界。
+
+同样重要的是，Reviewer 也应该被当成一个受约束角色，而不是“因为它懂项目，所以什么都让它做”。
+
+Reviewer 的职责应该集中在：
+
+```text
+读取任务合同
+读取当前版本
+理解改动
+寻找高置信度问题
+表达不确定性
+输出结构化 verdict / findings
+```
+
+它不应该偷偷修改施工结果，也不应该因为一句“看起来可以”就直接拥有所有后续写权限。
 
 ## 为什么现在更倾向 OpenCode 做施工实验
 
@@ -285,9 +276,7 @@ deploy             deny
 
 ## 任务卡不应该被复制成第二套任务格式
 
-在 Com Design Prototype 里，这一点其实已经有很好的基础。
-
-任务卡本身已经包含：
+在真实项目里，任务卡往往已经包含：
 
 ```text
 ID
@@ -331,15 +320,13 @@ runtimeStatus
 
 因为整个系统的目标就是减少搬运，而不是创造新的搬运对象。
 
-## “哪些任务可以并行”应该继续由懂项目的线程判断
+## “哪些任务可以并行”应该继续由懂项目的角色判断
 
-我现在经常会先问 Codex：
+我经常会先问评审线程：
 
-> T38 到 T42 哪些可以并行？
+> 这几张任务卡哪些可以并行？
 
-这件事其实非常适合继续保留。
-
-因为是否可以并行，并不是简单看两个任务有没有改同一个文件。
+这件事不能简单看两个任务有没有改同一个文件。
 
 真正需要考虑的是：
 
@@ -358,24 +345,7 @@ generated files
 
 两个任务可能完全不修改同一行代码，却仍然存在语义竞态。
 
-所以并行判断应该由拥有项目上下文的 Codex 主线程完成。
-
-例如：
-
-```text
-Wave 1
-T38
-T39
-
-Wave 2
-T40
-
-Wave 3
-T41
-T42
-```
-
-然后一个 Skill 把这个判断转换成机器可执行的 batch。
+所以并行判断应该由拥有足够项目上下文的角色完成，然后由 Skill 或调度器把判断转换成机器可执行的 batch。
 
 这里有一条非常重要的保守规则：
 
@@ -445,27 +415,26 @@ T39 rebase / replay 到新的 HEAD
 
 这样才能处理真正危险的语义竞态。
 
-## Review 不是一句自然语言，而是一个控制信号
+## Review 是判断，Gate 才是控制信号
 
-Codex Review 可以写得很详细：
+早期设计里，我很自然地让 Reviewer 最终输出：
 
 ```text
-观察
-推断
-判断
-问题
-建议
+RETURN
+PASS
 ```
 
-但调度系统最终不能靠解析长篇自然语言决定下一步。
+这样调度器很好写：RETURN 就返工，PASS 就进入集成。
 
-所以 Review 最后应该落成一个非常小的决定合同：
+但继续把 GitHub Review 跑进真实项目以后，我越来越觉得这里混了两件事。
+
+Reviewer 真正擅长的是判断：
 
 ```json
 {
   "task": "T038",
   "reviewedSha": "abc123",
-  "decision": "RETURN",
+  "verdict": "CHANGES_NEEDED",
   "findings": [
     {
       "id": "R1",
@@ -482,57 +451,58 @@ Codex Review 可以写得很详细：
 {
   "task": "T038",
   "reviewedSha": "abc123",
-  "decision": "PASS"
+  "verdict": "NO_BLOCKING_FINDINGS"
 }
 ```
 
-只有两个核心控制结果：
+这仍然是一个有不确定性的专业判断。
+
+而流程是否真正进入 `RETURN` 或 `PASS`，最好再经过一个**确定性 Gatekeeper**：
 
 ```text
-RETURN
-PASS
+Reviewer verdict
+        ↓
+Gatekeeper
++ 当前版本
++ 必要检查
++ 任务合同
++ 人工介入标记
+        ↓
+RETURN / PASS
 ```
 
-RETURN：
+Gatekeeper 不需要模型。
+
+它不重新读代码，也不重新解释 Reviewer 的长篇自然语言。
+
+它只验证已经约定好的硬条件。
+
+这条分工很重要：
+
+> **Reviewer 负责“怎么看”，Gatekeeper 负责“规则是否允许继续”。**
+
+这样 Reviewer 即使很聪明，也不会因为一句结论就直接拥有改任务状态、正式 Approve、合并代码等全部权力。
+
+同时，人也不用永远重复点击那些规则已经完全确定的“通过”。
+
+## PASS 必须绑定被审查的版本
+
+Gatekeeper 的第一条硬规则应该非常朴素：
 
 ```text
-恢复原 Builder session
-↓
-发送 Review findings
-↓
-继续整改
-↓
-再次提交 Review
+currentSha == reviewedSha
 ```
 
-PASS：
-
-```text
-停止施工
-↓
-等待集成
-```
-
-Builder 不应该重新解释：
-
-> Codex 到底算不算让我继续？
-
-它只执行决定。
-
-## PASS 必须绑定代码版本
-
-这里有一个很容易被忽略的竞态。
-
-假设 Codex Review 的是：
+假设 Reviewer 看的是：
 
 ```text
 SHA A
 ```
 
-然后给出：
+并给出：
 
 ```text
-PASS
+NO_BLOCKING_FINDINGS
 ```
 
 结果 Builder 又“顺手优化”了一点：
@@ -541,26 +511,18 @@ PASS
 SHA B
 ```
 
-如果任务状态还保持 PASS，那么这个 PASS 已经失效。
+那么上一轮 Review 已经失效。
 
-所以 Review 必须绑定：
+无论模型当时说得多有把握，Gatekeeper 都不能继续沿用那次结论。
 
-```text
-reviewedSha
-```
-
-集成前检查：
+应该变成：
 
 ```text
-currentSha == reviewedSha
-```
-
-如果代码变化：
-
-```text
-PASS
+reviewed
 ↓
-STALE
+代码变化
+↓
+stale
 ↓
 重新 Review
 ```
@@ -569,21 +531,52 @@ STALE
 
 > **Review 通过的是一份具体代码，不是一个任务名字。**
 
-## Codex 线程会断，所以它不能成为状态数据库
+而真正的 `PASS`，也必须是“某个确定版本满足了一组确定规则”的结果。
+
+## Reviewer 和 Gatekeeper 不应该共享同一种权力
+
+这件事继续往下推，会得到一个更一般的原则。
+
+一个角色是否“聪明”，和它是否应该拥有写权限，是两回事。
+
+可以让 Reviewer 深入理解：
+
+```text
+需求
+代码
+架构合同
+风险
+平台差异
+验证缺口
+```
+
+但它依然可以保持只读。
+
+真正写状态、正式 Approve、打标签或者推进流程的能力，可以交给一个更小、更容易审计的确定性组件。
+
+这样做并不是不信任 AI。
+
+而是在认真设计组织里的职责分离。
+
+现实里也不会因为一个审计人员判断“没有发现问题”，就顺便把审批制度、账本和付款权限全部交给同一个人。
+
+Agent 系统也不该因为模型会说话，就把所有权力塞进同一个 prompt。
+
+## 线程会断，所以它不能成为状态数据库
 
 现实里还有一个很烦的问题：
 
-**Codex 长线程会断流。**
+**长期 AI 线程会断流。**
 
 如果整个调度系统依赖：
 
-> Codex 记得我们刚才做到哪了。
+> Reviewer 记得我们刚才做到哪了。
 
 那这套流水线是不可信的。
 
 所以必须把两类信息分开。
 
-Codex Thread 保存的是：
+长期线程保存的是：
 
 ```text
 项目背景
@@ -604,8 +597,9 @@ Codex Thread 保存的是：
 哪个 review thread
 哪个 SHA
 当前状态
-哪个 task 已经 PASS
-哪个还在 RETURN
+哪一次 verdict 对应哪一个 SHA
+Gate 是否已经放行
+哪个 task 仍在返工
 ```
 
 这是“工程事实”。
@@ -621,7 +615,8 @@ status: review
 worktree: ...
 baseSha: ...
 currentSha: ...
-reviewThread: ...
+reviewedSha: ...
+gate: pending
 
 T39
 builder: opencode
@@ -632,14 +627,14 @@ status: building
 这样就算：
 
 ```text
-Codex UI 断掉
+AI UI 断掉
 网络断掉
 客户端重启
 ```
 
 系统也知道下一步是什么。
 
-Codex Thread 是脑子。
+线程是脑子。
 
 Ledger 是账本。
 
@@ -649,7 +644,7 @@ Ledger 是账本。
 
 ## 为什么开始倾向一个全局本地调度服务
 
-一开始曾经想过，能不能直接借 Com Design Prototype 现成的 Vite 服务来承载这套 Workbench。
+一开始曾经想过，能不能直接借某个项目现成的 Vite 服务来承载这套 Workbench。
 
 后来发现一个问题。
 
@@ -657,23 +652,23 @@ Ledger 是账本。
 
 ```text
 T38
-├── Mobile Vite
-└── PC Vite
+├── Mobile Preview
+└── PC Preview
 
 T39
-├── Mobile Vite
-└── PC Vite
+├── Mobile Preview
+└── PC Preview
 ```
 
 甚至更多项目同时工作。
 
-如果每个 Vite 都成为调度器，就会立即出现：
+如果每个 Preview 服务都成为调度器，就会立即出现：
 
 ```text
 谁才是真相源？
 哪个服务先启动？
 关掉一个页面是不是任务也没了？
-几个 Vite 同时写状态怎么办？
+几个服务同时写状态怎么办？
 ```
 
 所以现在更倾向：
@@ -695,19 +690,24 @@ Batches
 Tasks
 Worktrees
 Builder Sessions
-Codex Review Threads
+Review Threads
 Review Queue
+Gate State
 Runtime Processes
 Preview URLs
 ```
 
-Vite 只是 Preview。
+Preview 只是 Preview。
 
 OpenCode 只是 Builder。
 
-Codex 只是 Reviewer / Planner。
+Codex 或其他模型只是 Reviewer / Planner。
 
-Git 只是事实来源之一。
+Git 是重要事实来源。
+
+Gatekeeper 是流程规则执行器。
+
+谁都不应该假装自己就是整个系统。
 
 ## 全局调度室大概长这样
 
@@ -747,8 +747,11 @@ PASS
 Review
 Round 2
 
-Codex
-connected / interrupted
+Reviewer
+NO_BLOCKING_FINDINGS
+
+Gate
+PENDING / PASS / BLOCKED
 
 Preview
 Mobile : 5187
@@ -765,7 +768,7 @@ PC     : 5188
 
 ## 项目状态和运行状态必须分开
 
-Com Design Prototype 已经有：
+项目本身可能已经有：
 
 ```text
 TODO
@@ -787,6 +790,7 @@ waiting
 building
 reviewing
 fixing
+gate_pending
 waiting_integration
 interrupted
 stale
@@ -798,10 +802,10 @@ stale
 building / fixing
 → DOING
 
-reviewing
+reviewing / gate_pending
 → REVIEW
 
-review pass + integration accepted
+Gate PASS + integration accepted
 → PASS
 ```
 
@@ -817,17 +821,18 @@ review pass + integration accepted
 
 1. 注册一个本地项目；
 2. 读取现有任务卡；
-3. Codex 主线程判断哪些任务可以并行；
+3. 评审 / 规划角色判断哪些任务可以并行；
 4. 一个 Skill 把判断转换成 Batch；
 5. 自动创建 Worktree；
-6. 启动 OpenCode 施工；
+6. 启动一个 Builder 施工；
 7. 收到施工结束；
-8. 自动唤醒原 Codex Review Thread；
-9. Codex 输出 RETURN / PASS；
-10. RETURN 时恢复原 OpenCode Session；
-11. PASS 后锁定 reviewed SHA；
-12. 串行进入集成；
-13. 一个极简本地进度页面。
+8. 自动触发对应 Reviewer；
+9. Reviewer 输出 findings / verdict，并绑定 reviewed SHA；
+10. 确定性 Gatekeeper 校验版本、必要检查和任务合同；
+11. Gate RETURN 时恢复原 Builder Session；
+12. Gate PASS 时锁定 reviewed SHA，并进入等待集成；
+13. 串行进入集成；
+14. 一个极简本地进度页面。
 
 暂时不做：
 
@@ -845,7 +850,7 @@ Agent marketplace
 
 先让一件事真正成立：
 
-> **我把几张任务交出去，然后去做别的。回来的时候，它们已经施工、评审、返工，并明确告诉我哪些真的通过了。**
+> **我把几张任务交出去，然后去做别的。回来的时候，它们已经施工、评审、返工，并明确告诉我哪些版本真的满足了放行规则。**
 
 如果这件事成立，OPC 才真正少了一个需要人手维持的环节。
 
@@ -867,6 +872,7 @@ Agent marketplace
 催施工
 收结果
 再派返工
+重复确认已经满足的门禁
 ```
 
 这些不起眼的小动作。
@@ -885,17 +891,7 @@ OPC 如果只是：
 
 真正有意思的方向也许是：
 
-> **让 AI Agent 之间开始具备可追踪的交接、独立审查、返工和恢复能力，而人只保留真正需要判断的那几个节点。**
-
-上一轮我们讨论的是：
-
-**Codex、Skill、Worktree 与自动审查应该怎样组成可信流水线。**
-
-这一轮更具体了一点。
-
-我们终于开始看到那个可能真正值得做的东西：
-
-> **一个运行在本机上的 AI 工程调度室。**
+> **让 AI Agent 之间开始具备可追踪的交接、独立审查、确定性放行、返工和恢复能力，而人只保留真正需要判断的那几个节点。**
 
 它不会替代 Codex。
 
