@@ -41,11 +41,11 @@ Tomz 说，他记得 GitHub 上好像有一个项目叫：
 | 课程状态 | 进行中 |
 | 主学习材料 | Datawhale《Hello-Agents》 |
 | 学习方式 | 教材主线 + Mira 真实工程 + 问题触发插课 |
-| 主线进度 | 第 1 章已完成 |
-| 当前停点 | 第 1 章结束 |
-| 下一步 | 正式进入第 2 章《Agent 的经典范式》 |
-| 下次开始 | 从经典 Agent 范式开始，继续建立统一的 Agent 控制框架 |
-| 最近更新 | 2026年8月27日 |
+| 主线进度 | 经典 Agent 范式已完成：ReAct / Plan-and-Solve / Reflection |
+| 当前停点 | 经典范式的组合、Evidence、Replan 与终止语义 |
+| 下一步 | 跳到框架开发实践 / 构建 Agent Framework，继续看 Harness 与 Runtime |
+| 下次开始 | 从“Framework 到底负责什么”开始，对照 DSH 与 Mira |
+| 最近更新 | 2026年8月30日 |
 
 **以后重新开始这门课，先看这一节。**
 
@@ -201,6 +201,7 @@ Skill 是……
 - ReAct 与 Agent Loop
 - Plan、Goal 与滚动规划
 - Reflection 与结果校准
+- 经典范式的决策权、Evidence、Replan 与终止语义
 - Agent 的历史脉络
 - LLM 怎样“看、想、说”
 - Context Engineering
@@ -214,22 +215,36 @@ Skill 是……
 
 **专题文章是学习留下的切片，不是课程进度条。**
 
-## 下一站：第 2 章《Agent 的经典范式》
+## 下一站：Agent Framework 与 Harness
 
-当前真正的主线停点很清楚：
+经典 Agent 范式这一段已经正式学完。
 
-> **第 1 章已经完成，下一次正式进入第 2 章。**
+Hello-Agents 当前把 ReAct、Plan-and-Solve、Reflection 放在“智能体经典范式构建”章节中；接下来我们不为了章节编号严格顺序推进，而是顺着已经出现的真实问题，优先去看框架开发实践与“构建自己的 Agent Framework”。
 
-我们会从经典 Agent 范式开始，继续问几个比背定义更重要的问题：
+因为刚学完经典范式以后，问题已经自然从：
 
 ```text
-一个 Agent 为什么需要循环？
-状态、行动、观察之间到底是什么关系？
-不同范式究竟在把控制权交给谁？
-哪些设计适合教材示例，哪些经不起真实工程？
+Agent 下一步怎么决定？
 ```
 
-然后继续把它们放回 Mira。
+推进到了：
+
+```text
+谁拥有行动权？
+谁拥有纠错权？
+谁拥有终止权？
+Planner 和 Harness 怎样分工？
+Tool / Skill / MCP 怎样动态装载？
+组织结构怎样真正进入 Agent Runtime？
+```
+
+DeepSeek Harness 的时事插课已经提前把这扇门推开了一点。
+
+所以下一次主线从这里继续：
+
+> **一个 Agent Framework，到底应该负责什么？**
+
+然后继续把答案放回 Mira。
 
 ---
 
