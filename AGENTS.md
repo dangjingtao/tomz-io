@@ -27,6 +27,7 @@
 
 - Group、Tag 与 Book 的内容关系；
 - 连续文章直接使用 Book 归类，不新增独立 Series 层；
+- Tag 作为全站共享主题词表的 canonical 与收敛规则；
 - 逻辑归档优先于物理迁移；
 - 已发布 URL 与 canonical 的稳定性；
 - 单一正文事实源；
@@ -60,6 +61,7 @@
 - 不自行推断作者关系；署名与内容归属按 `docs/AUTHORSHIP.md` 执行。
 - 不自行把 Book 收录理解为文件迁移；内容组织按 `docs/CONTENT_ARCHITECTURE.md` 执行。
 - 不新增独立 Series / 系列 metadata 层；连续内容需要归组时直接使用 Book。
+- 不在页面组件里各自发明 Tag 过滤逻辑；站点 Tag canonicalization 集中在 `src/content/tag-taxonomy.ts` 维护。
 
 ## 3. 博客内容改动规范
 
@@ -80,7 +82,7 @@
 7. 不得为新增文章手工改 React 路由或导航配置，除非当前内容体系明确需要或任务要求。
 8. 若历史分类、路径或 metadata 与署名原则冲突，不得以“沿用现状”为理由保留错误归属。
 9. 普通博客文章收入 Book 时，默认只增加逻辑关系，不复制正文、不换 URL、不改变 canonical；只有明确的历史归属纠正或专项迁移任务可以另行处理。
-10. Tag 只表达文章主题，不用来替代 Group 或 Book；创建新 Tag 前应优先复用已有词。
+10. Tag 只表达文章主题，不用来替代 Group 或 Book；Tag 是全站共享词表，创建新 Tag 前优先复用已有 canonical 词，不把当前 `group` 再写进 `tags`，也不继续新增已被 canonical 规则替代的旧别名。
 
 ## 4. 构建与验收要求
 
