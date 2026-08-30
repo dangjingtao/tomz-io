@@ -4,18 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "generate:content-times": "node scripts/generate-content-times.mjs",
+    "dev": "npm run generate:content-times && vite",
     "generate:home-recent": "node scripts/generate-home-recent.mjs",
     "generate:home-focus": "node scripts/generate-home-focus.mjs",
     "verify:mira-docs": "node scripts/verify-mira-docs-compat.mjs",
     "verify:static-output": "node scripts/verify-mira-docs-static-output.mjs",
+    "prepare:site": "npm run generate:content-times && npm run verify:mira-docs && npm run generate:home-recent && npm run generate:home-focus && tsc -b",
     "comic:inspect": "node scripts/comic-pipeline/inspect.mjs",
     "comic:build": "node scripts/comic-pipeline/build.mjs",
     "comic:verify": "node scripts/comic-pipeline/verify.mjs",
     "comic:publish": "node scripts/comic-pipeline/publish-r2.mjs",
     "comic:test": "node scripts/comic-pipeline/test.mjs",
-    "build": "npm run verify:mira-docs && npm run generate:home-recent && npm run generate:home-focus && tsc -b && vite build",
-    "build:github-pages": "npm run build -- --mode github-pages",
+    "build": "npm run prepare:site && vite build",
+    "build:github-pages": "npm run prepare:site && vite build --mode github-pages",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -31,7 +33,7 @@
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.18.1",
     "three": "^0.185.1",
-    "workbox-window": "^7.4.1"
+    "workbox-window": "^1.3.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.2",
