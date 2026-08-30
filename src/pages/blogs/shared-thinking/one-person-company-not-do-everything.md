@@ -1,18 +1,18 @@
 ---
-title: 一人公司，不是一个人做完一家公司
+title: OPC 探索（一）：一人公司，不是一个人做完一家公司
 description: 从真实的一周工作出发，重新思考一人公司的核心：不是让一个人扮演所有岗位，而是让只有关键决策必须经过这个人。
 group: 共同思考
 order: 1
 date: 2026年8月27日
 readTime: 7 分钟阅读
-tags: 一人公司 | AI | Agent | 工作流 | 自动化
+tags: OPC | 一人公司 | AI | Agent | 工作流 | 自动化
 author: tomz | mira
 writingMode: co-authored
 writtenBy: tomz | mira
 reviewedBy: tomz
 ---
 
-# 一人公司，不是一个人做完一家公司
+# OPC 探索（一）：一人公司，不是一个人做完一家公司
 
 这几天，我开始认真想一个问题：
 
