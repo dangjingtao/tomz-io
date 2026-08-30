@@ -1,6 +1,6 @@
 import {
-  contentGitHistory,
-  type GeneratedContentGitHistoryEntry,
+  contentTimes,
+  type GeneratedContentTimeEntry,
 } from "./content-times.generated";
 
 export type ContentTimePrecision = "date" | "datetime";
@@ -9,12 +9,6 @@ export type ResolvedContentTime = {
   publishedAt?: string;
   publishedPrecision?: ContentTimePrecision;
   modifiedAt?: string;
-};
-
-type ResolveContentTimeInput = {
-  sourcePath: string;
-  date?: string;
-  publishedAt?: string;
 };
 
 const SITE_OFFSET_MS = 8 * 60 * 60 * 1000;
@@ -34,68 +28,16 @@ function toSiteIso(value?: string): string | undefined {
   return shifted.toISOString().replace(/Z$/, "+08:00");
 }
 
-function siteDate(value?: string): string | undefined {
-  return toSiteIso(value)?.slice(0, 10);
+function timeEntry(sourcePath: string): GeneratedContentTimeEntry | undefined {
+  return contentTimes[sourcePath.replace(/^\/+/, "")];
 }
 
-function normalizePublishedOverride(
-  value?: string,
-): { value: string; precision: ContentTimePrecision } | undefined {
-  if (!value?.trim()) return undefined;
-  const text = value.trim();
-  const dateOnly = normalizedDateOnly(text);
-  if (dateOnly) return { value: dateOnly, precision: "date" };
-
-  // Require an explicit timezone for precise manual overrides so builds are deterministic.
-  if (!/(?:Z|[+-]\d{2}:?\d{2})$/i.test(text) || Number.isNaN(Date.parse(text))) {
-    return undefined;
-  }
-  const normalized = toSiteIso(text);
-  return normalized ? { value: normalized, precision: "datetime" } : undefined;
-}
-
-function historyFor(sourcePath: string): GeneratedContentGitHistoryEntry | undefined {
-  return contentGitHistory[sourcePath.replace(/^\/+/, "")];
-}
-
-function earliestCommitOnDate(
-  history: GeneratedContentGitHistoryEntry | undefined,
-  declaredDate: string,
-): string | undefined {
-  const matches = (history?.commitTimes ?? [])
-    .filter((value) => siteDate(value) === declaredDate)
-    .sort((left, right) => Date.parse(left) - Date.parse(right));
-  return toSiteIso(matches[0]);
-}
-
-export function resolveContentTime({
-  sourcePath,
-  date,
-  publishedAt,
-}: ResolveContentTimeInput): ResolvedContentTime {
-  const history = historyFor(sourcePath);
-  const override = normalizePublishedOverride(publishedAt);
-  const declaredDate = normalizedDateOnly(date);
-
-  let resolvedPublishedAt: string | undefined;
-  let publishedPrecision: ContentTimePrecision | undefined;
-
-  if (override) {
-    resolvedPublishedAt = override.value;
-    publishedPrecision = override.precision;
-  } else if (declaredDate) {
-    const inferred = earliestCommitOnDate(history, declaredDate);
-    resolvedPublishedAt = inferred || declaredDate;
-    publishedPrecision = inferred ? "datetime" : "date";
-  } else if (history?.firstCommitAt) {
-    resolvedPublishedAt = toSiteIso(history.firstCommitAt);
-    publishedPrecision = resolvedPublishedAt ? "datetime" : undefined;
-  }
-
+export function resolveContentTime(sourcePath: string): ResolvedContentTime {
+  const entry = timeEntry(sourcePath);
   return {
-    publishedAt: resolvedPublishedAt,
-    publishedPrecision,
-    modifiedAt: toSiteIso(history?.latestCommitAt),
+    publishedAt: entry?.publishedAt,
+    publishedPrecision: entry?.publishedPrecision,
+    modifiedAt: entry?.modifiedAt,
   };
 }
 
@@ -130,5 +72,5 @@ export function formatContentTime(value?: string): string | undefined {
 }
 
 export function normalizedContentModifiedAt(sourcePath: string): string | undefined {
-  return toSiteIso(historyFor(sourcePath)?.latestCommitAt);
+  return timeEntry(sourcePath)?.modifiedAt;
 }
