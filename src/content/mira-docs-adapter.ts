@@ -6,6 +6,7 @@ import {
 import miraDocsContent, {
   roots as miraDocsRoots,
 } from "virtual:mira-docs/content";
+import { normalizeSiteTags } from "./tag-taxonomy";
 
 export type AuthorKey = "tomz" | "mira";
 export type WritingMode = "authored" | "co-authored";
@@ -161,7 +162,7 @@ function adaptSiteDoc(core: MiraDoc): Doc {
       dataString(core.data, "readTime") ||
       dataString(core.data, "readtime") ||
       dataString(core.data, "read_time"),
-    tags: core.tags,
+    tags: normalizeSiteTags(core.tags, group),
     cover: core.cover || dataString(core.data, "image"),
     source: core.body,
     root,
