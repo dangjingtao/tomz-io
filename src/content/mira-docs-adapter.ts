@@ -6,6 +6,12 @@ import {
 import miraDocsContent, {
   roots as miraDocsRoots,
 } from "virtual:mira-docs/content";
+import {
+  contentTimeSortValue,
+  latestModifiedAt,
+  resolveContentTime,
+  type ContentTimePrecision,
+} from "./content-time";
 import { normalizeSiteTags } from "./tag-taxonomy";
 
 export type AuthorKey = "tomz" | "mira";
@@ -36,6 +42,9 @@ export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   writtenBy?: AuthorKey[];
   reviewedBy?: AuthorKey;
   commitUrl?: string;
+  publishedAt?: string;
+  publishedPrecision?: ContentTimePrecision;
+  modifiedAt?: string;
   headings: { text: string; id: string }[];
 };
 
@@ -149,6 +158,11 @@ function adaptSiteDoc(core: MiraDoc): Doc {
   const segments = relativePath.split("/");
   const group = core.group || "文档";
   const authorInfo = inferDocAuthors(core.path, group, core.data);
+  const contentTime = resolveContentTime({
+    sourcePath: core.sourcePath,
+    date: dataString(core.data, "date") || core.date,
+    publishedAt: dataString(core.data, "publishedAt"),
+  });
 
   return {
     ...core,
@@ -172,6 +186,7 @@ function adaptSiteDoc(core: MiraDoc): Doc {
     merge: dataString(core.data, "merge"),
     mergeIndex: dataString(core.data, "mergeIndex") === "true",
     ...authorInfo,
+    ...contentTime,
     headings: legacyLevelTwoHeadings(core.body),
   };
 }
@@ -184,17 +199,10 @@ export function compareDocs(a: Doc, b: Doc): number {
   );
 }
 
-function parseChineseDate(value?: string): number {
-  if (!value) return 0;
-  const match = value.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-  if (!match) return 0;
-  const [, year, month, day] = match;
-  return new Date(Number(year), Number(month) - 1, Number(day)).getTime();
-}
-
 export function compareBlogDocs(a: Doc, b: Doc): number {
   return (
-    parseChineseDate(b.date) - parseChineseDate(a.date) ||
+    contentTimeSortValue(b.publishedAt || b.date) -
+      contentTimeSortValue(a.publishedAt || a.date) ||
     b.order - a.order ||
     a.path.localeCompare(b.path)
   );
@@ -206,14 +214,14 @@ export const allDocs = parsedDocs
   .filter((doc) => !doc.merge || doc.mergeIndex)
   .map((doc) => {
     if (!doc.merge) return doc;
-    const mergedSource = parsedDocs
+    const mergedSections = parsedDocs
       .filter((section) => section.merge === doc.merge)
-      .sort(compareDocs)
-      .map((section) => section.source)
-      .join("\n\n");
+      .sort(compareDocs);
+    const mergedSource = mergedSections.map((section) => section.source).join("\n\n");
     return {
       ...doc,
       source: mergedSource,
+      modifiedAt: latestModifiedAt(mergedSections.map((section) => section.modifiedAt)),
       headings: legacyLevelTwoHeadings(mergedSource),
     };
   })
