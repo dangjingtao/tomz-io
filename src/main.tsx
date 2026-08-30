@@ -13,6 +13,7 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
 import { HomepageFooter } from "./HomepageV1";
+import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import { getBook, getBookEntry } from "./content/bookshelf";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
@@ -122,6 +123,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
       <AppEntry />
+      <ContentTimeMetaPortal />
       <LegacyHeaderCompat />
       <WorksExperience />
     </BrowserRouter>

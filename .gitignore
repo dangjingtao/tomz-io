@@ -9,6 +9,9 @@ build/
 out/
 .mira-cache/
 
+# Generated content metadata
+src/content/content-times.generated.ts
+
 # TypeScript
 *.tsbuildinfo
 vite.config.js
