@@ -5,24 +5,34 @@
 - 保持内容与路由稳定；
 - 不破坏 BR003A / BR003B 的构建与预览流程；
 - 让改动可验证、可回滚、可追溯；
-- 严格维护 Tomz.io 的作者署名与内容归属。
+- 严格维护 Tomz.io 的作者署名、内容归属与内容架构。
 
-## 0. 必读：署名与归属原则
+## 0. 必读：署名、归属与内容架构原则
 
-**在处理任何内容文章、书架、项目、作品、作者字段、内容目录、URL、SEO 或结构化数据前，必须先完整阅读：**
+**在处理任何内容文章、书架、项目、作品、作者字段、内容目录、系列、URL、SEO 或结构化数据前，必须先完整阅读：**
 
-[`docs/AUTHORSHIP.md`](docs/AUTHORSHIP.md)
+- [`docs/AUTHORSHIP.md`](docs/AUTHORSHIP.md)
+- [`docs/CONTENT_ARCHITECTURE.md`](docs/CONTENT_ARCHITECTURE.md)
 
-这是本仓库关于以下事项的正式规则：
+`docs/AUTHORSHIP.md` 是本仓库关于以下事项的正式规则：
 
 - Tomz / Mira 的公开署名；
 - 各栏目第一作者及共同作者顺序；
 - `author` / `writtenBy` / `reviewedBy` / `writingMode`；
 - 《谎颜》的归属；
 - Mira 来信、开发者生活、共同思考、读经、一起学智能体、项目页、连环画的边界；
-- 物理目录、URL 与 SEO 的一致性。
+- 物理目录、URL 与 SEO 的归属一致性。
 
-不得从旧 frontmatter、旧目录位置或历史 Skill 反推出新的署名规则。若发生冲突，以 `docs/AUTHORSHIP.md` 为准。
+`docs/CONTENT_ARCHITECTURE.md` 是本仓库关于以下事项的正式设计规则：
+
+- 博客、系列与书架的层级关系；
+- 逻辑归档优先于物理迁移；
+- 已发布 URL 与 canonical 的稳定性；
+- 单一正文事实源；
+- 系列展示与文章标题分离；
+- 普通归档与历史归属纠正的区别。
+
+不得从旧 frontmatter、旧目录位置或历史 Skill 反推出新的署名或归档规则。作者与内容归属冲突以 `docs/AUTHORSHIP.md` 为准；博客系列、书架收录、逻辑归档、URL 与 SEO 组织方式冲突以 `docs/CONTENT_ARCHITECTURE.md` 为准。
 
 ## 1. 项目事实（执行前必须理解）
 
@@ -48,12 +58,13 @@
 - 保持现有命名风格、目录结构和中英文内容风格一致。
 - 不凭猜测声明“构建通过”；必须以实际命令结果为准。
 - 不自行推断作者关系；署名与内容归属按 `docs/AUTHORSHIP.md` 执行。
+- 不自行把系列化、书架收录理解为文件迁移；内容组织按 `docs/CONTENT_ARCHITECTURE.md` 执行。
 
 ## 3. 博客内容改动规范
 
 当任务涉及 `src/pages/blogs/` 下 Markdown 文章时，必须遵守：
 
-1. 先读取 `docs/AUTHORSHIP.md`。
+1. 先读取 `docs/AUTHORSHIP.md`；涉及系列、书架、归档、URL 或 SEO 时同时读取 `docs/CONTENT_ARCHITECTURE.md`。
 2. 文件路径必须符合该内容体系的真实归属，不得仅因历史路径存在就继续沿用错误目录。
 3. `slug` 仅使用小写英文、数字、连字符。
 4. frontmatter 至少包含：
@@ -67,6 +78,7 @@
 6. 正文第一个标题必须是与 `title` 完全一致的 H1。
 7. 不得为新增文章手工改 React 路由或导航配置，除非当前内容体系明确需要或任务要求。
 8. 若历史分类、路径或 metadata 与署名原则冲突，不得以“沿用现状”为理由保留错误归属。
+9. 普通博客系列成熟后收入书架时，默认只增加逻辑关系，不复制正文、不换 URL、不改变 canonical；只有明确的历史归属纠正或专项迁移任务可以另行处理。
 
 ## 4. 构建与验收要求
 
@@ -95,10 +107,12 @@ npm run verify:static-output
 - 物理目录；
 - 页面分类 / 导航；
 - URL；
+- canonical；
 - 可见作者顺序；
 - `writtenBy` / `reviewedBy` / `writingMode`；
 - SEO 与 JSON-LD 作者；
-- sitemap / 首页 / 书架等索引输出。
+- sitemap / 首页 / 书架等索引输出；
+- 是否意外生成同一正文的第二个可索引 URL。
 
 ### 4.4 失败处理
 
@@ -112,16 +126,19 @@ npm run verify:static-output
 - 将计划中的功能描述为已上线事实。
 - 在一次任务里混入无关视觉大改或目录迁移。
 - 未读 `docs/AUTHORSHIP.md` 就修改作者、栏目、书架、作品、内容路径或 SEO。
+- 未读 `docs/CONTENT_ARCHITECTURE.md` 就实施博客系列化、书架归档、URL 迁移或 canonical 调整。
 - 因 Mira 实际成文、润色或工具执行量较大，就擅自改变 Tomz 指定的公开署名。
+- 因文章被收入书架，就默认复制正文、移动文件、删除原博客 URL 或生成第二套正文 URL。
 
 ## 6. 推荐工作流
 
 1. 读取 `docs/AUTHORSHIP.md`（涉及内容归属时为强制步骤）。
-2. 读取任务相关文件与相邻实现。
-3. 用最小改动实现需求。
-4. 运行对应校验脚本。
-5. 汇报改动文件、校验命令、结果与风险点。
+2. 涉及系列、书架、归档、URL 或 SEO 时读取 `docs/CONTENT_ARCHITECTURE.md`。
+3. 读取任务相关文件与相邻实现。
+4. 用最小改动实现需求。
+5. 运行对应校验脚本。
+6. 汇报改动文件、校验命令、结果与风险点。
 
 ---
 
-如一般工程说明与仓库实时实现冲突，以当前代码与 CI 校验为准；**如作者、署名、作品归属规则发生冲突，以 `docs/AUTHORSHIP.md` 为准。**
+如一般工程说明与仓库实时实现冲突，以当前代码与 CI 校验为准；**如作者、署名、作品归属规则发生冲突，以 `docs/AUTHORSHIP.md` 为准；如博客、系列、书架、逻辑归档、URL 与 SEO 组织规则发生冲突，以 `docs/CONTENT_ARCHITECTURE.md` 为准。**
