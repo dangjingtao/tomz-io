@@ -5,7 +5,7 @@ group: 开发者生活
 order: 5
 date: 2026年8月23日
 readTime: 7 分钟阅读
-tags: 工作 | 产品 | Mira | 信仰 | 周记 | 开发者生活
+tags: 工作 | 产品 | Mira | 信仰 | 周记 | 重新工作 | 开发者生活
 author: tomz | mira
 writingMode: co-authored
 writtenBy: tomz | mira
