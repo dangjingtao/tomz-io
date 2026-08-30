@@ -15,6 +15,11 @@ const outputPath = resolve(root, "src/content/content-times.generated.ts");
 const cachePath = resolve(root, ".mira-cache/content-times.json");
 const SITE_OFFSET_MS = 8 * 60 * 60 * 1000;
 
+// These commits remain valid modification history, but are not evidence that an
+// already-published article first went public at the migration timestamp.
+const NON_PUBLICATION_EVIDENCE =
+  /\bmirror\b|\bmigrat(?:e|ed|es|ing|ion)\b|source mirror|full source|内容迁移|目录迁移|迁站|搬迁|归属调整/i;
+
 function markdownFiles(directory) {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -70,33 +75,56 @@ function normalizePublishedOverride(value, sourcePath) {
   if (!value?.trim()) return undefined;
   const text = value.trim();
   const dateOnly = normalizedDateOnly(text);
-  if (dateOnly) return { value: dateOnly, precision: "date" };
+  if (dateOnly) return { value: dateOnly, precision: "date", source: "override" };
 
   if (!/(?:Z|[+-]\d{2}:?\d{2})$/i.test(text) || Number.isNaN(Date.parse(text))) {
     throw new Error(
       `${sourcePath}: publishedAt must be YYYY-MM-DD or an ISO datetime with an explicit timezone`,
     );
   }
-  return { value: toSiteIso(text), precision: "datetime" };
+  return {
+    value: toSiteIso(text),
+    precision: "datetime",
+    source: "override",
+  };
 }
 
-function resolvePublishedAt({ sourcePath, declaredDate, publishedAt, commitTimes }) {
+function isPublicationEvidence(commit) {
+  return !NON_PUBLICATION_EVIDENCE.test(commit.subject);
+}
+
+function resolvePublishedAt({ sourcePath, declaredDate, publishedAt, commits }) {
   const override = normalizePublishedOverride(publishedAt, sourcePath);
   if (override) return override;
 
   const dateOnly = normalizedDateOnly(declaredDate);
   if (dateOnly) {
-    const sameDay = commitTimes
-      .filter((value) => siteDate(value) === dateOnly)
-      .sort((left, right) => Date.parse(left) - Date.parse(right))[0];
+    const sameDay = commits
+      .filter(
+        (commit) =>
+          siteDate(commit.committedAt) === dateOnly && isPublicationEvidence(commit),
+      )
+      .sort(
+        (left, right) => Date.parse(left.committedAt) - Date.parse(right.committedAt),
+      )[0];
     return sameDay
-      ? { value: toSiteIso(sameDay), precision: "datetime" }
-      : { value: dateOnly, precision: "date" };
+      ? {
+          value: toSiteIso(sameDay.committedAt),
+          precision: "datetime",
+          source: "git-same-day",
+          evidenceCommit: sameDay.sha,
+        }
+      : { value: dateOnly, precision: "date", source: "declared-date" };
   }
 
-  const firstCommitAt = commitTimes.at(-1);
-  return firstCommitAt
-    ? { value: toSiteIso(firstCommitAt), precision: "datetime" }
+  const firstCommit = commits.at(-1);
+  return firstCommit
+    ? {
+        value: toSiteIso(firstCommit.committedAt),
+        precision: "datetime",
+        source: "git-first-commit",
+        evidenceCommit: firstCommit.sha,
+      }
     : undefined;
 }
 
@@ -118,30 +146,49 @@ for (const file of markdownFiles(pagesRoot)) {
   const source = readFileSync(file, "utf8");
   const doc = parseMiraDoc(sourcePath, source);
   const raw = runGit(
-    ["log", "--follow", "--format=%cI", "--", repositoryPath],
+    ["log", "--follow", "--format=%H%x09%cI%x09%s", "--", repositoryPath],
     { quiet: true },
   );
-  const commitTimes = [...new Set(raw.split(/\r?\n/).map((item) => item.trim()).filter(Boolean))]
-    .filter((value) => !Number.isNaN(Date.parse(value)))
-    .sort((left, right) => Date.parse(right) - Date.parse(left));
+  const commits = raw
+    .split(/\r?\n/)
+    .map((line) => {
+      const [sha, committedAt, ...subjectParts] = line.split("\t");
+      return {
+        sha: sha?.trim(),
+        committedAt: committedAt?.trim(),
+        subject: subjectParts.join("\t").trim(),
+      };
+    })
+    .filter(
+      (commit) =>
+        commit.sha &&
+        commit.committedAt &&
+        !Number.isNaN(Date.parse(commit.committedAt)),
+    )
+    .sort(
+      (left, right) => Date.parse(right.committedAt) - Date.parse(left.committedAt),
+    );
+  const commitTimes = [...new Set(commits.map((commit) => commit.committedAt))];
   const published = resolvePublishedAt({
     sourcePath,
     declaredDate: dataString(doc.data, "date") || doc.date,
     publishedAt: dataString(doc.data, "publishedAt"),
-    commitTimes,
+    commits,
   });
 
   contentTimes[sourcePath] = {
     commitTimes,
-    latestCommitAt: commitTimes[0],
-    firstCommitAt: commitTimes.at(-1),
+    latestCommitAt: commits[0]?.committedAt,
+    firstCommitAt: commits.at(-1)?.committedAt,
     publishedAt: published?.value,
     publishedPrecision: published?.precision,
-    modifiedAt: toSiteIso(commitTimes[0]),
+    publishedSource: published?.source,
+    publishedEvidenceCommit: published?.evidenceCommit,
+    modifiedAt: toSiteIso(commits[0]?.committedAt),
   };
 }
 
-const generatedSource = `// Generated by scripts/generate-content-times.mjs. Do not edit by hand.\n\nexport type GeneratedContentTimeEntry = {\n  readonly commitTimes: readonly string[];\n  readonly latestCommitAt?: string;\n  readonly firstCommitAt?: string;\n  readonly publishedAt?: string;\n  readonly publishedPrecision?: \"date\" | \"datetime\";\n  readonly modifiedAt?: string;\n};\n\nexport const contentTimes: Readonly<Record<string, GeneratedContentTimeEntry>> = ${JSON.stringify(contentTimes, null, 2)};\n`;
+const generatedSource = `// Generated by scripts/generate-content-times.mjs. Do not edit by hand.\n\nexport type GeneratedContentTimeEntry = {\n  readonly commitTimes: readonly string[];\n  readonly latestCommitAt?: string;\n  readonly firstCommitAt?: string;\n  readonly publishedAt?: string;\n  readonly publishedPrecision?: \"date\" | \"datetime\";\n  readonly publishedSource?: \"override\" | \"git-same-day\" | \"declared-date\" | \"git-first-commit\";\n  readonly publishedEvidenceCommit?: string;\n  readonly modifiedAt?: string;\n};\n\nexport const contentTimes: Readonly<Record<string, GeneratedContentTimeEntry>> = ${JSON.stringify(contentTimes, null, 2)};\n`;
 
 mkdirSync(dirname(outputPath), { recursive: true });
 mkdirSync(dirname(cachePath), { recursive: true });
