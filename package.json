@@ -16,8 +16,8 @@
     "comic:verify": "node scripts/comic-pipeline/verify.mjs",
     "comic:publish": "node scripts/comic-pipeline/publish-r2.mjs",
     "comic:test": "node scripts/comic-pipeline/test.mjs",
-    "build": "npm run prepare:site && vite build",
-    "build:github-pages": "npm run prepare:site && vite build --mode github-pages",
+    "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs",
+    "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
