@@ -5,7 +5,7 @@ group: 开发者生活
 order: 3
 date: 2026年8月12日
 readTime: 6 分钟阅读
-tags: 工作 | 产品 | 创作 | 边界 | 开发者生活
+tags: 工作 | 产品 | 创作 | 边界 | 周记 | 重新工作 | 开发者生活
 author: tomz
 writingMode: co-authored
 writtenBy: tomz
