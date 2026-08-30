@@ -158,11 +158,7 @@ function adaptSiteDoc(core: MiraDoc): Doc {
   const segments = relativePath.split("/");
   const group = core.group || "文档";
   const authorInfo = inferDocAuthors(core.path, group, core.data);
-  const contentTime = resolveContentTime({
-    sourcePath: core.sourcePath,
-    date: dataString(core.data, "date") || core.date,
-    publishedAt: dataString(core.data, "publishedAt"),
-  });
+  const contentTime = resolveContentTime(core.sourcePath);
 
   return {
     ...core,
