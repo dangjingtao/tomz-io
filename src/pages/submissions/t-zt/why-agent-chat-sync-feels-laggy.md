@@ -1,8 +1,8 @@
 ---
 title: Agent 聊天为什么越用越卡：五层瓶颈调研
 description: Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。
-group: 共同思考
-order: 1
+group: 客座文章
+order: 12
 date: 2026年8月31日
 readTime: 16 分钟阅读
 tags: AI | Agent | 性能优化 | SQLite | 前端

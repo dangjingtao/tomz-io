@@ -314,6 +314,12 @@ const blogNavCategories = (() => {
   }
   return [...groups].map(([label, count]) => ({ label, count }));
 })();
+const submissionNavDocs = (() => {
+  const area = siteAreas.find((item) => item.key === "submissions");
+  return (area?.docs || [])
+    .filter((doc) => doc.path !== "/submissions")
+    .sort(compareDocs);
+})();
 function escapeHtml(value: string) {
   return value.replace(
     /[&<>"']/g,
@@ -607,7 +613,7 @@ function SiteHeaderBase({
     setMobileOpen(false);
   }, [location.pathname]);
   useEffect(() => {
-    if (openMenu !== "blogs") return;
+    if (!openMenu) return;
     const closeBlogMenu = (event: PointerEvent | globalThis.KeyboardEvent) => {
       if (event instanceof globalThis.KeyboardEvent && event.key !== "Escape")
         return;
@@ -641,6 +647,68 @@ function SiteHeaderBase({
           {content.nav.map((item) => {
             const active = isActive(item);
             const target = item.href.slice(Math.max(appBase.length - 1, 0));
+            if (target === "/submissions") {
+              return (
+                <li
+                  className={`menu-dropdown blog-nav-dropdown${openMenu === "submissions" ? " open" : ""}`}
+                  key={item.href}
+                  onMouseEnter={() => setOpenMenu("submissions")}
+                  onMouseLeave={() => setOpenMenu(null)}
+                >
+                  <Link
+                    className={`menu-dropdown-trigger blog-nav-trigger${active ? " active" : ""}`}
+                    aria-current={active ? "page" : undefined}
+                    aria-expanded={openMenu === "submissions"}
+                    aria-haspopup="menu"
+                    to={target}
+                    onClick={(event) => {
+                      if (
+                        event.metaKey ||
+                        event.ctrlKey ||
+                        event.shiftKey ||
+                        event.altKey
+                      )
+                        return;
+                      event.preventDefault();
+                      setOpenMenu("submissions");
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") setOpenMenu(null);
+                    }}
+                  >
+                    {item.label}
+                    <ChevronDown size={14} strokeWidth={1.8} aria-hidden="true" />
+                  </Link>
+                  <div className="menu-dropdown-panel blog-nav-panel" role="menu">
+                    <div className="blog-nav-panel-head">
+                      <span>SUBMISSIONS</span>
+                      <strong>客座作者与来稿</strong>
+                    </div>
+                    <div className="blog-nav-panel-grid">
+                      <Link role="menuitem" to="/submissions" onClick={() => setOpenMenu(null)}>
+                        <FileCode2 size={18} aria-hidden="true" />
+                        <span>
+                          <strong>投稿说明</strong>
+                          <small>怎么投，以及怎么署名</small>
+                        </span>
+                      </Link>
+                      {submissionNavDocs.slice(0, 6).map((doc, index) => {
+                        const SubmissionIcon = index === 0 ? Compass : BookOpen;
+                        return (
+                          <Link role="menuitem" key={doc.path} to={doc.path} onClick={() => setOpenMenu(null)}>
+                            <SubmissionIcon size={18} aria-hidden="true" />
+                            <span>
+                              <strong>{doc.title}</strong>
+                              <small>{doc.group}</small>
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </li>
+              );
+            }
             if (target === "/blogs") {
               return (
                 <li
@@ -1789,6 +1857,21 @@ function BlogPostPage({
   const authorLabel = getDocAuthorLabel(doc);
   const signature = getDocSignature(doc);
   const isSubmissionPage = doc.root === "submissions";
+  const submissionParts = doc.path.split("/").filter(Boolean);
+  const submissionBackPath = !isSubmissionPage
+    ? "/blogs"
+    : submissionParts.length <= 1
+      ? "/"
+      : submissionParts.length == 2
+        ? "/submissions"
+        : `/${submissionParts.slice(0, 2).join("/")}`;
+  const submissionBackLabel = !isSubmissionPage
+    ? "← 返回博客列表"
+    : submissionParts.length <= 1
+      ? "← 返回首页"
+      : submissionParts.length == 2
+        ? "← 返回投稿"
+        : `← 返回 ${submissionParts[1]}`;
   useEffect(() => {
     const nodes = doc.headings
       .map((heading) => document.getElementById(heading.id))
@@ -1886,11 +1969,11 @@ function BlogPostPage({
               className="back-link"
               to={
                 isSubmissionPage
-                  ? "/"
+                  ? submissionBackPath
                   : { pathname: "/blogs", search: location.search }
               }
             >
-              {isSubmissionPage ? "← 返回首页" : "← 返回博客列表"}
+              {submissionBackLabel}
             </Link>
             <ShareButton title={doc.title} text={doc.description} />
           </div>

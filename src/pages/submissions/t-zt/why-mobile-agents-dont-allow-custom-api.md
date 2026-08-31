@@ -1,8 +1,8 @@
 ---
 title: 为什么手机端 Agent 都不给填自定义 API
 description: 腾讯、阿里、字节等大厂的手机端 Agent 很少开放自定义 API。这份调研从产品定位、商业模型、安全合规与手机 Agent 的能力绑定拆解原因，并给出 BYOK 工具的反例与趋势判断。
-group: 共同思考
-order: 1
+group: 客座文章
+order: 11
 date: 2026年8月31日
 readTime: 14 分钟阅读
 tags: AI | Agent | 产品 | BYOK | 监管
