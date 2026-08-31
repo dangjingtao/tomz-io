@@ -153,7 +153,12 @@ function bookshelfRedirects(): Plugin {
     apply: "build",
     enforce: "post",
     closeBundle() {
-      const lines: string[] = [];
+      const lines: string[] = [
+        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
+        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
+        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
+        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
+      ];
       for (const book of readBookManifests()) {
         if (!book.legacyPrefix) continue;
         for (const file of markdownFiles(resolve(booksRoot, book.id))) {
