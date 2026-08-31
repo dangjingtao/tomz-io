@@ -14,7 +14,7 @@ import {
 } from "./content-time";
 import { normalizeSiteTags } from "./tag-taxonomy";
 
-export type AuthorKey = "tomz" | "mira";
+export type AuthorKey = "tomz" | "mira" | "t-zt";
 export type WritingMode = "authored" | "co-authored";
 
 export const pageDirectories = miraDocsRoots;
@@ -69,7 +69,9 @@ function dataList(data: Record<string, unknown>, key: string): string[] {
 
 function normalizeAuthorKey(value?: string): AuthorKey | undefined {
   const lowered = value?.trim().toLowerCase();
-  return lowered === "tomz" || lowered === "mira" ? lowered : undefined;
+  return lowered === "tomz" || lowered === "mira" || lowered === "t-zt"
+    ? lowered
+    : undefined;
 }
 
 function inferDocAuthors(
