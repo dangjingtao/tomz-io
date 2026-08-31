@@ -1,0 +1,186 @@
+name: Apply submissions physical migration
+
+on:
+  push:
+    branches:
+      - fix/submissions-guest-section
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.event.head_commit.message == 'chore: run submissions physical migration'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/submissions-guest-section
+          fetch-depth: 0
+      - name: Physically move guest content and wire submissions navigation
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          root = Path('.')
+          old_dir = root / 'src/pages/blogs/shared-thinking'
+          new_dir = root / 'src/pages/submissions/t-zt'
+          new_dir.mkdir(parents=True, exist_ok=True)
+
+          moves = [
+              ('why-mobile-agents-dont-allow-custom-api.md', 11),
+              ('why-agent-chat-sync-feels-laggy.md', 12),
+          ]
+          for filename, order in moves:
+              old = old_dir / filename
+              new = new_dir / filename
+              subprocess.run(['git', 'mv', str(old), str(new)], check=True)
+              text = new.read_text(encoding='utf-8')
+              text = text.replace('group: 共同思考', 'group: 客座文章', 1)
+              text = text.replace('order: 1', f'order: {order}', 1)
+              new.write_text(text, encoding='utf-8')
+
+          author_page = '''---
+          title: t-zt
+          description: Mira Mobile 的主要维护人，十八年前计协老会长。
+          group: 客座作者
+          order: 10
+          date: 2026年8月31日
+          readTime: 1 分钟阅读
+          tags: 客座作者 | Mira Mobile
+          author: t-zt
+          writingMode: authored
+          writtenBy: t-zt
+          reviewedBy: tomz
+          ---
+
+          # t-zt
+
+          **Mira Mobile 的主要维护人，十八年前计协老会长。**
+
+          GitHub：[@t-zt](https://github.com/t-zt)
+
+          这里收录 t-zt 在 Tomz.io 的客座文章。文章保留作者自己的署名、判断与责任边界；Tomz.io 负责审阅、编辑与发布。
+
+          ## 来稿
+
+          - [为什么手机端 Agent 都不给填自定义 API](/submissions/t-zt/why-mobile-agents-dont-allow-custom-api)
+          - [Agent 聊天为什么越用越卡：五层瓶颈调研](/submissions/t-zt/why-agent-chat-sync-feels-laggy)
+
+          ---
+
+          **免责声明：** 本页用于客座作者介绍与文章索引。客座文章中的观点与结论由作者本人负责，不代表 Tomz.io、Tomz 或 Mira 的立场。
+          '''
+          new_dir.joinpath('index.md').write_text('\n'.join(line[10:] if line.startswith('          ') else line for line in author_page.splitlines()).strip() + '\n', encoding='utf-8')
+
+          submissions_page = '''---
+          title: 投稿
+          description: Tomz.io 接受少量外部来稿。客座作者与文章独立收录在「投稿」，保留自己的署名与观点。
+          group: 站务
+          order: 1
+          date: 2026年8月31日
+          readTime: 3 分钟阅读
+          nav: 投稿
+          tags: 写作 | GitHub
+          author: tomz
+          writingMode: authored
+          writtenBy: tomz
+          ---
+
+          # 投稿
+
+          Tomz.io 原本是我和 Mira 写东西的地方。后来发现，有些朋友写下来的东西，也值得在这里留一把椅子。
+
+          所以现在开始，这里接受少量来稿。
+
+          我不打算把它做成投稿平台，也不想把这页写成一份层层叠叠的贡献文档。Tomz.io 仍然是一个个人主理的出版空间：稿子是否收、需要改到什么程度，会由我来判断；但一旦收下，文章就是作者自己的文章。
+
+          ## 客座作者与来稿
+
+          客座作者**不进入博客作者体系**。他们和自己的文章独立收录在「投稿」下面，每位作者有自己的二级页，文章再挂在作者页之下。
+
+          ### [t-zt](/submissions/t-zt)
+
+          Mira Mobile 的主要维护人，十八年前计协老会长。
+
+          - [为什么手机端 Agent 都不给填自定义 API](/submissions/t-zt/why-mobile-agents-dont-allow-custom-api)
+          - [Agent 聊天为什么越用越卡：五层瓶颈调研](/submissions/t-zt/why-agent-chat-sync-feels-laggy)
+
+          以后如果还有人来，就继续在这里增加作者，而不是把客座文章塞回博客。
+
+          ## 什么适合放进来
+
+          我更愿意收那些带着真实经验、具体判断和一点个人气味的东西。AI、产品、工程、设计当然都可以，工作、生活、阅读和一些尚未想明白的问题也可以。
+
+          来稿不需要模仿我的写法，也不需要变成 Tomz.io 的统一腔调。恰恰相反，如果每个人最后都被修成同一种声音，那就没什么意思了。
+
+          ## 怎么投
+
+          最直接的方式就是给 [tomz-io](https://github.com/dangjingtao/tomz-io) 提 Pull Request。
+
+          不用先写一封很正式的自荐信。来稿放进 `src/pages/submissions/<你的 GitHub 用户名>/`，在 PR 里简单讲清楚你写了什么、为什么想放在这里就够了。我会看内容、事实依据、署名、页面效果和站点约定；需要改的地方会直接在 PR 里讨论。
+
+          被接受的客座文章保留作者自己的 GitHub 用户名作为公开署名。Tomz 或 Mira 参与审稿、编辑，不会因此自动变成共同作者。
+
+          ## 关于编辑与责任
+
+          我会尽量把事实性错误、过度确定的结论和明显的技术概念问题挡在发布之前，但不会把作者的观点改成我的观点。客座文章文末会保留免责声明：文章代表作者本人，Tomz.io 提供编辑、审阅与发布空间，不替作者拥有那些判断。
+
+          如果你恰好有一篇东西想放进来，就开个 PR 吧。门已经留了一条缝。
+          '''
+          Path('src/pages/submissions/index.md').write_text('\n'.join(line[10:] if line.startswith('          ') else line for line in submissions_page.splitlines()).strip() + '\n', encoding='utf-8')
+
+          app_path = Path('src/App.tsx')
+          app = app_path.read_text(encoding='utf-8')
+          app = app.replace('''  useEffect(() => {\n    if (openMenu !== "blogs") return;\n''', '''  useEffect(() => {\n    if (!openMenu) return;\n''', 1)
+
+          marker = '''  return [...groups].map(([label, count]) => ({ label, count }));\n})();\nfunction escapeHtml(value: string) {'''
+          insert = '''  return [...groups].map(([label, count]) => ({ label, count }));\n})();\nconst submissionNavDocs = (() => {\n  const area = siteAreas.find((item) => item.key === "submissions");\n  return (area?.docs || [])\n    .filter((doc) => doc.path !== "/submissions")\n    .sort(compareDocs);\n})();\nfunction escapeHtml(value: string) {'''
+          if marker not in app:
+              raise SystemExit('submission nav insertion marker not found')
+          app = app.replace(marker, insert, 1)
+
+          blog_marker = '''            if (target === "/blogs") {\n'''
+          submission_block = '''            if (target === "/submissions") {\n              return (\n                <li\n                  className={`menu-dropdown blog-nav-dropdown${openMenu === "submissions" ? " open" : ""}`}\n                  key={item.href}\n                  onMouseEnter={() => setOpenMenu("submissions")}\n                  onMouseLeave={() => setOpenMenu(null)}\n                >\n                  <Link\n                    className={`menu-dropdown-trigger blog-nav-trigger${active ? " active" : ""}`}\n                    aria-current={active ? "page" : undefined}\n                    aria-expanded={openMenu === "submissions"}\n                    aria-haspopup="menu"\n                    to={target}\n                    onClick={(event) => {\n                      if (\n                        event.metaKey ||\n                        event.ctrlKey ||\n                        event.shiftKey ||\n                        event.altKey\n                      )\n                        return;\n                      event.preventDefault();\n                      setOpenMenu("submissions");\n                    }}\n                    onKeyDown={(event) => {\n                      if (event.key === "Escape") setOpenMenu(null);\n                    }}\n                  >\n                    {item.label}\n                    <ChevronDown size={14} strokeWidth={1.8} aria-hidden="true" />\n                  </Link>\n                  <div\n                    className="menu-dropdown-panel blog-nav-panel"\n                    role="menu"\n                  >\n                    <div className="blog-nav-panel-head">\n                      <span>SUBMISSIONS</span>\n                      <strong>客座作者与来稿</strong>\n                    </div>\n                    <div className="blog-nav-panel-grid">\n                      <Link\n                        role="menuitem"\n                        to="/submissions"\n                        onClick={() => setOpenMenu(null)}\n                      >\n                        <FileCode2 size={18} aria-hidden="true" />\n                        <span>\n                          <strong>投稿说明</strong>\n                          <small>怎么投，以及怎么署名</small>\n                        </span>\n                      </Link>\n                      {submissionNavDocs.slice(0, 6).map((doc, index) => {\n                        const SubmissionIcon = index === 0 ? Compass : BookOpen;\n                        return (\n                          <Link\n                            role="menuitem"\n                            key={doc.path}\n                            to={doc.path}\n                            onClick={() => setOpenMenu(null)}\n                          >\n                            <SubmissionIcon size={18} aria-hidden="true" />\n                            <span>\n                              <strong>{doc.title}</strong>\n                              <small>{doc.group}</small>\n                            </span>\n                          </Link>\n                        );\n                      })}\n                    </div>\n                  </div>\n                </li>\n              );\n            }\n            if (target === "/blogs") {\n'''
+          if blog_marker not in app:
+              raise SystemExit('blog nav marker not found')
+          app = app.replace(blog_marker, submission_block, 1)
+
+          app = app.replace(
+              '  const isSubmissionPage = doc.root === "submissions";\n',
+              '''  const isSubmissionPage = doc.root === "submissions";\n  const submissionParts = doc.path.split("/").filter(Boolean);\n  const submissionBackPath = !isSubmissionPage\n    ? "/blogs"\n    : submissionParts.length <= 1\n      ? "/"\n      : submissionParts.length === 2\n        ? "/submissions"\n        : `/${submissionParts.slice(0, 2).join("/")}`;\n  const submissionBackLabel = !isSubmissionPage\n    ? "← 返回博客列表"\n    : submissionParts.length <= 1\n      ? "← 返回首页"\n      : submissionParts.length === 2\n        ? "← 返回投稿"\n        : `← 返回 ${submissionParts[1]}`;\n''',
+              1,
+          )
+          old_back = '''              to={\n                isSubmissionPage\n                  ? "/"\n                  : { pathname: "/blogs", search: location.search }\n              }\n            >\n              {isSubmissionPage ? "← 返回首页" : "← 返回博客列表"}\n'''
+          new_back = '''              to={\n                isSubmissionPage\n                  ? submissionBackPath\n                  : { pathname: "/blogs", search: location.search }\n              }\n            >\n              {submissionBackLabel}\n'''
+          if old_back not in app:
+              raise SystemExit('submission back-link marker not found')
+          app = app.replace(old_back, new_back, 1)
+          app_path.write_text(app, encoding='utf-8')
+
+          authorship_path = Path('docs/AUTHORSHIP.md')
+          authorship = authorship_path.read_text(encoding='utf-8')
+          old_rule = '- 客座文章仍按文章本身的主题进入现有 Group；例如讨论 Agent 工程问题的来稿仍可以属于「共同思考」。顶部「投稿」是参与入口，不是一个吞并所有来稿的 Group。'
+          new_rule = '- 客座作者与文章物理收录在 `src/pages/submissions/<github-username>/`，路由归属 `/submissions/<github-username>/...`；**不进入 `blogs` 目录，也不参与博客作者/分类体系。**「投稿」自身拥有作者二级页与来稿列表。'
+          if old_rule not in authorship:
+              raise SystemExit('authorship guest rule marker not found')
+          authorship_path.write_text(authorship.replace(old_rule, new_rule, 1), encoding='utf-8')
+
+          vite_path = Path('vite.config.ts')
+          vite = vite_path.read_text(encoding='utf-8')
+          redirect_marker = '      const lines: string[] = [];'
+          redirect_replacement = '''      const lines: string[] = [\n        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",\n        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",\n        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",\n        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",\n      ];'''
+          if redirect_marker not in vite:
+              raise SystemExit('redirect marker not found')
+          vite_path.write_text(vite.replace(redirect_marker, redirect_replacement, 1), encoding='utf-8')
+
+          Path('.github/workflows/apply-submissions-migration.yml').unlink()
+          PY
+
+          git config user.name "DangJingtao"
+          git config user.email "dangjingtao@163.com"
+          git add -A
+          git commit -m "fix: move guest posts under submissions"
+          git push origin fix/submissions-guest-section
