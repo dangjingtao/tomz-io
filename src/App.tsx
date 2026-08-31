@@ -239,6 +239,12 @@ const authorProfiles: Record<
     roleLabel: "A LETTER FROM MIRA",
     accentClassName: "is-mira",
   },
+  "t-zt": {
+    name: "t-zt",
+    avatar: "https://avatars.githubusercontent.com/u/194352280?v=4",
+    bio: "Mira Mobile 的主要维护人，十八年前计协老会长。",
+    roleLabel: "GUEST CONTRIBUTOR",
+  },
 };
 function uniqueAuthors(authors?: AuthorKey[]) {
   return [...new Set((authors || []).filter(Boolean))] as AuthorKey[];
@@ -276,6 +282,15 @@ function getDocSignature(doc: Doc) {
       links,
       showKicker: true,
       accentClassName: "is-mira",
+    };
+  }
+  if (authors[0] === "t-zt") {
+    return {
+      title: authorProfiles["t-zt"].name,
+      body: authorProfiles["t-zt"].bio,
+      links: [{ label: "GitHub", href: "https://github.com/t-zt" }],
+      showKicker: true,
+      accentClassName: "",
     };
   }
   return {
@@ -1600,7 +1615,8 @@ function DocsLayout() {
         (area) =>
           currentPath === area.path || currentPath.startsWith(`${area.path}/`),
       );
-  const isBlogArea = currentArea?.key === "blogs";
+  const isBlogArea =
+    currentArea?.key === "blogs" || currentArea?.key === "submissions";
   const [activeHeading, setActiveHeading] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
@@ -1772,6 +1788,7 @@ function BlogPostPage({
   const authorAvatars = getDocAuthorAvatars(doc);
   const authorLabel = getDocAuthorLabel(doc);
   const signature = getDocSignature(doc);
+  const isSubmissionPage = doc.root === "submissions";
   useEffect(() => {
     const nodes = doc.headings
       .map((heading) => document.getElementById(heading.id))
@@ -1867,9 +1884,13 @@ function BlogPostPage({
           <div className="article-header-topline">
             <Link
               className="back-link"
-              to={{ pathname: "/blogs", search: location.search }}
+              to={
+                isSubmissionPage
+                  ? "/"
+                  : { pathname: "/blogs", search: location.search }
+              }
             >
-              ← 返回博客列表
+              {isSubmissionPage ? "← 返回首页" : "← 返回博客列表"}
             </Link>
             <ShareButton title={doc.title} text={doc.description} />
           </div>
@@ -1975,6 +1996,10 @@ function AreaPage({ area }: { area: SiteArea }) {
       </div>
     );
   if (area.key === "blogs") return <BlogListPage area={area} />;
+  if (area.key === "submissions") {
+    const landing = area.docs.find((doc) => doc.path === area.path) || area.docs[0];
+    return <BlogPostPage doc={landing} />;
+  }
   if (isProjectArea(area)) {
     const projects = docsByProjectDirectory(area.docs);
     return (
@@ -2204,7 +2229,7 @@ function DocPage({ path }: { path: string }) {
   const previous = index > 0 ? scopedArticleDocs[index - 1] : undefined;
   const next = index >= 0 ? scopedArticleDocs[index + 1] : undefined;
   const html = useMemo(() => renderMarkdown(doc.source), [doc.source]);
-  if (doc.root === "blogs") {
+  if (doc.root === "blogs" || doc.root === "submissions") {
     return <BlogPostPage doc={doc} previous={previous} next={next} />;
   }
   return (
