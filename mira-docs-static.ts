@@ -30,6 +30,9 @@ type StaticDoc = MiraDoc & {
   mergeIndex?: boolean;
 };
 
+const tztAvatarUrl = "https://avatars.githubusercontent.com/u/194352280?v=4";
+const tztBio = "Mira Mobile 的主要维护人，十八年前计协老会长。";
+
 function dataString(data: Record<string, unknown>, key: string): string | undefined {
   const value = data[key];
   if (Array.isArray(value)) return value.length ? String(value[0]) : undefined;
@@ -53,11 +56,18 @@ function authorName(value: string): string {
   const normalized = value.trim().toLowerCase();
   if (normalized === "tomz") return siteName;
   if (normalized === "mira") return "Mira";
+  if (normalized === "t-zt") return "t-zt";
   return value;
 }
 
 function authorAvatar(name: string): string {
-  return name === "Mira" ? miraAvatarUrl : authorAvatarUrl;
+  if (name === "Mira") return miraAvatarUrl;
+  if (name.toLowerCase() === "t-zt") return tztAvatarUrl;
+  return authorAvatarUrl;
+}
+
+function authorBio(name: string): string {
+  return name.toLowerCase() === "t-zt" ? tztBio : "";
 }
 
 function staticDocs(docs: MiraDoc[]): StaticDoc[] {
@@ -123,6 +133,7 @@ function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
   const links = [
     ["首页", "/"],
     ["博客", "/blogs"],
+    ["投稿", "/submissions"],
     ["作品", "/works"],
     ["项目", "/projects"],
     ["研习", "/learning"],
@@ -305,7 +316,8 @@ function articleBody(
     )
     .join("");
   const authorCountClass = doc.authors.length > 1 ? "duo" : "solo";
-  const main = `<main class="doc-main seo-static-content blog-post-page"><article class="article-header">${visual}<h1>${miraDocsEscapeHtml(doc.title)}</h1>${doc.description ? `<p class="doc-lede">${miraDocsEscapeHtml(doc.description)}</p>` : ""}<div class="post-meta post-meta-article">${meta}</div></article><div class="article-shell"><div class="article-body markdown blog-markdown">${body}<section class="author-signature author-signature-${authorCountClass}"><div class="author-signature-avatars author-signature-avatars-${doc.authors.length}">${authorAvatars}</div><div class="author-signature-copy"><h4>${miraDocsEscapeHtml(authors)}</h4></div></section>${pageNavigation(previous, next, context)}</div>${articleToc(doc)}</div></main>`;
+  const bio = doc.authors.length === 1 ? authorBio(doc.authors[0]) : "";
+  const main = `<main class="doc-main seo-static-content blog-post-page"><article class="article-header">${visual}<h1>${miraDocsEscapeHtml(doc.title)}</h1>${doc.description ? `<p class="doc-lede">${miraDocsEscapeHtml(doc.description)}</p>` : ""}<div class="post-meta post-meta-article">${meta}</div></article><div class="article-shell"><div class="article-body markdown blog-markdown">${body}<section class="author-signature author-signature-${authorCountClass}"><div class="author-signature-avatars author-signature-avatars-${doc.authors.length}">${authorAvatars}</div><div class="author-signature-copy"><h4>${miraDocsEscapeHtml(authors)}</h4>${bio ? `<p>${miraDocsEscapeHtml(bio)}</p>` : ""}</div></section>${pageNavigation(previous, next, context)}</div>${articleToc(doc)}</div></main>`;
   return `${staticSiteHeader(context)}<div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell">${main}</div></div>`;
 }
 
@@ -420,7 +432,10 @@ function documentJsonLd(
   );
   return {
     "@context": "https://schema.org",
-    "@type": doc.root === "blogs" ? "Article" : "TechArticle",
+    "@type":
+      doc.root === "blogs" || doc.root === "submissions"
+        ? "Article"
+        : "TechArticle",
     headline: doc.title,
     description: doc.description,
     url,
@@ -473,6 +488,24 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
   const roots = [...new Set(docs.map((doc: StaticDoc) => doc.root))];
   for (const root of roots) {
     const rootDocs = docs.filter((doc: StaticDoc) => doc.root === root);
+    if (root === "submissions") {
+      const landing =
+        rootDocs.find((doc: StaticDoc) => doc.path === "/submissions") ||
+        rootDocs[0];
+      if (landing) {
+        result.push({
+          path: "/submissions",
+          title: landing.title,
+          description: landing.description,
+          body: articleBody(landing, undefined, undefined, context),
+          type: "article",
+          image: landing.image,
+          jsonLd: documentJsonLd(landing, context),
+          doc: landing,
+        });
+      }
+      continue;
+    }
     const title = root === "blogs" ? "博客" : rootDocs[0]?.title || root;
     result.push({
       path: `/${root}`,
@@ -485,13 +518,14 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
   }
 
   for (const doc of docs) {
+    if (doc.root === "submissions" && doc.path === "/submissions") continue;
     const { previous, next } = siblingDocs(doc, docs);
     result.push({
       path: doc.path,
       title: doc.title,
       description: doc.description || `${siteName} 的个人网站文章与项目记录。`,
       body:
-        doc.root === "blogs"
+        doc.root === "blogs" || doc.root === "submissions"
           ? articleBody(doc, previous, next, context)
           : documentBody(doc, previous, next, context, docs),
       type: "article",

@@ -128,6 +128,28 @@ author:
 writtenBy: tomz | mira
 ```
 
+### 2.8 客座投稿
+
+- Tomz.io 可以接受外部作者通过 GitHub Pull Request 投稿。
+- **客座作者保留自己的公开作者身份，默认使用其 GitHub 用户名作为站内 author key 与可见署名。**
+- Tomz / Mira 参与审稿、事实核验、编辑或发布，不会因此自动成为共同作者。
+- 客座文章仍按文章本身的主题进入现有 Group；例如讨论 Agent 工程问题的来稿仍可以属于「共同思考」。顶部「投稿」是参与入口，不是一个吞并所有来稿的 Group。
+- `reviewedBy` 可以记录 Tomz 的审阅关系，但不得改变 `author` / `writtenBy`。
+- 每篇客座文章正文末尾必须保留免责声明，明确文章代表作者个人观点，Tomz.io 提供编辑、审阅与发布空间。
+- 新增客座作者时，应同时注册页面作者资料、头像与静态 SEO 作者映射，保证页面、Open Graph / JSON-LD 与署名一致。
+
+当前已登记的客座作者：
+
+```yaml
+author:
+  - t-zt
+writingMode: authored
+writtenBy: t-zt
+reviewedBy: tomz
+```
+
+`t-zt` 的公开简介：**Mira Mobile 的主要维护人，十八年前计协老会长。**
+
 ## 3. 《谎颜》
 
 以下四篇共同创作统一归入书架中的同一本书：**《谎颜》**。
