@@ -77,7 +77,7 @@ AI 会替你生成四套方案。
 这大概就是人与人之间的差距。
 
 <div style="margin: 1.6rem auto; max-width: 560px; text-align: center;">
-  <img src="/blog-assets/cats-and-dogs-doing-ai/chat-logo.svg" alt="脱敏后的群聊截图：关于 AI 生成 Logo 的讨论" style="width: 100%; height: auto; border-radius: 12px;" />
+  <img src="/blog-assets/cats-and-dogs-doing-ai/chat-logo.webp" alt="脱敏后的群聊截图：关于 AI 生成 Logo 的讨论" style="width: 100%; height: auto; border-radius: 12px;" />
   <p style="margin-top: .6rem; font-size: .86rem; opacity: .62;">截图已脱敏处理，仅保留与本文有关的对话内容。</p>
 </div>
 
@@ -100,7 +100,7 @@ AI 会替你生成四套方案。
 而自信这种东西，恰恰是最不需要专业训练的。
 
 <div style="margin: 1.6rem auto; max-width: 560px; text-align: center;">
-  <img src="/blog-assets/cats-and-dogs-doing-ai/chat-selfmock.svg" alt="脱敏后的群聊截图：关于阿猫阿狗与 AI 的自嘲" style="width: 100%; height: auto; border-radius: 12px;" />
+  <img src="/blog-assets/cats-and-dogs-doing-ai/chat-selfmock.webp" alt="脱敏后的群聊截图：关于阿猫阿狗与 AI 的自嘲" style="width: 100%; height: auto; border-radius: 12px;" />
   <p style="margin-top: .6rem; font-size: .86rem; opacity: .62;">阿猫阿狗，包括我自己。时代面前，大家都别装。</p>
 </div>
 
