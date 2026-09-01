@@ -5,8 +5,10 @@ group: 读经札记
 order: 11
 date: 2026年9月2日
 readTime: 6 分钟阅读
-tags: 诗篇 | 读经札记 | 信仰 | 公义 | 苦难
-author: tomz | mira
+tags: 诗篇 | 信仰 | 公义 | 苦难
+author:
+  - tomz
+  - mira
 writingMode: co-authored
 writtenBy: tomz | mira
 reviewedBy: tomz
