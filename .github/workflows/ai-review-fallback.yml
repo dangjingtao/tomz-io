@@ -1,7 +1,7 @@
-name: AI Review Gate
+name: AI Review Fallback Controller
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
     types: [opened, synchronize, reopened, ready_for_review]
@@ -14,27 +14,26 @@ permissions:
   contents: read
   pull-requests: read
   issues: write
-  statuses: read
+  statuses: write
 
 jobs:
   fallback-review:
-    name: AI Review Gate
-    if: >-
-      github.event.pull_request.draft == false &&
-      github.event.pull_request.head.repo.full_name == github.repository
+    name: AI Review Fallback Controller
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR
+      - name: Checkout trusted base revision
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Review when CodeRabbit cannot
+      - name: Review with trusted gate implementation
         run: node scripts/ai-review-fallback.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
