@@ -78,12 +78,17 @@ pnpm run build:github-pages
 pnpm run verify:static-output
 ~~~
 
-内容时间单独排查时：
+内容时间单独排查时，可以先生成索引；如果要运行完整 verifier，必须先有静态构建产物：
 
 ~~~bash
 pnpm run generate:content-times
+# 需要检查生成索引时，到这里即可
+
+pnpm run build
 pnpm run verify:content-times
 ~~~
+
+`verify:content-times` 会读取 `dist/` 中的静态 HTML 与 `sitemap.xml`，因此它是 post-build 校验，不是仅生成时间索引后的独立检查。
 
 书架 / 连环画相关还有独立脚本，完整命令以 package.json 为准。
 
