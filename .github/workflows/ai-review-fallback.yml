@@ -1,4 +1,4 @@
-name: Custom AI Review Fallback
+name: AI Review Gate
 
 on:
   pull_request:
@@ -7,18 +7,18 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 concurrency:
-  group: custom-ai-review-${{ github.event.pull_request.number }}
+  group: ai-review-gate-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
   contents: read
-  pull-requests: write
+  pull-requests: read
   issues: write
   statuses: read
 
 jobs:
   fallback-review:
-    name: Custom AI Review
+    name: AI Review Gate
     if: >-
       github.event.pull_request.draft == false &&
       github.event.pull_request.head.repo.full_name == github.repository
