@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { relative, resolve } from "node:path";
+import { basename, dirname, relative, resolve } from "node:path";
 import { parseMiraDoc } from "@uichat-mira/docs";
 import policy from "../site-policy.json" with { type: "json" };
 
@@ -58,8 +58,16 @@ function parseBookManifest(path) {
     }
     values.set(key, value);
   }
+  const id = values.get("id") || "";
+  const expectedId = basename(dirname(path));
+  if (id && id !== expectedId) {
+    throw new Error(
+      `Invalid book manifest ${path}: id "${id}" must match directory "${expectedId}".`,
+    );
+  }
+
   return {
-    id: values.get("id") || "",
+    id,
     title: values.get("title") || "",
     legacyPrefix: values.get("legacyPrefix") || "",
   };
