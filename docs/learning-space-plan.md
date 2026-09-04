@@ -101,7 +101,7 @@ legacyPrefix: /blogs/agent-learning
 - status：active | completed | draft | archived
 - legacyPrefix：可选；用于从历史内容前缀生成永久重定向
 
-draft / archived 不进入公开书架。
+当前运行时书架列表会过滤 draft / archived，但静态正文与 sitemap 链还没有把它们当作完整的“未发布”机制。**不要依赖 status 隐藏敏感或未公开正文。** 在静态发布链补齐一致过滤之前，未准备公开的 Book 不应提交可发布 Markdown；status 目前只表示书架聚合层状态。
 
 ## 5. Book Entry
 
