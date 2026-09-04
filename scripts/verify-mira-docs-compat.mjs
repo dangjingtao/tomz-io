@@ -21,6 +21,46 @@ const counts = new Map();
 const files = markdownFiles(contentRoot);
 const projectDirectories = new Map();
 const projectsRoot = resolve(contentRoot, "projects");
+const booksRoot = resolve(contentRoot, "books");
+
+function manifestScalar(value) {
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
+}
+
+function manifestId(path) {
+  for (const rawLine of readFileSync(path, "utf8").split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const separator = line.indexOf(":");
+    if (separator <= 0) continue;
+    const key = line.slice(0, separator).trim();
+    if (key === "id") return manifestScalar(line.slice(separator + 1));
+  }
+  return "";
+}
+
+if (existsSync(booksRoot)) {
+  for (const entry of readdirSync(booksRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const manifestPath = resolve(booksRoot, entry.name, "_book.yml");
+    if (!existsSync(manifestPath)) continue;
+    const id = manifestId(manifestPath);
+    if (!id) {
+      failures.push(`Book manifest 缺少 id: books/${entry.name}/_book.yml`);
+    } else if (id !== entry.name) {
+      failures.push(
+        `Book manifest id 必须与目录一致: books/${entry.name}/_book.yml -> id=${id}`,
+      );
+    }
+  }
+}
 
 if (existsSync(projectsRoot)) {
   for (const entry of readdirSync(projectsRoot, { withFileTypes: true })) {
