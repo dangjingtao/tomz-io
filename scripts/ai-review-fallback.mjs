@@ -53,22 +53,46 @@ async function waitForRabbit() {
   for (let attempt = 1; attempt <= 4; attempt += 1) {
     const combined = await github(`/repos/${owner}/${repo}/commits/${headSha}/status`);
     const rabbit = (combined.statuses || []).find((item) => item.context === "CodeRabbit");
+
     if (rabbit) {
       const description = String(rabbit.description || "");
       console.log(`CodeRabbit status: state=${rabbit.state} description=${description}`);
-      if (/rate limited/i.test(description)) return { fallback: true, reason: description };
-      if (rabbit.state === "success" && /review completed/i.test(description)) {
-        return { fallback: false, reason: description };
+
+      if (/rate limited/i.test(description)) {
+        return { mode: "fallback", reason: description };
       }
+
       if (rabbit.state === "failure" || rabbit.state === "error") {
-        return { fallback: true, reason: description || rabbit.state };
+        return { mode: "fallback", reason: description || rabbit.state };
+      }
+
+      if (rabbit.state === "success" && /review completed/i.test(description)) {
+        const reviews = await github(`/repos/${owner}/${repo}/pulls/${prNumber}/reviews?per_page=100`);
+        const rabbitReviews = reviews
+          .filter((item) => item.user?.login === "coderabbitai[bot]")
+          .sort((a, b) => new Date(a.submitted_at || 0) - new Date(b.submitted_at || 0));
+        const latest = rabbitReviews.at(-1);
+
+        if (latest?.state === "APPROVED") {
+          return { mode: "rabbit", verdict: "APPROVE", reason: "CodeRabbit completed and approved" };
+        }
+        if (latest?.state === "CHANGES_REQUESTED") {
+          return { mode: "rabbit", verdict: "REQUEST_CHANGES", reason: "CodeRabbit requested changes" };
+        }
+
+        return {
+          mode: "fallback",
+          reason: `CodeRabbit completed without a decisive approval state (${latest?.state || "none"})`,
+        };
       }
     } else {
       console.log(`CodeRabbit status not present yet (attempt ${attempt}/4).`);
     }
+
     if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, 10000));
   }
-  return { fallback: true, reason: "CodeRabbit did not complete within 30-second fallback window" };
+
+  return { mode: "fallback", reason: "CodeRabbit did not complete within 30-second fallback window" };
 }
 
 function readRule(path, max = 14000) {
@@ -157,26 +181,15 @@ async function upsertComment(body) {
   }
 }
 
-async function submitReview(review, body) {
-  const eventName = review.verdict === "APPROVE" ? "APPROVE" : "REQUEST_CHANGES";
-  try {
-    await github(`/repos/${owner}/${repo}/pulls/${prNumber}/reviews`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event: eventName, body }),
-    });
-    console.log(`Submitted GitHub PR review: ${eventName}`);
-    return true;
-  } catch (error) {
-    console.error(`Could not submit PR review: ${error.message}`);
-    return false;
-  }
-}
+
 
 const rabbit = await waitForRabbit();
-if (!rabbit.fallback) {
-  console.log(`CodeRabbit completed normally; custom AI fallback skipped: ${rabbit.reason}`);
-  process.exit(0);
+if (rabbit.mode === "rabbit") {
+  if (rabbit.verdict === "APPROVE") {
+    console.log(`AI review gate passed via CodeRabbit: ${rabbit.reason}`);
+    process.exit(0);
+  }
+  throw new Error(`AI review gate blocked by CodeRabbit: ${rabbit.reason}`);
 }
 
 const rules = [
@@ -259,13 +272,8 @@ const review = parseModelJson(content);
 const commentBody = formatComment(review, rabbit.reason);
 await upsertComment(commentBody);
 
-const submitted = await submitReview(review, `Custom AI fallback review: ${review.summary || review.verdict}\n\nSee the detailed fallback review comment on this PR.`);
-
 if (review.verdict === "REQUEST_CHANGES") {
-  throw new Error("Custom AI fallback found blocking issues.");
-}
-if (!submitted) {
-  throw new Error("Custom AI approved the change, but GitHub did not allow the workflow token to submit an APPROVE review. Enable 'Allow GitHub Actions to create and approve pull requests' or use this job as a required status check.");
+  throw new Error("AI review gate blocked by custom AI fallback.");
 }
 
-console.log("Custom AI fallback approved this PR.");
+console.log("AI review gate passed via custom AI fallback.");
