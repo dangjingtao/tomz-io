@@ -1,0 +1,33 @@
+{
+  "defaultProvider": "openai-compatible",
+  "providers": {
+    "openai-compatible": {
+      "match": {},
+      "request": {
+        "temperature": 0
+      },
+      "response": {
+        "stripThinkBlocks": false
+      }
+    },
+    "minimax": {
+      "match": {
+        "modelPattern": "^MiniMax-M3(?:$|[-_])",
+        "hostSuffixes": [
+          "minimax.io",
+          "minimaxi.com"
+        ]
+      },
+      "request": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "response": {
+        "stripThinkBlocks": true
+      }
+    }
+  }
+}
