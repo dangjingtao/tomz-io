@@ -141,7 +141,7 @@ AI 输出只能总结脚本提供的公开事实。私聊、邮件、日历等�
 - 生产构建使用完整 Git 历史，以保证内容时间推算一致。
 - 成功构建后通过 Wrangler 部署到独立 Cloudflare Pages 项目 tomz-io。
 - PR 通过 .github/workflows/verify.yml 验证 MiraDocs、root build、GitHub Pages build 与静态输出。
-- AI Review 由 .github/workflows/ai-review-fallback.yml 提供统一门禁：CodeRabbit 正常时采用兔子结论；兔子限流 / 不可用时自动复用已配置的 OpenAI-compatible 自定义模型。
+- AI Review 由 `.github/workflows/ai-review-fallback.yml` 提供统一门禁：CodeRabbit 正常时采用兔子结论；兔子限流 / 不可用时自动复用已配置的 OpenAI-compatible 自定义模型。门禁实现从受信任的 base revision 执行，只读取 PR diff，不执行 PR 分支代码。\n- 模型适配集中在 `.github/ai-review.config.json`。当前 MiniMax M3 preset 会设置 `temperature=1.0`、`top_p=0.95`、`thinking.type=disabled`，并额外清理遗留 `<think>` 块；可用 `AI_REVIEW_PROVIDER` 显式覆盖自动识别。
 - GitHub Pages 不是当前生产宿主，主要保留为兼容和回归验证目标。
 
 ## 目录导览
