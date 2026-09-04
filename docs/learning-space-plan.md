@@ -205,7 +205,9 @@ Book 与 Entry 都必须进入静态输出。
 
 Book index 使用 CollectionPage 与条目 ItemList。
 
-Book Entry 需要静态完整正文、canonical、author、datePublished、dateModified、Article JSON-LD 与 sitemap。
+Book 原生 Entry 需要静态完整正文、canonical、author、datePublished、dateModified、Article JSON-LD 与 sitemap。
+
+已发布 Blog 的逻辑收录只增加书籍组织关系，不生成第二个可索引正文、canonical 或 sitemap 项，继续使用原 Blog URL 与 canonical。
 
 不能只保证 React 客户端路由“点得开”。
 
