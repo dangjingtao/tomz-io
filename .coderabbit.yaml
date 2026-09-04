@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: true
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "^main$"
+  path_instructions:
+    - path: "src/pages/**"
+      instructions: |
+        Treat AGENTS.md, docs/AUTHORSHIP.md, and docs/CONTENT_ARCHITECTURE.md as binding review rules.
+        Block changes that violate authorship/order, Group/Tag/Book boundaries, canonical URL stability,
+        single-source content rules, or publishedAt/modifiedAt semantics.
+    - path: "mira-docs-static.ts"
+      instructions: |
+        Review route, canonical, visible author, JSON-LD author/date metadata, sitemap/static output,
+        and duplicate-indexable-URL risks against the repository rules.
+    - path: "src/content/**"
+      instructions: |
+        Review canonical Tag handling, authorship metadata normalization, and content-time derivation
+        against AGENTS.md and docs/CONTENT_ARCHITECTURE.md.
