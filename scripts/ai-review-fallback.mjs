@@ -50,7 +50,7 @@ async function github(path, options = {}) {
 }
 
 async function waitForRabbit() {
-  for (let attempt = 1; attempt <= 10; attempt += 1) {
+  for (let attempt = 1; attempt <= 4; attempt += 1) {
     const combined = await github(`/repos/${owner}/${repo}/commits/${headSha}/status`);
     const rabbit = (combined.statuses || []).find((item) => item.context === "CodeRabbit");
     if (rabbit) {
@@ -64,11 +64,11 @@ async function waitForRabbit() {
         return { fallback: true, reason: description || rabbit.state };
       }
     } else {
-      console.log(`CodeRabbit status not present yet (attempt ${attempt}/10).`);
+      console.log(`CodeRabbit status not present yet (attempt ${attempt}/4).`);
     }
-    if (attempt < 10) await new Promise((resolve) => setTimeout(resolve, 15000));
+    if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, 10000));
   }
-  return { fallback: true, reason: "CodeRabbit did not complete within fallback window" };
+  return { fallback: true, reason: "CodeRabbit did not complete within 30-second fallback window" };
 }
 
 function readRule(path, max = 14000) {
