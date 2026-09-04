@@ -192,6 +192,7 @@ function shouldSkipDiffPath(path) {
 
 async function collectDiff() {
   const chunks = [];
+  const incompleteReasons = [];
   let page = 1;
 
   while (page <= 10) {
@@ -203,22 +204,39 @@ async function collectDiff() {
     for (const file of files) {
       if (shouldSkipDiffPath(file.filename)) continue;
 
+      if (!file.patch) {
+        incompleteReasons.push(`GitHub API did not provide a patch for ${file.filename}`);
+        continue;
+      }
+
       chunks.push(
         [
           `diff --git a/${file.filename} b/${file.filename}`,
           `status: ${file.status}; additions: ${file.additions}; deletions: ${file.deletions}`,
-          file.patch || "[patch unavailable from GitHub API; review file metadata only]",
+          file.patch,
         ].join("\n"),
       );
     }
 
     if (files.length < 100) break;
+    if (page === 10) {
+      incompleteReasons.push("PR contains more than 1000 changed files");
+      break;
+    }
     page += 1;
   }
 
   const diff = chunks.join("\n\n");
   const max = 100000;
-  return diff.length > max ? `${diff.slice(0, max)}\n...[diff truncated]` : diff;
+  if (diff.length > max) {
+    incompleteReasons.push(`Review diff is ${diff.length} characters, above the ${max}-character safety limit`);
+  }
+
+  return {
+    text: diff.length > max ? diff.slice(0, max) : diff,
+    complete: incompleteReasons.length === 0,
+    reasons: incompleteReasons,
+  };
 }
 
 function normalizeAssistantContent(value) {
@@ -256,6 +274,19 @@ function parseModelJson(raw) {
   }
 
   parsed.findings = Array.isArray(parsed.findings) ? parsed.findings : [];
+  for (const finding of parsed.findings) {
+    if (!["blocking", "warning"].includes(finding?.severity)) {
+      throw new Error(`Invalid finding severity: ${finding?.severity}`);
+    }
+  }
+
+  if (
+    parsed.verdict === "APPROVE" &&
+    parsed.findings.some((finding) => finding.severity === "blocking")
+  ) {
+    throw new Error("Invalid review: APPROVE cannot contain blocking findings.");
+  }
+
   parsed.summary = String(parsed.summary || "").trim();
   return parsed;
 }
@@ -293,6 +324,10 @@ This is the trusted fallback path for the repository AI Review Gate.
 }
 
 function formatFallbackError(reason, providerName, error) {
+  const message = String(error?.message || error)
+    .slice(0, 800)
+    .replace(/\r?\n/g, "\n> ");
+
   return `${marker}
 ## Custom AI Review fallback
 
@@ -301,11 +336,9 @@ function formatFallbackError(reason, providerName, error) {
 **Provider:** \`${providerName}\`  
 **Model:** \`${aiModel}\`
 
-The fallback model did not return a valid machine-readable review, so the gate failed closed.
+The fallback review could not produce a complete, valid machine-readable decision, so the gate failed closed.
 
-```text
-${String(error?.message || error).slice(0, 800)}
-```
+> ${message}
 `;
 }
 
@@ -357,7 +390,15 @@ async function main() {
     ["docs/PROJECT_ARCHITECTURE.md", readRule("docs/PROJECT_ARCHITECTURE.md", 10000)],
   ].filter(([, content]) => content);
 
-  const diff = await collectDiff();
+  const diffInput = await collectDiff();
+  if (!diffInput.complete) {
+    const error = new Error(`Incomplete PR review input: ${diffInput.reasons.join("; ")}`);
+    await upsertComment(formatFallbackError(rabbit.reason, providerName, error));
+    await setGateStatus("failure", "Custom AI review input was incomplete");
+    throw error;
+  }
+
+  const diff = diffInput.text;
   if (!diff.trim()) {
     await setGateStatus("success", "No reviewable textual diff");
     console.log("No reviewable textual diff found.");
