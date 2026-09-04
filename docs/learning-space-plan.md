@@ -92,7 +92,7 @@ legacyPrefix: /blogs/agent-learning
 
 字段：
 
-- id：稳定 book id，必填
+- id：稳定 book id，必填；**必须与所在目录 `src/pages/books/<book-id>/` 的 `<book-id>` 完全一致**，避免书页路由与 Entry 归属分裂
 - title：书名，必填
 - description：书的说明
 - category：内容属性
