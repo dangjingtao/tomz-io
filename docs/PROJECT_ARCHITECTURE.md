@@ -246,9 +246,18 @@ PR 验证入口：
 .github/workflows/verify.yml
 ~~~
 
-当前核心 job：reduction-and-build。
+当前核心确定性校验 job：reduction-and-build。
 
 它覆盖 MiraDocs parse / route uniqueness、root build、root static output、GitHub Pages build 与 GitHub Pages static output。
+
+PR 另有统一的 AI Review Gate：
+
+- CodeRabbit 正常完成并给出明确 APPROVED / CHANGES_REQUESTED 时，直接采用该结果；
+- CodeRabbit 被限流、失败、不可用，或在短等待窗口内没有形成明确结论时，自动切换到站点已经配置的 OpenAI Chat Completions 兼容模型；
+- fallback reviewer 读取当前 PR diff 与 AGENTS / AUTHORSHIP / CONTENT_ARCHITECTURE / PROJECT_ARCHITECTURE 规则，输出 APPROVE 或 REQUEST_CHANGES；
+- fallback 的详细结果写入 PR comment，门禁本身以 GitHub Actions 的 AI Review Gate status check 表达，不依赖 GitHub Actions bot 直接批准 PR。
+
+用于 review 的环境变量优先使用 AI_REVIEW_BASE_URL / AI_REVIEW_API_KEY / AI_REVIEW_MODEL；未单独配置时复用 HOMEPAGE_AI_BASE_URL / HOMEPAGE_AI_API_KEY / HOMEPAGE_AI_MODEL。
 
 历史 workflow / script 中仍可能保留 BR003A / BR003B 命名；它们是迁移阶段遗留名称，不再代表当前产品阶段。
 
