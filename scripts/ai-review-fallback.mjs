@@ -273,10 +273,25 @@ function parseModelJson(raw) {
     throw new Error(`Invalid verdict: ${parsed.verdict}`);
   }
 
-  parsed.findings = Array.isArray(parsed.findings) ? parsed.findings : [];
+  if (!Array.isArray(parsed.findings)) {
+    throw new Error("Invalid review: findings must be an array.");
+  }
+
   for (const finding of parsed.findings) {
-    if (!["blocking", "warning"].includes(finding?.severity)) {
-      throw new Error(`Invalid finding severity: ${finding?.severity}`);
+    if (!finding || typeof finding !== "object") {
+      throw new Error("Invalid review: every finding must be an object.");
+    }
+    if (!["blocking", "warning"].includes(finding.severity)) {
+      throw new Error(`Invalid finding severity: ${finding.severity}`);
+    }
+    if (typeof finding.title !== "string" || typeof finding.detail !== "string") {
+      throw new Error("Invalid review: every finding needs string title and detail.");
+    }
+    if (finding.path != null && typeof finding.path !== "string") {
+      throw new Error("Invalid review: finding.path must be a string when present.");
+    }
+    if (finding.line != null && !Number.isInteger(finding.line)) {
+      throw new Error("Invalid review: finding.line must be an integer when present.");
     }
   }
 
