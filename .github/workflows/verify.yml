@@ -35,3 +35,33 @@ jobs:
         env:
           EXPECTED_BASE: tomz-io
         run: npm run verify:static-output
+
+  custom-ai-review:
+    name: Custom AI Review
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      statuses: read
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Review when CodeRabbit cannot
+        run: node scripts/ai-review-fallback.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AI_REVIEW_BASE_URL: ${{ secrets.AI_REVIEW_BASE_URL || secrets.HOMEPAGE_AI_BASE_URL }}
+          AI_REVIEW_API_KEY: ${{ secrets.AI_REVIEW_API_KEY || secrets.HOMEPAGE_AI_API_KEY }}
+          AI_REVIEW_MODEL: ${{ secrets.AI_REVIEW_MODEL || secrets.HOMEPAGE_AI_MODEL }}
