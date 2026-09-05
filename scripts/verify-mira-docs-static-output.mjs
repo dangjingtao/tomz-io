@@ -114,7 +114,8 @@ const notFoundPath = resolve(distRoot, "404.html");
 const sitemapPath = resolve(distRoot, "sitemap.xml");
 const robotsPath = resolve(distRoot, "robots.txt");
 const redirectsPath = resolve(distRoot, "_redirects");
-for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath]) {
+const serviceWorkerPath = resolve(distRoot, "sw.js");
+for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath, serviceWorkerPath]) {
   if (!existsSync(file)) failures.push(`缺少构建产物: ${file}`);
 }
 
@@ -259,6 +260,13 @@ if (existsSync(sitemapPath)) {
     "/blogs/bible-notes/",
   ]) {
     if (sitemap.includes(fragment)) failures.push(`sitemap 仍包含已删除内容: ${fragment}`);
+  }
+}
+
+if (existsSync(serviceWorkerPath)) {
+  const serviceWorker = readFileSync(serviceWorkerPath, "utf8");
+  if (!serviceWorker.includes("about\\/origin")) {
+    failures.push("PWA navigation fallback 未排除 /about/origin，旧域 301 可能被 Service Worker 吞掉");
   }
 }
 
