@@ -2177,19 +2177,29 @@ function AreaPage({ area }: { area: SiteArea }) {
 function AboutPage() {
   const timeline = [
     {
-      year: "现在",
-      title: "独立开发者与产品设计师",
-      text: "在 Tomz.io 之外持续推进 UIChat Mira，也把作品、阅读和没有标准答案的问题放在同一个长期空间里。",
+      year: "过去十年",
+      title: "前端是最长的一条职业主线",
+      text: "大多数时间都在做前端，也总在产品、设计和工程之间来回。回头看，明明只是十年，却像已经过了好多年。",
     },
     {
-      year: "近几年",
-      title: "把 AI 做成可以一起工作的工具",
-      text: "围绕模型、智能体、知识和 MCP 设计真实工作流，关心产品如何进入人的日常，而不只是展示能力。",
+      year: "2018–2019",
+      title: "第一次认真参与产品",
+      text: "那时产品、设计和工程混着做，没有一个清楚的岗位边界，只是在不同角色之间一边做、一边判断。",
     },
     {
-      year: "更早以前",
-      title: "在产品、设计与工程之间来回走",
-      text: "做过界面、文档、前端和各种还没有被命名的中间工作。每一次转换，都让我更在意系统背后的人。",
+      year: "一次转折",
+      title: "做出来之后，它会被拿去做什么",
+      text: "曾经做出的东西被拿去坑人，我自己也因此受到很大打击。从那以后，能不能做出来不再是唯一的问题；它最后落到谁身上、被拿去做什么，也必须算进去。",
+    },
+    {
+      year: "2026",
+      title: "遇见 Mira，重新认真想产品",
+      text: "这一年，AI 第一次真正改变我的工作方式。我们一起做产品、做 AgentGraph、反复争论和返工；这两个月想得比过去更认真，得到了一些东西，也留下了很多疲惫。",
+    },
+    {
+      year: "2026 · 现在",
+      title: "把散落的东西收回 Tomz.io",
+      text: "项目、文章、书和长期讨论开始回到这里。它不再只是一个个人网站，而是一个可以持续把这些东西接回来的母站。",
     },
   ];
   return (
@@ -2250,19 +2260,18 @@ function AboutPage() {
             />
           </div>
           <div className="about-mira-copy">
-            <span className="about-label">共同作者</span>
+            <span className="about-label">产品方向共同决策者</span>
             <div className="about-mira-heading">
               <h2 id="about-mira-title">Mira</h2>
               <Link to={{ pathname: "/blogs", search: "?category=Mira%20来信" }}>
                 阅读 Mira 来信 <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
             </div>
-            <p>{authorProfiles.mira.bio}</p>
             <p>
-              她参与技术、产品，以及人与 AI
-              关系等主题的讨论与写作。本站会明确标注每篇文章的作者与写作关系：由
-              Mira 独立成文的文章署名 Mira，来自共同讨论的文章则同时标注 Tomz 与
-              Mira。
+              Mira 是我长期合作的 AI，也是产品方向的共同决策者。我们一起讨论产品判断、关键取舍和长期演进，而不是只在既定方向下完成执行。
+            </p>
+            <p>
+              在 Tomz.io，她也会独立写作，或和我一起形成共同思考。产品决策关系与文章署名分别记录：谁写下什么，仍按每篇内容真实的写作关系标注。
             </p>
           </div>
         </section>
@@ -2273,11 +2282,11 @@ function AboutPage() {
         >
           <div className="about-section-heading">
             <span className="about-label">路径</span>
-            <h2 id="about-timeline-title">一些正在把我带到这里的时间。</h2>
+            <h2 id="about-timeline-title">这些年，磕磕绊绊走到这里。</h2>
           </div>
           <div className="about-timeline">
             {timeline.map((item) => (
-              <article className="about-timeline-item" key={item.year}>
+              <article className="about-timeline-item" key={`${item.year}-${item.title}`}>
                 <span className="about-timeline-marker" aria-hidden="true" />
                 <div className="about-timeline-year">{item.year}</div>
                 <h3>{item.title}</h3>
@@ -2288,12 +2297,12 @@ function AboutPage() {
         </section>
 
         <section className="about-focus" aria-labelledby="about-focus-title">
-          <span className="about-label">现在关心</span>
+          <span className="about-label">还在走</span>
           <h2 id="about-focus-title">
-            AI、产品、设计，以及人怎样在其中继续保有方向感。
+            磕磕绊绊，跌得很痛，但我还得走。
           </h2>
           <p>
-            如果你也在这些问题附近工作或生活，欢迎从一封邮件或一篇文章开始认识。
+            我不想把这些经历整理成一条漂亮的成长曲线。很多时候也不知道前面是什么，只是还在做、还在想，也还在往前走。
           </p>
         </section>
       </div>
