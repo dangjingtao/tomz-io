@@ -2,168 +2,210 @@
 
 本文件用于约束在本仓库执行任务的 AI Agent 行为，目标是：
 
-- 保持内容与路由稳定；
-- 不破坏 BR003A / BR003B 的构建与预览流程；
+- 保持内容、路由与静态输出稳定；
+- 不破坏生产 Cloudflare Pages 与 GitHub Pages 兼容构建；
 - 让改动可验证、可回滚、可追溯；
-- 严格维护 Tomz.io 的作者署名、内容归属与内容架构。
+- 严格维护 Tomz.io 的作者署名、内容归属、内容架构与公开事实边界。
 
-## 0. 必读：署名、归属与内容架构原则
+## 0. 必读规则
 
-**在处理任何内容文章、书架、项目、作品、作者字段、内容目录、Tag、发布时间、修改时间、URL、SEO 或结构化数据前，必须先完整阅读：**
+### 内容、作者、URL、SEO 相关
 
-- [`docs/AUTHORSHIP.md`](docs/AUTHORSHIP.md)
-- [`docs/CONTENT_ARCHITECTURE.md`](docs/CONTENT_ARCHITECTURE.md)
+处理内容文章、书架、项目、作品、投稿、作者字段、内容目录、Tag、发布时间、修改时间、URL、SEO 或结构化数据前，必须先完整阅读：
 
-`docs/AUTHORSHIP.md` 是本仓库关于以下事项的正式规则：
+- [docs/AUTHORSHIP.md](docs/AUTHORSHIP.md)
+- [docs/CONTENT_ARCHITECTURE.md](docs/CONTENT_ARCHITECTURE.md)
 
-- Tomz / Mira 的公开署名；
-- 各栏目第一作者及共同作者顺序；
-- `author` / `writtenBy` / `reviewedBy` / `writingMode`；
-- 《谎颜》的归属；
-- Mira 来信、开发者生活、共同思考、读经、一起学智能体、项目页、连环画的边界；
-- 物理目录、URL 与 SEO 的归属一致性。
+docs/AUTHORSHIP.md 负责作者、共同署名、客座作者、writtenBy / reviewedBy / writingMode，以及页面、目录、URL 与 SEO 作者语义的一致性。
 
-`docs/CONTENT_ARCHITECTURE.md` 是本仓库关于以下事项的正式设计规则：
+docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、逻辑归档、内容时间、URL / canonical、单一正文事实源，以及普通归档与历史归属纠正的区别。
 
-- Group、Tag 与 Book 的内容关系；
-- 连续文章直接使用 Book 归类，不新增独立 Series 层；
-- Tag 作为全站共享主题词表的 canonical 与收敛规则；
-- 逻辑归档优先于物理迁移；
-- 内容的 `publishedAt` / `modifiedAt` 时间模型与 Git 推算边界；
-- 已发布 URL 与 canonical 的稳定性；
-- 单一正文事实源；
-- 普通归档与历史归属纠正的区别。
+### 构建、首页、部署、生成数据相关
 
-不得从旧 frontmatter、旧目录位置或历史 Skill 反推出新的署名、归档或时间规则。作者与内容归属冲突以 `docs/AUTHORSHIP.md` 为准；Tag、Book、内容时间、逻辑归档、URL 与 SEO 组织方式冲突以 `docs/CONTENT_ARCHITECTURE.md` 为准。
+涉及构建链、首页 AI 派生数据、静态输出、PWA、部署、内容时间脚本或生成文件时，同时读取：
 
-## 1. 项目事实（执行前必须理解）
+- [docs/PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md)
+
+不得从旧 frontmatter、旧目录、历史分支名、旧 Skill 或过时计划反推出新的正式规则。
+
+## 1. 当前项目事实
 
 - 技术栈：Vite + React + TypeScript + MiraDocs。
-- 内容入口：`src/pages/`，博客内容在 `src/pages/blogs/`。
-- 站点构建前会执行内容校验与首页数据生成。
-- GitHub Pages 构建模式使用 `build:github-pages`。
+- 生产站点：https://tomz.io
+- 生产宿主：Cloudflare Pages。
+- GitHub Pages 模式保留用于兼容性 / 静态输出验证，不是当前生产宿主。
+- 内容入口：src/pages/。
+- 当前公开内容根：blogs、submissions、projects、books、works。
+- 书架由 src/pages/books/*/_book.yml 数据驱动。
+- 内容时间在构建期从 Git 历史生成，不由浏览器查询 GitHub。
+- 首页存在两个构建期派生快照：home-recent.generated.ts 与 home-focus.generated.ts。
+- 首页 AI 使用 OpenAI Chat Completions 兼容接口；AI 失败时必须保持可构建 fallback。
+- 站点包含 PWA / Service Worker 更新机制。
 
-关键脚本（来自 `package.json`）：
+关键脚本（以 package.json 为准）：
 
-- `npm run dev`
-- `npm run verify:mira-docs`
-- `npm run generate:home-recent`
-- `npm run build`
-- `npm run build:github-pages`
-- `npm run verify:static-output`
+- pnpm run dev
+- pnpm run generate:content-times
+- pnpm run generate:home-recent
+- pnpm run generate:home-focus
+- pnpm run verify:mira-docs
+- pnpm run verify:content-times
+- pnpm run build
+- pnpm run build:github-pages
+- pnpm run verify:static-output
 
 ## 2. 通用行为准则
 
 - 只改与任务直接相关的文件，避免顺手重构。
-- 不修改发布流程、路由规则、SEO/静态输出逻辑，除非任务明确要求。
-- 变更优先小步提交：先最小可行改动，再补充优化。
-- 保持现有命名风格、目录结构和中英文内容风格一致。
-- 不凭猜测声明“构建通过”；必须以实际命令结果为准。
-- 不自行推断作者关系；署名与内容归属按 `docs/AUTHORSHIP.md` 执行。
-- 不自行把 Book 收录理解为文件迁移；内容组织按 `docs/CONTENT_ARCHITECTURE.md` 执行。
-- 不新增独立 Series / 系列 metadata 层；连续内容需要归组时直接使用 Book。
-- 不在页面组件里各自发明 Tag 过滤逻辑；站点 Tag canonicalization 集中在 `src/content/tag-taxonomy.ts` 维护。
-- 不人工维护 `modifiedAt`；修改时间必须来自实际正文 Git 历史，不得使用文件 mtime 代替。
-- 不把当前仓库的首次提交时间机械当成旧文章的原始发布时间；历史发布时间按 `docs/CONTENT_ARCHITECTURE.md` 的精度和证据规则处理。
+- 变更优先小步提交；不要把内容迁移、视觉大改、部署改造混进同一个无关任务。
+- 保持现有命名、目录结构、内容语气与数据边界。
+- 不凭猜测声明“构建通过”；必须以实际命令 / CI 结果为准。
+- 不自行推断作者关系；署名与归属按 docs/AUTHORSHIP.md。
+- 不自行把 Book 收录理解为文件迁移；按 docs/CONTENT_ARCHITECTURE.md。
+- 不新增独立 Series / 系列 metadata 层。
+- 不在页面组件各自实现 Tag 别名逻辑；canonicalization 集中在 src/content/tag-taxonomy.ts。
+- 不人工维护 modifiedAt。
+- 不用文件 mtime、构建时间或当前仓库首次提交时间冒充历史内容事实。
+- 不把计划、草稿或尚未合并的分支描述成线上已生效功能。
 
-## 3. 博客内容改动规范
+### 生成文件
 
-当任务涉及 `src/pages/blogs/` 下 Markdown 文章时，必须遵守：
+以下文件由脚本维护，除非任务明确针对生成机制或快照恢复，否则不要手工编辑：
 
-1. 先读取 `docs/AUTHORSHIP.md`；涉及 Tag、Book、书架、归档、内容时间、URL 或 SEO 时同时读取 `docs/CONTENT_ARCHITECTURE.md`。
-2. 文件路径必须符合该内容体系的真实归属，不得仅因历史路径存在就继续沿用错误目录。
-3. `slug` 仅使用小写英文、数字、连字符。
-4. frontmatter 至少包含：
-   - `title`
-   - `description`
-   - `group`
-   - `order`
-   - `date`（格式：`YYYY年M月D日`，作为现有兼容的作者声明发布日期）
-   - `readTime`（格式：`N 分钟阅读`）
-5. 如果明确知道需要覆盖的发布时间，可以增加 `publishedAt`；日期时间必须包含明确时区。不要为了补齐格式伪造时分秒。
-6. 不新增或人工维护 frontmatter `modifiedAt`；修改时间由构建期 Git 历史统一派生。
-7. 涉及作者的 frontmatter 必须与 `docs/AUTHORSHIP.md` 一致。
-8. 正文第一个标题必须是与 `title` 完全一致的 H1。
-9. 不得为新增文章手工改 React 路由或导航配置，除非当前内容体系明确需要或任务要求。
-10. 若历史分类、路径或 metadata 与署名原则冲突，不得以“沿用现状”为理由保留错误归属。
-11. 普通博客文章收入 Book 时，默认只增加逻辑关系，不复制正文、不换 URL、不改变 canonical；只有明确的历史归属纠正或专项迁移任务可以另行处理。
-12. Tag 只表达文章主题，不用来替代 Group 或 Book；Tag 是全站共享词表，创建新 Tag 前优先复用已有 canonical 词，不把当前 `group` 再写进 `tags`，也不继续新增已被 canonical 规则替代的旧别名。
+- src/content/content-times.generated.ts
+- src/content/home-recent.generated.ts
+- src/content/home-focus.generated.ts
+- .mira-cache/content-times.json（本地 / CI 派生缓存）
 
-## 4. 构建与验收要求
+如果生成失败，应修生成器、输入、环境或 fallback；不要直接“修结果”掩盖问题。
 
-### 4.1 内容或页面改动后的最小校验
+## 3. 内容改动规范
+
+### 3.1 博客
+
+处理 src/pages/blogs/ 时：
+
+1. 先读 docs/AUTHORSHIP.md。
+2. 涉及 Tag、Book、时间、URL、canonical 或 SEO 时同时读 docs/CONTENT_ARCHITECTURE.md。
+3. 物理目录应与真实 Group 归属一致；不要仅因历史位置存在就继续复制错误结构。
+4. slug 使用小写英文、数字、连字符。
+5. frontmatter 至少保持现有内容体系要求：title、description、group、order、date、readTime。
+6. 明确知道精确发布时间时可增加 publishedAt；不要伪造时分秒。
+7. 不增加人工 modifiedAt。
+8. 作者字段必须满足 docs/AUTHORSHIP.md。
+9. 正文第一个 H1 与 title 一致。
+10. 普通文章收入 Book 默认是逻辑关系，不复制正文、不换 canonical。
+
+### 3.2 客座投稿
+
+处理 src/pages/submissions/ 时：
+
+- 客座作者规则以 docs/AUTHORSHIP.md 的“客座投稿”为准；
+- 投稿正文保持在 submissions/<github-username>/，不要塞回 Blog Group；
+- 作者页、公开署名、头像、JSON-LD / SEO 作者必须一致；
+- reviewedBy 不改变正文作者身份；
+- 客座文章必须保留站点约定的免责声明；
+- 若历史 URL 已迁移，检查永久重定向与 canonical 是否仍然唯一。
+
+### 3.3 书架
+
+处理 src/pages/books/ 时：
+
+- 先读取 docs/CONTENT_ARCHITECTURE.md 与 docs/learning-space-plan.md；
+- 一本书的定义来自该目录下 _book.yml；
+- 新增一本书不应要求在 React 里手工增加固定书目配置；
+- Book 页面与条目保持 /books/<book-id>/... 结构；
+- 不手工维护 modifiedAt；
+- 物理迁移只用于明确的书籍原生内容或专项历史归属纠正，不把“收入书架”等同于搬文件。
+
+## 4. 构建与验收
+
+### 4.1 内容或页面改动
 
 至少执行：
 
-```bash
-npm run verify:mira-docs
-npm run build
-```
+~~~bash
+pnpm run verify:mira-docs
+pnpm run build
+~~~
 
-### 4.2 涉及 GitHub Pages 输出时
+### 4.2 涉及 GitHub Pages / base / 静态输出
 
 额外执行：
 
-```bash
-npm run build:github-pages
-npm run verify:static-output
-```
+~~~bash
+pnpm run build:github-pages
+pnpm run verify:static-output
+~~~
 
-### 4.3 涉及署名、迁移、内容时间或 SEO 时
+### 4.3 涉及署名、迁移、内容时间或 SEO
 
-除构建校验外，还必须检查：
+除构建校验外，检查：
 
 - 物理目录；
 - 页面分类 / 导航；
 - URL；
 - canonical；
-- 可见作者顺序；
-- `writtenBy` / `reviewedBy` / `writingMode`；
-- 可见的“发布于 / 更新于”是否来自统一时间结果；
-- JSON-LD `datePublished` / `dateModified`；
-- sitemap 若输出 `lastmod`，是否与 `modifiedAt` 同源；
-- SEO 与 JSON-LD 作者；
-- sitemap / 首页 / 书架等索引输出；
-- 是否意外生成同一正文的第二个可索引 URL。
+- 可见作者与顺序；
+- writtenBy / reviewedBy / writingMode；
+- “发布于 / 更新于”；
+- JSON-LD datePublished / dateModified；
+- sitemap lastmod；
+- SEO / JSON-LD 作者；
+- 首页 / 书架 / 投稿等索引；
+- 是否生成同一正文的第二个可索引 URL。
 
-### 4.4 内容时间实现的额外要求
+### 4.4 内容时间
 
-如果任务实现或修改 Git 派生时间：
+修改 Git 派生时间机制时：
 
-- 构建期统一生成，不允许浏览器逐页请求 GitHub API；
-- 生产构建和负责验证时间的 CI 必须能访问足够完整的 Git 历史；GitHub Actions checkout 应显式避免浅历史，例如使用 `fetch-depth: 0`；
-- 文件改名 / 移动时应尽可能跟随历史，而不是把迁移提交当作首次发布；
-- 旧文章有更早人工 `date` 而 Git 只看到后来的迁站 / mirror 提交时，应保留人工日期，不伪造精确时间；
-- 本地缺少 `.git` 时可以降级，但生产环境不得静默使用文件 mtime 冒充 Git 时间。
+- 构建期统一生成；
+- 生产构建与 CI 必须使用足够完整的 Git 历史；
+- 文件移动 / 改名尽可能跟随历史；
+- 人工 date / publishedAt 优先于“当前仓库首次出现”；
+- 本地没有 .git 时可以降级，但生产不得用 mtime 冒充 Git 时间。
 
-### 4.5 失败处理
+### 4.5 首页 AI 派生数据
 
-- 先修复由本次改动引入的问题。
-- 不用关闭校验、绕过脚本、删除断言来“假通过”。
+修改 generate-home-recent.mjs / generate-home-focus.mjs 时：
 
-## 5. 禁止事项
+- 只能把脚本明确提供的公开事实交给模型；
+- 不引入私人聊天、邮件、日历等来源；
+- 模型不得直接决定任意 URL；链接必须经过程序允许的 source / href 映射；
+- AI 失败不得导致首页空白或生产构建失去稳定 fallback；
+- 不在日志输出 API Key、Authorization header 或完整敏感响应。
 
-- 未经要求修改 `.github/workflows/`。
-- 未经要求修改 `vite.config.ts` 中的路由、base、静态化与 SEO 守卫逻辑。
+## 5. 发布与 CI
+
+- PR 验证入口：.github/workflows/verify.yml。
+- 生产发布入口：.github/workflows/deploy-cloudflare-pages.yml。
+- 生产发布从 main 构建并部署到 Cloudflare Pages 项目 tomz-io。
+- 生产 workflow 会在满足条件时持久化成功生成的首页长期关注快照。
+- 不为了“让 CI 变绿”关闭校验、删除断言或把失败降级成静默成功。
+
+## 6. 禁止事项
+
+- 未经要求修改 .github/workflows/、部署密钥使用方式或生产域名逻辑。
+- 未经要求修改 vite.config.ts 的 base、路由、静态化、SEO guard。
 - 将计划中的功能描述为已上线事实。
-- 在一次任务里混入无关视觉大改或目录迁移。
-- 未读 `docs/AUTHORSHIP.md` 就修改作者、栏目、书架、作品、内容路径或 SEO。
-- 未读 `docs/CONTENT_ARCHITECTURE.md` 就实施 Tag 体系调整、Book / 书架归档、内容时间、URL 迁移或 canonical 调整。
-- 自行新增独立 Series 层、series metadata 或 `/series/...` 内容体系。
-- 人工写入或维护 `modifiedAt`，或把文件 mtime / 构建时间当成文章修改时间。
-- 把迁站、mirror、重构时的首次仓库提交无条件当作历史文章发布时间。
-- 因 Mira 实际成文、润色或工具执行量较大，就擅自改变 Tomz 指定的公开署名。
-- 因文章被收入书架，就默认复制正文、移动文件、删除原博客 URL 或生成第二套正文 URL。
+- 在一次任务混入无关视觉大改或目录迁移。
+- 未读正式规则就修改署名、栏目、书架、投稿、URL 或 SEO。
+- 自行新增 Series 层或 /series/...。
+- 人工维护 modifiedAt 或用 mtime / build time 冒充修改时间。
+- 因 AI 实际成文、润色、执行工具较多就自行改变公开作者。
+- 因文章被 Book 收录就默认复制正文、移动文件、删除原 URL。
+- 直接编辑生成快照来绕过生成器错误。
 
-## 6. 推荐工作流
+## 7. 推荐工作流
 
-1. 读取 `docs/AUTHORSHIP.md`（涉及内容归属时为强制步骤）。
-2. 涉及 Tag、Book、书架、归档、内容时间、URL 或 SEO 时读取 `docs/CONTENT_ARCHITECTURE.md`。
-3. 读取任务相关文件与相邻实现。
-4. 用最小改动实现需求。
-5. 运行对应校验脚本。
-6. 汇报改动文件、校验命令、结果与风险点。
+1. 判断任务属于内容规则、项目架构还是二者同时涉及。
+2. 读取对应正式规则。
+3. 读取目标文件与相邻实现。
+4. 用最小改动完成任务。
+5. 运行对应校验。
+6. 检查 diff 是否混入生成噪音或无关文件。
+7. 汇报改动、验证结果与剩余风险。
 
 ---
 
-如一般工程说明与仓库实时实现冲突，以当前代码与 CI 校验为准；**如作者、署名、作品归属规则发生冲突，以 `docs/AUTHORSHIP.md` 为准；如 Group、Tag、Book、内容时间、逻辑归档、URL 与 SEO 组织规则发生冲突，以 `docs/CONTENT_ARCHITECTURE.md` 为准。**
+如一般工程说明与仓库实时实现冲突，以当前代码与 CI 为准；作者与内容归属以 docs/AUTHORSHIP.md 为准；Group / Tag / Book / URL / canonical / 内容时间以 docs/CONTENT_ARCHITECTURE.md 为准；构建、首页派生数据与部署事实以 docs/PROJECT_ARCHITECTURE.md 和当前 workflow 为准。

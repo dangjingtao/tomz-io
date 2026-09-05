@@ -23,6 +23,13 @@ function scalar(value: string): string {
   return trimmed;
 }
 
+function expectedBookId(sourcePath: string): string | undefined {
+  const normalized = sourcePath.replace(/\\/g, "/").replace(/\/+$/, "");
+  const parts = normalized.split("/").filter(Boolean);
+  if (parts.at(-1)?.toLowerCase() !== "_book.yml" || parts.length < 2) return undefined;
+  return parts.at(-2);
+}
+
 export function parseBookManifest(source: string, sourcePath = "_book.yml"): BookManifest {
   const values = new Map<string, string>();
 
@@ -40,6 +47,13 @@ export function parseBookManifest(source: string, sourcePath = "_book.yml"): Boo
   const title = values.get("title")?.trim() || "";
   if (!id || !title) {
     throw new Error(`Invalid book manifest ${sourcePath}: id and title are required.`);
+  }
+
+  const expectedId = expectedBookId(sourcePath);
+  if (expectedId && id !== expectedId) {
+    throw new Error(
+      `Invalid book manifest ${sourcePath}: id "${id}" must match directory "${expectedId}".`,
+    );
   }
 
   const parsedOrder = Number(values.get("order") || 0);
