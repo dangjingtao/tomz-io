@@ -1089,9 +1089,12 @@ function NotFoundPage({ onSearch }: { onSearch: () => void }) {
             >
               搜索站内内容
             </button>
-            <Link className="not-found-doc-link" to="/about/origin">
+            <a
+              className="not-found-doc-link"
+              href="https://mira.tomz.io/about/origin/"
+            >
               查看 Mira 文档 →
-            </Link>
+            </a>
           </div>
         </div>
       </main>
