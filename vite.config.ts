@@ -402,6 +402,9 @@ export default defineConfig(({ mode }) => {
         workbox: {
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
           cleanupOutdatedCaches: true,
+          // Let legacy Mira product URLs reach Cloudflare so the permanent
+          // cross-domain redirect is not swallowed by SPA navigation fallback.
+          navigateFallbackDenylist: [/^(?:\/tomz-io)?\/about\/origin\/?$/],
         },
       }),
       br003aStaticSeoGuard(),
