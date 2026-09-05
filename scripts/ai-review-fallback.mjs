@@ -379,6 +379,16 @@ async function upsertComment(body) {
   });
 }
 
+async function tryUpsertComment(body) {
+  try {
+    await upsertComment(body);
+    return true;
+  } catch (error) {
+    console.warn("AI review report comment could not be written:", error);
+    return false;
+  }
+}
+
 async function main() {
   await setGateStatus("pending", "Waiting for CodeRabbit or custom AI fallback");
 
@@ -408,8 +418,8 @@ async function main() {
   const diffInput = await collectDiff();
   if (!diffInput.complete) {
     const error = new Error(`Incomplete PR review input: ${diffInput.reasons.join("; ")}`);
-    await upsertComment(formatFallbackError(rabbit.reason, providerName, error));
     await setGateStatus("failure", "Custom AI review input was incomplete");
+    await tryUpsertComment(formatFallbackError(rabbit.reason, providerName, error));
     throw error;
   }
 
@@ -500,19 +510,19 @@ ${diff}
   try {
     review = parseModelJson(content);
   } catch (error) {
-    await upsertComment(formatFallbackError(rabbit.reason, providerName, error));
     await setGateStatus("failure", "Custom AI returned invalid structured output");
+    await tryUpsertComment(formatFallbackError(rabbit.reason, providerName, error));
     throw error;
   }
 
-  await upsertComment(formatComment(review, rabbit.reason, providerName));
-
   if (review.verdict === "REQUEST_CHANGES") {
     await setGateStatus("failure", "Custom AI requested changes");
+    await tryUpsertComment(formatComment(review, rabbit.reason, providerName));
     throw new Error("AI review gate blocked by custom AI fallback.");
   }
 
   await setGateStatus("success", `Custom AI approved via ${providerName}`);
+  await tryUpsertComment(formatComment(review, rabbit.reason, providerName));
   console.log("AI review gate passed via custom AI fallback.");
 }
 
