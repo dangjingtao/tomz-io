@@ -46,6 +46,17 @@ const initialTheme =
 // fail to match and React renders an empty shell.
 const buildBase = import.meta.env.BASE_URL;
 const normalizedBuildBase = buildBase === "/" ? "/" : buildBase.replace(/\/+$/, "");
+const currentRoutePath =
+  normalizedBuildBase !== "/" &&
+  window.location.pathname.startsWith(`${normalizedBuildBase}/`)
+    ? window.location.pathname.slice(normalizedBuildBase.length)
+    : window.location.pathname;
+
+if (/^\/about\/origin\/?$/.test(currentRoutePath)) {
+  // Existing installed PWAs may still be controlled by an older service worker
+  // that serves the SPA shell before Cloudflare can return the new 301.
+  window.location.replace("https://mira.tomz.io/about/origin/");
+}
 
 if (normalizedBuildBase !== "/" && window.location.pathname === normalizedBuildBase) {
   window.history.replaceState(

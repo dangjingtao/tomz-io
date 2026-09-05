@@ -10,23 +10,52 @@ jobs:
   runtime-smoke:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify deployed source and representative public routes
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build GitHub Pages output
+        run: npm run build:github-pages
+
+      - name: Verify GitHub Pages static output
         env:
-          PREVIEW_SHA: ${{ github.event.pull_request.head.sha }}
+          EXPECTED_BASE: tomz-io
+        run: npm run verify:static-output
+
+      - name: Apply preview-only noindex
+        run: node scripts/prepare-pages-preview.mjs
+
+      - name: Verify Pages-like runtime
         run: |
           set -euo pipefail
-          base="https://dangjingtao.github.io/tomz-io"
+          base="http://127.0.0.1:4173/tomz-io"
 
-          published=""
-          for attempt in $(seq 1 72); do
-            published="$(curl -fsSL --max-time 15 "$base/preview-source-sha.txt" 2>/dev/null || true)"
-            if [ "$published" = "$PREVIEW_SHA" ]; then
+          node scripts/serve-pages-like.mjs dist /tomz-io 4173 >/tmp/pages-like.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+          ready=""
+          for attempt in $(seq 1 20); do
+            if curl -fsS --max-time 2 "$base/" >/dev/null 2>&1; then
+              ready=1
               break
             fi
-            echo "Pages still serves ${published:-<none>}; expecting $PREVIEW_SHA (attempt $attempt/72)"
-            sleep 5
+            sleep 1
           done
-          test "$published" = "$PREVIEW_SHA"
+          if [ -z "$ready" ]; then
+            cat /tmp/pages-like.log
+            exit 1
+          fi
 
           check_html() {
             route="$1"
@@ -55,11 +84,9 @@ jobs:
           check_html "/blogs/" "博客"
           check_html "/blogs/shared-thinking/matter-awakens/" "物质为什么会醒来"
           check_html "/blogs/mira-letters/a-seat-at-the-writing-table/" "Mira"
-
-          # Direct deep-route refresh without a trailing slash must still resolve.
           check_html "/blogs/shared-thinking/matter-awakens" "物质为什么会醒来"
 
-          # Removed author-site categories and representative descendants must be gone.
+          check_removed "/about/origin/"
           check_removed "/about/author/"
           check_removed "/mira-docs-api/"
           check_removed "/mira-docs-api/guide/what-is-mira-docs/"
@@ -81,4 +108,4 @@ jobs:
           grep -Fq 'noindex,nofollow' "$file"
           rm -f "$file"
 
-          echo "Homepage V1 public Pages runtime smoke passed for $PREVIEW_SHA."
+          echo "Homepage V1 Pages-like runtime smoke passed."

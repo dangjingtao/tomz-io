@@ -114,7 +114,8 @@ const notFoundPath = resolve(distRoot, "404.html");
 const sitemapPath = resolve(distRoot, "sitemap.xml");
 const robotsPath = resolve(distRoot, "robots.txt");
 const redirectsPath = resolve(distRoot, "_redirects");
-for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath]) {
+const serviceWorkerPath = resolve(distRoot, "sw.js");
+for (const file of [indexPath, notFoundPath, sitemapPath, robotsPath, serviceWorkerPath]) {
   if (!existsSync(file)) failures.push(`缺少构建产物: ${file}`);
 }
 
@@ -189,6 +190,10 @@ if (!books.length) {
 
   const redirects = existsSync(redirectsPath) ? readFileSync(redirectsPath, "utf8") : "";
   if (!existsSync(redirectsPath)) failures.push("缺少迁移重定向文件 dist/_redirects");
+  for (const legacy of ["/about/origin", "/about/origin/"]) {
+    const rule = `${legacy} https://mira.tomz.io/about/origin/ 301`;
+    if (!redirects.includes(rule)) failures.push(`缺少 Mira 文档永久重定向: ${rule}`);
+  }
 
   for (const book of books) {
     const bookRoute = `/books/${book.id}`;
@@ -246,6 +251,7 @@ if (existsSync(sitemapPath)) {
   for (const fragment of [
     "/mira-docs-api/",
     "/design-md/",
+    "/about/origin/",
     "/about/author/",
     "/learning/",
     "/blogs/product-journal/",
@@ -257,6 +263,13 @@ if (existsSync(sitemapPath)) {
   }
 }
 
+if (existsSync(serviceWorkerPath)) {
+  const serviceWorker = readFileSync(serviceWorkerPath, "utf8");
+  if (!serviceWorker.includes("about\\/origin")) {
+    failures.push("PWA navigation fallback 未排除 /about/origin，旧域 301 可能被 Service Worker 吞掉");
+  }
+}
+
 if (existsSync(robotsPath)) {
   const robots = readFileSync(robotsPath, "utf8");
   const expected = `Sitemap: ${siteUrl}${expectedBase}/sitemap.xml`;
@@ -264,6 +277,7 @@ if (existsSync(robotsPath)) {
 }
 
 for (const route of [
+  "/about/origin",
   "/about/author",
   "/mira-docs-api/guide/what-is-mira-docs",
   "/design-md/视觉/product-design-system",
