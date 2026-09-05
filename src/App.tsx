@@ -2305,6 +2305,21 @@ function AboutPage() {
             我不想把这些经历整理成一条漂亮的成长曲线。很多时候也不知道前面是什么，只是还在做、还在想，也还在往前走。
           </p>
         </section>
+
+        <section className="about-contact" aria-labelledby="about-contact-title">
+          <span className="about-label">联系方式</span>
+          <h2 id="about-contact-title">如果你想聊点什么。</h2>
+          <p>产品、AI、合作，或者只是路过想说句话。</p>
+          <div className="about-contact-links">
+            <a className="about-contact-email" href="mailto:hello@tomz.io">
+              hello@tomz.io <ArrowUpRight size={14} aria-hidden="true" />
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href={githubProfileUrl} target="_blank" rel="noreferrer">
+              GitHub <ArrowUpRight size={14} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
       </div>
     </div>
   );
