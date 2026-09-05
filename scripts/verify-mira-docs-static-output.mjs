@@ -189,6 +189,10 @@ if (!books.length) {
 
   const redirects = existsSync(redirectsPath) ? readFileSync(redirectsPath, "utf8") : "";
   if (!existsSync(redirectsPath)) failures.push("缺少迁移重定向文件 dist/_redirects");
+  for (const legacy of ["/about/origin", "/about/origin/"]) {
+    const rule = `${legacy} https://mira.tomz.io/about/origin/ 301`;
+    if (!redirects.includes(rule)) failures.push(`缺少 Mira 文档永久重定向: ${rule}`);
+  }
 
   for (const book of books) {
     const bookRoute = `/books/${book.id}`;
@@ -246,6 +250,7 @@ if (existsSync(sitemapPath)) {
   for (const fragment of [
     "/mira-docs-api/",
     "/design-md/",
+    "/about/origin/",
     "/about/author/",
     "/learning/",
     "/blogs/product-journal/",
@@ -264,6 +269,7 @@ if (existsSync(robotsPath)) {
 }
 
 for (const route of [
+  "/about/origin",
   "/about/author",
   "/mira-docs-api/guide/what-is-mira-docs",
   "/design-md/视觉/product-design-system",
