@@ -154,6 +154,8 @@ function bookshelfRedirects(): Plugin {
     enforce: "post",
     closeBundle() {
       const lines: string[] = [
+        "/about/origin https://mira.tomz.io/about/origin/ 301",
+        "/about/origin/ https://mira.tomz.io/about/origin/ 301",
         "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
         "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
         "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
