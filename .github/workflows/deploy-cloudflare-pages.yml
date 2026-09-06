@@ -52,6 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Persist refreshed homepage focus snapshot
+        continue-on-error: true
         run: |
           set -euo pipefail
           FILE="src/content/home-focus.generated.ts"
