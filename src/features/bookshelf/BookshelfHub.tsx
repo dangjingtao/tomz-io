@@ -403,10 +403,12 @@ function BookIndex({ bookId }: { bookId: string }) {
         share={{ title: book.title, text: book.description }}
       />
       <main className="bookshelf-wrap book-index-main">
-        <Link className="bookshelf-back book-index-desktop-back" to="/books">
-          <ArrowLeft size={15} aria-hidden="true" />
-          返回书架
-        </Link>
+        <div className="book-index-desktop-backbar">
+          <Link className="bookshelf-back book-index-desktop-back" to="/books">
+            <ArrowLeft size={15} aria-hidden="true" />
+            返回书架
+          </Link>
+        </div>
         <header className="book-index-header">
           <span>{book.category || "BOOK"}</span>
           <h1>{book.title}</h1>
@@ -471,11 +473,15 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
         share={{ title: entry.title, text: entry.description || book.description }}
       />
       <main className="book-reader">
+        <div className="book-reader-desktop-backbar">
+          <div className="book-reader-desktop-backbar-inner">
+            <Link className="bookshelf-back book-reader-desktop-back" to={`/books/${book.id}`}>
+              <ArrowLeft size={15} aria-hidden="true" />
+              返回《{book.title}》
+            </Link>
+          </div>
+        </div>
         <article className="book-reader-header">
-          <Link className="bookshelf-back book-reader-desktop-back" to={`/books/${book.id}`}>
-            <ArrowLeft size={15} aria-hidden="true" />
-            返回《{book.title}》
-          </Link>
           <span className="book-reader-category">{book.category || "BOOK"}</span>
           <h1>{entry.title}</h1>
           {entry.description ? <p>{entry.description}</p> : null}

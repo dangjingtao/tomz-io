@@ -176,6 +176,20 @@
   color: var(--ink);
 }
 
+.book-index-desktop-backbar {
+  position: sticky;
+  top: 64px;
+  z-index: 30;
+  margin: -14px -12px 26px;
+  padding: 14px 12px 16px;
+  background: color-mix(in srgb, var(--canvas) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.book-index-desktop-backbar .bookshelf-back {
+  margin-bottom: 0;
+}
+
 .book-index-header {
   max-width: 760px;
   padding-bottom: 40px;
@@ -270,8 +284,23 @@
   margin: 0 auto 48px;
 }
 
-.book-reader-header .bookshelf-back {
-  margin-bottom: 36px;
+.book-reader-desktop-backbar {
+  position: sticky;
+  top: 64px;
+  z-index: 30;
+  margin: -20px -12px 24px;
+  padding: 20px 12px 16px;
+  background: color-mix(in srgb, var(--canvas) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.book-reader-desktop-backbar-inner {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.book-reader-desktop-backbar .bookshelf-back {
+  margin-bottom: 0;
 }
 
 .book-reader-header h1 {
@@ -355,7 +384,9 @@
     padding-top: 32px;
   }
 
+  .book-index-desktop-backbar,
   .book-index-desktop-back,
+  .book-reader-desktop-backbar,
   .book-reader-desktop-back {
     display: none;
   }
