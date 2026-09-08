@@ -636,8 +636,15 @@ function SiteHeaderBase({
       document.removeEventListener("keydown", closeBlogMenu);
     };
   }, [openMenu]);
+  const navigationTarget = (href: string) => {
+    if (appBase !== "/" && href.startsWith(appBase)) {
+      const relative = href.slice(appBase.length).replace(/^\\/+/, "");
+      return `/${relative}`;
+    }
+    return href.startsWith("/") ? href : `/${href}`;
+  };
   const isActive = (item: LinkItem) => {
-    const target = item.href.slice(Math.max(appBase.length - 1, 0));
+    const target = navigationTarget(item.href);
     return (
       location.pathname === target || location.pathname.startsWith(`${target}/`)
     );
@@ -651,7 +658,7 @@ function SiteHeaderBase({
         <ul className="menu">
           {content.nav.map((item) => {
             const active = isActive(item);
-            const target = item.href.slice(Math.max(appBase.length - 1, 0));
+            const target = navigationTarget(item.href);
             if (target === "/submissions") {
               return (
                 <li
