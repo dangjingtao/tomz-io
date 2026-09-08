@@ -30,6 +30,8 @@ export function slug(value: string): string {
 export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   path: string;
   readTime?: string;
+  issue?: number;
+  lead?: string;
   source: string;
   root: string;
   directory: string;
@@ -53,6 +55,13 @@ function dataString(data: Record<string, unknown>, key: string): string | undefi
   if (Array.isArray(value)) return value.length ? String(value[0]) : undefined;
   if (value == null || value === "") return undefined;
   return String(value);
+}
+
+function dataNumber(data: Record<string, unknown>, key: string): number | undefined {
+  const value = dataString(data, key);
+  if (!value) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 function dataList(data: Record<string, unknown>, key: string): string[] {
@@ -174,6 +183,8 @@ function adaptSiteDoc(core: MiraDoc): Doc {
       dataString(core.data, "readTime") ||
       dataString(core.data, "readtime") ||
       dataString(core.data, "read_time"),
+    issue: dataNumber(core.data, "issue"),
+    lead: dataString(core.data, "lead"),
     tags: normalizeSiteTags(core.tags, group),
     cover: core.cover || dataString(core.data, "image"),
     source: core.body,
@@ -193,6 +204,15 @@ export function compareDocs(a: Doc, b: Doc): number {
   return (
     a.order - b.order ||
     a.directory.localeCompare(b.directory) ||
+    a.path.localeCompare(b.path)
+  );
+}
+
+export function compareWeeklyDocs(a: Doc, b: Doc): number {
+  return (
+    (b.issue ?? b.order) - (a.issue ?? a.order) ||
+    contentTimeSortValue(b.publishedAt || b.date) -
+      contentTimeSortValue(a.publishedAt || a.date) ||
     a.path.localeCompare(b.path)
   );
 }
