@@ -1,0 +1,130 @@
+/* Tomz.io Weekly — editorial surface built on the site's own theme tokens. */
+
+.weekly-app{background:var(--canvas)}
+.weekly-shell{display:block;max-width:none}
+.weekly-main{width:100%;max-width:none;padding:0}
+.weekly-frame{width:min(calc(100% - 48px),960px);margin:0 auto}
+.weekly-index-page{padding-bottom:96px}
+
+.weekly-masthead{padding:clamp(72px,10vw,124px) 0 54px}
+.weekly-masthead-kicker,.weekly-section-label,.weekly-issue-kicker,.weekly-meta,.weekly-archive-no,.weekly-toc-label{font-family:var(--font-mono)}
+.weekly-masthead-kicker{display:block;margin-bottom:18px;color:var(--primary-active);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.weekly-masthead h1{margin:0;font:500 clamp(72px,13vw,128px)/.86 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif;letter-spacing:.035em}
+.weekly-masthead p{max-width:28em;margin:30px 0 0;color:var(--body-c);font:500 clamp(20px,2.5vw,27px)/1.55 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif}
+.weekly-masthead-rule{margin-top:34px;border-top:1px solid var(--ink)}
+
+.weekly-section{padding:52px 0;border-top:1px solid var(--hairline)}
+.weekly-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:22px}
+.weekly-section-label{color:var(--muted-soft);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.weekly-section-note{margin:0;color:var(--muted);font-size:13px}
+
+.weekly-latest{padding:30px 0 34px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);background:linear-gradient(90deg,color-mix(in srgb,var(--surface-soft) 62%,transparent),transparent 62%)}
+.weekly-latest-top{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.weekly-issue-number{color:var(--primary-active);font:500 18px/1 var(--font-mono)}
+.weekly-latest-flag{padding:3px 8px;border:1px solid var(--hairline);border-radius:var(--r-pill);color:var(--muted);font:10px/1.5 var(--font-mono);letter-spacing:.08em}
+.weekly-latest-date{margin-left:auto;color:var(--muted);font:12px var(--font-mono)}
+.weekly-latest h2{max-width:17ch;margin:0;font:500 clamp(34px,5vw,52px)/1.08 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif;letter-spacing:-.01em}
+.weekly-latest h2 a:hover{color:var(--primary-active)}
+.weekly-latest-lead{max-width:52em;margin:18px 0 0;color:var(--body-c);font-size:16px;line-height:1.8}
+.weekly-latest-foot{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;margin-top:26px}
+.weekly-tags{display:flex;flex-wrap:wrap;gap:7px}
+.weekly-tag{color:var(--muted);font:10.5px/1.4 var(--font-mono)}
+.weekly-tag+.weekly-tag::before{content:"·";margin-right:7px;color:var(--muted-soft)}
+.weekly-latest-byline{margin-left:auto;color:var(--muted);font-size:12px}
+.weekly-enter{display:inline-flex;align-items:center;gap:8px;margin-top:26px;color:var(--ink);font-size:13px;font-weight:600}
+.weekly-enter:hover{color:var(--primary-active)}
+
+.weekly-archive{border-top:1px solid var(--ink)}
+.weekly-archive-row{display:grid;grid-template-columns:74px minmax(0,1fr) auto;gap:24px;padding:24px 0;border-bottom:1px solid var(--hairline);align-items:start}
+.weekly-archive-row:hover h3{color:var(--primary-active)}
+.weekly-archive-no{color:var(--primary-active);font-size:13px}
+.weekly-archive-copy h3{margin:0 0 7px;font:500 24px/1.25 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif}
+.weekly-archive-copy p{max-width:54em;margin:0;color:var(--muted);font-size:13.5px;line-height:1.65}
+.weekly-archive-date{color:var(--muted-soft);font:11px var(--font-mono);white-space:nowrap}
+.weekly-empty-archive{padding:22px 0 0;color:var(--muted);font-size:13px}
+
+.weekly-watch-list{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0;padding:0;list-style:none}
+.weekly-watch-list li{position:relative;color:var(--body-c);font:500 17px "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif}
+.weekly-watch-list li:not(:last-child)::after{content:"/";margin-left:22px;color:var(--hairline)}
+
+.weekly-issue-page{width:min(calc(100% - 48px),1120px);margin:0 auto;padding-bottom:96px}
+.weekly-issue-head{max-width:900px;padding:clamp(64px,8vw,100px) 0 46px}
+.weekly-issue-kicker{display:flex;align-items:baseline;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--ink);color:var(--muted);font-size:11px}
+.weekly-issue-kicker span:first-child{color:var(--ink);letter-spacing:.18em}
+.weekly-issue-kicker strong{color:var(--primary-active);font-size:17px;font-weight:500}
+.weekly-issue-kicker time{margin-left:auto}
+.weekly-issue-head h1{max-width:18ch;margin:28px 0 0;font:500 clamp(42px,6vw,68px)/1.02 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif;letter-spacing:-.015em}
+.weekly-issue-lead{max-width:47em;margin:22px 0 0;color:var(--body-c);font-size:17px;line-height:1.8}
+.weekly-issue-byline{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:24px;color:var(--muted);font-size:12px}
+.weekly-issue-byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted-soft)}
+.weekly-issue-byline .share-button{margin-left:auto;padding:6px 10px;font-size:11px}
+
+.weekly-issue-layout{display:grid;grid-template-columns:minmax(0,760px) 208px;gap:72px;align-items:start;border-top:1px solid var(--hairline)}
+.weekly-article{min-width:0;padding-top:24px}
+.weekly-markdown{counter-reset:weekly-section}
+.weekly-markdown>h2{counter-increment:weekly-section;display:grid;grid-template-columns:42px minmax(0,1fr);gap:8px;margin:64px 0 18px;padding-top:18px;border-top:1px solid var(--ink);font:500 29px/1.2 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif;letter-spacing:-.005em;scroll-margin-top:86px}
+.weekly-markdown>h2::before{content:counter(weekly-section,decimal-leading-zero);padding-top:5px;color:var(--primary-active);font:10.5px/1 var(--font-mono);letter-spacing:.08em}
+.weekly-markdown>h2:first-of-type{margin-top:12px;border-top-width:2px}
+.weekly-markdown>h3{margin-top:32px;font:600 18px/1.4 var(--font-sans)}
+.weekly-markdown>p,.weekly-markdown>ul,.weekly-markdown>ol,.weekly-markdown>blockquote{font-size:15.5px;line-height:1.86}
+.weekly-markdown>blockquote{margin:20px 0 30px;padding:20px 24px;border-left:3px solid var(--primary);background:color-mix(in srgb,var(--surface-soft) 68%,transparent);color:var(--body-strong)}
+.weekly-markdown>blockquote p{margin:0;font:500 20px/1.65 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif}
+.weekly-markdown a{text-decoration-color:color-mix(in srgb,var(--primary) 48%,transparent);text-underline-offset:3px}
+.weekly-markdown a:hover{color:var(--primary-active)}
+.weekly-markdown hr{border:0;border-top:1px solid var(--hairline);margin:36px 0}
+
+.weekly-aside{position:sticky;top:88px;padding-top:28px}
+.weekly-toc-label{display:block;margin-bottom:12px;color:var(--muted-soft);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.weekly-aside nav{display:flex;flex-direction:column}
+.weekly-aside nav a{padding:5px 0 5px 11px;border-left:1px solid var(--hairline);color:var(--muted);font-size:12px;line-height:1.45}
+.weekly-aside nav a:hover{border-left-color:var(--ink);color:var(--ink)}
+.weekly-aside-note{margin-top:26px;padding-top:16px;border-top:1px solid var(--hairline);color:var(--muted-soft);font:10.5px/1.7 var(--font-mono)}
+.weekly-mobile-toc{display:none}
+
+.weekly-issue-nav{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:64px;padding-top:24px;border-top:1px solid var(--ink)}
+.weekly-issue-nav a{display:block}
+.weekly-issue-nav .dir{display:block;margin-bottom:5px;color:var(--muted-soft);font:9.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase}
+.weekly-issue-nav .to{font:500 19px/1.3 "Cormorant Garamond","Songti SC","Source Han Serif SC",STSong,serif}
+.weekly-issue-nav .next{text-align:right}
+
+@media(max-width:900px){
+  .weekly-frame,.weekly-issue-page{width:min(calc(100% - 40px),820px)}
+  .weekly-issue-layout{grid-template-columns:minmax(0,1fr)}
+  .weekly-aside{display:none}
+  .weekly-mobile-toc{display:block;margin:0 0 28px;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .weekly-mobile-toc summary{padding:13px 0;color:var(--muted);font:11px var(--font-mono);cursor:pointer}
+  .weekly-mobile-toc nav{display:grid;gap:8px;padding:0 0 16px}
+  .weekly-mobile-toc a{color:var(--body-c);font-size:13px}
+}
+
+@media(max-width:760px){
+  .weekly-frame,.weekly-issue-page{width:calc(100% - 32px)}
+  .weekly-index-page{padding-bottom:64px}
+  .weekly-masthead{padding:54px 0 38px}
+  .weekly-masthead h1{font-size:clamp(64px,24vw,94px)}
+  .weekly-masthead p{margin-top:22px;font-size:20px}
+  .weekly-section{padding:40px 0}
+  .weekly-latest{padding:24px 0 28px;background:none}
+  .weekly-latest-date,.weekly-latest-byline{margin-left:0}
+  .weekly-latest h2{font-size:36px}
+  .weekly-latest-foot{align-items:flex-start;flex-direction:column;gap:10px}
+  .weekly-archive-row{grid-template-columns:54px minmax(0,1fr);gap:14px}
+  .weekly-archive-date{grid-column:2}
+  .weekly-watch-list{display:block}
+  .weekly-watch-list li{padding:8px 0;border-bottom:1px solid var(--hairline-soft)}
+  .weekly-watch-list li::after{display:none}
+  .weekly-issue-head{padding:46px 0 34px}
+  .weekly-issue-kicker{flex-wrap:wrap;row-gap:8px}
+  .weekly-issue-kicker time{width:100%;margin-left:0}
+  .weekly-issue-head h1{margin-top:22px;font-size:clamp(38px,12vw,52px)}
+  .weekly-issue-lead{font-size:15.5px}
+  .weekly-issue-byline{align-items:flex-start}
+  .weekly-issue-byline .share-button{width:100%;margin:8px 0 0;justify-content:center}
+  .weekly-article{padding-top:18px}
+  .weekly-markdown>h2{grid-template-columns:34px minmax(0,1fr);margin-top:52px;font-size:25px}
+  .weekly-markdown>p,.weekly-markdown>ul,.weekly-markdown>ol,.weekly-markdown>blockquote{font-size:15px}
+  .weekly-markdown>blockquote{padding:18px}
+  .weekly-markdown>blockquote p{font-size:18px}
+  .weekly-issue-nav{grid-template-columns:1fr}
+  .weekly-issue-nav .next{text-align:left}
+}
