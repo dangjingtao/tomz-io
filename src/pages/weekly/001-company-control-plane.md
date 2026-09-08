@@ -1,5 +1,5 @@
 ---
-title: 周刊 #001：公司开始长出控制面
+title: "周刊 #001：公司开始长出控制面"
 description: 第一版周刊预览样稿。关注 Company OS、Agent Control Plane、中国开发者项目，以及 OPC 从“AI 员工”走向公司运行时的变化。
 group: 周刊
 order: 1
