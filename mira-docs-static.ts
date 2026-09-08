@@ -136,7 +136,7 @@ function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
     ["投稿", "/submissions"],
     ["作品", "/works"],
     ["项目", "/projects"],
-    ["研习", "/learning"],
+    ["书架", "/books"],
     ["关于", "/#about"],
   ] as const;
   const navigation = links
