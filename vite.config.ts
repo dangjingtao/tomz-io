@@ -405,7 +405,10 @@ export default defineConfig(({ mode }) => {
           cleanupOutdatedCaches: true,
           // Let legacy Mira product URLs reach Cloudflare so the permanent
           // cross-domain redirect is not swallowed by SPA navigation fallback.
-          navigateFallbackDenylist: [/^(?:\/tomz-io)?\/about\/origin\/?$/],
+          navigateFallbackDenylist: [
+            /^(?:\/tomz-io)?\/about\/origin\/?$/,
+            /^(?:\/tomz-io)?\/weekly(?:\/.*)?$/,
+          ],
         },
       }),
       br003aStaticSeoGuard(),
