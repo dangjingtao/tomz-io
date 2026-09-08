@@ -52,6 +52,7 @@ import {
   pageDirectories,
   compareBlogDocs,
   compareDocs,
+  compareWeeklyDocs,
   slug,
   type AuthorKey,
   type Doc,
@@ -185,9 +186,11 @@ const siteAreas: SiteArea[] = siteAreaRoots
         first?.nav ||
         (root === "blogs"
           ? "博客"
-          : root
-              .replace(/[-_]+/g, " ")
-              .replace(/\b\w/g, (letter) => letter.toUpperCase())),
+          : root === "weekly"
+            ? "周刊"
+            : root
+                .replace(/[-_]+/g, " ")
+                .replace(/\b\w/g, (letter) => letter.toUpperCase())),
       description: first?.description || "",
       docs,
       path,
@@ -1688,6 +1691,8 @@ function DocsLayout() {
       );
   const isBlogArea =
     currentArea?.key === "blogs" || currentArea?.key === "submissions";
+  const isWeeklyArea = currentArea?.key === "weekly";
+  const isEditorialArea = isBlogArea || isWeeklyArea;
   const [activeHeading, setActiveHeading] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
@@ -1716,8 +1721,10 @@ function DocsLayout() {
     return () => observer.disconnect();
   }, [currentDoc?.path]);
   return (
-    <div className={`docs-app${isBlogArea ? " blog-app" : ""}`}>
-      {!isBlogArea && (
+    <div
+      className={`docs-app${isBlogArea ? " blog-app" : ""}${isWeeklyArea ? " weekly-app" : ""}`}
+    >
+      {!isEditorialArea && (
         <MobileDocsBar
           currentDoc={currentDoc}
           tocOpen={mobileTocOpen}
@@ -1725,27 +1732,31 @@ function DocsLayout() {
           onToc={() => setMobileTocOpen((value) => !value)}
         />
       )}
-      {mobileMenuOpen && !isBlogArea && currentArea ? (
+      {mobileMenuOpen && !isEditorialArea && currentArea ? (
         <MobileDocsDrawer
           area={currentArea}
           current={location.pathname}
           onClose={() => setMobileMenuOpen(false)}
         />
       ) : null}
-      {mobileTocOpen && currentDoc && !isBlogArea ? (
+      {mobileTocOpen && currentDoc && !isEditorialArea ? (
         <MobilePageToc
           doc={currentDoc}
           onClose={() => setMobileTocOpen(false)}
         />
       ) : null}
-      <div className={`docs-shell${isBlogArea ? " blog-shell" : ""}`}>
-        {!isBlogArea && currentArea ? (
+      <div
+        className={`docs-shell${isBlogArea ? " blog-shell" : ""}${isWeeklyArea ? " weekly-shell" : ""}`}
+      >
+        {!isEditorialArea && currentArea ? (
           <AreaDocNav area={currentArea} current={location.pathname} />
         ) : null}
-        <main className={`doc-main${isBlogArea ? " blog-main" : ""}`}>
+        <main
+          className={`doc-main${isBlogArea ? " blog-main" : ""}${isWeeklyArea ? " weekly-main" : ""}`}
+        >
           <Outlet />
         </main>
-        {!isBlogArea && <Toc doc={currentDoc} activeHeading={activeHeading} />}
+        {!isEditorialArea && <Toc doc={currentDoc} activeHeading={activeHeading} />}
       </div>
     </div>
   );
@@ -2068,6 +2079,219 @@ function BlogPostPage({
     </>
   );
 }
+
+function weeklyIssueNumber(doc: Doc) {
+  return doc.issue ?? doc.order;
+}
+
+function weeklyDisplayTitle(doc: Doc) {
+  return doc.title.replace(/^周刊\s*#?\d+\s*[：:·-]\s*/, "");
+}
+
+function weeklyDateLabel(value?: string) {
+  if (!value) return "";
+  const match = value.match(/^(\d{4})年(\d{1,2})月(\d{1,2})日$/);
+  if (!match) return value;
+  return `${match[1]}.${match[2].padStart(2, "0")}.${match[3].padStart(2, "0")}`;
+}
+
+function WeeklyListPage({ area }: { area: SiteArea }) {
+  const issues = [...area.docs].sort(compareWeeklyDocs);
+  const latest = issues[0];
+  const archive = issues.slice(1);
+  const watchTopics = [
+    "AI / Agent",
+    "OPC",
+    "Company OS",
+    "Open Source",
+    "China Indie",
+    "Distribution",
+  ];
+
+  if (!latest) return null;
+
+  return (
+    <div className="weekly-index-page">
+      <header className="weekly-masthead weekly-frame">
+        <span className="weekly-masthead-kicker">TOMZ.IO / WEEKLY</span>
+        <h1>周刊</h1>
+        <p>每周挑一些真正值得留下来的东西。</p>
+        <div className="weekly-masthead-rule" />
+      </header>
+
+      <section className="weekly-section weekly-frame" aria-labelledby="weekly-latest-heading">
+        <div className="weekly-section-head">
+          <span className="weekly-section-label">LATEST / 最新一期</span>
+          <p className="weekly-section-note">外部世界、本周判断，以及继续值得盯的东西。</p>
+        </div>
+        <article className="weekly-latest">
+          <div className="weekly-latest-top">
+            <span className="weekly-issue-number">
+              #{String(weeklyIssueNumber(latest)).padStart(3, "0")}
+            </span>
+            <span className="weekly-latest-flag">最新一期</span>
+            <time className="weekly-latest-date">{weeklyDateLabel(latest.date)}</time>
+          </div>
+          <h2 id="weekly-latest-heading">
+            <Link to={latest.path}>{weeklyDisplayTitle(latest)}</Link>
+          </h2>
+          <p className="weekly-latest-lead">
+            {latest.lead || latest.description}
+          </p>
+          <div className="weekly-latest-foot">
+            {latest.tags?.length ? (
+              <div className="weekly-tags" aria-label="本期主题">
+                {latest.tags.slice(0, 6).map((tag) => (
+                  <span className="weekly-tag" key={tag}>{tag}</span>
+                ))}
+              </div>
+            ) : null}
+            <span className="weekly-latest-byline">
+              {getDocAuthorLabel(latest)}
+              {latest.readTime ? ` · ${latest.readTime}` : ""}
+            </span>
+          </div>
+          <Link className="weekly-enter" to={latest.path}>
+            进入本期 <span aria-hidden="true">→</span>
+          </Link>
+        </article>
+      </section>
+
+      <section className="weekly-section weekly-frame" aria-labelledby="weekly-archive-title">
+        <div className="weekly-section-head">
+          <span className="weekly-section-label" id="weekly-archive-title">ARCHIVE / 往期</span>
+          <p className="weekly-section-note">正文只有一份，索引从每期 Markdown 自动生成。</p>
+        </div>
+        {archive.length ? (
+          <div className="weekly-archive">
+            {archive.map((doc) => (
+              <Link className="weekly-archive-row" to={doc.path} key={doc.path}>
+                <span className="weekly-archive-no">
+                  #{String(weeklyIssueNumber(doc)).padStart(3, "0")}
+                </span>
+                <div className="weekly-archive-copy">
+                  <h3>{weeklyDisplayTitle(doc)}</h3>
+                  <p>{doc.lead || doc.description}</p>
+                </div>
+                <time className="weekly-archive-date">{weeklyDateLabel(doc.date)}</time>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="weekly-empty-archive">这是预览分支的第一期样稿。第二期开始，往期会自然沉到这里。</p>
+        )}
+      </section>
+
+      <section className="weekly-section weekly-frame" aria-labelledby="weekly-watch-title">
+        <div className="weekly-section-head">
+          <span className="weekly-section-label" id="weekly-watch-title">RADAR / 长期观察</span>
+          <p className="weekly-section-note">栏目不是导航树，只说明这份刊物长期看什么。</p>
+        </div>
+        <ul className="weekly-watch-list">
+          {watchTopics.map((topic) => <li key={topic}>{topic}</li>)}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function WeeklyIssuePage({
+  doc,
+  html,
+  previous,
+  next,
+}: {
+  doc: Doc;
+  html: string;
+  previous?: Doc;
+  next?: Doc;
+}) {
+  return (
+    <article className="weekly-issue-page">
+      <header className="weekly-issue-head">
+        <div className="weekly-issue-kicker">
+          <span>TOMZ.IO WEEKLY</span>
+          <strong>#{String(weeklyIssueNumber(doc)).padStart(3, "0")}</strong>
+          <time>{weeklyDateLabel(doc.date)}</time>
+        </div>
+        <h1>{weeklyDisplayTitle(doc)}</h1>
+        <p className="weekly-issue-lead">{doc.lead || doc.description}</p>
+        <div className="weekly-issue-byline">
+          <span>{getDocAuthorLabel(doc)}</span>
+          {doc.readTime ? <><span className="dot" /><span>{doc.readTime}</span></> : null}
+          {doc.tags?.length ? (
+            <>
+              <span className="dot" />
+              <span>{doc.tags.slice(0, 4).join(" · ")}</span>
+            </>
+          ) : null}
+          <ShareButton title={doc.title} text={doc.description} />
+        </div>
+      </header>
+
+      <div className="weekly-issue-layout">
+        <div className="weekly-article">
+          {doc.headings.length ? (
+            <details className="weekly-mobile-toc">
+              <summary>本期目录 · {doc.headings.length} 个栏目</summary>
+              <nav>
+                {doc.headings.map((heading) => (
+                  <a href={`#${heading.id}`} key={heading.id}>{heading.text}</a>
+                ))}
+              </nav>
+            </details>
+          ) : null}
+
+          <RenderedMarkdown
+            html={html}
+            className="markdown blog-markdown weekly-markdown"
+          />
+
+          <nav className="weekly-issue-nav" aria-label="周刊期数导航">
+            {previous ? (
+              <Link to={previous.path}>
+                <span className="dir">← 上一期</span>
+                <span className="to">
+                  #{String(weeklyIssueNumber(previous)).padStart(3, "0")} · {weeklyDisplayTitle(previous)}
+                </span>
+              </Link>
+            ) : (
+              <Link to="/weekly">
+                <span className="dir">周刊</span>
+                <span className="to">← 返回全部期数</span>
+              </Link>
+            )}
+            {next ? (
+              <Link className="next" to={next.path}>
+                <span className="dir">下一期 →</span>
+                <span className="to">
+                  #{String(weeklyIssueNumber(next)).padStart(3, "0")} · {weeklyDisplayTitle(next)}
+                </span>
+              </Link>
+            ) : null}
+          </nav>
+        </div>
+
+        {doc.headings.length ? (
+          <aside className="weekly-aside">
+            <span className="weekly-toc-label">本期目录</span>
+            <nav>
+              {doc.headings.map((heading) => (
+                <a href={`#${heading.id}`} key={heading.id}>{heading.text}</a>
+              ))}
+            </nav>
+            <p className="weekly-aside-note">
+              ISSUE #{String(weeklyIssueNumber(doc)).padStart(3, "0")}
+              <br />
+              {weeklyDateLabel(doc.date)}
+            </p>
+          </aside>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
 function AreaPage({ area }: { area: SiteArea }) {
   if (!area.docs.length)
     return (
@@ -2082,6 +2306,7 @@ function AreaPage({ area }: { area: SiteArea }) {
       </div>
     );
   if (area.key === "blogs") return <BlogListPage area={area} />;
+  if (area.key === "weekly") return <WeeklyListPage area={area} />;
   if (area.key === "submissions") {
     const landing = area.docs.find((doc) => doc.path === area.path) || area.docs[0];
     return <BlogPostPage doc={landing} />;
@@ -2339,6 +2564,25 @@ function DocPage({ path }: { path: string }) {
   const previous = index > 0 ? scopedArticleDocs[index - 1] : undefined;
   const next = index >= 0 ? scopedArticleDocs[index + 1] : undefined;
   const html = useMemo(() => renderMarkdown(doc.source), [doc.source]);
+  if (doc.root === "weekly") {
+    const weeklyDocs = articleDocs
+      .filter((item) => item.root === "weekly")
+      .sort((left, right) => weeklyIssueNumber(left) - weeklyIssueNumber(right));
+    const weeklyIndex = weeklyDocs.findIndex((item) => item.path === doc.path);
+    const weeklyPrevious = weeklyIndex > 0 ? weeklyDocs[weeklyIndex - 1] : undefined;
+    const weeklyNext =
+      weeklyIndex >= 0 && weeklyIndex < weeklyDocs.length - 1
+        ? weeklyDocs[weeklyIndex + 1]
+        : undefined;
+    return (
+      <WeeklyIssuePage
+        doc={doc}
+        html={html}
+        previous={weeklyPrevious}
+        next={weeklyNext}
+      />
+    );
+  }
   if (doc.root === "blogs" || doc.root === "submissions") {
     return <BlogPostPage doc={doc} previous={previous} next={next} />;
   }
