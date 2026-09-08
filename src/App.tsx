@@ -638,7 +638,7 @@ function SiteHeaderBase({
   }, [openMenu]);
   const navigationTarget = (href: string) => {
     if (appBase !== "/" && href.startsWith(appBase)) {
-      const relative = href.slice(appBase.length).replace(/^\\/+/, "");
+      const relative = href.slice(appBase.length).replace(/^\/+/, "");
       return `/${relative}`;
     }
     return href.startsWith("/") ? href : `/${href}`;
