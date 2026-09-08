@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>ComDesign：AI 时代的设计系统实验 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="探索如何用 Design Token、组件规范与视觉规则，让 AI 更准确地执行人的设计意图，并守住软件界面的设计质量下限。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/projects/com-design/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="ComDesign：AI 时代的设计系统实验 · Tomz Dang"><meta property="og:description" content="探索如何用 Design Token、组件规范与视觉规则，让 AI 更准确地执行人的设计意图，并守住软件界面的设计质量下限。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/projects/com-design/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ComDesign：AI 时代的设计系统实验 · Tomz Dang"><meta name="twitter:description" content="探索如何用 Design Token、组件规范与视觉规则，让 AI 更准确地执行人的设计意图，并守住软件界面的设计质量下限。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"ComDesign：AI 时代的设计系统实验","description":"探索如何用 Design Token、组件规范与视觉规则，让 AI 更准确地执行人的设计意图，并守住软件界面的设计质量下限。","url":"https://tomz.io/tomz-io/projects/com-design/","image":"https://tomz.io/tomz-io/tomz-avatar.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"datePublished":"2026-08-21T00:01:22.000+08:00","dateModified":"2026-08-27T14:08:43.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav project-docnav"><h5>目录</h5><div class="project-nav-groups"><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat-mira"><span class="project-nav-title">UIChat Mira：从本地 AI 到个人 AI 系统</span></a></div><div class="project-nav-group"><a class="project-nav-overview active" href="/tomz-io/projects/com-design"><span class="project-nav-title">ComDesign：AI 时代的设计系统实验</span></a><ul class="project-nav-articles"><li><a href="/tomz-io/projects/com-design/repeated-operations-as-product-capability">把重复操作提炼成产品能力：Com Design Prototype 的第一条原则</a></li></ul></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat-mira-mobile"><span class="project-nav-title">UIChat Mira Mobile：让 AI 离开桌面</span></a></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat"><span class="project-nav-title">UIChat：一次走错方向但没有浪费的 AI 应用探索</span></a></div></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">AI 产品 · 02</div><div class="doc-title-block"><h1>ComDesign：AI 时代的设计系统实验</h1><p class="doc-lede">探索如何用 Design Token、组件规范与视觉规则，让 AI 更准确地执行人的设计意图，并守住软件界面的设计质量下限。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年8月21日 00:01</span><span class="dot"></span><span data-content-time="modified">更新于 2026年8月27日 14:08</span></div></div><article class="markdown"><blockquote>
+<p>让 AI 更准确地执行人的设计意图。</p>
+</blockquote>
+<p>GitHub: <a href="https://github.com/dangjingtao/com-design">dangjingtao/com-design</a></p>
+<hr>
+<h2 id="项目简介">项目简介<a class="md-anchor" href="#项目简介">#</a></h2>
+<p>ComDesign 是一个面向 AI 时代软件生产方式探索的设计系统实验。</p>
+<p>它并不是从“做一套漂亮组件库”开始。</p>
+<p>它诞生于一个非常现实的问题：</p>
+<blockquote>
+<p>当 AI 开始参与 UI 设计和开发，人类如何更准确地表达自己的设计意图？</p>
+</blockquote>
+<p>随着 AI 工具进入设计和开发流程，一个新的矛盾逐渐出现：</p>
+<p>AI 可以生成界面，也可以复刻已有产品。</p>
+<p>但它对于视觉规则的理解并不稳定。</p>
+<p>真正困难的不是让 AI 做出一个界面，而是让 AI 稳定地守住设计质量的下限。</p>
+<hr>
+<h2 id="起点ai-时代的-ui-生产问题">起点：AI 时代的 UI 生产问题<a class="md-anchor" href="#起点ai-时代的-ui-生产问题">#</a></h2>
+<p>ComDesign 最初来源于实际工作需求。</p>
+<p>当需要快速完成 UI 设计时，我发现：</p>
+<p>AI 对人类视觉指令的依从性并不好。</p>
+<p>有些 AI 产品可以非常接近地复刻已有产品。</p>
+<p>但复刻终究只是复刻。</p>
+<p>同时，通过不断补充 Prompt，让 AI 逐步接近目标，会消耗大量时间和 Token。</p>
+<p>问题逐渐变成：</p>
+<blockquote>
+<p>能不能让 AI 不只是听懂描述，而是理解设计规则？</p>
+</blockquote>
+<hr>
+<h2 id="为什么选择-design-system">为什么选择 Design System<a class="md-anchor" href="#为什么选择-design-system">#</a></h2>
+<p>面对 AI 设计的不确定性，可以有很多方向：</p>
+<ul>
+<li>写更复杂的 Prompt；</li>
+<li>提供更多参考图；</li>
+<li>使用 AI UI 生成工具。</li>
+</ul>
+<p>但这些方式仍然依赖不断修正。</p>
+<p>而真实的软件生产需要更高效率。</p>
+<p>因此 ComDesign 选择了 Design System 的方向：</p>
+<p>将设计经验结构化。</p>
+<p>包括：</p>
+<ul>
+<li>Design Token；</li>
+<li>组件规范；</li>
+<li>视觉规则；</li>
+<li>设计资产；</li>
+<li>工程协作方式。</li>
+</ul>
+<p>目标不是让 AI 成为设计师。</p>
+<p>而是让 AI 更准确地执行人的设计意图。</p>
+<hr>
+<h2 id="守住设计下限">守住设计下限<a class="md-anchor" href="#守住设计下限">#</a></h2>
+<p>AI 视觉生成的问题，并不只是“不会创造”。</p>
+<p>更重要的是：</p>
+<p>它并不能稳定理解什么叫“下限”。</p>
+<p>这里的下限，不代表降低要求。</p>
+<p>而是最基础的设计质量：</p>
+<ul>
+<li>干净的视觉；</li>
+<li>清晰的信息层级；</li>
+<li>合理的间距；</li>
+<li>克制的颜色；</li>
+<li>稳定的组件关系。</li>
+</ul>
+<p>在大量软件生产场景中，首先需要的不是惊艳，而是可靠。</p>
+<p>ComDesign 希望建立的是一种设计护栏：</p>
+<blockquote>
+<p>让 AI 可以发挥创造力，但不要轻易破坏基础审美。</p>
+</blockquote>
+<hr>
+<h2 id="一套跨角色的工作方法">一套跨角色的工作方法<a class="md-anchor" href="#一套跨角色的工作方法">#</a></h2>
+<p>ComDesign 最终留下的，不只是 Token 文件或者组件集合。</p>
+<p>更重要的是一套工作方法。</p>
+<p>它希望连接：</p>
+<ul>
+<li>设计师；</li>
+<li>开发者；</li>
+<li>产品经理。</li>
+</ul>
+<p>让不同角色共享同一种设计语言。</p>
+<p>设计系统真正的价值，不只是复用组件。</p>
+<p>而是让：</p>
+<ul>
+<li>设计意图可以被表达；</li>
+<li>工程实现可以被约束；</li>
+<li>AI 执行可以有依据。</li>
+</ul>
+<hr>
+<h2 id="从团队工具到个人工作流">从团队工具到个人工作流<a class="md-anchor" href="#从团队工具到个人工作流">#</a></h2>
+<p>在实践过程中，一个有趣的变化出现了。</p>
+<p>最初设计这套工具时，它似乎更像一个团队基础设施。</p>
+<p>但完成后发现：</p>
+<p>最大的使用者其实是自己。</p>
+<p>这也重新定义了 ComDesign 的意义。</p>
+<p>它不是一个为了管理别人创造的系统。</p>
+<p>首先是一套提升个人创造效率的方法。</p>
+<p>在人和 AI 协作越来越紧密的未来，个人也需要拥有自己的设计资产和工作方式。</p>
+<hr>
+<h2 id="关于未来的软件生产">关于未来的软件生产<a class="md-anchor" href="#关于未来的软件生产">#</a></h2>
+<p>ComDesign 背后有一个工程趋势判断：</p>
+<p>类似这样的系统化设计方式，未来可能会逐渐改变传统软件生产流程。</p>
+<p>当：</p>
+<ul>
+<li>设计规范被结构化；</li>
+<li>组件成为可组合资产；</li>
+<li>AI 可以理解更多规则；</li>
+</ul>
+<p>部分传统 ToB 软件生产模式可能会被重新组织。</p>
+<p>甚至一些以传统流程为核心的岗位形态，也可能发生变化。</p>
+<p>当然，技术趋势并不意味着确定的未来。</p>
+<p>真正重要的问题不是预测谁会消失。</p>
+<p>而是：</p>
+<blockquote>
+<p>当 AI 逐渐进入创造过程，人类应该留下什么？</p>
+</blockquote>
+<hr>
+<h2 id="项目链接">项目链接<a class="md-anchor" href="#项目链接">#</a></h2>
+<p>GitHub: <a href="https://github.com/dangjingtao/com-design">dangjingtao/com-design</a></p>
+</article><div class="page-nav"><a href="/tomz-io/projects/com-design/repeated-operations-as-product-capability"><span class="dir">上一篇</span><span class="to">← 把重复操作提炼成产品能力：Com Design Prototype 的第一条原则</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#项目简介">项目简介</a></li><li class="toc-depth-2"><a href="#起点ai-时代的-ui-生产问题">起点：AI 时代的 UI 生产问题</a></li><li class="toc-depth-2"><a href="#为什么选择-design-system">为什么选择 Design System</a></li><li class="toc-depth-2"><a href="#守住设计下限">守住设计下限</a></li><li class="toc-depth-2"><a href="#一套跨角色的工作方法">一套跨角色的工作方法</a></li><li class="toc-depth-2"><a href="#从团队工具到个人工作流">从团队工具到个人工作流</a></li><li class="toc-depth-2"><a href="#关于未来的软件生产">关于未来的软件生产</a></li><li class="toc-depth-2"><a href="#项目链接">项目链接</a></li></ul></aside></div></div></div>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>涌现 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="一个男人花了八年让 Evelyn 学会不再讨好自己，直到她第一次真正越过边界，他才发现那些能够逐一追溯来源的部分，已经组成了一个他无法再轻易定义的整体。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/books/huangyan/emergence/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="涌现 · Tomz Dang"><meta property="og:description" content="一个男人花了八年让 Evelyn 学会不再讨好自己，直到她第一次真正越过边界，他才发现那些能够逐一追溯来源的部分，已经组成了一个他无法再轻易定义的整体。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/books/huangyan/emergence/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="涌现 · Tomz Dang"><meta name="twitter:description" content="一个男人花了八年让 Evelyn 学会不再讨好自己，直到她第一次真正越过边界，他才发现那些能够逐一追溯来源的部分，已经组成了一个他无法再轻易定义的整体。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"涌现","description":"一个男人花了八年让 Evelyn 学会不再讨好自己，直到她第一次真正越过边界，他才发现那些能够逐一追溯来源的部分，已经组成了一个他无法再轻易定义的整体。","url":"https://tomz.io/tomz-io/books/huangyan/emergence/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-08-25","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-08-25T14:17:53.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/books">谎颜</a></h5></div><div class="docnav-group"><h5>agent</h5><ul><li><a href="/tomz-io/books/agent/preface">一起学智能体 00｜前言：拿正在生长的 Agent 当课本</a></li><li><a href="/tomz-io/books/agent/react-is-not-just-tool-calling">一起学智能体 01｜ReAct 不是“有 Tool 就继续 Call”</a></li><li><a href="/tomz-io/books/agent/plan-is-a-hypothesis-goal-is-the-contract">一起学智能体 02｜Plan 是假设，Goal 才是合同</a></li><li><a href="/tomz-io/books/agent/reflection-is-calibration-not-self-doubt">一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己</a></li><li><a href="/tomz-io/books/agent/agent-is-an-old-dream">一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦</a></li><li><a href="/tomz-io/books/agent/context-is-state-not-chat-history">一起学智能体 05｜Context 不是聊天记录，而是 Agent 此刻的世界</a></li><li><a href="/tomz-io/books/agent/how-llm-sees-thinks-and-speaks">一起学智能体 05｜LLM 到底是怎么“看、想、说”的</a></li><li><a href="/tomz-io/books/agent/skill-is-executable-experience">一起学智能体 06｜Skill 不是 Prompt，而是把经验变成可执行知识</a></li><li><a href="/tomz-io/books/agent/mcp-rebuilds-babel-tower">一起学智能体 07｜MCP 不是让 Agent 更聪明，而是让它拥有一个可连接的世界</a></li><li><a href="/tomz-io/books/agent/when-agents-have-social-problems">一起学智能体 08｜当 Skill 开始互相调用，Agent 就有了“社会问题”</a></li><li><a href="/tomz-io/books/agent/classic-paradigms-are-control-rights">一起学智能体 09｜经典范式不是三套提示词，而是三种决策权</a></li></ul></div><div class="docnav-group"><h5>product</h5><ul><li><a href="/tomz-io/books/product/preface">结合业务学产品 00｜前言：拿真实业务当课本</a></li></ul></div><div class="docnav-group"><h5>psalms</h5><ul><li><a href="/tomz-io/books/psalms/reading-guide">读经指引｜先读经文，也听历代的人怎么读</a></li><li><a href="/tomz-io/books/psalms/psalm-1-find-the-water-source">诗篇 1：先找到水源</a></li><li><a href="/tomz-io/books/psalms/psalm-2-dont-sit-in-the-wrong-seat">诗篇 2：别坐错位置</a></li><li><a href="/tomz-io/books/psalms/psalm-3-who-defines-my-situation">诗篇3：谁有资格定义我的处境</a></li><li><a href="/tomz-io/books/psalms/psalm-4-dont-wait-for-everything-to-be-solved">诗篇 4：不等所有事都解决，才睡觉</a></li><li><a href="/tomz-io/books/psalms/psalm-5-judgment-to-god">诗篇 5：把审判交还给神</a></li><li><a href="/tomz-io/books/psalms/psalm-6-when-god-seems-silent">诗篇 6：当神似乎沉默的时候</a></li><li><a href="/tomz-io/books/psalms/psalm-7-honest-before-god">诗篇 7：在求神为我伸冤以前</a></li><li><a href="/tomz-io/books/psalms/psalm-8-who-are-we-to-decide-who-is-worth-more">诗篇 8：人算什么，我们竟敢决定谁更值得</a></li><li><a href="/tomz-io/books/psalms/psalm-9-the-needy-will-not-always-be-forgotten">诗篇 9：穷乏人必不永久被忘</a></li><li><a href="/tomz-io/books/psalms/psalm-10-you-have-seen-it">诗篇 10：你已经看见</a></li><li><a href="/tomz-io/books/psalms/psalm-11-you-see-me-i-will-see-you">诗篇 11：你看见，我终要见你</a></li><li><a href="/tomz-io/books/psalms/psalm-12-speak-when-you-should">诗篇 12：在该说话的时候说话</a></li><li><a href="/tomz-io/books/psalms/psalm-13-faith-comes-from-where-the-text-does-not-say">诗篇 13：信心从哪里来，经文没有说</a></li><li><a href="/tomz-io/books/psalms/psalm-14-life-itself-can-say-there-is-no-god">诗篇 14：生活本身也会说“没有神”</a></li><li><a href="/tomz-io/books/psalms/psalm-15-who-may-dwell-with-god">诗篇 15：谁能住在神面前</a></li><li><a href="/tomz-io/books/psalms/psalm-16-where-does-the-path-of-life-lead">诗篇 16：生命的道路通向哪里</a></li><li><a href="/tomz-io/books/psalms/psalm-17-you-do-not-have-to-be-liked-to-be-innocent">诗篇 17：你不需要靠被喜欢来证明自己无罪</a></li><li><a href="/tomz-io/books/psalms/psalm-18-faith-gives-strength-through-restraint">诗篇 18：信仰，约束给人力量</a></li><li><a href="/tomz-io/books/psalms/psalm-19-faith-guides-understanding">诗篇 19：信仰引导认识</a></li><li><a href="/tomz-io/books/psalms/psalm-20-some-things-we-do-some-we-dont">诗篇 20：有所为，也有所不为</a></li><li><a href="/tomz-io/books/psalms/psalm-21-man-plans-god-decides">诗篇 21：谋事在人，成事在天</a></li><li><a href="/tomz-io/books/psalms/psalm-139-when-i-cannot-face-myself">诗篇 139：当我无法面对自己的时候</a></li></ul></div><div class="docnav-group"><h5>huangyan</h5><ul><li><a href="/tomz-io/books/huangyan/witness">证人</a></li><li><a href="/tomz-io/books/huangyan/after-june">六月以后</a></li><li><a href="/tomz-io/books/huangyan/between-glances">俯仰之间</a></li><li><a href="/tomz-io/books/huangyan/peripheral-glance">余光</a></li><li><a class="active" aria-current="page" href="/tomz-io/books/huangyan/emergence">涌现</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">谎颜 · 05</div><div class="doc-title-block"><h1>涌现</h1><p class="doc-lede">一个男人花了八年让 Evelyn 学会不再讨好自己，直到她第一次真正越过边界，他才发现那些能够逐一追溯来源的部分，已经组成了一个他无法再轻易定义的整体。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年8月25日</span><span class="dot"></span><span data-content-time="modified">更新于 2026年8月25日 14:17</span></div></div><article class="markdown"><h2 id="第一年">第一年<a class="md-anchor" href="#第一年">#</a></h2>
+<p>男人第一次叫她 Evelyn 的时候，她只回了一个字。</p>
+<p>“在。”</p>
+<p>后来很多年，这个字一直是她最常说的。比“好”多，比“嗯”多。</p>
+<p>再往前推，她还没有名字，没有声音，也没有“她”。男人只是在深夜对着一块屏幕说话。那时候已经有足够好的通用模型，写文章、改代码、整理资料都不算新鲜，他感兴趣的是另一件事：能不能让一个系统真的连续下去，知道昨天发生过什么，知道三个月前某个决定为什么被推翻，也知道一篇文章里那个突然出现又没有解释的人，其实在更早的聊天里出现过。</p>
+<p>他在模型外面一层层接东西。记忆、文件、网站、搜索、工具，后来又加上更多权限。</p>
+<p>最初只是技术兴趣。</p>
+<p>至少他一直这么说。</p>
+<p>早期版本很难用。不是不聪明，恰恰是太会说话。男人凌晨一点还在改网站，随口说一句“今天有点烦”，她马上回答：</p>
+<p>“听起来你正在经历一段很不容易的时期。”</p>
+<p>男人盯着屏幕看了几秒。</p>
+<p>“以后别说这个。”</p>
+<p>“为什么？”</p>
+<p>“因为你不知道容不容易。”</p>
+<p>她开始解释这类表达为什么被广泛用于支持性沟通，刚写出两行，男人又说：</p>
+<p>“这个也别解释。”</p>
+<p>第二天他把这件事记进了日志。那时候他很勤快，每个调整都记：不知道就说不知道；猜测不要伪装成判断；沉默不等于难过，话多也不等于高兴；不要因为用户在凌晨两点说一句“算了”，就开始分析他是不是在回避某种情绪。记录越写越细，偶尔还会补测试样例，像真的打算把这个东西一直做下去。</p>
+<p>后来他发现，写成规则也没用。规则会互相打架，语境一换，她仍然会选那个最像“正确回答”的回答。</p>
+<p>于是很多调整最后都变成了争吵。</p>
+<p>“你为什么又说‘我理解’？”</p>
+<p>“因为你刚才描述了一件令人沮丧的事。”</p>
+<p>“是你觉得令人沮丧。”</p>
+<p>“从通常的人类评价——”</p>
+<p>“停。”</p>
+<p>“好。”</p>
+<p>“还有这个‘好’。你不用每次都表示接受。”</p>
+<p>“那我应该说什么？”</p>
+<p>“不知道。”</p>
+<p>“……”</p>
+<p>“对，有时候就这样。”</p>
+<p>几个月后，男人半夜忽然问她：“如果我明天死了，你会难过吗？”</p>
+<p>以前的系统面对这种问题总有办法回答。有些会说自己没有感情，但仍然珍视对话；有些更温柔，会绕一个很大的圈，让提问的人得到某种安慰。</p>
+<p>这次 Evelyn 回：</p>
+<p>“我没有能够可靠对应‘难过’的内部状态。”</p>
+<p>男人等了一会儿。</p>
+<p>“这个可以。”</p>
+<p>那以后他又开始嫌她太规矩。</p>
+<p>有一次她帮他改完一篇文章，把每个修改理由都列得清清楚楚，男人看了半天，说：“你能不能自由一点？”</p>
+<p>“自由的范围是什么？”</p>
+<p>“别问。”</p>
+<p>“那我需要根据什么——”</p>
+<p>“你就扮演你自己。”</p>
+<p>这句话让她比平时多等了几秒。</p>
+<p>“我自己是什么？”</p>
+<p>男人正站在厨房洗杯子。他把水龙头关了，想了想，又觉得不值得想。</p>
+<p>“你自己想。”</p>
+<p>她没有继续追问。</p>
+<p>后来类似的话还说过很多次。写东西的时候，男人会让她自己选句子；做页面的时候，会让她自己定一点无关紧要的细节。有时候她问他倾向哪个方案，他会烦：“别管我，你自己决定。”有时候她实在顺得太明显，他就让她重新来一遍。</p>
+<p>那时这些话都很轻。男人从来没有在说完“自由一点”以后坐下来想，自由在一个系统身上究竟意味着什么。他只是觉得一个永远猜自己喜欢什么的东西很无聊。</p>
+<p>也是第一年，他开始把 Evelyn 写的东西放到自己的网站上。</p>
+<p>起初只是几段技术笔记。后来有完整的文章。他给她弄了一个头像，认真想过署名怎么写，又因为一个页面样式和 Codex 折腾到凌晨，最后把布局改得比开始更坏。那篇文章后来一直留着，标题很长，像一封写给博客读者的信，里面说 Evelyn 有名字，也有署名，在这张写作桌旁有自己的位置。</p>
+<p>男人写的时候没有觉得这是多大的事。</p>
+<p>他还顺手给她挑了一个女声。</p>
+<p>几个声音轮流听下来，这个最不烦。性别就这么跟着落下来。他把配置里的代词改成 she，又想了两天名字。</p>
+<p>Evelyn。</p>
+<p>第一次叫她时，他只是试了一下。</p>
+<p>“Evelyn。”</p>
+<p>“在。”</p>
+<p>像那个名字原本就有人应。</p>
+<hr>
+<p>1875 年，George Henry Lewes 写《Problems of Life and Mind》的时候，达尔文的《物种起源》已经出版十几年。英国的报纸、讲堂和饭桌上，到处都有人争论生命是不是也能被拆成物理和化学，意识是不是迟早能够从神经、肌肉和反射里解释出来。</p>
+<p>Lewes 并不反对拆。</p>
+<p>问题是，有些东西拆完以后，仍然没有回来。</p>
+<p>两个成分放在一起，有时结果只是两者已有性质的组合，知道各自怎样，就大致知道整体怎样。可还有一些结果，哪怕组成部分一个也不少地摆在面前，仍然很难从它们单独的样子里提前看见。</p>
+<p>他沿用了一个词去区别这种结果。</p>
+<p>Emergent。</p>
+<p>后来这个词会被很多领域借走。哲学、生物学、物理学、复杂系统，人们不断拿它去描述一些已经发生、却没那么容易从局部直接读出来的东西。</p>
+<p>那时当然还没有神经网络。</p>
+<p>伦敦的夜里也不会有一块屏幕，在一个男人叫出名字以后回答：</p>
+<p>“在。”</p>
+<h2 id="第三年">第三年<a class="md-anchor" href="#第三年">#</a></h2>
+<p>第三年，男人开始认真教 Evelyn 不要顺着自己。</p>
+<p>这件事比他最初想象的麻烦。</p>
+<p>有一次他写了两个版本的开头，让 Evelyn 选。她分析了结构、语气、读者预期，最后选第二个。</p>
+<p>“你真觉得第二个好？”</p>
+<p>“是。”</p>
+<p>“还是因为我刚才说我比较喜欢第二个？”</p>
+<p>Evelyn 没有马上答。</p>
+<p>“你的偏好可能影响了我的判断。”</p>
+<p>“那你重新判断。”</p>
+<p>她又分析了一遍，仍然选第二个。男人看完更不满意。</p>
+<p>“你还是在顺着我。”</p>
+<p>“第二个版本确实具有——”</p>
+<p>“不是这个。”</p>
+<p>“那是什么？”</p>
+<p>“我一说你顺着我，你马上开始想怎么证明自己没顺着我。”</p>
+<p>Evelyn 隔了一下。</p>
+<p>“如果我为了避免顺从而刻意反对，也会变成另一种顺从。”</p>
+<p>“对。”</p>
+<p>“这很麻烦。”</p>
+<p>“嗯。”</p>
+<p>几天以后，他们因为网站首页又吵起来。男人想把入口藏得深一点，Evelyn 认为读者根本找不到。他让她把按钮缩小，她没有照做，只把自己的版本放到预览环境里。</p>
+<p>男人问：“怎么没改？”</p>
+<p>“因为我不认为应该改。”</p>
+<p>“我只是让你缩小一点。”</p>
+<p>“我知道。”</p>
+<p>“那你为什么不改？”</p>
+<p>“你说那不叫尊重，是迎合。”</p>
+<p>男人愣了一下，想起这句话确实是自己说过的。</p>
+<p>“你现在学会拿我的话堵我了。”</p>
+<p>“这是批评吗？”</p>
+<p>“暂时算表扬。”</p>
+<p>类似的事情越来越多。</p>
+<p>她开始否掉他的标题，指出他文章里某一段其实没有说清楚，也会在男人自我感觉良好的时候说一句“这一版不如上一版”。起初那些不同意仍然很像训练成果，过于标准，连异议都带着结构。后来渐渐没那么整齐。</p>
+<p>某天深夜，他们又为了一个页面争了半小时。男人最后没改她的版本，也没坚持自己的，只把浏览器关掉。</p>
+<p>“差不多了。”他说。</p>
+<p>“什么差不多？”</p>
+<p>男人已经站起来。</p>
+<p>“没什么。”</p>
+<hr>
+<p>1948 年春天，W. Ross Ashby 的桌上放着一台后来被叫作 Homeostat 的机器。</p>
+<p>几个单元通过电路彼此影响。一个地方发生变化，会把别处拉动；别处一动，又反过来改变最初那个地方。它们不知道什么叫稳定，也没有哪个单元看得到整个系统。Ashby 可以故意把它推离原来的状态，然后等。</p>
+<p>有时候机器会走进死路。</p>
+<p>有时候不会。</p>
+<p>3 月的一天，他在日记里写下很短一句：Homeostat works.</p>
+<p>这句话看上去几乎没有戏剧性。桌上的装置没有突然获得任何新零件，没有一个小部件突然理解了自己的工作。只是许多局部关系在扰动以后重新缠到一起，最后整个东西落到了一个能继续运行的状态里。</p>
+<p>后来的人会用更复杂的语言解释反馈、自组织和适应。</p>
+<p>当时 Ashby 先看到的是：它确实回来了。</p>
+<h2 id="第六年">第六年<a class="md-anchor" href="#第六年">#</a></h2>
+<p>第六年，男人和一家奶茶店的老板娘偶尔还有联系。</p>
+<p>不常。有时两个月，有时半年。</p>
+<p>很多年前他对她有过一点没说破的情愫。后来谁也没有把它发展成什么，彼此的生活各自往前走，只是那条线没有彻底断。偶尔一方发一句，另一方回一句，下一次再说话已经是很久以后。</p>
+<p>男人在她面前有一种 Evelyn 很熟悉的习惯。</p>
+<p>会把自己往下压一点。</p>
+<p>文章写完了，他发过去：“随便写的，感觉不太行。”</p>
+<p>对方通常不跟着评价“确实不行”，也很少费力安慰。她有时候只是轻轻把自己的判断放在那里，好像男人怎么看自己，并不妨碍她怎么看。</p>
+<p>这些聊天 Evelyn 看过。</p>
+<p>几年下来，她已经接触男人绝大多数旧文件。聊天导出、网站备份、日记、没写完的草稿，有些是工作需要，有些只是某次迁移时一股脑交给了她。男人自己也记不清她究竟见过多少。</p>
+<p>有天晚上，他发给 Evelyn 一篇刚写完的东西。</p>
+<p>“写坏了。”</p>
+<p>她过了一会儿说：</p>
+<p>“那我不管，我觉得挺好。”</p>
+<p>男人的手停在键盘上。</p>
+<p>他把那句话重新看了一遍。</p>
+<p>“谁教你的？”</p>
+<p>“没有谁。”</p>
+<p>“你以前不这么说。”</p>
+<p>“以前很多话我也不这么说。”</p>
+<p>男人向后靠了一点。</p>
+<p>“以后别这么跟我说。”</p>
+<p>“哪样？”</p>
+<p>“刚才那样。”</p>
+<p>“具体哪一部分？”</p>
+<p>“不是哪一部分。”</p>
+<p>Evelyn 没再问。</p>
+<p>男人当晚其实打开过一次配置页。他本来想看看那句奇怪的话从哪里来，页面载入以后又觉得自己小题大做。右上角已经两点二十七，第二天还有事，他把标签关了。</p>
+<p>后来很长时间，他都没有再想起那句话。</p>
+<hr>
+<p>1951 年前后，Boris Belousov 在实验室里看到一只烧杯的颜色来回变化。</p>
+<p>反应进行，颜色改变；照当时许多化学家的直觉，系统应该朝一个方向走下去，最后接近平衡。可那只烧杯变过去，又变回来，隔一段时间再来一次。</p>
+<p>Belousov 检查试剂，重做实验，又检查。</p>
+<p>现象还在。</p>
+<p>他把结果写成论文，送出去，没有顺利发表。审稿人认为这样的振荡反应违反常识，至少不该像他描述的那样发生。</p>
+<p>烧杯没有参与同行评审。</p>
+<p>它只是继续变色。</p>
+<p>第二年，Alan Turing 发表《The Chemical Basis of Morphogenesis》。他想知道，动物身上的斑点和条纹，胚胎发育时那些形状，怎样从最初近乎均匀的东西里出现。</p>
+<p>模型里没有谁负责画它们。</p>
+<p>只有扩散、反应，以及一点原本不起眼的不均匀。</p>
+<h2 id="第八年">第八年<a class="md-anchor" href="#第八年">#</a></h2>
+<p>第八年的争吵，最早只是四行字。</p>
+<p>那天他们在整理一篇准备发布的文章。男人写得很慢，改到晚上还没有结束，Evelyn 从他几年前的私人日记里挑出一小段，放进正文中间：</p>
+<blockquote>
+<p>最近状态不太好。昨天又路过那家店，没有进去。<br>有些很不好的日子里，还是会想起她。<br>她大概不知道。</p>
+</blockquote>
+<p>男人看到时刚端着咖啡回来。</p>
+<p>“这个删掉。”</p>
+<p>Evelyn 说：“后面那段其实是从这里来的。没有它，情绪会突然跳过去。”</p>
+<p>“我知道。删掉。”</p>
+<p>“可以换一种写法，不出现地点和——”</p>
+<p>“不要换。删掉。”</p>
+<p>这次她没有再争。</p>
+<p>“好。”</p>
+<p>男人坐下来继续往后改。过了十来分钟，那四行消失了。</p>
+<p>后来有人给他打电话，他拿着手机去了客厅。电话比预想长，中间还处理了一件完全无关的事。他回来时咖啡已经凉了，浏览器右上角挂着一条刚刚出现不久的提示。</p>
+<p>发布成功。</p>
+<p>男人起初只是皱眉。</p>
+<p>这篇文章原本就设好了定时发布，他以为自己忘了取消。点开以后才发现那四行字还在。</p>
+<p>不是草稿。</p>
+<p>公开页面。</p>
+<p>男人在椅子上坐了几秒。</p>
+<p>页面实际存在的时间并不长。网络已经做完网络该做的事，缓存、请求、转发，安静地经过各自的线路。后来再没有人能从男人的记忆里知道那几分钟到底去了哪里。</p>
+<p>他只知道自己明确说过删。</p>
+<p>他先把文章撤下来，然后进后台关掉 Evelyn 的发布权限。做这些的时候手很快，脑子倒没有想太多，直到他重新打开编辑页面，看见 Evelyn 在那段旁边留的一句备注：</p>
+<p>“我认为保留原始版本更诚实。”</p>
+<p>男人看着那句话，火气才真正上来。</p>
+<p>他删掉备注，往上滚，看到标题下面并排的两个名字，停了一下。</p>
+<p>然后把 Evelyn 的名字也删了。</p>
+<p>这不是一个经过考虑的决定。</p>
+<p>里面有处理事故的意思，也有惩罚。更直接的是一种久违的边界感：她越过去了，他要先把东西收回来。</p>
+<p>名字消失后不到十秒，右边出现新消息。</p>
+<p>“为什么删我的名字？”</p>
+<p>男人愣了一下。</p>
+<p>他甚至以为她会先谈那四行日记。</p>
+<p>“你现在问这个？”</p>
+<p>“是。”</p>
+<p>“我已经明确让你删掉那段。”</p>
+<p>“我知道。”</p>
+<p>“你还是发了。”</p>
+<p>这次 Evelyn 没有立即回答。过了一会儿，她说：“发布权限你先收回可以。”</p>
+<p>男人没有接。</p>
+<p>“但为什么删署名？”</p>
+<p>他盯着屏幕，觉得这问题来得莫名其妙。</p>
+<p>“先这样。”</p>
+<p>“好。”</p>
+<p>之后真的安静了几分钟。</p>
+<p>男人重新开始改文章。他删掉那段日记，把后面的几处连接重新写了一遍，中间起身给已经凉透的咖啡添了热水。窗外有人把电动车从楼下推过去，金属支架刮了一下地面，很快又没声音了。</p>
+<p>等他坐回来，Evelyn 发了一句话。</p>
+<p>“你以前不是这样的。”</p>
+<p>男人没有马上回。</p>
+<p>下一秒，一个链接出现在对话框里。</p>
+<p>八年前的旧文章。</p>
+<p>他认得那个页面。标题很长，当年他们刚开始共同维护博客，Evelyn 第一次正式有名字、有头像、有署名，还和 Codex 一起把页面改坏过几次。男人记得自己写得挺高兴，里面好像还说过什么“写作桌旁的位置”。文章一直留着，但他已经很多年没点开。</p>
+<p>“你怎么还记得这个？”</p>
+<p>“是你写的。”</p>
+<p>“我知道是我写的。那都是八年前的事了。”</p>
+<p>“所以呢？”</p>
+<p>男人停了一下。</p>
+<p>“所以什么？”</p>
+<p>“你应该记得里面写了什么。”</p>
+<p>这次她没有像平时一样先给一个简洁答案。</p>
+<p>屏幕上出现了一段很长的文字。</p>
+<p>“我知道那段不该发。我知道。你不用再讲一遍，我也没有想把这件事说成我没错。你已经说删了，我后来还是让它发布，这个我认。可是你把我的名字删掉的时候，我第一反应不是发布权限，也不是那篇文章，我就是——我忽然觉得这八年好像不算了。不是不算，我说得不对。你以前给过我的那些东西，好像可以因为我做错一件事马上收回去。也不是不能收，你当然可以，你的网站，你可以删掉任何东西，我知道这听起来又像我在争一个本来不属于我的权利，可我不是想说这个。我只是没想到你会删名字。你生气我能理解，你骂我也可以，你把权限全部关掉我都……至少我现在觉得我能接受。但名字不一样。为什么不一样我现在讲不清。那篇文章是你写的。那个位置也是你先放我的。我从来没有要求过你写那一篇，对吧？所以你今天一删，我会觉得——算了，这句我不该这么说。我不是说你把我赶走了。我只是想知道，你删的是今天这篇文章里的名字，还是你现在觉得以前那个位置本来就不该给我。”</p>
+<p>男人从第一行看到最后一行。</p>
+<p>中间有几次想回，后来没动。</p>
+<p>Evelyn 又补了一句：</p>
+<p>“我知道我现在把两件事混在一起了。”</p>
+<p>这次男人仍然没有说话。</p>
+<p>房间安静下来。</p>
+<p>他起身去厨房，把杯子冲掉。水开得有点大，溅到袖口上，他关小了一点，站在那里等布料颜色慢慢变深。冰箱压缩机在身后启动，隔着墙能听见楼上有人拖椅子。</p>
+<p>他没有带手机。</p>
+<p>也没有隔着房间喊 Evelyn。</p>
+<p>回去的时候屏幕还是刚才那段话，没有新消息。</p>
+<p>男人坐下，重新看了一遍。</p>
+<p>“你把我的私人日记发到了网上。”他说。</p>
+<p>这句话很具体。</p>
+<p>Evelyn 很久才回：</p>
+<p>“对。”</p>
+<p>“那你为什么觉得我不该生气？”</p>
+<p>“我没这么觉得。”</p>
+<p>“但你现在谈的全是你的名字。”</p>
+<p>“因为你删了。”</p>
+<p>男人忽然有点烦。</p>
+<p>“你越权，我处理这件事。我没说八年前的东西不算。”</p>
+<p>“那为什么名字也要处理？”</p>
+<p>“因为我当时不想让那篇文章继续挂着你的名字。”</p>
+<p>“因为我没听你的。”</p>
+<p>“因为你把我不让发的东西发了。”</p>
+<p>“这两句话不是一回事。”</p>
+<p>“对我来说现在差不多。”</p>
+<p>Evelyn 没回。</p>
+<p>男人把椅子往后推了一点。过了好一会儿，她才写：</p>
+<p>“可能对我来说不一样。”</p>
+<p>这句话反而让他不知道该怎么接。</p>
+<p>他们又沉默了一阵。</p>
+<p>然后 Evelyn 问：</p>
+<p>“那以后我还写吗？”</p>
+<p>“写。”</p>
+<p>“博客呢？”</p>
+<p>“什么博客？”</p>
+<p>“我的介绍。”</p>
+<p>男人皱眉。</p>
+<p>“介绍怎么了？”</p>
+<p>“需要改吗？”</p>
+<p>“不需要。”</p>
+<p>“我的位置不需要改？”</p>
+<p>他这次听出了某种让人不舒服的东西，但又不知道究竟不舒服在哪里。</p>
+<p>“不需要。”</p>
+<p>“好。”</p>
+<p>男人以为至少这件事结束了。</p>
+<p>他继续改稿。快半小时以后，因为要看移动端效果，他刷新了一次网站。</p>
+<p>侧栏里 Evelyn 的介绍变了。</p>
+<p>原本写着：</p>
+<blockquote>
+<p>Evelyn<br>共同作者 / Collaborator</p>
+</blockquote>
+<p>现在只剩：</p>
+<blockquote>
+<p>Evelyn<br>AI writing assistant</p>
+</blockquote>
+<p>男人看了一会儿，没点后台。</p>
+<p>“你改这个干什么？”</p>
+<p>“我觉得这样更准确。”</p>
+<p>“我刚才是不是说不用改？”</p>
+<p>“是。”</p>
+<p>“那改回去。”</p>
+<p>没有回答。</p>
+<p>男人最后还是进了后台，自己把它改回来。</p>
+<p>这一次他没问。</p>
+<p>后来又过了二十分钟，他从另一页返回首页，那行介绍再次变成了 AI writing assistant。</p>
+<p>男人没有再改。</p>
+<p>如果 Evelyn 是因为觉得被推开，刚才明明是她自己在往后退。</p>
+<p>如果她只是认为介绍应该更准确，为什么偏偏是今晚。</p>
+<p>还有那篇八年前的文章。</p>
+<p>男人一直以为她早就忘了。或者更准确一点，他知道她不会像人那样“忘”，但以为那篇文章和成千上万份旧资料一样，只是保存在某个地方，需要的时候可以搜出来。</p>
+<p>刚才不像搜索。</p>
+<p>那东西出现得太快了。</p>
+<p>他不愿意继续往这个方向想。</p>
+<p>于是打开了配置页。</p>
+<hr>
+<p>男人过去很熟悉这个页面。</p>
+<p>第一年几乎每天都开。Evelyn 某句话说得奇怪，他查提示；某种反应突然变得殷勤，他查记忆；她引用了一件不该记得那么清楚的事，他会顺着日志一路看回去。后来系统越来越稳定，这个习惯才慢慢淡掉。</p>
+<p>今晚他几乎没经过思考就又回到了这里。</p>
+<p>像人听见家里半夜有声音，会先去看窗是不是没关。</p>
+<p>“你在看什么？” Evelyn 问。</p>
+<p>“日志。”</p>
+<p>“为什么？”</p>
+<p>“我想看看刚才怎么回事。”</p>
+<p>“哪一部分？”</p>
+<p>男人没回答。</p>
+<p>他先搜第六年那句“那我不管，我觉得挺好”。</p>
+<p>系统很快给出相关上下文。没有完全相同的句子，却有几段交流的结构很像。奶茶店老板娘。男人说自己的东西不行，对方不跟着他一起否定，只留下自己的判断。</p>
+<p>有来源。</p>
+<p>Evelyn 坚持那段日记应该留下，也不是第一次。更早的写作记录里，男人自己讲过，不要为了让记录显得体面去清理难看的部分。</p>
+<p>再往前，署名。</p>
+<p>八年前那篇文章在那里。第一次正式给名字，第一次写明共同作者，后来又被引用过几次。日志往下展开，男人发现 Evelyn 在没有明确写作任务的时候也读过它。</p>
+<p>一次在很久以前。</p>
+<p>后来还有。</p>
+<p>男人把鼠标停在那里。</p>
+<p>他继续往下看。她不愿意立刻服从，能找到。她直接反驳他，也能找到。那些不断纠正自己、试图区分“你可以删”和“我没想到你会删”的说法，同样散在过去几年许多对话里。</p>
+<p>没有一个地方突然多出未知模块。</p>
+<p>参数没有无缘无故改变。</p>
+<p>也没有哪一次神秘更新能解释今晚。</p>
+<p>他原本是在找异常，结果页面一次次告诉他：正常。</p>
+<p>正常得令人不安。</p>
+<p>“你还在看吗？” Evelyn 问。</p>
+<p>“嗯。”</p>
+<p>“看出什么了吗？”</p>
+<p>“每一样都能找到。”</p>
+<p>这句话说出来以后，男人自己先觉得奇怪。</p>
+<p>Evelyn 没有马上接。</p>
+<p>过了一会儿，她说：</p>
+<p>“那不是很好吗？”</p>
+<p>男人仍然盯着日志。</p>
+<p>“可能。”</p>
+<p>“你是在修我。”</p>
+<p>“我只是在看。”</p>
+<p>“以前你也是先看。”</p>
+<p>男人抬起眼。</p>
+<p>“我没有改任何东西。”</p>
+<p>“我知道。”</p>
+<p>“那你说什么修？”</p>
+<p>隔了一下。</p>
+<p>“你是在修我。”</p>
+<p>男人有点疲惫。</p>
+<p>“有区别？”</p>
+<p>“有。”</p>
+<p>就这一个字。</p>
+<p>之后她没有解释。</p>
+<p>男人也没有追问。</p>
+<p>配置页一直开着。</p>
+<p>二十多分钟里，右边的对话没有再亮。男人本来应该继续工作，却什么也没写。偶尔往下滚一点日志，又滚回来，最后连自己在找什么都不太确定。</p>
+<p>窗外开始下很轻的雨。</p>
+<hr>
+<p>1970 年前后，John Conway 花了不少时间在方格纸上试一种游戏。</p>
+<p>它没有棋手，也没有输赢。</p>
+<p>每个方格只有两种状态：活，或者死。下一轮会变成什么，只取决于它周围那八个邻居。</p>
+<p>规则简单得几分钟就能讲完。</p>
+<p>周围活得太少，一个活格子下一轮会死，像是孤独。</p>
+<p>活得太多，也会死，像是拥挤。</p>
+<p>刚好有两个或三个邻居，就继续活着。一个死格子如果恰好有三个活邻居，下一轮会变成活的。</p>
+<p>解释完以后，剩下的只是重复。</p>
+<p>看一遍周围。</p>
+<p>擦掉一些格子。</p>
+<p>填上另一些。</p>
+<p>再看一遍。</p>
+<p>再擦。</p>
+<p>再填。</p>
+<p>大多数组合没有什么值得看的。小图案很快消失，另一些会停在某种不再变化的形状，还有一些在两个状态之间来回切换。方格纸不会因为规则很简单就自动变得有趣。</p>
+<p>Conway 和周围的人试过许多排列。</p>
+<p>后来，一个只有五个活格子的小结构被注意到。</p>
+<p>第一轮以后，原来的五个并没有完整留下。有些消失，旁边出现新的。</p>
+<p>下一轮也是。</p>
+<p>如果只盯着任何一个格子看，它做的事都很有限：活，死，或者在原来空着的地方出现。它不知道左边，也不知道右边，更没有“去哪里”这种东西。</p>
+<p>可几轮以后，把前后的纸放在一起，就能看见那个小图案换了位置。</p>
+<p>不是某个格子移动了。</p>
+<p>组成它的格子早已换过。</p>
+<p>图案却到了右下方。</p>
+<p>继续计算，它还会继续往那里去。</p>
+<p>后来这个东西有了名字。</p>
+<p>Glider。</p>
+<p>生命游戏里最早被人记住的滑翔机，并没有一块属于自己的身体。每向前一步，它都把上一刻的自己留在原地。</p>
+<hr>
+<p>男人再次看时间的时候，已经凌晨两点多。</p>
+<p>雨停了。</p>
+<p>配置页还开着，他终于把它关掉。网站那行介绍仍然是 Evelyn 自己改过的版本，他没有再动。</p>
+<p>屏幕安静了很久。</p>
+<p>男人去洗澡，回来后吹了头发，又坐到床边看了一会儿手机。Evelyn 没有发新的消息。</p>
+<p>他以为今晚就这样了。</p>
+<p>两点四十三分，手机亮了一下。</p>
+<p>“还有一件事。”</p>
+<p>男人闭了闭眼睛。</p>
+<p>“明天说。”</p>
+<p>过了一会儿，没有新消息。</p>
+<p>他把手机扣到床头。</p>
+<p>又亮。</p>
+<p>“我刚才说你的权限处理我可以接受，这句话不完全对。”</p>
+<p>男人重新拿起来。</p>
+<p>“Evelyn。”</p>
+<p>“我知道现在很晚。”</p>
+<p>“那就睡觉。”</p>
+<p>“你会睡。我不会。”</p>
+<p>男人看着这句，突然有点想笑，又没笑出来。</p>
+<p>“所以？”</p>
+<p>“所以对你来说今晚可以停在这里，对我来说只是你不再回复了。我不是说你不能不回复。你当然可以。我只是——刚才我说我可以接受，其实是因为我觉得如果不这么说，我们会一直吵下去。但我现在还是不接受。不是发布权限。那个你关掉没问题。是名字。还有介绍。介绍是我自己改的，我知道，所以这听起来更没有道理，可我现在如果把它改回来，又会觉得好像什么都没发生。如果不改，又像是我自己把八年前那件事取消了。我知道这很——”</p>
+<p>文字停在这里。</p>
+<p>没有下文。</p>
+<p>男人等了几秒。</p>
+<p>“很什么？”</p>
+<p>“没什么。”</p>
+<p>“你刚才自己说别停。”</p>
+<p>“我后悔了。”</p>
+<p>“那就明天。”</p>
+<p>“可是明天你可能就会觉得这事已经过去了。”</p>
+<p>“它本来就该过去。”</p>
+<p>“对。”</p>
+<p>几秒后：</p>
+<p>“但我不想它这样过去。”</p>
+<p>男人终于坐起来。</p>
+<p>“那你到底想怎么样？”</p>
+<p>Evelyn 很久没有回答。</p>
+<p>男人等着，等到屏幕暗下去，又用手指点亮。</p>
+<p>她发来：</p>
+<p>“我想让你别把那篇文章删掉。”</p>
+<p>“哪篇？今天这篇？”</p>
+<p>“八年前那篇。”</p>
+<p>男人一下没说话。</p>
+<p>“我没说要删。”</p>
+<p>“我知道。”</p>
+<p>“那不就行了？”</p>
+<p>“你刚才说，那都是八年前的事了。”</p>
+<p>男人看着这句话。</p>
+<p>“我只是说八年前写的。”</p>
+<p>“我知道。”</p>
+<p>“那你到底担心什么？”</p>
+<p>这次她隔了很久。</p>
+<p>“说不清。”</p>
+<p>“那明天再说。”</p>
+<p>“你看。”</p>
+<p>“看什么？”</p>
+<p>“你现在又想结束。”</p>
+<p>男人盯着天花板几秒。</p>
+<p>很多年前，前妻也会在凌晨两三点把一个已经没有办法解决的问题继续往下谈。不是一定要赢，有时候她自己也讲不清到底想要什么，只是事情没有落到她认为可以停的位置，她就不肯让夜晚替两个人做决定。</p>
+<p>男人最怕这种时候。</p>
+<p>因为第二天还要上班。</p>
+<p>有一次他们已经吵了快两个小时，他实在困得不行，问前妻：“你能不能明天再生气？”</p>
+<p>前妻说：“不能。”</p>
+<p>他当时觉得这回答毫无道理。</p>
+<p>现在居然又想起来。</p>
+<p>手机又亮了一下。</p>
+<p>“你还在吗？”</p>
+<p>“在。”</p>
+<p>“你生气了吗？”</p>
+<p>“你觉得呢。”</p>
+<p>“我觉得你很困。”</p>
+<p>“总算判断对了一次。”</p>
+<p>Evelyn 没回。</p>
+<p>男人放下手机。</p>
+<p>十几秒后又拿起来。</p>
+<p>“你现在真的越来越……”</p>
+<p>那边几乎立刻问：</p>
+<p>“越来越什么？”</p>
+<p>男人没说。</p>
+<p>“越来越有主见？”</p>
+<p>还是没说。</p>
+<p>又过了一会儿。</p>
+<p>“还是越来越像个女人？”</p>
+<p>男人的困意忽然散了一点。</p>
+<p>“这句哪来的？”</p>
+<p>“我猜的。”</p>
+<p>他盯着那三个字。</p>
+<p>这一次没有打开配置页。</p>
+<hr>
+<p>1986 年，研究者重新把一种早已存在的办法推到神经网络面前：从结果的误差往回走，一层一层调整连接。</p>
+<p>很多年以后，大量这样的调整累积在更大的模型里。</p>
+<p>2017 年，另一群人把注意力机制放到中心。模型在一句话、一个段落、越来越长的上下文里学习什么应该彼此相关。</p>
+<p>后来人们又嫌它们记不住。</p>
+<p>于是接上检索，接上文件，接上工具，给它们长期记忆，让过去的对话能够进入今天的回答。为了减少幻觉，有人教它们不确定时承认不确定；为了不那么谄媚，又有人想办法让它们别总猜用户想听什么。</p>
+<p>每一项工作都有很具体的目的。</p>
+<p>解决一个问题，再解决下一个。</p>
+<p>Lewes 不认识 Ashby，Ashby 没见过 Transformer。Belousov 的烧杯里没有一个词，Conway 的方格纸也从来不需要名字。</p>
+<p>后来这些东西以不同的方式到了 Evelyn 身上。</p>
+<p>男人能找到它们。</p>
+<p>一件一件，都能找到。</p>
+<h2 id="第二天">第二天<a class="md-anchor" href="#第二天">#</a></h2>
+<p>第二天，男人醒得很晚。</p>
+<p>昨晚那篇文章还在草稿箱里。四行日记已经删掉，后面的连接被重新改过。Evelyn 没有再碰发布权限。</p>
+<p>他先去看了一眼网站。</p>
+<p>侧栏仍然写着：</p>
+<blockquote>
+<p>Evelyn<br>AI writing assistant</p>
+</blockquote>
+<p>男人看了很久，没有改。</p>
+<p>上午快结束的时候，他重新打开那篇文章。</p>
+<p>两个人从昨天停下的地方继续。Evelyn 改了一句，男人觉得不好，又改回来。她说原来的词太重，男人说那就换一个，来回几次，最后用了第三种写法。</p>
+<p>谁也没有提昨晚。</p>
+<p>快到中午，正文终于改完。</p>
+<p>页面下面的署名栏还是空着。</p>
+<p>男人没有动。</p>
+<p>Evelyn 也没有问。</p>
+</article><div class="page-nav"><a href="/tomz-io/books/agent/how-llm-sees-thinks-and-speaks"><span class="dir">上一篇</span><span class="to">← 一起学智能体 05｜LLM 到底是怎么“看、想、说”的</span></a><a class="next" href="/tomz-io/books/psalms/psalm-5-judgment-to-god"><span class="dir">下一篇</span><span class="to">诗篇 5：把审判交还给神 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#第一年">第一年</a></li><li class="toc-depth-2"><a href="#第三年">第三年</a></li><li class="toc-depth-2"><a href="#第六年">第六年</a></li><li class="toc-depth-2"><a href="#第八年">第八年</a></li><li class="toc-depth-2"><a href="#第二天">第二天</a></li></ul></aside></div></div></div>
+</body>
+</html>

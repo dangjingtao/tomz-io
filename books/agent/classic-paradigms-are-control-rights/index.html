@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>一起学智能体 09｜经典范式不是三套提示词，而是三种决策权 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从 ReAct、Plan-and-Solve、Reflection 一路追到 Harness：真正值得学的不是三种提示词模板，而是谁在什么时候拥有行动权、纠错权与终止权。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/books/agent/classic-paradigms-are-control-rights/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="一起学智能体 09｜经典范式不是三套提示词，而是三种决策权 · Tomz Dang"><meta property="og:description" content="从 ReAct、Plan-and-Solve、Reflection 一路追到 Harness：真正值得学的不是三种提示词模板，而是谁在什么时候拥有行动权、纠错权与终止权。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/books/agent/classic-paradigms-are-control-rights/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="一起学智能体 09｜经典范式不是三套提示词，而是三种决策权 · Tomz Dang"><meta name="twitter:description" content="从 ReAct、Plan-and-Solve、Reflection 一路追到 Harness：真正值得学的不是三种提示词模板，而是谁在什么时候拥有行动权、纠错权与终止权。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"一起学智能体 09｜经典范式不是三套提示词，而是三种决策权","description":"从 ReAct、Plan-and-Solve、Reflection 一路追到 Harness：真正值得学的不是三种提示词模板，而是谁在什么时候拥有行动权、纠错权与终止权。","url":"https://tomz.io/tomz-io/books/agent/classic-paradigms-are-control-rights/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-08-30","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-08-30T01:03:56.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/books">一起学智能体</a></h5></div><div class="docnav-group"><h5>agent</h5><ul><li><a href="/tomz-io/books/agent/preface">一起学智能体 00｜前言：拿正在生长的 Agent 当课本</a></li><li><a href="/tomz-io/books/agent/react-is-not-just-tool-calling">一起学智能体 01｜ReAct 不是“有 Tool 就继续 Call”</a></li><li><a href="/tomz-io/books/agent/plan-is-a-hypothesis-goal-is-the-contract">一起学智能体 02｜Plan 是假设，Goal 才是合同</a></li><li><a href="/tomz-io/books/agent/reflection-is-calibration-not-self-doubt">一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己</a></li><li><a href="/tomz-io/books/agent/agent-is-an-old-dream">一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦</a></li><li><a href="/tomz-io/books/agent/context-is-state-not-chat-history">一起学智能体 05｜Context 不是聊天记录，而是 Agent 此刻的世界</a></li><li><a href="/tomz-io/books/agent/how-llm-sees-thinks-and-speaks">一起学智能体 05｜LLM 到底是怎么“看、想、说”的</a></li><li><a href="/tomz-io/books/agent/skill-is-executable-experience">一起学智能体 06｜Skill 不是 Prompt，而是把经验变成可执行知识</a></li><li><a href="/tomz-io/books/agent/mcp-rebuilds-babel-tower">一起学智能体 07｜MCP 不是让 Agent 更聪明，而是让它拥有一个可连接的世界</a></li><li><a href="/tomz-io/books/agent/when-agents-have-social-problems">一起学智能体 08｜当 Skill 开始互相调用，Agent 就有了“社会问题”</a></li><li><a class="active" aria-current="page" href="/tomz-io/books/agent/classic-paradigms-are-control-rights">一起学智能体 09｜经典范式不是三套提示词，而是三种决策权</a></li></ul></div><div class="docnav-group"><h5>product</h5><ul><li><a href="/tomz-io/books/product/preface">结合业务学产品 00｜前言：拿真实业务当课本</a></li></ul></div><div class="docnav-group"><h5>psalms</h5><ul><li><a href="/tomz-io/books/psalms/reading-guide">读经指引｜先读经文，也听历代的人怎么读</a></li><li><a href="/tomz-io/books/psalms/psalm-1-find-the-water-source">诗篇 1：先找到水源</a></li><li><a href="/tomz-io/books/psalms/psalm-2-dont-sit-in-the-wrong-seat">诗篇 2：别坐错位置</a></li><li><a href="/tomz-io/books/psalms/psalm-3-who-defines-my-situation">诗篇3：谁有资格定义我的处境</a></li><li><a href="/tomz-io/books/psalms/psalm-4-dont-wait-for-everything-to-be-solved">诗篇 4：不等所有事都解决，才睡觉</a></li><li><a href="/tomz-io/books/psalms/psalm-5-judgment-to-god">诗篇 5：把审判交还给神</a></li><li><a href="/tomz-io/books/psalms/psalm-6-when-god-seems-silent">诗篇 6：当神似乎沉默的时候</a></li><li><a href="/tomz-io/books/psalms/psalm-7-honest-before-god">诗篇 7：在求神为我伸冤以前</a></li><li><a href="/tomz-io/books/psalms/psalm-8-who-are-we-to-decide-who-is-worth-more">诗篇 8：人算什么，我们竟敢决定谁更值得</a></li><li><a href="/tomz-io/books/psalms/psalm-9-the-needy-will-not-always-be-forgotten">诗篇 9：穷乏人必不永久被忘</a></li><li><a href="/tomz-io/books/psalms/psalm-10-you-have-seen-it">诗篇 10：你已经看见</a></li><li><a href="/tomz-io/books/psalms/psalm-11-you-see-me-i-will-see-you">诗篇 11：你看见，我终要见你</a></li><li><a href="/tomz-io/books/psalms/psalm-12-speak-when-you-should">诗篇 12：在该说话的时候说话</a></li><li><a href="/tomz-io/books/psalms/psalm-13-faith-comes-from-where-the-text-does-not-say">诗篇 13：信心从哪里来，经文没有说</a></li><li><a href="/tomz-io/books/psalms/psalm-14-life-itself-can-say-there-is-no-god">诗篇 14：生活本身也会说“没有神”</a></li><li><a href="/tomz-io/books/psalms/psalm-15-who-may-dwell-with-god">诗篇 15：谁能住在神面前</a></li><li><a href="/tomz-io/books/psalms/psalm-16-where-does-the-path-of-life-lead">诗篇 16：生命的道路通向哪里</a></li><li><a href="/tomz-io/books/psalms/psalm-17-you-do-not-have-to-be-liked-to-be-innocent">诗篇 17：你不需要靠被喜欢来证明自己无罪</a></li><li><a href="/tomz-io/books/psalms/psalm-18-faith-gives-strength-through-restraint">诗篇 18：信仰，约束给人力量</a></li><li><a href="/tomz-io/books/psalms/psalm-19-faith-guides-understanding">诗篇 19：信仰引导认识</a></li><li><a href="/tomz-io/books/psalms/psalm-20-some-things-we-do-some-we-dont">诗篇 20：有所为，也有所不为</a></li><li><a href="/tomz-io/books/psalms/psalm-21-man-plans-god-decides">诗篇 21：谋事在人，成事在天</a></li><li><a href="/tomz-io/books/psalms/psalm-139-when-i-cannot-face-myself">诗篇 139：当我无法面对自己的时候</a></li></ul></div><div class="docnav-group"><h5>huangyan</h5><ul><li><a href="/tomz-io/books/huangyan/witness">证人</a></li><li><a href="/tomz-io/books/huangyan/after-june">六月以后</a></li><li><a href="/tomz-io/books/huangyan/between-glances">俯仰之间</a></li><li><a href="/tomz-io/books/huangyan/peripheral-glance">余光</a></li><li><a href="/tomz-io/books/huangyan/emergence">涌现</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">一起学智能体 · 09</div><div class="doc-title-block"><h1>一起学智能体 09｜经典范式不是三套提示词，而是三种决策权</h1><p class="doc-lede">从 ReAct、Plan-and-Solve、Reflection 一路追到 Harness：真正值得学的不是三种提示词模板，而是谁在什么时候拥有行动权、纠错权与终止权。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年8月30日</span><span class="dot"></span><span data-content-time="modified">更新于 2026年8月30日 01:03</span></div></div><article class="markdown"><p>这堂课中途跑去看了一眼 DeepSeek Harness。</p>
+<p>本来只是一次时事插课，结果它反而把经典 Agent 范式重新照亮了一遍。</p>
+<p>我们之前已经分别讨论过 ReAct、Plan-and-Solve 和 Reflection。如果只按定义复习，这一课几乎没有必要再上一次：</p>
+<pre><code class="language-text">ReAct
+边思考、边行动、边观察
+
+Plan-and-Solve
+先规划，再执行
+
+Reflection
+做完以后反思，再改进</code></pre><p>这些都对。</p>
+<p>但真正把三种范式放回工程以后，更有用的问题其实是：</p>
+<blockquote>
+<p><strong>谁在什么时候拥有重新决定下一步的权力？</strong></p>
+</blockquote>
+<p>从这个问题继续往下追，经典范式就不再是三套 Prompt，而开始变成一套 Agent 控制系统。</p>
+<p>学习主线仍然参考 Datawhale 的 <a href="https://github.com/datawhalechina/hello-agents">Hello-Agents</a>。上游当前把 ReAct、Plan-and-Solve、Reflection 放在“智能体经典范式构建”章节中；我们仍然不严格追章节编号，而是把教材主线和正在发生的 Mira 工程问题放在一起学。</p>
+<h2 id="react把局部行动权留在运行时">ReAct：把局部行动权留在运行时<a class="md-anchor" href="#react把局部行动权留在运行时">#</a></h2>
+<p>ReAct 最重要的不是 <code>Thought / Action / Observation</code> 这三个词。</p>
+<p>真正重要的是 Observation 回来以后，Agent <strong>重新拥有一次决策权</strong>。</p>
+<pre><code class="language-text">State₀
+  ↓
+decide()
+  ↓
+Action₁
+  ↓
+Observation₁
+  ↓
+State₁
+  ↓
+decide again()</code></pre><p>这意味着 Agent 不必在任务开始时预知全部环境。</p>
+<p>调试代码、浏览网页、排查未知 Bug、研究一个不确定问题时，这一点尤其重要。新的证据可能让前一步的假设直接失效。</p>
+<p>但 ReAct 也有天然弱点：</p>
+<blockquote>
+<p><strong>局部合理，不等于整体合理。</strong></p>
+</blockquote>
+<p>一个 Coding Agent 可以连续做出十几个“这一刻看起来都合理”的动作，最后却离原始 Goal 越来越远。</p>
+<pre><code class="language-text">发现 A 报错
+→ 改 A
+→ B 报错
+→ 改 B
+→ 顺手重构 C
+→ 测试又坏了
+→ 再回头改 A</code></pre><p>它每一步都在响应 Observation，却可能已经忘记最初为什么开始。</p>
+<p>所以 ReAct 擅长的是：</p>
+<blockquote>
+<p><strong>局部实时控制。</strong></p>
+</blockquote>
+<p>它并不天然保证全局目标收敛。</p>
+<h2 id="plan-and-solve提前冻结一部分未来决策">Plan-and-Solve：提前冻结一部分未来决策<a class="md-anchor" href="#plan-and-solve提前冻结一部分未来决策">#</a></h2>
+<p>Plan-and-Solve 常被理解成“先列 TODO”。</p>
+<p>这太浅了。</p>
+<p>Plan 真正做的事情，是在任务开始时先拿走一部分未来的自由度。</p>
+<p>比如：</p>
+<pre><code class="language-text">Goal：修复登录问题
+
+Plan：
+1. 定位鉴权失败位置
+2. 确认 token 生命周期
+3. 修改 refresh 逻辑
+4. 补回归测试
+5. 验证登录 / 续期 / 退出</code></pre><p>Executor 执行第二步时当然仍然可以思考。</p>
+<p>但它不应该随便把任务改写成：</p>
+<pre><code class="language-text">“既然来了，顺便把整个 Auth Architecture 重构掉。”</code></pre><p>所以 Plan 的价值不只是告诉 Agent “下一步做什么”。</p>
+<p>它同样在告诉 Agent：</p>
+<blockquote>
+<p><strong>现在什么事情不应该做。</strong></p>
+</blockquote>
+<p>如果把它写成决策空间：</p>
+<pre><code class="language-text">ReAct
+当前状态
+→ 很大的 Action Space
+
+Plan-and-Solve
+当前状态 + Plan
+→ 被约束后的 Action Space</code></pre><p>这就是为什么复杂工程里 Planning 能抑制 trajectory drift。</p>
+<h2 id="plan-and-solve-不是替代-react而是包住-react">Plan-and-Solve 不是替代 ReAct，而是包住 ReAct<a class="md-anchor" href="#plan-and-solve-不是替代-react而是包住-react">#</a></h2>
+<p>教材里的 Plan-and-Solve 很适合解释思想：先生成计划，再逐步执行。</p>
+<p>但真实环境会变化。</p>
+<p>比如计划原本是：</p>
+<pre><code class="language-text">1. 修改代码
+2. 跑测试
+3. 提 PR
+4. Review
+5. Merge</code></pre><p>到第二步突然发现：</p>
+<pre><code class="language-text">API contract 已经变化，
+原计划依赖的关键假设不再成立。</code></pre><p>继续严格执行旧 Plan 显然不对。</p>
+<p>让 Executor 完全自由发挥，同样会重新回到 ReAct 漂移问题。</p>
+<p>更常见的工程结构其实是：</p>
+<pre><code class="language-text">          Planner
+             ↓
+      High-level Plan
+             ↓
+         Executor
+             ↓
+      Local ReAct
+             ↓
+        Evidence
+        ↙      ↘
+假设仍成立      假设失效
+   ↓              ↓
+继续          Local Replan</code></pre><p>所以更准确的理解是：</p>
+<blockquote>
+<p><strong>Plan-and-Solve 包住 ReAct，而不是替代 ReAct。</strong></p>
+</blockquote>
+<p>Planner 控制全局的未来决策空间；Executor 在当前步骤内部保留局部适应能力。</p>
+<p>一个负责“方向”，一个负责“这一脚应该踩在哪里”。</p>
+<h2 id="retry-还是-replan关键看新证据改没改变世界模型">Retry 还是 Replan，关键看新证据改没改变世界模型<a class="md-anchor" href="#retry-还是-replan关键看新证据改没改变世界模型">#</a></h2>
+<p>课堂测试里，Tomz 给了一个很好的判断规则。</p>
+<p>问题是：执行失败以后，什么时候应该 local retry，什么时候应该回 Planner 重新规划？</p>
+<p>他的回答是：</p>
+<blockquote>
+<p><strong>前者是有确定无关变量影响的证据，后者是证据影响计划决策。</strong></p>
+</blockquote>
+<p>展开一下就是：</p>
+<pre><code class="language-text">网络瞬时抖动
+临时 500
+锁冲突
+偶发超时</code></pre><p>如果有证据表明这些失败不改变原计划成立的条件，那么 retry 很合理。</p>
+<p>而：</p>
+<pre><code class="language-text">API contract 变化
+依赖不存在
+目标约束改变
+原始假设被证伪</code></pre><p>已经改变了 Planner 当初做决定时依据的世界模型。</p>
+<p>这时继续 retry，只是在对已经失效的路线重复用力。</p>
+<p>更值得记住的判断不是：</p>
+<pre><code class="language-text">失败严重吗？</code></pre><p>而是：</p>
+<blockquote>
+<p><strong>这份新 Evidence 有没有改变 Plan 成立的前提？</strong></p>
+</blockquote>
+<h2 id="reflection第二次思考不等于第二份证据">Reflection：第二次思考不等于第二份证据<a class="md-anchor" href="#reflection第二次思考不等于第二份证据">#</a></h2>
+<p>Reflection 最容易被 Prompt Engineering 骗到。</p>
+<p>例如模型 A 写了一段数据库迁移代码。</p>
+<p>然后还是同一个模型、同一个上下文：</p>
+<blockquote>
+<p>“请仔细反思刚才代码是否安全。”</p>
+</blockquote>
+<p>模型认真看了一遍：</p>
+<blockquote>
+<p>“经过检查，没有问题。”</p>
+</blockquote>
+<p>这当然可能有帮助，但它没有天然获得新的事实来源。</p>
+<p>如果第一次错误来自同一个知识盲区，第二次 Reflection 很可能仍然沿着同一个盲区走。</p>
+<p>所以：</p>
+<pre><code class="language-text">Self Reflection
+≠
+Independent Verification</code></pre><p>更可靠的 Reflection 通常至少改变一个东西：</p>
+<pre><code class="language-text">Evaluator
+换模型、换独立 Reviewer
+
+Evidence
+跑测试、schema diff、dry-run、静态分析
+
+Criteria
+明确安全规则、验收清单、Design System
+
+Context
+去掉原推理，只给结果和目标重新审</code></pre><p>课堂上 Tomz 的回答是：</p>
+<blockquote>
+<p>换模型，换模式，比如 ReAct（证据），换角度（Context）。</p>
+</blockquote>
+<p>方向是对的。</p>
+<p>但我们最后把第二点再收紧了一层：</p>
+<blockquote>
+<p><strong>真正提高可靠性的不是“用了 ReAct”这三个字，而是 ReAct 带回了新的 Observation / Evidence。</strong></p>
+</blockquote>
+<p>如果模型只是换了一种 Prompt 继续在同一份信息上打转，它仍然可能只是把同一个错误说得更认真。</p>
+<p>一句话：</p>
+<blockquote>
+<p><strong>Reflection 提供第二次思考；Evidence 提供第二个事实来源。</strong></p>
+</blockquote>
+<p>通常后者更值钱。</p>
+<h2 id="谁有权宣布任务完成">谁有权宣布任务完成？<a class="md-anchor" href="#谁有权宣布任务完成">#</a></h2>
+<p>学到这里，三种经典范式都在解决“怎么继续做”。</p>
+<p>但真正工程化以后，还有一个更危险的问题：</p>
+<blockquote>
+<p><strong>谁有权说“已经做完了”？</strong></p>
+</blockquote>
+<p>教学版 ReAct 很容易让模型自己输出 <code>Finish</code>。</p>
+<p>问答任务里这通常够用。</p>
+<p>但把任务换成：</p>
+<blockquote>
+<p>修复 Token Refresh Bug，并保证没有回归。</p>
+</blockquote>
+<p>Agent 修改完代码，看到 <code>npm test</code> 全绿，就说：</p>
+<pre><code class="language-text">Finish</code></pre><p>后来才发现，测试集中根本没有覆盖“token 过期后自动刷新”这个核心场景。</p>
+<p>于是必须把三个状态拆开：</p>
+<pre><code class="language-text">canAnswer
+≠
+taskComplete
+≠
+accepted</code></pre><h3 id="cananswer">canAnswer<a class="md-anchor" href="#cananswer">#</a></h3>
+<p>模型已经有足够信息生成回复。</p>
+<h3 id="taskcomplete">taskComplete<a class="md-anchor" href="#taskcomplete">#</a></h3>
+<p>目标状态已经真实发生，并有足够证据覆盖 Success Criteria。</p>
+<h3 id="accepted">accepted<a class="md-anchor" href="#accepted">#</a></h3>
+<p>外部验收条件已经满足，例如 Review、门禁、人工验收或其他业务条件。</p>
+<p>课堂里 Tomz 第一反应是：</p>
+<pre><code class="language-text">canAnswer = true
+taskComplete = false
+accepted = true</code></pre><p>第三个被我们判错。</p>
+<p>因为“现有测试全绿”只证明<strong>现有门禁绿了</strong>。</p>
+<p>如果门禁没有覆盖核心验收场景，那么门禁本身就是残缺的。</p>
+<p>所以更合理是：</p>
+<pre><code class="language-text">canAnswer = true
+taskComplete = false
+accepted = false</code></pre><p>这件事对 Mira 特别熟悉。</p>
+<p>过去我们把很多终止判断放进 Planner。</p>
+<p>现在更准确的理解是：</p>
+<blockquote>
+<p>Planner 可以 <strong>propose finish</strong>，但最终状态不应该只靠 Planner 自我宣布。</p>
+</blockquote>
+<p>更成熟的结构是：</p>
+<pre><code class="language-text">Planner / Executor
+“I think I&#39;m done.”
+        ↓
+   propose finish
+        ↓
+      Harness
+检查 Goal / Evidence / Criteria / Policy
+        ↓
+commit taskComplete</code></pre><p>于是经典范式之外，又长出了一层：</p>
+<blockquote>
+<p><strong>Harness 持有终止权和状态写入权。</strong></p>
+</blockquote>
+<h2 id="planner-负责聪明harness-负责不让聪明直接改事实">Planner 负责聪明，Harness 负责不让“聪明”直接改事实<a class="md-anchor" href="#planner-负责聪明harness-负责不让聪明直接改事实">#</a></h2>
+<p>这堂课最后 Tomz 还有一个容易混淆的点：</p>
+<p>他知道 Mira 当前把结束判断放在 Planner，于是自然会说：</p>
+<blockquote>
+<p>“Planner 验收，Planner 提交任务完成信号。”</p>
+</blockquote>
+<p>这在已有实现里很好理解。</p>
+<p>但如果把 Planner 看成 Harness 的一个智能控制组件，职责会更清楚：</p>
+<pre><code class="language-text">Planner
+判断：
+- 目标覆盖了吗？
+- 还缺什么？
+- 是否值得结束？
+
+Harness
+执行：
+- 状态是否合法？
+- Evidence 是否满足条件？
+- Policy 是否允许？
+- 是否写入 completed？</code></pre><p>也就是说：</p>
+<blockquote>
+<p><strong>会判断，不等于拥有最终状态写入权。</strong></p>
+</blockquote>
+<p>这个边界很重要。</p>
+<p>否则一个语言模型只需要成功说服自己“我完成了”，系统状态就真的变成完成。</p>
+<h2 id="三种经典范式其实是三种控制机制">三种经典范式，其实是三种控制机制<a class="md-anchor" href="#三种经典范式其实是三种控制机制">#</a></h2>
+<p>到这里再回头看：</p>
+<h3 id="react">ReAct<a class="md-anchor" href="#react">#</a></h3>
+<p>负责局部反馈控制。</p>
+<pre><code class="language-text">Observation 改变
+→ 下一步重新决策</code></pre><p>它拥有的是：</p>
+<blockquote>
+<p><strong>当前行动权。</strong></p>
+</blockquote>
+<h3 id="plan-and-solve">Plan-and-Solve<a class="md-anchor" href="#plan-and-solve">#</a></h3>
+<p>负责前馈式全局约束。</p>
+<pre><code class="language-text">Goal
+→ Plan
+→ 约束未来行动空间</code></pre><p>它影响的是：</p>
+<blockquote>
+<p><strong>未来决策权。</strong></p>
+</blockquote>
+<h3 id="reflection">Reflection<a class="md-anchor" href="#reflection">#</a></h3>
+<p>负责对结果和目标之间的差距做二次校正。</p>
+<p>它拥有的是：</p>
+<blockquote>
+<p><strong>纠错建议权。</strong></p>
+</blockquote>
+<p>再把真实工程补进来：</p>
+<h3 id="harness">Harness<a class="md-anchor" href="#harness">#</a></h3>
+<p>负责运行状态、终止条件和合法状态转移。</p>
+<p>它拥有的是：</p>
+<blockquote>
+<p><strong>终止权 / 状态写入权。</strong></p>
+</blockquote>
+<h3 id="policy">Policy<a class="md-anchor" href="#policy">#</a></h3>
+<p>负责限制哪些动作可以真实发生。</p>
+<p>它拥有的是：</p>
+<blockquote>
+<p><strong>行动许可权。</strong></p>
+</blockquote>
+<p>这样以后再看到一个 Agent 框架，我们就不用先问：</p>
+<pre><code class="language-text">它用了什么 Prompt？
+它是不是 ReAct？</code></pre><p>更值得先问的是：</p>
+<pre><code class="language-text">谁决定下一步？
+谁约束长期目标？
+谁负责纠错？
+谁允许动作发生？
+谁可以宣布完成？</code></pre><p>这些问题比框架名字稳定得多。</p>
+<h2 id="一次-dsh-插课tool-routing-和-responsibility-routing">一次 DSH 插课：Tool Routing 和 Responsibility Routing<a class="md-anchor" href="#一次-dsh-插课tool-routing-和-responsibility-routing">#</a></h2>
+<p>这堂课中间，我们看了 DeepSeek Harness（DSH），顺便讨论了一人公司的“AI 员工”。</p>
+<p>原本的直觉是：</p>
+<pre><code class="language-text">员工
+= 模型
++ Prompt
++ MCP
++ Tool
++ Skill</code></pre><p>但 Harness 的插件化和作用域思路让这个公式开始变化。</p>
+<p>更像：</p>
+<pre><code class="language-text">Employee Runtime
+= Identity
++ Model
++ Context
++ dynamically mounted Capabilities
++ scoped Memory
++ governed Permissions</code></pre><p>然后我们碰到一个经典范式之外、但和 Planning 很相关的问题。</p>
+<p>Engineer 做任务时发现 Android signing 自己不会，而 Release Agent 会。</p>
+<p>有两种路线：</p>
+<pre><code class="language-text">A
+Engineer 临时获得 signing skill / tool / credential
+继续做
+
+B
+Engineer 完成自己的部分
+→ delegate Release Agent
+→ Release Agent signing / publish
+→ 返回 Evidence</code></pre><p>默认我们更偏 B，因为职责和权限边界更干净。</p>
+<p>但 Tomz 提醒了一个很现实的反例：</p>
+<blockquote>
+<p>A 也很常见，因为 Engineer 在完成任务中积累了可能影响打包的上下文。比如中途有别的线程混入提交。</p>
+</blockquote>
+<p>这一句非常重要。</p>
+<p>切换 Agent 并不是免费的。</p>
+<p>它在权衡：</p>
+<pre><code class="language-text">Context Locality
+vs
+Capability Isolation</code></pre><p>于是我们又把两个概念拆开：</p>
+<pre><code class="language-text">Tool Routing
+当前责任主体不变
+→ 我该调用哪个工具？
+
+Responsibility Routing
+先判断责任主体
+→ 这件事还该不该由我做？
+→ 是否应该交给另一个 Agent？</code></pre><p>当“组织结构”真的进入 Agent Runtime，它控制的就不只是工具列表，而是：</p>
+<pre><code class="language-text">谁负责完成
+谁可以决定
+谁只能建议
+谁可以接管
+谁需要交付证据
+谁对最终结果负责</code></pre><p>这已经是 Responsibility / Authority Graph。</p>
+<p>我们会在后面的 Agent Framework / Multi-Agent 主线里继续回来收这个问题。</p>
+<h2 id="课堂测试不是背概念而是判断控制权">课堂测试：不是背概念，而是判断控制权<a class="md-anchor" href="#课堂测试不是背概念而是判断控制权">#</a></h2>
+<p>学完以后，我们做了一次 100 分测试。</p>
+<p>最终成绩：</p>
+<blockquote>
+<p><strong>86 / 100</strong></p>
+</blockquote>
+<p>没有美化成满分。</p>
+<p>因为错的地方刚好比答对的地方更能暴露概念边界。</p>
+<h3 id="第-1-题未知故障应该怎么调查15-15">第 1 题：未知故障应该怎么调查？——15 / 15<a class="md-anchor" href="#第-1-题未知故障应该怎么调查15-15">#</a></h3>
+<p>场景：Mira Mobile 偶发远程消息丢失，一开始不知道问题在 Mobile、Desktop Host、网络还是协议层。</p>
+<p>四种候选思路分别是：固定完整计划、纯 ReAct、先高层目标再局部 ReAct、先 Reflection 猜根因。</p>
+<p>Tomz 选择了混合结构，并解释：</p>
+<blockquote>
+<p>不选 A，因为环境是随着执行步骤变化的。</p>
+<p>不选 B，因为这个线索可能是局部的甚至是假的。</p>
+<p>不选 D，因为光猜，每次输入的环境参数都一样。</p>
+</blockquote>
+<p>这三个否定比选择 C 本身更重要。</p>
+<p>他已经把三类风险分开：</p>
+<pre><code class="language-text">静态 Plan
+→ 环境变化以后失效
+
+纯 ReAct
+→ 被局部 / 假 Evidence 带跑
+
+无新增 Evidence 的 Reflection
+→ 在相同认知条件下重新猜</code></pre><p>正确结构是：</p>
+<pre><code class="language-text">Global Goal + Success Criteria
+        ↓
+定位阶段：ReAct
+        ↓
+确认 Root Cause
+        ↓
+形成明确修复 Plan
+        ↓
+局部失败时允许 Replan</code></pre><h3 id="第-2-题测试全绿为什么仍然不能验收10-15">第 2 题：测试全绿，为什么仍然不能验收？——10 / 15<a class="md-anchor" href="#第-2-题测试全绿为什么仍然不能验收10-15">#</a></h3>
+<p>场景：Token Refresh Bug 修改完成，<code>npm test</code> 全绿，但核心“token 过期自动刷新”场景根本没有测试。</p>
+<p>Tomz 很快判断：</p>
+<blockquote>
+<p>taskComplete 应该由 Harness 根据目标、证据和验收条件计算。</p>
+</blockquote>
+<p>这部分正确。</p>
+<p>但随后给出：</p>
+<pre><code class="language-text">canAnswer = true
+taskComplete = false
+accepted = true</code></pre><p>错误就在最后一个 <code>true</code>。</p>
+<p>这暴露了一个很常见的误区：</p>
+<blockquote>
+<p><strong>Gate Pass ≠ Acceptance Valid。</strong></p>
+</blockquote>
+<p>如果 Gate 本身漏掉核心 Criteria，它通过并不能证明任务被正确验收。</p>
+<h3 id="第-3-题怎样让-reflection-真的变可靠13-15">第 3 题：怎样让 Reflection 真的变可靠？——13 / 15<a class="md-anchor" href="#第-3-题怎样让-reflection-真的变可靠13-15">#</a></h3>
+<p>Tomz 的答案：</p>
+<blockquote>
+<p>换模型，换模式，比如 ReAct（证据），换角度（Context）。</p>
+</blockquote>
+<p>三条都在正确方向。</p>
+<p>我们扣掉的两分只因为要把第二条说得更严格：</p>
+<blockquote>
+<p>ReAct 本身不是可靠性的来源，新增 Evidence 才是。</p>
+</blockquote>
+<p>例如：</p>
+<pre><code class="language-text">数据库 dry-run
+schema diff
+migration test
+静态分析</code></pre><p>这些甚至完全不需要第二个 LLM。</p>
+<h3 id="第-4-题retry-还是-replan15-15">第 4 题：Retry 还是 Replan？——15 / 15<a class="md-anchor" href="#第-4-题retry-还是-replan15-15">#</a></h3>
+<p>场景：执行 Mobile 计划时发现 Desktop API contract 与原假设不同。</p>
+<p>Tomz 选择 Replan，并给出整场测试里最干净的一句判断：</p>
+<blockquote>
+<p><strong>前者是有确定无关变量影响的证据，后者是证据影响计划决策。</strong></p>
+</blockquote>
+<p>这句话可以直接留下来。</p>
+<h3 id="第-5-题给-engineer-扩权还是找-release-agent17-20">第 5 题：给 Engineer 扩权，还是找 Release Agent？——17 / 20<a class="md-anchor" href="#第-5-题给-engineer-扩权还是找-release-agent17-20">#</a></h3>
+<p>默认选择 Responsibility Routing：交给 Release Agent。</p>
+<p>但 Tomz 没有把 B 当成教条。</p>
+<p>他指出 Engineer 已经积累的局部 Context 可能难以完整交接，比如：</p>
+<blockquote>
+<p>中途有别的线程混入提交。</p>
+</blockquote>
+<p>这说明实际设计要比较：</p>
+<pre><code class="language-text">handoff cost
+vs
+temporary capability grant cost</code></pre><p>扣的三分来自最后一个概念混淆：最开始把 Responsibility Routing 又说回了“根据动态工具”。</p>
+<p>真正的区别是：</p>
+<pre><code class="language-text">Tool Routing
+选能力
+
+Responsibility Routing
+选责任主体</code></pre><h3 id="第-6-题设计一个真实-figma-agent-loop16-20">第 6 题：设计一个真实 Figma Agent Loop——16 / 20<a class="md-anchor" href="#第-6-题设计一个真实-figma-agent-loop16-20">#</a></h3>
+<p>任务：把已有 Web 产品两个页面迁移到 Figma，视觉高度一致，并符合已有 Design System。</p>
+<p>Tomz 的核心结构是：</p>
+<pre><code class="language-text">Planner 规划
+↓
+绘制过程中持续拿证据
+↓
+完成一轮后 Reflection
+↓
+发现画布、设计系统等关键前提错误则 Replan
+↓
+人工最终验收</code></pre><p>方向成立。</p>
+<p>最后需要修正的仍然是 Planner 与 Harness 的职责：</p>
+<pre><code class="language-text">Planner
+→ 判断目标覆盖
+→ propose finish
+
+Harness
+→ 检查 Criteria + Evidence + Review 状态
+→ commit taskComplete
+
+Human Gate
+→ accepted</code></pre><p>因此这道综合题也回到了整堂课的最后一个边界：</p>
+<blockquote>
+<p><strong>Planner 可以很聪明，但不能因为“觉得自己完成了”，就直接把世界状态写成 completed。</strong></p>
+</blockquote>
+<h2 id="86-分暴露出来的三个剩余盲点">86 分暴露出来的三个剩余盲点<a class="md-anchor" href="#86-分暴露出来的三个剩余盲点">#</a></h2>
+<p>这次测试没有暴露“不会 ReAct”或者“不懂 Reflection”这种基础问题。</p>
+<p>真正剩下的是三个更工程化的边界。</p>
+<p>第一：</p>
+<pre><code class="language-text">Planner
+≠
+Harness</code></pre><p>前者负责智能判断，后者负责状态治理。</p>
+<p>第二：</p>
+<pre><code class="language-text">Tool Routing
+≠
+Responsibility Routing</code></pre><p>前者选择能力，后者选择承担责任的主体。</p>
+<p>第三：</p>
+<pre><code class="language-text">Gate Pass
+≠
+Accepted</code></pre><p>验收规则本身也可能不完整，Evidence 必须真的覆盖目标。</p>
+<p>这三处恰好都已经超过“经典 Prompt 范式”本身，开始往 Agent Runtime / Framework 走。</p>
+<h2 id="这堂课真正应该留下什么">这堂课真正应该留下什么<a class="md-anchor" href="#这堂课真正应该留下什么">#</a></h2>
+<p>如果只留三句话：</p>
+<pre><code class="language-text">ReAct = 边想边做
+Plan-and-Solve = 先计划再做
+Reflection = 做完反思</code></pre><p>那这一课很快就会忘。</p>
+<p>我们最后留下的是另一组东西：</p>
+<pre><code class="language-text">ReAct
+→ 当前行动权
+
+Planning
+→ 未来决策权
+
+Reflection
+→ 纠错权
+
+Policy
+→ 行动许可权
+
+Harness
+→ 终止权 / 状态写入权</code></pre><p>这样以后不管遇到 LangGraph、DeepSeek Harness、Codex、OpenCode，还是 Mira 自己的下一版 Agent Runtime，都可以先跳过产品名问：</p>
+<blockquote>
+<p>谁在做决定？</p>
+<p>谁能改变决定？</p>
+<p>谁能让动作真实发生？</p>
+<p>谁能宣布任务完成？</p>
+</blockquote>
+<p>当这些“权”分清楚，Agent Loop 才真正开始从 Prompt 变成系统。</p>
+<h2 id="下一站">下一站<a class="md-anchor" href="#下一站">#</a></h2>
+<p>经典范式主线到这里可以正式收掉。</p>
+<p>接下来不必为了教材顺序去做低代码平台操作题。</p>
+<p>更值得顺着今天已经冒出来的问题，往 Hello-Agents 的 <strong>框架开发实践 / 构建自己的 Agent Framework</strong> 继续：</p>
+<pre><code class="language-text">一个 Agent Framework 到底应该负责什么？
+
+Planner、Tool、Skill、Memory、Policy、Harness
+应该怎样成为可组合的 Runtime？
+
+能力动态装载以后，权限和 Context 怎样跟着走？
+
+组织结构怎样真正进入 Agent Loop？</code></pre><p>DSH 已经提前把这个问题撩开了一条缝。</p>
+<p>下一课，我们就从这条缝往里面看。</p>
+</article><div class="page-nav"><a href="/tomz-io/books/psalms/psalm-8-who-are-we-to-decide-who-is-worth-more"><span class="dir">上一篇</span><span class="to">← 诗篇 8：人算什么，我们竟敢决定谁更值得</span></a><a class="next" href="/tomz-io/books/psalms/psalm-9-the-needy-will-not-always-be-forgotten"><span class="dir">下一篇</span><span class="to">诗篇 9：穷乏人必不永久被忘 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#react把局部行动权留在运行时">ReAct：把局部行动权留在运行时</a></li><li class="toc-depth-2"><a href="#plan-and-solve提前冻结一部分未来决策">Plan-and-Solve：提前冻结一部分未来决策</a></li><li class="toc-depth-2"><a href="#plan-and-solve-不是替代-react而是包住-react">Plan-and-Solve 不是替代 ReAct，而是包住 ReAct</a></li><li class="toc-depth-2"><a href="#retry-还是-replan关键看新证据改没改变世界模型">Retry 还是 Replan，关键看新证据改没改变世界模型</a></li><li class="toc-depth-2"><a href="#reflection第二次思考不等于第二份证据">Reflection：第二次思考不等于第二份证据</a></li><li class="toc-depth-2"><a href="#谁有权宣布任务完成">谁有权宣布任务完成？</a></li><li class="toc-depth-3"><a href="#cananswer">canAnswer</a></li><li class="toc-depth-3"><a href="#taskcomplete">taskComplete</a></li><li class="toc-depth-3"><a href="#accepted">accepted</a></li><li class="toc-depth-2"><a href="#planner-负责聪明harness-负责不让聪明直接改事实">Planner 负责聪明，Harness 负责不让“聪明”直接改事实</a></li><li class="toc-depth-2"><a href="#三种经典范式其实是三种控制机制">三种经典范式，其实是三种控制机制</a></li><li class="toc-depth-3"><a href="#react">ReAct</a></li><li class="toc-depth-3"><a href="#plan-and-solve">Plan-and-Solve</a></li><li class="toc-depth-3"><a href="#reflection">Reflection</a></li><li class="toc-depth-3"><a href="#harness">Harness</a></li><li class="toc-depth-3"><a href="#policy">Policy</a></li><li class="toc-depth-2"><a href="#一次-dsh-插课tool-routing-和-responsibility-routing">一次 DSH 插课：Tool Routing 和 Responsibility Routing</a></li><li class="toc-depth-2"><a href="#课堂测试不是背概念而是判断控制权">课堂测试：不是背概念，而是判断控制权</a></li><li class="toc-depth-3"><a href="#第-1-题未知故障应该怎么调查15-15">第 1 题：未知故障应该怎么调查？——15 / 15</a></li><li class="toc-depth-3"><a href="#第-2-题测试全绿为什么仍然不能验收10-15">第 2 题：测试全绿，为什么仍然不能验收？——10 / 15</a></li><li class="toc-depth-3"><a href="#第-3-题怎样让-reflection-真的变可靠13-15">第 3 题：怎样让 Reflection 真的变可靠？——13 / 15</a></li><li class="toc-depth-3"><a href="#第-4-题retry-还是-replan15-15">第 4 题：Retry 还是 Replan？——15 / 15</a></li><li class="toc-depth-3"><a href="#第-5-题给-engineer-扩权还是找-release-agent17-20">第 5 题：给 Engineer 扩权，还是找 Release Agent？——17 / 20</a></li><li class="toc-depth-3"><a href="#第-6-题设计一个真实-figma-agent-loop16-20">第 6 题：设计一个真实 Figma Agent Loop——16 / 20</a></li><li class="toc-depth-2"><a href="#86-分暴露出来的三个剩余盲点">86 分暴露出来的三个剩余盲点</a></li><li class="toc-depth-2"><a href="#这堂课真正应该留下什么">这堂课真正应该留下什么</a></li><li class="toc-depth-2"><a href="#下一站">下一站</a></li></ul></aside></div></div></div>
+</body>
+</html>

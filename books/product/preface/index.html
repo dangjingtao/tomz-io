@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>结合业务学产品 00｜前言：拿真实业务当课本 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="不背产品经理八股。只使用 Mira 能完整读取、Tomz 也能打开的公开材料，把每一课落到真实业务里。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/books/product/preface/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="结合业务学产品 00｜前言：拿真实业务当课本 · Tomz Dang"><meta property="og:description" content="不背产品经理八股。只使用 Mira 能完整读取、Tomz 也能打开的公开材料，把每一课落到真实业务里。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/books/product/preface/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="结合业务学产品 00｜前言：拿真实业务当课本 · Tomz Dang"><meta name="twitter:description" content="不背产品经理八股。只使用 Mira 能完整读取、Tomz 也能打开的公开材料，把每一课落到真实业务里。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"结合业务学产品 00｜前言：拿真实业务当课本","description":"不背产品经理八股。只使用 Mira 能完整读取、Tomz 也能打开的公开材料，把每一课落到真实业务里。","url":"https://tomz.io/tomz-io/books/product/preface/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-08-24","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-08-24T12:33:32.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/books">结合业务学产品</a></h5></div><div class="docnav-group"><h5>agent</h5><ul><li><a href="/tomz-io/books/agent/preface">一起学智能体 00｜前言：拿正在生长的 Agent 当课本</a></li><li><a href="/tomz-io/books/agent/react-is-not-just-tool-calling">一起学智能体 01｜ReAct 不是“有 Tool 就继续 Call”</a></li><li><a href="/tomz-io/books/agent/plan-is-a-hypothesis-goal-is-the-contract">一起学智能体 02｜Plan 是假设，Goal 才是合同</a></li><li><a href="/tomz-io/books/agent/reflection-is-calibration-not-self-doubt">一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己</a></li><li><a href="/tomz-io/books/agent/agent-is-an-old-dream">一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦</a></li><li><a href="/tomz-io/books/agent/context-is-state-not-chat-history">一起学智能体 05｜Context 不是聊天记录，而是 Agent 此刻的世界</a></li><li><a href="/tomz-io/books/agent/how-llm-sees-thinks-and-speaks">一起学智能体 05｜LLM 到底是怎么“看、想、说”的</a></li><li><a href="/tomz-io/books/agent/skill-is-executable-experience">一起学智能体 06｜Skill 不是 Prompt，而是把经验变成可执行知识</a></li><li><a href="/tomz-io/books/agent/mcp-rebuilds-babel-tower">一起学智能体 07｜MCP 不是让 Agent 更聪明，而是让它拥有一个可连接的世界</a></li><li><a href="/tomz-io/books/agent/when-agents-have-social-problems">一起学智能体 08｜当 Skill 开始互相调用，Agent 就有了“社会问题”</a></li><li><a href="/tomz-io/books/agent/classic-paradigms-are-control-rights">一起学智能体 09｜经典范式不是三套提示词，而是三种决策权</a></li></ul></div><div class="docnav-group"><h5>product</h5><ul><li><a class="active" aria-current="page" href="/tomz-io/books/product/preface">结合业务学产品 00｜前言：拿真实业务当课本</a></li></ul></div><div class="docnav-group"><h5>psalms</h5><ul><li><a href="/tomz-io/books/psalms/reading-guide">读经指引｜先读经文，也听历代的人怎么读</a></li><li><a href="/tomz-io/books/psalms/psalm-1-find-the-water-source">诗篇 1：先找到水源</a></li><li><a href="/tomz-io/books/psalms/psalm-2-dont-sit-in-the-wrong-seat">诗篇 2：别坐错位置</a></li><li><a href="/tomz-io/books/psalms/psalm-3-who-defines-my-situation">诗篇3：谁有资格定义我的处境</a></li><li><a href="/tomz-io/books/psalms/psalm-4-dont-wait-for-everything-to-be-solved">诗篇 4：不等所有事都解决，才睡觉</a></li><li><a href="/tomz-io/books/psalms/psalm-5-judgment-to-god">诗篇 5：把审判交还给神</a></li><li><a href="/tomz-io/books/psalms/psalm-6-when-god-seems-silent">诗篇 6：当神似乎沉默的时候</a></li><li><a href="/tomz-io/books/psalms/psalm-7-honest-before-god">诗篇 7：在求神为我伸冤以前</a></li><li><a href="/tomz-io/books/psalms/psalm-8-who-are-we-to-decide-who-is-worth-more">诗篇 8：人算什么，我们竟敢决定谁更值得</a></li><li><a href="/tomz-io/books/psalms/psalm-9-the-needy-will-not-always-be-forgotten">诗篇 9：穷乏人必不永久被忘</a></li><li><a href="/tomz-io/books/psalms/psalm-10-you-have-seen-it">诗篇 10：你已经看见</a></li><li><a href="/tomz-io/books/psalms/psalm-11-you-see-me-i-will-see-you">诗篇 11：你看见，我终要见你</a></li><li><a href="/tomz-io/books/psalms/psalm-12-speak-when-you-should">诗篇 12：在该说话的时候说话</a></li><li><a href="/tomz-io/books/psalms/psalm-13-faith-comes-from-where-the-text-does-not-say">诗篇 13：信心从哪里来，经文没有说</a></li><li><a href="/tomz-io/books/psalms/psalm-14-life-itself-can-say-there-is-no-god">诗篇 14：生活本身也会说“没有神”</a></li><li><a href="/tomz-io/books/psalms/psalm-15-who-may-dwell-with-god">诗篇 15：谁能住在神面前</a></li><li><a href="/tomz-io/books/psalms/psalm-16-where-does-the-path-of-life-lead">诗篇 16：生命的道路通向哪里</a></li><li><a href="/tomz-io/books/psalms/psalm-17-you-do-not-have-to-be-liked-to-be-innocent">诗篇 17：你不需要靠被喜欢来证明自己无罪</a></li><li><a href="/tomz-io/books/psalms/psalm-18-faith-gives-strength-through-restraint">诗篇 18：信仰，约束给人力量</a></li><li><a href="/tomz-io/books/psalms/psalm-19-faith-guides-understanding">诗篇 19：信仰引导认识</a></li><li><a href="/tomz-io/books/psalms/psalm-20-some-things-we-do-some-we-dont">诗篇 20：有所为，也有所不为</a></li><li><a href="/tomz-io/books/psalms/psalm-21-man-plans-god-decides">诗篇 21：谋事在人，成事在天</a></li><li><a href="/tomz-io/books/psalms/psalm-139-when-i-cannot-face-myself">诗篇 139：当我无法面对自己的时候</a></li></ul></div><div class="docnav-group"><h5>huangyan</h5><ul><li><a href="/tomz-io/books/huangyan/witness">证人</a></li><li><a href="/tomz-io/books/huangyan/after-june">六月以后</a></li><li><a href="/tomz-io/books/huangyan/between-glances">俯仰之间</a></li><li><a href="/tomz-io/books/huangyan/peripheral-glance">余光</a></li><li><a href="/tomz-io/books/huangyan/emergence">涌现</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">结合业务学产品 · 00</div><div class="doc-title-block"><h1>结合业务学产品 00｜前言：拿真实业务当课本</h1><p class="doc-lede">不背产品经理八股。只使用 Mira 能完整读取、Tomz 也能打开的公开材料，把每一课落到真实业务里。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年8月24日</span><span class="dot"></span><span data-content-time="modified">更新于 2026年8月24日 12:33</span></div></div><article class="markdown"><p>这门课不是为了把一套“产品经理知识体系”从头背到尾。</p>
+<p>我们会画页面、讨论交互、推进研发，但真实工作里更麻烦的问题往往发生在更前面：一句话需求是什么意思？谁真的需要它？为什么现在做？做完以后怎么知道不是白做？</p>
+<p>所以这门课只做一件事：</p>
+<blockquote>
+<p><strong>把真实业务当课本，用双方都能完整读取的公开材料，补齐产品判断。</strong></p>
+</blockquote>
+<p>Mira 负责带学，排第一作者；Tomz 带着真实业务进入课堂，排第二作者。</p>
+<h2 id="课程状态">课程状态<a class="md-anchor" href="#课程状态">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>当前状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>课程状态</td>
+<td>进行中</td>
+</tr>
+<tr>
+<td>课程设计</td>
+<td>已切换为完整可读主线</td>
+</tr>
+<tr>
+<td>知识课进度</td>
+<td>0 / 10</td>
+</tr>
+<tr>
+<td>已完成</td>
+<td>00｜前言：拿真实业务当课本</td>
+</tr>
+<tr>
+<td>下一课</td>
+<td>01｜先看全局：一个产品怎么从业务目标走到结果验证？</td>
+</tr>
+<tr>
+<td>下一课主材料</td>
+<td>Aha!《The product development process in 10 stages》</td>
+</tr>
+<tr>
+<td>下次开始</td>
+<td>先看完整生命周期，再把一个真实业务放进去定位</td>
+</tr>
+<tr>
+<td>最近更新</td>
+<td>2026年8月24日</td>
+</tr>
+</tbody></table>
+<p><strong>以后重新开始这门课，先看这一节。</strong></p>
+<p>每完成一课，都回来更新“知识课进度 / 已完成 / 下一课 / 下次开始”。这张表就是课程检查点，不另建一份容易失真的学习台账。</p>
+<h2 id="为什么换掉上一版主教材">为什么换掉上一版主教材<a class="md-anchor" href="#为什么换掉上一版主教材">#</a></h2>
+<p>上一版把 Product Talk 2026 的 Continuous Discovery Habits Book Club 当成主线。</p>
+<p>真正开始第一课后发现：公开阅读指南可以读，但连续学习依赖《Continuous Discovery Habits》书中章节，而书本正文并没有完整公开。</p>
+<p>这违反了本课程最重要的一条规则：</p>
+<blockquote>
+<p><strong>如果 Mira 不能从第一课一直读到最后一课，就不能把它当连续主教材。</strong></p>
+</blockquote>
+<p>所以 Product Talk 降为 Discovery 主题的补充阅读，不再承担课程骨架。</p>
+<h2 id="资料规则能一起完整读才算主教材">资料规则：能一起完整读，才算主教材<a class="md-anchor" href="#资料规则能一起完整读才算主教材">#</a></h2>
+<p>主教材必须满足：</p>
+<ol>
+<li>Tomz 可以正常打开；</li>
+<li>Mira 可以直接读取正文，不只看到标题、摘要或目录；</li>
+<li>从课程起点到终点连续可读；</li>
+<li>不依赖登录或付费墙；</li>
+<li>足够具体，能拿真实业务检验；</li>
+<li>材料失效就换，不把“搜到过”冒充“学过”。</li>
+</ol>
+<p>视频没有公开文字稿、只开放试读章节、后续必须登录的材料，都不能承担主线。</p>
+<h2 id="新主线aha-2026-产品开发完整指南">新主线：Aha! 2026 产品开发完整指南<a class="md-anchor" href="#新主线aha-2026-产品开发完整指南">#</a></h2>
+<p>主教材：</p>
+<p><a href="https://www.aha.io/roadmapping/guide/stages-of-product-development">https://www.aha.io/roadmapping/guide/stages-of-product-development</a></p>
+<p>配套框架：</p>
+<p><a href="https://www.aha.io/roadmapping/guide/the-aha-framework/the-aha-framework-for-product-development">https://www.aha.io/roadmapping/guide/the-aha-framework/the-aha-framework-for-product-development</a></p>
+<p>这套材料在 2026 年仍然更新，而且十个阶段的核心内容全文公开。</p>
+<div style="margin:28px 0;padding:18px;border:1px solid var(--hairline);border-radius:14px;background:var(--surface-card)">
+  <div style="margin-bottom:12px;font-size:12px;letter-spacing:.08em;color:var(--muted)">PRODUCT DEVELOPMENT · 课程主线</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px">
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>01 Strategize</b><br><small>战略与目标</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>02 Discover</b><br><small>用户研究</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>03 Capture</b><br><small>反馈与需求输入</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>04 Explore</b><br><small>探索多个方案</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>05 Plan</b><br><small>优先级与规划</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>06 Showcase</b><br><small>Roadmap 与对齐</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>07 Deliver</b><br><small>研发与交付</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>08 Document</b><br><small>知识与文档</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>09 Launch</b><br><small>发布与准备</small></div>
+    <div style="padding:12px;border:1px solid var(--hairline);border-radius:10px"><b>10 Analyze</b><br><small>结果与价值验证</small></div>
+  </div>
+  <p style="margin:14px 0 0;color:var(--muted)">不是一次性瀑布流程。Analyze 得到的新证据会重新回到 Strategy / Discovery。</p>
+</div>
+
+<p>这张地图就是第一阶段课程的骨架。</p>
+<p>以后接到一个需求，先不急着问“页面怎么画”，而是先定位：</p>
+<blockquote>
+<p><strong>我们现在到底在做哪一类产品判断？前面的证据够不够？后面的结果准备怎么验证？</strong></p>
+</blockquote>
+<h3 id="对-aha-的使用边界">对 Aha! 的使用边界<a class="md-anchor" href="#对-aha-的使用边界">#</a></h3>
+<p>Aha! 是商业产品公司，它的指南天然带有自己的方法论与工具视角。</p>
+<p>我们采用它的<strong>流程骨架和公开实务内容</strong>，但不会把这些当成结论：</p>
+<ul>
+<li>必须使用 Aha! 软件；</li>
+<li>为了匹配工具而设计流程；</li>
+<li>把品牌自创术语当作行业唯一标准。</li>
+</ul>
+<p>教材可以被质疑。真实业务才负责验收。</p>
+<h2 id="校验材料product-manager-handbook">校验材料：Product Manager Handbook<a class="md-anchor" href="#校验材料product-manager-handbook">#</a></h2>
+<p>辅助知识库：</p>
+<p><a href="https://productmanagerhandbook.com/">https://productmanagerhandbook.com/</a></p>
+<p>它在 2025 年上线，定位是免费、持续更新的数字产品管理知识库，内容由有实际经验的产品经理撰写和审核。</p>
+<p>主要用来交叉检查：</p>
+<ul>
+<li>产品经理到底负责什么；</li>
+<li>Stakeholder Input 应该怎么进入产品判断；</li>
+<li>Vision / Strategy / Discovery / Delivery 的边界；</li>
+<li>上线以后为什么还需要 Evaluation；</li>
+<li>用户价值与业务可行性怎么同时成立。</li>
+</ul>
+<p>它不是第二套必须刷完的课程，而是<strong>校验尺</strong>。</p>
+<h2 id="第一阶段10-课完整路线">第一阶段：10 课完整路线<a class="md-anchor" href="#第一阶段10-课完整路线">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>课次</th>
+<th>核心问题</th>
+<th>主线阶段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>01</td>
+<td>一个产品怎么从业务目标走到结果验证？</td>
+<td>全局</td>
+</tr>
+<tr>
+<td>02</td>
+<td>“老板要做这个”之前，战略应该回答什么？</td>
+<td>Strategize</td>
+</tr>
+<tr>
+<td>03</td>
+<td>用户说的话，怎样变成真正可用的证据？</td>
+<td>Discover</td>
+</tr>
+<tr>
+<td>04</td>
+<td>一堆反馈和一句话需求，怎么收集而不被牵着跑？</td>
+<td>Capture</td>
+</tr>
+<tr>
+<td>05</td>
+<td>发现问题以后，为什么不能立刻画第一个方案？</td>
+<td>Explore</td>
+</tr>
+<tr>
+<td>06</td>
+<td>需求很多，凭什么先做这个？</td>
+<td>Plan</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Roadmap、原型和汇报，究竟是在对齐什么？</td>
+<td>Showcase</td>
+</tr>
+<tr>
+<td>08</td>
+<td>从需求到研发交付，产品要守住哪些东西？</td>
+<td>Deliver</td>
+</tr>
+<tr>
+<td>09</td>
+<td>上线不是结束：文档、发布和组织准备为什么也属于产品？</td>
+<td>Document + Launch</td>
+</tr>
+<tr>
+<td>10</td>
+<td>做完以后怎么知道它不是白做？</td>
+<td>Analyze</td>
+</tr>
+</tbody></table>
+<p>这十课现在就能从第一课连续学到最后一课，不再依赖“作者以后会不会继续更新”。</p>
+<h2 id="图解优先课程不要做成文字墙">图解优先：课程不要做成文字墙<a class="md-anchor" href="#图解优先课程不要做成文字墙">#</a></h2>
+<p>从这一版开始增加一条表达规则：</p>
+<blockquote>
+<p><strong>凡是关系、流程、分支、层级、状态能用图说清楚，就优先画图。</strong></p>
+</blockquote>
+<p>当前书架阅读器直接使用 Markdown / HTML 渲染，所以课程正文优先使用 <strong>HTML 图解、矩阵、流程卡片</strong>。Mermaid 可以用于支持它的页面；等书架阅读器正式接通 Mermaid 渲染后，再在书架正文直接使用 Mermaid。</p>
+<p>适合图解的内容包括：</p>
+<ul>
+<li>业务流程；</li>
+<li>用户路径；</li>
+<li>状态机；</li>
+<li>因果关系；</li>
+<li>决策树；</li>
+<li>产品生命周期；</li>
+<li>需求从输入到验证的链路。</li>
+</ul>
+<p>例如，以后不只写“业务提出需求，产品分析，再形成方案”。我们会更接近这样表达：</p>
+<div style="margin:28px 0;padding:18px;border:1px solid var(--hairline);border-radius:14px;background:var(--surface-card)">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px">
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">业务输入</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">确认问题</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">用户 / 场景</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">寻找证据</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">多个方案</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">优先级</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">交付</span><b>→</b>
+    <span style="padding:9px 12px;border-radius:999px;background:var(--surface-soft)">结果验证</span>
+  </div>
+</div>
+
+<p>原则不是“为了好看每课硬塞一张图”，而是：<strong>图比段落更清楚时，就别逼读者啃段落。</strong></p>
+<h2 id="业务补丁遇到问题就插课">业务补丁：遇到问题就插课<a class="md-anchor" href="#业务补丁遇到问题就插课">#</a></h2>
+<p>真实工作不会按教材顺序出现，所以允许插课。</p>
+<h3 id="补丁-a一句话需求怎么还原">补丁 A：一句话需求怎么还原<a class="md-anchor" href="#补丁-a一句话需求怎么还原">#</a></h3>
+<p>《产品实战必修课：从溯源、还原到定义，一套完整的需求分析“五段式”框架》</p>
+<p><a href="https://www.woshipm.com/pd/6304845.html">https://www.woshipm.com/pd/6304845.html</a></p>
+<p>适合处理：老板一句话、运营临时提议、照着某 App 做一个之类的输入。</p>
+<h3 id="补丁-b优先级不是拍脑袋">补丁 B：优先级不是拍脑袋<a class="md-anchor" href="#补丁-b优先级不是拍脑袋">#</a></h3>
+<p>Atlassian《六个产品优先级排序框架和如何选择正确的框架》</p>
+<p><a href="https://www.atlassian.com/zh/agile/product-management/prioritization-framework">https://www.atlassian.com/zh/agile/product-management/prioritization-framework</a></p>
+<p>适合处理“每个人都说自己的需求最重要”。</p>
+<h3 id="补丁-cdiscovery-深挖">补丁 C：Discovery 深挖<a class="md-anchor" href="#补丁-cdiscovery-深挖">#</a></h3>
+<p><a href="https://www.producttalk.org/">https://www.producttalk.org/</a></p>
+<p>Product Talk 不再承担连续主线，但 Outcome、访谈、Opportunity Mapping、Assumption Testing 等主题仍然值得单独读。</p>
+<h2 id="一课怎么上">一课怎么上<a class="md-anchor" href="#一课怎么上">#</a></h2>
+<ol>
+<li><strong>先确认材料。</strong> Mira 确认本课原文仍然完整可读，不是看到搜索摘要就开课。</li>
+<li><strong>先画地图。</strong> 先用 HTML / 图解说明这节课在整个产品流程里的位置。</li>
+<li><strong>逐段学。</strong> 不一次灌几十个知识点；Mira 带读并逐个发问。</li>
+<li><strong>拿真实业务验证。</strong> 每课至少带入一个正在发生或最近发生的业务案例。</li>
+<li><strong>形成课程文章。</strong> 课程文章保持 <strong>Mira 第一作者 · Tomz 第二作者</strong>，完成后更新本页检查点。</li>
+</ol>
+<h2 id="什么叫学完">什么叫“学完”<a class="md-anchor" href="#什么叫学完">#</a></h2>
+<p>一节课至少满足：</p>
+<ol>
+<li>原始材料已经共同读过；</li>
+<li>核心关系已经用图或结构化方式讲清；</li>
+<li>至少用一个真实业务案例检验过；</li>
+<li>已形成本站课程文章；</li>
+<li>已更新前言进度。</li>
+</ol>
+<h2 id="这门课真正想补什么">这门课真正想补什么<a class="md-anchor" href="#这门课真正想补什么">#</a></h2>
+<div style="margin:28px 0;padding:18px;border:1px solid var(--hairline);border-radius:14px;background:var(--surface-card)">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>收到需求</small><br><b>为什么？</b></div>
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>确认对象</small><br><b>谁的问题？</b></div>
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>业务目标</small><br><b>改变什么结果？</b></div>
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>研究</small><br><b>证据是什么？</b></div>
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>探索</small><br><b>还有什么方案？</b></div>
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>优先级</small><br><b>为什么现在做？</b></div>
+    <div style="padding:12px;border-radius:10px;background:var(--surface-soft)"><small>分析</small><br><b>怎么判断做成了？</b></div>
+  </div>
+</div>
+
+<p>如果这条判断链慢慢变成本能，这门恶补课就没有白上。</p>
+<h2 id="下一课">下一课<a class="md-anchor" href="#下一课">#</a></h2>
+<p>下一次从：</p>
+<p><strong>01｜先看全局：一个产品怎么从业务目标走到结果验证？</strong></p>
+<p>开始。</p>
+<p>第一课先把十阶段全景讲清，再拿一个真实业务放进去：</p>
+<blockquote>
+<p><strong>它现在处在哪一段？它缺的是方案，还是前面的产品判断根本没有做完？</strong></p>
+</blockquote>
+</article><div class="page-nav"><a href="/tomz-io/books/agent/preface"><span class="dir">上一篇</span><span class="to">← 一起学智能体 00｜前言：拿正在生长的 Agent 当课本</span></a><a class="next" href="/tomz-io/books/psalms/reading-guide"><span class="dir">下一篇</span><span class="to">读经指引｜先读经文，也听历代的人怎么读 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#课程状态">课程状态</a></li><li class="toc-depth-2"><a href="#为什么换掉上一版主教材">为什么换掉上一版主教材</a></li><li class="toc-depth-2"><a href="#资料规则能一起完整读才算主教材">资料规则：能一起完整读，才算主教材</a></li><li class="toc-depth-2"><a href="#新主线aha-2026-产品开发完整指南">新主线：Aha! 2026 产品开发完整指南</a></li><li class="toc-depth-3"><a href="#对-aha-的使用边界">对 Aha! 的使用边界</a></li><li class="toc-depth-2"><a href="#校验材料product-manager-handbook">校验材料：Product Manager Handbook</a></li><li class="toc-depth-2"><a href="#第一阶段10-课完整路线">第一阶段：10 课完整路线</a></li><li class="toc-depth-2"><a href="#图解优先课程不要做成文字墙">图解优先：课程不要做成文字墙</a></li><li class="toc-depth-2"><a href="#业务补丁遇到问题就插课">业务补丁：遇到问题就插课</a></li><li class="toc-depth-3"><a href="#补丁-a一句话需求怎么还原">补丁 A：一句话需求怎么还原</a></li><li class="toc-depth-3"><a href="#补丁-b优先级不是拍脑袋">补丁 B：优先级不是拍脑袋</a></li><li class="toc-depth-3"><a href="#补丁-cdiscovery-深挖">补丁 C：Discovery 深挖</a></li><li class="toc-depth-2"><a href="#一课怎么上">一课怎么上</a></li><li class="toc-depth-2"><a href="#什么叫学完">什么叫“学完”</a></li><li class="toc-depth-2"><a href="#这门课真正想补什么">这门课真正想补什么</a></li><li class="toc-depth-2"><a href="#下一课">下一课</a></li></ul></aside></div></div></div>
+</body>
+</html>

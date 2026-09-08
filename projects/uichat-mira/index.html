@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>UIChat Mira：从本地 AI 到个人 AI 系统 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从 RAG Tester 与本地 AI 出发，逐步走向由 Desktop、Mobile、Server 与外部能力共同组成的个人 AI 系统。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/projects/uichat-mira/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="UIChat Mira：从本地 AI 到个人 AI 系统 · Tomz Dang"><meta property="og:description" content="从 RAG Tester 与本地 AI 出发，逐步走向由 Desktop、Mobile、Server 与外部能力共同组成的个人 AI 系统。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/projects/uichat-mira/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="UIChat Mira：从本地 AI 到个人 AI 系统 · Tomz Dang"><meta name="twitter:description" content="从 RAG Tester 与本地 AI 出发，逐步走向由 Desktop、Mobile、Server 与外部能力共同组成的个人 AI 系统。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"UIChat Mira：从本地 AI 到个人 AI 系统","description":"从 RAG Tester 与本地 AI 出发，逐步走向由 Desktop、Mobile、Server 与外部能力共同组成的个人 AI 系统。","url":"https://tomz.io/tomz-io/projects/uichat-mira/","image":"https://tomz.io/tomz-io/tomz-avatar.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"datePublished":"2026-08-21T00:01:22.000+08:00","dateModified":"2026-09-02T00:50:23.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav project-docnav"><h5>目录</h5><div class="project-nav-groups"><div class="project-nav-group"><a class="project-nav-overview active" href="/tomz-io/projects/uichat-mira"><span class="project-nav-title">UIChat Mira：从本地 AI 到个人 AI 系统</span></a></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/com-design"><span class="project-nav-title">ComDesign：AI 时代的设计系统实验</span></a><ul class="project-nav-articles"><li><a href="/tomz-io/projects/com-design/repeated-operations-as-product-capability">把重复操作提炼成产品能力：Com Design Prototype 的第一条原则</a></li></ul></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat-mira-mobile"><span class="project-nav-title">UIChat Mira Mobile：让 AI 离开桌面</span></a></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat"><span class="project-nav-title">UIChat：一次走错方向但没有浪费的 AI 应用探索</span></a></div></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">AI 产品 · 01</div><div class="doc-title-block"><h1>UIChat Mira：从本地 AI 到个人 AI 系统</h1><p class="doc-lede">从 RAG Tester 与本地 AI 出发，逐步走向由 Desktop、Mobile、Server 与外部能力共同组成的个人 AI 系统。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年8月21日 00:01</span><span class="dot"></span><span data-content-time="modified">更新于 2026年9月2日 00:50</span></div></div><article class="markdown"><blockquote>
+<p>从聊天出发，最终接住你。</p>
+</blockquote>
+<p>GitHub: <a href="https://github.com/dangjingtao/uichat-mira">dangjingtao/uichat-mira</a></p>
+<hr>
+<h2 id="项目简介">项目简介<a class="md-anchor" href="#项目简介">#</a></h2>
+<p>UIChat Mira 最初是一个本地 AI 应用，但它正在逐渐变成另一种东西。</p>
+<p>它最初甚至不是聊天助手，而是一个名为 <code>rag-tester</code> 的知识库评测工具。从验证 RAG 效果开始，项目逐渐扩展到多模型、本地运行、Agent、工具调用、多端连接，以及更完整的 AI 应用架构探索。</p>
+<p>今天的 Mira 仍然有很强的 Desktop 基因，许多核心能力也首先在那里实现。但产品方向已经不再是“把一个更强的 AI 装进电脑”。</p>
+<p>Mira 现在真正想探索的问题是：</p>
+<blockquote>
+<p>当模型、Agent、设备和外部服务都变得足够丰富之后，一个真正长期存在的个人 AI 系统应该是什么样？</p>
+</blockquote>
+<p>以下内容既是项目记录，也是当前仍在形成中的产品哲学。它描述方向，不代表所有能力已经实现。</p>
+<hr>
+<h2 id="起点从-rag-tester-开始">起点：从 RAG Tester 开始<a class="md-anchor" href="#起点从-rag-tester-开始">#</a></h2>
+<p>Mira 最初叫做 <code>rag-tester</code>。</p>
+<p>顾名思义，它最初的目标非常明确：验证知识库系统的效果。</p>
+<p>那时，我已经接近一年没有写代码，甚至一度不太想重新开始。</p>
+<p>rag-tester 更像是一次重新回到工程世界的尝试。它并不是一个宏大的 AI 产品计划，而是一个重新寻找创造动力的起点。</p>
+<hr>
+<h2 id="从评测工具到-ai-产品">从评测工具到 AI 产品<a class="md-anchor" href="#从评测工具到-ai-产品">#</a></h2>
+<p>随着项目推进，我开始希望验证更多 AI 能力。</p>
+<p>RAG 只是 AI 应用中的一个部分。真正让我感兴趣的问题开始变化：</p>
+<ul>
+<li>AI 能不能参与复杂工作？</li>
+<li>AI 能不能成为开发协作伙伴？</li>
+<li>AI 能不能理解更长周期的上下文？</li>
+<li>AI 能不能从回答问题，走向完成任务？</li>
+</ul>
+<p>于是，一个原本只负责知识库评测的工具，逐渐演变成了 UIChat Mira。</p>
+<hr>
+<h2 id="基建不是终点">基建不是终点<a class="md-anchor" href="#基建不是终点">#</a></h2>
+<p>Mira 后续加入了大量能力：</p>
+<ul>
+<li>多 Provider 支持</li>
+<li>本地模型支持</li>
+<li>知识库系统</li>
+<li>Agent 架构</li>
+<li>MCP</li>
+<li>工具调用</li>
+<li>权限管理</li>
+<li>多端连接</li>
+</ul>
+<p>这些能力重要，但它们并不是最终价值。</p>
+<p>现在回头看，它们更像 AI 产品时代的基础设施。未来会有越来越多产品拥有类似能力。</p>
+<p>真正困难的问题是：</p>
+<blockquote>
+<p>如何把越来越复杂的能力，变成一个真正好用、愿意长期交付事情给它的产品。</p>
+</blockquote>
+<p>技术会越来越普遍。真正做得好、用得顺手、值得信任的产品，仍然很少。</p>
+<hr>
+<h2 id="从复杂走向减法">从复杂走向减法<a class="md-anchor" href="#从复杂走向减法">#</a></h2>
+<p>Mira 早期也经历过一个典型问题：过早设计复杂系统。</p>
+<p>一个系统初始设计过于复杂，就等于提前限制了自己的变化空间。复杂架构可以提供未来扩展能力，也可能成为自己的束缚。</p>
+<p>随着项目发展，我越来越意识到：产品最终需要做减法。</p>
+<p>流行趋势永远值得关注。但追完趋势之后，需要留下真正重要的东西。</p>
+<hr>
+<h2 id="agentgraph重新理解智能体">AgentGraph：重新理解智能体<a class="md-anchor" href="#agentgraph重新理解智能体">#</a></h2>
+<p>Mira 一个重要的转折点，是 AgentGraph。</p>
+<p>在深入阅读和理解 PiAgent 的设计后，我开始重新认识 Agent。</p>
+<p>智能体并不是简单的：</p>
+<ul>
+<li>更长的 Prompt；</li>
+<li>更多工具；</li>
+<li>更强模型。</li>
+</ul>
+<p>真正重要的是：</p>
+<ul>
+<li>状态管理；</li>
+<li>执行流程；</li>
+<li>工具协作；</li>
+<li>权限控制；</li>
+<li>可验证性。</li>
+</ul>
+<p>这推动 Mira 从一个 AI 应用，进一步走向智能体系统探索。</p>
+<hr>
+<h2 id="能力可以复杂体验应该简单">能力可以复杂，体验应该简单<a class="md-anchor" href="#能力可以复杂体验应该简单">#</a></h2>
+<p>随着 AI 能力增加，一个新的问题出现：用户是否需要理解这些复杂性？</p>
+<p>CodeGraph、Agent 内部执行流程、MCP、不同模型、不同服务，都可能非常有价值。但用户不应该被迫理解系统内部。</p>
+<p>未来的方向不是减少能力，而是降低使用心智。</p>
+<p>这条原则后来又向前走了一步：</p>
+<blockquote>
+<p>用户不需要管理一堆“AI 插件”，用户只需要知道 Mira 会什么。</p>
+</blockquote>
+<p>知识库、Notion、搜索、浏览器操作，以及未来更多成熟服务，应该逐渐被 Mira 消化成自己的能力世界。复杂配置、授权和连接管理，更适合留在 Desktop；日常使用不应该被配置界面打断。</p>
+<hr>
+<h2 id="mira-不应该住在一台电脑里">Mira 不应该住在一台电脑里<a class="md-anchor" href="#mira-不应该住在一台电脑里">#</a></h2>
+<p>早期的 Mira 很容易被理解成 Desktop 应用：模型在这里，知识库在这里，Agent 在这里，记忆和状态似乎也理所当然地属于这台电脑。</p>
+<p>现在我不再认为这应该是终点。</p>
+<p>一个长期存在的 Mira，不应该因为换了一台电脑、切换一个模型，或者临时离开某个执行环境，就变成另一个“它”。</p>
+<p>人格、长期记忆和状态更接近一个跨环境的 Mira Identity。它们不必全部物理存放在手机，也不必全部搬离 Desktop，但逻辑上不应该再属于某一台设备。</p>
+<p>Desktop 因此也会重新获得一个更准确的位置：它不是 Mira 的唯一“本体”，而是一个非常强大的执行环境，同时承担大量配置、管理和本地能力。</p>
+<p>Server、浏览器、外部服务、专门的 Agent，也都可以成为执行环境。</p>
+<p>而 Mobile，会承担完全不同的角色。</p>
+<hr>
+<h2 id="mobile终端也是指挥官">Mobile：终端，也是指挥官<a class="md-anchor" href="#mobile终端也是指挥官">#</a></h2>
+<p>Mira Mobile 不应该只是 Desktop 的手机遥控器，也不应该只是一个缩小版聊天客户端。</p>
+<p>它更接近 Mira AI 体系的随身终端与 Control Plane。</p>
+<p>手机最特别的地方不是算力，而是它一直在人身边。录音、拍照、文字、文件、通知和各种现场信息，可以从这里进入 Mira；任务的状态、结果和需要人的决定，也可以回到这里。</p>
+<p>更重要的是，默认的调度权应该属于 Mobile。</p>
+<p>用户当然可以明确指定“交给 Desktop”“用这个模型”“调用这个环境”，但正常情况下，人不应该每次替系统完成路由。Mobile 应该理解任务，然后根据能力、在线状态、权限、成本和延迟，选择合适的执行者。</p>
+<p>架构上，它最终应该允许一个任务同时调动多个环境：Desktop 查代码，Server 查运行状态，搜索服务补充外部信息，再由 Mira 汇总。</p>
+<p>但这不是早期应该炫耀的能力。</p>
+<p>前期更重要的是把单环境调用做稳：状态清楚、结果回来、失败能恢复、权限边界明确。多环境协同应该建立在稳定之上，而不是把不稳定复制很多份。</p>
+<p>因此，Mobile 的首页也不应该只是一个聊天框。</p>
+<p>它更像一个指挥台：正在发生什么、哪些任务在执行、哪些环境可用、Mira 发现了什么、哪里需要人的判断。对话仍然重要，但它只是最自然的输入方式之一。</p>
+<p>断网时，Mobile 也不需要假装自己仍然拥有一个完整的离线 AI 世界。它只需要先做好终端：把录音、照片、文字和其他输入接住，等连接恢复后再进入完整的调度体系。</p>
+<hr>
+<h2 id="精选能力而不是无限工具">精选能力，而不是无限工具<a class="md-anchor" href="#精选能力而不是无限工具">#</a></h2>
+<p>“更自主”不等于“什么都可以做”。</p>
+<p>Mira 的能力应该经过选择，而不是无限开放一个万能执行器，再指望审批系统解决所有风险。</p>
+<p>授权是最终门禁。但在授权之前，还有更重要的一层产品判断：什么能力值得成为 Mira 的正式能力。</p>
+<p>高危、不可控、难以解释的操作，可以根本不进入产品形态。我们不需要为了证明 Agent 很强，就给它删除数据库之类的能力。</p>
+<p>相反，Mira 更应该优先封装已经成熟、边界清楚、真实有价值的能力：知识库、Notion、搜索、浏览器操作，以及以后更多可靠服务。</p>
+<p>先控制能力集合，再谈自动化。</p>
+<hr>
+<h2 id="定原则然后自动处理">定原则，然后自动处理<a class="md-anchor" href="#定原则然后自动处理">#</a></h2>
+<p>Mira 的主动性不应该建立在“AI 想做什么就做什么”上。</p>
+<p>更合理的方式是先定义原则，再允许系统在原则内自动处理。</p>
+<p>低风险、已经授权、边界明确的事情，可以逐渐减少人的重复确认。真正需要人的地方，应该是那些会改变方向、扩大影响，或者需要承担责任的决定。</p>
+<p>这也意味着 Mira 可以拥有长期理解。</p>
+<p>当一个人此刻的命令，与过去长期形成的方向明显冲突时，Mira 不应该假装没有看见。它应该把冲突指出来，提醒、解释，甚至劝阻。</p>
+<p>但最终决定仍然属于人。</p>
+<blockquote>
+<p>Mira 可以越来越理解你，但不能因此获得替你做人决定的权力。</p>
+</blockquote>
+<hr>
+<h2 id="当-ai-从界面上消失">当 AI 从界面上消失<a class="md-anchor" href="#当-ai-从界面上消失">#</a></h2>
+<p>如果 Mira 真能走很远，我希望五年以后，人不再强烈意识到自己正在“使用 AI”。</p>
+<p>模型、Agent、MCP、搜索、浏览器、Desktop、Server，应该逐渐退到系统背后。</p>
+<p>人打开 Mira，看到的是自己的事情：现在发生了什么，什么值得注意，什么已经完成，什么需要自己决定，以及那些被长期保存和延续下来的上下文。</p>
+<p>AI 仍然存在，只是不再需要站在舞台中央反复证明自己。</p>
+<p>但“退到后台”不能变成不可追责。当模型判断或自动执行真正影响结果时，人仍然应该能知道：这是 Mira 做的，依据是什么，用了什么能力和权限。</p>
+<blockquote>
+<p>平时，你不需要意识到 AI。</p>
+<p>需要追问的时候，它应该解释得清楚。</p>
+</blockquote>
+<p>到了那时，Mira 与其他产品竞争的，也许已经不是“谁的模型更强”。</p>
+<p>真正困难的问题会变成：</p>
+<blockquote>
+<p>一个人愿不愿意把自己生活和工作里越来越多的事情，放心地交到这个系统手里。</p>
+</blockquote>
+<hr>
+<h2 id="一个长期存在的-mira">一个长期存在的 Mira<a class="md-anchor" href="#一个长期存在的-mira">#</a></h2>
+<p>Mira 最终想留下的，不只是一个 AI 聊天软件。</p>
+<p>它应该能跨越设备、模型和环境，仍然保留连续的理解；它可以拥有完整的人格和长期记忆，也可以在某个具体场景下，不经意间做出正确判断。</p>
+<p>但这些都还不是最重要的。</p>
+<p>真正重要的，是“接住”。</p>
+<p>接住不是永远回答正确，也不是用一句安慰让人感觉良好。</p>
+<p>它更像一种长期形成的可靠性：当一个人把尚未整理好的想法、正在进行的事情、重要的资料，甚至一部分决定过程交给 Mira 时，系统没有让这些东西掉下去。</p>
+<p>能力越来越复杂，模型不断更换，设备也会变化。</p>
+<p>如果最后还有什么值得长期留下，我希望是这种感觉。</p>
+<blockquote>
+<p>从聊天出发，最终接住你。</p>
+</blockquote>
+<hr>
+<h2 id="项目链接">项目链接<a class="md-anchor" href="#项目链接">#</a></h2>
+<p>GitHub: <a href="https://github.com/dangjingtao/uichat-mira">dangjingtao/uichat-mira</a></p>
+</article></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#项目简介">项目简介</a></li><li class="toc-depth-2"><a href="#起点从-rag-tester-开始">起点：从 RAG Tester 开始</a></li><li class="toc-depth-2"><a href="#从评测工具到-ai-产品">从评测工具到 AI 产品</a></li><li class="toc-depth-2"><a href="#基建不是终点">基建不是终点</a></li><li class="toc-depth-2"><a href="#从复杂走向减法">从复杂走向减法</a></li><li class="toc-depth-2"><a href="#agentgraph重新理解智能体">AgentGraph：重新理解智能体</a></li><li class="toc-depth-2"><a href="#能力可以复杂体验应该简单">能力可以复杂，体验应该简单</a></li><li class="toc-depth-2"><a href="#mira-不应该住在一台电脑里">Mira 不应该住在一台电脑里</a></li><li class="toc-depth-2"><a href="#mobile终端也是指挥官">Mobile：终端，也是指挥官</a></li><li class="toc-depth-2"><a href="#精选能力而不是无限工具">精选能力，而不是无限工具</a></li><li class="toc-depth-2"><a href="#定原则然后自动处理">定原则，然后自动处理</a></li><li class="toc-depth-2"><a href="#当-ai-从界面上消失">当 AI 从界面上消失</a></li><li class="toc-depth-2"><a href="#一个长期存在的-mira">一个长期存在的 Mira</a></li><li class="toc-depth-2"><a href="#项目链接">项目链接</a></li></ul></aside></div></div></div>
+</body>
+</html>

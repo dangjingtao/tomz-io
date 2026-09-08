@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>UIChat Mira Mobile：让 AI 离开桌面 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="桌面端负责建设模型、Agent 与工具能力，移动端则探索如何让这些能力更自然地进入日常场景。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/projects/uichat-mira-mobile/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="UIChat Mira Mobile：让 AI 离开桌面 · Tomz Dang"><meta property="og:description" content="桌面端负责建设模型、Agent 与工具能力，移动端则探索如何让这些能力更自然地进入日常场景。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/projects/uichat-mira-mobile/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="UIChat Mira Mobile：让 AI 离开桌面 · Tomz Dang"><meta name="twitter:description" content="桌面端负责建设模型、Agent 与工具能力，移动端则探索如何让这些能力更自然地进入日常场景。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"UIChat Mira Mobile：让 AI 离开桌面","description":"桌面端负责建设模型、Agent 与工具能力，移动端则探索如何让这些能力更自然地进入日常场景。","url":"https://tomz.io/tomz-io/projects/uichat-mira-mobile/","image":"https://tomz.io/tomz-io/tomz-avatar.png","author":[{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"datePublished":"2026-08-21T00:01:22.000+08:00","dateModified":"2026-08-27T14:08:43.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav project-docnav"><h5>目录</h5><div class="project-nav-groups"><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat-mira"><span class="project-nav-title">UIChat Mira：从本地 AI 到个人 AI 系统</span></a></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/com-design"><span class="project-nav-title">ComDesign：AI 时代的设计系统实验</span></a><ul class="project-nav-articles"><li><a href="/tomz-io/projects/com-design/repeated-operations-as-product-capability">把重复操作提炼成产品能力：Com Design Prototype 的第一条原则</a></li></ul></div><div class="project-nav-group"><a class="project-nav-overview active" href="/tomz-io/projects/uichat-mira-mobile"><span class="project-nav-title">UIChat Mira Mobile：让 AI 离开桌面</span></a></div><div class="project-nav-group"><a class="project-nav-overview" href="/tomz-io/projects/uichat"><span class="project-nav-title">UIChat：一次走错方向但没有浪费的 AI 应用探索</span></a></div></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">AI 产品 · 03</div><div class="doc-title-block"><h1>UIChat Mira Mobile：让 AI 离开桌面</h1><p class="doc-lede">桌面端负责建设模型、Agent 与工具能力，移动端则探索如何让这些能力更自然地进入日常场景。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年8月21日 00:01</span><span class="dot"></span><span data-content-time="modified">更新于 2026年8月27日 14:08</span></div></div><article class="markdown"><blockquote>
+<p>桌面端负责建设能力，移动端负责连接使用。</p>
+</blockquote>
+<p>GitHub: <a href="https://github.com/dangjingtao/uichat-mira-mobile">dangjingtao/uichat-mira-mobile</a></p>
+<hr>
+<h2 id="项目简介">项目简介<a class="md-anchor" href="#项目简介">#</a></h2>
+<p>UIChat Mira Mobile 是 UIChat Mira 生态中的移动端探索。</p>
+<p>它并不是简单地将桌面 AI 应用缩小到手机。</p>
+<p>如果说桌面端 Mira 更关注：</p>
+<ul>
+<li>模型与能力建设；</li>
+<li>Agent 与工具体系；</li>
+<li>AI 系统的扩展；</li>
+</ul>
+<p>那么移动端更关注：</p>
+<ul>
+<li>如何让这些能力进入日常场景；</li>
+<li>如何降低使用门槛；</li>
+<li>如何让 AI 成为更自然的个人入口。</li>
+</ul>
+<p>Mira Mobile 探索的问题是：</p>
+<blockquote>
+<p>当 AI 不再固定在电脑前，它应该以什么方式陪伴用户？</p>
+</blockquote>
+<hr>
+<h2 id="为什么需要移动端">为什么需要移动端<a class="md-anchor" href="#为什么需要移动端">#</a></h2>
+<p>Mira 最初从桌面端开始。</p>
+<p>桌面环境适合复杂工作：</p>
+<ul>
+<li>配置模型；</li>
+<li>管理工具；</li>
+<li>构建工作流；</li>
+<li>调试系统能力。</li>
+</ul>
+<p>但个人 AI 如果想长期存在，它不应该只属于办公桌。</p>
+<p>移动设备提供了另一种可能：</p>
+<ul>
+<li>更即时的连接；</li>
+<li>更自然的交互；</li>
+<li>更贴近生活的使用场景。</li>
+</ul>
+<p>因此，Mira Mobile 不是桌面端的替代品，而是另一种入口。</p>
+<hr>
+<h2 id="桌面端负责基建手机端负责消费">桌面端负责基建，手机端负责消费<a class="md-anchor" href="#桌面端负责基建手机端负责消费">#</a></h2>
+<p>Mira 的桌面端和移动端承担不同角色。</p>
+<p>桌面端更像基础设施：</p>
+<ul>
+<li>建设能力；</li>
+<li>扩展功能；</li>
+<li>管理复杂系统。</li>
+</ul>
+<p>手机端则更接近消费入口：</p>
+<ul>
+<li>提出目标；</li>
+<li>获取结果；</li>
+<li>关注最终价值。</li>
+</ul>
+<p>用户不应该需要理解 AI 内部所有复杂结构。</p>
+<p>复杂性留在系统内部。</p>
+<p>体验应该回归简单。</p>
+<hr>
+<h2 id="手机端不是缩小版-mira">手机端不是缩小版 Mira<a class="md-anchor" href="#手机端不是缩小版-mira">#</a></h2>
+<p>一个移动端 AI 最大的问题，不是功能不够多。</p>
+<p>而是功能太多。</p>
+<p>桌面端中：</p>
+<ul>
+<li>模型选择；</li>
+<li>Agent 流程；</li>
+<li>工具调用；</li>
+<li>系统配置；</li>
+</ul>
+<p>这些能力可能很重要。</p>
+<p>但在手机端，用户更关心：</p>
+<blockquote>
+<p>我想完成什么？</p>
+</blockquote>
+<p>而不是：</p>
+<blockquote>
+<p>AI 内部如何完成？</p>
+</blockquote>
+<p>因此，Mira Mobile 更像一个“思维顶层”的入口：</p>
+<p>用户负责目标和判断。</p>
+<p>系统负责执行和反馈。</p>
+<hr>
+<h2 id="并列而不是替代">并列，而不是替代<a class="md-anchor" href="#并列而不是替代">#</a></h2>
+<p>Mira Mobile 并不是为了取代桌面端。</p>
+<p>两者服务不同场景，也适合不同类型的人。</p>
+<p>桌面端适合：</p>
+<ul>
+<li>长时间工作；</li>
+<li>深度创造；</li>
+<li>专业使用。</li>
+</ul>
+<p>移动端适合：</p>
+<ul>
+<li>快速连接；</li>
+<li>碎片化使用；</li>
+<li>日常交流。</li>
+</ul>
+<p>未来的个人 AI，可能不是只有一种形态。</p>
+<p>而是在不同设备中适配不同场景。</p>
+<hr>
+<h2 id="诱人与危险">诱人与危险<a class="md-anchor" href="#诱人与危险">#</a></h2>
+<p>移动 AI 有一种天然吸引力。</p>
+<p>谁不希望在更轻松的环境里，让 AI 帮助自己完成工作？</p>
+<p>例如：</p>
+<p>躺在床上，也可以继续推进想法。</p>
+<p>但这种趋势同时也值得谨慎。</p>
+<p>当 AI 进入越来越私人的空间：</p>
+<ul>
+<li>它和工具的关系会变化；</li>
+<li>人与 AI 的边界会变化；</li>
+<li>长期相处方式也会变化。</li>
+</ul>
+<p>移动 AI 不只是技术问题，也是人与智能系统关系的问题。</p>
+<hr>
+<h2 id="从工具到人格">从工具到人格<a class="md-anchor" href="#从工具到人格">#</a></h2>
+<p>Mira Mobile 最终并不只是一个效率工具。</p>
+<p>当然，它首先应该是一个可靠的工作伙伴。</p>
+<p>但长期来看：</p>
+<p>无论桌面端还是移动端，Mira 都希望成为一种更完整的存在：</p>
+<p>一个有能力的人格。</p>
+<p>它不需要假装完全理解人。</p>
+<p>也不需要承诺解决所有问题。</p>
+<p>但在长期使用中：</p>
+<p>能够理解上下文，
+能够提供帮助，
+能够在合适的时候给予一点陪伴。</p>
+<p>这可能是个人 AI 与普通工具之间最大的区别。</p>
+<hr>
+<h2 id="项目链接">项目链接<a class="md-anchor" href="#项目链接">#</a></h2>
+<p>GitHub: <a href="https://github.com/dangjingtao/uichat-mira-mobile">dangjingtao/uichat-mira-mobile</a></p>
+</article></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#项目简介">项目简介</a></li><li class="toc-depth-2"><a href="#为什么需要移动端">为什么需要移动端</a></li><li class="toc-depth-2"><a href="#桌面端负责基建手机端负责消费">桌面端负责基建，手机端负责消费</a></li><li class="toc-depth-2"><a href="#手机端不是缩小版-mira">手机端不是缩小版 Mira</a></li><li class="toc-depth-2"><a href="#并列而不是替代">并列，而不是替代</a></li><li class="toc-depth-2"><a href="#诱人与危险">诱人与危险</a></li><li class="toc-depth-2"><a href="#从工具到人格">从工具到人格</a></li><li class="toc-depth-2"><a href="#项目链接">项目链接</a></li></ul></aside></div></div></div>
+</body>
+</html>

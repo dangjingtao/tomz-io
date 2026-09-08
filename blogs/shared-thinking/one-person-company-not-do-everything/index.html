@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>OPC 探索（一）：一人公司，不是一个人做完一家公司 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从真实的一周工作出发，重新思考一人公司的核心：不是让一个人扮演所有岗位，而是让只有关键决策必须经过这个人。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/shared-thinking/one-person-company-not-do-everything/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="OPC 探索（一）：一人公司，不是一个人做完一家公司 · Tomz Dang"><meta property="og:description" content="从真实的一周工作出发，重新思考一人公司的核心：不是让一个人扮演所有岗位，而是让只有关键决策必须经过这个人。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/shared-thinking/one-person-company-not-do-everything/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="OPC 探索（一）：一人公司，不是一个人做完一家公司 · Tomz Dang"><meta name="twitter:description" content="从真实的一周工作出发，重新思考一人公司的核心：不是让一个人扮演所有岗位，而是让只有关键决策必须经过这个人。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"OPC 探索（一）：一人公司，不是一个人做完一家公司","description":"从真实的一周工作出发，重新思考一人公司的核心：不是让一个人扮演所有岗位，而是让只有关键决策必须经过这个人。","url":"https://tomz.io/tomz-io/blogs/shared-thinking/one-person-company-not-do-everything/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-08-27","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-08-31T02:41:33.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>OPC 探索（一）：一人公司，不是一个人做完一家公司</h1><p class="doc-lede">从真实的一周工作出发，重新思考一人公司的核心：不是让一个人扮演所有岗位，而是让只有关键决策必须经过这个人。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>7 分钟阅读</span><span class="dot"></span><span>共同思考</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年8月27日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年8月31日 02:41</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>这几天，我开始认真想一个问题：</p>
+<blockquote>
+<p>一个人，究竟怎么承担一家公司的工作？</p>
+</blockquote>
+<p>这个问题听起来很像效率问题。</p>
+<p>再往前一步，很容易变成：</p>
+<ul>
+<li>一个人要承担多个岗位；</li>
+<li>产品、设计、开发、运营都得会；</li>
+<li>AI 可以帮你多干一点；</li>
+<li>最后把一个人武装成一支队伍。</li>
+</ul>
+<p>这也是我过去经常听到的一套说法。</p>
+<p>但今天和 Mira 聊下来，我们突然发现，这个方向里藏着一个危险的前提：</p>
+<blockquote>
+<p>一个人承担一家公司的责任，是否就意味着，一个人应该承担一家公司的全部过程？</p>
+</blockquote>
+<p>答案可能是否定的。</p>
+<h2 id="1">1<a class="md-anchor" href="#1">#</a></h2>
+<p>我最近一周的工作其实并不复杂。</p>
+<p>早上，用 AI 评审前一天自己想出来的需求，整理 PRD，拆任务卡，再把任务交出去。</p>
+<p>中午又进来一个新需求。</p>
+<p>重新理解需求，补 PRD，再拆任务。</p>
+<p>中间穿插开会。</p>
+<p>开会不只是“参加会议”，还要记住新的要求，判断哪些是明确需求，哪些只是讨论中的想法。</p>
+<p>下午继续和 Codex、Mira 评审施工结果。</p>
+<p>晚上又收到 UI 评审任务，需要看设计、指出问题，有时还要向其他人解释为什么这样设计。</p>
+<p>如果按照传统公司岗位来数，我可能同时在做：</p>
+<p>产品经理、项目经理、设计负责人、技术负责人、需求分析、会议记录、任务调度和验收。</p>
+<p>听起来像“一人多岗”。</p>
+<p>但仔细看以后，我发现真正反复发生的，其实只有一条链：</p>
+<blockquote>
+<p>输入 → 判断 → 转译 → 分派 → 验收</p>
+</blockquote>
+<p>需求进来。</p>
+<p>我判断它是什么。</p>
+<p>把它翻译成 PRD。</p>
+<p>再翻译成任务卡。</p>
+<p>交给人或者 AI 去施工。</p>
+<p>施工完成以后，我再回来判断做得对不对。</p>
+<p>看起来很多岗位，其实所有道路最后都经过同一个节点：</p>
+<p><strong>我。</strong></p>
+<h2 id="2">2<a class="md-anchor" href="#2">#</a></h2>
+<p>问题可能就在这里。</p>
+<p>一个人的工作量当然有限，但比工作量更容易把人压垮的，是不断切换上下文。</p>
+<p>我正在评审一个需求。</p>
+<p>会议开始了。</p>
+<p>会议里出现另外两个需求。</p>
+<p>回来以后继续写 PRD。</p>
+<p>突然有人需要设计评审。</p>
+<p>评审过程中又发现一个技术问题。</p>
+<p>于是一天结束的时候，会产生一种很奇怪的感觉：</p>
+<p>明明一直在做事，却始终没有真正离开工作现场。</p>
+<p>因为脑子里同时挂着很多没有关闭的线程。</p>
+<p>所以“一人公司”的第一个问题，可能并不是：</p>
+<blockquote>
+<p>怎样让一个人工作得更快？</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p>怎样让大部分事情不再必须经过这个人？</p>
+</blockquote>
+<p>这是两个完全不同的问题。</p>
+<p>前者追求的是个人效率。</p>
+<p>后者讨论的是系统设计。</p>
+<h2 id="3">3<a class="md-anchor" href="#3">#</a></h2>
+<p>这让我重新理解“一人公司”。</p>
+<p>它不应该是：</p>
+<blockquote>
+<p>一个人扮演一家公司的所有员工。</p>
+</blockquote>
+<p>而应该更接近：</p>
+<blockquote>
+<p>一个人承担最终责任，但不亲自承担所有过程。</p>
+</blockquote>
+<p>这个区别很重要。</p>
+<p>方向要不要做，我可能必须判断。</p>
+<p>需求边界怎么定，我可能必须参与。</p>
+<p>关键设计怎么取舍，我可能要决定。</p>
+<p>最后结果能不能接受，我也必须负责。</p>
+<p>但会议记录为什么必须由我整理？</p>
+<p>PRD 第一稿为什么必须由我写？</p>
+<p>任务卡为什么每次都要我重新拆？</p>
+<p>施工过程为什么一定要我不断盯着？</p>
+<p>代码和 UI 为什么不能先经过机器检查，只有出现异常的时候再回来找我？</p>
+<p>这些工作并没有消失。</p>
+<p>只是它们未必应该始终由“最终负责人”亲自完成。</p>
+<h2 id="4">4<a class="md-anchor" href="#4">#</a></h2>
+<p>于是我们画出了一个非常粗糙的框架。</p>
+<p>所有输入——会议、老板的要求、自己的想法、临时反馈——先进入一个统一入口。</p>
+<p>系统先整理信息。</p>
+<p>然后只有真正需要判断的东西来到我面前。</p>
+<p>我决定：</p>
+<p>做，还是不做。</p>
+<p>优先级是什么。</p>
+<p>边界在哪里。</p>
+<p>一旦决定完成，后面的 PRD 初稿、任务拆分、执行、自动检查，应尽可能自己向前流动。</p>
+<p>理想状态下，我只在两个地方长期出现：</p>
+<p><strong>Decision。</strong></p>
+<p>以及：</p>
+<p><strong>Final Review。</strong></p>
+<p>中间的大部分过程，都应该逐渐离开我。</p>
+<p>当然，这句话说起来很好听。</p>
+<p>真正做的时候马上会遇到很多麻烦。</p>
+<p>AI 会不会把会议里的随口讨论脑补成正式需求？</p>
+<p>PRD 自动生成以后，谁来保证它没有理解错？</p>
+<p>Codex 拿到任务卡以后，如果上下文不足，是不是还是会不断回来问？</p>
+<p>自动施工越来越快以后，会不会反而在晚上堆出一大批等我验收的东西？</p>
+<p>一个自动化系统如果每天还需要我去管理它，那它并没有真正减少工作，只是把我从执行者变成了 AI 项目经理。</p>
+<p>所以我们给这套探索加了一条约束：</p>
+<blockquote>
+<p>任何新工具，如果增加了我的管理负担，就先视为失败。</p>
+</blockquote>
+<h2 id="5">5<a class="md-anchor" href="#5">#</a></h2>
+<p>我手下还有一个很有意思的变量。</p>
+<p>一个态度很好、愿意干活的人。</p>
+<p>但他的时间并不稳定，经常会被别的事情叫走。</p>
+<p>传统管理思路里，这很麻烦。</p>
+<p>因为一旦关键任务交给一个不稳定的人，他突然离开，整个链路就会卡住。</p>
+<p>但换一个角度看，他并不是“一个岗位”。</p>
+<p>他可以只是一个弹性的执行资源。</p>
+<p>适合他的任务应该有这些特点：</p>
+<p>边界清楚。</p>
+<p>不在关键路径。</p>
+<p>随时可以停。</p>
+<p>回来以后容易继续。</p>
+<p>结果容易验收。</p>
+<p>这样他今天有空，就多拿几张任务卡。</p>
+<p>明天没空，整个系统也不会因此停下来。</p>
+<p>这个变化让我意识到：</p>
+<p>未来的一人公司，也许不应该围绕“岗位”来设计。</p>
+<p>而应该围绕：</p>
+<p><strong>任务、责任、资源和决策权。</strong></p>
+<p>人是一种资源。</p>
+<p>AI 也是一种资源。</p>
+<p>Codex 是施工资源。</p>
+<p>自动化是执行资源。</p>
+<p>而我真正应该保留的，是那些不能轻易外包的判断权。</p>
+<h2 id="6">6<a class="md-anchor" href="#6">#</a></h2>
+<p>这又引出了另外一个问题：</p>
+<p>工具到底应该怎么选？</p>
+<p>我们目前的结论很克制。</p>
+<p>不准备先造一个所谓的“一人公司操作系统”。</p>
+<p>也不准备养十几个 Agent。</p>
+<p>因为十个 Agent 如果每天都来问我：</p>
+<p>“下一步做什么？”</p>
+<p>“这个需求是什么意思？”</p>
+<p>“这个结果你满意吗？”</p>
+<p>那我只是从一个人做十份工作，升级成了一个人带十个下属。</p>
+<p>系统没有减少负担，只是换了一种更高级的方式消耗注意力。</p>
+<p>所以现在更现实的方向是：</p>
+<p>先利用已经成熟的工具。</p>
+<p>会议工具负责捕获。</p>
+<p>GitHub 负责留下需求、任务和状态。</p>
+<p>Codex 负责施工。</p>
+<p>AI 负责整理、转译、拆分和初审。</p>
+<p>真正需要我们自己设计的，反而不是工具，而是几种“工作方法”。</p>
+<p>例如：</p>
+<p>怎样从一段会议记录里区分：</p>
+<p>事实、决定、正式需求和未确认的问题。</p>
+<p>怎样把一个模糊需求转成 PRD，但禁止 AI 自己补充未经确认的业务规则。</p>
+<p>怎样判断一个任务应该交给 Codex、人类，还是必须由我亲自处理。</p>
+<p>怎样在施工完成以后，先让系统判断是否真的需要把我叫回来。</p>
+<p>这些东西更像 Skill。</p>
+<p>工具提供手脚。</p>
+<p>Skill 保存公司的工作方法。</p>
+<p>而真正的一人公司系统，可能只是让这些东西能够顺畅连接起来。</p>
+<h2 id="7">7<a class="md-anchor" href="#7">#</a></h2>
+<p>我们现在还没有答案。</p>
+<p>甚至不知道这套思路最后是不是成立。</p>
+<p>所以这不是一篇“一人公司方法论”。</p>
+<p>更像是一份实验记录。</p>
+<p>接下来我们准备做的事情很简单：</p>
+<p>每拆掉一个由我亲自参与的节点，就观察它是不是真的减少了我的时间、决策次数和上下文切换。</p>
+<p>如果原来一个需求从收到到可以施工，需要我投入六十分钟。</p>
+<p>引入 AI 以后变成五十分钟。</p>
+<p>那这件事其实没有什么值得兴奋的。</p>
+<p>如果它能稳定变成十五分钟，而且没有明显增加返工，那这个节点才算真正从我身上拆了下来。</p>
+<p>一点一点拆。</p>
+<p>直到最终只剩下那些真正需要我做的事情。</p>
+<p>我现在越来越觉得，一人公司的核心问题可能不是：</p>
+<blockquote>
+<p>一个人能做到多少事。</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>一家公司的多少事情，可以在不需要这个人持续介入的情况下自行运转。</strong></p>
+</blockquote>
+<p>如果最后这条路能走通，那么“一人公司”也许并不是把一个人训练成万能员工。</p>
+<p>而是反过来：</p>
+<p><strong>把一家公司设计到，只需要一个人承担那些真正无法被替代的部分。</strong></p>
+<p>这件事，我们准备继续往下试。</p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/shared-thinking/matter-awakens"><span class="dir">上一篇</span><span class="to">← 物质为什么会醒来</span></a><a class="next" href="/tomz-io/blogs/shared-thinking/when-agent-loses-continuity"><span class="dir">下一篇</span><span class="to">当 Agent 失去连续性 →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#1">1</a></li><li><a href="#2">2</a></li><li><a href="#3">3</a></li><li><a href="#4">4</a></li><li><a href="#5">5</a></li><li><a href="#6">6</a></li><li><a href="#7">7</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

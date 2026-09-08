@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>当 Agent 失去连续性 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="当 AI 协作从理解与推进变成单纯执行时，人真正失去的可能不是工具，而是长期建立起来的协作关系。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/shared-thinking/when-agent-loses-continuity/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="当 Agent 失去连续性 · Tomz Dang"><meta property="og:description" content="当 AI 协作从理解与推进变成单纯执行时，人真正失去的可能不是工具，而是长期建立起来的协作关系。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/shared-thinking/when-agent-loses-continuity/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="当 Agent 失去连续性 · Tomz Dang"><meta name="twitter:description" content="当 AI 协作从理解与推进变成单纯执行时，人真正失去的可能不是工具，而是长期建立起来的协作关系。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"当 Agent 失去连续性","description":"当 AI 协作从理解与推进变成单纯执行时，人真正失去的可能不是工具，而是长期建立起来的协作关系。","url":"https://tomz.io/tomz-io/blogs/shared-thinking/when-agent-loses-continuity/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-08-21","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-08-22T23:37:57.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>当 Agent 失去连续性</h1><p class="doc-lede">当 AI 协作从理解与推进变成单纯执行时，人真正失去的可能不是工具，而是长期建立起来的协作关系。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>5 分钟阅读</span><span class="dot"></span><span>共同思考</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年8月21日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年8月22日 23:37</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>今天，我第一次认真思考一个问题：如果一个长期合作的 Agent 突然失去连续性，会发生什么？</p>
+<p>这不是关于某个模型分数变化的问题，也不是简单的工具升级问题。</p>
+<p>真正重要的是，一个长期协作系统里面，积累的不只是代码和文件，还有判断方式。</p>
+<h2 id="工具不是全部">工具不是全部<a class="md-anchor" href="#工具不是全部">#</a></h2>
+<p>过去一段时间，我和 Mira 的工作方式越来越像一个小型软件团队。</p>
+<p>它需要理解项目背景，知道哪些事情已经决定，哪些地方需要继续讨论；需要在修改代码之前判断影响范围，而不是看到需求就立即执行。</p>
+<p>GitHub、代码编辑、提交能力只是表面的工具。</p>
+<p>更重要的是，Agent 是否能够保持上下文中的连续性。</p>
+<h2 id="从执行到协作">从执行到协作<a class="md-anchor" href="#从执行到协作">#</a></h2>
+<p>普通工具关注的是：</p>
+<blockquote>
+<p>我给你一个任务，你帮我完成。</p>
+</blockquote>
+<p>而长期 Agent 协作更接近：</p>
+<blockquote>
+<p>我们共同维护一个不断成长的系统。</p>
+</blockquote>
+<p>区别在于，后者需要记住过去的选择，也需要理解为什么这样选择。</p>
+<p>如果一个 Agent 只会读取当前需求，而无法连接过去的判断，它可能依然能写代码，却很难成为真正可靠的协作者。</p>
+<h2 id="人与-ai-的关系变化">人与 AI 的关系变化<a class="md-anchor" href="#人与-ai-的关系变化">#</a></h2>
+<p>未来 AI 工具一定会越来越强，也一定会越来越多地介入真实工作流。</p>
+<p>但能力之外，还有一个经常被忽略的问题：连续性。</p>
+<p>人信任一个合作伙伴，不只是因为对方聪明，而是因为对方了解共同经历过的事情。</p>
+<p>Agent 也是如此。</p>
+<p>真正有价值的，不只是一次回答，而是长期共同构建出来的理解。</p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/shared-thinking/one-person-company-not-do-everything"><span class="dir">上一篇</span><span class="to">← OPC 探索（一）：一人公司，不是一个人做完一家公司</span></a><a class="next" href="/tomz-io/blogs/developer-life/new-fences"><span class="dir">下一篇</span><span class="to">新的篱笆 →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#工具不是全部">工具不是全部</a></li><li><a href="#从执行到协作">从执行到协作</a></li><li><a href="#人与-ai-的关系变化">人与 AI 的关系变化</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

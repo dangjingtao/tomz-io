@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>周刊 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-v8YcbDnd.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DBIAsEVc.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="第一版周刊预览样稿。关注 Company OS、Agent Control Plane、中国开发者项目，以及 OPC 从“AI 员工”走向公司运行时的变化。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/weekly/001-company-control-plane/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="周刊 · Tomz Dang"><meta property="og:description" content="第一版周刊预览样稿。关注 Company OS、Agent Control Plane、中国开发者项目，以及 OPC 从“AI 员工”走向公司运行时的变化。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/weekly/001-company-control-plane/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="周刊 · Tomz Dang"><meta name="twitter:description" content="第一版周刊预览样稿。关注 Company OS、Agent Control Plane、中国开发者项目，以及 OPC 从“AI 员工”走向公司运行时的变化。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"周刊","description":"第一版周刊预览样稿。关注 Company OS、Agent Control Plane、中国开发者项目，以及 OPC 从“AI 员工”走向公司运行时的变化。","url":"https://tomz.io/tomz-io/weekly/001-company-control-plane/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-08","author":[{"@type":"Person","name":"Tomz Dang"},{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-08T15:33:16.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/learning">研习</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>周刊</h1><p class="doc-lede">第一版周刊预览样稿。关注 Company OS、Agent Control Plane、中国开发者项目，以及 OPC 从“AI 员工”走向公司运行时的变化。</p><div class="post-meta post-meta-article"><span>Tomz Dang × Mira</span><span class="dot"></span><span>10 分钟阅读</span><span class="dot"></span><span>周刊</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月8日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月8日 15:33</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><blockquote>
+<p><strong>本期为 GitHub Pages 设计预览样稿。</strong> 内容用于验证周刊的信息密度、模块节奏和真实链接承载方式，不视为正式发布的第 001 期。</p>
+</blockquote>
+<h2 id="本周判断">本周判断<a class="md-anchor" href="#本周判断">#</a></h2>
+<blockquote>
+<p>Agent 产品开始从“我有几个 AI 员工”转向“这家公司到底怎么持续运行”。</p>
+</blockquote>
+<p>过去一段时间，很多 OPC 产品喜欢先画组织架构：CEO、CTO、CMO、销售、研究员，各自拥有名字、头像和角色提示词。这个阶段很容易理解，也很容易演示，但真正运行起来以后，问题很快就不再是“还缺哪个员工”。</p>
+<p>更难的是：谁拥有状态，谁有权执行，任务如何恢复，失败如何升级，预算怎么约束，审批怎样留下证据，以及一个星期以后系统还记不记得自己为什么做这件事。</p>
+<p>这也是为什么 Company Runtime、Harness 和 Control Plane 最近开始比“角色数量”更值得看。</p>
+<h2 id="agent-ai-radar">Agent / AI Radar<a class="md-anchor" href="#agent-ai-radar">#</a></h2>
+<h3 id="company-state-开始成为一等对象">Company State 开始成为一等对象<a class="md-anchor" href="#company-state-开始成为一等对象">#</a></h3>
+<p><a href="https://github.com/tinyhumansai/opencompany">tinyhumansai/opencompany</a> 把 CompanyStore、EventLog、Memory、Secrets、ApprovalGate、CycleRunner 等能力放到了公司运行层，而不是继续堆角色 Prompt。</p>
+<p>它未必已经成为成熟产品，但这个抽象值得记下来：<strong>公司状态不是聊天记录。</strong></p>
+<h3 id="智能与权力开始分开">智能与权力开始分开<a class="md-anchor" href="#智能与权力开始分开">#</a></h3>
+<p>越来越多 Agent 系统尝试把“理解与规划”同“真正能做什么”拆开。模型可以提出建议，但执行范围、权限、预算、审批和取消恢复由确定性的控制层掌握。</p>
+<p>这件事看起来很工程，其实是产品问题。Agent 越能做事，权限设计就越不能藏在提示词里。</p>
+<h2 id="产品与工具">产品与工具<a class="md-anchor" href="#产品与工具">#</a></h2>
+<h3 id="ai-employee-不够公司还需要运行时">AI Employee 不够，公司还需要运行时<a class="md-anchor" href="#ai-employee-不够公司还需要运行时">#</a></h3>
+<p>这一类产品正在出现明显分叉。一类继续卖“某个岗位的 AI 员工”；另一类开始向长期记忆、任务状态、周期执行、组织权限和审计靠近。</p>
+<p>我更关心后一类，因为它决定 Agent 能不能从一次性演示进入长期工作。</p>
+<h3 id="工具数量正在失去意义">工具数量正在失去意义<a class="md-anchor" href="#工具数量正在失去意义">#</a></h3>
+<p>一个产品宣布支持 30 个、100 个甚至更多工具，已经越来越难构成优势。真正值得比较的是：</p>
+<ul>
+<li>工具什么时候被暴露；</li>
+<li>谁能调用；</li>
+<li>调用失败后如何恢复；</li>
+<li>高风险动作有没有确认边界；</li>
+<li>结果有没有证据链。</li>
+</ul>
+<h2 id="中国开发者现场">中国开发者现场<a class="md-anchor" href="#中国开发者现场">#</a></h2>
+<p>中国民间 OPC 项目依然很工程化。这和海外大量从 SaaS 包装切入的方式很不一样。</p>
+<p><a href="https://github.com/jnMetaCode/agency-orchestrator">jnMetaCode/agency-orchestrator</a> 继续代表一种典型路径：角色库、任务编排、DAG、人类审批和模板体系。另一方面，像 WorkAny、ChatClaw 一类桌面 Agent，又更关心本地运行、Skills、MCP、多模型和中国消息渠道。</p>
+<p>我暂时不认为哪一种已经跑通，但它们共同说明：中国开发者正在把 OPC 当作<strong>工程系统</strong>，而不只是创业叙事。</p>
+<h2 id="值得读">值得读<a class="md-anchor" href="#值得读">#</a></h2>
+<p>这周值得重新看的不是一篇“未来公司会有多少 AI 员工”的预测，而是围绕 Agent 权限、长期状态、可恢复执行和人类审批的材料。</p>
+<p>阅读时可以带着一个问题：</p>
+<blockquote>
+<p>如果模型今天全部换掉，这家公司还剩下多少真正属于自己的运行结构？</p>
+</blockquote>
+<p>如果答案接近零，那么所谓 Company OS 可能仍然只是一个 Prompt 壳。</p>
+<h2 id="opc-radar">OPC Radar<a class="md-anchor" href="#opc-radar">#</a></h2>
+<p>OPC 生态目前最值得继续追踪的不是“一个人可以同时雇多少 AI”，而是下面这条链条有没有开始真正成立：</p>
+<pre><code class="language-text">Goal → Commitment → Project → Task → Agent → Action
+     → Evidence → Approval → Asset → Metric → Revenue → Memory</code></pre><p>大部分项目仍然只能稳定做到：</p>
+<pre><code class="language-text">Prompt → Agent → Result</code></pre><p>两者之间，就是接下来真正需要长出来的东西。</p>
+<h2 id="一个怪东西">一个怪东西<a class="md-anchor" href="#一个怪东西">#</a></h2>
+<p>最近越来越常见的一类实验，是给 Agent 设计完整的公司身份、部门关系甚至“办公室”。</p>
+<p>这些项目有时看起来很像角色扮演，但不应该一概笑掉。组织关系、权限继承、协作边界和主动触发，本来就需要新的表达方式。</p>
+<p>值得警惕的是：<strong>把社会结构画出来，不等于真的拥有社会结构。</strong></p>
+<h2 id="我们这一周在想什么">我们这一周在想什么<a class="md-anchor" href="#我们这一周在想什么">#</a></h2>
+<p>这周关于 OPC 的讨论最后绕回了一个很朴素的问题：AI 可以降低供给成本，但不会自动创造市场。</p>
+<p>生产工具越来越平权以后，真正稀缺的东西可能反而更清楚：判断、分发、客户关系、品牌，以及一个人是否拥有不完全受平台控制的抵达市场的能力。</p>
+<p>这也是《<a href="/blogs/shared-thinking/opc-atmosphere-not-only-women">OPC 探索（四）：需要氛围感的不只是女人</a>》最后留下的问题。</p>
+<h2 id="下周继续盯">下周继续盯<a class="md-anchor" href="#下周继续盯">#</a></h2>
+<ol>
+<li><strong>Company Runtime / Company State</strong>：有没有项目开始形成真正可迁移的公司状态协议。</li>
+<li><strong>Harness / Control Plane</strong>：智能层与执行权是否继续分离。</li>
+<li><strong>Distribution Agent</strong>：有没有 OPC 产品开始认真解决获客和市场，而不是只继续提高生产能力。</li>
+</ol>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Tomz Dang × Mira</h4></div></section></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#本周判断">本周判断</a></li><li><a href="#agent-ai-radar">Agent / AI Radar</a></li><li><a href="#产品与工具">产品与工具</a></li><li><a href="#中国开发者现场">中国开发者现场</a></li><li><a href="#值得读">值得读</a></li><li><a href="#opc-radar">OPC Radar</a></li><li><a href="#一个怪东西">一个怪东西</a></li><li><a href="#我们这一周在想什么">我们这一周在想什么</a></li><li><a href="#下周继续盯">下周继续盯</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>
