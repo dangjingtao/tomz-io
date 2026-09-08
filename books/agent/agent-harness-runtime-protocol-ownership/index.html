@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>一起学智能体 10｜Agent 不应该拥有一切：Harness、Runtime 与 Protocol 怎么分工 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-DoHsOF4B.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DFEiXN2f.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从“谁拥有 Memory / Context / Tool”一路拆到 Harness、Runtime、Policy Gate、渐进式工具披露与 Protocol，最后用一轮中高级面试检验 Agent Framework 的边界。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/books/agent/agent-harness-runtime-protocol-ownership/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="一起学智能体 10｜Agent 不应该拥有一切：Harness、Runtime 与 Protocol 怎么分工 · Tomz Dang"><meta property="og:description" content="从“谁拥有 Memory / Context / Tool”一路拆到 Harness、Runtime、Policy Gate、渐进式工具披露与 Protocol，最后用一轮中高级面试检验 Agent Framework 的边界。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/books/agent/agent-harness-runtime-protocol-ownership/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="一起学智能体 10｜Agent 不应该拥有一切：Harness、Runtime 与 Protocol 怎么分工 · Tomz Dang"><meta name="twitter:description" content="从“谁拥有 Memory / Context / Tool”一路拆到 Harness、Runtime、Policy Gate、渐进式工具披露与 Protocol，最后用一轮中高级面试检验 Agent Framework 的边界。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"一起学智能体 10｜Agent 不应该拥有一切：Harness、Runtime 与 Protocol 怎么分工","description":"从“谁拥有 Memory / Context / Tool”一路拆到 Harness、Runtime、Policy Gate、渐进式工具披露与 Protocol，最后用一轮中高级面试检验 Agent Framework 的边界。","url":"https://tomz.io/tomz-io/books/agent/agent-harness-runtime-protocol-ownership/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-08","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-08T23:23:07.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">周刊</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app seo-static-docs-app"><div class="docs-shell"><nav class="docnav"><h5>目录</h5><div class="docnav-group"><h5><a href="/tomz-io/books">一起学智能体</a></h5></div><div class="docnav-group"><h5>agent</h5><ul><li><a href="/tomz-io/books/agent/preface">一起学智能体 00｜前言：拿正在生长的 Agent 当课本</a></li><li><a href="/tomz-io/books/agent/react-is-not-just-tool-calling">一起学智能体 01｜ReAct 不是“有 Tool 就继续 Call”</a></li><li><a href="/tomz-io/books/agent/plan-is-a-hypothesis-goal-is-the-contract">一起学智能体 02｜Plan 是假设，Goal 才是合同</a></li><li><a href="/tomz-io/books/agent/reflection-is-calibration-not-self-doubt">一起学智能体 03｜Reflection 不是怀疑自己，而是校准自己</a></li><li><a href="/tomz-io/books/agent/agent-is-an-old-dream">一起学智能体 04｜Agent 不是新发明，而是一个七十年的老梦</a></li><li><a href="/tomz-io/books/agent/context-is-state-not-chat-history">一起学智能体 05｜Context 不是聊天记录，而是 Agent 此刻的世界</a></li><li><a href="/tomz-io/books/agent/how-llm-sees-thinks-and-speaks">一起学智能体 05｜LLM 到底是怎么“看、想、说”的</a></li><li><a href="/tomz-io/books/agent/skill-is-executable-experience">一起学智能体 06｜Skill 不是 Prompt，而是把经验变成可执行知识</a></li><li><a href="/tomz-io/books/agent/mcp-rebuilds-babel-tower">一起学智能体 07｜MCP 不是让 Agent 更聪明，而是让它拥有一个可连接的世界</a></li><li><a href="/tomz-io/books/agent/when-agents-have-social-problems">一起学智能体 08｜当 Skill 开始互相调用，Agent 就有了“社会问题”</a></li><li><a href="/tomz-io/books/agent/classic-paradigms-are-control-rights">一起学智能体 09｜经典范式不是三套提示词，而是三种决策权</a></li><li><a class="active" aria-current="page" href="/tomz-io/books/agent/agent-harness-runtime-protocol-ownership">一起学智能体 10｜Agent 不应该拥有一切：Harness、Runtime 与 Protocol 怎么分工</a></li></ul></div><div class="docnav-group"><h5>product</h5><ul><li><a href="/tomz-io/books/product/preface">结合业务学产品 00｜前言：拿真实业务当课本</a></li></ul></div><div class="docnav-group"><h5>psalms</h5><ul><li><a href="/tomz-io/books/psalms/reading-guide">读经指引｜先读经文，也听历代的人怎么读</a></li><li><a href="/tomz-io/books/psalms/psalm-1-find-the-water-source">诗篇 1：先找到水源</a></li><li><a href="/tomz-io/books/psalms/psalm-2-dont-sit-in-the-wrong-seat">诗篇 2：别坐错位置</a></li><li><a href="/tomz-io/books/psalms/psalm-3-who-defines-my-situation">诗篇3：谁有资格定义我的处境</a></li><li><a href="/tomz-io/books/psalms/psalm-4-dont-wait-for-everything-to-be-solved">诗篇 4：不等所有事都解决，才睡觉</a></li><li><a href="/tomz-io/books/psalms/psalm-5-judgment-to-god">诗篇 5：把审判交还给神</a></li><li><a href="/tomz-io/books/psalms/psalm-6-when-god-seems-silent">诗篇 6：当神似乎沉默的时候</a></li><li><a href="/tomz-io/books/psalms/psalm-7-honest-before-god">诗篇 7：在求神为我伸冤以前</a></li><li><a href="/tomz-io/books/psalms/psalm-8-who-are-we-to-decide-who-is-worth-more">诗篇 8：人算什么，我们竟敢决定谁更值得</a></li><li><a href="/tomz-io/books/psalms/psalm-9-the-needy-will-not-always-be-forgotten">诗篇 9：穷乏人必不永久被忘</a></li><li><a href="/tomz-io/books/psalms/psalm-10-you-have-seen-it">诗篇 10：你已经看见</a></li><li><a href="/tomz-io/books/psalms/psalm-11-you-see-me-i-will-see-you">诗篇 11：你看见，我终要见你</a></li><li><a href="/tomz-io/books/psalms/psalm-12-speak-when-you-should">诗篇 12：在该说话的时候说话</a></li><li><a href="/tomz-io/books/psalms/psalm-13-faith-comes-from-where-the-text-does-not-say">诗篇 13：信心从哪里来，经文没有说</a></li><li><a href="/tomz-io/books/psalms/psalm-14-life-itself-can-say-there-is-no-god">诗篇 14：生活本身也会说“没有神”</a></li><li><a href="/tomz-io/books/psalms/psalm-15-who-may-dwell-with-god">诗篇 15：谁能住在神面前</a></li><li><a href="/tomz-io/books/psalms/psalm-16-where-does-the-path-of-life-lead">诗篇 16：生命的道路通向哪里</a></li><li><a href="/tomz-io/books/psalms/psalm-17-you-do-not-have-to-be-liked-to-be-innocent">诗篇 17：你不需要靠被喜欢来证明自己无罪</a></li><li><a href="/tomz-io/books/psalms/psalm-18-faith-gives-strength-through-restraint">诗篇 18：信仰，约束给人力量</a></li><li><a href="/tomz-io/books/psalms/psalm-19-faith-guides-understanding">诗篇 19：信仰引导认识</a></li><li><a href="/tomz-io/books/psalms/psalm-20-some-things-we-do-some-we-dont">诗篇 20：有所为，也有所不为</a></li><li><a href="/tomz-io/books/psalms/psalm-21-man-plans-god-decides">诗篇 21：谋事在人，成事在天</a></li><li><a href="/tomz-io/books/psalms/psalm-22-from-private-suffering-to-public-witness">诗篇 22：从私人受苦到公共见证</a></li><li><a href="/tomz-io/books/psalms/psalm-139-when-i-cannot-face-myself">诗篇 139：当我无法面对自己的时候</a></li></ul></div><div class="docnav-group"><h5>huangyan</h5><ul><li><a href="/tomz-io/books/huangyan/witness">证人</a></li><li><a href="/tomz-io/books/huangyan/after-june">六月以后</a></li><li><a href="/tomz-io/books/huangyan/between-glances">俯仰之间</a></li><li><a href="/tomz-io/books/huangyan/peripheral-glance">余光</a></li><li><a href="/tomz-io/books/huangyan/emergence">涌现</a></li></ul></div></nav><main class="doc-main seo-static-content"><div class="doc-eyebrow">一起学智能体 · 10</div><div class="doc-title-block"><h1>一起学智能体 10｜Agent 不应该拥有一切：Harness、Runtime 与 Protocol 怎么分工</h1><p class="doc-lede">从“谁拥有 Memory / Context / Tool”一路拆到 Harness、Runtime、Policy Gate、渐进式工具披露与 Protocol，最后用一轮中高级面试检验 Agent Framework 的边界。</p><div class="post-meta content-time-meta" data-content-time-meta><span data-content-time="published">发布于 2026年9月8日</span><span class="dot"></span><span data-content-time="modified">更新于 2026年9月8日 23:23</span></div></div><article class="markdown"><p>上一课学完 ReAct、Plan-and-Solve 和 Reflection 以后，我们留下了一个新的问题：</p>
+<blockquote>
+<p><strong>如果 Planner 只是负责判断下一步，那一个真正的 Agent Framework，到底还需要谁？</strong></p>
+</blockquote>
+<p>最开始这个问题看起来像名词辨析：</p>
+<pre><code class="language-text">Agent
+LLM
+Tool
+Memory
+Context
+Protocol
+Runtime
+Harness</code></pre><p>谁包含谁？谁调用谁？谁拥有谁？</p>
+<p>但真正聊下去以后，我们发现这不是一棵简单的 ownership tree。</p>
+<p>更准确的问题是：</p>
+<blockquote>
+<p><strong>谁负责理解意义，谁负责把这个意义变成真实、可控、可结束的运行。</strong></p>
+</blockquote>
+<p>这一课，我们从这里开始。</p>
+<p>学习主线继续参考 Datawhale 的 <a href="https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md">Hello-Agents 第七章《构建你的智能体框架》</a>，同时把问题放回 Mira 当前真实的 Agent Runtime。</p>
+<h2 id="agent-可以说我想结束但不能自己掐掉-runtime">Agent 可以说“我想结束”，但不能自己掐掉 Runtime<a class="md-anchor" href="#agent-可以说我想结束但不能自己掐掉-runtime">#</a></h2>
+<p>假设 Agent 已经判断任务完成，但 Runtime 发现还有一个 Tool Call 没回来。</p>
+<p>课堂里的第一反应是：</p>
+<blockquote>
+<p>Agent 等 Runtime，或者终止 Runtime？</p>
+</blockquote>
+<p>我们最后把这句话拆得更严格一点：</p>
+<pre><code class="language-text">Agent
+→ 我不再需要这个结果了
+
+Runtime
+→ 尝试 cancel
+→ 等待真实终态
+→ cleanup
+→ 再决定这个 Run 能不能结束</code></pre><p>Agent 可以表达 <code>WAIT</code>、<code>CANCEL(action)</code>、<code>COMPLETE</code>，但它不应该直接拥有 <code>runtime.kill()</code>。</p>
+<p>因为 Tool 可能仍然在写文件、跑进程、发网络请求、修改外部系统。</p>
+<p>如果 Agent 逻辑上已经结束，而它创建的副作用还偷偷留在后台，系统就出现了一个很脏的状态：</p>
+<blockquote>
+<p><strong>“任务说自己结束了，但现实还没有结束。”</strong></p>
+</blockquote>
+<p>所以这一课最早留下的一句话是：</p>
+<blockquote>
+<p><strong>Agent 决定意图，Runtime 决定生命周期。</strong></p>
+</blockquote>
+<p>这也自然碰到 structured concurrency 的直觉：</p>
+<blockquote>
+<p>一个 Run 结束以前，它拥有的子任务应该进入可确认的终态。</p>
+</blockquote>
+<p>可以有真正独立的后台 Job，但它应该从一开始就是独立生命周期，而不是从当前 Run 里偷偷掉出去。</p>
+<h2 id="runtime-可以限制-agent但不应该替-agent-思考">Runtime 可以限制 Agent，但不应该替 Agent 思考<a class="md-anchor" href="#runtime-可以限制-agent但不应该替-agent-思考">#</a></h2>
+<p>接着我们问：</p>
+<p>如果 Agent 连续 20 次调用同一个 Tool，看起来已经陷入循环，Runtime 能不能直接判断“你错了”，然后打断？</p>
+<p>答案是：不能仅凭“看起来重复”就替 Agent 做语义判断。</p>
+<pre><code class="language-text">连续调用同一个 Tool 20 次</code></pre><p>可能是死循环，也可能真的是任务需要。</p>
+<p>Runtime 不应该做：</p>
+<pre><code class="language-text">“你重复太多了，我认为你思考错了。”</code></pre><p>但它完全可以做：</p>
+<pre><code class="language-text">max_steps reached
+timeout reached
+cost budget exhausted
+retry budget exhausted</code></pre><p>前者是在替 Agent 思考。</p>
+<p>后者是在执行既定运行合同。</p>
+<p>所以第二句话变成：</p>
+<blockquote>
+<p><strong>Runtime 可以限制 Agent，但不应该替 Agent 思考。</strong></p>
+</blockquote>
+<p>我们课堂里借用了两个工作词：</p>
+<pre><code class="language-text">Semantic ownership
+→ 谁定义意义、策略和当前需要
+
+Operational ownership
+→ 谁负责执行、资源、持久化和生命周期</code></pre><p>它们不是必须背下来的标准术语，但非常适合拿来拆责任。</p>
+<h2 id="memorycontexttool-都不是简单的二选一">Memory、Context、Tool 都不是简单的二选一<a class="md-anchor" href="#memorycontexttool-都不是简单的二选一">#</a></h2>
+<h3 id="memory">Memory<a class="md-anchor" href="#memory">#</a></h3>
+<p>Agent 更应该拥有：</p>
+<pre><code class="language-text">什么值得记
+什么时候想起
+哪条记忆与当前 Goal 有关
+记忆冲突以后意味着什么</code></pre><p>而 Runtime / Infrastructure 更适合负责：</p>
+<pre><code class="language-text">持久化
+索引
+隔离
+并发
+容量
+读取</code></pre><p>所以：</p>
+<blockquote>
+<p><strong>Memory 在语义上更接近 Agent，在运行机制上由 Runtime / Infra 承载。</strong></p>
+</blockquote>
+<p>而且长期 Memory 不能因为“没有更强证据”就自动升级成事实。</p>
+<p>这一课我们最终把它压成一句：</p>
+<blockquote>
+<p><strong>Memory 是 prior，不是 proof。</strong></p>
+</blockquote>
+<p>它可以告诉 Agent：“过去我们好像这样做过。”</p>
+<p>但真正的当前事实，仍然应该尽可能回到 Evidence。</p>
+<h3 id="context">Context<a class="md-anchor" href="#context">#</a></h3>
+<p>Context 是：</p>
+<blockquote>
+<p><strong>Agent 此刻真正看得见、能拿来做当前判断的东西。</strong></p>
+</blockquote>
+<p>Memory 是仓库。</p>
+<p>Context 是桌面。</p>
+<p>Prompt 是这一次真正递给模型看的那一叠纸。</p>
+<p>Agent 更适合决定：</p>
+<blockquote>
+<p>我现在需要看什么？</p>
+</blockquote>
+<p>Harness / Runtime 则负责：</p>
+<pre><code class="language-text">怎么召回
+怎么压缩
+怎么组装
+怎么守 context window
+怎么把最终内容真的送进 model call</code></pre><p>所以：</p>
+<blockquote>
+<p><strong>Context 的语义优先级更接近 Agent，物理边界归 Runtime。</strong></p>
+</blockquote>
+<h3 id="tool">Tool<a class="md-anchor" href="#tool">#</a></h3>
+<p>Tool 也一样。</p>
+<p>Agent 决定：</p>
+<pre><code class="language-text">为什么现在要调用这个能力？
+它服务哪个子目标？
+结果回来以后意味着什么？</code></pre><p>Runtime / Harness 负责：</p>
+<pre><code class="language-text">schema
+availability
+approval
+workspace
+timeout
+invocation
+result projection</code></pre><p>因此可以记成：</p>
+<blockquote>
+<p><strong>Agent owns tool intent；Runtime / Harness owns tool execution conditions。</strong></p>
+</blockquote>
+<p>Tool 自己最好保持克制：</p>
+<blockquote>
+<p>给我合法输入，我按照自己的 contract 执行，再返回结果。</p>
+</blockquote>
+<p>如果一个所谓 Tool 开始自己做全局规划、自己决定调用别的 Tool、自己判断用户目标是否完成，它其实已经在向 Agent / SubAgent 漂移。</p>
+<h2 id="harnessmira-现在这个词可能用窄了">Harness：Mira 现在这个词可能用窄了<a class="md-anchor" href="#harnessmira-现在这个词可能用窄了">#</a></h2>
+<p>这堂课最有意思的转折发生在 Harness。</p>
+<p>Mira 当前把 Harness 定义成：</p>
+<blockquote>
+<p><strong>concrete tool 的控制平面。</strong></p>
+</blockquote>
+<p>它现在主要负责：</p>
+<pre><code class="language-text">Tool Registry
+Tool Exposure
+Schema / Metadata
+Risk / Approval
+Workspace Boundary
+Invocation
+External MCP Projection
+Trace / Audit
+Result Projection</code></pre><p>这套职责本身没有问题。</p>
+<p>问题是，当我们去看更宽口径的 Agent Harness 时，会发现 Harness 通常还会碰到：</p>
+<pre><code class="language-text">Context assembly
+Memory recall / projection
+Instructions
+Skills
+MCP
+Tool lifecycle
+Sandbox
+Before / after model hooks
+Before / after tool hooks
+Result feedback
+Compaction
+SubAgent environment</code></pre><p>LangChain 现在会把 Harness 描述成围绕模型、把模型连接到环境、数据、Memory 和 Tool 的脚手架，并通过 middleware 在 model call 和 tool call 前后插入可组合控制逻辑。</p>
+<p>Anthropic 最近关于 long-running agent 的 Harness 工作也不断强调：Context continuity、结构化 handoff、环境设计和 evaluator 都会显著改变同一个模型的实际表现。</p>
+<p>所以课堂里我们重新给 Harness 留了一句更宽的定义：</p>
+<blockquote>
+<p><strong>Harness 是模型 / Agent 与现实环境之间的行为脚手架。</strong></p>
+</blockquote>
+<p>如果这样看，Mira 现在叫 Harness 的模块，更像完整 Agent Harness 里的：</p>
+<pre><code class="language-text">Capability Harness
++
+Action Governance</code></pre><p>也就是说：</p>
+<blockquote>
+<p><strong>Mira 不是 Harness 做得太少，而是把 Harness 的一个子域命名成了整个 Harness。</strong></p>
+</blockquote>
+<p>这暂时不意味着要立刻改代码。</p>
+<p>但脑子里的地图应该先摆正。</p>
+<h2 id="agent-想harness-装备runtime-让它活着">Agent 想，Harness 装备，Runtime 让它活着<a class="md-anchor" href="#agent-想harness-装备runtime-让它活着">#</a></h2>
+<p>我们最后把三个最容易混的角色压成：</p>
+<pre><code class="language-text">Agent
+→ 我下一步想做什么？
+
+Harness
+→ 你现在看得到什么、能使用什么，
+  这些能力和信息怎样进入你的认知与行动空间？
+
+Runtime
+→ 这一轮真实怎么启动、等待、恢复、
+  限制、取消、清理和结束？</code></pre><p>再短一点：</p>
+<blockquote>
+<p><strong>Agent 想。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Harness 装备。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Runtime 让它活着并推进。</strong></p>
+</blockquote>
+<h2 id="tool-exposure-其实也是-context-retrieval">Tool Exposure 其实也是 Context Retrieval<a class="md-anchor" href="#tool-exposure-其实也是-context-retrieval">#</a></h2>
+<p>然后我们碰到了 Mira 当前设计里一个值得重新审视的问题。</p>
+<p>Mira 现在工具很多时，会走：</p>
+<pre><code class="language-text">eligible tools &gt; 20
+→ capability profile
+→ embedding / rerank
+→ top 20
+→ 暴露给 Planner</code></pre><p>过去我们很自然地觉得：</p>
+<blockquote>
+<p>工具多，那就用语义排序模型挑一批最相关的。</p>
+</blockquote>
+<p>但这一课继续拆 semantic ownership 后，我们开始怀疑：</p>
+<blockquote>
+<p><strong>Harness 是不是在 Agent 还没有表达能力需求以前，就替 Agent 定义了它能看到的整个行动世界？</strong></p>
+</blockquote>
+<p>如果用户只说：</p>
+<blockquote>
+<p>“帮我处理一下这个项目。”</p>
+</blockquote>
+<p>Harness 先语义排序出 read、grep、terminal、git，看起来很聪明。</p>
+<p>但 Agent 可能执行到第六步才发现：</p>
+<blockquote>
+<p>我现在需要 Browser。</p>
+</blockquote>
+<p>如果 Browser 当初排第 73，它甚至不知道自己还有这条路。</p>
+<p>这就不只是一次 retrieval miss。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>Harness 构造了一个不完整的行动世界，然后让 Agent 在里面自以为掌握全部可能性。</strong></p>
+</blockquote>
+<p>课堂里 Tomz 提出了更自然的一层：</p>
+<pre><code class="language-text">第一回合先选“能力”
+↓
+再展开这一类具体 Tool
+↓
+找不到 / 选错
+↓
+允许重新选择能力</code></pre><p>例如先暴露粗粒度能力目录：</p>
+<pre><code class="language-text">感知 / 查询
+操作 / 修改
+领域技能
+外部服务 / MCP
+验证 / 检查</code></pre><p>然后：</p>
+<pre><code class="language-text">Agent 选择 capability domain
+→ Harness progressive disclosure
+→ 具体 Tool</code></pre><p>这就是 Tool 侧的 <strong>Progressive Disclosure（渐进式披露）</strong>。</p>
+<p>它和 Memory retrieval 很像：</p>
+<pre><code class="language-text">Memory
+不是把全部记忆塞进 Context
+而是按需 recall
+
+Tool
+不是把全部 schema 塞进 Context
+而是按需 disclose</code></pre><p>两者本质上都属于 Context Engineering：</p>
+<blockquote>
+<p><strong>这一刻，到底应该让 Agent 看见什么？</strong></p>
+</blockquote>
+<p>这里也出现了这堂课一个很重要的自我修正：</p>
+<blockquote>
+<p><strong>Ranking 可以保留，但不应该天然拥有构造 Agent 行动世界的最高权力。</strong></p>
+</blockquote>
+<p>更合理的关系可能是：</p>
+<pre><code class="language-text">Agent intent
+→ capability navigation
+→ progressive disclosure
+→ optional ranking
+→ concrete tool</code></pre><p>Ranking 更像 retrieval implementation，而不是 architecture。</p>
+<p>甚至进入一个已经缩小过的 Tool domain 以后，未必还需要 embedding + reranker。关键词、Tag、BM25、metadata filter，可能就已经足够。</p>
+<h2 id="progressive-disclosure-不等于-authorization">Progressive Disclosure 不等于 Authorization<a class="md-anchor" href="#progressive-disclosure-不等于-authorization">#</a></h2>
+<p>Agent 没看到某个 Tool，至少可能有几种完全不同的原因：</p>
+<pre><code class="language-text">internal
+forbidden
+not relevant yet
+temporarily unavailable
+recoverable</code></pre><p>所以：</p>
+<pre><code class="language-text">Disclosure
+≠
+Authorization</code></pre><p>有些能力，Agent 可以知道它存在，但现在不能执行。</p>
+<p>比如：</p>
+<pre><code class="language-text">browser_search
+status: unavailable
+reason: browser_disconnected
+recoverable_by: connect_browser</code></pre><p>这比让 Agent 先调用失败，再从错误里猜“原来要连接浏览器”更好。</p>
+<p>但如果某个能力因为权限本身就不允许这个 Agent 知道，那么它连名字也不应该被暴露。</p>
+<p>于是 Harness 不只是过滤 Tool。</p>
+<p>它实际上在塑造：</p>
+<blockquote>
+<p><strong>Agent 当前对可行动世界的认知。</strong></p>
+</blockquote>
+<h2 id="policy-是-runtime-里的门禁层">Policy 是 Runtime 里的门禁层<a class="md-anchor" href="#policy-是-runtime-里的门禁层">#</a></h2>
+<p>Policy 放哪，我们也重新收了一次。</p>
+<p>课堂里最终采用的是：</p>
+<blockquote>
+<p><strong>Policy 是 Runtime 的门禁层，规则由人类通过程序定义。</strong></p>
+</blockquote>
+<p>也就是：</p>
+<pre><code class="language-text">Agent
+→ propose action
+
+Runtime / Policy Gate
+→ allow
+→ deny
+→ request approval
+
+Runtime
+→ execute</code></pre><p>Agent 可以解释：“我认为这次删除是合理的。”</p>
+<p>但它不能自己放行。</p>
+<p>Policy 的规则可能来自产品、企业、workspace、用户长期授权、风险等级和 side effect 分类。</p>
+<p>它们的共同点是：</p>
+<blockquote>
+<p><strong>不能只靠 Prompt 里一句“请小心”。</strong></p>
+</blockquote>
+<p>所以更像：</p>
+<pre><code class="language-text">Runtime
+├── Lifecycle
+├── State / Checkpoint
+├── Resource Control
+├── Policy Gate
+├── Approval
+└── Execution</code></pre><p>Policy 并不因为在 Runtime 里，就变成 Runtime 自己“思考出来的规则”。</p>
+<p>它仍然是：</p>
+<blockquote>
+<p><strong>人类通过程序施加给 Agent 行动世界的硬边界。</strong></p>
+</blockquote>
+<h2 id="protocol不要让每一层都靠猜">Protocol：不要让每一层都靠猜<a class="md-anchor" href="#protocol不要让每一层都靠猜">#</a></h2>
+<p>Framework 最后一个重要角色是 Protocol。</p>
+<p>Agent 想调用 Tool，最脆弱的方式是：</p>
+<blockquote>
+<p>“帮我读一下 foo.ts。”</p>
+</blockquote>
+<p>然后让系统猜它到底想干什么。</p>
+<p>更稳定的是：</p>
+<pre><code class="language-text">Action {
+  type: use_tool
+  toolId: read_file
+  args: ...
+}</code></pre><p>Tool 返回结果也一样。</p>
+<p>我们最后更倾向一种：</p>
+<blockquote>
+<p><strong>薄 envelope + domain payload</strong></p>
+</blockquote>
+<p>例如：</p>
+<pre><code class="language-text">ToolResult {
+  status
+  summary
+  warnings?
+  error?
+  artifacts?
+  payload
+}</code></pre><p>通用 envelope 只保留跨领域稳定成立的语义。</p>
+<p>领域细节留在 payload。</p>
+<p>否则 Framework 很容易长出一座状态动物园。</p>
+<p>更克制一点：</p>
+<pre><code class="language-text">success
+partial
+failure</code></pre><p>已经能覆盖很多通用执行语义。</p>
+<p>真正值得争论的是：</p>
+<blockquote>
+<p><strong>success 到底相对于什么成立？</strong></p>
+</blockquote>
+<p>如果 Tool 叫 <code>browser_click(selector)</code>，那“点击成功”就可以是 success。支付最终失败，是另一个业务事实。</p>
+<p>但如果 Tool 叫 <code>submit_payment(...)</code>，它的 contract 本身就是“完成支付”，那业务失败就应该返回 failure。</p>
+<p>所以我们最后留下：</p>
+<blockquote>
+<p><strong>ToolResult 的 status 应该绑定 Tool 自己声明的 contract，而不是绑定用户的全局 Goal。</strong></p>
+</blockquote>
+<p>同时还有一层产品判断：</p>
+<blockquote>
+<p><strong>好的 Agent-facing Tool contract，往往应该尽量接近可验证的业务结果，而不是永远暴露底层 primitive。</strong></p>
+</blockquote>
+<p>这也和我们最近讨论的微应用很像。</p>
+<p>Agent 更适合看到：</p>
+<pre><code class="language-text">整理录音
+分析表格
+编辑图片
+提交报销</code></pre><p>而不是永远自己拼：</p>
+<pre><code class="language-text">click
+read
+write
+wait
+click
+parse
+...</code></pre><h2 id="tool-successgoal-completerun-completed-必须拆开">Tool Success、Goal Complete、Run Completed 必须拆开<a class="md-anchor" href="#tool-successgoal-completerun-completed-必须拆开">#</a></h2>
+<p>Protocol 一旦干净，几个“成功”也必须拆开：</p>
+<pre><code class="language-text">Invocation Success
+→ 这一次 Tool contract 成功
+
+Evidence Sufficient
+→ 当前证据足够支撑某个判断
+
+Goal Complete
+→ 用户目标的 acceptance criteria 已覆盖
+
+Run Completed
+→ Runtime 确认生命周期可以安全结束</code></pre><p>它们不是同一个 Boolean。</p>
+<p>比如：</p>
+<pre><code class="language-text">write_file → success
+run_tests → timeout
+read_diff → success</code></pre><p>只能证明：</p>
+<blockquote>
+<p>代码确实改了。</p>
+</blockquote>
+<p>它不能证明：</p>
+<blockquote>
+<p>Bug 已经修好。</p>
+</blockquote>
+<p>而 <code>timeout</code> 自己也首先只是一个执行事实：</p>
+<pre><code class="language-text">status = failure
+reason = timeout</code></pre><p>它到底是环境问题、网络问题、测试框架问题、新代码死循环，还是 timeout 配置太短，应该继续由 Agent 根据 Evidence 判断。</p>
+<p>这也是中高级面试里一个很明显的扣分点：</p>
+<blockquote>
+<p><strong>Observed Fact 和 Root Cause 不能混。</strong></p>
+</blockquote>
+<p>Tool 报事实。</p>
+<p>Agent 解释事实。</p>
+<h2 id="异步任务还有一个-settlement-window">异步任务还有一个 Settlement Window<a class="md-anchor" href="#异步任务还有一个-settlement-window">#</a></h2>
+<p>测试里还有一道很像真实工程的问题。</p>
+<p>邮件服务 HTTP 200：服务商已经接受发送请求。</p>
+<p>五秒以后又收到 bounce：收件人地址无效，最终投递失败。</p>
+<p>这和我们平时做 GitHub 工作很像：</p>
+<blockquote>
+<p>PR 已经提交，不等于 AI Review 已经结束。</p>
+</blockquote>
+<p>所以有些 Tool contract 不是一次 request-response 就能 settle。</p>
+<p>它可能需要：</p>
+<pre><code class="language-text">awaiting_confirmation</code></pre><p>这样的中间状态。</p>
+<p>如果 Tool contract 是 <code>submit_email</code>，HTTP 200 可能就已经 success，bounce 是后续异步事件。</p>
+<p>如果 contract 是 <code>deliver_email</code>，那么它就应该继续等待 settlement。</p>
+<p>于是：</p>
+<blockquote>
+<p><strong>“完成”不一定是一个瞬时点，有些能力存在 settlement window。</strong></p>
+</blockquote>
+<p>但同样不能把所有外部长期状态都无限绑在一个 Run 上。</p>
+<p>真正独立的 CI、后台索引、长周期监控，可以成为独立 Job / Watch。</p>
+<p>原则仍然是：</p>
+<blockquote>
+<p><strong>可以异步，但不能偷偷脱离生命周期。</strong></p>
+</blockquote>
+<h2 id="最后把-framework-总装一次">最后把 Framework 总装一次<a class="md-anchor" href="#最后把-framework-总装一次">#</a></h2>
+<p>这一课最后，我们得到了一张比“Agent = LLM + Tool”稍微完整一点的图：</p>
+<pre><code class="language-text">User Goal
+   │
+   ▼
+Agent Core
+- Goal understanding
+- Planning
+- Semantic decisions
+- Completion judgment
+- Memory / Context intent
+   │
+   ▼
+Agent Harness
+- Context assembly
+- Capability discovery
+- Progressive disclosure
+- Skill / MCP projection
+- Environment projection
+- Result projection
+- Model / Tool hooks
+   │
+   ▼
+Agent Runtime
+- Run lifecycle
+- State / Checkpoint
+- Pause / Resume
+- Cancellation
+- Resource budgets
+- Policy Gate / Approval
+- Child ownership
+- Cleanup
+   │
+   ▼
+Capability Layer
+- Tool
+- Skill
+- MCP
+- SubAgent service
+   │
+   ▼
+Environment
+- Filesystem
+- Browser
+- OS
+- Network
+- External services</code></pre><p>还有三个东西横穿整个结构：</p>
+<p><strong>Memory</strong>：过去保存下来的经验和信息。语义判断偏 Agent，存储机制偏 Runtime / Infra。</p>
+<p><strong>Context</strong>：Agent 此刻真正看得到的世界。Agent 决定需要什么，Harness 负责组织与投影，Runtime 守物理边界。</p>
+<p><strong>Protocol</strong>：所有组件之间允许怎样讲话，以及这些话具有怎样的确定语义。它不是一层，它是整套 Framework 的合同。</p>
+<h2 id="回头看-mira真正值得改的是哪几刀">回头看 Mira：真正值得改的是哪几刀？<a class="md-anchor" href="#回头看-mira真正值得改的是哪几刀">#</a></h2>
+<p>这一课没有直接开施工卡。</p>
+<p>因为学架构时最危险的事情之一，就是刚听懂一个新概念，就立刻把旧系统重构一遍。</p>
+<p>但我们确实留下了几个新的判断。</p>
+<h3 id="1-mira-当前-harness-更像-capability-action-harness">1. Mira 当前 Harness 更像 Capability / Action Harness<a class="md-anchor" href="#1-mira-当前-harness-更像-capability-action-harness">#</a></h3>
+<p>现在的 Harness 已经把 registry、exposure、approval、workspace、invocation、MCP projection、trace、result projection 做得比较清楚。</p>
+<p>这部分不用因为概念变宽就推翻。</p>
+<p>但以后继续讨论 Harness 时，要知道：</p>
+<blockquote>
+<p>它还不是完整的 Agent Harness。</p>
+</blockquote>
+<h3 id="2-tool-semantic-rerank-不再视为-settled-design">2. Tool semantic rerank 不再视为 settled design<a class="md-anchor" href="#2-tool-semantic-rerank-不再视为-settled-design">#</a></h3>
+<p>当前的：</p>
+<pre><code class="language-text">&gt;20 tools
+→ semantic rank
+→ top 20 exposure</code></pre><p>以前看起来很自然。</p>
+<p>现在我们会把它降级成：</p>
+<blockquote>
+<p><strong>一个待验证的设计假设。</strong></p>
+</blockquote>
+<p>更值得探索的是：</p>
+<pre><code class="language-text">capability directory
+→ Agent selects domain
+→ progressive disclosure
+→ optional ranking inside domain</code></pre><p>Ranking 可以留下。</p>
+<p>但它服务 disclosure，不应该天然统治 disclosure。</p>
+<h3 id="3-policy-gate-更应该回到-runtime-ownership">3. Policy Gate 更应该回到 Runtime ownership<a class="md-anchor" href="#3-policy-gate-更应该回到-runtime-ownership">#</a></h3>
+<p>Harness 可以描述 risk metadata、requires approval、workspace condition、availability。</p>
+<p>但真正的 <code>allow / deny / prompt</code> 应该由 Runtime 的 Policy Gate 落实。</p>
+<h3 id="4-completion-contract-要继续磨硬">4. Completion Contract 要继续磨硬<a class="md-anchor" href="#4-completion-contract-要继续磨硬">#</a></h3>
+<p>这是整套 Framework 里我们目前还最容易犯错的地方。</p>
+<pre><code class="language-text">canAnswer
+taskComplete
+accepted
+runCompleted</code></pre><p>不能再互相代替。</p>
+<h2 id="课堂测试83-分比满分更有用">课堂测试：83 分，比满分更有用<a class="md-anchor" href="#课堂测试83-分比满分更有用">#</a></h2>
+<p>学完以后，我们做了一轮中高级 Agent / Runtime / Harness 架构面试。</p>
+<p>最终：</p>
+<blockquote>
+<p><strong>83 / 100</strong></p>
+</blockquote>
+<p>没有往上抹。</p>
+<p>整体判断是：</p>
+<blockquote>
+<p><strong>Strong Mid，已经摸到 Senior 门槛；系统设计直觉偏强，但 Protocol 严谨性和 Runtime hard boundary 还需要继续磨。</strong></p>
+</blockquote>
+<p>这次测试里比较稳定的地方包括：</p>
+<ul>
+<li>能分清 Agent semantic decision 和 Runtime operational control；</li>
+<li>能意识到 Tool success 不等于 Goal complete；</li>
+<li>Evidence 不足时不会用 read diff 代替真正测试；</li>
+<li>接受 progressive disclosure，而不是全量 Tool 注入；</li>
+<li>SubAgent 有局部施工权，Parent 保留验收权；</li>
+<li>Memory 是参考，不是事实真相；</li>
+<li>Runtime budget 耗尽以后不能让 Planner 靠“我还想试”无限续命。</li>
+</ul>
+<p>而真正扣分的地方主要有三个。</p>
+<h3 id="第一状态事实与原因偶尔混在一起">第一：状态事实与原因偶尔混在一起<a class="md-anchor" href="#第一状态事实与原因偶尔混在一起">#</a></h3>
+<p>例如 <code>timeout</code> 很容易直接被说成“环境失败”。</p>
+<p>更严谨的是：</p>
+<pre><code class="language-text">timeout = observed fact
+root cause = needs diagnosis</code></pre><h3 id="第二runtime-hard-boundary-偶尔会被让回-agent">第二：Runtime hard boundary 偶尔会被让回 Agent<a class="md-anchor" href="#第二runtime-hard-boundary-偶尔会被让回-agent">#</a></h3>
+<p>例如预算。</p>
+<p>Agent 可以决定：</p>
+<blockquote>
+<p>这一刀还值不值得继续。</p>
+</blockquote>
+<p>Runtime 必须决定：</p>
+<blockquote>
+<p>你还有没有资格继续。</p>
+</blockquote>
+<p>所以：</p>
+<pre><code class="language-text">soft budget
+→ 提醒 Agent
+
+hard budget
+→ Runtime 拒绝新 Action</code></pre><p>两层都需要。</p>
+<h3 id="第三completion-contract-还要更机械">第三：Completion Contract 还要更机械<a class="md-anchor" href="#第三completion-contract-还要更机械">#</a></h3>
+<p>真实工作经验很容易让人说：</p>
+<blockquote>
+<p>“差不多到这里就算做完了。”</p>
+</blockquote>
+<p>但 Runtime 不能靠“差不多”。</p>
+<p>它需要明确知道：</p>
+<pre><code class="language-text">用户到底要求什么
+哪些 acceptance predicates 已满足
+哪些 pending
+哪些 impossible
+哪些只能 guarded answer</code></pre><p>这也是下一阶段最值得继续磨的地方。</p>
+<h2 id="这一课真正应该留下什么">这一课真正应该留下什么<a class="md-anchor" href="#这一课真正应该留下什么">#</a></h2>
+<p>如果以后把这篇忘得只剩几句话，我们希望留下的是：</p>
+<blockquote>
+<p><strong>Agent 负责意义和决策。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Harness 负责把正确的 Context、Capability 和 Environment 组织给 Agent。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Runtime 负责让执行真实、安全、有限、可恢复、可结束。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Policy 是 Runtime 的人类门禁。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Memory 是 prior，不是 proof。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Tool success 只相对于自己的 contract。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Protocol 不负责让系统更聪明，它负责让每一层不要靠猜。</strong></p>
+</blockquote>
+<p>还有今天最值得继续带回 Mira 的一句：</p>
+<blockquote>
+<p><strong>Capability Exposure 也是 Context Engineering。</strong></p>
+</blockquote>
+<p>Tool 不是越多越好。</p>
+<p>Memory 也不是越多越好。</p>
+<p>真正困难的始终是：</p>
+<blockquote>
+<p><strong>在这一刻，让 Agent 看见正确的世界。</strong></p>
+</blockquote>
+<h2 id="下一站harness-engineering">下一站：Harness Engineering<a class="md-anchor" href="#下一站harness-engineering">#</a></h2>
+<p>Framework 的基础边界到这里先收住。</p>
+<p>下一课不再继续画组件图。</p>
+<p>更值得往下问的是：</p>
+<blockquote>
+<p><strong>为什么同一个模型，换一套 Harness，Agent 的实际能力会差一个档次？</strong></p>
+</blockquote>
+<p>我们会继续看 Context、Tool disclosure、Skill loading、Hooks / Middleware、Feedback loop、Environment、Evaluation，到底怎样一起改变模型在真实任务里的表现。</p>
+<p>到那时，Harness 就不只是“应该放哪一层”的架构名词了。</p>
+<p>它会开始变成真正影响 Agent 智力表现的工程变量。</p>
+<h2 id="参考阅读">参考阅读<a class="md-anchor" href="#参考阅读">#</a></h2>
+<ul>
+<li><a href="https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md">Datawhale Hello-Agents：第七章 构建你的智能体框架</a></li>
+<li><a href="https://www.langchain.com/blog/how-to-build-a-custom-agent-harness">LangChain：How to Build a Custom Agent Harness</a></li>
+<li><a href="https://www.langchain.com/blog/how-middleware-lets-you-customize-your-agent-harness">LangChain：How Middleware Lets You Customize Your Agent Harness</a></li>
+<li><a href="https://kb.langchain.com/articles/8488719552-progressive-tool-disclosure-with-deep-agents">LangChain：Progressive Tool Disclosure with Deep Agents</a></li>
+<li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic：Effective harnesses for long-running agents</a></li>
+<li><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic：Harness design for long-running application development</a></li>
+</ul>
+</article><div class="page-nav"><a href="/tomz-io/books/psalms/psalm-9-the-needy-will-not-always-be-forgotten"><span class="dir">上一篇</span><span class="to">← 诗篇 9：穷乏人必不永久被忘</span></a><a class="next" href="/tomz-io/books/psalms/psalm-10-you-have-seen-it"><span class="dir">下一篇</span><span class="to">诗篇 10：你已经看见 →</span></a></div></main><aside class="toc"><h5>本页目录</h5><ul><li class="toc-depth-2"><a href="#agent-可以说我想结束但不能自己掐掉-runtime">Agent 可以说“我想结束”，但不能自己掐掉 Runtime</a></li><li class="toc-depth-2"><a href="#runtime-可以限制-agent但不应该替-agent-思考">Runtime 可以限制 Agent，但不应该替 Agent 思考</a></li><li class="toc-depth-2"><a href="#memorycontexttool-都不是简单的二选一">Memory、Context、Tool 都不是简单的二选一</a></li><li class="toc-depth-3"><a href="#memory">Memory</a></li><li class="toc-depth-3"><a href="#context">Context</a></li><li class="toc-depth-3"><a href="#tool">Tool</a></li><li class="toc-depth-2"><a href="#harnessmira-现在这个词可能用窄了">Harness：Mira 现在这个词可能用窄了</a></li><li class="toc-depth-2"><a href="#agent-想harness-装备runtime-让它活着">Agent 想，Harness 装备，Runtime 让它活着</a></li><li class="toc-depth-2"><a href="#tool-exposure-其实也是-context-retrieval">Tool Exposure 其实也是 Context Retrieval</a></li><li class="toc-depth-2"><a href="#progressive-disclosure-不等于-authorization">Progressive Disclosure 不等于 Authorization</a></li><li class="toc-depth-2"><a href="#policy-是-runtime-里的门禁层">Policy 是 Runtime 里的门禁层</a></li><li class="toc-depth-2"><a href="#protocol不要让每一层都靠猜">Protocol：不要让每一层都靠猜</a></li><li class="toc-depth-2"><a href="#tool-successgoal-completerun-completed-必须拆开">Tool Success、Goal Complete、Run Completed 必须拆开</a></li><li class="toc-depth-2"><a href="#异步任务还有一个-settlement-window">异步任务还有一个 Settlement Window</a></li><li class="toc-depth-2"><a href="#最后把-framework-总装一次">最后把 Framework 总装一次</a></li><li class="toc-depth-2"><a href="#回头看-mira真正值得改的是哪几刀">回头看 Mira：真正值得改的是哪几刀？</a></li><li class="toc-depth-3"><a href="#1-mira-当前-harness-更像-capability-action-harness">1. Mira 当前 Harness 更像 Capability / Action Harness</a></li><li class="toc-depth-3"><a href="#2-tool-semantic-rerank-不再视为-settled-design">2. Tool semantic rerank 不再视为 settled design</a></li><li class="toc-depth-3"><a href="#3-policy-gate-更应该回到-runtime-ownership">3. Policy Gate 更应该回到 Runtime ownership</a></li><li class="toc-depth-3"><a href="#4-completion-contract-要继续磨硬">4. Completion Contract 要继续磨硬</a></li><li class="toc-depth-2"><a href="#课堂测试83-分比满分更有用">课堂测试：83 分，比满分更有用</a></li><li class="toc-depth-3"><a href="#第一状态事实与原因偶尔混在一起">第一：状态事实与原因偶尔混在一起</a></li><li class="toc-depth-3"><a href="#第二runtime-hard-boundary-偶尔会被让回-agent">第二：Runtime hard boundary 偶尔会被让回 Agent</a></li><li class="toc-depth-3"><a href="#第三completion-contract-还要更机械">第三：Completion Contract 还要更机械</a></li><li class="toc-depth-2"><a href="#这一课真正应该留下什么">这一课真正应该留下什么</a></li><li class="toc-depth-2"><a href="#下一站harness-engineering">下一站：Harness Engineering</a></li><li class="toc-depth-2"><a href="#参考阅读">参考阅读</a></li></ul></aside></div></div></div>
+</body>
+</html>
