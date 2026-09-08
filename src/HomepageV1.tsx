@@ -145,6 +145,7 @@ function HomepageHeader({
 
         <div className="home-v1-nav-links">
           <Link to="/blogs">博客</Link>
+          <Link to="/weekly">周刊</Link>
           <Link to="/works">作品</Link>
           <Link to="/projects">项目</Link>
           <Link to="/books">书架</Link>
@@ -201,6 +202,7 @@ function HomepageHeader({
       {mobileOpen ? (
         <div className="home-v1-mobile-panel wrap">
           <Link to="/blogs" onClick={() => setMobileOpen(false)}>博客</Link>
+          <Link to="/weekly" onClick={() => setMobileOpen(false)}>周刊</Link>
           <Link to="/works" onClick={() => setMobileOpen(false)}>作品</Link>
           <Link to="/projects" onClick={() => setMobileOpen(false)}>项目</Link>
           <Link to="/books" onClick={() => setMobileOpen(false)}>书架</Link>
