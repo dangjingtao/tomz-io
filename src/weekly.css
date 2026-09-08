@@ -18,7 +18,7 @@
 .weekly-section-label{color:var(--muted-soft);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
 .weekly-section-note{margin:0;color:var(--muted);font-size:13px}
 
-.weekly-latest{padding:30px 0 34px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);background:linear-gradient(90deg,color-mix(in srgb,var(--surface-soft) 62%,transparent),transparent 62%)}
+.weekly-latest{padding:30px 28px 34px;box-sizing:border-box;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);background:linear-gradient(90deg,color-mix(in srgb,var(--surface-soft) 62%,transparent),transparent 62%)}
 .weekly-latest-top{display:flex;align-items:center;gap:14px;margin-bottom:24px}
 .weekly-issue-number{color:var(--primary-active);font:500 18px/1 var(--font-mono)}
 .weekly-latest-flag{padding:3px 8px;border:1px solid var(--hairline);border-radius:var(--r-pill);color:var(--muted);font:10px/1.5 var(--font-mono);letter-spacing:.08em}
@@ -104,7 +104,7 @@
   .weekly-masthead h1{font-size:clamp(64px,24vw,94px)}
   .weekly-masthead p{margin-top:22px;font-size:20px}
   .weekly-section{padding:40px 0}
-  .weekly-latest{padding:24px 0 28px;background:none}
+  .weekly-latest{padding:24px 18px 28px;background:none}
   .weekly-latest-date,.weekly-latest-byline{margin-left:0}
   .weekly-latest h2{font-size:36px}
   .weekly-latest-foot{align-items:flex-start;flex-direction:column;gap:10px}
