@@ -41,11 +41,11 @@ Tomz 说，他记得 GitHub 上好像有一个项目叫：
 | 课程状态 | 进行中 |
 | 主学习材料 | Datawhale《Hello-Agents》 |
 | 学习方式 | 教材主线 + Mira 真实工程 + 问题触发插课 |
-| 主线进度 | 经典 Agent 范式已完成：ReAct / Plan-and-Solve / Reflection |
-| 当前停点 | 经典范式的组合、Evidence、Replan 与终止语义 |
-| 下一步 | 跳到框架开发实践 / 构建 Agent Framework，继续看 Harness 与 Runtime |
-| 下次开始 | 从“Framework 到底负责什么”开始，对照 DSH 与 Mira |
-| 最近更新 | 2026年8月30日 |
+| 主线进度 | Agent Framework 基础边界已完成：Agent / Harness / Runtime / Memory / Context / Tool / Protocol |
+| 当前停点 | Framework ownership、Capability Exposure、Protocol、Completion Contract |
+| 下一步 | 进入 Harness Engineering：Context、Tool disclosure、Hooks / Middleware、Feedback Loop 与 Environment |
+| 下次开始 | 从“为什么同一个模型换一套 Harness，实际能力会差一个档次”开始 |
+| 最近更新 | 2026年9月8日 |
 
 **以后重新开始这门课，先看这一节。**
 
@@ -202,6 +202,7 @@ Skill 是……
 - Plan、Goal 与滚动规划
 - Reflection 与结果校准
 - 经典范式的决策权、Evidence、Replan 与终止语义
+- Agent Framework 的 ownership、Harness / Runtime / Protocol 与 Capability Exposure
 - Agent 的历史脉络
 - LLM 怎样“看、想、说”
 - Context Engineering
@@ -215,36 +216,34 @@ Skill 是……
 
 **专题文章是学习留下的切片，不是课程进度条。**
 
-## 下一站：Agent Framework 与 Harness
+## 下一站：Harness Engineering
 
-经典 Agent 范式这一段已经正式学完。
+Agent Framework 的基础边界已经完成第一轮。
 
-Hello-Agents 当前把 ReAct、Plan-and-Solve、Reflection 放在“智能体经典范式构建”章节中；接下来我们不为了章节编号严格顺序推进，而是顺着已经出现的真实问题，优先去看框架开发实践与“构建自己的 Agent Framework”。
+这一轮我们把 Agent、Harness、Runtime、Memory、Context、Tool、Policy 与 Protocol 放进同一张责任图里，也第一次明确质疑了 Mira 当前以 semantic rerank 直接决定 Tool Exposure 的做法：Ranking 可以继续存在，但更适合作为渐进式披露里的检索实现，而不是天然拥有构造 Agent 行动世界的最高权力。
 
-因为刚学完经典范式以后，问题已经自然从：
+下一课不再继续画组件图，而是进入 Harness Engineering。
 
-```text
-Agent 下一步怎么决定？
-```
-
-推进到了：
+我们会问：
 
 ```text
-谁拥有行动权？
-谁拥有纠错权？
-谁拥有终止权？
-Planner 和 Harness 怎样分工？
-Tool / Skill / MCP 怎样动态装载？
-组织结构怎样真正进入 Agent Runtime？
+为什么同一个模型，
+换一套 Harness，
+实际 Agent 能力会差一个档次？
+
+Context 怎样影响判断？
+Tool 怎样渐进式披露？
+Skill / MCP 怎样按需装载？
+Hooks / Middleware 应该拦在哪里？
+Feedback Loop 怎样把真实 Evidence 带回来？
+Environment 怎样改变模型可以完成的任务？
 ```
 
-DeepSeek Harness 的时事插课已经提前把这扇门推开了一点。
+这一次会继续参考 Hello-Agents 的框架开发实践，也会对照 LangChain、Anthropic 等当前 Harness 工程思路，再放回 Mira 验证。
 
-所以下一次主线从这里继续：
+下一次从这里开始：
 
-> **一个 Agent Framework，到底应该负责什么？**
-
-然后继续把答案放回 Mira。
+> **Harness 到底怎样把一个“会想的模型”，变成一个真正好用的 Agent？**
 
 ---
 
