@@ -58,6 +58,8 @@ import {
   type Doc,
 } from "./content/mira-docs-adapter";
 import HomepageV1, { HomepageFooter } from "./HomepageV1";
+import { bookEntries, books } from "./content/bookshelf";
+import BookshelfHub from "./features/bookshelf/BookshelfHub";
 
 type LinkItem = { label: string; href: string };
 type ThemeName = "claude" | "apple" | "supabase";
@@ -1293,15 +1295,35 @@ function RoutedApp() {
           }
         />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/books" element={<BookshelfHub />} />
+        {books.map((book) => (
+          <Route
+            key={`book-${book.id}`}
+            path={`/books/${book.id}`}
+            element={<BookshelfHub bookId={book.id} />}
+          />
+        ))}
+        {books.flatMap((book) =>
+          bookEntries(book.id).map((entry) => {
+            const entrySlug = entry.path.split("/").filter(Boolean)[2];
+            return (
+              <Route
+                key={entry.path}
+                path={entry.path}
+                element={<BookshelfHub bookId={book.id} entrySlug={entrySlug} />}
+              />
+            );
+          }),
+        )}
         <Route element={<DocsLayout />}>
-          {siteAreas.map((area) => (
+          {siteAreas.filter((area) => area.key !== "books").map((area) => (
             <Route
               key={area.key}
               path={`/${area.key}`}
               element={<AreaPage area={area} />}
             />
           ))}
-          {allDocs.map((doc) => (
+          {allDocs.filter((doc) => doc.root !== "books").map((doc) => (
               <Route
                 key={doc.path}
                 path={doc.path}
