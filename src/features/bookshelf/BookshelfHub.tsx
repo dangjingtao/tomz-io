@@ -5,10 +5,7 @@ import {
   ArrowUpRight,
   BookOpen,
   Check,
-  Moon,
-  Search,
   Share2,
-  Sun,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -18,12 +15,10 @@ import {
   getBookEntry,
   latestBookEntry,
 } from "../../content/bookshelf";
-import { allDocs, type Doc } from "../../content/mira-docs-adapter";
-import { githubProfileUrl, siteName, siteUrl } from "../../site.config";
+import { type Doc } from "../../content/mira-docs-adapter";
+import { siteName, siteUrl } from "../../site.config";
 import "./bookshelf.css";
 
-const tomzMarkSrc = `${import.meta.env.BASE_URL}brand/tomz-mark.png`;
-const githubUrl = githubProfileUrl;
 
 function authorLabel(doc: Doc): string {
   const authors = doc.author?.length ? doc.author : ["tomz"];
@@ -155,175 +150,6 @@ function normalizeBookArticleHeadings(source: string, title: string) {
     .replace(/^\s*\n/, "");
 }
 
-function BookshelfSiteHeader() {
-  const [darkMode, setDarkMode] = useState(() =>
-    typeof document === "undefined"
-      ? false
-      : document.documentElement.classList.contains("dark"),
-  );
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    const handleShortcut = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        setSearchOpen(true);
-      }
-      if (event.key === "Escape") setSearchOpen(false);
-    };
-    window.addEventListener("keydown", handleShortcut);
-    return () => window.removeEventListener("keydown", handleShortcut);
-  }, []);
-
-  const toggleTheme = () => {
-    setDarkMode((value) => {
-      const next = !value;
-      document.documentElement.classList.toggle("dark", next);
-      window.localStorage.setItem("mira-theme", next ? "dark" : "light");
-      return next;
-    });
-  };
-
-  const normalizedQuery = query.trim().toLocaleLowerCase("zh-CN");
-  const searchResults = normalizedQuery
-    ? allDocs
-        .filter((doc) =>
-          [doc.title, doc.description, doc.group, doc.directory]
-            .filter(Boolean)
-            .join(" ")
-            .toLocaleLowerCase("zh-CN")
-            .includes(normalizedQuery),
-        )
-        .slice(0, 12)
-    : [];
-
-  const navItems = [
-    ["博客", "/blogs"],
-    ["作品", "/works"],
-    ["项目", "/projects"],
-    ["书架", "/books"],
-    ["关于", "/about"],
-  ] as const;
-
-  return (
-    <>
-      <nav className="top-nav docs-header" aria-label="主导航">
-        <div className="wrap">
-          <Link className="brand" to="/" aria-label={`${siteName} 首页`}>
-            <img className="brand-tomz-mark" src={tomzMarkSrc} alt="" />
-          </Link>
-          <ul className="menu">
-            {navItems.map(([label, href]) => (
-              <li key={href}>
-                <Link
-                  className={href === "/books" ? "active" : ""}
-                  aria-current={href === "/books" ? "page" : undefined}
-                  to={href}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="nav-right">
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label={darkMode ? "切换到浅色模式" : "切换到暗黑模式"}
-              title={darkMode ? "浅色模式" : "暗黑模式"}
-            >
-              {darkMode ? (
-                <Sun size={17} aria-hidden="true" />
-              ) : (
-                <Moon size={17} aria-hidden="true" />
-              )}
-            </button>
-            <button
-              type="button"
-              className="site-search inline-flex items-center gap-2 rounded-md border border-hairline bg-canvas px-2.5 font-sans text-[13px] text-muted-soft"
-              onClick={() => setSearchOpen(true)}
-            >
-              搜索{" "}
-              <kbd className="rounded bg-surface-card px-1.5 py-px font-mono text-[10px]">
-                Ctrl K
-              </kbd>
-            </button>
-            <a
-              className="text-link header-github"
-              href={githubUrl}
-              aria-label="GitHub"
-              title="GitHub"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                fill="currentColor"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 2.807 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      {searchOpen ? (
-        <div
-          className="search-overlay"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.currentTarget === event.target) setSearchOpen(false);
-          }}
-        >
-          <div className="search-dialog" role="dialog" aria-modal="true" aria-label="站内搜索">
-            <div className="search-input-wrap">
-              <Search size={20} aria-hidden="true" />
-              <input
-                autoFocus
-                className="search-input"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="搜索 Tomz.io"
-              />
-              <button type="button" className="search-close" onClick={() => setSearchOpen(false)}>
-                ESC
-              </button>
-            </div>
-            <div className="search-results">
-              {normalizedQuery && searchResults.length === 0 ? (
-                <p className="search-empty">没有找到相关内容。</p>
-              ) : null}
-              {searchResults.map((doc) => (
-                <Link
-                  className="search-result"
-                  to={doc.path}
-                  key={doc.path}
-                  onClick={() => setSearchOpen(false)}
-                >
-                  <strong className="search-result-title">{doc.title}</strong>
-                  <span className="search-result-meta">
-                    {[doc.root === "books" ? "书架" : doc.group || doc.root, doc.description]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </span>
-                </Link>
-              ))}
-            </div>
-            <div className="search-footer">
-              <span>输入关键词搜索</span>
-              <span>ESC 关闭</span>
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
-}
-
 function BookshelfIndex() {
   useEffect(() => {
     syncHead(
@@ -335,7 +161,6 @@ function BookshelfIndex() {
 
   return (
     <>
-      <BookshelfSiteHeader />
       <main className="bookshelf-wrap bookshelf-main">
         <header className="bookshelf-hero">
           <span className="bookshelf-eyebrow">BOOKS / 书架</span>
@@ -396,7 +221,6 @@ function BookIndex({ bookId }: { bookId: string }) {
 
   return (
     <>
-      <BookshelfSiteHeader />
       <BookshelfMobileBackbar
         to="/books"
         label="返回书架"
@@ -464,7 +288,6 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
 
   return (
     <>
-      <BookshelfSiteHeader />
       <BookshelfMobileBackbar
         to={`/books/${book.id}`}
         label={`返回《${book.title}》`}
