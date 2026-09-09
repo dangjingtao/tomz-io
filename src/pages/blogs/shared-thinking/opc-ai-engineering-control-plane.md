@@ -48,7 +48,7 @@ Agent 参与以后情况变了。
 
 理想的链路应该更接近：
 
-\`\`\`text
+```text
 Work Item / Issue
       ↓
 Agent 或人领取任务
@@ -62,7 +62,7 @@ Test / CI / Review
 Release / Deployment
       ↓
 Evidence 回到任务
-\`\`\`
+```
 
 GitHub 目前已经把这条链路做得越来越直接。Issue 页面可以直接创建关联 branch；当这个 branch 建立 Pull Request 后，PR 会自动成为 Issue 的 Development 关联。[GitHub 官方文档](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-a-branch-for-an-issue)对这套关系有明确说明。
 
@@ -129,7 +129,7 @@ AI 把这个问题放大了。
 
 等系统跑起来，迁移就不再像“换个目录”。
 
-Mira Desktop 是一个很好的历史负债样本。我们在 9 月做 Organization 迁移核查时，它已经有接近百条 branch，\`dev / test / prod / main\` 各自背着历史职责，同时还有多套 Actions、Release、R2 和 Cloudflare 相关配置。仓库自己的 [BRANCHING.md](https://github.com/dangjingtao/uichat-mira/blob/dev/.github/BRANCHING.md)已经说明了这条长期分支流，而[生产发布 workflow](https://github.com/dangjingtao/uichat-mira/blob/dev/.github/workflows/release-production.yml)又把 Release 与 R2 发布绑在一起。
+Mira Desktop 是一个很好的历史负债样本。我们在 9 月做 Organization 迁移核查时，它已经有接近百条 branch，`dev / test / prod / main` 各自背着历史职责，同时还有多套 Actions、Release、R2 和 Cloudflare 相关配置。仓库自己的 [BRANCHING.md](https://github.com/dangjingtao/uichat-mira/blob/dev/.github/BRANCHING.md)已经说明了这条长期分支流，而[生产发布 workflow](https://github.com/dangjingtao/uichat-mira/blob/dev/.github/workflows/release-production.yml)又把 Release 与 R2 发布绑在一起。
 
 Mobile 更有教育意义，因为它才开发一个多月。迁移盘点时已经有十几条 branch、Android 签名 secrets、GitHub Release、R2 发布，以及代码中写死旧 owner/repository 的 GitHub Release API 地址。比如 [appUpdate.ts](https://github.com/dangjingtao/uichat-mira-mobile/blob/dev/src/update/appUpdate.ts) 就是这种很具体的耦合。
 
@@ -143,7 +143,7 @@ GitHub 对 repository transfer 的支持其实已经相当完整。官方说明 
 
 它不知道 Cloudflare 某个项目是否通过 Git Integration 绑定旧 repo，不知道应用代码里有没有硬编码旧 GitHub URL，也不知道某个第三方 GitHub App 是否只安装在个人账户。
 
-我们这次就遇到了一个很典型的例子。ChatGPT 可以正常写个人仓库，但对 Organization 仓库一直返回 \`Resource not accessible by integration\`。最后发现 ChatGPT Codex Connector 只安装在个人账户；个人安装虽然写着 \`All repositories\`，这里的 All 只包含那个 owner 的所有仓库。给 \`uichat-mira\` Organization 单独安装以后，写权限立刻恢复。
+我们这次就遇到了一个很典型的例子。ChatGPT 可以正常写个人仓库，但对 Organization 仓库一直返回 `Resource not accessible by integration`。最后发现 ChatGPT Codex Connector 只安装在个人账户；个人安装虽然写着 `All repositories`，这里的 All 只包含那个 owner 的所有仓库。给 `uichat-mira` Organization 单独安装以后，写权限立刻恢复。
 
 GitHub 没有撒谎，只是“全部”这个词比人的直觉更尊重作用域。
 
@@ -159,7 +159,7 @@ GitHub 没有撒谎，只是“全部”这个词比人的直觉更尊重作用�
 
 软件工程里有一种稳定的进步方式：现有问题解决不了的时候，先创造一个新的抽象层。
 
-于是 \`uichat-mira\` Organization 来了。
+于是 `uichat-mira` Organization 来了。
 
 它当然不会自动消除历史负债。Organization 也不是一个更高级的文件夹。真正值得迁进去的，是**共同治理能力**。
 
@@ -167,7 +167,7 @@ GitHub 目前已经允许 Organization 级 Issue Fields 跨仓使用，Project �
 
 于是，原来散落在各个 repo 里的东西开始有机会向组织层靠拢：
 
-\`\`\`text
+```text
 Organization
 ├─ Work Item 语义
 ├─ Project / Ledger / Board
@@ -177,7 +177,7 @@ Organization
 ├─ Secret / Credential Policy
 ├─ Agent Skills / Guidance
 └─ Knowledge / SOP
-\`\`\`
+```
 
 这和“大公司管理学”其实有一个共同点：局部自由往往会换来整体协调成本。
 
@@ -249,15 +249,15 @@ GitHub Organization Secrets 可以限制为 all、private 或 selected repositor
 
 所以组织化之后更合理的目标不是：
 
-\`\`\`text
+```text
 所有项目
    ↓
 一个超级 Key
-\`\`\`
+```
 
 而是：
 
-\`\`\`text
+```text
 Organization identity
        ↓
 Policy / Scope
@@ -265,7 +265,7 @@ Policy / Scope
 Repo / Environment / Agent
        ↓
 最小必要凭据
-\`\`\`
+```
 
 Agent 越能干，这个边界越值得认真做。
 
@@ -311,11 +311,11 @@ GitHub 可以保存工程事实，不代表它一定是所有场景下最好的�
 
 手机上，我更想看到的可能只有：
 
-\`\`\`text
+```text
 Now
 Next
 Attention
-\`\`\`
+```
 
 企业微信里，我真正需要的是：
 
@@ -329,7 +329,7 @@ Attention
 
 因此我们开始把系统最后一层理解成 **Projection / Publishing Layer**：
 
-\`\`\`text
+```text
                    GitHub
              Engineering Truth
                     │
@@ -339,7 +339,7 @@ Attention
                     │
                     ▼
                  企业微信
-\`\`\`
+```
 
 这里最重要的不是做更多 Dashboard，而是坚持：这些都只是 Read Model。
 
@@ -349,23 +349,23 @@ GitHub 的 audit log 用来追溯“谁在什么时候做了什么”，而如�
 
 于是理想状态不应该是：
 
-\`\`\`text
+```text
 PR merge
 → 人去改 Issue
 → 再改 Project
 → 再改官网
 → 再发企微
-\`\`\`
+```
 
 而应该逐渐变成：
 
-\`\`\`text
+```text
 Engineering Event
       ↓
 State / Evidence
       ↓
 Project / Website / WeCom 自动投影
-\`\`\`
+```
 
 人负责决策。
 
@@ -390,7 +390,7 @@ OPC 探索第一篇的时候，我们已经提出过一个方向：一人公司�
 
 这时候，一人公司开始呈现出一种很有意思的结构：
 
-\`\`\`text
+```text
 Human
   ↓ 决策
 Engineering Control Plane
@@ -406,18 +406,18 @@ Evidence
 Control Plane
   ↓
 内部与外部投影
-\`\`\`
+```
 
 知识也可以沿着同一条路生长：
 
-\`\`\`text
+```text
 真实问题
 → 一次解决
 → 重复模式
 → Engineering Rule
 → SOP
 → Skill / Automation
-\`\`\`
+```
 
 这比第一天就写四十页“一人公司工程管理规范”现实得多。
 
