@@ -131,14 +131,12 @@ function pageNavigation(
 
 function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
   const links = [
-    ["首页", "/"],
     ["博客", "/blogs"],
     ["见π", "/weekly"],
-    ["投稿", "/submissions"],
     ["作品", "/works"],
     ["项目", "/projects"],
     ["书架", "/books"],
-    ["关于", "/#about"],
+    ["关于", "/about"],
   ] as const;
   const navigation = links
     .map(
