@@ -1,4 +1,6 @@
 /* Temporary 见π cover study — preview branch only. */
+
+/* React-rendered latest issue cover. */
 .weekly-issue-cover {
   position: sticky;
   top: 92px;
@@ -13,15 +15,42 @@
   display: none;
 }
 
+/* GitHub Pages emits a static HTML snapshot before React takes over.
+   Show the same cover there so the preview does not depend on hydration timing. */
+.seo-static-content:has(a[href*="/weekly/"]) .docs-sitemap-grid {
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 72px);
+  align-items: start;
+}
+
+.seo-static-content:has(a[href*="/weekly/"]) .docs-sitemap-grid::before {
+  content: "";
+  display: block;
+  width: 100%;
+  aspect-ratio: 520 / 735;
+  border: 1px solid var(--hairline);
+  background: url("./assets/jianpi-cover-001-study.webp") center / cover no-repeat;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
 @media (max-width: 920px) {
   .weekly-issue-cover {
     position: static;
     width: min(300px, 100%);
   }
+
+  .seo-static-content:has(a[href*="/weekly/"]) .docs-sitemap-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .seo-static-content:has(a[href*="/weekly/"]) .docs-sitemap-grid::before {
+    width: min(300px, 100%);
+  }
 }
 
 @media (max-width: 700px) {
-  .weekly-issue-cover {
+  .weekly-issue-cover,
+  .seo-static-content:has(a[href*="/weekly/"]) .docs-sitemap-grid::before {
     width: min(78vw, 300px);
   }
 }
