@@ -26,16 +26,9 @@ Tomz.io 原本是我和 Mira 写东西的地方。后来发现，有些朋友写
 
 作者是谁，按真实作者记录；Tomz 或 Mira 参与审稿、编辑，不会因此自动成为共同作者。内容放在哪里，则由内容本身决定。
 
-## 已有贡献者
+## 客座作者
 
-### [t-zt](/submissions/t-zt)
-
-Mira Mobile 的主要维护人，十八年前计协老会长。
-
-已发布：
-
-- [为什么手机端 Agent 都不给填自定义 API](/blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api)
-- [Agent 聊天为什么越用越卡：五层瓶颈调研](/blogs/guest-contributions/why-agent-chat-sync-feels-laggy)
+已经在 Tomz.io 发表过内容的外部作者，统一放在 [客座作者](/submissions/contributors) 页面介绍。这里不再逐个展开作者和文章。
 
 ## 什么适合放进来
 
