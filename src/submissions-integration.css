@@ -1,7 +1,8 @@
 /* Preview pass: submissions is an entry point, not a top-level content silo. */
 
-/* Hide the submissions/participation entry from every top navigation surface. */
-.top-nav .menu > li:has(a[href$="/submissions"]),
+/* Hide only the submissions/participation item itself from top navigation.
+   Do not hide a parent item merely because its dropdown links to submissions. */
+.top-nav .menu > li:has(> a[href$="/submissions"]),
 .home-v1-nav-links > a[href$="/submissions"],
 .home-v1-mobile-panel > a[href$="/submissions"] {
   display: none !important;
