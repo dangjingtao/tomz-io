@@ -74,7 +74,12 @@ function DesktopAboutMenu({ host }: { host: Element }) {
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      item.classList.remove("menu-dropdown", "blog-nav-dropdown", "about-nav-dropdown", "open");
+      item.classList.remove(
+        "menu-dropdown",
+        "blog-nav-dropdown",
+        "about-nav-dropdown",
+        "open",
+      );
       trigger.classList.remove("menu-dropdown-trigger", "blog-nav-trigger");
       trigger.removeAttribute("aria-haspopup");
       trigger.removeAttribute("aria-expanded");
@@ -144,12 +149,24 @@ export default function AboutNavPortal() {
   const [targets, setTargets] = useState<NavTarget[]>([]);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      const next = collectTargets();
-      setTargets((current) => (sameTargets(current, next) ? current : next));
-    });
+    let frame = 0;
+    const syncTargets = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const next = collectTargets();
+        setTargets((current) => (sameTargets(current, next) ? current : next));
+      });
+    };
 
-    return () => window.cancelAnimationFrame(frame);
+    syncTargets();
+
+    const observer = new MutationObserver(syncTargets);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(frame);
+    };
   }, [location.pathname]);
 
   return (
