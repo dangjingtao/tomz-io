@@ -133,7 +133,7 @@ function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
   const links = [
     ["首页", "/"],
     ["博客", "/blogs"],
-    ["周刊", "/weekly"],
+    ["见π", "/weekly"],
     ["投稿", "/submissions"],
     ["作品", "/works"],
     ["项目", "/projects"],
@@ -331,7 +331,7 @@ function areaBody(
     root === "blogs"
       ? "博客"
       : root === "weekly"
-        ? "周刊"
+        ? "见π"
         : root === "projects"
         ? docs.map((doc) => dataString(doc.data, "nav")).find(Boolean) || "项目"
         : docs.find((doc: StaticDoc) => doc.root === root)?.title || root;
@@ -509,7 +509,7 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
       }
       continue;
     }
-    const title = root === "blogs" ? "博客" : root === "weekly" ? "周刊" : rootDocs[0]?.title || root;
+    const title = root === "blogs" ? "博客" : root === "weekly" ? "见π" : rootDocs[0]?.title || root;
     result.push({
       path: `/${root}`,
       title,
