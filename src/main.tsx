@@ -12,6 +12,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
+import AboutNavPortal from "./components/AboutNavPortal";
 import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import WorksExperience from "./features/works/WorksExperience";
@@ -23,6 +24,7 @@ import "./styles.css";
 import "./homepage-v1.css";
 import "./blog-list.css";
 import "./submissions-integration.css";
+import "./about-nav-portal.css";
 import "./markdown.css";
 import "./blog-detail.css";
 import "./weekly.css";
@@ -96,6 +98,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
       <App />
+      <AboutNavPortal />
       <ContentTimeMetaPortal />
       <LegacyHeaderCompat />
       <WorksExperience />
