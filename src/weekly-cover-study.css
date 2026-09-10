@@ -1,0 +1,27 @@
+/* Temporary 见π cover study — preview branch only. */
+.weekly-issue-cover {
+  position: sticky;
+  top: 92px;
+  aspect-ratio: 520 / 735;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  background: url("./assets/jianpi-cover-001-study.webp") center / cover no-repeat;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+.weekly-issue-cover > * {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .weekly-issue-cover {
+    position: static;
+    width: min(300px, 100%);
+  }
+}
+
+@media (max-width: 700px) {
+  .weekly-issue-cover {
+    width: min(78vw, 300px);
+  }
+}

@@ -25,6 +25,7 @@ import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
 import "./weekly.css";
+import "./weekly-cover-study.css";
 import "./claude-visual.css";
 import "./features/works/works-experience.css";
 import "./features/works/works-sprite.css";
