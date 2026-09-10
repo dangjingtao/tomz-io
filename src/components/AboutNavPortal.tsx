@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 
 type NavTarget = {
   element: Element;
-  kind: "top" | "home" | "mobile";
+  kind: "top" | "mobile";
 };
 
 function sameTargets(left: NavTarget[], right: NavTarget[]) {
@@ -20,17 +20,13 @@ function sameTargets(left: NavTarget[], right: NavTarget[]) {
 function collectTargets(): NavTarget[] {
   const targets: NavTarget[] = [];
 
-  document.querySelectorAll(".top-nav .menu").forEach((element) => {
-    if (element.querySelector(':scope > li > a[href$="/about"]')) {
-      targets.push({ element, kind: "top" });
-    }
-  });
-
-  document.querySelectorAll(".home-v1-nav-links").forEach((element) => {
-    if (element.querySelector(':scope > a[href$="/about"]')) {
-      targets.push({ element, kind: "home" });
-    }
-  });
+  document
+    .querySelectorAll<HTMLAnchorElement>('.top-nav .menu > li > a[href$="/about"]')
+    .forEach((trigger) => {
+      if (trigger.parentElement) {
+        targets.push({ element: trigger.parentElement, kind: "top" });
+      }
+    });
 
   document.querySelectorAll(".home-v1-mobile-panel").forEach((element) => {
     if (element.querySelector(':scope > a[href$="/about"]')) {
@@ -41,104 +37,94 @@ function collectTargets(): NavTarget[] {
   return targets;
 }
 
-function DesktopAboutMenu({
-  kind,
-  host,
-}: {
-  kind: "top" | "home";
-  host: Element;
-}) {
+function DesktopAboutMenu({ host }: { host: Element }) {
   const [open, setOpen] = useState(false);
-  const closeTimer = useRef<number | null>(null);
-
-  const cancelClose = () => {
-    if (closeTimer.current !== null) {
-      window.clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  };
-
-  const scheduleClose = () => {
-    cancelClose();
-    closeTimer.current = window.setTimeout(() => {
-      setOpen(false);
-      closeTimer.current = null;
-    }, 220);
-  };
 
   useEffect(() => {
-    const selector =
-      kind === "top"
-        ? ':scope > li > a[href$="/about"]'
-        : ':scope > a[href$="/about"]';
-    const trigger = host.querySelector<HTMLAnchorElement>(selector);
+    const item = host as HTMLElement;
+    const trigger = item.querySelector<HTMLAnchorElement>(
+      ':scope > a[href$="/about"]',
+    );
     if (!trigger) return;
 
-    const handleEnter = () => {
-      cancelClose();
-      setOpen(true);
-    };
-    const handleLeave = () => scheduleClose();
-    const handleFocus = () => {
-      cancelClose();
-      setOpen(true);
-    };
-    const handleBlur = () => scheduleClose();
+    item.classList.add("menu-dropdown", "blog-nav-dropdown", "about-nav-dropdown");
+    trigger.classList.add("menu-dropdown-trigger", "blog-nav-trigger");
+    trigger.setAttribute("aria-haspopup", "menu");
+
+    const handleEnter = () => setOpen(true);
+    const handleLeave = () => setOpen(false);
     const handleClick = (event: MouseEvent) => {
-      if (!open) {
-        event.preventDefault();
-        cancelClose();
-        setOpen(true);
-      }
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      setOpen(true);
+    };
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!item.contains(event.target as Node)) setOpen(false);
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        cancelClose();
-        setOpen(false);
-        trigger.focus();
-      }
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      trigger.focus();
     };
 
-    trigger.addEventListener("pointerenter", handleEnter);
-    trigger.addEventListener("pointerleave", handleLeave);
-    trigger.addEventListener("focus", handleFocus);
-    trigger.addEventListener("blur", handleBlur);
+    item.addEventListener("mouseenter", handleEnter);
+    item.addEventListener("mouseleave", handleLeave);
     trigger.addEventListener("click", handleClick);
+    document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      cancelClose();
-      trigger.removeEventListener("pointerenter", handleEnter);
-      trigger.removeEventListener("pointerleave", handleLeave);
-      trigger.removeEventListener("focus", handleFocus);
-      trigger.removeEventListener("blur", handleBlur);
+      item.classList.remove("menu-dropdown", "blog-nav-dropdown", "about-nav-dropdown", "open");
+      trigger.classList.remove("menu-dropdown-trigger", "blog-nav-trigger");
+      trigger.removeAttribute("aria-haspopup");
+      trigger.removeAttribute("aria-expanded");
+      item.removeEventListener("mouseenter", handleEnter);
+      item.removeEventListener("mouseleave", handleLeave);
       trigger.removeEventListener("click", handleClick);
+      document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [host, kind, open]);
+  }, [host]);
+
+  useEffect(() => {
+    const item = host as HTMLElement;
+    const trigger = item.querySelector<HTMLAnchorElement>(
+      ':scope > a[href$="/about"]',
+    );
+    item.classList.toggle("open", open);
+    trigger?.setAttribute("aria-expanded", String(open));
+  }, [host, open]);
 
   return (
-    <div
-      className={`about-secondary-menu about-secondary-menu-${kind}${open ? " is-open" : ""}`}
-      aria-label="关于 Tomz.io"
-      onPointerEnter={cancelClose}
-      onPointerLeave={scheduleClose}
-      onFocus={cancelClose}
-      onBlur={scheduleClose}
-    >
-      <p>ABOUT TOMZ.IO</p>
-      <Link to="/about">
-        <strong>关于 Tomz.io</strong>
-        <span>Tomz、Mira 与这个站点</span>
-      </Link>
-      <Link to="/submissions">
-        <strong>参与 Tomz.io</strong>
-        <span>投稿方式、署名与编辑规则</span>
-      </Link>
-      <Link to="/submissions/contributors">
-        <strong>客座作者</strong>
-        <span>集中查看作者介绍与已发布文章</span>
-      </Link>
+    <div className="menu-dropdown-panel blog-nav-panel" role="menu">
+      <div className="blog-nav-panel-head">
+        <span>ABOUT TOMZ.IO</span>
+        <strong>关于与参与</strong>
+      </div>
+      <div className="blog-nav-panel-grid">
+        <Link role="menuitem" to="/about" onClick={() => setOpen(false)}>
+          <span>
+            <strong>关于 Tomz.io</strong>
+            <small>Tomz、Mira 与这个站点</small>
+          </span>
+        </Link>
+        <Link role="menuitem" to="/submissions" onClick={() => setOpen(false)}>
+          <span>
+            <strong>参与 Tomz.io</strong>
+            <small>投稿方式、署名与编辑规则</small>
+          </span>
+        </Link>
+        <Link
+          role="menuitem"
+          to="/submissions/contributors"
+          onClick={() => setOpen(false)}
+        >
+          <span>
+            <strong>客座作者</strong>
+            <small>集中查看作者介绍与已发布文章</small>
+          </span>
+        </Link>
+      </div>
     </div>
   );
 }
@@ -146,7 +132,7 @@ function DesktopAboutMenu({
 function MobileAboutLinks() {
   return (
     <div className="about-mobile-secondary" aria-label="关于 Tomz.io 的更多入口">
-      <span>更多</span>
+      <strong>关于 · 更多</strong>
       <Link to="/submissions">参与 Tomz.io</Link>
       <Link to="/submissions/contributors">客座作者</Link>
     </div>
@@ -173,7 +159,7 @@ export default function AboutNavPortal() {
           target.kind === "mobile" ? (
             <MobileAboutLinks />
           ) : (
-            <DesktopAboutMenu kind={target.kind} host={target.element} />
+            <DesktopAboutMenu host={target.element} />
           ),
           target.element,
           `${target.kind}-${index}`,
