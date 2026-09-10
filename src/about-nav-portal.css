@@ -8,7 +8,7 @@
 .about-secondary-menu {
   position: absolute;
   z-index: 80;
-  top: calc(100% + 10px);
+  top: calc(100% + 8px);
   right: 0;
   width: min(330px, calc(100vw - 32px));
   padding: 14px;
@@ -23,16 +23,11 @@
   transition: opacity 140ms ease, transform 140ms ease, visibility 140ms ease;
 }
 
-/* Keep the pointer inside the menu's hover area while it crosses the visual gap
-   between the About trigger and the floating panel. */
-.about-secondary-menu::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -12px;
-  height: 12px;
-  background: transparent;
+.about-secondary-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .about-secondary-menu p {
@@ -73,20 +68,6 @@
   color: var(--muted, #7d776f);
   font-size: 12px;
   line-height: 1.5;
-}
-
-.top-nav .menu:has(> li > a[href$="/about"]:hover) > .about-secondary-menu-top,
-.top-nav .menu:has(> li > a[href$="/about"]:focus-visible) > .about-secondary-menu-top,
-.top-nav .menu > .about-secondary-menu-top:hover,
-.top-nav .menu > .about-secondary-menu-top:focus-within,
-.home-v1-nav-links:has(> a[href$="/about"]:hover) > .about-secondary-menu-home,
-.home-v1-nav-links:has(> a[href$="/about"]:focus-visible) > .about-secondary-menu-home,
-.home-v1-nav-links > .about-secondary-menu-home:hover,
-.home-v1-nav-links > .about-secondary-menu-home:focus-within {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0);
 }
 
 .about-mobile-secondary {
