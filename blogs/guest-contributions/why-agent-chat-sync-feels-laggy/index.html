@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>Agent 聊天为什么越用越卡：五层瓶颈调研 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-ByoBXT1J.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-Dqp1D4ru.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/guest-contributions/why-agent-chat-sync-feels-laggy/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="Agent 聊天为什么越用越卡：五层瓶颈调研 · Tomz Dang"><meta property="og:description" content="Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/guest-contributions/why-agent-chat-sync-feels-laggy/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Agent 聊天为什么越用越卡：五层瓶颈调研 · Tomz Dang"><meta name="twitter:description" content="Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Agent 聊天为什么越用越卡：五层瓶颈调研","description":"Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。","url":"https://tomz.io/tomz-io/blogs/guest-contributions/why-agent-chat-sync-feels-laggy/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-08-31","author":[{"@type":"Person","name":"t-zt"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-10T16:19:52.000+08:00"}</script></head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/">首页</a></li><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/submissions">投稿</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/#about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>Agent 聊天为什么越用越卡：五层瓶颈调研</h1><p class="doc-lede">Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。</p><div class="post-meta post-meta-article"><span>t-zt</span><span class="dot"></span><span>16 分钟阅读</span><span class="dot"></span><span>客座文章</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年8月31日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月10日 16:19</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>用 Trae、WorkBuddy、Cursor 这类 Agent 产品时，很多人都遇到过类似体验：聊天窗口打字发滞、流式输出一顿一顿、切换会话要转圈、长会话越用越卡，极端情况下整个界面假死。</p>
+<p>直觉上，“存个聊天记录”不该这么难。但如果把链路拆开，会发现 Agent 对话同时碰到长上下文计算、实时传输、状态恢复、本地持久化和前端渲染。这里面既有结构性成本，也有很普通、很能修的工程债。</p>
+<h2 id="一先确认事实多款产品都出现过同类问题">一、先确认事实：多款产品都出现过同类问题<a class="md-anchor" href="#一先确认事实多款产品都出现过同类问题">#</a></h2>
+<p>公开资料里，Cursor、Codex、Qoder、Trae、WorkBuddy 等产品都出现过长会话、历史记录或本地状态相关的性能问题。不过这些证据的强度并不一样：有些是官方确认，有些是官方 workaround，还有一些只是社区个案或第三方排查。</p>
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>公开可查的症状</th>
+<th>证据与判断</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cursor</td>
+<td>“Taking longer than expected”、长会话越用越慢</td>
+<td>官方员工确认长会话会积累更多状态；<code>state.vscdb</code> 过度增长也有大量社区案例，极端案例达到 97GB</td>
+</tr>
+<tr>
+<td>Trae</td>
+<td>打开项目卡死、任务卡在“正在分析问题”</td>
+<td>官方支持曾建议删除 <code>ModularData/ai-agent/database.db</code> 作为故障处理手段；这能证明数据库与部分故障相关，但不能推出所有卡顿都由数据库膨胀造成</td>
+</tr>
+<tr>
+<td>腾讯云 WorkBuddy</td>
+<td>运行缓慢、任务卡住、回复异常</td>
+<td>官方 FAQ 给出网络、复杂任务、模型切换等排查建议；带宽分级、上下文截断等细节主要来自第三方分析</td>
+</tr>
+<tr>
+<td>Codex</td>
+<td>历史会话打开缓慢或假死</td>
+<td>有社区排查将问题指向 SQLite WAL 与 checkpoint；属于个案证据，不应写成 Codex 的统一根因</td>
+</tr>
+<tr>
+<td>Qoder</td>
+<td>长会话 CPU 明显升高</td>
+<td>有社区案例把问题指向 Webview / Renderer 与消息 DOM 增长，属于工程排查而非官方定论</td>
+</tr>
+<tr>
+<td>Reasonix</td>
+<td>切换会话后丢最近消息</td>
+<td>社区 issue 指向缓冲与异步刷盘问题，是典型的“状态还没持久化”故障案例</td>
+</tr>
+</tbody></table>
+<p>真正值得看的不是“谁家最卡”，而是这些故障为什么会不断落到相似的位置。</p>
+<h2 id="二五层瓶颈拆解">二、五层瓶颈拆解<a class="md-anchor" href="#二五层瓶颈拆解">#</a></h2>
+<p>从模型到屏幕，一条 Agent 消息通常要穿过五层，每一层都可能叠加延迟。</p>
+<h3 id="第-1-层模型-后端长上下文有两种不同的平方成本">第 1 层：模型 / 后端——长上下文有两种不同的“平方成本”<a class="md-anchor" href="#第-1-层模型-后端长上下文有两种不同的平方成本">#</a></h3>
+<p>很多 Agent 在逻辑上会持续携带越来越长的会话历史：用户消息、助手回复、工具调用、工具结果、diff、错误信息都可能进入后续上下文。</p>
+<p>这里经常被一句“Agent 是 O(n²)”混在一起，其实至少有两个不同概念：</p>
+<ol>
+<li><strong>重复携带历史的累计成本。</strong> 假设每一轮新增的内容量大致相同，第 1 轮带 1 份历史、第 2 轮带 2 份……跑到第 n 轮时，整个生命周期累计发送或处理的历史量可以增长到 O(n²)。</li>
+<li><strong>Transformer 单次 attention 的计算复杂度。</strong> 对长度为 L 的普通 full-attention prefill，一次 attention 本身近似 O(L²)。这是另一个维度的平方。</li>
+</ol>
+<p>这两个“平方”不是一回事，也不意味着所有 Agent 实现都会原样吃满。服务端 thread、prompt / prefix cache、KV cache、上下文摘要、工具结果裁剪、自动 compact 都会改变实际成本。</p>
+<p>所以更准确的说法是：<strong>长会话天然会让模型侧越来越贵，但实际变慢多少，取决于运行时怎么管理上下文。</strong></p>
+<h3 id="第-2-层传输断线恢复代理兼容和重试堆积">第 2 层：传输——断线恢复、代理兼容和重试堆积<a class="md-anchor" href="#第-2-层传输断线恢复代理兼容和重试堆积">#</a></h3>
+<p>SSE / WebSocket 本身不一定是瓶颈，真正麻烦的是它们与真实网络环境叠在一起：断连后的状态恢复、代理与 TLS 兼容、移动网络切换、后端 529 / 503 过载后的重试，以及多个并发工具结果同时返回。</p>
+<p>社区里确实有“切到 HTTP/1.1 后明显改善”的个案，但这更像特定代理栈或连接复用问题，不能简单概括成“HTTP/2 天生队头阻塞所以更慢”。HTTP/2 解决了应用层的请求队头阻塞，但底层 TCP 丢包、代理实现和连接状态仍可能制造延迟。</p>
+<p>当后端开始过载时，最危险的是<strong>重试风暴</strong>：一次慢请求触发多个重试，多个重试又进一步推高并发，用户看到的就是“越卡越重试，越重试越卡”。</p>
+<h3 id="第-3-层状态同步不是-cap-定理但确实难做干净">第 3 层：状态同步——不是 CAP 定理，但确实难做干净<a class="md-anchor" href="#第-3-层状态同步不是-cap-定理但确实难做干净">#</a></h3>
+<p>“聊天同步”看似只是“存个记录”，实际同时要求：</p>
+<ul>
+<li><strong>实时</strong>：token 持续到达，UI 要快速追加；</li>
+<li><strong>持久</strong>：崩溃或断线后能恢复；</li>
+<li><strong>有序</strong>：多窗口、多端、工具回包不能乱序；</li>
+<li><strong>可恢复</strong>：失败、重试、取消后不能把半截状态永远留在 UI 里。</li>
+</ul>
+<p>这些要求<strong>并不是两两冲突，也不存在一个类似 CAP 的定理说只能四选三</strong>。单写者场景下，用 append-only event log、sequence id、durable checkpoint、snapshot 等常见手段完全可以同时做到实时、持久、有序和恢复。</p>
+<p>真正难的是成本和边界：每个 token 都同步落盘最安全，但 I/O 太碎；只放内存最轻，但崩溃时容易丢；多端同时修改、离线编辑、共享草稿又会把问题升级到多写者一致性。</p>
+<p>CRDT 适合解决后面这种<strong>多副本并发编辑与合并</strong>问题，但它不是 token streaming 的“理论完整解”。对绝大多数单人 Agent 聊天，先把事件日志、顺序号、flush 与恢复协议做好，往往比上 CRDT 更实际。</p>
+<p>还有一个经常被低估的问题：<strong>流式到达的是半截 Markdown。</strong> 代码块围栏可能还没闭合，表格只有半行，语法树一直在变化。如果每个 delta 都把整篇 Markdown 从头解析，累计成本也会出现 O(N²) 式增长；增量解析、活动段落渲染和批量刷新都能明显改善。</p>
+<h3 id="第-4-层本地持久化最常见的大块工程债">第 4 层：本地持久化——最常见的大块工程债<a class="md-anchor" href="#第-4-层本地持久化最常见的大块工程债">#</a></h3>
+<p>Agent 会话比普通聊天肥得多：工具调用结果、日志、diff、代码块、截图引用都可能进入历史。只要缺少生命周期管理，本地 SQLite 或 IndexedDB 很容易一路长大。</p>
+<p>常见问题包括：</p>
+<ul>
+<li>数据库只增不减，没有 retention / prune；</li>
+<li>WAL checkpoint 跟不上高频写入；</li>
+<li>预览列表为了取“每个会话最后一条消息”写成全表扫描；</li>
+<li>大量工具输出直接存正文，没有压缩或外置；</li>
+<li>长期不做 VACUUM / compaction，冷数据和索引持续膨胀。</li>
+</ul>
+<p>Cursor 的 <code>state.vscdb</code> 增长有官方与社区讨论，极端 97GB 的案例也确实存在，但它应该被理解为<strong>极端用户案例</strong>，不是典型规模。Codex、Omnigent 等 WAL 相关案例也更适合作为“这类故障会发生”的证据，而不是给所有产品统一定根因。</p>
+<h3 id="第-5-层前端渲染第二大工程债">第 5 层：前端渲染——第二大工程债<a class="md-anchor" href="#第-5-层前端渲染第二大工程债">#</a></h3>
+<p>模型已经把 token 吐出来了，不代表用户就能顺滑地看到。</p>
+<p>常见反模式包括：</p>
+<ul>
+<li>每个 delta 都 <code>setMessages()</code>，导致整棵消息树重复 render；</li>
+<li>已完成的旧消息仍然每次重新跑 Markdown / syntax highlight；</li>
+<li>消息列表没有虚拟化，几十轮工具型会话很快变成几万 DOM 节点；</li>
+<li>输入框和流式消息共享同一条高频渲染路径，打字与 token 更新互相抢主线程；</li>
+<li>代码高亮、Mermaid、diff viewer 在流式阶段过早执行。</li>
+</ul>
+<p>正确方向并不神秘：把 delta 合成 30～80ms 左右的批次、只重渲当前活动消息、缓存已完成块、长列表虚拟化、重型渲染延后到段落或代码块闭合之后。不同项目能省多少 CPU 没有统一数字，但通常都比“每 token 全量重绘”健康得多。</p>
+<h2 id="三直接回答是不是内在难度">三、直接回答：是不是内在难度？<a class="md-anchor" href="#三直接回答是不是内在难度">#</a></h2>
+<p>一半是，一半不是。</p>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>更可能是什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>短会话也卡、空闲也卡</td>
+<td>查询、WAL、渲染或本地状态工程债</td>
+</tr>
+<tr>
+<td>长会话越用越卡</td>
+<td>上下文计算 + 本地状态 / DOM 增长的混合问题</td>
+</tr>
+<tr>
+<td>切会话丢消息</td>
+<td>flush / event ordering / recovery 协议问题</td>
+</tr>
+<tr>
+<td>换模型、错峰就好</td>
+<td>后端容量、模型延迟或网络问题</td>
+</tr>
+<tr>
+<td>重启后暂时恢复</td>
+<td>内存、Renderer、连接状态或本地缓存累积</td>
+</tr>
+</tbody></table>
+<p>真正的结构性成本主要有两类：</p>
+<ol>
+<li><strong>上下文越长，模型处理通常越贵。</strong> 这只能靠缓存、裁剪、摘要、compact 和更好的模型架构缓解，不能指望“优化一下前端”把它消掉。</li>
+<li><strong>实时状态恢复需要明确协议。</strong> 这不是无解定理，但只要同时有流式输出、工具调用、取消、重试、多窗口或多端，就必须认真设计 sequence、checkpoint、幂等和恢复边界。</li>
+</ol>
+<p>除此之外，大量用户能直接感知的“越用越卡”，依然是可以修的工程债：无限增长的本地状态、糟糕的查询、WAL 管理、无虚拟化列表和高频全量渲染。</p>
+<h2 id="四trae-workbuddy-的特有放大因素">四、Trae / WorkBuddy 的特有放大因素<a class="md-anchor" href="#四trae-workbuddy-的特有放大因素">#</a></h2>
+<ul>
+<li><strong>Trae</strong>：作为 VS Code 系产品，聊天、编辑器、扩展和 Webview 会竞争桌面端资源。官方支持曾把删除 <code>database.db</code> 作为特定卡死问题的处理方式，这说明本地 Agent 状态至少是一个真实故障面，但不能把所有 Trae 性能问题都归结到同一个数据库文件。</li>
+<li><strong>WorkBuddy</strong>：它属于桌面执行型 Agent，聊天期间可能同时运行浏览器、文件操作和其他本地任务，因此更容易出现模型延迟与本地资源竞争叠加。免费档带宽分级、具体上下文截断阈值等说法主要来自第三方资料，应视为观察而非官方实现合同。</li>
+</ul>
+<h2 id="五如果要修按-roi-排序">五、如果要修：按 ROI 排序<a class="md-anchor" href="#五如果要修按-roi-排序">#</a></h2>
+<ol>
+<li><strong>先量本地状态</strong>：数据库体积、WAL 大小、每轮新增字节、慢查询、checkpoint 时间；没有这些指标，不要先怪模型。</li>
+<li><strong>再修渲染</strong>：活动消息局部更新、delta 批处理、旧消息缓存、列表虚拟化、重型 Markdown 延迟处理。</li>
+<li><strong>明确同步协议</strong>：事件 sequence、幂等写入、切换会话前 flush、断点恢复和取消语义。</li>
+<li><strong>管理上下文</strong>：工具结果裁剪、自动 compact、旧轮次摘要、模型侧缓存和长会话提示。</li>
+<li><strong>最后处理传输与容量</strong>：SSE <code>Last-Event-ID</code>、重试退避、代理兼容、并发限流和后端排队。</li>
+</ol>
+<p>这个顺序的好处是：先修那些<strong>不换模型也能立刻变快</strong>的部分，再处理真正昂贵的模型与后端问题。</p>
+<h2 id="主要来源">主要来源<a class="md-anchor" href="#主要来源">#</a></h2>
+<ol>
+<li><a href="https://forum.cursor.com/t/longer-sessions-slower-agents/161452">Longer sessions -&gt; Slower Agents（Cursor 官方论坛）</a></li>
+<li><a href="https://forum.cursor.com/t/request-for-official-tool-for-cursor-to-cleanup-itself-for-its-really-hard-burden-and-slow-speed-nowadays/161286/2">Request for official cleanup tool for state.vscdb（Cursor 论坛）</a></li>
+<li><a href="https://forum.cursor.com/t/state-vscdb-grew-from-3-1-gb-97-gb-macos/166013">Cursor state.vscdb 97GB 极端案例</a></li>
+<li><a href="https://forum.trae.cn/t/topic/20746">Trae：模型输出过长导致打开项目卡死</a></li>
+<li><a href="https://docs.trae.ai/ide/troubleshoot-performance-issues">Trae 官方性能问题排查文档</a></li>
+<li><a href="https://cloud.tencent.com/document/product/1831/134405">腾讯云 WorkBuddy 官方常见问题</a></li>
+<li><a href="https://juejin.cn/post/7645141802761568299">SQLite WAL 把 Codex 卡死：排查实录（社区案例）</a></li>
+<li><a href="https://github.com/user-attachments/files/30622215/Omnigent.2432.Idle.CPU.Spin.WAL.Bloat.Fix.pdf">Omnigent #2432：窗口函数全表扫描 + WAL 饥饿</a></li>
+<li><a href="https://github.com/happier-dev/happier/issues/189">happier #189：WAL checkpoint 饥饿</a></li>
+<li><a href="https://developer.aliyun.com/ask/704790">Qoder 长会话 CPU 根因分析（社区问答）</a></li>
+<li><a href="https://github.com/esengine/DeepSeek-Reasonix/issues/6637">DeepSeek-Reasonix #6637：切会话丢消息</a></li>
+<li><a href="https://www.incremark.com/guide/comparison.html">流式 Markdown 渲染方案对比</a></li>
+<li><a href="https://reactz2h.com/chapter_16_real_world_react_projects/series_04_project_ai_assistant_app/streaming_token_display">React 流式 token 渲染：批量合并策略</a></li>
+</ol>
+<p>可信度说明：官方论坛和官方 FAQ 用来确认“问题或 workaround 确实存在”；社区 issue、博客和排查记录用于说明可能的工程机制，不把个案直接提升为整个产品的官方根因。</p>
+<p>一句话总结：<strong>Agent 聊天确实比普通聊天更容易积累结构性成本，但用户感受到的大量卡顿并不神秘——无界增长的本地状态、没有管理好的 WAL、全量查询和无虚拟化渲染，往往才是最值得先修的地方。</strong></p>
+<hr>
+<p><strong>免责声明：</strong> 本文为客座作者 <strong>t-zt</strong> 的个人观点与调研记录，不代表 Tomz.io、Tomz 或 Mira 的立场。文中技术结论包含公开资料与社区案例，具体产品实现可能随版本变化；如有错误或新的公开证据，欢迎通过 GitHub Issue / Pull Request 指正。</p>
+<section class="author-signature author-signature-solo"><div class="author-signature-avatars author-signature-avatars-1"><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/194352280?v=4" /></div><div class="author-signature-copy"><h4>t-zt</h4><p>Mira Mobile 的主要维护人，十八年前计协老会长。</p></div></section><div class="page-nav"><a href="/tomz-io/blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api"><span class="dir">上一篇</span><span class="to">← 为什么手机端 Agent 都不给填自定义 API</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#一先确认事实多款产品都出现过同类问题">一、先确认事实：多款产品都出现过同类问题</a></li><li><a href="#二五层瓶颈拆解">二、五层瓶颈拆解</a></li><li><a href="#三直接回答是不是内在难度">三、直接回答：是不是内在难度？</a></li><li><a href="#四trae-workbuddy-的特有放大因素">四、Trae / WorkBuddy 的特有放大因素</a></li><li><a href="#五如果要修按-roi-排序">五、如果要修：按 ROI 排序</a></li><li><a href="#主要来源">主要来源</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>
