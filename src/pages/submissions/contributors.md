@@ -1,7 +1,7 @@
 ---
 title: 客座作者
 description: 集中记录在 Tomz.io 发表过内容的客座作者与贡献关系。
-group: 站务
+group: 贡献者
 order: 2
 date: 2026年9月10日
 readTime: 1 分钟阅读
