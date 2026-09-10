@@ -82,6 +82,16 @@
   border-color: var(--hairline);
 }
 
+/* 恢复与全局一致的导航高亮：当前项、下拉触发器 hover/open 的主题色 */
+:root.works-route:not(.dark) .menu a.active,
+:root.works-route:not(.dark) .menu-dropdown-trigger:hover,
+:root.works-route:not(.dark) .menu-dropdown.open .menu-dropdown-trigger,
+:root.works-route.dark .menu a.active,
+:root.works-route.dark .menu-dropdown-trigger:hover,
+:root.works-route.dark .menu-dropdown.open .menu-dropdown-trigger {
+  color: var(--primary-active);
+}
+
 .works-experience {
   inset: var(--works-header-offset, 64px) 0 0;
 }
