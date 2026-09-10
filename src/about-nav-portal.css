@@ -1,0 +1,102 @@
+/* Secondary navigation for participation and guest-author information.
+   These are discoverable under About, but do not occupy first-level nav slots. */
+.top-nav .menu,
+.home-v1-nav-links {
+  position: relative;
+}
+
+.about-secondary-menu {
+  position: absolute;
+  z-index: 80;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(330px, calc(100vw - 32px));
+  padding: 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  background: var(--paper, #faf8f3);
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--ink) 10%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 140ms ease, transform 140ms ease, visibility 140ms ease;
+}
+
+.about-secondary-menu p {
+  margin: 0 0 8px;
+  padding: 0 6px 8px;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--muted, #7d776f);
+  font: 500 10px/1.2 var(--font-mono);
+  letter-spacing: .12em;
+}
+
+.about-secondary-menu a {
+  display: block;
+  padding: 10px 8px;
+  border-radius: 7px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.about-secondary-menu a:hover,
+.about-secondary-menu a:focus-visible {
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  outline: none;
+}
+
+.about-secondary-menu strong,
+.about-secondary-menu span {
+  display: block;
+}
+
+.about-secondary-menu strong {
+  margin-bottom: 3px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.about-secondary-menu span {
+  color: var(--muted, #7d776f);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.top-nav .menu:has(> li > a[href$="/about"]:hover) > .about-secondary-menu-top,
+.top-nav .menu:has(> li > a[href$="/about"]:focus-visible) > .about-secondary-menu-top,
+.top-nav .menu > .about-secondary-menu-top:hover,
+.top-nav .menu > .about-secondary-menu-top:focus-within,
+.home-v1-nav-links:has(> a[href$="/about"]:hover) > .about-secondary-menu-home,
+.home-v1-nav-links:has(> a[href$="/about"]:focus-visible) > .about-secondary-menu-home,
+.home-v1-nav-links > .about-secondary-menu-home:hover,
+.home-v1-nav-links > .about-secondary-menu-home:focus-within {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.about-mobile-secondary {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 12px 0 2px;
+  border-top: 1px solid var(--hairline);
+}
+
+.about-mobile-secondary > span {
+  color: var(--muted, #7d776f);
+  font: 500 10px/1.2 var(--font-mono);
+  letter-spacing: .1em;
+}
+
+.about-mobile-secondary > a {
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .about-secondary-menu {
+    display: none;
+  }
+}
