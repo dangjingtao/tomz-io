@@ -22,6 +22,7 @@ import "./tailwind.css";
 import "./styles.css";
 import "./homepage-v1.css";
 import "./blog-list.css";
+import "./submissions-integration.css";
 import "./markdown.css";
 import "./blog-detail.css";
 import "./weekly.css";
