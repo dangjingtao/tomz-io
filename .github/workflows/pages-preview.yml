@@ -26,6 +26,10 @@ jobs:
         with:
           node-version: 22
       - run: npm install
+      - name: Media pipeline unit tests
+        run: npm run media:test
+      - name: Media production scan (no upload, no source rewrite)
+        run: npm run media:prepare
       - run: npm run build:github-pages
       - name: Verify GitHub Pages static output
         env:
