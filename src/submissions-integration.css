@@ -7,9 +7,12 @@
   display: none !important;
 }
 
-/* Keep the route itself available for direct links from blog/about. */
-.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-grid > a[href*="/submissions/t-zt/"] {
-  display: none;
+/* If an older cached shell still exposes the participation dropdown, keep it
+   compact: one entry for the rules and one centralized guest-author index. */
+.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"])
+  .blog-nav-panel-grid
+  > a:not([href$="/submissions"]):not([href$="/submissions/contributors"]) {
+  display: none !important;
 }
 
 .menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-head > span {
