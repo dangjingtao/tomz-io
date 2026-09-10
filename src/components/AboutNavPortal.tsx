@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 
@@ -41,13 +41,96 @@ function collectTargets(): NavTarget[] {
   return targets;
 }
 
-function DesktopAboutMenu({ kind }: { kind: "top" | "home" }) {
+function DesktopAboutMenu({
+  kind,
+  host,
+}: {
+  kind: "top" | "home";
+  host: Element;
+}) {
+  const [open, setOpen] = useState(false);
+  const closeTimer = useRef<number | null>(null);
+
+  const cancelClose = () => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = window.setTimeout(() => {
+      setOpen(false);
+      closeTimer.current = null;
+    }, 220);
+  };
+
+  useEffect(() => {
+    const selector =
+      kind === "top"
+        ? ':scope > li > a[href$="/about"]'
+        : ':scope > a[href$="/about"]';
+    const trigger = host.querySelector<HTMLAnchorElement>(selector);
+    if (!trigger) return;
+
+    const handleEnter = () => {
+      cancelClose();
+      setOpen(true);
+    };
+    const handleLeave = () => scheduleClose();
+    const handleFocus = () => {
+      cancelClose();
+      setOpen(true);
+    };
+    const handleBlur = () => scheduleClose();
+    const handleClick = (event: MouseEvent) => {
+      if (!open) {
+        event.preventDefault();
+        cancelClose();
+        setOpen(true);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        cancelClose();
+        setOpen(false);
+        trigger.focus();
+      }
+    };
+
+    trigger.addEventListener("pointerenter", handleEnter);
+    trigger.addEventListener("pointerleave", handleLeave);
+    trigger.addEventListener("focus", handleFocus);
+    trigger.addEventListener("blur", handleBlur);
+    trigger.addEventListener("click", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      cancelClose();
+      trigger.removeEventListener("pointerenter", handleEnter);
+      trigger.removeEventListener("pointerleave", handleLeave);
+      trigger.removeEventListener("focus", handleFocus);
+      trigger.removeEventListener("blur", handleBlur);
+      trigger.removeEventListener("click", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [host, kind, open]);
+
   return (
     <div
-      className={`about-secondary-menu about-secondary-menu-${kind}`}
+      className={`about-secondary-menu about-secondary-menu-${kind}${open ? " is-open" : ""}`}
       aria-label="关于 Tomz.io"
+      onPointerEnter={cancelClose}
+      onPointerLeave={scheduleClose}
+      onFocus={cancelClose}
+      onBlur={scheduleClose}
     >
       <p>ABOUT TOMZ.IO</p>
+      <Link to="/about">
+        <strong>关于 Tomz.io</strong>
+        <span>Tomz、Mira 与这个站点</span>
+      </Link>
       <Link to="/submissions">
         <strong>参与 Tomz.io</strong>
         <span>投稿方式、署名与编辑规则</span>
@@ -90,7 +173,7 @@ export default function AboutNavPortal() {
           target.kind === "mobile" ? (
             <MobileAboutLinks />
           ) : (
-            <DesktopAboutMenu kind={target.kind} />
+            <DesktopAboutMenu kind={target.kind} host={target.element} />
           ),
           target.element,
           `${target.kind}-${index}`,
