@@ -7,10 +7,10 @@ import policy from "../site-policy.json";
 export const topNavigationOrder = [
   "blogs",
   "weekly",
-  "submissions",
   "works",
   "projects",
   "books",
+  "submissions",
 ] as const;
 
 export const siteName = policy.siteName;
