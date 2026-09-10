@@ -10,7 +10,7 @@ export const topNavigationOrder = [
   "works",
   "projects",
   "books",
-  "submissions",
+  "about",
 ] as const;
 
 export const siteName = policy.siteName;

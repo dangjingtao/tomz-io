@@ -19,7 +19,6 @@ import {
   Compass,
   Cpu,
   ChevronUp,
-  FileCode2,
   FileQuestion,
   GitBranch,
   Lightbulb,
@@ -319,12 +318,6 @@ const blogNavCategories = (() => {
   }
   return [...groups].map(([label, count]) => ({ label, count }));
 })();
-const submissionNavDocs = (() => {
-  const area = siteAreas.find((item) => item.key === "submissions");
-  return (area?.docs || [])
-    .filter((doc) => doc.path !== "/submissions")
-    .sort(compareDocs);
-})();
 function escapeHtml(value: string) {
   return value.replace(
     /[&<>"']/g,
@@ -483,19 +476,21 @@ const content = {
   nav: [] as LinkItem[],
 };
 content.nav = [
-  ...siteAreas.map((area) => ({ label: area.title, href: area.href })),
+  ...siteAreas
+    .filter((area) => area.key !== "submissions")
+    .map((area) => ({ label: area.title, href: area.href })),
   { label: "关于", href: "/about" },
 ].sort((a, b) => {
-    const keyFor = (item: LinkItem) =>
-      item.href.replace(appBase, "").split("/")[0];
-    const rank = (item: LinkItem) => {
-      const index = topNavigationOrder.indexOf(
-        keyFor(item) as (typeof topNavigationOrder)[number],
-      );
-      return index === -1 ? topNavigationOrder.length : index;
-    };
-    return rank(a) - rank(b);
-  });
+  const keyFor = (item: LinkItem) =>
+    item.href.replace(appBase, "").split("/")[0];
+  const rank = (item: LinkItem) => {
+    const index = topNavigationOrder.indexOf(
+      keyFor(item) as (typeof topNavigationOrder)[number],
+    );
+    return index === -1 ? topNavigationOrder.length : index;
+  };
+  return rank(a) - rank(b);
+});
 
 function ShareButton({ title, text }: { title: string; text?: string }) {
   const [label, setLabel] = useState("分享");
@@ -645,6 +640,13 @@ function SiteHeaderBase({
   };
   const isActive = (item: LinkItem) => {
     const target = navigationTarget(item.href);
+    if (target === "/about") {
+      return (
+        location.pathname === "/about" ||
+        location.pathname === "/submissions" ||
+        location.pathname.startsWith("/submissions/")
+      );
+    }
     return (
       location.pathname === target || location.pathname.startsWith(`${target}/`)
     );
@@ -659,18 +661,18 @@ function SiteHeaderBase({
           {content.nav.map((item) => {
             const active = isActive(item);
             const target = navigationTarget(item.href);
-            if (target === "/submissions") {
+            if (target === "/about") {
               return (
                 <li
-                  className={`menu-dropdown blog-nav-dropdown${openMenu === "submissions" ? " open" : ""}`}
+                  className={`menu-dropdown blog-nav-dropdown${openMenu === "about" ? " open" : ""}`}
                   key={item.href}
-                  onMouseEnter={() => setOpenMenu("submissions")}
+                  onMouseEnter={() => setOpenMenu("about")}
                   onMouseLeave={() => setOpenMenu(null)}
                 >
                   <Link
                     className={`menu-dropdown-trigger blog-nav-trigger${active ? " active" : ""}`}
                     aria-current={active ? "page" : undefined}
-                    aria-expanded={openMenu === "submissions"}
+                    aria-expanded={openMenu === "about"}
                     aria-haspopup="menu"
                     to={target}
                     onClick={(event) => {
@@ -682,7 +684,7 @@ function SiteHeaderBase({
                       )
                         return;
                       event.preventDefault();
-                      setOpenMenu("submissions");
+                      setOpenMenu("about");
                     }}
                     onKeyDown={(event) => {
                       if (event.key === "Escape") setOpenMenu(null);
@@ -693,29 +695,35 @@ function SiteHeaderBase({
                   </Link>
                   <div className="menu-dropdown-panel blog-nav-panel" role="menu">
                     <div className="blog-nav-panel-head">
-                      <span>SUBMISSIONS</span>
-                      <strong>客座作者与来稿</strong>
+                      <span>ABOUT TOMZ.IO</span>
+                      <strong>关于与参与</strong>
                     </div>
                     <div className="blog-nav-panel-grid">
-                      <Link role="menuitem" to="/submissions" onClick={() => setOpenMenu(null)}>
-                        <FileCode2 size={18} aria-hidden="true" />
+                      <Link role="menuitem" to="/about" onClick={() => setOpenMenu(null)}>
+                        <Compass size={18} aria-hidden="true" />
                         <span>
-                          <strong>投稿说明</strong>
-                          <small>怎么投，以及怎么署名</small>
+                          <strong>关于 Tomz.io</strong>
+                          <small>Tomz、Mira 与这个站点</small>
                         </span>
                       </Link>
-                      {submissionNavDocs.slice(0, 6).map((doc, index) => {
-                        const SubmissionIcon = index === 0 ? Compass : BookOpen;
-                        return (
-                          <Link role="menuitem" key={doc.path} to={doc.path} onClick={() => setOpenMenu(null)}>
-                            <SubmissionIcon size={18} aria-hidden="true" />
-                            <span>
-                              <strong>{doc.title}</strong>
-                              <small>{doc.group}</small>
-                            </span>
-                          </Link>
-                        );
-                      })}
+                      <Link role="menuitem" to="/submissions" onClick={() => setOpenMenu(null)}>
+                        <BookOpen size={18} aria-hidden="true" />
+                        <span>
+                          <strong>参与 Tomz.io</strong>
+                          <small>投稿方式、署名与编辑规则</small>
+                        </span>
+                      </Link>
+                      <Link
+                        role="menuitem"
+                        to="/submissions/contributors"
+                        onClick={() => setOpenMenu(null)}
+                      >
+                        <Network size={18} aria-hidden="true" />
+                        <span>
+                          <strong>客座作者</strong>
+                          <small>集中查看作者介绍与已发布文章</small>
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 </li>
@@ -886,8 +894,55 @@ function SiteHeaderBase({
               <path d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 2.807 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"></path>
             </svg>
           </a>
+          <button
+            type="button"
+            className="mobile-menu-button"
+            aria-label={mobileOpen ? "关闭导航" : "打开导航"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((value) => !value)}
+          >
+            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+          </button>
         </div>
       </div>
+      {mobileOpen ? (
+        <div className="mobile-header-panel">
+          <div className="mobile-header-links">
+            {content.nav.map((item) => (
+              <Link
+                key={item.href}
+                to={navigationTarget(item.href)}
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="mobile-header-group">
+            <strong>关于 · 更多</strong>
+            <Link to="/submissions" onClick={() => setMobileOpen(false)}>
+              参与 Tomz.io
+            </Link>
+            <Link to="/submissions/contributors" onClick={() => setMobileOpen(false)}>
+              客座作者
+            </Link>
+          </div>
+          <div className="mobile-header-actions">
+            <button
+              type="button"
+              onClick={() => {
+                onSearch();
+                setMobileOpen(false);
+              }}
+            >
+              搜索
+            </button>
+            <button type="button" onClick={onToggleTheme}>
+              {darkMode ? "浅色模式" : "暗黑模式"}
+            </button>
+          </div>
+        </div>
+      ) : null}
     </nav>
   );
 }
