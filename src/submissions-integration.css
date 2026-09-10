@@ -1,0 +1,23 @@
+/* Preview pass: treat submissions as an entry point, not a parallel content silo. */
+.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-grid > a[href*="/submissions/t-zt/"] {
+  display: none;
+}
+
+.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-head > span {
+  font-size: 0;
+}
+
+.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-head > span::after {
+  content: "CONTRIBUTE";
+  font: 10px var(--font-mono);
+  letter-spacing: .12em;
+}
+
+.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-head > strong {
+  font-size: 0;
+}
+
+.menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-head > strong::after {
+  content: "参与 Tomz.io";
+  font: 500 18px/1.25 var(--font-display);
+}
