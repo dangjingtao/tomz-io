@@ -189,7 +189,7 @@ const siteAreas: SiteArea[] = siteAreaRoots
         (root === "blogs"
           ? "博客"
           : root === "weekly"
-            ? "周刊"
+            ? "见π"
             : root
                 .replace(/[-_]+/g, " ")
                 .replace(/\b\w/g, (letter) => letter.toUpperCase())),
@@ -2114,7 +2114,7 @@ function weeklyIssueNumber(doc: Doc) {
 }
 
 function weeklyDisplayTitle(doc: Doc) {
-  return doc.title.replace(/^周刊\s*#?\d+\s*[：:·-]\s*/, "");
+  return doc.title.replace(/^(?:见π|周刊)\s*#?\d+\s*[：:·-]\s*/, "");
 }
 
 function weeklyDateLabel(value?: string) {
@@ -2127,98 +2127,122 @@ function weeklyDateLabel(value?: string) {
 function WeeklyListPage({ area }: { area: SiteArea }) {
   const issues = [...area.docs].sort(compareWeeklyDocs);
   const latest = issues[0];
-  const archive = issues.slice(1);
   const watchTopics = [
-    "AI / Agent",
-    "OPC",
-    "Company OS",
-    "Open Source",
-    "China Indie",
-    "Distribution",
+    "Agent / AI",
+    "开源项目",
+    "产品与工具",
+    "中国开发者现场",
+    "商业与分发",
+    "研究与值得读",
+    "异常信号",
+    "鬼集",
   ];
 
   if (!latest) return null;
 
+  const latestIssue = String(weeklyIssueNumber(latest)).padStart(3, "0");
+  const coverLines = latest.tags?.slice(0, 5) || [];
+
   return (
     <div className="weekly-index-page">
-      <header className="weekly-masthead weekly-frame">
-        <span className="weekly-masthead-kicker">TOMZ.IO / WEEKLY</span>
-        <h1>周刊</h1>
-        <p>每周挑一些真正值得留下来的东西。</p>
-        <div className="weekly-masthead-rule" />
+      <header className="weekly-cover weekly-frame">
+        <div className="weekly-cover-topline">
+          <span>TOMZ.IO / JIANPI</span>
+          <span>INDEPENDENT WEEKLY OBSERVATION</span>
+        </div>
+
+        <div className="weekly-cover-grid">
+          <div className="weekly-cover-brand">
+            <span className="weekly-cover-edition">WEEKLY EDITION · 每周出版</span>
+            <h1 aria-label="见π"><span>见</span><span aria-hidden="true">π</span></h1>
+            <p>从噪声里，留下值得继续看的东西。</p>
+          </div>
+
+          <Link
+            className="weekly-cover-feature"
+            to={latest.path}
+            aria-labelledby="weekly-latest-heading"
+          >
+            <div className="weekly-cover-feature-no">
+              <span>ISSUE</span>
+              <strong>{latestIssue}</strong>
+            </div>
+            <div className="weekly-cover-feature-copy">
+              <span>THIS WEEK / 本期判断</span>
+              <h2 id="weekly-latest-heading">{weeklyDisplayTitle(latest)}</h2>
+              <p>{latest.lead || latest.description}</p>
+            </div>
+            <div className="weekly-cover-feature-foot">
+              <time>{weeklyDateLabel(latest.date)}</time>
+              <span>{getDocAuthorLabel(latest)}</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </Link>
+        </div>
+
+        {coverLines.length ? (
+          <div className="weekly-cover-lines" aria-label="本期封面主题">
+            {coverLines.map((tag, index) => (
+              <span key={tag}>
+                <b>{String(index + 1).padStart(2, "0")}</b>
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </header>
 
-      <section className="weekly-section weekly-frame" aria-labelledby="weekly-latest-heading">
-        <div className="weekly-section-head">
-          <span className="weekly-section-label">LATEST / 最新一期</span>
-          <p className="weekly-section-note">外部世界、本周判断，以及继续值得盯的东西。</p>
-        </div>
-        <article className="weekly-latest">
-          <div className="weekly-latest-top">
-            <span className="weekly-issue-number">
-              #{String(weeklyIssueNumber(latest)).padStart(3, "0")}
-            </span>
-            <span className="weekly-latest-flag">最新一期</span>
-            <time className="weekly-latest-date">{weeklyDateLabel(latest.date)}</time>
-          </div>
-          <h2 id="weekly-latest-heading">
-            <Link to={latest.path}>{weeklyDisplayTitle(latest)}</Link>
-          </h2>
-          <p className="weekly-latest-lead">
-            {latest.lead || latest.description}
-          </p>
-          <div className="weekly-latest-foot">
-            {latest.tags?.length ? (
-              <div className="weekly-tags" aria-label="本期主题">
-                {latest.tags.slice(0, 6).map((tag) => (
-                  <span className="weekly-tag" key={tag}>{tag}</span>
-                ))}
-              </div>
-            ) : null}
-            <span className="weekly-latest-byline">
-              {getDocAuthorLabel(latest)}
-              {latest.readTime ? ` · ${latest.readTime}` : ""}
-            </span>
-          </div>
-          <Link className="weekly-enter" to={latest.path}>
-            进入本期 <span aria-hidden="true">→</span>
-          </Link>
-        </article>
+      <section className="weekly-manifesto weekly-frame">
+        <span className="weekly-section-label">EDITOR&apos;S NOTE / 刊物原则</span>
+        <p>
+          不是把这一周发生的东西都搬进来，
+          <strong>而是留下这一周值得继续看的东西。</strong>
+        </p>
       </section>
 
       <section className="weekly-section weekly-frame" aria-labelledby="weekly-archive-title">
         <div className="weekly-section-head">
-          <span className="weekly-section-label" id="weekly-archive-title">ARCHIVE / 往期</span>
-          <p className="weekly-section-note">正文只有一份，索引从每期 Markdown 自动生成。</p>
+          <span className="weekly-section-label" id="weekly-archive-title">ISSUES / 全部期数</span>
+          <p className="weekly-section-note">一期一张封面。期号永久，不复用。</p>
         </div>
-        {archive.length ? (
-          <div className="weekly-archive">
-            {archive.map((doc) => (
-              <Link className="weekly-archive-row" to={doc.path} key={doc.path}>
-                <span className="weekly-archive-no">
-                  #{String(weeklyIssueNumber(doc)).padStart(3, "0")}
-                </span>
-                <div className="weekly-archive-copy">
+        <div className="weekly-editions">
+          {issues.map((doc) => {
+            const issue = String(weeklyIssueNumber(doc)).padStart(3, "0");
+            return (
+              <Link className="weekly-edition-cover" to={doc.path} key={doc.path}>
+                <div className="weekly-edition-top">
+                  <span>见π</span>
+                  <time>{weeklyDateLabel(doc.date)}</time>
+                </div>
+                <strong className="weekly-edition-no">{issue}</strong>
+                <div className="weekly-edition-copy">
+                  <span>NO.{issue}</span>
                   <h3>{weeklyDisplayTitle(doc)}</h3>
                   <p>{doc.lead || doc.description}</p>
                 </div>
-                <time className="weekly-archive-date">{weeklyDateLabel(doc.date)}</time>
+                <div className="weekly-edition-foot">
+                  <span>{doc.tags?.slice(0, 3).join(" / ") || "TOMZ.IO"}</span>
+                  <span aria-hidden="true">→</span>
+                </div>
               </Link>
-            ))}
-          </div>
-        ) : (
-          <p className="weekly-empty-archive">这是预览分支的第一期样稿。第二期开始，往期会自然沉到这里。</p>
-        )}
+            );
+          })}
+        </div>
       </section>
 
       <section className="weekly-section weekly-frame" aria-labelledby="weekly-watch-title">
         <div className="weekly-section-head">
-          <span className="weekly-section-label" id="weekly-watch-title">RADAR / 长期观察</span>
-          <p className="weekly-section-note">栏目不是导航树，只说明这份刊物长期看什么。</p>
+          <span className="weekly-section-label" id="weekly-watch-title">RADAR / 观察半径</span>
+          <p className="weekly-section-note">栏目可以变化，长期观察范围保持开放。</p>
         </div>
-        <ul className="weekly-watch-list">
-          {watchTopics.map((topic) => <li key={topic}>{topic}</li>)}
-        </ul>
+        <ol className="weekly-watch-list">
+          {watchTopics.map((topic, index) => (
+            <li key={topic}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {topic}
+            </li>
+          ))}
+        </ol>
       </section>
     </div>
   );
@@ -2235,23 +2259,36 @@ function WeeklyIssuePage({
   previous?: Doc;
   next?: Doc;
 }) {
+  const issue = String(weeklyIssueNumber(doc)).padStart(3, "0");
+
   return (
     <article className="weekly-issue-page">
       <header className="weekly-issue-head">
         <div className="weekly-issue-kicker">
-          <span>TOMZ.IO WEEKLY</span>
-          <strong>#{String(weeklyIssueNumber(doc)).padStart(3, "0")}</strong>
+          <span>TOMZ.IO / 见π</span>
+          <span>ISSUE {issue}</span>
           <time>{weeklyDateLabel(doc.date)}</time>
         </div>
-        <h1>{weeklyDisplayTitle(doc)}</h1>
-        <p className="weekly-issue-lead">{doc.lead || doc.description}</p>
+
+        <div className="weekly-issue-hero">
+          <div className="weekly-issue-number-block" aria-hidden="true">
+            <span>NO.</span>
+            <strong>{issue}</strong>
+          </div>
+          <div className="weekly-issue-title-block">
+            <span className="weekly-issue-theme">THIS WEEK / 本期判断</span>
+            <h1>{weeklyDisplayTitle(doc)}</h1>
+            <p className="weekly-issue-lead">{doc.lead || doc.description}</p>
+          </div>
+        </div>
+
         <div className="weekly-issue-byline">
           <span>{getDocAuthorLabel(doc)}</span>
           {doc.readTime ? <><span className="dot" /><span>{doc.readTime}</span></> : null}
           {doc.tags?.length ? (
             <>
               <span className="dot" />
-              <span>{doc.tags.slice(0, 4).join(" · ")}</span>
+              <span>{doc.tags.slice(0, 4).join(" / ")}</span>
             </>
           ) : null}
           <ShareButton title={doc.title} text={doc.description} />
@@ -2276,17 +2313,17 @@ function WeeklyIssuePage({
             className="markdown blog-markdown weekly-markdown"
           />
 
-          <nav className="weekly-issue-nav" aria-label="周刊期数导航">
+          <nav className="weekly-issue-nav" aria-label="见π期数导航">
             {previous ? (
               <Link to={previous.path}>
                 <span className="dir">← 上一期</span>
                 <span className="to">
-                  #{String(weeklyIssueNumber(previous)).padStart(3, "0")} · {weeklyDisplayTitle(previous)}
+                  {String(weeklyIssueNumber(previous)).padStart(3, "0")} · {weeklyDisplayTitle(previous)}
                 </span>
               </Link>
             ) : (
               <Link to="/weekly">
-                <span className="dir">周刊</span>
+                <span className="dir">见π</span>
                 <span className="to">← 返回全部期数</span>
               </Link>
             )}
@@ -2294,7 +2331,7 @@ function WeeklyIssuePage({
               <Link className="next" to={next.path}>
                 <span className="dir">下一期 →</span>
                 <span className="to">
-                  #{String(weeklyIssueNumber(next)).padStart(3, "0")} · {weeklyDisplayTitle(next)}
+                  {String(weeklyIssueNumber(next)).padStart(3, "0")} · {weeklyDisplayTitle(next)}
                 </span>
               </Link>
             ) : null}
@@ -2303,14 +2340,17 @@ function WeeklyIssuePage({
 
         {doc.headings.length ? (
           <aside className="weekly-aside">
-            <span className="weekly-toc-label">本期目录</span>
+            <span className="weekly-toc-label">CONTENTS / 本期目录</span>
             <nav>
-              {doc.headings.map((heading) => (
-                <a href={`#${heading.id}`} key={heading.id}>{heading.text}</a>
+              {doc.headings.map((heading, index) => (
+                <a href={`#${heading.id}`} key={heading.id}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {heading.text}
+                </a>
               ))}
             </nav>
             <p className="weekly-aside-note">
-              ISSUE #{String(weeklyIssueNumber(doc)).padStart(3, "0")}
+              JIANPI · {issue}
               <br />
               {weeklyDateLabel(doc.date)}
             </p>
