@@ -1,4 +1,13 @@
-/* Preview pass: treat submissions as an entry point, not a parallel content silo. */
+/* Preview pass: submissions is an entry point, not a top-level content silo. */
+
+/* Hide the submissions/participation entry from every top navigation surface. */
+.top-nav .menu > li:has(a[href$="/submissions"]),
+.home-v1-nav-links > a[href$="/submissions"],
+.home-v1-mobile-panel > a[href$="/submissions"] {
+  display: none !important;
+}
+
+/* Keep the route itself available for direct links from blog/about. */
 .menu-dropdown.blog-nav-dropdown:has(> .blog-nav-trigger[href$="/submissions"]) .blog-nav-panel-grid > a[href*="/submissions/t-zt/"] {
   display: none;
 }
