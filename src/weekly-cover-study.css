@@ -1,18 +1,23 @@
 /* Temporary 见π cover study — preview branch only. */
 
-/* React-rendered latest issue cover. */
+/* React-rendered latest issue cover. This file is intentionally imported after
+   the shared visual layer so the study image cannot be replaced by the old
+   permanent-number placeholder styles. */
 .weekly-issue-cover {
-  position: sticky;
+  position: sticky !important;
   top: 92px;
-  aspect-ratio: 520 / 735;
-  overflow: hidden;
-  border: 1px solid var(--hairline);
-  background: url("./assets/jianpi-cover-001-study.webp") center / cover no-repeat;
-  box-shadow: 0 16px 42px color-mix(in srgb, var(--ink) 8%, transparent);
+  aspect-ratio: 520 / 735 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--hairline) !important;
+  background-image: url("./assets/jianpi-cover-001-study.webp") !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--ink) 8%, transparent) !important;
 }
 
 .weekly-issue-cover > * {
-  display: none;
+  display: none !important;
 }
 
 /* GitHub Pages emits a static HTML snapshot before React takes over.
@@ -29,13 +34,16 @@
   width: 100%;
   aspect-ratio: 520 / 735;
   border: 1px solid var(--hairline);
-  background: url("./assets/jianpi-cover-001-study.webp") center / cover no-repeat;
+  background-image: url("./assets/jianpi-cover-001-study.webp") !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
   box-shadow: 0 16px 42px color-mix(in srgb, var(--ink) 8%, transparent);
 }
 
 @media (max-width: 920px) {
   .weekly-issue-cover {
-    position: static;
+    position: static !important;
     width: min(300px, 100%);
   }
 
