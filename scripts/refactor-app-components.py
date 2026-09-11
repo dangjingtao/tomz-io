@@ -87,7 +87,7 @@ write_new(
     "src/features/docs/DocsLayout.tsx",
     'import { useEffect, useState } from "react";\n'
     'import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";\n'
-    'import { Link, useLocation } from "react-router-dom";\n'
+    'import { Link, Outlet, useLocation } from "react-router-dom";\n'
     'import { allDocs, type Doc } from "../../content/mira-docs-adapter";\n'
     'import type { SiteArea } from "../../types/site";\n'
     'import { decodedPathname } from "../../utils/paths";\n'
@@ -116,7 +116,6 @@ component_imports = (
 app = app.replace(anchor, anchor + component_imports, 1)
 app = app.replace("  type KeyboardEvent as ReactKeyboardEvent,\n", "", 1)
 app = app.replace("  Share2,\n", "", 1)
-app = app.replace("const articleDocs = allDocs;\n", "", 1)
 if '<Route element={<DocsLayout />}>' not in app:
     raise RuntimeError("DocsLayout route anchor not found")
 app = app.replace(
