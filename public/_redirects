@@ -1,5 +1,19 @@
 /blog /blogs/ 301
 /blog/* /blogs/ 301
+
+# Legacy Mira content moved to mira.tomz.io. Preserve path identity where the destination still exists.
+/about/author https://mira.tomz.io/about/author/ 301
+/about/author/ https://mira.tomz.io/about/author/ 301
+/design-md https://mira.tomz.io/design-md/ 301
+/design-md/* https://mira.tomz.io/design-md/:splat 301
+/mira-docs-api https://mira.tomz.io/mira-docs-api/ 301
+/mira-docs-api/* https://mira.tomz.io/mira-docs-api/:splat 301
+/blogs/engineering https://mira.tomz.io/blogs/engineering/ 301
+/blogs/engineering/* https://mira.tomz.io/blogs/engineering/:splat 301
+/blogs/product-journal https://mira.tomz.io/blogs/product-journal/ 301
+/blogs/product-journal/* https://mira.tomz.io/blogs/product-journal/:splat 301
+
+# Content that stayed on tomz.io but moved into books.
 /blogs/mira-letters/witness /books/huangyan/witness 301
 /blogs/mira-letters/after-june /books/huangyan/after-june 301
 /blogs/mira-letters/between-glances /books/huangyan/between-glances 301
