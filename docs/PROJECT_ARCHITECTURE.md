@@ -248,7 +248,7 @@ PR 验证入口：
 
 当前核心确定性校验 job：reduction-and-build。
 
-它覆盖 MiraDocs parse / route uniqueness、root build、root static output、GitHub Pages build 与 GitHub Pages static output。
+它先运行 Vitest 单元测试，再覆盖 MiraDocs parse / route uniqueness、root build、root static output、GitHub Pages build 与 GitHub Pages static output。
 
 PR 另有统一的 AI Review Gate：
 
@@ -258,34 +258,3 @@ PR 另有统一的 AI Review Gate：
 - fallback reviewer 读取当前 PR diff 与 AGENTS / AUTHORSHIP / CONTENT_ARCHITECTURE / PROJECT_ARCHITECTURE 规则，输出 APPROVE 或 REQUEST_CHANGES；
 - fallback 的详细结果写入 PR comment，并将统一的 AI Review Gate commit status 写回当前 PR head SHA，不依赖 GitHub Actions bot 直接批准 PR。
 - provider 行为集中在 .github/ai-review.config.json。MiniMax M3 preset 显式使用 thinking.type=disabled、temperature=1.0、top_p=0.95，并保留 think block 清理作为防御性兼容。
-
-用于 review 的环境变量优先使用 AI_REVIEW_BASE_URL / AI_REVIEW_API_KEY / AI_REVIEW_MODEL；未单独配置时复用 HOMEPAGE_AI_BASE_URL / HOMEPAGE_AI_API_KEY / HOMEPAGE_AI_MODEL。可选 AI_REVIEW_PROVIDER 用于覆盖自动 provider 识别。
-
-历史 workflow / script 中仍可能保留 BR003A / BR003B 命名；它们是迁移阶段遗留名称，不再代表当前产品阶段。
-
-## 11. 生成数据与事实源
-
-人工事实源：
-
-- src/pages/**
-- src/pages/books/*/_book.yml
-- site-policy.json
-- 正式规则文档
-
-构建派生：
-
-- src/content/content-times.generated.ts
-- src/content/home-recent.generated.ts
-- src/content/home-focus.generated.ts
-- .mira-cache/content-times.json
-- dist/**
-
-原则：修生成器，不要为了让结果“看起来对”长期手改派生文件。
-
-首页快照作为稳定 fallback 可以提交进仓库，但仍由生成器维护。
-
-## 12. 修改边界
-
-涉及作者 / 署名、Tag canonicalization、内容时间、Book 定义、canonical / sitemap / JSON-LD、首页 AI source / link policy 或 deployment base 时，不应只在单个 React 页面修补。
-
-这些属于站点级合同，必须检查运行时和静态输出两条链是否一致。
