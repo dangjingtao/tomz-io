@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Apply bounded hygiene cleanup
         run: |
           python <<'PY'
@@ -43,7 +46,7 @@ jobs:
                   raise SystemExit(f"missing end marker for {label}: {end_marker!r}")
               return text[:start] + text[end:]
 
-          # 1) App.tsx: remove the superseded alternate header implementation only.
+          # 1) App.tsx: remove only the superseded alternate header implementation.
           app_path = Path("src/App.tsx")
           app = read(app_path)
           app = remove_between(
@@ -111,7 +114,7 @@ jobs:
           main = main.replace('      <LegacyHeaderCompat />\n', '', 1)
           write(main_path, main)
 
-          # 4) Homepage CSS: remove styles owned only by the deleted private/alternate headers.
+          # 4) Homepage CSS: remove styles owned only by deleted private/alternate headers.
           css_path = Path("src/homepage-v1.css")
           css = read(css_path)
           css = remove_between(css, '.home-v1-nav {', '.home-v1-hero {', 'desktop homepage nav CSS')
@@ -126,7 +129,7 @@ jobs:
           css = re.sub(r'\n\s*\.home-v1-(?:hero-note|about-note)(?:[^\{,\n]*)\s*\{[^{}]*\}\n', '\n', css)
           write(css_path, css)
 
-          # 5) Shared CSS: drop the now-unused LegacyHeaderCompat portal selectors.
+          # 5) Shared CSS: drop selectors owned by the removed LegacyHeaderCompat portal.
           styles_path = Path("src/styles.css")
           styles = read(styles_path)
           styles = styles.replace(
@@ -137,7 +140,7 @@ jobs:
           styles = re.sub(r'\n\s*\.mobile-doc-share(?:[^\{,\n]*)\s*\{[^{}]*\}\n', '\n', styles)
           write(styles_path, styles)
 
-          # 6) Old guest-article URLs become redirects; canonical body lives only under blogs/guest-contributions.
+          # 6) Guest articles: canonical body exists only under blogs/guest-contributions.
           redirects_path = Path("public/_redirects")
           redirects = read(redirects_path).rstrip() + "\n"
           redirect_lines = [
@@ -150,6 +153,21 @@ jobs:
               if line not in redirects:
                   redirects += line + "\n"
           write(redirects_path, redirects)
+
+          # Historical shared-thinking guest URLs must also land on the single canonical blog copy.
+          vite_path = Path("vite.config.ts")
+          vite = read(vite_path)
+          replacements = {
+              '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301"': '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301"',
+              '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301"': '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301"',
+              '"/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301"': '"/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301"',
+              '"/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /submissions/t-zt/why-agent-chat-sync-feels-laggy 301"': '"/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301"',
+          }
+          for old, new in replacements.items():
+              if old not in vite:
+                  raise SystemExit(f"expected legacy redirect missing: {old}")
+              vite = vite.replace(old, new, 1)
+          write(vite_path, vite)
 
           # 7) Delete obsolete compatibility/history/duplicate files, including this one-shot workflow.
           delete_paths = [
@@ -176,9 +194,31 @@ jobs:
           assert "showHeader" not in read("src/HomepageV1.tsx")
           assert ".home-v1-nav" not in read("src/homepage-v1.css")
           assert ".mobile-doc-share" not in read("src/styles.css")
+          assert "/submissions/t-zt/why-mobile-agents-dont-allow-custom-api" not in read("vite.config.ts")
+          assert "/submissions/t-zt/why-agent-chat-sync-feels-laggy" not in read("vite.config.ts")
           PY
 
-      - name: Commit cleanup locally
+      - name: Validate media pipeline
+        run: |
+          npm run media:test
+          npm run media:prepare
+
+      - name: Generate content times
+        run: npm run generate:content-times
+
+      - name: Verify MiraDocs compatibility
+        run: npm run verify:mira-docs
+
+      - name: Generate homepage recent snapshot
+        run: npm run generate:home-recent
+
+      - name: Generate homepage focus snapshot
+        run: npm run generate:home-focus
+
+      - name: TypeScript check
+        run: npx tsc -b
+
+      - name: Commit validated source cleanup
         id: commit
         run: |
           set -euo pipefail
@@ -189,26 +229,23 @@ jobs:
           git commit -m "chore: remove obsolete compatibility and duplicate paths"
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Validate media pipeline
+      - name: Validate production Vite build
         run: |
-          npm run media:test
-          npm run media:prepare
-
-      - name: Validate production build
-        run: npm run build
+          npx vite build
+          node scripts/apply-content-times-to-static.mjs
+          npm run verify:static-output
 
       - name: Validate GitHub Pages build
-        run: npm run build:github-pages
+        run: |
+          npx vite build --mode github-pages
+          node scripts/apply-content-times-to-static.mjs
 
-      - name: Verify static output
+      - name: Verify GitHub Pages static output
         env:
           EXPECTED_BASE: tomz-io
         run: npm run verify:static-output
 
-      - name: Ensure generators did not dirty tracked source
+      - name: Ensure validation did not dirty tracked source
         run: git diff --exit-code
 
       - name: Push validated cleanup
