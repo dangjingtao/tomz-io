@@ -1,0 +1,49 @@
+name: R2 Media Smoke
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - .github/workflows/r2-media-smoke.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r2-media-smoke
+  cancel-in-progress: true
+
+jobs:
+  publish-current-media:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Prepare current media
+        run: pnpm run media:prepare
+        env:
+          R2_PUBLIC_BASE_URL: https://assets.tomz.io
+
+      - name: Publish current media to R2
+        run: pnpm run media:publish -- --confirm
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET || secrets.R2_BUCKET }}
+          R2_PUBLIC_BASE_URL: https://assets.tomz.io
