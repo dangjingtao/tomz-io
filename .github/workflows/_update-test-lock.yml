@@ -1,0 +1,54 @@
+name: One-time test lockfile update
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - package.json
+
+permissions:
+  contents: write
+
+jobs:
+  update-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/weekly-v0-1
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        run: npm install --global pnpm@10
+
+      - name: Refresh lockfile
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Run deterministic site checks
+        run: |
+          pnpm run media:test
+          pnpm run verify:mira-docs
+          pnpm run build
+          node scripts/verify-br003a-root-static.mjs
+          pnpm run build:github-pages
+          EXPECTED_BASE=tomz-io pnpm run verify:static-output
+
+      - name: Commit lockfile and remove updater
+        run: |
+          git checkout -- src/content/content-times.generated.ts src/content/home-recent.generated.ts src/content/home-focus.generated.ts || true
+          rm -rf .mira-cache dist
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/_update-test-lock.yml
+          git add pnpm-lock.yaml
+          git diff --cached --check
+          git commit -m "test: lock Vitest baseline"
+          git push origin HEAD:preview/weekly-v0-1
