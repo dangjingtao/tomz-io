@@ -9,6 +9,7 @@
     "test": "vitest run",
     "generate:home-recent": "node scripts/generate-home-recent.mjs",
     "generate:home-focus": "node scripts/generate-home-focus.mjs",
+    "generate:rss": "node scripts/generate-rss.mjs",
     "verify:mira-docs": "node scripts/verify-mira-docs-compat.mjs",
     "verify:content-times": "node scripts/verify-content-times.mjs",
     "verify:static-output": "node scripts/verify-mira-docs-static-output.mjs && node scripts/verify-content-times.mjs",
@@ -22,8 +23,8 @@
     "comic:verify": "node scripts/comic-pipeline/verify.mjs",
     "comic:publish": "node scripts/comic-pipeline/publish-r2.mjs",
     "comic:test": "node scripts/comic-pipeline/test.mjs",
-    "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs",
-    "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs",
+    "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
+    "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
     "preview": "vite preview"
   },
   "dependencies": {
