@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { allDocs, type Doc } from "../../content/mira-docs-adapter";
 import type { SiteArea } from "../../types/site";
+import { useActiveHeading } from "../../hooks/useActiveHeading";
 import { decodedPathname } from "../../utils/paths";
 import {
   directoryTitle,
@@ -206,33 +207,16 @@ export default function DocsLayout({ siteAreas }: { siteAreas: SiteArea[] }) {
     currentArea?.key === "blogs" || currentArea?.key === "submissions";
   const isWeeklyArea = currentArea?.key === "weekly";
   const isEditorialArea = isBlogArea || isWeeklyArea;
-  const [activeHeading, setActiveHeading] = useState("");
+  const activeHeading = useActiveHeading(currentDoc?.headings, {
+    enabled: !isEditorialArea,
+    rootMargin: "-90px 0px -65% 0px",
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileTocOpen(false);
   }, [location.pathname]);
-  useEffect(() => {
-    const nodes = currentDoc?.headings
-      .map((heading) => document.getElementById(heading.id))
-      .filter(Boolean) as HTMLElement[] | undefined;
-    if (!nodes?.length) {
-      setActiveHeading("");
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveHeading(visible[0].target.id);
-      },
-      { rootMargin: "-90px 0px -65% 0px", threshold: [0, 1] },
-    );
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
-  }, [currentDoc?.path]);
   return (
     <div
       className={`docs-app${isBlogArea ? " blog-app" : ""}${isWeeklyArea ? " weekly-app" : ""}`}

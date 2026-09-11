@@ -1,176 +1,46 @@
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
-import AuthorSignature from "./components/AuthorSignature";
-import PwaUpdatePrompt from "./components/PwaUpdatePrompt";
+import { useEffect, useMemo, useState } from "react";
 import NotFoundPage from "./components/NotFoundPage";
+import PwaUpdatePrompt from "./components/PwaUpdatePrompt";
 import RenderedMarkdown from "./components/RenderedMarkdown";
 import SearchOverlay from "./components/SearchOverlay";
 import ShareButton from "./components/ShareButton";
 import SiteHeader from "./components/SiteHeader";
-import DocsLayout from "./features/docs/DocsLayout";
-import AboutPage from "./features/about/AboutPage";
-import { BlogListPage, BlogPostPage } from "./features/blog/BlogPages";
-import { WeeklyIssuePage, WeeklyListPage } from "./features/weekly/WeeklyPages";
+import { allDocs, compareDocs } from "./content/mira-docs-adapter";
 import {
-  ArrowUpRight,
-  Archive,
-  BookOpen,
-  ChevronDown,
-  Code2,
-  Compass,
-  ChevronUp,
-  FileQuestion,
-  GitBranch,
-  Lightbulb,
-  Menu,
-  Moon,
-  Network,
-  Sparkles,
-  Sun,
-  X,
-} from "lucide-react";
-import {
-  Link,
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import {
-  githubProfileUrl,
-  siteName,
-  topNavigationOrder,
-} from "./site.config";
-import {
-  allDocs,
-  pageDirectories,
-  compareBlogDocs,
-  compareDocs,
-  compareWeeklyDocs,
-  type Doc,
-} from "./content/mira-docs-adapter";
-import HomepageV1, { HomepageFooter } from "./HomepageV1";
+  blogNavCategories,
+  githubUrl,
+  siteAreas,
+  siteNav,
+  siteTitle,
+  tomzMarkSrc,
+} from "./content/site-model";
 import { bookEntries, books } from "./content/bookshelf";
+import AboutPage from "./features/about/AboutPage";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
-
-import { authorProfiles } from "./content/author-profiles";
-import { resolveCoverSource } from "./features/article/article-cover";
+import { BlogListPage, BlogPostPage } from "./features/blog/BlogPages";
+import DocsLayout from "./features/docs/DocsLayout";
 import {
   directoryTitle,
   docsByDirectory,
   docsByProjectDirectory,
   isProjectArea,
   projectIdFromPath,
-  projectNavTitle,
 } from "./features/docs/docs-utils";
-import {
-  weeklyDateLabel,
-  weeklyDisplayTitle,
-  weeklyIssueNumber,
-} from "./features/weekly/weekly-utils";
-import type { LinkItem, SiteArea, ThemeName } from "./types/site";
-import { handleMiraAvatarError } from "./utils/avatar";
-import {
-  getDocAuthorAvatars,
-  getDocAuthorLabel,
-  getDocAuthors,
-  getDocSignature,
-} from "./utils/authors";
+import { WeeklyIssuePage, WeeklyListPage } from "./features/weekly/WeeklyPages";
+import { weeklyIssueNumber } from "./features/weekly/weekly-utils";
+import HomepageV1, { HomepageFooter } from "./HomepageV1";
+import { FileQuestion } from "lucide-react";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
+import type { SiteArea, ThemeName } from "./types/site";
 import { renderMarkdown } from "./utils/markdown";
 import { getPageTitle } from "./utils/page-title";
-import { appBase, decodedPathname, docHref } from "./utils/paths";
+import { appBase } from "./utils/paths";
 
 const themeOptions: { name: ThemeName; label: string }[] = [
   { name: "claude", label: "Claude" },
   { name: "apple", label: "Apple" },
   { name: "supabase", label: "Supabase" },
 ];
-const githubUrl = githubProfileUrl;
-const siteAreaRoots = [
-  ...new Set(
-    [
-      ...pageDirectories,
-      ...allDocs.map((doc) => doc.root),
-    ],
-  ),
-];
-const siteAreas: SiteArea[] = siteAreaRoots
-  .map((root) => {
-    const docs = allDocs
-      .filter((doc) => doc.root === root)
-      .sort(compareDocs);
-    const first =
-      (root === "projects"
-        ? docs.find((doc) => doc.path.split("/").filter(Boolean).length === 2)
-        : docs.find((doc) => doc.root === root)) ?? docs[0];
-    const path = `/${root}`;
-    return {
-      key: root,
-      title:
-        first?.nav ||
-        (root === "blogs"
-          ? "博客"
-          : root === "weekly"
-            ? "见π"
-            : root
-                .replace(/[-_]+/g, " ")
-                .replace(/\b\w/g, (letter) => letter.toUpperCase())),
-      description: first?.description || "",
-      docs,
-      path,
-      href: docHref(path),
-    };
-  })
-  .filter((area) => area.docs.length > 0);
-const articleDocs = allDocs;
-const tomzMarkSrc = `${appBase}brand/tomz-mark.png`;
-const siteTitle = siteName;
-const blogNavCategories = (() => {
-  const blogArea = siteAreas.find((area) => area.key === "blogs");
-  const groups = new Map<string, number>();
-  for (const doc of blogArea?.docs || []) {
-    const group = doc.group.trim();
-    if (!group || group === "\u5f52\u6863") continue;
-    groups.set(group, (groups.get(group) || 0) + 1);
-  }
-  return [...groups].map(([label, count]) => ({ label, count }));
-})();
-
-
-const content = {
-  nav: [] as LinkItem[],
-};
-content.nav = [
-  ...siteAreas
-    .filter((area) => area.key !== "submissions")
-    .map((area) => ({ label: area.title, href: area.href })),
-  { label: "关于", href: "/about" },
-].sort((a, b) => {
-  const keyFor = (item: LinkItem) =>
-    item.href.replace(appBase, "").split("/")[0];
-  const rank = (item: LinkItem) => {
-    const index = topNavigationOrder.indexOf(
-      keyFor(item) as (typeof topNavigationOrder)[number],
-    );
-    return index === -1 ? topNavigationOrder.length : index;
-  };
-  return rank(a) - rank(b);
-});
-
-
-
-
-
-
-
-
-
 function RoutedApp() {
   const location = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -224,7 +94,7 @@ function RoutedApp() {
   return (
     <>
       <SiteHeader
-        nav={content.nav}
+        nav={siteNav}
         blogNavCategories={blogNavCategories}
         githubUrl={githubUrl}
         tomzMarkSrc={tomzMarkSrc}
@@ -411,7 +281,7 @@ function AreaPage({ area }: { area: SiteArea }) {
 function DocPage({ path }: { path: string }) {
   const doc = allDocs.find((item) => item.path === path) || allDocs[0];
   const projectId = projectIdFromPath(doc.path);
-  const scopedArticleDocs = articleDocs
+  const scopedArticleDocs = allDocs
     .filter(
       (item) =>
         item.root === doc.root &&
@@ -423,7 +293,7 @@ function DocPage({ path }: { path: string }) {
   const next = index >= 0 ? scopedArticleDocs[index + 1] : undefined;
   const html = useMemo(() => renderMarkdown(doc.source), [doc.source]);
   if (doc.root === "weekly") {
-    const weeklyDocs = articleDocs
+    const weeklyDocs = allDocs
       .filter((item) => item.root === "weekly")
       .sort((left, right) => weeklyIssueNumber(left) - weeklyIssueNumber(right));
     const weeklyIndex = weeklyDocs.findIndex((item) => item.path === doc.path);

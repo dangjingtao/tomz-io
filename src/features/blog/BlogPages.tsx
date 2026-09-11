@@ -14,6 +14,7 @@ import {
   getDocAuthors,
   getDocSignature,
 } from "../../utils/authors";
+import { useActiveHeading } from "../../hooks/useActiveHeading";
 import { renderMarkdown } from "../../utils/markdown";
 
 function BlogHeaderVisual() {
@@ -203,7 +204,9 @@ export function BlogPostPage({
 }) {
   const location = useLocation();
   const html = useMemo(() => renderMarkdown(doc.source), [doc.source]);
-  const [activeHeading, setActiveHeading] = useState("");
+  const activeHeading = useActiveHeading(doc.headings, {
+    rootMargin: "-120px 0px -65% 0px",
+  });
   const [articleHeaderCollapsed, setArticleHeaderCollapsed] = useState(false);
   const coverSrc = resolveCoverSource(doc);
   const authorAvatars = getDocAuthorAvatars(doc);
@@ -225,26 +228,6 @@ export function BlogPostPage({
       : submissionParts.length == 2
         ? "← 返回投稿"
         : `← 返回 ${submissionParts[1]}`;
-  useEffect(() => {
-    const nodes = doc.headings
-      .map((heading) => document.getElementById(heading.id))
-      .filter(Boolean) as HTMLElement[];
-    if (!nodes.length) {
-      setActiveHeading("");
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveHeading(visible[0].target.id);
-      },
-      { rootMargin: "-120px 0px -65% 0px", threshold: [0, 1] },
-    );
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
-  }, [doc.path]);
   useEffect(() => {
     const mobileQuery = window.matchMedia("(max-width: 760px)");
     let previousY = window.scrollY;
