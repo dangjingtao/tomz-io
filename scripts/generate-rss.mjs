@@ -97,6 +97,15 @@ entries.sort((left, right) => {
 const siteUrl = homeCanonical || entries[0]?.url?.replace(/\/[^/]*\/?$/, "/");
 if (!siteUrl) throw new Error("Unable to determine site URL from static canonical metadata.");
 const feedUrl = new URL("rss.xml", siteUrl).toString();
+const feedPath = new URL(feedUrl).pathname;
+const alternateLink = `<link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="${feedPath}">`;
+
+for (const file of htmlFiles) {
+  const html = readFileSync(file, "utf8");
+  if (html.includes('type="application/rss+xml"') || !html.includes("</head>")) continue;
+  writeFileSync(file, html.replace("</head>", `  ${alternateLink}\n</head>`));
+}
+
 const latestTime = entries
   .map((entry) => Date.parse(entry.modifiedAt || entry.publishedAt || "") || 0)
   .reduce((max, value) => Math.max(max, value), 0);
