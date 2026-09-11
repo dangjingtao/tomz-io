@@ -61,7 +61,7 @@ write_new(
     'import { Link } from "react-router-dom";\n'
     'import RenderedMarkdown from "../../components/RenderedMarkdown";\n'
     'import ShareButton from "../../components/ShareButton";\n'
-    'import type { Doc } from "../../content/mira-docs-adapter";\n'
+    'import { compareWeeklyDocs, type Doc } from "../../content/mira-docs-adapter";\n'
     'import type { SiteArea } from "../../types/site";\n'
     'import { getDocAuthorLabel } from "../../utils/authors";\n'
     'import { weeklyDateLabel, weeklyDisplayTitle, weeklyIssueNumber } from "./weekly-utils";\n\n'
