@@ -5,7 +5,8 @@ import RenderedMarkdown from "./components/RenderedMarkdown";
 import SearchOverlay from "./components/SearchOverlay";
 import ShareButton from "./components/ShareButton";
 import SiteHeader from "./components/SiteHeader";
-import { allDocs, compareDocs } from "./content/mira-docs-adapter";
+import { allDocs } from "./content/mira-docs-adapter";
+import { buildDocumentContext } from "./content/document-context";
 import {
   blogNavCategories,
   githubUrl,
@@ -19,15 +20,9 @@ import AboutPage from "./features/about/AboutPage";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import { BlogListPage, BlogPostPage } from "./features/blog/BlogPages";
 import DocsLayout from "./features/docs/DocsLayout";
-import {
-  directoryTitle,
-  docsByDirectory,
-  docsByProjectDirectory,
-  isProjectArea,
-  projectIdFromPath,
-} from "./features/docs/docs-utils";
+import { buildAreaDirectoryModel } from "./features/docs/area-directory-model";
+import { directoryTitle } from "./features/docs/docs-utils";
 import { WeeklyIssuePage, WeeklyListPage } from "./features/weekly/WeeklyPages";
-import { weeklyIssueNumber } from "./features/weekly/weekly-utils";
 import HomepageV1, { HomepageFooter } from "./HomepageV1";
 import { FileQuestion } from "lucide-react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
@@ -188,8 +183,9 @@ function AreaPage({ area }: { area: SiteArea }) {
     const landing = area.docs.find((doc) => doc.path === area.path) || area.docs[0];
     return <BlogPostPage doc={landing} />;
   }
-  if (isProjectArea(area)) {
-    const projects = docsByProjectDirectory(area.docs);
+  const directoryModel = buildAreaDirectoryModel(area);
+  if (directoryModel.kind === "projects") {
+    const projects = directoryModel.projects;
     return (
       <>
         <div className="doc-eyebrow">SECTION · PROJECTS</div>
@@ -228,7 +224,7 @@ function AreaPage({ area }: { area: SiteArea }) {
       </>
     );
   }
-  const directoryGroups = docsByDirectory(area.docs);
+  const directoryGroups = directoryModel.groups;
   return (
     <>
       <div className="doc-eyebrow">SECTION · {area.key.toUpperCase()}</div>
@@ -280,34 +276,15 @@ function AreaPage({ area }: { area: SiteArea }) {
 
 function DocPage({ path }: { path: string }) {
   const doc = allDocs.find((item) => item.path === path) || allDocs[0];
-  const projectId = projectIdFromPath(doc.path);
-  const scopedArticleDocs = allDocs
-    .filter(
-      (item) =>
-        item.root === doc.root &&
-        (!projectId || projectIdFromPath(item.path) === projectId),
-    )
-    .sort(compareDocs);
-  const index = scopedArticleDocs.findIndex((item) => item.path === doc.path);
-  const previous = index > 0 ? scopedArticleDocs[index - 1] : undefined;
-  const next = index >= 0 ? scopedArticleDocs[index + 1] : undefined;
+  const { previous, next } = buildDocumentContext(doc, allDocs);
   const html = useMemo(() => renderMarkdown(doc.source), [doc.source]);
   if (doc.root === "weekly") {
-    const weeklyDocs = allDocs
-      .filter((item) => item.root === "weekly")
-      .sort((left, right) => weeklyIssueNumber(left) - weeklyIssueNumber(right));
-    const weeklyIndex = weeklyDocs.findIndex((item) => item.path === doc.path);
-    const weeklyPrevious = weeklyIndex > 0 ? weeklyDocs[weeklyIndex - 1] : undefined;
-    const weeklyNext =
-      weeklyIndex >= 0 && weeklyIndex < weeklyDocs.length - 1
-        ? weeklyDocs[weeklyIndex + 1]
-        : undefined;
     return (
       <WeeklyIssuePage
         doc={doc}
         html={html}
-        previous={weeklyPrevious}
-        next={weeklyNext}
+        previous={previous}
+        next={next}
       />
     );
   }

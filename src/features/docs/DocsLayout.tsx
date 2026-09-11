@@ -5,17 +5,13 @@ import { allDocs, type Doc } from "../../content/mira-docs-adapter";
 import type { SiteArea } from "../../types/site";
 import { useActiveHeading } from "../../hooks/useActiveHeading";
 import { decodedPathname } from "../../utils/paths";
-import {
-  directoryTitle,
-  docsByDirectory,
-  docsByProjectDirectory,
-  isProjectArea,
-  projectNavTitle,
-} from "./docs-utils";
+import { buildAreaDirectoryModel } from "./area-directory-model";
+import { directoryTitle, projectNavTitle } from "./docs-utils";
 
 function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
-  if (isProjectArea(area)) {
-    const projects = docsByProjectDirectory(area.docs);
+  const directoryModel = buildAreaDirectoryModel(area);
+  if (directoryModel.kind === "projects") {
+    const projects = directoryModel.projects;
     return (
       <nav className="docnav project-docnav" aria-label="项目">
         <h5>目录</h5>
@@ -57,7 +53,7 @@ function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
       </nav>
     );
   }
-  const groups = docsByDirectory(area.docs);
+  const groups = directoryModel.groups;
   return (
     <nav className="docnav">
       <h5>目录</h5>
