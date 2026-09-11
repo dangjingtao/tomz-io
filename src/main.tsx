@@ -22,6 +22,8 @@ import "./styles.css";
 import "./styles/site-header.css";
 import "./styles/pwa-update.css";
 import "./styles/search-overlay.css";
+import "./styles/not-found.css";
+import "./styles/about-page.css";
 import "./homepage-v1.css";
 import "./homepage-focus.css";
 import "./blog-list.css";
