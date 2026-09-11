@@ -70,7 +70,7 @@ app = app.replace("const weeklyDocs = articleDocs", "const weeklyDocs = allDocs"
 app_path.write_text(app, encoding="utf-8")
 
 
-# Blog: share only active-heading behavior; keep blog markup and CSS untouched.
+# Blog: share only active-heading behavior; keep every visual/state concern local.
 blog_path = ROOT / "src/features/blog/BlogPages.tsx"
 blog = blog_path.read_text(encoding="utf-8")
 blog = replace_once(
@@ -79,17 +79,22 @@ blog = replace_once(
     'import { useActiveHeading } from "../../hooks/useActiveHeading";\nimport { renderMarkdown } from "../../utils/markdown";\n',
     "blog hook import",
 )
-blog_start = '  const [activeHeading, setActiveHeading] = useState("");\n'
-blog_end = '  useEffect(() => {\n    const mobileQuery = window.matchMedia("(max-width: 760px)");\n'
-if blog_start not in blog or blog_end not in blog:
-    raise RuntimeError("blog active-heading block not found")
-start = blog.index(blog_start)
-end = blog.index(blog_end, start)
-replacement = '''  const activeHeading = useActiveHeading(doc.headings, {
+blog = replace_once(
+    blog,
+    '  const [activeHeading, setActiveHeading] = useState("");\n',
+    '''  const activeHeading = useActiveHeading(doc.headings, {
     rootMargin: "-120px 0px -65% 0px",
   });
-'''
-blog = blog[:start] + replacement + blog[end:]
+''',
+    "blog active heading state",
+)
+observer_start = '  useEffect(() => {\n    const nodes = doc.headings\n'
+mobile_effect = '  useEffect(() => {\n    const mobileQuery = window.matchMedia("(max-width: 760px)");\n'
+if observer_start not in blog or mobile_effect not in blog:
+    raise RuntimeError("blog heading observer boundary not found")
+start = blog.index(observer_start)
+end = blog.index(mobile_effect, start)
+blog = blog[:start] + blog[end:]
 blog_path.write_text(blog, encoding="utf-8")
 
 
