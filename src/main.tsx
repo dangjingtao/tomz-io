@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import {registerSW} from "virtual:pwa-register";
 import "@fontsource/public-sans/400.css";
 import "@fontsource/public-sans/500.css";
@@ -12,22 +12,26 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
-import { HomepageFooter } from "./HomepageV1";
 import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
-import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
-import { getBook, getBookEntry } from "./content/bookshelf";
-import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
 import "./apple.theme.css";
 import "./Supabase.theme.css";
 import "./tailwind.css";
 import "./styles.css";
+import "./styles/site-header.css";
+import "./styles/pwa-update.css";
+import "./styles/search-overlay.css";
+import "./styles/not-found.css";
+import "./styles/about-page.css";
 import "./homepage-v1.css";
+import "./homepage-focus.css";
 import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
+import "./weekly.css";
 import "./claude-visual.css";
+import "./weekly-cover-study.css";
 import "./features/works/works-experience.css";
 import "./features/works/works-sprite.css";
 import "./features/works/works-route-fixes.css";
@@ -91,51 +95,12 @@ window.addEventListener("mira:pwa-update-confirmed", () => {
   void updateSW();
 });
 
-function AppEntry() {
-  const location = useLocation();
-  const segments = location.pathname.split("/").filter(Boolean);
-
-  if (segments[0] === "books") {
-    if (segments.length === 1) {
-      return (
-        <>
-          <BookshelfHub />
-          <HomepageFooter />
-        </>
-      );
-    }
-
-    const bookId = segments[1];
-    const book = getBook(bookId);
-    if (book && segments.length === 2) {
-      return (
-        <>
-          <BookshelfHub bookId={bookId} />
-          <HomepageFooter />
-        </>
-      );
-    }
-
-    const entrySlug = segments[2];
-    if (book && entrySlug && segments.length === 3 && getBookEntry(bookId, entrySlug)) {
-      return (
-        <>
-          <BookshelfHub bookId={bookId} entrySlug={entrySlug} />
-          <HomepageFooter />
-        </>
-      );
-    }
-  }
-
-  return <App />;
-}
-
+// All content areas, including the bookshelf, render through the shared App shell.
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
-      <AppEntry />
+      <App />
       <ContentTimeMetaPortal />
-      <LegacyHeaderCompat />
       <WorksExperience />
     </BrowserRouter>
   </React.StrictMode>,

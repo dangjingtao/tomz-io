@@ -156,10 +156,10 @@ function bookshelfRedirects(): Plugin {
       const lines: string[] = [
         "/about/origin https://mira.tomz.io/about/origin/ 301",
         "/about/origin/ https://mira.tomz.io/about/origin/ 301",
-        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
-        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
-        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
-        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
+        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301",
+        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301",
+        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301",
+        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301",
       ];
       for (const book of readBookManifests()) {
         if (!book.legacyPrefix) continue;
@@ -201,19 +201,19 @@ function escapeHtml(value: unknown): string {
 
 function bookshelfStaticNav(base: string): string {
   const links = [
-    ["首页", "/"],
     ["博客", "/blogs"],
+    ["见π", "/weekly"],
     ["作品", "/works"],
     ["项目", "/projects"],
     ["书架", "/books"],
-    ["关于", "/#about"],
+    ["关于", "/about"],
   ];
   return `<nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="${hrefFor(base, "/")}">${siteName}</a><ul class="menu">${links.map(([label, path]) => `<li><a href="${hrefFor(base, path)}">${escapeHtml(label)}</a></li>`).join("")}</ul></div></nav>`;
 }
 
 function staticHomeBody(base: string) {
   const href = (path: string) => hrefFor(base, path);
-  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">${siteName}</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/works")}">作品</a></li><li><a href="${href("/projects")}">项目</a></li><li><a href="${href("/books")}">书架</a></li><li><a href="#about">关于</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>${siteName}</h1><p>${homeIntro}</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section><section id="about" class="wrap"><h2>关于</h2><p>我关注独立开发、产品设计，以及 AI 如何进入真实的工作与生活。</p></section></main>`;
+  return `<nav class="top-nav seo-static-header"><div class="wrap"><a class="brand" href="${href("/")}">${siteName}</a><ul class="menu"><li><a href="${href("/blogs")}">博客</a></li><li><a href="${href("/weekly")}">见π</a></li><li><a href="${href("/works")}">作品</a></li><li><a href="${href("/projects")}">项目</a></li><li><a href="${href("/books")}">书架</a></li><li><a href="${href("/about")}">关于</a></li></ul></div></nav><main class="seo-static-content home-v1-static"><header class="wrap"><span>INDEPENDENT DEVELOPER / PRODUCT DESIGNER</span><h1>${siteName}</h1><p>${homeIntro}</p></header><section class="wrap"><h2>最近发生的事</h2><p>从公开的项目、写作与生活记录里挑选最能代表当下的近况。</p></section><section class="wrap"><h2>最近写了</h2><p><a href="${href("/blogs")}">查看最近文章 →</a></p></section><section id="about" class="wrap"><h2>关于</h2><p>我关注独立开发、产品设计，以及 AI 如何进入真实的工作与生活。</p></section></main>`;
 }
 
 function docsForBook(context: any, bookId: string): any[] {
@@ -404,7 +404,10 @@ export default defineConfig(({ mode }) => {
           cleanupOutdatedCaches: true,
           // Let legacy Mira product URLs reach Cloudflare so the permanent
           // cross-domain redirect is not swallowed by SPA navigation fallback.
-          navigateFallbackDenylist: [/^(?:\/tomz-io)?\/about\/origin\/?$/],
+          navigateFallbackDenylist: [
+            /^(?:\/tomz-io)?\/about\/origin\/?$/,
+            /^(?:\/tomz-io)?\/weekly(?:\/.*)?$/,
+          ],
         },
       }),
       br003aStaticSeoGuard(),

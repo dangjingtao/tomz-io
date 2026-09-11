@@ -14,6 +14,7 @@ function decodedPathname(path: string): string {
 
 function targetSelector(doc: Doc): string {
   if (doc.root === "blogs") return ".post-meta.post-meta-article";
+  if (doc.root === "weekly") return ".weekly-issue-byline";
   if (doc.root === "books") return ".book-reader-meta";
   return ".doc-title-block";
 }
@@ -49,7 +50,7 @@ function InlineTimeMeta({ doc }: { doc: Doc }) {
   const modified = formatContentTime(doc.modifiedAt);
   if (!published && !modified) return null;
 
-  if (doc.root === "blogs") {
+  if (doc.root === "blogs" || doc.root === "weekly") {
     return (
       <>
         {published ? (

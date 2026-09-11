@@ -45,6 +45,7 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 关键脚本（以 package.json 为准）：
 
 - pnpm run dev
+- pnpm test
 - pnpm run generate:content-times
 - pnpm run generate:home-recent
 - pnpm run generate:home-focus
@@ -125,6 +126,7 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 至少执行：
 
 ~~~bash
+pnpm test
 pnpm run verify:mira-docs
 pnpm run build
 ~~~

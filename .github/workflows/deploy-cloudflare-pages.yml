@@ -18,6 +18,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -40,6 +41,22 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Prepare production media
+        run: pnpm run media:prepare
+        env:
+          R2_PUBLIC_BASE_URL: https://assets.tomz.io
+
+      - name: Publish production media to Cloudflare R2
+        run: pnpm run media:publish -- --confirm
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET || secrets.R2_BUCKET }}
+          R2_PUBLIC_BASE_URL: https://assets.tomz.io
+
+      - name: Apply R2 media URLs to production build workspace
+        run: pnpm run media:apply
 
       - name: Build production site
         run: pnpm run build

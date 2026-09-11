@@ -19,6 +19,15 @@ jobs:
 
       - run: npm install
 
+      - name: Unit tests
+        run: npm test
+
+      - name: Media pipeline unit tests
+        run: npm run media:test
+
+      - name: Media production scan (no upload, no source rewrite)
+        run: npm run media:prepare
+
       - name: MiraDocs parse and route uniqueness
         run: npm run verify:mira-docs
 

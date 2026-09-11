@@ -10,7 +10,8 @@
   "blogDirectoryByGroup": {
     "共同思考": "shared-thinking",
     "Mira 来信": "mira-letters",
-    "开发者生活": "developer-life"
+    "开发者生活": "developer-life",
+    "客座文章": "guest-contributions"
   },
   "removedRoots": ["docs", "mira-docs-api", "design-md", "learning"],
   "removedBlogCategories": ["product-journal", "engineering", "agent-learning", "bible-notes"]
