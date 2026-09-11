@@ -1,0 +1,317 @@
+name: Strict function layering validation
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - .github/workflows/function-layering-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Enable pnpm
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Layer project and page functions
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+
+          const appPath = 'src/App.tsx';
+          let source = fs.readFileSync(appPath, 'utf8');
+
+          const ensureDir = (file) => fs.mkdirSync(path.dirname(file), { recursive: true });
+          const write = (file, content) => {
+            ensureDir(file);
+            fs.writeFileSync(file, content.trimStart().replace(/\s+$/u, '') + '\n');
+          };
+          const locate = (marker, from = 0) => {
+            const index = source.indexOf(marker, from);
+            if (index < 0) throw new Error(`Missing marker: ${marker}`);
+            return index;
+          };
+          const cut = (startMarker, endMarker) => {
+            const start = locate(startMarker);
+            const end = locate(endMarker, start);
+            const block = source.slice(start, end);
+            source = source.slice(0, start) + source.slice(end);
+            return block;
+          };
+          const replaceOnce = (from, to) => {
+            if (!source.includes(from)) throw new Error(`Missing replacement target: ${from}`);
+            source = source.replace(from, to);
+          };
+          const exportFunction = (text, name) => {
+            const from = `function ${name}(`;
+            if (!text.includes(from)) throw new Error(`Missing function for export: ${name}`);
+            return text.replace(from, `export function ${name}(`);
+          };
+
+          // Shared types are contracts, not runtime helpers.
+          replaceOnce('type LinkItem = { label: string; href: string };\n', '');
+          replaceOnce('type ThemeName = "claude" | "apple" | "supabase";\n', '');
+          replaceOnce(`type SiteArea = {\n  key: string;\n  title: string;\n  description: string;\n  docs: Doc[];\n  path: string;\n  href: string;\n};\n`, '');
+          write('src/types/site.ts', `
+          import type { Doc } from '../content/mira-docs-adapter';
+
+          export type LinkItem = { label: string; href: string };
+          export type ThemeName = 'claude' | 'apple' | 'supabase';
+          export type SiteArea = {
+            key: string;
+            title: string;
+            description: string;
+            docs: Doc[];
+            path: string;
+            href: string;
+          };
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Project-wide URL helpers.
+          cut('const appBase = import.meta.env.BASE_URL;', 'function seedFromString');
+          write('src/utils/paths.ts', `
+          export const appBase = import.meta.env.BASE_URL;
+
+          export function docHref(path: string) {
+            return \`${'${appBase}'}\${path.replace(/^\\/+/, '')}\`;
+          }
+
+          export function decodedPathname(path: string) {
+            try {
+              return decodeURI(path);
+            } catch {
+              return path;
+            }
+          }
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Article-page-only cover generation stays with the article feature.
+          let articleCover = cut('function seedFromString', 'const siteAreaRoots =');
+          articleCover = exportFunction(articleCover, 'resolveCoverSource');
+          write('src/features/article/article-cover.ts', `
+          import type { Doc } from '../../content/mira-docs-adapter';
+          import { appBase } from '../../utils/paths';
+
+          ${articleCover}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Cross-page avatar fallback is a project utility.
+          let avatarBlock = cut('const localMiraAvatarUrl', 'const siteTitle =');
+          avatarBlock = exportFunction(avatarBlock, 'handleMiraAvatarError');
+          write('src/utils/avatar.ts', `
+          import type { SyntheticEvent } from 'react';
+          import { appBase } from './paths';
+
+          ${avatarBlock}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Page-title resolution is project-wide behavior. Keep data injected to avoid a utility -> App dependency.
+          cut('const defaultPageTitle', 'const authorProfiles:');
+          write('src/utils/page-title.ts', `
+          import type { Doc } from '../content/mira-docs-adapter';
+          import type { SiteArea } from '../types/site';
+
+          const defaultPageTitle = '独立开发与产品设计';
+
+          export function getPageTitle(pathname: string, docs: Doc[], areas: SiteArea[]) {
+            if (pathname === '/') return defaultPageTitle;
+            if (pathname === '/about') return '关于 Tomz Dang';
+            const doc = docs.find((item) => item.path === pathname);
+            if (doc) return doc.title;
+            const area = areas.find((item) => item.path === pathname);
+            return area?.title || '页面不存在';
+          }
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Author profiles are content/config data; author behavior is project-level utility logic.
+          const authorBlock = cut('const authorProfiles:', 'const blogNavCategories');
+          const authorFnStart = authorBlock.indexOf('function uniqueAuthors');
+          if (authorFnStart < 0) throw new Error('Cannot split author profile data from author functions');
+          let profileBlock = authorBlock.slice(0, authorFnStart);
+          let authorFns = authorBlock.slice(authorFnStart);
+          profileBlock = profileBlock.replace('const authorProfiles:', 'export const authorProfiles:');
+          for (const name of ['getDocAuthors', 'getDocAuthorLabel', 'getDocAuthorAvatars', 'getDocSignature']) {
+            authorFns = exportFunction(authorFns, name);
+          }
+          authorFns = authorFns.replace(/\bgithubUrl\b/g, 'githubProfileUrl');
+          write('src/content/author-profiles.ts', `
+          import { authorAvatarUrl, miraAvatarUrl } from '../site.config';
+          import type { AuthorKey } from './mira-docs-adapter';
+
+          ${profileBlock}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+          write('src/utils/authors.ts', `
+          import { githubProfileUrl } from '../site.config';
+          import { authorProfiles } from '../content/author-profiles';
+          import type { AuthorKey, Doc } from '../content/mira-docs-adapter';
+          import { docHref } from './paths';
+
+          ${authorFns}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Markdown parsing is shared by multiple content pages; React rendering stays a component concern for the next pass.
+          let markdownBlock = cut('function escapeHtml', 'function RenderedMarkdown');
+          markdownBlock = exportFunction(markdownBlock, 'renderMarkdown');
+          write('src/utils/markdown.ts', `
+          import { marked } from 'marked';
+          import hljs from 'highlight.js/lib/common';
+          import { slug } from '../content/mira-docs-adapter';
+
+          ${markdownBlock}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Docs-only grouping/navigation helpers stay with the docs page family.
+          let docsHelpersA = cut('function directoryTitle', 'function blogCategoryIcon');
+          let docsHelpersB = cut('function projectNavTitle', 'function AreaDocNav');
+          docsHelpersA = docsHelpersA
+            .replaceAll('navigationDirectory(doc)', 'doc.directory')
+            .replace('function directoryTitle(', 'export function directoryTitle(')
+            .replace('function docsByDirectory(', 'export function docsByDirectory(');
+          docsHelpersB = docsHelpersB
+            .replace('function projectNavTitle(', 'export function projectNavTitle(')
+            .replace('type ProjectDocGroup =', 'export type ProjectDocGroup =')
+            .replace('function projectIdFromPath(', 'export function projectIdFromPath(')
+            .replace('function docsByProjectDirectory(', 'export function docsByProjectDirectory(')
+            .replace('function isProjectArea(', 'export function isProjectArea(');
+          write('src/features/docs/docs-utils.ts', `
+          import { compareDocs, type Doc } from '../../content/mira-docs-adapter';
+          import type { SiteArea } from '../../types/site';
+
+          ${docsHelpersA}
+          ${docsHelpersB}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Dead thumbnail helper had no JSX call sites. Remove instead of promoting dead code.
+          cut('function blogCategoryIcon', 'function BlogHeaderVisual');
+          cut('function BlogThumbVisual', 'function AreaDocNav'); // AreaDocNav marker now directly follows deleted docs helper block.
+
+          // Weekly formatting is private to the weekly page family.
+          let weeklyHelpers = cut('function weeklyIssueNumber', 'function WeeklyListPage');
+          for (const name of ['weeklyIssueNumber', 'weeklyDisplayTitle', 'weeklyDateLabel']) {
+            weeklyHelpers = exportFunction(weeklyHelpers, name);
+          }
+          write('src/features/weekly/weekly-utils.ts', `
+          import type { Doc } from '../../content/mira-docs-adapter';
+
+          ${weeklyHelpers}
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          // Imports: remove dependencies that now belong to lower layers.
+          source = source
+            .replace('  type SyntheticEvent,\n', '')
+            .replace('import { marked } from "marked";\n', '')
+            .replace('import hljs from "highlight.js/lib/common";\n', '')
+            .replace('  authorAvatarUrl,\n', '')
+            .replace('  miraAvatarUrl,\n', '')
+            .replace('  slug,\n', '')
+            .replace('  type AuthorKey,\n', '')
+            .replace('  Cpu,\n', '')
+            .replace('  type LucideIcon,\n', '');
+
+          const importAnchor = 'import BookshelfHub from "./features/bookshelf/BookshelfHub";\n';
+          if (!source.includes(importAnchor)) throw new Error('Missing App import anchor');
+          source = source.replace(importAnchor, importAnchor + `
+          import { authorProfiles } from "./content/author-profiles";
+          import { resolveCoverSource } from "./features/article/article-cover";
+          import {
+            directoryTitle,
+            docsByDirectory,
+            docsByProjectDirectory,
+            isProjectArea,
+            projectIdFromPath,
+            projectNavTitle,
+          } from "./features/docs/docs-utils";
+          import {
+            weeklyDateLabel,
+            weeklyDisplayTitle,
+            weeklyIssueNumber,
+          } from "./features/weekly/weekly-utils";
+          import type { LinkItem, SiteArea, ThemeName } from "./types/site";
+          import { handleMiraAvatarError } from "./utils/avatar";
+          import {
+            getDocAuthorAvatars,
+            getDocAuthorLabel,
+            getDocAuthors,
+            getDocSignature,
+          } from "./utils/authors";
+          import { renderMarkdown } from "./utils/markdown";
+          import { getPageTitle } from "./utils/page-title";
+          import { appBase, decodedPathname, docHref } from "./utils/paths";
+          `.split('\n').map((line) => line.replace(/^          /, '')).join('\n'));
+
+          replaceOnce('document.title = `${getPageTitle(location.pathname)} · ${siteTitle}`;', 'document.title = `${getPageTitle(location.pathname, allDocs, siteAreas)} · ${siteTitle}`;');
+
+          // Layering guards: App must no longer own moved helper implementations.
+          for (const forbidden of [
+            'function docHref(',
+            'function decodedPathname(',
+            'function seedFromString(',
+            'function resolveCoverSource(',
+            'function handleMiraAvatarError(',
+            'function getDocAuthors(',
+            'function renderMarkdown(',
+            'function directoryTitle(',
+            'function docsByDirectory(',
+            'function projectIdFromPath(',
+            'function weeklyIssueNumber(',
+            'function weeklyDateLabel(',
+            'function blogCategoryIcon(',
+            'function BlogThumbVisual(',
+          ]) {
+            if (source.includes(forbidden)) throw new Error(`Layering guard failed: ${forbidden}`);
+          }
+          if (source.includes('navigationDirectory(')) throw new Error('Trivial navigationDirectory wrapper survived');
+          if (source.includes('from "marked"') || source.includes('highlight.js/lib/common')) {
+            throw new Error('Markdown engine dependency survived in App.tsx');
+          }
+
+          fs.writeFileSync(appPath, source);
+          NODE
+
+      - name: TypeScript contract check
+        run: pnpm exec tsc -b
+      - name: MiraDocs contract check
+        run: pnpm run verify:mira-docs
+      - name: Production build
+        run: pnpm run build
+      - name: Production static output check
+        run: pnpm run verify:static-output
+      - name: GitHub Pages build
+        run: pnpm run build:github-pages
+      - name: GitHub Pages static output check
+        run: pnpm run verify:static-output
+      - name: Hygiene guards
+        run: |
+          test ! -e package-lock.json
+          git diff --check
+          git diff --exit-code -- src/content/content-times.generated.ts src/content/home-focus.generated.ts src/content/home-recent.generated.ts
+          test ! -e src/app/site-runtime.ts
+
+      - name: Commit validated function layering
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/App.tsx \
+            src/types/site.ts \
+            src/utils \
+            src/content/author-profiles.ts \
+            src/features/article/article-cover.ts \
+            src/features/docs/docs-utils.ts \
+            src/features/weekly/weekly-utils.ts
+          git diff --cached --check
+          git commit -m "refactor(app): layer shared and page helpers"
+          git push origin HEAD:preview/weekly-v0-1
