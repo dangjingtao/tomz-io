@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 
 const DEFAULT_MANIFEST = ".mira-cache/media-r2/manifest.json";
+const DEFAULT_PUBLIC_BASE = "https://assets.tomz.io";
+const WRANGLER_VERSION = process.env.MEDIA_WRANGLER_VERSION || "4.129.1";
 const args = new Set(process.argv.slice(2));
 const planOnly = args.has("--plan");
 const confirmed = args.has("--confirm");
@@ -12,80 +14,92 @@ function required(names) {
   if (missing.length) throw new Error(`Missing R2 environment: ${missing.join(", ")}`);
 }
 
-function aws(args, { allowFailure = false } = {}) {
-  const environment = {
-    ...process.env,
-    AWS_EC2_METADATA_DISABLED: "true",
-    AWS_RETRY_MODE: process.env.AWS_RETRY_MODE || "standard",
-    AWS_MAX_ATTEMPTS: process.env.AWS_MAX_ATTEMPTS || "5",
-  };
+function wrangler(args) {
   if (planOnly) {
-    console.log(`[plan] aws ${args.join(" ")}`);
-    return { status: 0, stdout: "", stderr: "" };
+    console.log(`[plan] wrangler ${args.join(" ")}`);
+    return;
   }
-  const result = spawnSync("aws", args, { env: environment, encoding: "utf8" });
+  const result = spawnSync(
+    "npx",
+    ["--yes", `wrangler@${WRANGLER_VERSION}`, ...args],
+    { env: process.env, encoding: "utf8" },
+  );
   if (result.error) throw result.error;
-  if (result.status !== 0 && !allowFailure) {
-    throw new Error(result.stderr || `aws exited with ${result.status}`);
+  if (result.status !== 0) {
+    throw new Error(result.stderr || result.stdout || `wrangler exited with ${result.status}`);
   }
-  return result;
+}
+
+async function remoteState(publicBase, object) {
+  const probe = `${publicBase}/${object.key}?media-check=${object.sha256}-${Date.now()}`;
+  const response = await fetch(probe, {
+    method: "HEAD",
+    redirect: "follow",
+    headers: { "cache-control": "no-cache" },
+  });
+  if (response.status === 404) return "missing";
+  if (!response.ok) throw new Error(`R2 public HEAD failed (${response.status}): ${object.key}`);
+
+  const rawLength = response.headers.get("content-length");
+  if (rawLength !== null) {
+    const length = Number(rawLength);
+    if (Number.isFinite(length) && length !== object.bytes) return "mismatch";
+  }
+  return "present";
+}
+
+async function verifyRemote(publicBase, object) {
+  let lastState = "missing";
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
+    lastState = await remoteState(publicBase, object);
+    if (lastState === "present") return;
+    if (attempt < 5) await new Promise((resolve) => setTimeout(resolve, attempt * 400));
+  }
+  throw new Error(`R2 verification failed (${lastState}): ${object.key}`);
 }
 
 async function main() {
   if (!planOnly && !confirmed) throw new Error("R2 publish requires explicit --confirm.");
-  if (!planOnly) required(["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "R2_ACCOUNT_ID", "R2_BUCKET"]);
+  if (!planOnly) required(["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "R2_BUCKET"]);
 
   const repoRoot = process.cwd();
   const manifestPath = path.resolve(repoRoot, process.env.MEDIA_MANIFEST || DEFAULT_MANIFEST);
   const cacheRoot = path.dirname(manifestPath);
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  const account = process.env.R2_ACCOUNT_ID || "<R2_ACCOUNT_ID>";
-  const bucket = process.env.R2_BUCKET || "<R2_BUCKET>";
-  const endpoint = `https://${account}.r2.cloudflarestorage.com`;
-  const common = ["--endpoint-url", endpoint, "--no-cli-pager"];
+  if (manifest.addressing !== "sha256") throw new Error("Refusing to publish a non-content-addressed media manifest.");
 
+  const bucket = process.env.R2_BUCKET || "<R2_BUCKET>";
+  const publicBase = String(process.env.R2_PUBLIC_BASE_URL || manifest.publicBase || DEFAULT_PUBLIC_BASE).replace(/\/+$/, "");
   let uploaded = 0;
   let skipped = 0;
+
   for (const object of manifest.objects || []) {
-    const remote = aws([
-      "s3api", "head-object", "--bucket", bucket, "--key", object.key, ...common,
-    ], { allowFailure: true });
-    if (!planOnly && remote.status === 0) {
-      try {
-        const metadata = JSON.parse(remote.stdout || "{}");
-        if (metadata?.Metadata?.sha256 === object.sha256 && Number(metadata?.ContentLength) === object.bytes) {
-          console.log(`R2 unchanged: ${object.key}`);
-          skipped += 1;
-          continue;
-        }
-      } catch {
-        // A malformed head response is treated as a cache miss and uploaded again.
+    if (!planOnly) {
+      const state = await remoteState(publicBase, object);
+      if (state === "present") {
+        console.log(`R2 content already present: ${object.key}`);
+        skipped += 1;
+        continue;
+      }
+      if (state === "mismatch") {
+        console.warn(`R2 hash path has unexpected size; repairing: ${object.key}`);
       }
     }
 
     const local = path.join(cacheRoot, object.file);
-    aws([
-      "s3", "cp", local, `s3://${bucket}/${object.key}`,
+    wrangler([
+      "r2", "object", "put", `${bucket}/${object.key}`,
+      "--file", local,
       "--content-type", object.contentType,
-      "--cache-control", "public, max-age=300, must-revalidate",
-      "--metadata", `sha256=${object.sha256}`,
-      "--only-show-errors",
-      ...common,
+      "--cache-control", "public, max-age=31536000, immutable",
+      "--remote",
     ]);
 
-    if (!planOnly) {
-      const verified = aws([
-        "s3api", "head-object", "--bucket", bucket, "--key", object.key, ...common,
-      ]);
-      const metadata = JSON.parse(verified.stdout || "{}");
-      if (metadata?.Metadata?.sha256 !== object.sha256 || Number(metadata?.ContentLength) !== object.bytes) {
-        throw new Error(`R2 verification failed: ${object.key}`);
-      }
-    }
+    if (!planOnly) await verifyRemote(publicBase, object);
     uploaded += 1;
   }
 
-  console.log(`R2 media publish complete: ${uploaded} uploaded, ${skipped} unchanged.`);
+  console.log(`R2 media publish complete: ${uploaded} uploaded, ${skipped} content-addressed hit(s).`);
 }
 
 main().catch((error) => {

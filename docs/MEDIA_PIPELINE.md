@@ -24,7 +24,7 @@ main checkout
 → Cloudflare Pages deploy
 ```
 
-`media:prepare` 不改源码，只在 `.mira-cache/media-r2/` 生成待上传对象、manifest 和引用替换计划。`media:publish` 完成 R2 上传与远端校验后，`media:apply` 才在 CI 临时工作区把本地引用换成 `R2_PUBLIC_BASE_URL` 下的正式 URL。Git 中的 Markdown 不会因此被改写。
+`media:prepare` 不改源码，只在 `.mira-cache/media-r2/` 生成待上传对象、manifest 和引用替换计划。`media:publish` 先检查内容哈希对象是否已存在，只上传缺失对象；成功后 `media:apply` 才在 CI 临时工作区把本地引用换成 `https://assets.tomz.io` 下的正式 URL。Git 中的 Markdown 不会因此被改写。
 
 PR / GitHub Pages 只运行离线测试与扫描，不运行 `media:publish`、不运行 `media:apply`，因此不会写 R2，也不会把预览站绑到生产媒体。
 
@@ -63,33 +63,38 @@ PR / GitHub Pages 只运行离线测试与扫描，不运行 `media:publish`、�
 - 默认不缩图；长边超过 `MEDIA_MAX_LONG_EDGE` 才限制尺寸，默认 5120px；
 - SVG 不进入这条 raster pipeline，继续保持 SVG。
 
-## R2 路径
+## R2 内容寻址
 
-通用媒体使用稳定的语义目录，不依赖 Vite hash：
+通用媒体不再使用会被覆盖的语义对象名，也不按 commit 复制整套资源。优化后的最终字节以 SHA-256 内容寻址：
 
 ```text
-tomz-io/jianpi/001/cover.webp
-tomz-io/blogs/<group>/<slug>/<asset>.webp
-tomz-io/projects/<slug>/<asset>.webp
+tomz-io/media/8f/8f...<完整 sha256>.webp
+tomz-io/media/a3/a3...<完整 sha256>.jpg
 ```
 
-见π使用 frontmatter `issue` 生成三位期号目录。base64 正文图没有文件名时使用内容摘要，例如 `inline-<sha12>.webp`；这样正文移动位置不会无意义地改对象名。
+因此：
 
-生产公开基址来自 `R2_PUBLIC_BASE_URL`；当前站点已使用 `https://assets.tomz.io`。
+- 相同最终字节在整个站点只保存一个对象；
+- 普通文字 push 不产生新媒体对象；
+- 多个 production run 即使先后交错，也不会用不同内容覆盖同一个 R2 key；
+- 图片真正变化时才产生新对象；
+- 内容哈希 URL 可以安全使用 `Cache-Control: public, max-age=31536000, immutable`。
+
+当前公开基址固定为 `https://assets.tomz.io`。历史未引用对象暂不在正常发布链里自动删除；后续 GC 只能针对 `tomz-io/media/`，并应带宽限期，避免误删仍被已发布页面引用的对象。
 
 ## GitHub Actions 凭据
 
-沿用 Mira 组织现有 R2 secret 命名：
+媒体上传改为 Wrangler 直接访问 R2，不再需要 AWS/S3 风格的 `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY`。
+
+敏感凭据只有现有的：
 
 ```text
-R2_ACCESS_KEY_ID
-R2_SECRET_ACCESS_KEY
-R2_ACCOUNT_ID
-R2_BUCKET
-R2_PUBLIC_BASE_URL
+CLOUDFLARE_API_TOKEN
 ```
 
-workflow 将前两项映射成 AWS S3 兼容环境变量。上传对象写入 SHA-256 metadata；远端存在同摘要、同大小对象时跳过上传，上传后再次 `head-object` 校验。正式对象使用短缓存：`public, max-age=300, must-revalidate`，避免稳定 URL 更新后长期卡旧图。
+同时使用现有 `CLOUDFLARE_ACCOUNT_ID` 作为账号标识。`R2_BUCKET` 只是非敏感配置，优先放 GitHub Actions Variable；为兼容旧配置，workflow 也接受同名 Secret。`R2_PUBLIC_BASE_URL` 不再需要 Secret，站点默认使用 `https://assets.tomz.io`。
+
+生产上传会先对内容哈希 URL 做 HTTP HEAD；对象存在且大小一致就跳过。缺失对象通过 Wrangler `r2 object put --remote` 上传，随后从公开域再次 HEAD 校验。Wrangler 只执行单对象操作，符合这条增量媒体链的用途。
 
 ## 不做的事
 
@@ -98,6 +103,6 @@ workflow 将前两项映射成 AWS S3 兼容环境变量。上传对象写入 SH
 - 把第三方外链抓回 R2；
 - 重编码已有 WebP 来追求几 KB；
 - 处理 SVG 内嵌 raster；
-- 改写生产内容的 canonical / URL；
-- 删除 R2 历史对象；
+- 改写 Git 中生产内容的 canonical / URL；
+- 在发布过程中激进删除 R2 历史对象；
 - 替代连环画独立的 staging / manifest 发行协议。

@@ -7,6 +7,7 @@ const SUPPORTED_LOCAL_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
 const DEFAULT_PUBLIC_BASE = "https://assets.tomz.io";
 const DEFAULT_MAX_LONG_EDGE = 5120;
 const DEFAULT_CACHE_ROOT = ".mira-cache/media-r2";
+const OBJECT_PREFIX = "tomz-io/media";
 
 function slash(value) {
   return value.split(path.sep).join("/");
@@ -14,15 +15,6 @@ function slash(value) {
 
 function sha256(buffer) {
   return crypto.createHash("sha256").update(buffer).digest("hex");
-}
-
-function sanitizeSegment(value) {
-  return String(value || "asset")
-    .trim()
-    .toLowerCase()
-    .normalize("NFKC")
-    .replace(/[^\p{L}\p{N}._-]+/gu, "-")
-    .replace(/^-+|-+$/g, "") || "asset";
 }
 
 function stripQuotes(value) {
@@ -39,13 +31,13 @@ function stripQuotes(value) {
 
 function parseFrontmatter(source) {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
-  if (!match) return { bodyOffset: 0, text: "", data: new Map() };
+  if (!match) return { data: new Map() };
   const data = new Map();
   for (const line of match[1].split(/\r?\n/)) {
     const pair = line.match(/^([A-Za-z][A-Za-z0-9_-]*):\s*(.*?)\s*$/);
     if (pair) data.set(pair[1], stripQuotes(pair[2]));
   }
-  return { bodyOffset: match[0].length, text: match[1], data };
+  return { data };
 }
 
 async function walkMarkdown(directory) {
@@ -58,13 +50,13 @@ async function walkMarkdown(directory) {
   return files.sort();
 }
 
-function addReference(references, seen, source, file, rawValue, role, kind) {
+function addReference(references, seen, file, rawValue, role, kind) {
   const value = stripQuotes(rawValue);
   if (!value) return;
   const key = `${kind}\u0000${value}`;
   if (seen.has(key)) return;
   seen.add(key);
-  references.push({ file, source, value, role, kind });
+  references.push({ file, value, role, kind });
 }
 
 function collectReferences(file, source) {
@@ -74,20 +66,20 @@ function collectReferences(file, source) {
 
   for (const field of ["cover", "image"]) {
     const value = frontmatter.data.get(field);
-    if (value) addReference(references, seen, source, file, value, "cover", `frontmatter:${field}`);
+    if (value) addReference(references, seen, file, value, "cover", `frontmatter:${field}`);
   }
 
   const markdownImage = /!\[[^\]]*\]\(\s*<?([^\s)>]+)>?(?:\s+["'][^"']*["'])?\s*\)/g;
   for (const match of source.matchAll(markdownImage)) {
-    addReference(references, seen, source, file, match[1], "inline", "markdown");
+    addReference(references, seen, file, match[1], "inline", "markdown");
   }
 
   const htmlImage = /<img\b[^>]*\bsrc\s*=\s*(["'])([^"']+)\1[^>]*>/gi;
   for (const match of source.matchAll(htmlImage)) {
-    addReference(references, seen, source, file, match[2], "inline", "html");
+    addReference(references, seen, file, match[2], "inline", "html");
   }
 
-  return { references, frontmatter };
+  return references;
 }
 
 function parseDataImage(value) {
@@ -129,7 +121,7 @@ async function resolveLocalImage(value, sourceFile, repoRoot) {
     try {
       const info = await stat(candidate);
       if (!info.isFile()) continue;
-      return { bytes: await readFile(candidate), extension, sourceKind: "local", sourcePath: candidate };
+      return { bytes: await readFile(candidate), extension, sourceKind: "local" };
     } catch {
       // Try the next safe candidate.
     }
@@ -137,40 +129,12 @@ async function resolveLocalImage(value, sourceFile, repoRoot) {
   return { unresolved: true, extension };
 }
 
-function contentNamespace(sourceFile, pagesRoot, frontmatter) {
-  const relative = slash(path.relative(pagesRoot, sourceFile)).replace(/\.md$/i, "");
-  const parts = relative.split("/").filter(Boolean);
-  const root = parts.shift() || "content";
-  const rest = parts.length ? parts : ["index"];
-
-  if (root === "weekly") {
-    const issue = Number(frontmatter.data.get("issue"));
-    const issueId = Number.isFinite(issue) && issue > 0
-      ? String(Math.trunc(issue)).padStart(3, "0")
-      : sanitizeSegment(rest.at(-1));
-    return `tomz-io/jianpi/${issueId}`;
-  }
-
-  return `tomz-io/${sanitizeSegment(root)}/${rest.map(sanitizeSegment).join("/")}`;
-}
-
-function objectBaseName(reference, digest, sourcePath) {
-  if (reference.role === "cover") return "cover";
-  if (sourcePath) {
-    const basename = path.basename(sourcePath, path.extname(sourcePath));
-    return sanitizeSegment(basename);
-  }
-  return `inline-${digest.slice(0, 12)}`;
-}
-
 async function optimizeImage(input, reference, maxLongEdge) {
-  const originalDigest = sha256(input.bytes);
   if (input.extension === ".webp") {
     return {
       bytes: input.bytes,
       extension: ".webp",
       strategy: input.sourceKind === "base64" ? "webp-base64-passthrough" : "webp-passthrough",
-      originalDigest,
     };
   }
 
@@ -208,7 +172,6 @@ async function optimizeImage(input, reference, maxLongEdge) {
       bytes: input.bytes,
       extension: input.extension,
       strategy: "original-preserved-small-saving",
-      originalDigest,
     };
   }
 
@@ -216,7 +179,6 @@ async function optimizeImage(input, reference, maxLongEdge) {
     bytes: webp,
     extension: ".webp",
     strategy: shouldResize ? "webp-resized-huge-source" : "webp-optimized",
-    originalDigest,
   };
 }
 
@@ -224,6 +186,10 @@ function contentType(extension) {
   if (extension === ".png") return "image/png";
   if (extension === ".jpg" || extension === ".jpeg") return "image/jpeg";
   return "image/webp";
+}
+
+function contentAddressedKey(digest, extension) {
+  return `${OBJECT_PREFIX}/${digest.slice(0, 2)}/${digest}${extension}`;
 }
 
 export async function prepareProductionMedia(options = {}) {
@@ -245,8 +211,7 @@ export async function prepareProductionMedia(options = {}) {
 
   for (const sourceFile of markdownFiles) {
     const source = await readFile(sourceFile, "utf8");
-    const { references, frontmatter } = collectReferences(sourceFile, source);
-    const namespace = contentNamespace(sourceFile, pagesRoot, frontmatter);
+    const references = collectReferences(sourceFile, source);
 
     for (const reference of references) {
       if (isIgnoredRemote(reference.value)) continue;
@@ -264,13 +229,7 @@ export async function prepareProductionMedia(options = {}) {
 
       const optimized = await optimizeImage(input, reference, maxLongEdge);
       const digest = sha256(optimized.bytes);
-      let baseName = objectBaseName(reference, digest, input.sourcePath);
-      let objectKey = `${namespace}/${baseName}${optimized.extension}`;
-      const existing = objectByKey.get(objectKey);
-      if (existing && existing.sha256 !== digest) {
-        baseName = `${baseName}-${digest.slice(0, 8)}`;
-        objectKey = `${namespace}/${baseName}${optimized.extension}`;
-      }
+      const objectKey = contentAddressedKey(digest, optimized.extension);
 
       let object = objectByKey.get(objectKey);
       if (!object) {
@@ -301,8 +260,10 @@ export async function prepareProductionMedia(options = {}) {
   }
 
   const manifest = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
+    addressing: "sha256",
+    objectPrefix: OBJECT_PREFIX,
     publicBase,
     maxLongEdge,
     objects,
@@ -316,7 +277,7 @@ export async function prepareProductionMedia(options = {}) {
 
 async function main() {
   const result = await prepareProductionMedia();
-  console.log(`Prepared ${result.manifest.objects.length} R2 media object(s) and ${result.manifest.rewrites.length} production rewrite(s).`);
+  console.log(`Prepared ${result.manifest.objects.length} content-addressed R2 media object(s) and ${result.manifest.rewrites.length} production rewrite(s).`);
   for (const warning of result.manifest.warnings) console.warn(`[media] ${warning}`);
 }
 

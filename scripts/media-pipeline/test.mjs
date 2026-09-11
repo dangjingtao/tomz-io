@@ -20,28 +20,38 @@ try {
   }).png().toFile(pngPath);
 
   const dataWebp = `data:image/webp;base64,${webpBytes.toString("base64")}`;
-  const markdown = `---\ntitle: Test\nissue: 1\ncover: ${dataWebp}\n---\n\n![diagram](./diagram.png)\n\n<img src="https://example.com/remote.png" alt="remote">\n<img src="data:image/svg+xml,%3Csvg%3E%3C/svg%3E" alt="svg">\n`;
+  const markdown = `---\ntitle: Test\nissue: 1\ncover: ${dataWebp}\n---\n\n![same bytes](${dataWebp})\n\n![diagram](./diagram.png)\n\n<img src="https://example.com/remote.png" alt="remote">\n<img src="data:image/svg+xml,%3Csvg%3E%3C/svg%3E" alt="svg">\n`;
   const page = path.join(pageDir, "001-test.md");
   await writeFile(page, markdown);
 
   const { manifest, cacheRoot } = await prepareProductionMedia({ repoRoot: root });
-  assert.equal(manifest.rewrites.length, 2);
-  assert.equal(manifest.objects.length, 2);
+  assert.equal(manifest.schemaVersion, 2);
+  assert.equal(manifest.addressing, "sha256");
+  assert.equal(manifest.rewrites.length, 3);
+  assert.equal(manifest.objects.length, 2, "identical optimized bytes must be stored once");
 
-  const cover = manifest.objects.find((item) => item.key === "tomz-io/jianpi/001/cover.webp");
-  assert.ok(cover, "weekly cover should use the semantic jianpi path");
+  const coverRewrite = manifest.rewrites.find((item) => item.kind === "frontmatter:cover");
+  const repeatedRewrite = manifest.rewrites.find((item) => item.kind === "markdown" && item.from === dataWebp);
+  assert.ok(coverRewrite);
+  assert.ok(repeatedRewrite);
+  assert.equal(coverRewrite.key, repeatedRewrite.key, "same bytes must reuse the same content-addressed key");
+
+  const cover = manifest.objects.find((item) => item.key === coverRewrite.key);
+  assert.ok(cover);
+  assert.match(cover.key, /^tomz-io\/media\/[0-9a-f]{2}\/[0-9a-f]{64}\.webp$/);
+  assert.equal(cover.key, `tomz-io/media/${cover.sha256.slice(0, 2)}/${cover.sha256}.webp`);
   assert.equal(cover.strategy, "webp-base64-passthrough");
   const stagedCover = await readFile(path.join(cacheRoot, cover.file));
   assert.deepEqual(stagedCover, webpBytes, "base64 WebP must remain byte-identical");
 
-  assert.ok(manifest.rewrites.some((item) => item.to === "https://assets.tomz.io/tomz-io/jianpi/001/cover.webp"));
-  assert.ok(manifest.rewrites.some((item) => item.to.includes("/tomz-io/jianpi/001/diagram.")));
+  assert.ok(manifest.rewrites.some((item) => item.to === `https://assets.tomz.io/${cover.key}`));
+  assert.ok(manifest.rewrites.some((item) => item.to.includes("/tomz-io/media/")));
   assert.ok(!manifest.rewrites.some((item) => item.from.includes("example.com")));
   assert.ok(!manifest.rewrites.some((item) => item.from.startsWith("data:image/svg+xml")));
 
   await applyProductionMedia({ repoRoot: root });
   const applied = await readFile(page, "utf8");
-  assert.ok(applied.includes("https://assets.tomz.io/tomz-io/jianpi/001/cover.webp"));
+  assert.ok(applied.includes(`https://assets.tomz.io/${cover.key}`));
   assert.ok(applied.includes("https://example.com/remote.png"));
   assert.ok(applied.includes("data:image/svg+xml"));
   assert.ok(!applied.includes(dataWebp));
