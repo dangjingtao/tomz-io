@@ -61,6 +61,8 @@ jobs:
       - name: GitHub Pages build
         run: pnpm run build:github-pages
       - name: GitHub Pages static output check
+        env:
+          EXPECTED_BASE: tomz-io
         run: pnpm run verify:static-output
       - name: Hygiene guards
         run: |
