@@ -46,15 +46,8 @@ jobs:
                   raise SystemExit(f"missing end marker for {label}: {end_marker!r}")
               return text[:start] + text[end:]
 
-          # 1) App.tsx: remove only the superseded alternate header implementation.
-          app_path = Path("src/App.tsx")
-          app = read(app_path)
-          app = remove_between(
-              app,
-              "function MobileHeaderPanel({",
-              "function NotFoundPage({",
-              "legacy SiteHeader/MobileHeaderPanel",
-          )
+          app = read("src/App.tsx")
+          app = remove_between(app, "function MobileHeaderPanel({", "function NotFoundPage({", "legacy header")
           app, count = re.subn(
               r"<HomepageV1\s+showHeader=\{false\}\s+darkMode=\{darkMode\}\s+themeName=\{themeName\}\s*/>",
               "<HomepageV1 darkMode={darkMode} />",
@@ -62,35 +55,20 @@ jobs:
               count=1,
           )
           if count != 1:
-              raise SystemExit("expected exactly one routed HomepageV1 legacy prop block")
+              raise SystemExit("expected one routed HomepageV1 legacy prop block")
           app = app.replace(
               "const [themeName, setThemeName] = useState<ThemeName>(() => {",
               "const [themeName] = useState<ThemeName>(() => {",
               1,
           )
-          write(app_path, app)
+          write("src/App.tsx", app)
 
-          # 2) HomepageV1.tsx: remove the never-mounted private header/theme implementation.
-          home_path = Path("src/HomepageV1.tsx")
-          home = read(home_path)
-          home = home.replace(
-              'import { useEffect, useMemo, useState } from "react";',
-              'import { useEffect, useMemo } from "react";',
-              1,
-          )
-          home = home.replace(
-              'import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";',
-              'import { ArrowUpRight } from "lucide-react";',
-              1,
-          )
-          home = re.sub(
-              r'^const tomzMarkSrc = `\$\{import\.meta\.env\.BASE_URL\}brand/tomz-mark\.png`;\n',
-              '',
-              home,
-              count=1,
-              flags=re.M,
-          )
-          home = remove_between(home, 'type ThemeName = "claude"', 'function RecentItem(', 'HomepageV1 private theme state')
+          home = read("src/HomepageV1.tsx")
+          home = home.replace('import { useEffect, useMemo, useState } from "react";', 'import { useEffect, useMemo } from "react";', 1)
+          home = home.replace('import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";', 'import { ArrowUpRight } from "lucide-react";', 1)
+          home = re.sub(r'^const tomzMarkSrc = `\$\{import\.meta\.env\.BASE_URL\}brand/tomz-mark\.png`;\n', '', home, count=1, flags=re.M)
+          home = home.replace('type ThemeName = "claude" | "apple" | "supabase";\n\n', '', 1)
+          home = remove_between(home, 'const themeOptions:', 'function RecentItem(', 'HomepageV1 private theme state')
           home = remove_between(home, 'function HomepageHeader({', 'export default function HomepageV1({', 'HomepageV1 private header')
           home, count = re.subn(
               r"export default function HomepageV1\(\{[\s\S]*?\n  const latestWriting = useMemo\(",
@@ -101,48 +79,27 @@ jobs:
           if count != 1:
               raise SystemExit("failed to simplify HomepageV1 props")
           home = remove_between(home, '      {showHeader ? (', '      <main>', 'HomepageV1 hidden header mount')
-          write(home_path, home)
+          write("src/HomepageV1.tsx", home)
 
-          # 3) main.tsx: remove the obsolete DOM bridge.
-          main_path = Path("src/main.tsx")
-          main = read(main_path)
-          if 'import LegacyHeaderCompat from "./components/LegacyHeaderCompat";\n' not in main:
-              raise SystemExit("LegacyHeaderCompat import not found")
+          main = read("src/main.tsx")
           main = main.replace('import LegacyHeaderCompat from "./components/LegacyHeaderCompat";\n', '', 1)
-          if '      <LegacyHeaderCompat />\n' not in main:
-              raise SystemExit("LegacyHeaderCompat mount not found")
           main = main.replace('      <LegacyHeaderCompat />\n', '', 1)
-          write(main_path, main)
+          write("src/main.tsx", main)
 
-          # 4) Homepage CSS: remove styles owned only by deleted private/alternate headers.
-          css_path = Path("src/homepage-v1.css")
-          css = read(css_path)
+          css = read("src/homepage-v1.css")
           css = remove_between(css, '.home-v1-nav {', '.home-v1-hero {', 'desktop homepage nav CSS')
           css = remove_between(css, '  .home-v1-nav-links,', '  .home-v1-hero-inner {', 'tablet homepage nav CSS')
           css = remove_between(css, '  .home-v1-nav-inner {', '  .home-v1-hero-inner {', 'mobile homepage nav CSS')
-          css = re.sub(
-              r'\n\[data-theme="claude"\]\.dark \.home-v1-nav-popover,\n\[data-theme="claude"\]\.dark \.home-v1-theme-toggle,\n\[data-theme="claude"\]\.dark \.home-v1-mobile-toggle \{[^{}]*\}\n',
-              '\n',
-              css,
-              count=1,
-          )
+          css = re.sub(r'\n\[data-theme="claude"\]\.dark \.home-v1-nav-popover,\n\[data-theme="claude"\]\.dark \.home-v1-theme-toggle,\n\[data-theme="claude"\]\.dark \.home-v1-mobile-toggle \{[^{}]*\}\n', '\n', css, count=1)
           css = re.sub(r'\n\s*\.home-v1-(?:hero-note|about-note)(?:[^\{,\n]*)\s*\{[^{}]*\}\n', '\n', css)
-          write(css_path, css)
+          write("src/homepage-v1.css", css)
 
-          # 5) Shared CSS: drop selectors owned by the removed LegacyHeaderCompat portal.
-          styles_path = Path("src/styles.css")
-          styles = read(styles_path)
-          styles = styles.replace(
-              '    .mobile-header-panel,\n    .mobile-doc-share {',
-              '    .mobile-header-panel {',
-              1,
-          )
+          styles = read("src/styles.css")
+          styles = styles.replace('    .mobile-header-panel,\n    .mobile-doc-share {', '    .mobile-header-panel {', 1)
           styles = re.sub(r'\n\s*\.mobile-doc-share(?:[^\{,\n]*)\s*\{[^{}]*\}\n', '\n', styles)
-          write(styles_path, styles)
+          write("src/styles.css", styles)
 
-          # 6) Guest articles: canonical body exists only under blogs/guest-contributions.
-          redirects_path = Path("public/_redirects")
-          redirects = read(redirects_path).rstrip() + "\n"
+          redirects = read("public/_redirects").rstrip() + "\n"
           redirect_lines = [
               "/submissions/t-zt/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301",
               "/submissions/t-zt/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301",
@@ -152,11 +109,9 @@ jobs:
           for line in redirect_lines:
               if line not in redirects:
                   redirects += line + "\n"
-          write(redirects_path, redirects)
+          write("public/_redirects", redirects)
 
-          # Historical shared-thinking guest URLs must also land on the single canonical blog copy.
-          vite_path = Path("vite.config.ts")
-          vite = read(vite_path)
+          vite = read("vite.config.ts")
           replacements = {
               '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301"': '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301"',
               '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301"': '"/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301"',
@@ -167,24 +122,21 @@ jobs:
               if old not in vite:
                   raise SystemExit(f"expected legacy redirect missing: {old}")
               vite = vite.replace(old, new, 1)
-          write(vite_path, vite)
+          write("vite.config.ts", vite)
 
-          # 7) Delete obsolete compatibility/history/duplicate files, including this one-shot workflow.
-          delete_paths = [
+          for path in [
               "AGENT.MD",
               ".github/workflows/migrate-tomz-domain.yml",
               "src/components/LegacyHeaderCompat.tsx",
               "src/pages/submissions/t-zt/why-mobile-agents-dont-allow-custom-api.md",
               "src/pages/submissions/t-zt/why-agent-chat-sync-feels-laggy.md",
               ".github/workflows/code-hygiene-once.yml",
-          ]
-          for path in delete_paths:
+          ]:
               target = Path(path)
               if not target.exists():
                   raise SystemExit(f"expected cleanup target missing: {path}")
               target.unlink()
 
-          # Structural assertions: no compatibility stubs or alternate header implementation remain.
           assert not Path("AGENT.MD").exists()
           assert not Path("src/components/LegacyHeaderCompat.tsx").exists()
           assert "LegacyHeaderCompat" not in read("src/main.tsx")
@@ -192,6 +144,7 @@ jobs:
           assert "function MobileHeaderPanel(" not in read("src/App.tsx")
           assert "HomepageHeader" not in read("src/HomepageV1.tsx")
           assert "showHeader" not in read("src/HomepageV1.tsx")
+          assert "HomepageFooter" in read("src/HomepageV1.tsx")
           assert ".home-v1-nav" not in read("src/homepage-v1.css")
           assert ".mobile-doc-share" not in read("src/styles.css")
           assert "/submissions/t-zt/why-mobile-agents-dont-allow-custom-api" not in read("vite.config.ts")
