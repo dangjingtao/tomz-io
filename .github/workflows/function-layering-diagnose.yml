@@ -1,0 +1,49 @@
+name: Diagnose function layering
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - .github/workflows/function-layering-diagnose.yml
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: corepack enable && pnpm install --frozen-lockfile
+      - name: Reuse layering transform without committing
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          source = Path('.github/workflows/function-layering-once.yml').read_text()
+          start = source.index("          node <<'NODE'\n") + len("          node <<'NODE'\n")
+          end = source.index("\n          NODE", start)
+          lines = source[start:end].splitlines()
+          script = '\n'.join(line[10:] if line.startswith('          ') else line for line in lines) + '\n'
+          Path('/tmp/layer.cjs').write_text(script)
+          PY
+          node /tmp/layer.cjs
+      - name: Generate required content-time module
+        run: pnpm run generate:content-times
+      - name: Typecheck and print exact failing regions
+        run: |
+          set +e
+          pnpm exec tsc -b 2>&1 | tee /tmp/tsc.log
+          code=${PIPESTATUS[0]}
+          echo '--- App 1100-1150 ---'
+          nl -ba src/App.tsx | sed -n '1100,1150p'
+          echo '--- App 1900-1960 ---'
+          nl -ba src/App.tsx | sed -n '1900,1960p'
+          echo '--- docs-utils ---'
+          nl -ba src/features/docs/docs-utils.ts
+          echo '--- weekly-utils ---'
+          nl -ba src/features/weekly/weekly-utils.ts
+          exit $code
