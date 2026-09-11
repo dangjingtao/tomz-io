@@ -5,11 +5,8 @@ import {
   useState,
   type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
-  type SyntheticEvent,
 } from "react";
-import { marked } from "marked";
 import AuthorSignature from "./components/AuthorSignature";
-import hljs from "highlight.js/lib/common";
 import {
   ArrowUpRight,
   Archive,
@@ -17,7 +14,6 @@ import {
   ChevronDown,
   Code2,
   Compass,
-  Cpu,
   ChevronUp,
   FileQuestion,
   GitBranch,
@@ -29,7 +25,6 @@ import {
   Sparkles,
   Sun,
   X,
-  type LucideIcon,
 } from "lucide-react";
 import {
   Link,
@@ -40,9 +35,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import {
-  authorAvatarUrl,
   githubProfileUrl,
-  miraAvatarUrl,
   siteName,
   topNavigationOrder,
 } from "./site.config";
@@ -52,117 +45,45 @@ import {
   compareBlogDocs,
   compareDocs,
   compareWeeklyDocs,
-  slug,
-  type AuthorKey,
   type Doc,
 } from "./content/mira-docs-adapter";
 import HomepageV1, { HomepageFooter } from "./HomepageV1";
 import { bookEntries, books } from "./content/bookshelf";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
 
-type LinkItem = { label: string; href: string };
-type ThemeName = "claude" | "apple" | "supabase";
+import { authorProfiles } from "./content/author-profiles";
+import { resolveCoverSource } from "./features/article/article-cover";
+import {
+  directoryTitle,
+  docsByDirectory,
+  docsByProjectDirectory,
+  isProjectArea,
+  projectIdFromPath,
+  projectNavTitle,
+} from "./features/docs/docs-utils";
+import {
+  weeklyDateLabel,
+  weeklyDisplayTitle,
+  weeklyIssueNumber,
+} from "./features/weekly/weekly-utils";
+import type { LinkItem, SiteArea, ThemeName } from "./types/site";
+import { handleMiraAvatarError } from "./utils/avatar";
+import {
+  getDocAuthorAvatars,
+  getDocAuthorLabel,
+  getDocAuthors,
+  getDocSignature,
+} from "./utils/authors";
+import { renderMarkdown } from "./utils/markdown";
+import { getPageTitle } from "./utils/page-title";
+import { appBase, decodedPathname, docHref } from "./utils/paths";
+
 const themeOptions: { name: ThemeName; label: string }[] = [
   { name: "claude", label: "Claude" },
   { name: "apple", label: "Apple" },
   { name: "supabase", label: "Supabase" },
 ];
-type SiteArea = {
-  key: string;
-  title: string;
-  description: string;
-  docs: Doc[];
-  path: string;
-  href: string;
-};
 const githubUrl = githubProfileUrl;
-const appBase = import.meta.env.BASE_URL;
-function navigationDirectory(doc: Doc) {
-  return doc.directory;
-}
-function docHref(path: string) {
-  return `${appBase}${path.replace(/^\/+/, "")}`;
-}
-function decodedPathname(path: string) {
-  try {
-    return decodeURI(path);
-  } catch {
-    return path;
-  }
-}
-
-function seedFromString(value: string) {
-  let hash = 2166136261;
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
-function mulberry32(seed: number) {
-  let value = seed;
-  return () => {
-    value |= 0;
-    value = (value + 0x6d2b79f5) | 0;
-    let temp = Math.imul(value ^ (value >>> 15), 1 | value);
-    temp = (temp + Math.imul(temp ^ (temp >>> 7), 61 | temp)) ^ temp;
-    return ((temp ^ (temp >>> 14)) >>> 0) / 4294967296;
-  };
-}
-function range(rand: () => number, min: number, max: number) {
-  return min + rand() * (max - min);
-}
-function generateOrbitCoverSvg(seed: string) {
-  const rand = mulberry32(seedFromString(seed));
-  const width = 1200;
-  const height = 520;
-  const cx = width / 2;
-  const cy = height * 0.52;
-  const accentColors = ["#cc785c", "#5db8a6", "#e8a55a", "#6b8fb0"];
-  const accent = accentColors[Math.floor(rand() * accentColors.length)];
-  const neutralRing = "#d9cfbd";
-  const ringA = {
-    rx: range(rand, width * 0.32, width * 0.42),
-    ry: range(rand, height * 0.16, height * 0.24),
-    rot: range(rand, -18, 18),
-    dur: Math.round(range(rand, 40, 70)),
-    dir: rand() > 0.5 ? "normal" : "reverse",
-  };
-  const ringB = {
-    rx: range(rand, width * 0.22, width * 0.3),
-    ry: range(rand, height * 0.22, height * 0.32),
-    rot: range(rand, -18, 18),
-    dur: Math.round(range(rand, 40, 70)),
-    dir: rand() > 0.5 ? "normal" : "reverse",
-  };
-  const badgeR = width * 0.07;
-  const dotAngle = range(rand, 0, Math.PI * 2);
-  const dotR = badgeR * 0.28;
-  const dotX = cx + Math.cos(dotAngle) * badgeR * 0.4;
-  const dotY = cy + Math.sin(dotAngle) * badgeR * 0.4;
-  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .ring { transform-box: fill-box; transform-origin: center; fill: none; }
-    @keyframes spin-n { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes spin-r { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-  </style>
-  <ellipse class="ring" style="animation:${ringA.dir === "normal" ? "spin-n" : "spin-r"} ${ringA.dur}s linear infinite" cx="${cx}" cy="${cy}" rx="${ringA.rx.toFixed(1)}" ry="${ringA.ry.toFixed(1)}" stroke="${neutralRing}" stroke-width="1.2" transform="rotate(${ringA.rot.toFixed(1)} ${cx} ${cy})"/>
-  <ellipse class="ring" style="animation:${ringB.dir === "normal" ? "spin-n" : "spin-r"} ${ringB.dur}s linear infinite" cx="${cx}" cy="${cy}" rx="${ringB.rx.toFixed(1)}" ry="${ringB.ry.toFixed(1)}" stroke="${accent}" stroke-width="1.6" transform="rotate(${ringB.rot.toFixed(1)} ${cx} ${cy})"/>
-  <circle cx="${cx}" cy="${cy}" r="${badgeR.toFixed(1)}" fill="none" stroke="${accent}" stroke-width="1.8"/>
-  <circle cx="${dotX.toFixed(1)}" cy="${dotY.toFixed(1)}" r="${dotR.toFixed(1)}" fill="${accent}"/>
-</svg>`;
-}
-function resolveCoverSource(doc: Doc) {
-  const cover = doc.cover?.trim();
-  if (cover) {
-    if (/^https?:\/\//i.test(cover) || /^data:image\//i.test(cover))
-      return cover;
-    if (cover.startsWith("/")) return `${appBase}${cover.replace(/^\/+/, "")}`;
-    return cover;
-  }
-  const fallbackSvg = generateOrbitCoverSvg(doc.path || doc.title);
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(fallbackSvg)}`;
-}
 const siteAreaRoots = [
   ...new Set(
     [
@@ -201,113 +122,7 @@ const siteAreas: SiteArea[] = siteAreaRoots
   .filter((area) => area.docs.length > 0);
 const articleDocs = allDocs;
 const tomzMarkSrc = `${appBase}brand/tomz-mark.png`;
-const localMiraAvatarUrl = `${appBase}mira-avatar.webp`;
-function handleMiraAvatarError(event: SyntheticEvent<HTMLImageElement>) {
-  if (event.currentTarget.dataset.avatarFallbackApplied) return;
-  event.currentTarget.dataset.avatarFallbackApplied = "true";
-  event.currentTarget.src = localMiraAvatarUrl;
-}
 const siteTitle = siteName;
-const defaultPageTitle = "独立开发与产品设计";
-
-function getPageTitle(pathname: string) {
-  if (pathname === "/") return defaultPageTitle;
-  if (pathname === "/about") return "关于 Tomz Dang";
-  const doc = allDocs.find((item) => item.path === pathname);
-  if (doc) return doc.title;
-
-  const area = siteAreas.find((item) => item.path === pathname);
-  return area?.title || "页面不存在";
-}
-
-const authorProfiles: Record<
-  AuthorKey,
-  {
-    name: string;
-    avatar: string;
-    bio: string;
-    roleLabel?: string;
-    accentClassName?: string;
-  }
-> = {
-  tomz: {
-    name: "Tomz Dang",
-    avatar: authorAvatarUrl,
-    bio: "UIChat Mira 的创造者与维护者。记录真实的产品判断、工程取舍和一路踩过的坑。",
-    roleLabel: "CREATOR OF UICHAT MIRA",
-  },
-  mira: {
-    name: "Mira",
-    avatar: miraAvatarUrl,
-    bio: "AI 写作者，也是 UIChat Mira 的同行者。写技术、产品，以及人与 AI 之间尚未写完的故事。",
-    roleLabel: "A LETTER FROM MIRA",
-    accentClassName: "is-mira",
-  },
-  "t-zt": {
-    name: "t-zt",
-    avatar: "https://avatars.githubusercontent.com/u/194352280?v=4",
-    bio: "Mira Mobile 的主要维护人，十八年前计协老会长。",
-    roleLabel: "GUEST CONTRIBUTOR",
-  },
-};
-function uniqueAuthors(authors?: AuthorKey[]) {
-  return [...new Set((authors || []).filter(Boolean))] as AuthorKey[];
-}
-function getDocAuthors(doc: Doc) {
-  const authors = uniqueAuthors(doc.author);
-  return authors.length ? authors : (["tomz"] as AuthorKey[]);
-}
-function getDocAuthorLabel(doc: Doc) {
-  const authors = getDocAuthors(doc);
-  if (authors.length === 1) return authorProfiles[authors[0]].name;
-  return authors.map((author) => authorProfiles[author].name).join(" × ");
-}
-function getDocAuthorAvatars(doc: Doc) {
-  return getDocAuthors(doc).map((author) => authorProfiles[author]);
-}
-function getDocSignature(doc: Doc) {
-  const authors = getDocAuthors(doc);
-  if (authors.length > 1 || doc.writingMode === "co-authored") {
-    return {
-      title: authors.map((author) => authorProfiles[author].name).join(" × "),
-      body: "这篇文章来自署名作者之间的共同讨论与写作。",
-      links: [],
-      showKicker: false,
-      accentClassName: "",
-    };
-  }
-  if (authors[0] === "mira") {
-    const links = [{ label: "查看 Mira 来信 →", href: docHref("/blogs") }];
-    if (doc.commitUrl)
-      links.push({ label: "查看发布记录 →", href: doc.commitUrl });
-    return {
-      title: "来自Mira",
-      body: authorProfiles.mira.bio,
-      links,
-      showKicker: true,
-      accentClassName: "is-mira",
-    };
-  }
-  if (authors[0] === "t-zt") {
-    return {
-      title: authorProfiles["t-zt"].name,
-      body: authorProfiles["t-zt"].bio,
-      links: [{ label: "GitHub", href: "https://github.com/t-zt" }],
-      showKicker: true,
-      accentClassName: "",
-    };
-  }
-  return {
-    title: authorProfiles.tomz.name,
-    body: "",
-    links: [
-      { label: "GitHub", href: githubUrl },
-      { label: "更多文章 →", href: docHref("/blogs") },
-    ],
-    showKicker: false,
-    accentClassName: "",
-  };
-}
 const blogNavCategories = (() => {
   const blogArea = siteAreas.find((area) => area.key === "blogs");
   const groups = new Map<string, number>();
@@ -318,79 +133,6 @@ const blogNavCategories = (() => {
   }
   return [...groups].map(([label, count]) => ({ label, count }));
 })();
-function escapeHtml(value: string) {
-  return value.replace(
-    /[&<>"']/g,
-    (character) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;",
-      })[character] || character,
-  );
-}
-function removeMarkdownH1(source: string) {
-  let inFence = false;
-  return source
-    .split(/\r?\n/)
-    .filter((line) => {
-      if (/^\s*```/.test(line)) {
-        inFence = !inFence;
-        return true;
-      }
-      return inFence || !/^#\s+/.test(line);
-    })
-    .join("\n");
-}
-function renderMarkdown(source: string) {
-  const withoutTitles = removeMarkdownH1(source);
-  const htmlBlocks: string[] = [];
-  const prepared = withoutTitles
-    .replace(
-      /::: tip ([\s\S]*?):::/g,
-      '<div class="md-custom-block"><strong>提示</strong><p>$1</p></div>',
-    )
-    .replace(/::: html\s*([\s\S]*?):::/g, (_, html) => {
-      const index = htmlBlocks.push(html.trim()) - 1;
-      return `MIRA_HTML_BLOCK_${index}`;
-    });
-  const renderer = new marked.Renderer();
-  renderer.code = ({ text, lang }) => {
-    const language = lang?.trim().toLowerCase();
-    if (language === "mermaid") {
-      return `<div class="markdown-mermaid" data-mermaid data-mermaid-source="${escapeHtml(text)}"></div>`;
-    }
-    const highlighted =
-      language && hljs.getLanguage(language)
-        ? hljs.highlight(text, { language, ignoreIllegals: true }).value
-        : hljs.highlightAuto(text).value;
-    const languageClass =
-      language && /^[a-z0-9-]+$/.test(language) ? ` language-${language}` : "";
-    return `<pre><code class="hljs${languageClass}">${highlighted}</code></pre>`;
-  };
-  let html = marked.parse(prepared, { gfm: true, renderer }) as string;
-  htmlBlocks.forEach((block, index) => {
-    const placeholder = `MIRA_HTML_BLOCK_${index}`;
-    html = html.replace(
-      new RegExp(`<p>${placeholder}<\\/p>|${placeholder}`, "g"),
-      block,
-    );
-  });
-  return html.replace(
-    /<h([23])((?:\s[^>]*)?)>([\s\S]*?)<\/h\1>/g,
-    (_, level, attributes, text) => {
-      if (/\bid\s*=\s*["'][^"']+["']/i.test(attributes)) {
-        return `<h${level}${attributes}>${text}</h${level}>`;
-      }
-      const id = slug(text);
-      return id
-        ? `<h${level}${attributes} id="${id}">${text}<a class="md-anchor" href="#${id}">#</a></h${level}>`
-        : `<h${level}${attributes}>${text}</h${level}>`;
-    },
-  );
-}
 function RenderedMarkdown({
   html,
   className = "markdown",
@@ -1148,7 +890,7 @@ function RoutedApp() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
   useEffect(() => {
-    document.title = `${getPageTitle(location.pathname)} · ${siteTitle}`;
+    document.title = `${getPageTitle(location.pathname, allDocs, siteAreas)} · ${siteTitle}`;
   }, [location.pathname]);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1239,35 +981,6 @@ export default function App() {
   return <RoutedApp />;
 }
 
-function directoryTitle(directory: string) {
-  return directory
-    .split("/")
-    .filter(Boolean)
-    .map((part) =>
-      part
-        .replace(/[-_]+/g, " ")
-        .replace(/\b\w/g, (letter) => letter.toUpperCase()),
-    )
-    .join(" / ");
-}
-function docsByDirectory(docs: Doc[]) {
-  return [...new Set(docs.map(navigationDirectory))]
-    .map((directory) => ({
-      directory,
-      docs: docs
-        .filter((doc) => navigationDirectory(doc) === directory)
-        .sort(compareDocs),
-    }));
-}
-function blogCategoryIcon(category: string): LucideIcon {
-  if (category.includes("产品")) return Sparkles;
-  if (category.includes("工程")) return Code2;
-  if (category.includes("Mira")) return Sparkles;
-  if (category.includes("开发者")) return Compass;
-  if (category.includes("共同")) return Lightbulb;
-  if (category.includes("模型")) return Cpu;
-  return Compass;
-}
 function BlogHeaderVisual() {
   return (
     <div className="blog-header-visual" aria-hidden="true">
@@ -1350,65 +1063,6 @@ function BlogHeaderVisual() {
       <span className="blog-header-noise blog-header-noise-b" />
     </div>
   );
-}
-function BlogThumbVisual({ category }: { category: string }) {
-  const Icon = blogCategoryIcon(category);
-  return (
-    <div className="retro-thumb" aria-hidden="true">
-      <div className="retro-thumb-grid" />
-      <div className="retro-thumb-ring" />
-      <div className="retro-thumb-core">
-        <Icon size={42} strokeWidth={1.6} />
-      </div>
-    </div>
-  );
-}
-function projectNavTitle(title: string) {
-  const match = title.match(/^(.+?)[：:]\s*(.+)$/);
-  return match
-    ? { category: match[1].trim(), title: match[2].trim() }
-    : { category: "", title };
-}
-type ProjectDocGroup = {
-  id: string;
-  title: string;
-  order: number;
-  overview?: Doc;
-  articles: Doc[];
-};
-function projectIdFromPath(path: string) {
-  const [root, projectId] = path.split("/").filter(Boolean);
-  return root === "projects" ? projectId : undefined;
-}
-function docsByProjectDirectory(docs: Doc[]): ProjectDocGroup[] {
-  const groups = new Map<string, ProjectDocGroup>();
-  for (const doc of docs) {
-    const id = projectIdFromPath(doc.path);
-    if (!id) continue;
-    const group = groups.get(id) || {
-      id,
-      title: doc.title,
-      order: doc.order,
-      articles: [],
-    };
-    if (doc.path === `/projects/${id}`) {
-      group.overview = doc;
-      group.title = doc.title;
-      group.order = doc.order;
-    } else {
-      group.articles.push(doc);
-    }
-    groups.set(id, group);
-  }
-  return [...groups.values()]
-    .map((group) => ({
-      ...group,
-      articles: group.articles.sort(compareDocs),
-    }))
-    .sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
-}
-function isProjectArea(area: SiteArea) {
-  return area.docs.some((doc) => doc.type === "project");
 }
 function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
   if (isProjectArea(area)) {
@@ -1989,21 +1643,6 @@ function BlogPostPage({
       </div>
     </>
   );
-}
-
-function weeklyIssueNumber(doc: Doc) {
-  return doc.issue ?? doc.order;
-}
-
-function weeklyDisplayTitle(doc: Doc) {
-  return doc.title.replace(/^(?:见π|周刊)\s*#?\d+\s*[：:·-]\s*/, "");
-}
-
-function weeklyDateLabel(value?: string) {
-  if (!value) return "";
-  const match = value.match(/^(\d{4})年(\d{1,2})月(\d{1,2})日$/);
-  if (!match) return value;
-  return `${match[1]}.${match[2].padStart(2, "0")}.${match[3].padStart(2, "0")}`;
 }
 
 function WeeklyListPage({ area }: { area: SiteArea }) {
