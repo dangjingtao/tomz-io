@@ -1,0 +1,69 @@
+name: One-time document context refactor
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - .github/workflows/_refactor-doc-context.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/weekly-v0-1
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pnpm
+        run: npm install --global pnpm@10
+      - name: Wire document context and area model
+        run: python3 scripts/refactor-doc-context.py
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Unit tests
+        run: pnpm test
+      - name: Media pipeline tests
+        run: pnpm run media:test
+      - name: Media production scan
+        run: pnpm run media:prepare
+      - name: MiraDocs compatibility
+        run: pnpm run verify:mira-docs
+      - name: Root build
+        run: pnpm run build
+      - name: Root static output
+        run: node scripts/verify-br003a-root-static.mjs
+      - name: GitHub Pages build
+        run: pnpm run build:github-pages
+      - name: GitHub Pages static output
+        env:
+          EXPECTED_BASE: tomz-io
+        run: pnpm run verify:static-output
+      - name: Commit validated refactor and remove one-time helpers
+        run: |
+          git rm .github/workflows/_refactor-doc-context.yml scripts/refactor-doc-context.py
+          git add src/App.tsx src/features/docs/DocsLayout.tsx
+          python3 - <<'PY'
+          import subprocess
+          expected = {
+              '.github/workflows/_refactor-doc-context.yml',
+              'scripts/refactor-doc-context.py',
+              'src/App.tsx',
+              'src/features/docs/DocsLayout.tsx',
+          }
+          changed = set(subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines())
+          unstaged = set(subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines())
+          unexpected = (changed | unstaged) - expected
+          if unexpected:
+              raise SystemExit(f'unexpected files changed: {sorted(unexpected)}')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "refactor: share document context and area directory model"
+          git push origin HEAD:preview/weekly-v0-1
