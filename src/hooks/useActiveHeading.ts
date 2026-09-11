@@ -8,12 +8,14 @@ type ActiveHeadingOptions = {
   threshold?: number | number[];
 };
 
+const DEFAULT_THRESHOLD = [0, 1];
+
 export function useActiveHeading(
   headings: readonly HeadingRef[] | undefined,
   {
     enabled = true,
     rootMargin = "-90px 0px -65% 0px",
-    threshold = [0, 1],
+    threshold = DEFAULT_THRESHOLD,
   }: ActiveHeadingOptions = {},
 ) {
   const [activeHeading, setActiveHeading] = useState("");
