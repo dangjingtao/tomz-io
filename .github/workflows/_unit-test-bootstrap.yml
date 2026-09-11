@@ -1,0 +1,328 @@
+name: One-time unit test bootstrap
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - .github/workflows/_unit-test-bootstrap.yml
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/weekly-v0-1
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Create unit test baseline
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import json
+
+          Path('vitest.config.ts').write_text('''import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  test: {
+    environment: "node",
+    include: ["src/**/*.test.ts"],
+    restoreMocks: true,
+  },
+});
+''')
+
+          Path('src/utils/paths.test.ts').write_text('''import { describe, expect, it } from "vitest";
+import { appBase, decodedPathname, docHref } from "./paths";
+
+describe("paths", () => {
+  it("joins document paths to the configured app base without duplicate leading slashes", () => {
+    expect(docHref("/blogs/example")).toBe(`${appBase}blogs/example`);
+    expect(docHref("blogs/example")).toBe(`${appBase}blogs/example`);
+  });
+
+  it("decodes valid URI paths", () => {
+    expect(decodedPathname("/blogs/hello%20world")).toBe("/blogs/hello world");
+  });
+
+  it("returns malformed URI paths unchanged", () => {
+    expect(decodedPathname("/blogs/%E0%A4%A")).toBe("/blogs/%E0%A4%A");
+  });
+});
+''')
+
+          Path('src/utils/authors.test.ts').write_text('''import { describe, expect, it } from "vitest";
+import type { Doc } from "../content/mira-docs-adapter";
+import {
+  getDocAuthorLabel,
+  getDocAuthors,
+  getDocSignature,
+} from "./authors";
+
+function doc(overrides: Partial<Doc> = {}): Doc {
+  return overrides as Doc;
+}
+
+describe("author helpers", () => {
+  it("defaults documents without an explicit author to Tomz", () => {
+    const value = doc();
+    expect(getDocAuthors(value)).toEqual(["tomz"]);
+    expect(getDocAuthorLabel(value)).toBe("Tomz Dang");
+  });
+
+  it("deduplicates authors while preserving their first-seen order", () => {
+    const value = doc({ author: ["tomz", "mira", "tomz"] });
+    expect(getDocAuthors(value)).toEqual(["tomz", "mira"]);
+    expect(getDocAuthorLabel(value)).toBe("Tomz Dang × Mira");
+  });
+
+  it("uses the co-authored signature when multiple authors are present", () => {
+    const signature = getDocSignature(doc({ author: ["tomz", "mira"] }));
+    expect(signature.title).toBe("Tomz Dang × Mira");
+    expect(signature.body).toContain("共同讨论与写作");
+    expect(signature.links).toEqual([]);
+  });
+
+  it("keeps Mira publication links in the Mira signature", () => {
+    const signature = getDocSignature(
+      doc({
+        author: ["mira"],
+        commitUrl: "https://github.com/dangjingtao/tomz-io/commit/example",
+      }),
+    );
+    expect(signature.title).toBe("来自Mira");
+    expect(signature.links.map((item) => item.label)).toEqual([
+      "查看 Mira 来信 →",
+      "查看发布记录 →",
+    ]);
+  });
+});
+''')
+
+          Path('src/utils/page-title.test.ts').write_text('''import { describe, expect, it } from "vitest";
+import type { Doc } from "../content/mira-docs-adapter";
+import type { SiteArea } from "../types/site";
+import { getPageTitle } from "./page-title";
+
+const docs = [
+  { path: "/blogs/example", title: "Example article" } as Doc,
+];
+const areas = [
+  { path: "/blogs", title: "博客" } as SiteArea,
+];
+
+describe("getPageTitle", () => {
+  it("uses the site title for the home page", () => {
+    expect(getPageTitle("/", docs, areas)).toBe("独立开发与产品设计");
+  });
+
+  it("uses the dedicated About title", () => {
+    expect(getPageTitle("/about", docs, areas)).toBe("关于 Tomz Dang");
+  });
+
+  it("prefers an exact document title before area fallback", () => {
+    expect(getPageTitle("/blogs/example", docs, areas)).toBe("Example article");
+    expect(getPageTitle("/blogs", docs, areas)).toBe("博客");
+  });
+
+  it("returns the not-found title for unknown paths", () => {
+    expect(getPageTitle("/missing", docs, areas)).toBe("页面不存在");
+  });
+});
+''')
+
+          Path('src/features/weekly/weekly-utils.test.ts').write_text('''import { describe, expect, it } from "vitest";
+import type { Doc } from "../../content/mira-docs-adapter";
+import {
+  weeklyDateLabel,
+  weeklyDisplayTitle,
+  weeklyIssueNumber,
+} from "./weekly-utils";
+
+function doc(overrides: Partial<Doc>): Doc {
+  return overrides as Doc;
+}
+
+describe("weekly helpers", () => {
+  it("prefers an explicit issue number over order", () => {
+    expect(weeklyIssueNumber(doc({ issue: 7, order: 99 }))).toBe(7);
+    expect(weeklyIssueNumber(doc({ order: 3 }))).toBe(3);
+  });
+
+  it("removes only the known issue prefix from display titles", () => {
+    expect(weeklyDisplayTitle(doc({ title: "见π #12：Agent 之后" }))).toBe("Agent 之后");
+    expect(weeklyDisplayTitle(doc({ title: "周刊 8 - 一周观察" }))).toBe("一周观察");
+    expect(weeklyDisplayTitle(doc({ title: "没有编号的标题" }))).toBe("没有编号的标题");
+  });
+
+  it("normalizes Chinese calendar dates for magazine display", () => {
+    expect(weeklyDateLabel("2026年9月3日")).toBe("2026.09.03");
+    expect(weeklyDateLabel("2026-09-03")).toBe("2026-09-03");
+    expect(weeklyDateLabel()).toBe("");
+  });
+});
+''')
+
+          Path('src/features/docs/docs-utils.test.ts').write_text('''import { describe, expect, it, vi } from "vitest";
+import type { Doc } from "../../content/mira-docs-adapter";
+import type { SiteArea } from "../../types/site";
+
+vi.mock("../../content/mira-docs-adapter", () => ({
+  compareDocs: (left: { order: number; title: string }, right: { order: number; title: string }) =>
+    left.order - right.order || left.title.localeCompare(right.title),
+}));
+
+import {
+  directoryTitle,
+  docsByDirectory,
+  docsByProjectDirectory,
+  isProjectArea,
+  projectIdFromPath,
+  projectNavTitle,
+} from "./docs-utils";
+
+function doc(overrides: Partial<Doc>): Doc {
+  return {
+    path: "/example",
+    title: "Example",
+    order: 0,
+    directory: "example",
+    ...overrides,
+  } as Doc;
+}
+
+describe("docs helpers", () => {
+  it("formats nested directory names for navigation", () => {
+    expect(directoryTitle("shared-thinking/agent_runtime")).toBe(
+      "Shared Thinking / Agent Runtime",
+    );
+  });
+
+  it("groups documents by directory and sorts each group", () => {
+    const groups = docsByDirectory([
+      doc({ title: "Later", order: 2, directory: "notes" }),
+      doc({ title: "First", order: 1, directory: "notes" }),
+      doc({ title: "Other", order: 1, directory: "other" }),
+    ]);
+
+    expect(groups.map((group) => group.directory)).toEqual(["notes", "other"]);
+    expect(groups[0].docs.map((item) => item.title)).toEqual(["First", "Later"]);
+  });
+
+  it("splits project navigation labels on the first colon", () => {
+    expect(projectNavTitle("工程：运行时设计")).toEqual({
+      category: "工程",
+      title: "运行时设计",
+    });
+    expect(projectNavTitle("独立标题")).toEqual({ category: "", title: "独立标题" });
+  });
+
+  it("extracts project ids only from project paths", () => {
+    expect(projectIdFromPath("/projects/mira/runtime")).toBe("mira");
+    expect(projectIdFromPath("/blogs/mira")).toBeUndefined();
+  });
+
+  it("builds project groups with overview metadata and sorted articles", () => {
+    const groups = docsByProjectDirectory([
+      doc({ path: "/projects/mira/runtime", title: "Runtime", order: 3 }),
+      doc({ path: "/projects/mira", title: "Mira", order: 2 }),
+      doc({ path: "/projects/mira/agent", title: "Agent", order: 1 }),
+      doc({ path: "/projects/alpha", title: "Alpha", order: 1 }),
+    ]);
+
+    expect(groups.map((group) => group.id)).toEqual(["alpha", "mira"]);
+    expect(groups[1].overview?.title).toBe("Mira");
+    expect(groups[1].articles.map((item) => item.title)).toEqual(["Agent", "Runtime"]);
+  });
+
+  it("detects project areas from their documents", () => {
+    expect(
+      isProjectArea({ docs: [doc({ type: "project" })] } as SiteArea),
+    ).toBe(true);
+    expect(isProjectArea({ docs: [doc({ type: "blog" })] } as SiteArea)).toBe(false);
+  });
+});
+''')
+
+          package = json.loads(Path('package.json').read_text())
+          scripts = package['scripts']
+          if 'test' not in scripts:
+            reordered = {}
+            for key, value in scripts.items():
+              reordered[key] = value
+              if key == 'dev':
+                reordered['test'] = 'vitest run'
+            package['scripts'] = reordered
+          Path('package.json').write_text(json.dumps(package, ensure_ascii=False, indent=2) + '\n')
+
+          verify = Path('.github/workflows/verify.yml')
+          text = verify.read_text()
+          marker = '      - run: npm install\n\n'
+          if 'name: Unit tests' not in text:
+            text = text.replace(marker, marker + '      - name: Unit tests\n        run: npm test\n\n', 1)
+          verify.write_text(text)
+
+          agents = Path('AGENTS.md')
+          text = agents.read_text()
+          if '- pnpm test\n' not in text:
+            text = text.replace('- pnpm run dev\n', '- pnpm run dev\n- pnpm test\n', 1)
+          text = text.replace('~~~bash\npnpm run verify:mira-docs\npnpm run build\n~~~', '~~~bash\npnpm test\npnpm run verify:mira-docs\npnpm run build\n~~~', 1)
+          agents.write_text(text)
+
+          architecture = Path('docs/PROJECT_ARCHITECTURE.md')
+          text = architecture.read_text()
+          needle = '它覆盖 MiraDocs parse / route uniqueness、root build、root static output、GitHub Pages build 与 GitHub Pages static output。'
+          replacement = '它先运行 Vitest 单元测试，再覆盖 MiraDocs parse / route uniqueness、root build、root static output、GitHub Pages build 与 GitHub Pages static output。'
+          text = text.replace(needle, replacement, 1)
+          architecture.write_text(text)
+          PY
+
+      - name: Install pnpm and Vitest
+        run: |
+          npm install --global pnpm@10
+          pnpm add --save-dev vitest
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Run existing deterministic checks
+        run: |
+          pnpm run media:test
+          pnpm run verify:mira-docs
+          pnpm run build
+          node scripts/verify-br003a-root-static.mjs
+          pnpm run build:github-pages
+          EXPECTED_BASE=tomz-io pnpm run verify:static-output
+
+      - name: Keep only intentional source changes
+        run: |
+          git checkout -- src/content/content-times.generated.ts src/content/home-recent.generated.ts src/content/home-focus.generated.ts || true
+          rm -rf .mira-cache dist
+          git rm .github/workflows/_unit-test-bootstrap.yml
+          git diff --check
+          allowed='^(AGENTS.md|docs/PROJECT_ARCHITECTURE.md|package.json|pnpm-lock.yaml|vitest.config.ts|src/utils/paths.test.ts|src/utils/authors.test.ts|src/utils/page-title.test.ts|src/features/weekly/weekly-utils.test.ts|src/features/docs/docs-utils.test.ts|\.github/workflows/verify.yml|\.github/workflows/_unit-test-bootstrap.yml)$'
+          unexpected="$(git status --short | sed -E 's/^.. //' | grep -Ev "$allowed" || true)"
+          if [ -n "$unexpected" ]; then
+            echo "Unexpected changed files:"
+            echo "$unexpected"
+            exit 1
+          fi
+
+      - name: Commit tested baseline and remove bootstrap workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add AGENTS.md docs/PROJECT_ARCHITECTURE.md package.json pnpm-lock.yaml vitest.config.ts \
+            src/utils/paths.test.ts src/utils/authors.test.ts src/utils/page-title.test.ts \
+            src/features/weekly/weekly-utils.test.ts src/features/docs/docs-utils.test.ts \
+            .github/workflows/verify.yml .github/workflows/_unit-test-bootstrap.yml
+          git commit -m "test: add unit baseline for extracted helpers"
+          git push origin HEAD:preview/weekly-v0-1
