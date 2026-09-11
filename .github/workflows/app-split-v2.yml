@@ -1,0 +1,119 @@
+name: App split validation v2
+
+on:
+  push:
+    branches:
+      - preview/weekly-v0-1
+    paths:
+      - .github/workflows/app-split-v2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --package-lock=false
+
+      - name: Reuse and run split transform
+        run: |
+          set -euo pipefail
+          awk '
+            /^          python <<.PY./ { capture=1; next }
+            capture && /^          PY$/ { exit }
+            capture { sub(/^          /, ""); print }
+          ' .github/workflows/app-split-once.yml > /tmp/app-split.py
+          python <<'PY'
+          from pathlib import Path
+          path = Path('/tmp/app-split.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'import DocsLayout from "./features/docs/DocsLayout";'
+          new = 'import { DocsLayout } from "./features/docs/DocsLayout";'
+          if old not in text:
+              raise SystemExit('expected DocsLayout import not found in split script')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+          python /tmp/app-split.py
+          rm -f .github/workflows/app-split-fix.yml .github/workflows/app-split-v2.yml
+
+      - name: TypeScript contract check
+        run: |
+          set +e
+          OUTPUT="$(npx tsc -b 2>&1)"
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -ne 0 ]; then
+            while IFS= read -r line; do
+              printf '::error::%s\n' "$line"
+            done <<< "$OUTPUT"
+            exit "$STATUS"
+          fi
+
+      - name: Validate production build
+        run: npm run build
+
+      - name: Validate GitHub Pages build
+        run: npm run build:github-pages
+
+      - name: Validate media pipeline
+        run: |
+          npm run media:test
+          npm run media:prepare
+
+      - name: Guard generated files and lockfiles
+        run: |
+          test ! -e package-lock.json
+          git diff --exit-code -- src/content/content-times.generated.ts src/content/home-focus.generated.ts src/content/home-recent.generated.ts
+
+      - name: Commit validated split
+        id: commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/App.tsx \
+            src/app \
+            src/components/MarkdownContent.tsx \
+            src/components/ShareButton.tsx \
+            src/features/about \
+            src/features/blog \
+            src/features/content \
+            src/features/docs/DocsLayout.tsx \
+            src/features/weekly \
+            .github/workflows/app-split-once.yml \
+            .github/workflows/app-split-fix.yml \
+            .github/workflows/app-split-v2.yml
+          git diff --cached --check
+          git commit -m "refactor(app): split site responsibilities from App"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          git push origin HEAD:preview/weekly-v0-1
+
+      - name: Publish validated preview
+        env:
+          PREVIEW_SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          set -euo pipefail
+          node scripts/prepare-pages-preview.mjs
+          grep -q 'noindex,nofollow' dist/index.html
+          grep -q 'noindex,nofollow' dist/blogs/shared-thinking/matter-awakens/index.html
+          grep -q 'Disallow: /' dist/robots.txt
+          cp -a dist /tmp/pages-dist
+          git fetch origin gh-pages
+          git switch --detach origin/gh-pages
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/pages-dist/. .
+          touch .nojekyll
+          printf '%s\n' "$PREVIEW_SHA" > .preview-source-sha
+          printf '%s\n' "$PREVIEW_SHA" > preview-source-sha.txt
+          git add -A
+          git commit -m "deploy: homepage v1 preview $PREVIEW_SHA"
+          git push --force origin HEAD:gh-pages
