@@ -13,7 +13,6 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
 import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
-import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
 import "./apple.theme.css";
@@ -97,7 +96,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter basename={buildBase}>
       <App />
       <ContentTimeMetaPortal />
-      <LegacyHeaderCompat />
       <WorksExperience />
     </BrowserRouter>
   </React.StrictMode>,

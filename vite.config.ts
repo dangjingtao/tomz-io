@@ -156,10 +156,10 @@ function bookshelfRedirects(): Plugin {
       const lines: string[] = [
         "/about/origin https://mira.tomz.io/about/origin/ 301",
         "/about/origin/ https://mira.tomz.io/about/origin/ 301",
-        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
-        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301",
-        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
-        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /submissions/t-zt/why-agent-chat-sync-feels-laggy 301",
+        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301",
+        "/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301",
+        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301",
+        "/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301",
       ];
       for (const book of readBookManifests()) {
         if (!book.legacyPrefix) continue;

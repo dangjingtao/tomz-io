@@ -796,8 +796,7 @@
     }
 
     .mobile-menu-button,
-    .mobile-header-panel,
-    .mobile-doc-share {
+    .mobile-header-panel {
       display: none;
     }
 
@@ -821,24 +820,6 @@
         gap: 8px;
       }
 
-      .mobile-doc-share {
-        display: block;
-      }
-
-      .mobile-doc-share .share-button {
-        display: inline-flex;
-        width: 34px;
-        height: 34px;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
-        color: var(--ink);
-        font-size: 0;
-      }
 
       .doc-title-block > .share-button {
         display: none;

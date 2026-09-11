@@ -946,175 +946,6 @@ function SiteHeaderBase({
     </nav>
   );
 }
-function MobileHeaderPanel({
-  onSearch,
-  onToggleTheme,
-  darkMode,
-}: {
-  onSearch: () => void;
-  onToggleTheme: () => void;
-  darkMode: boolean;
-}) {
-  return (
-    <div className="home-v1-mobile-panel wrap">
-      {content.nav.map((item) => (
-        <Link
-          key={item.href}
-          to={item.href.slice(Math.max(appBase.length - 1, 0))}
-        >
-          {item.label}
-        </Link>
-      ))}
-      <div className="home-v1-mobile-group">
-        <strong>快捷操作</strong>
-        <div className="home-v1-mobile-themes">
-          <button type="button" onClick={onSearch}>
-            搜索
-          </button>
-          <button type="button" onClick={onToggleTheme}>
-            {darkMode ? "浅色模式" : "暗黑模式"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SiteHeader({
-  onSearch,
-  onToggleTheme,
-  darkMode,
-  themeName,
-  onSelectTheme,
-  wide = false,
-}: {
-  onSearch: () => void;
-  onToggleTheme: () => void;
-  darkMode: boolean;
-  themeName: ThemeName;
-  onSelectTheme: (theme: ThemeName) => void;
-  wide?: boolean;
-}) {
-  const location = useLocation();
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  useEffect(() => {
-    setOpenMenu(null);
-    setMobileOpen(false);
-  }, [location.pathname]);
-  const isActive = (item: LinkItem) => {
-    const target = item.href.slice(Math.max(appBase.length - 1, 0));
-    return (
-      location.pathname === target || location.pathname.startsWith(`${target}/`)
-    );
-  };
-  void wide;
-  return (
-    <nav className="home-v1-nav" aria-label="主导航">
-      <div className="wrap home-v1-nav-inner">
-        <Link className="home-v1-brand" to="/" aria-label="Tomz Dang 首页">
-          <img className="home-v1-brand-mark" src={tomzMarkSrc} alt="" />
-        </Link>
-
-        <div className="home-v1-nav-links">
-          {content.nav.map((item) => {
-            const active = isActive(item);
-            return (
-              <Link
-                key={item.href}
-                className={active ? "active" : ""}
-                aria-current={active ? "page" : undefined}
-                to={item.href.slice(Math.max(appBase.length - 1, 0))}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-          <div
-            className={`home-v1-nav-menu home-v1-theme-menu${openMenu === "主题" ? " open" : ""}`}
-            onMouseEnter={() => setOpenMenu("主题")}
-            onMouseLeave={() => setOpenMenu(null)}
-          >
-            <button
-              type="button"
-              className="home-v1-nav-trigger"
-              aria-expanded={openMenu === "主题"}
-              onClick={() =>
-                setOpenMenu((value) => (value === "主题" ? null : "主题"))
-              }
-            >
-              主题
-              <ChevronDown size={14} aria-hidden="true" />
-            </button>
-            <div className="home-v1-nav-popover">
-              {themeOptions.map((theme) => (
-                <button
-                  key={theme.name}
-                  type="button"
-                  className={theme.name === themeName ? "active" : ""}
-                  aria-pressed={theme.name === themeName}
-                  onClick={() => onSelectTheme(theme.name)}
-                >
-                  {theme.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="home-v1-nav-actions">
-          <button type="button" className="home-v1-search" onClick={onSearch}>
-            搜索
-            <kbd>Ctrl K</kbd>
-          </button>
-          <button
-            type="button"
-            className="home-v1-theme-toggle"
-            onClick={onToggleTheme}
-            aria-label={darkMode ? "切换到浅色模式" : "切换到暗黑模式"}
-            title={darkMode ? "浅色模式" : "暗黑模式"}
-          >
-            {darkMode ? (
-              <Sun size={17} aria-hidden="true" />
-            ) : (
-              <Moon size={17} aria-hidden="true" />
-            )}
-          </button>
-          <a
-            className="home-v1-github"
-            href={githubUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-            <ArrowUpRight size={13} aria-hidden="true" />
-          </a>
-          <button
-            type="button"
-            className="home-v1-mobile-toggle"
-            onClick={() => setMobileOpen((value) => !value)}
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "关闭导航" : "打开导航"}
-          >
-            {mobileOpen ? (
-              <X size={18} aria-hidden="true" />
-            ) : (
-              <Menu size={18} aria-hidden="true" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {mobileOpen ? (
-        <MobileHeaderPanel
-          onSearch={onSearch}
-          onToggleTheme={onToggleTheme}
-          darkMode={darkMode}
-        />
-      ) : null}
-    </nav>
-  );
-}
 function NotFoundPage({ onSearch }: { onSearch: () => void }) {
   const location = useLocation();
   const requestedPath = decodedPathname(location.pathname);
@@ -1291,7 +1122,7 @@ function RoutedApp() {
   const location = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [themeName, setThemeName] = useState<ThemeName>(() => {
+  const [themeName] = useState<ThemeName>(() => {
     if (typeof window === "undefined") return "claude";
     const saved = window.localStorage.getItem("mira-color-theme");
     return themeOptions.some((theme) => theme.name === saved)
@@ -1349,11 +1180,7 @@ function RoutedApp() {
         <Route
           path="/"
           element={
-            <HomepageV1
-              showHeader={false}
-              darkMode={darkMode}
-              themeName={themeName}
-            />
+            <HomepageV1 darkMode={darkMode} />
           }
         />
         <Route path="/about" element={<AboutPage />} />
