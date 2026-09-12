@@ -180,7 +180,7 @@ pnpm run verify:static-output
 - PR 验证入口：.github/workflows/verify.yml。
 - 生产发布入口：.github/workflows/deploy-cloudflare-pages.yml。
 - 生产发布从 main 构建并部署到 Cloudflare Pages 项目 tomz-io。
-- 生产 workflow 会在满足条件时持久化成功生成的首页长期关注快照。
+- 生产 workflow 不直接写回受保护的 main；首页 AI 快照如需持久化，必须通过仓库允许的 PR / 合并流程。
 - 不为了“让 CI 变绿”关闭校验、删除断言或把失败降级成静默成功。
 
 ## 6. 禁止事项
