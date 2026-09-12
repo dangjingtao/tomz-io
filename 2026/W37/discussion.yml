@@ -7,3 +7,13 @@
   origin: "discussion"
   note: "讨论插件与移动端能力时形成的产品判断：手机端更适合把底层 MCP、Tool、远程 Desktop 能力和本机 API 收敛成少量用户可理解的服务/能力入口；用户表达意图与批准行动，复杂执行可下沉到 Desktop。该判断与近期 Muse、Webflow、Catalyst 等产品把权限、执行环境和审批层产品化的趋势形成呼应，值得后续观察是否会成为移动 Agent 的普遍交互模式。"
   status: "candidate"
+
+- title: "从 Wiles 七年独行到 Claude 十一天形式化：被机器翻译的不是天才，而是证明"
+  url: "https://www.anthropic.com/research/formalizing-fermats-last-theorem"
+  source: "Tomz manual submission / Anthropic / PBS NOVA Andrew Wiles interview"
+  radar: "research-reading"
+  topic: "mathematics / formal-verification / lean / scientific-ai / human-machine-contrast"
+  discoveredAt: "2026-09-12"
+  origin: "discussion"
+  note: "Tomz 人工提供素材。Anthropic 2026-09-04 公布 Claude 基本自主运行约 11 天，用 Lean 完成费马大定理首个完整 computer-checked proof。与其写成‘AI 取代数学家’，更值得把它和 Andrew Wiles 的 NOVA 老访谈并读：Wiles 描述自己从童年执念开始，七年秘密工作，在黑暗房间里反复摸索，经历证明漏洞后才修补完成。两者做的事情并不等价——Wiles 发现并建立了关键数学，而 Claude 的项目把一条已有数学证明路线转译为机器可逐步验证的形式证明。真正有意思的问题是：当形式化这种长期被认为极其昂贵、需要大量专业人工的工作突然被压缩到十几天，数学知识的‘可验证性基础设施’会发生什么变化。正式写作前应继续核对 Anthropic 公布的 theorem / token / code 规模数字，避免使用二手截图里的夸张统计。配套阅读：https://www.pbs.org/wgbh/nova/proof/wiles.html"
+  status: "candidate"
