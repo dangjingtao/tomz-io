@@ -218,13 +218,87 @@ function serializeSnapshot(snapshot) {
   return `export type HomeRecentItem = {\n  kind: "在做" | "在想" | "在读" | "在写" | "生活" | "工作";\n  title: string;\n  summary: string;\n  href?: string;\n};\n\nexport const homeRecentSnapshot = {\n  generatedAt: ${JSON.stringify(snapshot.generatedAt)},\n  generatedBy: ${JSON.stringify(snapshot.generatedBy)} as const,\n  items: ${items} satisfies HomeRecentItem[],\n};\n`;
 }
 
-function extractJson(text) {
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i)?.[1];
-  const candidate = (fenced || text).trim();
-  const start = candidate.indexOf("{");
-  const end = candidate.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("AI response did not contain JSON");
-  return JSON.parse(candidate.slice(start, end + 1));
+function stripThinkBlocks(text) {
+  return String(text)
+    .replace(/<think>[\s\S]*?<\/think>/gi, "")
+    .replace(/<mm:think>[\s\S]*?<\/mm:think>/gi, "")
+    .trim();
+}
+
+function jsonObjectCandidates(text) {
+  const cleaned = stripThinkBlocks(text);
+  const fenced = [...cleaned.matchAll(/```(?:json)?\s*([\s\S]*?)```/gi)]
+    .map((match) => match[1]?.trim())
+    .filter(Boolean);
+  const sources = [...fenced, cleaned];
+  const candidates = [];
+  const seen = new Set();
+
+  for (const source of sources) {
+    let start = -1;
+    let depth = 0;
+    let inString = false;
+    let escaped = false;
+
+    for (let index = 0; index < source.length; index += 1) {
+      const char = source[index];
+
+      if (inString) {
+        if (escaped) {
+          escaped = false;
+        } else if (char === "\\") {
+          escaped = true;
+        } else if (char === '"') {
+          inString = false;
+        }
+        continue;
+      }
+
+      if (char === '"') {
+        inString = true;
+        continue;
+      }
+
+      if (char === "{") {
+        if (depth === 0) start = index;
+        depth += 1;
+        continue;
+      }
+
+      if (char === "}" && depth > 0) {
+        depth -= 1;
+        if (depth === 0 && start >= 0) {
+          const candidate = source.slice(start, index + 1);
+          if (!seen.has(candidate)) {
+            seen.add(candidate);
+            candidates.push(candidate);
+          }
+          start = -1;
+        }
+      }
+    }
+  }
+
+  return candidates;
+}
+
+function extractItemsJson(text) {
+  const candidates = jsonObjectCandidates(text);
+  let lastError = null;
+
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate);
+      if (Array.isArray(parsed?.items)) return parsed;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (lastError) {
+    throw new Error(`AI JSON parse failed: ${lastError instanceof Error ? lastError.message : lastError}`);
+  }
+  throw new Error("AI response did not contain a usable items JSON object");
 }
 
 function validateItems(value) {
@@ -247,8 +321,16 @@ function validateItems(value) {
   });
 }
 
+function missingAiConfiguration() {
+  const missing = [];
+  if (!aiBaseUrl) missing.push("HOMEPAGE_AI_BASE_URL");
+  if (!aiApiKey) missing.push("HOMEPAGE_AI_API_KEY");
+  if (!aiModel) missing.push("HOMEPAGE_AI_MODEL");
+  return missing;
+}
+
 async function generateWithAi(facts) {
-  if (!aiBaseUrl || !aiApiKey || !aiModel) return null;
+  if (missingAiConfiguration().length > 0) return null;
   const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。\n\n只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、项目记录、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。\n\n每一项必须引用事实中已有的 sourceId。不要生成、猜测或返回任何 href / URL，链接由程序根据 sourceId 映射。\n\n输出纯 JSON：{"items":[{"kind":"在做|在想|在读|在写|生活|工作","title":"短标题","summary":"一两句自然中文","sourceId":"事实中已有的 sourceId"}]}。不要补充事实，不要输出 Markdown。\n\n事实：\n${JSON.stringify(facts, null, 2)}`;
 
   const response = await fetch(`${aiBaseUrl}/chat/completions`, {
@@ -270,7 +352,7 @@ async function generateWithAi(facts) {
   const payload = await response.json();
   const text = payload?.choices?.[0]?.message?.content;
   if (!text) throw new Error("AI response was empty");
-  return validateItems(extractJson(text));
+  return validateItems(extractItemsJson(text));
 }
 
 function factsForAi(writing, projects, github) {
@@ -298,6 +380,8 @@ async function main() {
   ]);
   const policy = createLinkPolicy(writing, projects, github);
   const facts = factsForAi(writing, projects, github);
+  const missing = missingAiConfiguration();
+  let failureReason = "";
 
   try {
     const aiItems = await generateWithAi(facts);
@@ -312,14 +396,18 @@ async function main() {
       return;
     }
   } catch (error) {
-    console.warn(`Homepage AI summary failed: ${error instanceof Error ? error.message : error}`);
+    failureReason = error instanceof Error ? error.message : String(error);
+    console.warn(`[home-recent] AI generation failed: ${failureReason}`);
   }
 
   try {
     await fs.access(outputPath);
     const removed = await sanitizeExistingSnapshot(policy);
     if (removed === 0) {
-      console.log("Homepage AI credentials unavailable; keeping committed recent snapshot as fallback.");
+      const reason = missing.length > 0
+        ? `missing configuration: ${missing.join(", ")}`
+        : failureReason || "AI returned no usable result";
+      console.log(`[home-recent] keeping committed recent snapshot; reason=${reason}`);
     }
   } catch {
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
