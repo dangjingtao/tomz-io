@@ -47,3 +47,13 @@
   origin: "radar"
   note: "Petoi 9 月推出 Quaddle，把常见需要 8–12 个舵机的四足机构压缩到 4 个舵机，通过机械连杆和步态设计仍实现行走、横移、旋转和平衡，并继续沿用 OpenCat 的开放生态。它未必代表机器人行业大趋势，但非常适合《见π》的‘怪而有启发’：当大家都在给 Physical AI 堆更多传感器和算力时，这个项目反过来从机械结构里省自由度，用一点笨办法换掉一截复杂度。"
   status: "candidate"
+
+- title: "1905 挪威：一次‘不副署’如何把宪法僵局推到国家解体"
+  url: "https://www.regjeringen.no/no/dep/smk/ansvarsomrader/forloperne/1814-1905/1905-Det-var-den-siste-lordagen-i-mai/id759069/"
+  source: "Norwegian Prime Minister's Office / Storting historical archive"
+  radar: "history-politics"
+  topic: "constitutionalism / countersignature / responsible-government / deadlock / norway-1905"
+  discoveredAt: "2026-09-12"
+  origin: "radar"
+  note: "1905 年挪威—瑞典联盟危机提供了一个几乎教科书式的宪法死循环：国王 Oscar II 拒绝批准挪威独立领事法，Michelsen 内阁拒绝为国王的拒绝决定副署并集体辞职；国王又以无法组成新政府为由拒绝接受辞职。6 月 7 日，Storting 据此认定 constitutional royal power had ceased to be in function，并授权辞职内阁暂行王权，联盟随后走向解体。它与近期关于‘不副署’、责任政治和宪法 termination condition 的讨论高度呼应，但正式写作应作为比较宪政史处理，而不是拿历史直接影射现实政治。可联读 Storting 官方史料及美国国务院 1905 年文件中的英文译文。"
+  status: "candidate"
