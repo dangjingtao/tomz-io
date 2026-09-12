@@ -1,15 +1,15 @@
-/* Temporary 见π cover study — preview branch only. */
+/* 见π 001 创刊号封面。 */
 
 /* React-rendered latest issue cover. This file is intentionally imported after
-   the shared visual layer so the study image cannot be replaced by the old
+   the shared visual layer so the issue artwork cannot be replaced by the old
    permanent-number placeholder styles. */
 .weekly-issue-cover {
   position: sticky !important;
   top: 92px;
-  aspect-ratio: 520 / 735 !important;
+  aspect-ratio: 3 / 4 !important;
   overflow: hidden !important;
   border: 1px solid var(--hairline) !important;
-  background-image: url("./assets/jianpi-cover-001-study.webp") !important;
+  background-image: url("./assets/jianpi-cover-001.webp") !important;
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
@@ -32,9 +32,9 @@
   content: "";
   display: block;
   width: 100%;
-  aspect-ratio: 520 / 735;
+  aspect-ratio: 3 / 4;
   border: 1px solid var(--hairline);
-  background-image: url("./assets/jianpi-cover-001-study.webp") !important;
+  background-image: url("./assets/jianpi-cover-001.webp") !important;
   background-position: center !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
