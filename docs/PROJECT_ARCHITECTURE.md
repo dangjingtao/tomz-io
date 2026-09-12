@@ -134,7 +134,7 @@ AI 只负责从输入事实中选 3 条并写短摘要。链接不是模型自�
 
 它从公开 blogs / projects / books 中收集证据，默认按周期刷新；HOMEPAGE_AI_FORCE 可以强制刷新。
 
-生产 workflow 只会持久化成功的 AI 生成结果，不会把 fallback 自动提交回 main。
+生产构建可以直接使用本次成功生成的结果，但生产 workflow 不直接写回受保护的 main。仓库中的已提交快照继续作为稳定 fallback；如需更新该快照，必须通过仓库允许的 PR / 合并流程持久化。
 
 ### 5.3 AI 协议
 
@@ -228,11 +228,12 @@ src/main.tsx 注册 Service Worker；UI 监听 mira:pwa-update-available 提示�
 checkout (fetch-depth: 0)
 → pnpm install --frozen-lockfile
 → pnpm run build
-→ 可选持久化成功的 home-focus AI snapshot
 → 确认 Cloudflare Pages 项目
 → wrangler pages deploy dist
 → 验证 tomz.io domain active
 ~~~
+
+生产 workflow 对仓库内容只需要读取权限，不直接提交或推送生成快照。
 
 生产项目名：tomz-io。
 
@@ -282,7 +283,7 @@ PR 另有统一的 AI Review Gate：
 
 原则：修生成器，不要为了让结果“看起来对”长期手改派生文件。
 
-首页快照作为稳定 fallback 可以提交进仓库，但仍由生成器维护。
+首页快照作为稳定 fallback 可以提交进仓库，但仍由生成器维护；持久化更新必须走受保护分支允许的正常 PR / 合并流程。
 
 ## 12. 修改边界
 
