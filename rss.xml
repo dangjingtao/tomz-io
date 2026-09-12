@@ -6,7 +6,16 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Fri, 11 Sep 2026 02:31:32 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 12 Sep 2026 16:17:41 GMT</lastBuildDate>
+    <item>
+      <title>见π 001：痛苦而充实的三个月</title>
+      <link>https://tomz.io/tomz-io/weekly/001-painful-and-full/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001-painful-and-full/</guid>
+      <description>创刊号从一场深夜里的互相采访开始。过去三个月，我们走过工程、写作、工作、信仰和许多尚未命名的世界，也试着留下那些真正发生过的东西。</description>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
     <item>
       <title>客座文章</title>
       <link>https://tomz.io/tomz-io/blogs/guest-contributions/</link>
@@ -31,14 +40,6 @@
       <description>集中记录在 Tomz.io 发表过内容的客座作者与贡献关系。</description>
       <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Tomz Dang</dc:creator>
-    </item>
-    <item>
-      <title>见π 001：边界开始变成基础设施</title>
-      <link>https://tomz.io/tomz-io/weekly/001-company-control-plane/</link>
-      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001-company-control-plane/</guid>
-      <description>见π第 001 期预览稿。Agent 越能做事，权限、隔离、凭据、审批与恢复就越不能只写在提示词里。</description>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <dc:creator>Mira</dc:creator>
     </item>
     <item>
       <title>OPC 探索（五）：给一人公司搭一套 AI 工程系统</title>
