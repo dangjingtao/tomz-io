@@ -5,6 +5,7 @@ on:
     branches:
       - work/br003b-author-reduction
       - work/homepage-product-positioning
+      - preview/weekly-v0-1
   workflow_dispatch:
 
 permissions:
@@ -25,6 +26,10 @@ jobs:
         with:
           node-version: 22
       - run: npm install
+      - name: Media pipeline unit tests
+        run: npm run media:test
+      - name: Media production scan (no upload, no source rewrite)
+        run: npm run media:prepare
       - run: npm run build:github-pages
       - name: Verify GitHub Pages static output
         env:
