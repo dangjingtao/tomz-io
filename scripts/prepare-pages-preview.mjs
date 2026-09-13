@@ -25,4 +25,4 @@ for (const path of filesUnder(dist).filter((path) => path.endsWith(".html"))) {
 }
 
 writeFileSync(resolve(dist, "robots.txt"), "User-agent: *\nDisallow: /\n");
-console.log(`BR003A preview noindex applied to ${htmlCount} HTML files; robots.txt disallows crawling.`);
+console.log(`Preview noindex applied to ${htmlCount} HTML files; robots.txt disallows crawling.`);
