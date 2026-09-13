@@ -1,4 +1,4 @@
-name: Verify Homepage V1 Pages Runtime
+name: Verify Pages Runtime
 
 on:
   pull_request:
@@ -102,10 +102,10 @@ jobs:
           curl -fsSL --max-time 20 "$base/robots.txt" | grep -Fq 'Disallow: /'
 
           file="$(mktemp)"
-          status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base/__br003b_not_found__")"
-          echo "/__br003b_not_found__ -> $status"
+          status="$(curl -sS --max-time 20 -o "$file" -w '%{http_code}' "$base/__runtime_not_found__")"
+          echo "/__runtime_not_found__ -> $status"
           test "$status" = "404"
           grep -Fq 'noindex,nofollow' "$file"
           rm -f "$file"
 
-          echo "Homepage V1 Pages-like runtime smoke passed."
+          echo "Pages-like runtime smoke passed."
