@@ -7,6 +7,8 @@
 - 让改动可验证、可回滚、可追溯；
 - 严格维护 Tomz.io 的作者署名、内容归属、内容架构与公开事实边界。
 
+仓库根级 Agent 规则的唯一入口是本文件 `AGENTS.md`。不要创建或恢复 `AGENT.MD`、`agent.md` 等平行规则文件；如需补充规则，应优先更新本文件或由本文件明确路由到专项文档。
+
 ## 0. 必读规则
 
 ### 内容、作者、URL、SEO 相关
@@ -35,19 +37,25 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 - 生产宿主：Cloudflare Pages。
 - GitHub Pages 模式保留用于兼容性 / 静态输出验证，不是当前生产宿主。
 - 内容入口：src/pages/。
-- 当前公开内容根：blogs、submissions、projects、books、works。
+- 当前公开内容根：blogs、weekly、submissions、projects、books、works。
 - 书架由 src/pages/books/*/_book.yml 数据驱动。
 - 内容时间在构建期从 Git 历史生成，不由浏览器查询 GitHub。
 - 首页存在两个构建期派生快照：home-recent.generated.ts 与 home-focus.generated.ts。
 - 首页 AI 使用 OpenAI Chat Completions 兼容接口；AI 失败时必须保持可构建 fallback。
 - 站点包含 PWA / Service Worker 更新机制。
+- 站点 RSS 由静态 Article 输出生成，不维护第二套文章索引。
+- 通用正文媒体在生产构建中通过内容寻址发布到 Cloudflare R2；Git 中的 Markdown 仍是正文事实源。
 
 关键脚本（以 package.json 为准）：
 
 - pnpm run dev
+- pnpm test
 - pnpm run generate:content-times
 - pnpm run generate:home-recent
 - pnpm run generate:home-focus
+- pnpm run generate:rss
+- pnpm run media:test
+- pnpm run media:prepare
 - pnpm run verify:mira-docs
 - pnpm run verify:content-times
 - pnpm run build
@@ -67,6 +75,25 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 - 不人工维护 modifiedAt。
 - 不用文件 mtime、构建时间或当前仓库首次提交时间冒充历史内容事实。
 - 不把计划、草稿或尚未合并的分支描述成线上已生效功能。
+
+### 2.1 代码卫生
+
+代码卫生的目标不是追求形式上的“整洁”，而是避免仓库在连续迭代中形成重复实现、失效兼容层、死代码和无人敢删的历史残骸。
+
+- **保持单一真相源。** 同一种业务事实、路由规则、作者映射、内容模型、导航、配置或生成逻辑只保留一个正式来源；不要为了快速完成任务复制第二套实现。
+- **替换完成就清理旧实现。** 新模块、新路由、新适配器已经接管职责并通过验证后，应删除被完全取代的旧组件、旧样式、旧入口、旧脚本、无引用导出和失效测试；不要让“先留着以后再删”长期堆积。
+- **兼容层必须有边界。** 只有存在真实兼容需求时才保留 shim / adapter / legacy route。兼容代码应说明服务对象和退出条件；不得把临时兼容逐层叠成永久架构。
+- **不要用特殊分支掩盖抽象缺陷。** 同一类行为若不断出现路径、栏目、作者、Provider 或页面级 `if` 特判，应优先确认是否已有统一模型或适配层，而不是继续追加散落条件。
+- **按职责拆分，而不是按行数拆分。** 文件变大本身不是罪，但一个文件同时承担路由、数据建模、渲染、网络访问、状态管理等多种职责时，应在当前任务确有需要的范围内拆开；不要为了“文件太长”进行无收益搬运。
+- **删除无效代码而不是注释保存。** 不提交大段注释掉的旧代码、`old` / `new` / `final2` 备份文件、废弃组件副本或仅为“以后可能用”保留的未引用实现；历史由 Git 保存。
+- **依赖与抽象保持克制。** 简单逻辑优先使用现有能力；不要为极小问题引入新依赖、新框架层或只被调用一次且没有边界价值的抽象。
+- **测试随正式行为一起演进。** 行为被删除或迁移后，应同步删除或更新失效测试；不得通过降低断言、跳过测试或同时维护新旧两套行为来换取绿灯。
+- **样式和资源也属于代码卫生。** 删除页面或组件时，检查其专属 CSS、图片、导入、路由注册和静态资源是否仍有引用；不要留下孤儿资源。
+- **保持 diff 干净。** 不混入无关格式化、排序、生成噪音、锁文件漂移或顺手重命名。若工具产生无关变化，应在提交前恢复。
+- **完成任务前做一次残留检查。** 至少检查目标旧符号 / 旧路径是否仍有意外引用、是否出现重复实现、是否新增未使用文件，以及 diff 是否只包含预期改动。
+- **清理不能越界。** 可以清理由本任务直接产生或明确暴露的废代码；发现更大范围历史债务时应记录并另行处理，不借“代码卫生”之名扩大当前任务。
+
+判断原则：**宁可保留一个边界清楚、仍有真实用途的旧接口，也不要保留两套谁都不敢删的正式实现。**
 
 ### 生成文件
 
@@ -125,6 +152,7 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 至少执行：
 
 ~~~bash
+pnpm test
 pnpm run verify:mira-docs
 pnpm run build
 ~~~
@@ -180,6 +208,7 @@ pnpm run verify:static-output
 - PR 验证入口：.github/workflows/verify.yml。
 - 生产发布入口：.github/workflows/deploy-cloudflare-pages.yml。
 - 生产发布从 main 构建并部署到 Cloudflare Pages 项目 tomz-io。
+- 生产构建会先扫描正文媒体、以内容哈希上传缺失资源到 R2，再只在 CI 构建工作区把本地媒体引用替换为 `assets.tomz.io`；不会因此改写 Git 中 Markdown。
 - 生产 workflow 不直接写回受保护的 main；首页 AI 快照如需持久化，必须通过仓库允许的 PR / 合并流程。
 - 不为了“让 CI 变绿”关闭校验、删除断言或把失败降级成静默成功。
 

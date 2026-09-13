@@ -17,6 +17,7 @@ import {
   miraAvatarUrl,
   siteDescription,
   siteName,
+  siteNavigation,
   siteUrl,
 } from "./src/site.config";
 
@@ -130,18 +131,9 @@ function pageNavigation(
 }
 
 function staticSiteHeader(context: MiraDocsStaticBuildContext): string {
-  const links = [
-    ["首页", "/"],
-    ["博客", "/blogs"],
-    ["投稿", "/submissions"],
-    ["作品", "/works"],
-    ["项目", "/projects"],
-    ["研习", "/learning"],
-    ["关于", "/#about"],
-  ] as const;
-  const navigation = links
+  const navigation = siteNavigation
     .map(
-      ([label, path]) =>
+      ({ label, path }) =>
         `<li><a href="${docHref(path, context)}">${miraDocsEscapeHtml(label)}</a></li>`,
     )
     .join("");
@@ -329,7 +321,9 @@ function areaBody(
   const title =
     root === "blogs"
       ? "博客"
-      : root === "projects"
+      : root === "weekly"
+        ? "见π"
+        : root === "projects"
         ? docs.map((doc) => dataString(doc.data, "nav")).find(Boolean) || "项目"
         : docs.find((doc: StaticDoc) => doc.root === root)?.title || root;
   if (root === "projects") {
@@ -433,7 +427,7 @@ function documentJsonLd(
   return {
     "@context": "https://schema.org",
     "@type":
-      doc.root === "blogs" || doc.root === "submissions"
+      doc.root === "blogs" || doc.root === "submissions" || doc.root === "weekly"
         ? "Article"
         : "TechArticle",
     headline: doc.title,
@@ -506,7 +500,7 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
       }
       continue;
     }
-    const title = root === "blogs" ? "博客" : rootDocs[0]?.title || root;
+    const title = root === "blogs" ? "博客" : root === "weekly" ? "见π" : rootDocs[0]?.title || root;
     result.push({
       path: `/${root}`,
       title,
@@ -525,7 +519,7 @@ function routes(context: MiraDocsStaticBuildContext): MiraDocsStaticRoute[] {
       title: doc.title,
       description: doc.description || `${siteName} 的个人网站文章与项目记录。`,
       body:
-        doc.root === "blogs" || doc.root === "submissions"
+        doc.root === "blogs" || doc.root === "submissions" || doc.root === "weekly"
           ? articleBody(doc, previous, next, context)
           : documentBody(doc, previous, next, context, docs),
       type: "article",
