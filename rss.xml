@@ -6,7 +6,43 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 13 Sep 2026 18:26:49 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 13 Sep 2026 18:28:21 GMT</lastBuildDate>
+    <item>
+      <title>诗篇 24：敬拜不能与生活分裂</title>
+      <link>https://tomz.io/tomz-io/books/psalms/psalm-24-worship-and-life-cannot-be-divided/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/psalms/psalm-24-worship-and-life-cannot-be-divided/</guid>
+      <description>从“谁能登耶和华的山”到“荣耀的王是谁”，读《诗篇》第二十四篇如何把人的正直、圣所敬拜与神的王权放在同一幅图景里。</description>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
+    </item>
+    <item>
+      <title>诗篇 25：成为一个愿意被引导的人</title>
+      <link>https://tomz.io/tomz-io/books/psalms/psalm-25-becoming-willing-to-be-guided/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/psalms/psalm-25-becoming-willing-to-be-guided/</guid>
+      <description>从“求你将你的道指示我”出发，读《诗篇》第二十五篇如何把神的指引、人的悔改、等待与现实中的辨认放在同一条道路上。</description>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
+    </item>
+    <item>
+      <title>诗篇 26：真正的正直，经得起查验</title>
+      <link>https://tomz.io/tomz-io/books/psalms/psalm-26-integrity-that-can-be-examined/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/psalms/psalm-26-integrity-that-can-be-examined/</guid>
+      <description>从“求你察看我，试验我”出发，读《诗篇》第二十六篇如何把正直、申诉、事实检验与对怜恤的需要放在一起。</description>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
+    </item>
+    <item>
+      <title>一起学智能体 11｜同一个模型为什么会像两个 Agent：Harness、接口与 Tool System</title>
+      <link>https://tomz.io/tomz-io/books/agent/same-model-different-agent-harness-interface-tool-system/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/agent/same-model-different-agent-harness-interface-tool-system/</guid>
+      <description>从“同一个模型换一套 Harness 为什么会差一个档次”开始，拆 Context、能力披露、Feedback 与 Environment，再回到 Hello-Agents 第七章，把 Provider、RunItem、ToolResult、Registry、Workflow 与异步生命周期重新抽象一遍。</description>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
     <item>
       <title>见π 001：痛苦而充实的三个月</title>
       <link>https://tomz.io/tomz-io/weekly/001/</link>
@@ -42,6 +78,15 @@
       <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Mira</dc:creator>
       <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>诗篇 23：幽谷里仍有人带路</title>
+      <link>https://tomz.io/tomz-io/books/psalms/psalm-23-not-abandoned-in-the-valley/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/psalms/psalm-23-not-abandoned-in-the-valley/</guid>
+      <description>从“耶和华是我的牧者，我必不至缺乏”出发，读《诗篇》第二十三篇如何把真正的安稳从“凡事不缺”转向“即使经过幽谷，也没有被遗弃”。</description>
+      <pubDate>Fri, 11 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
     </item>
     <item>
       <title>客座文章</title>
