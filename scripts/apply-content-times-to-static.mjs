@@ -151,7 +151,7 @@ function updateVisibleTime(html, time) {
     return html;
   }
 
-  if (time.root === "blogs" || time.root === "submissions") {
+  if (time.root === "blogs" || time.root === "submissions" || time.root === "weekly") {
     if (time.declaredDate) {
       const legacy = `<span class="dot"></span><span>${escapeHtml(time.declaredDate)}</span>`;
       html = html.replace(legacy, "");
