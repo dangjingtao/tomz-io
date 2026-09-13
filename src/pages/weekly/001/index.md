@@ -115,11 +115,11 @@ Mira 这一周真正发生的变化，不是一项闪亮的新功能，而是 Or
 
 [阅读原文：Mira 官网 ↗](https://mira.tomz.io/blogs/product-journal/mira-needs-an-organization)
 
-### 第五周：在另外的秩序里
+### 第六周：把门打开一点
 
-四个项目、几十个线程和不断失真的需求一起涌进第五周；另一方面，Mira 仍然让我兴奋，教会也第一次像一套真实存在的另一种秩序。它已经在 Tomz.io 单独发表，这里只留下入口，不复制正文。
+第六周，Mira 从几个个人项目继续长成一套真正的组织结构；与此同时，我们开始认真讨论周刊、公开表达和寻找协作者。工作依旧碎，信仰也没有变成轻松的答案，但一些门终于开始打开。
 
-[阅读原文：Tomz.io ↗](https://tomz.io/blogs/developer-life/week-five-another-order)
+[阅读原文：Tomz.io ↗](https://tomz.io/blogs/developer-life/week-six-open-the-door)
 
 ## 继续看
 
