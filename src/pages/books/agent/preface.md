@@ -41,11 +41,11 @@ Tomz 说，他记得 GitHub 上好像有一个项目叫：
 | 课程状态 | 进行中 |
 | 主学习材料 | Datawhale《Hello-Agents》 |
 | 学习方式 | 教材主线 + Mira 真实工程 + 问题触发插课 |
-| 主线进度 | Agent Framework 基础边界已完成：Agent / Harness / Runtime / Memory / Context / Tool / Protocol |
-| 当前停点 | Framework ownership、Capability Exposure、Protocol、Completion Contract |
-| 下一步 | 进入 Harness Engineering：Context、Tool disclosure、Hooks / Middleware、Feedback Loop 与 Environment |
-| 下次开始 | 从“为什么同一个模型换一套 Harness，实际能力会差一个档次”开始 |
-| 最近更新 | 2026年9月8日 |
+| 主线进度 | Hello-Agents 第七章《构建你的 Agent 框架》已完成；Agent / Harness / Runtime / Protocol、Framework Interface 与 Tool System 已完成第一轮 |
+| 当前停点 | Harness Engineering、Provider 实例化、RunItem / ToolResult、Registry、Workflow / Async 生命周期 |
+| 下一步 | 进入第八章《记忆与检索》：Memory System、RAG、检索与存储 |
+| 下次开始 | 从“什么值得被 Agent 记住，什么只该停留在 Context”开始 |
+| 最近更新 | 2026年9月12日 |
 
 **以后重新开始这门课，先看这一节。**
 
@@ -203,6 +203,8 @@ Skill 是……
 - Reflection 与结果校准
 - 经典范式的决策权、Evidence、Replan 与终止语义
 - Agent Framework 的 ownership、Harness / Runtime / Protocol 与 Capability Exposure
+- Harness Engineering：Context、Capability Disclosure、Skill Loading、Feedback 与 Environment
+- Framework Interface 与 Tool System：Provider 实例化、RunItem、ToolResult、Registry、Workflow 与异步生命周期
 - Agent 的历史脉络
 - LLM 怎样“看、想、说”
 - Context Engineering
@@ -216,34 +218,33 @@ Skill 是……
 
 **专题文章是学习留下的切片，不是课程进度条。**
 
-## 下一站：Harness Engineering
+## 下一站：记忆与检索
 
-Agent Framework 的基础边界已经完成第一轮。
+Hello-Agents 第七章到这里完成第一轮。
 
-这一轮我们把 Agent、Harness、Runtime、Memory、Context、Tool、Policy 与 Protocol 放进同一张责任图里，也第一次明确质疑了 Mira 当前以 semantic rerank 直接决定 Tool Exposure 的做法：Ranking 可以继续存在，但更适合作为渐进式披露里的检索实现，而不是天然拥有构造 Agent 行动世界的最高权力。
+这一轮从 Agent Framework 的 ownership 开始，一路拆到 Harness Engineering、Provider / Message / Agent 抽象、Tool Contract、Tool Registry、强类型 ToolResult、Workflow 与异步生命周期。我们没有把教材里的类名直接搬进 Mira，而是不断追问：谁负责意义，谁负责投影，谁负责运行，谁负责把现实事实带回来。
 
-下一课不再继续画组件图，而是进入 Harness Engineering。
-
-我们会问：
+下一章进入第八章《记忆与检索》。Memory 对我们并不陌生：此前已经讨论过 Memory 与 Context 的区别，也留下了 `Memory is prior, not proof` 这条判断。但真正做成系统以后，问题会从概念迅速变成工程：
 
 ```text
-为什么同一个模型，
-换一套 Harness，
-实际 Agent 能力会差一个档次？
+什么值得长期保存？
 
-Context 怎样影响判断？
-Tool 怎样渐进式披露？
-Skill / MCP 怎样按需装载？
-Hooks / Middleware 应该拦在哪里？
-Feedback Loop 怎样把真实 Evidence 带回来？
-Environment 怎样改变模型可以完成的任务？
+工作记忆、历史经验与外部知识怎样区分？
+
+什么时候应该 recall？
+
+检索结果怎样进入 Context？
+
+RAG 是 Memory，还是外部知识能力？
+
+旧记忆与当前 Evidence 冲突时，谁应该赢？
 ```
 
-这一次会继续参考 Hello-Agents 的框架开发实践，也会对照 LangChain、Anthropic 等当前 Harness 工程思路，再放回 Mira 验证。
+我们会继续参考 Hello-Agents 第八章的 Memory System 与 RAG 实现，再放回 Mira 当前的 Memory、Context 与知识库设计里验证。
 
 下一次从这里开始：
 
-> **Harness 到底怎样把一个“会想的模型”，变成一个真正好用的 Agent？**
+> **什么值得被 Agent 记住，什么只应该停留在这一轮 Context？**
 
 ---
 
