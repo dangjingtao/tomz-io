@@ -17,6 +17,7 @@ import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
 import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
 import { getBook, getBookEntry } from "./content/bookshelf";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
+import WeeklyPublication from "./features/weekly/WeeklyPublication";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
 import "./apple.theme.css";
@@ -27,6 +28,10 @@ import "./homepage-v1.css";
 import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
+import "./weekly.css";
+import "./weekly-index.css";
+import "./weekly-cover.css";
+import "./weekly-shell.css";
 import "./claude-visual.css";
 import "./features/works/works-experience.css";
 import "./features/works/works-sprite.css";
@@ -94,6 +99,15 @@ window.addEventListener("mira:pwa-update-confirmed", () => {
 function AppEntry() {
   const location = useLocation();
   const segments = location.pathname.split("/").filter(Boolean);
+
+  if (segments[0] === "weekly") {
+    return (
+      <>
+        <WeeklyPublication />
+        <HomepageFooter />
+      </>
+    );
+  }
 
   if (segments[0] === "books") {
     if (segments.length === 1) {
