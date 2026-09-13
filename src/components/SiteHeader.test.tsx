@@ -5,8 +5,8 @@ import { allDocs } from "../content/mira-docs-adapter";
 import SiteHeader from "./SiteHeader";
 
 describe("SiteHeader guest contributor links", () => {
-  it("points to an existing guest contributor page instead of an invented route", () => {
-    expect(allDocs.some((doc) => doc.path === "/submissions/t-zt")).toBe(true);
+  it("points to the published guest-contributor index route", () => {
+    expect(allDocs.some((doc) => doc.path === "/submissions/contributors")).toBe(true);
 
     const html = renderToStaticMarkup(
       <MemoryRouter initialEntries={["/"]}>
@@ -23,7 +23,6 @@ describe("SiteHeader guest contributor links", () => {
       </MemoryRouter>,
     );
 
-    expect(html).toContain('href="/submissions/t-zt"');
-    expect(html).not.toContain("/submissions/contributors");
+    expect(html).toContain('href="/submissions/contributors"');
   });
 });
