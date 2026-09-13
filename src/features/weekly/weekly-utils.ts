@@ -14,3 +14,17 @@ export function weeklyDateLabel(value?: string) {
   if (!match) return value;
   return `${match[1]}.${match[2].padStart(2, "0")}.${match[3].padStart(2, "0")}`;
 }
+
+export function isWeeklyIssueIndexDoc(doc: Doc) {
+  if (doc.root !== "weekly") return false;
+  const segments = doc.path.split("/").filter(Boolean);
+  return segments.length === 2 && /^\d+$/.test(segments[1] || "");
+}
+
+export function weeklyIssueIndexDocs(docs: Doc[]) {
+  return docs.filter(isWeeklyIssueIndexDoc);
+}
+
+export function weeklyIssuePath(doc: Doc) {
+  return `/weekly/${String(weeklyIssueNumber(doc)).padStart(3, "0")}`;
+}
