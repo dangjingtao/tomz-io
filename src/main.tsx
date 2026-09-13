@@ -14,9 +14,6 @@ import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
 import { HomepageFooter } from "./HomepageV1";
 import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
-import LegacyHeaderCompat from "./components/LegacyHeaderCompat";
-import { getBook, getBookEntry } from "./content/bookshelf";
-import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import WeeklyPublication from "./features/weekly/WeeklyPublication";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
@@ -24,7 +21,13 @@ import "./apple.theme.css";
 import "./Supabase.theme.css";
 import "./tailwind.css";
 import "./styles.css";
+import "./styles/site-header.css";
+import "./styles/pwa-update.css";
+import "./styles/search-overlay.css";
+import "./styles/not-found.css";
+import "./styles/about-page.css";
 import "./homepage-v1.css";
+import "./homepage-focus.css";
 import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
@@ -100,6 +103,8 @@ function AppEntry() {
   const location = useLocation();
   const segments = location.pathname.split("/").filter(Boolean);
 
+  // 见π already has its own publication shell on main. Keep that newer
+  // production behavior while the rest of the site moves to the shared shell.
   if (segments[0] === "weekly") {
     return (
       <>
@@ -107,38 +112,6 @@ function AppEntry() {
         <HomepageFooter />
       </>
     );
-  }
-
-  if (segments[0] === "books") {
-    if (segments.length === 1) {
-      return (
-        <>
-          <BookshelfHub />
-          <HomepageFooter />
-        </>
-      );
-    }
-
-    const bookId = segments[1];
-    const book = getBook(bookId);
-    if (book && segments.length === 2) {
-      return (
-        <>
-          <BookshelfHub bookId={bookId} />
-          <HomepageFooter />
-        </>
-      );
-    }
-
-    const entrySlug = segments[2];
-    if (book && entrySlug && segments.length === 3 && getBookEntry(bookId, entrySlug)) {
-      return (
-        <>
-          <BookshelfHub bookId={bookId} entrySlug={entrySlug} />
-          <HomepageFooter />
-        </>
-      );
-    }
   }
 
   return <App />;
@@ -149,7 +122,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter basename={buildBase}>
       <AppEntry />
       <ContentTimeMetaPortal />
-      <LegacyHeaderCompat />
       <WorksExperience />
     </BrowserRouter>
   </React.StrictMode>,
