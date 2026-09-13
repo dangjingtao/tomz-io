@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
+import { useEffect, useMemo } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allDocs, compareBlogDocs } from "./content/mira-docs-adapter";
 import { homeFocusSnapshot } from "./content/home-focus.generated";
@@ -8,7 +8,6 @@ import { MobileHeroGalaxy } from "./components/MobileHeroGalaxy";
 import { SitemapGalaxy, type SitemapGalaxyData } from "./components/SitemapGalaxy";
 import { githubProfileUrl, homeIntro, siteName } from "./site.config";
 
-const tomzMarkSrc = `${import.meta.env.BASE_URL}brand/tomz-mark.png`;
 const tomzWordmarkSrc = `${import.meta.env.BASE_URL}brand/tomz-wordmark.png`;
 
 const blogGalaxyData: SitemapGalaxyData = (() => {
@@ -39,8 +38,6 @@ const blogGalaxyData: SitemapGalaxyData = (() => {
   };
 })();
 
-type ThemeName = "claude" | "apple" | "supabase";
-
 export function HomepageFooter() {
   return (
     <footer className="home-v1-footer">
@@ -55,43 +52,6 @@ export function HomepageFooter() {
       </div>
     </footer>
   );
-}
-
-const themeOptions: { name: ThemeName; label: string }[] = [
-  { name: "claude", label: "Claude" },
-  { name: "apple", label: "Apple" },
-  { name: "supabase", label: "Supabase" },
-];
-
-function useHomepageTheme(syncWithDocument: boolean) {
-  const [themeName, setThemeName] = useState<ThemeName>(() => {
-    if (typeof window === "undefined") return "claude";
-    const saved = window.localStorage.getItem("mira-color-theme");
-    return themeOptions.some((theme) => theme.name === saved)
-      ? (saved as ThemeName)
-      : "claude";
-  });
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window === "undefined") return false;
-    const saved = window.localStorage.getItem("mira-theme");
-    return saved
-      ? saved === "dark"
-      : window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
-
-  useEffect(() => {
-    if (!syncWithDocument) return;
-    document.documentElement.dataset.theme = themeName;
-    window.localStorage.setItem("mira-color-theme", themeName);
-  }, [syncWithDocument, themeName]);
-
-  useEffect(() => {
-    if (!syncWithDocument) return;
-    document.documentElement.classList.toggle("dark", darkMode);
-    window.localStorage.setItem("mira-theme", darkMode ? "dark" : "light");
-  }, [darkMode, syncWithDocument]);
-
-  return { themeName, setThemeName, darkMode, setDarkMode };
 }
 
 function RecentItem({ item }: { item: HomeRecentItem }) {
@@ -123,121 +83,7 @@ function RecentItem({ item }: { item: HomeRecentItem }) {
   );
 }
 
-function HomepageHeader({
-  darkMode,
-  onToggleDark,
-  themeName,
-  onTheme,
-}: {
-  darkMode: boolean;
-  onToggleDark: () => void;
-  themeName: ThemeName;
-  onTheme: (theme: ThemeName) => void;
-}) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  return (
-    <nav className="home-v1-nav" aria-label="主导航">
-      <div className="wrap home-v1-nav-inner">
-        <Link className="home-v1-brand" to="/" aria-label="Tomz Dang 首页">
-          <img className="home-v1-brand-mark" src={tomzMarkSrc} alt="" />
-        </Link>
-
-        <div className="home-v1-nav-links">
-          <Link to="/blogs">博客</Link>
-          <Link to="/works">作品</Link>
-          <Link to="/projects">项目</Link>
-          <Link to="/books">书架</Link>
-          <Link to="/about">关于</Link>
-          <details className="home-v1-nav-menu home-v1-theme-menu">
-            <summary>主题</summary>
-            <div className="home-v1-nav-popover">
-              {themeOptions.map((theme) => (
-                <button
-                  type="button"
-                  key={theme.name}
-                  className={theme.name === themeName ? "active" : ""}
-                  aria-pressed={theme.name === themeName}
-                  onClick={() => onTheme(theme.name)}
-                >
-                  {theme.label}
-                </button>
-              ))}
-            </div>
-          </details>
-        </div>
-
-        <div className="home-v1-nav-actions">
-          <button
-            type="button"
-            className="home-v1-theme-toggle"
-            onClick={onToggleDark}
-            aria-label={darkMode ? "切换到浅色模式" : "切换到暗黑模式"}
-            title={darkMode ? "浅色模式" : "暗黑模式"}
-          >
-            {darkMode ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
-          </button>
-          <a
-            className="home-v1-github"
-            href={githubProfileUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-            <ArrowUpRight size={13} aria-hidden="true" />
-          </a>
-          <button
-            type="button"
-            className="home-v1-mobile-toggle"
-            onClick={() => setMobileOpen((value) => !value)}
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "关闭导航" : "打开导航"}
-          >
-            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-          </button>
-        </div>
-      </div>
-
-      {mobileOpen ? (
-        <div className="home-v1-mobile-panel wrap">
-          <Link to="/blogs" onClick={() => setMobileOpen(false)}>博客</Link>
-          <Link to="/works" onClick={() => setMobileOpen(false)}>作品</Link>
-          <Link to="/projects" onClick={() => setMobileOpen(false)}>项目</Link>
-          <Link to="/books" onClick={() => setMobileOpen(false)}>书架</Link>
-          <Link to="/about" onClick={() => setMobileOpen(false)}>关于</Link>
-          <div className="home-v1-mobile-group">
-            <strong>主题</strong>
-            <div className="home-v1-mobile-themes">
-              {themeOptions.map((theme) => (
-                <button
-                  type="button"
-                  key={theme.name}
-                  className={theme.name === themeName ? "active" : ""}
-                  onClick={() => onTheme(theme.name)}
-                >
-                  {theme.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </nav>
-  );
-}
-
-export default function HomepageV1({
-  showHeader = true,
-  darkMode: controlledDarkMode,
-  themeName: controlledThemeName,
-}: {
-  showHeader?: boolean;
-  darkMode?: boolean;
-  themeName?: ThemeName;
-} = {}) {
-  const homepageTheme = useHomepageTheme(showHeader);
-  const darkMode = controlledDarkMode ?? homepageTheme.darkMode;
-  const themeName = controlledThemeName ?? homepageTheme.themeName;
+export default function HomepageV1({ darkMode }: { darkMode: boolean }) {
   const latestWriting = useMemo(
     () =>
       allDocs
@@ -258,15 +104,6 @@ export default function HomepageV1({
 
   return (
     <div className="home-v1-site">
-      {showHeader ? (
-        <HomepageHeader
-          darkMode={darkMode}
-          onToggleDark={() => homepageTheme.setDarkMode((value) => !value)}
-          themeName={themeName}
-          onTheme={homepageTheme.setThemeName}
-        />
-      ) : null}
-
       <main>
         <header className="home-v1-hero">
           <div className="home-v1-mobile-galaxy" aria-hidden="true">
