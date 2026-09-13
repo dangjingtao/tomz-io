@@ -1,4 +1,4 @@
-name: Verify BR003B
+name: Verify Site
 
 on:
   pull_request:
@@ -35,7 +35,7 @@ jobs:
         run: npm run build
 
       - name: Root static output
-        run: node scripts/verify-br003a-root-static.mjs
+        run: node scripts/verify-root-static.mjs
 
       - name: GitHub Pages build
         run: npm run build:github-pages

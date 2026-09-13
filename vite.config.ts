@@ -116,9 +116,9 @@ function normalizeStructuredData(value: unknown): unknown {
   return normalized;
 }
 
-function br003aStaticSeoGuard(): Plugin {
+function staticSeoGuard(): Plugin {
   return {
-    name: "br003a-static-seo-guard",
+    name: "static-seo-guard",
     apply: "build",
     enforce: "post",
     closeBundle() {
@@ -143,7 +143,7 @@ function br003aStaticSeoGuard(): Plugin {
           changed += 1;
         }
       }
-      console.log(`BR003A static SEO guard normalized JSON-LD in ${changed} HTML files.`);
+      console.log(`Static SEO guard normalized JSON-LD in ${changed} HTML files.`);
     },
   };
 }
@@ -257,7 +257,7 @@ function collectionJsonLd(context: any, book: BookManifest, entries: any[]) {
   };
 }
 
-function br003bStaticBuild() {
+function siteStaticBuild() {
   const sourceRoutes = miraDocsStaticBuild.routes;
   return {
     ...miraDocsStaticBuild,
@@ -349,7 +349,7 @@ export default defineConfig(({ mode }) => {
           description: siteDescription,
           siteUrl,
         },
-        staticRoutes: seoConfig.enabled ? br003bStaticBuild() : false,
+        staticRoutes: seoConfig.enabled ? siteStaticBuild() : false,
         exclude: (sourcePath) => /(^|\/)README\.md$/i.test(sourcePath),
       }),
       blogDirectoryCheck(),
@@ -406,7 +406,7 @@ export default defineConfig(({ mode }) => {
           navigateFallbackDenylist: [/^(?:\/tomz-io)?\/about\/origin\/?$/],
         },
       }),
-      br003aStaticSeoGuard(),
+      staticSeoGuard(),
       bookshelfRedirects(),
     ],
     base,

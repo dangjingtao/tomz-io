@@ -129,9 +129,9 @@ for (const route of [
 }
 
 if (failures.length) {
-  console.error("Homepage V1 root static verification failed:");
+  console.error("Root static verification failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`Homepage V1 root static verification passed: ${visibleRoutes.size} visible routes; personal root identity plus previous BR003B removals verified.`);
+console.log(`Root static verification passed: ${visibleRoutes.size} visible routes and removed legacy routes verified.`);
