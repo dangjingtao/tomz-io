@@ -17,6 +17,7 @@ import AboutPage from "./features/about/AboutPage";
 import BookshelfHub from "./features/bookshelf/BookshelfHub";
 import { AreaPage, DocPage } from "./features/content/ContentPages";
 import DocsLayout from "./features/docs/DocsLayout";
+import WeeklyPublication from "./features/weekly/WeeklyPublication";
 import HomepageV1, { HomepageFooter } from "./HomepageV1";
 import { Route, Routes, useLocation } from "react-router-dom";
 import type { ThemeName } from "./types/site";
@@ -102,6 +103,7 @@ function RoutedApp() {
       <Routes>
         <Route path="/" element={<HomepageV1 darkMode={darkMode} />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/weekly/*" element={<WeeklyPublication />} />
         <Route path="/books" element={<BookshelfHub />} />
         {books.map((book) => (
           <Route
@@ -124,7 +126,7 @@ function RoutedApp() {
         )}
         <Route element={<DocsLayout siteAreas={siteAreas} />}>
           {siteAreas
-            .filter((area) => area.key !== "books")
+            .filter((area) => area.key !== "books" && area.key !== "weekly")
             .map((area) => (
               <Route
                 key={area.key}
@@ -133,7 +135,7 @@ function RoutedApp() {
               />
             ))}
           {allDocs
-            .filter((doc) => doc.root !== "books")
+            .filter((doc) => doc.root !== "books" && doc.root !== "weekly")
             .map((doc) => (
               <Route
                 key={doc.path}
