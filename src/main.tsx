@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import {registerSW} from "virtual:pwa-register";
 import "@fontsource/public-sans/400.css";
 import "@fontsource/public-sans/500.css";
@@ -12,9 +12,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
-import { HomepageFooter } from "./HomepageV1";
 import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
-import WeeklyPublication from "./features/weekly/WeeklyPublication";
 import WorksExperience from "./features/works/WorksExperience";
 import "./claude.theme.css";
 import "./apple.theme.css";
@@ -99,28 +97,10 @@ window.addEventListener("mira:pwa-update-confirmed", () => {
   void updateSW();
 });
 
-function AppEntry() {
-  const location = useLocation();
-  const segments = location.pathname.split("/").filter(Boolean);
-
-  // 见π already has its own publication shell on main. Keep that newer
-  // production behavior while the rest of the site moves to the shared shell.
-  if (segments[0] === "weekly") {
-    return (
-      <>
-        <WeeklyPublication />
-        <HomepageFooter />
-      </>
-    );
-  }
-
-  return <App />;
-}
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter basename={buildBase}>
-      <AppEntry />
+      <App />
       <ContentTimeMetaPortal />
       <WorksExperience />
     </BrowserRouter>

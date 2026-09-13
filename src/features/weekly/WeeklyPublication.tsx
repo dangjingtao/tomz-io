@@ -37,20 +37,6 @@ function authorLabel(doc: Doc) {
   return names.join(" × ");
 }
 
-function PublicationNav() {
-  return (
-    <header className="weekly-pub-nav">
-      <Link className="weekly-pub-brand" to="/">Tomz.io</Link>
-      <nav aria-label="站点导航">
-        <Link to="/blogs">博客</Link>
-        <Link to="/books">书架</Link>
-        <Link className="active" to="/weekly">见π</Link>
-        <Link to="/about">关于</Link>
-      </nav>
-    </header>
-  );
-}
-
 function ShareButton({ title, text }: { title: string; text?: string }) {
   const share = async () => {
     const url = window.location.href;
@@ -280,7 +266,6 @@ export default function WeeklyPublication() {
 
   return (
     <div className="weekly-app">
-      <PublicationNav />
       {location.pathname === "/weekly" ? (
         <WeeklyListPage />
       ) : doc ? (
