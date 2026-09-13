@@ -148,13 +148,13 @@ export default function SiteHeader({
                       </Link>
                       <Link
                         role="menuitem"
-                        to="/submissions/contributors"
+                        to="/submissions/t-zt"
                         onClick={() => setOpenMenu(null)}
                       >
                         <Network size={18} aria-hidden="true" />
                         <span>
-                          <strong>客座作者</strong>
-                          <small>集中查看作者介绍与已发布文章</small>
+                          <strong>客座作者 · t-zt</strong>
+                          <small>作者介绍与已发布文章</small>
                         </span>
                       </Link>
                     </div>
@@ -356,8 +356,8 @@ export default function SiteHeader({
             <Link to="/submissions" onClick={() => setMobileOpen(false)}>
               参与 Tomz.io
             </Link>
-            <Link to="/submissions/contributors" onClick={() => setMobileOpen(false)}>
-              客座作者
+            <Link to="/submissions/t-zt" onClick={() => setMobileOpen(false)}>
+              客座作者 · t-zt
             </Link>
           </div>
           <div className="mobile-header-actions">
