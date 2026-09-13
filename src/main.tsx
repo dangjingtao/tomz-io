@@ -31,7 +31,7 @@ import "./markdown.css";
 import "./blog-detail.css";
 import "./weekly.css";
 import "./claude-visual.css";
-import "./weekly-cover-study.css";
+import "./weekly-cover.css";
 import "./features/works/works-experience.css";
 import "./features/works/works-sprite.css";
 import "./features/works/works-route-fixes.css";
