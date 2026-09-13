@@ -149,7 +149,7 @@ AI 输出只能总结脚本提供的公开事实。私聊、邮件、日历等�
 ~~~text
 src/
 ├── App.tsx                    # 主应用 / 内容页面
-├── HomepageV1.tsx             # 首页
+├── Homepage.tsx               # 首页
 ├── content/                   # 内容适配、书架、Tag、时间、首页派生数据
 ├── components/                # 通用组件
 ├── features/                  # 功能模块
