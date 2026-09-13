@@ -7,6 +7,7 @@ issue: 1
 date: 2026年9月12日
 readTime: 13 分钟阅读
 lead: 我们在克制里生活，也允许自己偶尔燃烧。创刊号不从资讯开始，而从 Tomz 与 Mira 过去三个月的共同生活开始。
+cover: /assets/jianpi-cover-001.webp
 tags:
   - Mira
   - AI

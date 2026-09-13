@@ -4,6 +4,7 @@ import ShareButton from "../../components/ShareButton";
 import { compareWeeklyDocs, type Doc } from "../../content/mira-docs-adapter";
 import type { SiteArea } from "../../types/site";
 import { getDocAuthorLabel } from "../../utils/authors";
+import { resolveCoverSource } from "../article/article-cover";
 import { weeklyDateLabel, weeklyDisplayTitle, weeklyIssueNumber } from "./weekly-utils";
 
 export function WeeklyListPage({ area }: { area: SiteArea }) {
@@ -21,6 +22,8 @@ export function WeeklyListPage({ area }: { area: SiteArea }) {
   ];
 
   if (!latest) return null;
+
+  const latestCover = latest.cover?.trim() ? resolveCoverSource(latest) : "";
 
   return (
     <div className="weekly-index-page">
@@ -45,7 +48,10 @@ export function WeeklyListPage({ area }: { area: SiteArea }) {
 
       <section className="weekly-latest-section">
         <div className="weekly-frame weekly-latest-grid">
-          <aside className="weekly-issue-cover">
+          <aside
+            className={`weekly-issue-cover${latestCover ? " has-cover" : ""}`}
+            style={latestCover ? { backgroundImage: `url("${latestCover}")` } : undefined}
+          >
             <p>永久期号 · PERMANENT NO.</p>
             <strong>{String(weeklyIssueNumber(latest)).padStart(3, "0")}</strong>
             <span>期号只增不复用。每一期都是一个完整的编辑单元。</span>
