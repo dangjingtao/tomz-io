@@ -19,6 +19,9 @@ jobs:
 
       - run: npm install
 
+      - name: Unit tests
+        run: npm test
+
       - name: MiraDocs parse and route uniqueness
         run: npm run verify:mira-docs
 
