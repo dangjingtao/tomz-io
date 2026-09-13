@@ -107,7 +107,7 @@ CPU scheduler、memory pressure、block I/O、IRQ、syscall、cgroup、eBPF 全�
 
 [原始项目：KernWatch / GitHub ↗](https://github.com/matthart1983/kernwatch)
 
-## 本周已经发表
+## 近期已经发表
 
 ### 这一周，Mira 开始需要一个组织
 
