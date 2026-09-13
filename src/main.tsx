@@ -30,6 +30,7 @@ import "./blog-list.css";
 import "./markdown.css";
 import "./blog-detail.css";
 import "./weekly.css";
+import "./weekly-index.css";
 import "./claude-visual.css";
 import "./weekly-cover.css";
 import "./features/works/works-experience.css";
