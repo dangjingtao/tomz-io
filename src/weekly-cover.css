@@ -1,0 +1,32 @@
+/* 见π cover presentation. */
+
+/* Latest issue artwork is provided by the issue Markdown `cover` field.
+   Keep this layer focused on presentation so later issues can supply their own cover. */
+.weekly-issue-cover {
+  position: sticky !important;
+  top: 92px;
+  aspect-ratio: 3 / 4 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--hairline) !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--ink) 8%, transparent) !important;
+}
+
+.weekly-issue-cover.has-cover > * {
+  display: none !important;
+}
+
+@media (max-width: 920px) {
+  .weekly-issue-cover {
+    position: static !important;
+    width: min(300px, 100%);
+  }
+}
+
+@media (max-width: 700px) {
+  .weekly-issue-cover {
+    width: min(78vw, 300px);
+  }
+}
