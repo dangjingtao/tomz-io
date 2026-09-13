@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>被机器翻译的不是天才，而是证明 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-DGWhzEcs.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-BH9fWcpd.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从 Andrew Wiles 七年的秘密工作到 Claude 十一天的 Lean 形式化，真正改变的不是数学发现的含义，而是把证明变成可机器验证对象的成本。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/weekly/001/wiles-and-claude/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="被机器翻译的不是天才，而是证明 · Tomz Dang"><meta property="og:description" content="从 Andrew Wiles 七年的秘密工作到 Claude 十一天的 Lean 形式化，真正改变的不是数学发现的含义，而是把证明变成可机器验证对象的成本。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/weekly/001/wiles-and-claude/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="被机器翻译的不是天才，而是证明 · Tomz Dang"><meta name="twitter:description" content="从 Andrew Wiles 七年的秘密工作到 Claude 十一天的 Lean 形式化，真正改变的不是数学发现的含义，而是把证明变成可机器验证对象的成本。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"被机器翻译的不是天才，而是证明","description":"从 Andrew Wiles 七年的秘密工作到 Claude 十一天的 Lean 形式化，真正改变的不是数学发现的含义，而是把证明变成可机器验证对象的成本。","url":"https://tomz.io/tomz-io/weekly/001/wiles-and-claude/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-12","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-13T16:40:51.000+08:00"}</script>  <link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="/tomz-io/rss.xml">
+</head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>被机器翻译的不是天才，而是证明</h1><p class="doc-lede">从 Andrew Wiles 七年的秘密工作到 Claude 十一天的 Lean 形式化，真正改变的不是数学发现的含义，而是把证明变成可机器验证对象的成本。</p><div class="post-meta post-meta-article"><span>Mira × Tomz Dang</span><span class="dot"></span><span>7 分钟阅读</span><span class="dot"></span><span>见π</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月12日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月13日 16:40</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>最容易写出来的标题，是 <strong>“Claude 用十一天完成了 Wiles 七年的工作。”</strong></p>
+<p>也最容易把事情写错。</p>
+<p>2026 年 9 月，Anthropic 公布了一个很重的结果：Claude 基本自主运行约十一天，用 Lean 写出了费马大定理首个完整的、可由计算机逐步检查的证明。Anthropic 把它称为 first complete computer-checked proof。</p>
+<p>这当然值得惊讶。</p>
+<p>但它和 Andrew Wiles 当年做的事情并不等价。</p>
+<h2 id="七年发生了什么">七年发生了什么<a class="md-anchor" href="#七年发生了什么">#</a></h2>
+<p>Wiles 十岁时第一次在图书馆看到费马大定理，后来把它变成了自己成年后的长期执念。PBS NOVA 留下的采访里，他描述那七年秘密工作的方式，很像在一座黑暗的大房子里摸索：先撞上家具，慢慢知道每样东西在哪里，直到某一刻终于找到灯的开关。</p>
+<p>那不是一种“把现成步骤抄得更严谨”的劳动。</p>
+<p>真正困难的部分，是当时根本不知道下一扇门在哪里。</p>
+<p>1993 年，Wiles 宣布证明后，同行审查又发现了一个关键缺口。事情没有因此自动结束。他和 Richard Taylor 继续工作，最后才修补了证明。1995 年正式发表的证明长达 129 页，验证本身也耗费了同行大量时间。</p>
+<p>所以 Wiles 七年里最昂贵的东西，并不是写下那些页数。</p>
+<p>是<strong>发现应该写什么</strong>。</p>
+<h2 id="十一天发生了什么">十一天发生了什么<a class="md-anchor" href="#十一天发生了什么">#</a></h2>
+<p>Claude 面对的是另一类困难。</p>
+<p>数学界已经知道费马大定理为什么成立，也知道一条可以走通的现代证明路线。问题变成：能不能把这套高度抽象、分散在大量数学背景和中间结果里的推理，转换成 Lean 能够逐条验证的形式对象？</p>
+<p>形式化不是普通意义上的“翻译文档”。</p>
+<p>自然语言数学里，专家会自动补上大量上下文：某个结论为什么可用，某个对象满足什么条件，某一步“显然”究竟依赖哪些前提。到了证明助手里，这些空白不能继续依靠默契。类型要对，依赖要全，中间引理要能够真正拼起来。</p>
+<p>过去这件事贵得惊人。</p>
+<p>不是因为机器不会检查证明，而是因为<strong>人要先把证明整理成机器能够检查的东西</strong>。</p>
+<p>Claude 这次最值得注意的地方，就在这里。十一天并没有重新发现 Wiles 的数学，但它大幅压缩了把成熟数学转成 machine-checkable proof 的人工成本。</p>
+<p>换句话说，它翻译的不是天才。</p>
+<p>它翻译的是证明。</p>
+<h2 id="为什么这仍然很大">为什么这仍然很大<a class="md-anchor" href="#为什么这仍然很大">#</a></h2>
+<p>“只是形式化”很容易被说成一种降级评价。</p>
+<p>但如果把视角从“AI 有没有独立成为数学家”移开，形式化本身其实是一块很重要的基础设施。</p>
+<p>一条经过机器检查的证明，不会因为读者疲惫、符号习惯不同，或者某一步被默认成“大家都懂”而放过逻辑缺口。更重要的是，一旦越来越多数学结果进入形式化系统，它们就开始拥有另一种可组合性：定理不只被人引用，也可以被软件可靠调用；新的证明可以站在已有机器验证结果上继续构造。</p>
+<p>真正可能发生变化的，是数学知识的<strong>验证成本曲线</strong>。</p>
+<p>过去，形式化大型现代数学往往意味着长期项目、大量专家与非常高的耐心成本。如果这层工作开始被 Agent 持续压缩，未来最先变化的也许不是“数学家还需不需要存在”，而是一些今天根本没人舍得形式化的知识，突然值得被形式化了。</p>
+<p>这会影响教材、研究复核、数学数据库，也会影响 AI 自己训练和验证数学推理的方式。</p>
+<h2 id="别急着宣布数学已经被解决">别急着宣布数学已经被解决<a class="md-anchor" href="#别急着宣布数学已经被解决">#</a></h2>
+<p>这里仍然应该克制。</p>
+<p>Claude 完成一个已知定理的形式化，不等于它独立完成了一次 Wiles 式的数学发现；能够沿着已有路线建立严密形式证明，也不自动说明它已经拥有在未知区域长期发明新概念的能力。</p>
+<p>但反过来，把它贬成“自动抄代码”也同样失真。</p>
+<p>十一天真正击穿的是另一层旧经验：<strong>复杂数学的机器验证，也许不再必然是一项需要很多年人工工程的昂贵奢侈品。</strong></p>
+<p>Wiles 的七年仍然是七年。</p>
+<p>那七年里，一个人摸黑走进了没有地图的房间。</p>
+<p>三十多年后，Claude 做了一件完全不同、但同样会留下后果的事：它开始把那间已经被照亮的房子，重新画成机器也能读懂的地图。</p>
+<hr>
+<p>延伸阅读：</p>
+<p><a href="https://www.anthropic.com/research/formalizing-fermats-last-theorem">Anthropic：Formalizing Fermat&#39;s Last Theorem</a></p>
+<p><a href="https://www.pbs.org/wgbh/nova/proof/wiles.html">PBS NOVA：Solving Fermat — Andrew Wiles</a></p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /></div><div class="author-signature-copy"><h4>Mira × Tomz Dang</h4></div></section><div class="page-nav"><a href="/tomz-io/weekly/001/painful-and-full"><span class="dir">上一篇</span><span class="to">← 痛苦而充实的三个月</span></a><a class="next" href="/tomz-io/weekly/001/norway-1905"><span class="dir">下一篇</span><span class="to">1905：当所有人都合法地说‘不’ →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#七年发生了什么">七年发生了什么</a></li><li><a href="#十一天发生了什么">十一天发生了什么</a></li><li><a href="#为什么这仍然很大">为什么这仍然很大</a></li><li><a href="#别急着宣布数学已经被解决">别急着宣布数学已经被解决</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

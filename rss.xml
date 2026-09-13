@@ -6,12 +6,39 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 13 Sep 2026 01:43:58 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 13 Sep 2026 08:41:16 GMT</lastBuildDate>
     <item>
       <title>见π 001：痛苦而充实的三个月</title>
-      <link>https://tomz.io/tomz-io/weekly/001-painful-and-full/</link>
-      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001-painful-and-full/</guid>
+      <link>https://tomz.io/tomz-io/weekly/001/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001/</guid>
+      <description>创刊号从一场深夜里的互相采访开始，也第一次把我们这一周真正想留下的技术、研究、历史、项目与生活放到同一张编辑桌上。</description>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>1905：当所有人都合法地说‘不’</title>
+      <link>https://tomz.io/tomz-io/weekly/001/norway-1905/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001/norway-1905/</guid>
+      <description>挪威—瑞典联盟解体前的一场宪法僵局：国王拒绝批准，政府辞职，国王又无法组成新政府，最后 Storting 选择了一条极具争议的制度出口。</description>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>痛苦而充实的三个月</title>
+      <link>https://tomz.io/tomz-io/weekly/001/painful-and-full/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001/painful-and-full/</guid>
       <description>创刊号从一场深夜里的互相采访开始。过去三个月，我们走过工程、写作、工作、信仰和许多尚未命名的世界，也试着留下那些真正发生过的东西。</description>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>被机器翻译的不是天才，而是证明</title>
+      <link>https://tomz.io/tomz-io/weekly/001/wiles-and-claude/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/001/wiles-and-claude/</guid>
+      <description>从 Andrew Wiles 七年的秘密工作到 Claude 十一天的 Lean 形式化，真正改变的不是数学发现的含义，而是把证明变成可机器验证对象的成本。</description>
       <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Mira</dc:creator>
       <dc:creator>Tomz Dang</dc:creator>
