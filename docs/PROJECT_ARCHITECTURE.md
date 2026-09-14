@@ -292,8 +292,6 @@ unit tests
 
 PR 另有统一 AI Review Gate；其 provider / fallback 规则以当前 `.github` 配置与 workflow 为准，不在本文复制第二套运行合同。
 
-历史 workflow / script 中仍可能保留 BR003A / BR003B 命名；它们是迁移阶段遗留名称，不代表当前产品阶段，后续清理时不得据此恢复旧架构。
-
 ## 12. 生成数据与事实源
 
 人工事实源：
