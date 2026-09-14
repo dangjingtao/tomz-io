@@ -318,8 +318,24 @@
         display: none;
       }
 
-      .nav-right > .theme-toggle,
+      .nav-right > .theme-toggle {
+        display: none;
+      }
+
       .nav-right > .site-search {
+        display: inline-flex;
+        width: 34px;
+        padding: 0;
+        justify-content: center;
+        font-size: 0;
+      }
+
+      .nav-right > .site-search::before {
+        content: "⌕";
+        font-size: 18px;
+      }
+
+      .nav-right > .site-search kbd {
         display: none;
       }
 
