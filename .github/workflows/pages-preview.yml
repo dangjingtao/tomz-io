@@ -3,8 +3,6 @@ name: Site Pages Preview
 on:
   push:
     branches:
-      - work/br003b-author-reduction
-      - work/homepage-product-positioning
       - preview/weekly-v0-1
   workflow_dispatch:
 
