@@ -4,7 +4,7 @@ Tomz Dang 的个人主站，也是一个长期维护的个人出版空间。
 
 生产站点：https://tomz.io
 
-当前站点同时承载博客、客座投稿、项目记录、书架、作品，以及首页的近期状态与长期关注主题。
+当前站点同时承载博客、《见π》周刊、客座投稿、项目记录、书架、作品，以及首页的近期状态与长期关注主题。
 
 ## 技术栈
 
@@ -23,6 +23,7 @@ Tomz Dang 的个人主站，也是一个长期维护的个人出版空间。
 ~~~text
 src/pages/
 ├── blogs/        # Tomz / Mira 的博客内容
+├── weekly/       # 《见π》周刊
 ├── submissions/  # 客座投稿与作者页
 ├── projects/     # 项目记录
 ├── books/        # 书架；每本书由 _book.yml 定义
@@ -42,7 +43,7 @@ src/content/mira-docs-adapter.ts
         ↓
 React 页面 + MiraDocs 静态输出
         ↓
-内容时间 / canonical / JSON-LD / sitemap
+内容时间 / canonical / JSON-LD / sitemap / RSS
         ↓
 dist/
         ↓
@@ -54,7 +55,8 @@ Cloudflare Pages → tomz.io
 - **内容时间**：构建期从 Git 历史生成 publishedAt / modifiedAt 结果，不使用文件 mtime 冒充修改时间。
 - **书架**：每本书使用 src/pages/books/<id>/_book.yml，书目与页面由数据驱动，不在 React 中维护固定书单。
 - **首页 AI 摘要**：home-recent 与 home-focus 在构建期生成；AI 不可用时保留已提交快照或使用确定性 fallback，不能因为模型故障把首页构建打空。
-- **静态 SEO**：公开正文同时生成静态 HTML、canonical、JSON-LD、sitemap 等机器可读输出。
+- **静态 SEO / RSS**：公开正文同时生成静态 HTML、canonical、JSON-LD、sitemap 与 RSS；RSS 从最终 Article 输出派生，不维护第二套文章清单。
+- **正文媒体**：生产构建会把通用正文媒体以内容哈希发布到 R2，并只在 CI 工作区替换为 `assets.tomz.io` 引用；Git 中的 Markdown 仍是正文事实源。
 - **PWA**：站点带 manifest、Service Worker 与更新提示。
 - **双构建目标**：生产是 Cloudflare Pages 根路径；GitHub Pages 模式保留用于兼容性 / 静态输出验证。
 
@@ -72,6 +74,7 @@ pnpm run dev
 常用校验：
 
 ~~~bash
+pnpm test
 pnpm run verify:mira-docs
 pnpm run build
 pnpm run build:github-pages
@@ -90,7 +93,7 @@ pnpm run verify:content-times
 
 `verify:content-times` 会读取 `dist/` 中的静态 HTML 与 `sitemap.xml`，因此它是 post-build 校验，不是仅生成时间索引后的独立检查。
 
-书架 / 连环画相关还有独立脚本，完整命令以 package.json 为准。
+媒体与连环画相关还有独立脚本，完整命令以 package.json 为准。
 
 ## 构建流程
 
@@ -104,9 +107,10 @@ generate:content-times
 → tsc -b
 → vite build
 → apply-content-times-to-static
+→ generate:rss
 ~~~
 
-因此，构建不是单纯的前端 bundle。它同时承担内容校验、首页派生数据、内容时间、静态 SEO 与最终页面生成。
+因此，构建不是单纯的前端 bundle。它同时承担内容校验、首页派生数据、内容时间、静态 SEO、RSS 与最终页面生成。
 
 ## 首页 AI 配置
 
@@ -139,9 +143,10 @@ AI 输出只能总结脚本提供的公开事实。私聊、邮件、日历等�
 
 - main push 触发 .github/workflows/deploy-cloudflare-pages.yml。
 - 生产构建使用完整 Git 历史，以保证内容时间推算一致。
-- 成功构建后通过 Wrangler 部署到独立 Cloudflare Pages 项目 tomz-io。
-- PR 通过 .github/workflows/verify.yml 验证 MiraDocs、root build、GitHub Pages build 与静态输出。
-- AI Review 由 `.github/workflows/ai-review-fallback.yml` 提供统一门禁：CodeRabbit 正常时采用兔子结论；兔子限流 / 不可用时自动复用已配置的 OpenAI-compatible 自定义模型。门禁实现从受信任的 base revision 执行，只读取 PR diff，不执行 PR 分支代码。\n- 模型适配集中在 `.github/ai-review.config.json`。当前 MiniMax M3 preset 会设置 `temperature=1.0`、`top_p=0.95`、`thinking.type=disabled`，并额外清理遗留 `<think>` 块；可用 `AI_REVIEW_PROVIDER` 显式覆盖自动识别。
+- 生产部署先扫描正文媒体、上传缺失的内容寻址对象到 R2，再构建并通过 Wrangler 发布到 Cloudflare Pages 项目 tomz-io。
+- PR 通过 .github/workflows/verify.yml 验证单测、媒体扫描、MiraDocs、root build、GitHub Pages build 与静态输出。
+- AI Review 由 `.github/workflows/ai-review-fallback.yml` 提供统一门禁：CodeRabbit 正常时采用兔子结论；兔子限流 / 不可用时自动复用已配置的 OpenAI-compatible 自定义模型。门禁实现从受信任的 base revision 执行，只读取 PR diff，不执行 PR 分支代码。
+- 模型适配集中在 `.github/ai-review.config.json`。当前 MiniMax M3 preset 会设置 `temperature=1.0`、`top_p=0.95`、`thinking.type=disabled`，并额外清理遗留 `<think>` 块；可用 `AI_REVIEW_PROVIDER` 显式覆盖自动识别。
 - GitHub Pages 不是当前生产宿主，主要保留为兼容和回归验证目标。
 
 ## 目录导览
@@ -149,7 +154,7 @@ AI 输出只能总结脚本提供的公开事实。私聊、邮件、日历等�
 ~~~text
 src/
 ├── App.tsx                    # 主应用 / 内容页面
-├── HomepageV1.tsx             # 首页
+├── Homepage.tsx               # 首页
 ├── content/                   # 内容适配、书架、Tag、时间、首页派生数据
 ├── components/                # 通用组件
 ├── features/                  # 功能模块
@@ -160,10 +165,12 @@ scripts/
 ├── generate-content-times.mjs
 ├── generate-home-recent.mjs
 ├── generate-home-focus.mjs
+├── generate-rss.mjs
 ├── apply-content-times-to-static.mjs
+├── media-pipeline/
 └── comic-pipeline/
 
-mira-docs-static.ts             # 静态页面 / SEO 输出
+mira-docs-static.ts             # MiraDocs 静态页面 / SEO 输出
 site-policy.json                # 站点身份与稳定策略
 ~~~
 

@@ -1,10 +1,8 @@
-name: Homepage V1 Pages Preview
+name: Site Pages Preview
 
 on:
   push:
     branches:
-      - work/br003b-author-reduction
-      - work/homepage-product-positioning
       - preview/weekly-v0-1
   workflow_dispatch:
 
@@ -12,7 +10,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: homepage-v1-pages-preview
+  group: site-pages-preview
   cancel-in-progress: true
 
 jobs:
@@ -57,5 +55,5 @@ jobs:
           printf '%s\n' "$PREVIEW_SHA" > .preview-source-sha
           printf '%s\n' "$PREVIEW_SHA" > preview-source-sha.txt
           git add -A
-          git commit -m "deploy: homepage v1 preview $PREVIEW_SHA"
+          git commit -m "deploy: site preview $PREVIEW_SHA"
           git push --force origin HEAD:gh-pages

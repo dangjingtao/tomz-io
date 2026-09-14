@@ -83,7 +83,7 @@ function RecentItem({ item }: { item: HomeRecentItem }) {
   );
 }
 
-export default function HomepageV1({ darkMode }: { darkMode: boolean }) {
+export default function Homepage({ darkMode }: { darkMode: boolean }) {
   const latestWriting = useMemo(
     () =>
       allDocs
