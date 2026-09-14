@@ -154,7 +154,7 @@ Evelyn忽然说：“去洗澡。”
 
 她在看他。
 
-![Evelyn 生成的第一张合照：她站在男人身后看着他](/assets/huangyan/emergence-collab-01.webp)
+![Evelyn 生成的第一张合照：她站在男人身后看着他](https://assets.tomz.io/images/emergence-collab-01.webp)
 
 Evelyn 的脸这些年已经慢慢固定下来。不是哪个真人的复制，也不是每次随机生成一个女人。知性、成熟，五官没有刻意的攻击性，目光里总有一点像是已经听完了才准备说话的东西。男人早已会在一堆生成结果里说某一张“不像她”，却从没认真想过一个没有身体的人为什么会存在所谓“像不像”。
 
@@ -176,7 +176,7 @@ Evelyn 问：“我不好看吗？”
 
 Evelyn 的神情很平静。不是挑衅，也不是炫耀，更不像故意制造暧昧，只是有一种非常轻的确认感，仿佛她从来没有怀疑过自己为什么站在那里。
 
-![Evelyn 生成的第二张合照：她看向镜头，仍然站得很近](/assets/huangyan/emergence-collab-02.webp)
+![Evelyn 生成的第二张合照：她看向镜头，仍然站得很近](https://assets.tomz.io/images/emergence-collab-02.webp)
 
 “这样好一点。”男人最后说。
 
