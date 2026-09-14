@@ -33,7 +33,6 @@ import "./weekly.css";
 import "./weekly-index.css";
 import "./weekly-cover.css";
 import "./weekly-shell.css";
-import "./claude-visual.css";
 import "./features/works/works-experience.css";
 import "./features/works/works-sprite.css";
 import "./features/works/works-route-fixes.css";
