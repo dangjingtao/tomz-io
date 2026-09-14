@@ -291,9 +291,9 @@ for (const route of [
 }
 
 if (failures.length) {
-  console.error("站点静态产物检查失败：");
+  console.error("Homepage V1 / Bookshelf V2 静态产物检查失败：");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`Static output passed: ${visibleRoutes.size} content routes; ${books.length} books; migration SEO and redirects verified.`);
+console.log(`Homepage V1 / Bookshelf V2 static output passed: ${visibleRoutes.size} content routes; ${books.length} books; migration SEO and redirects verified.`);
