@@ -14,6 +14,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import App from "./App";
 import ContentTimeMetaPortal from "./components/ContentTimeMetaPortal";
 import WorksExperience from "./features/works/WorksExperience";
+import "./features/bookshelf/emergence-life";
 import "./claude.theme.css";
 import "./apple.theme.css";
 import "./Supabase.theme.css";

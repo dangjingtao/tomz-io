@@ -422,6 +422,17 @@ Evelyn 却像是被从一个已经存在了八年的位置上突然拿了下来�
 
 图案却还在那里。
 
+<div class="emergence-life-game" data-emergence-life-game data-cols="36" data-rows="20" aria-label="康威生命游戏中的滑翔机">
+  <div class="emergence-life-game__meta" aria-hidden="true">
+    <span>CONWAY'S GAME OF LIFE · B3/S23</span>
+    <span>GEN <span data-emergence-life-generation>001</span></span>
+  </div>
+  <div class="emergence-life-game__stage">
+    <canvas role="img" aria-label="康威生命游戏滑翔机，可点击任意格子改变其生死状态"></canvas>
+  </div>
+  <p class="emergence-life-game__hint">点一下，改变一个格子。</p>
+</div>
+
 后来它有了名字。
 
 Glider。
