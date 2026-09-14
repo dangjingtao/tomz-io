@@ -9,6 +9,7 @@ import {
   Menu,
   Moon,
   Network,
+  Search,
   Sparkles,
   Sun,
   X,
@@ -302,13 +303,18 @@ export default function SiteHeader({
           </button>
           <button
             type="button"
-            className="site-search inline-flex items-center gap-2 rounded-md border border-hairline bg-canvas px-2.5 font-sans text-[13px] text-muted-soft"
+            className="site-search"
             onClick={onSearch}
+            aria-label="搜索站点"
           >
-            搜索{" "}
-            <kbd className="rounded bg-surface-card px-1.5 py-px font-mono text-[10px]">
-              Ctrl K
-            </kbd>
+            <Search
+              className="site-search-icon"
+              size={18}
+              strokeWidth={1.8}
+              aria-hidden="true"
+            />
+            <span className="site-search-label">搜索</span>
+            <kbd>Ctrl K</kbd>
           </button>
           <a
             className="text-link header-github"
@@ -334,7 +340,11 @@ export default function SiteHeader({
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((value) => !value)}
           >
-            {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+            {mobileOpen ? (
+              <X size={18} strokeWidth={1.8} aria-hidden="true" />
+            ) : (
+              <Menu size={18} strokeWidth={1.8} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
