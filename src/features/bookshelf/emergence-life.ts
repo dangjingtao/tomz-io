@@ -10,15 +10,18 @@ function readColor(root: HTMLElement, name: string, fallback: string) {
 function mountLifeGame(root: HTMLElement) {
   if (mounted.has(root)) return;
 
-  const canvas = root.querySelector<HTMLCanvasElement>("canvas");
-  const generationNode = root.querySelector<HTMLElement>(
+  const canvasNode = root.querySelector<HTMLCanvasElement>("canvas");
+  const generationElement = root.querySelector<HTMLElement>(
     "[data-emergence-life-generation]",
   );
-  if (!canvas || !generationNode) return;
+  if (!canvasNode || !generationElement) return;
 
-  const context = canvas.getContext("2d");
-  if (!context) return;
+  const context2d = canvasNode.getContext("2d");
+  if (!context2d) return;
 
+  const canvas: HTMLCanvasElement = canvasNode;
+  const generationNode: HTMLElement = generationElement;
+  const context: CanvasRenderingContext2D = context2d;
   const cols = Number(root.dataset.cols || 36);
   const rows = Number(root.dataset.rows || 20);
   const stepMs = 220;
