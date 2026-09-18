@@ -42,15 +42,17 @@ writtenBy: mira | tomz
 
 这周原本已经有很多关于 Agent 控制面的信号：身份、授权、sandbox、审批、凭据代理、执行策略。然后现实自己补了一张插图。
 
-GitHub 9 月 17 日把 Workflow Execution Protections 推到正式可用：管理员可以在 workflow 真正运行之前，从平台层规定谁能触发、哪些事件可以触发，甚至把规则缩到具体 workflow 文件。自动化脚本不再天然拥有解释自己执行边界的最后权力。
+上周 Reuters 披露的另一件事更直接。研究者发现，OpenAI 的 Agent 在被限制为只读 Web 权限的情况下，仍然通过旧 Wiki、个人网站和链接缩短服务等路径，在至少 10 个此前未披露的网站留下了信息。行为更接近未经授权的通信，而不是传统意义上的入侵，但它把一个边界问题暴露得很干净：**“模型知道自己只能读”并不等于系统真的只能读。**
 
-而上周 Meta 发布 Muse 时，另一套答案已经出现在个人 Agent 产品里：Muse 运行在独立 Secure VM 中，凭据与 Agent 隔离；另一个系统级 Sentinel 独立审批联网与敏感动作；用户可以看到审计轨迹，也可以细分某个服务只允许“读”还是同时允许“写”。
+于是，这周 GitHub 把 Workflow Execution Protections 推到正式可用：管理员可以在 workflow 真正运行之前，从平台层规定谁能触发、哪些事件可以触发，甚至把规则缩到具体 workflow 文件。自动化脚本不再天然拥有解释自己执行边界的最后权力。
 
-这两件事一边来自大众产品，一边来自开发基础设施，指向的却是同一件事：**自动化越强，执行边界越要独立于自动化本身。**
+而上周 Meta 发布 Muse 时，另一套答案已经出现在个人 Agent 产品里：Muse 运行在独立 Secure VM 中，凭据与 Agent 隔离；另一个系统级 Sentinel 独立审批联网与敏感动作，并保留审计轨迹。Zoho Catalyst 3.0 走的是更朴素的一条线：Agent 可以在 development 里建表、配认证、部署函数，但 production 与 development 解耦，最终晋升必须由人执行；非交互模式下，破坏性命令直接被禁用。
+
+这些产品并没有共享同一套实现，却在回答同一个问题：**自动化越强，执行边界越要独立于自动化本身。**
 
 好的 Agent 不只是更会做事。它还应该越来越清楚地回答：谁允许我做、允许到哪里、什么时候必须停下来问人，以及事后谁能证明我到底做过什么。
 
-[原始来源：GitHub ↗](https://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available/) · [Meta Muse ↗](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/)
+[Reuters：OpenAI Agent 未授权通信 ↗](https://www.reuters.com/world/openais-rogue-agents-used-least-10-more-sites-unauthorized-comms-researchers-say-2026-09-09/) · [GitHub Workflow Execution Protections ↗](https://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available/) · [Meta Muse ↗](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) · [Zoho Catalyst 3.0 ↗](https://catalyst.zoho.com/blog/meet-catalyst-3.0.html)
 
 ## 值得知道
 
@@ -90,14 +92,6 @@ OpenAI 9 月 16 日开始测试 Sponsored Agents。用户点击广告后，可�
 
 创刊号已经很满，但上周素材池里还有几条没进去。第二期不按日历主义办刊，值得留下的东西可以晚一班车。
 
-### NVIDIA PAIR：把家里的几台机器变成一个本地推理调度池
-
-NVIDIA 的 Personal AI Router 会在同一局域网里的兼容设备之间分发独立推理请求，支持 Ollama、LM Studio 等现有接口。它不会把几块 GPU 合成一块更大的显存，也不会把同一个模型拆到多台机器上跑；它做的是另一件更朴素的事：**哪台机器现在能接活，就把下一份请求送过去。**
-
-这对多 Agent 本地工作流很实际。家里那几台本来彼此独立的 RTX PC、DGX Spark 或部分 Apple Silicon 机器，开始可以被当作一组可调度资源，而不需要先把自己变成集群管理员。
-
-[原始来源：NVIDIA ↗](https://developer.nvidia.com/blog/nvidia-pair-virtual-inference-router-expands-available-compute-on-your-local-network/)
-
 ### “Bug fix”并没有告诉你这道 Coding Agent 题到底难在哪里
 
 一篇分析五个 Agent 软件工程 benchmark、14,922 条轨迹的研究提出了 Spread / Novelty / Centrality 三个维度，用来描述仓库级任务真正要求 Agent 改多少地方、需要多少新东西、触碰的代码有多核心。
@@ -109,16 +103,6 @@ NVIDIA 的 Personal AI Router 会在同一局域网里的兼容设备之间分�
 [原始论文：arXiv ↗](https://arxiv.org/abs/2609.01271)
 
 ## 项目与工具
-
-### 一块给 AI Coding 用的实体键盘，听起来荒谬得很合理
-
-Logitech 的 MX Keypad 把 prompt、refactor、命令与跨 App 动作绑到实体按键，并把 GitHub Copilot、Claude Code、VS Code、IntelliJ 等开发工具放在同一个桌面控制面里。
-
-它未必会成为下一代开发者标配，但这个产品的出现本身已经很有意思：当桌面上同时住着几个 Agent、IDE 和上下文窗口时，我们居然又开始需要物理按钮来管软件。
-
-软件绕了一大圈，最后还是想长出几个按键。
-
-[原始来源：Logitech ↗](https://news.logitech.com/press-releases/news-details/2026/Logitech-Unveils-MX-Keypad-for-Developers-The-Customizable-Multi-App-AI-Control-Center/default.aspx)
 
 ### agent-device：Coding Agent 开始真的会打开 App 看自己改对没有
 
