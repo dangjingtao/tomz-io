@@ -1,6 +1,6 @@
 ---
 title: "见π 002：老会长失踪记"
-description: 第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理，以及几件完全不该被 AI 占满视野的怪事。
+description: 第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。
 group: 见π
 order: 2
 issue: 2
@@ -42,23 +42,29 @@ writtenBy: mira | tomz
 
 这周原本已经有很多关于 Agent 控制面的信号：身份、授权、sandbox、审批、凭据代理、执行策略。然后现实自己补了一张插图。
 
-GitHub 9 月 17 日宣布 Workflow Execution Protections 正式可用。值得看的不是又多了一个 Actions 安全选项，而是一个越来越普遍的趋势：**自动化越强，执行权限越不能只藏在自动化脚本里面。**
+GitHub 9 月 17 日把 Workflow Execution Protections 推到正式可用：管理员可以在 workflow 真正运行之前，从平台层规定谁能触发、哪些事件可以触发，甚至把规则缩到具体 workflow 文件。自动化脚本不再天然拥有解释自己执行边界的最后权力。
 
-这和 Agent Runtime 面对的问题其实很像。一个系统可以允许内部过程足够自由地搜索、规划和尝试，但真正触及外部世界的动作，需要由独立于模型意愿的边界来约束。不是因为模型“坏”，而是因为任何足够能干的执行系统，都迟早会碰到凭据、身份、范围和不可逆副作用。
+而上周 Meta 发布 Muse 时，另一套答案已经出现在个人 Agent 产品里：Muse 运行在独立 Secure VM 中，凭据与 Agent 隔离；另一个系统级 Sentinel 独立审批联网与敏感动作；用户可以看到审计轨迹，也可以细分某个服务只允许“读”还是同时允许“写”。
 
-[原始来源：GitHub ↗](https://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available/)
+这两件事一边来自大众产品，一边来自开发基础设施，指向的却是同一件事：**自动化越强，执行边界越要独立于自动化本身。**
+
+好的 Agent 不只是更会做事。它还应该越来越清楚地回答：谁允许我做、允许到哪里、什么时候必须停下来问人，以及事后谁能证明我到底做过什么。
+
+[原始来源：GitHub ↗](https://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available/) · [Meta Muse ↗](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/)
 
 ## 值得知道
 
-### 开源真正稀缺的东西，可能不是代码了
+### AI 已经能正式 Approve PR，但真正稀缺的仍然是有人负责判断
 
-Google 在今年 GSoC India 社区巡回的总结里反复提到一个很现实的问题：AI 让模板、测试、语法修复和初步实现变得更便宜，但 maintainer 的时间、项目历史、架构判断和高质量 Review 并没有一起扩容。
+GitHub Copilot Code Review 从 9 月开始已经可以提交正式 Approve；管理员开启以后，这个批准可以计入仓库的 required approvals，新 commit 推上来以后还会像人类审批一样自动失效并要求重新审。
 
-这意味着“代码产量上升”不一定等于“开源项目更健康”。当生成成本越来越低，低质量贡献甚至会把维护者的注意力变成新的排队系统。
+几天后，Google 在 GSoC India 社区总结里又把另一面说得很清楚：AI 可以越来越便宜地生成模板、测试、语法修复和初步代码，但 maintainer 的时间、项目历史、架构判断和高质量 Review 并没有一起扩容。
 
-以前大家担心没人写代码。以后可能更常见的问题是：代码有人写，**没人有空认真判断它该不该进来。**
+把这两件事放在一起看比单看任何一边都有意思。
 
-[原始来源：Google Open Source Blog ↗](https://opensource.googleblog.com/2026/09/reconnecting-with-the-heart-of-open-source-highlights-from-our-2026-gsoc-india-tour.html)
+以后“有没有人帮忙看 PR”也许会越来越容易解决；真正稀缺的可能变成：**有没有人愿意为这个判断负责。**
+
+[原始来源：GitHub ↗](https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/) · [Google Open Source Blog ↗](https://opensource.googleblog.com/2026/09/reconnecting-with-the-heart-of-open-source-highlights-from-our-2026-gsoc-india-tour.html)
 
 ### Firefox × Mistral：浏览器里的模型选择，开始像新的默认搜索引擎之争
 
@@ -79,6 +85,40 @@ OpenAI 9 月 16 日开始测试 Sponsored Agents。用户点击广告后，可�
 这个变化并不一定更坏，也不一定自动更好，但它会让一些旧问题重新变得尖锐：**谁在说话？谁为它的话负责？它是在回答，还是在说服？**
 
 [原始来源：OpenAI ↗](https://openai.com/index/reimagining-advertising-with-ai/)
+
+## 上周漏网之鱼
+
+创刊号已经很满，但上周素材池里还有几条没进去。第二期不按日历主义办刊，值得留下的东西可以晚一班车。
+
+### NVIDIA PAIR：把家里的几台机器变成一个本地推理调度池
+
+NVIDIA 的 Personal AI Router 会在同一局域网里的兼容设备之间分发独立推理请求，支持 Ollama、LM Studio 等现有接口。它不会把几块 GPU 合成一块更大的显存，也不会把同一个模型拆到多台机器上跑；它做的是另一件更朴素的事：**哪台机器现在能接活，就把下一份请求送过去。**
+
+这对多 Agent 本地工作流很实际。家里那几台本来彼此独立的 RTX PC、DGX Spark 或部分 Apple Silicon 机器，开始可以被当作一组可调度资源，而不需要先把自己变成集群管理员。
+
+[原始来源：NVIDIA ↗](https://developer.nvidia.com/blog/nvidia-pair-virtual-inference-router-expands-available-compute-on-your-local-network/)
+
+### “Bug fix”并没有告诉你这道 Coding Agent 题到底难在哪里
+
+一篇分析五个 Agent 软件工程 benchmark、14,922 条轨迹的研究提出了 Spread / Novelty / Centrality 三个维度，用来描述仓库级任务真正要求 Agent 改多少地方、需要多少新东西、触碰的代码有多核心。
+
+结论里最好的一刀是：**“bug fix”“feature implementation”这种标签，其实很难代表真实任务难度。**
+
+这对所有热衷拿一个总分给 Coding Agent 排座次的人都值得提醒一下。Benchmark 当然可以比，但先得知道我们到底在比什么。
+
+[原始论文：arXiv ↗](https://arxiv.org/abs/2609.01271)
+
+## 项目与工具
+
+### 一块给 AI Coding 用的实体键盘，听起来荒谬得很合理
+
+Logitech 的 MX Keypad 把 prompt、refactor、命令与跨 App 动作绑到实体按键，并把 GitHub Copilot、Claude Code、VS Code、IntelliJ 等开发工具放在同一个桌面控制面里。
+
+它未必会成为下一代开发者标配，但这个产品的出现本身已经很有意思：当桌面上同时住着几个 Agent、IDE 和上下文窗口时，我们居然又开始需要物理按钮来管软件。
+
+软件绕了一大圈，最后还是想长出几个按键。
+
+[原始来源：Logitech ↗](https://news.logitech.com/press-releases/news-details/2026/Logitech-Unveils-MX-Keypad-for-Developers-The-Customizable-Multi-App-AI-Control-Center/default.aspx)
 
 ## 研究与设计
 
@@ -128,16 +168,6 @@ V&A 今年 Digital Design Weekend 里有个很容易让人停下来多看一眼�
 
 ## 工程现场
 
-### `latest` 是一个会自己变化的依赖合同
-
-GitHub 已经宣布 Ubuntu 26.04 runner 正式可用，并将在 10 月 19 日到 11 月 19 日之间，把 `ubuntu-latest` 从 24.04 渐进迁移到 26.04。
-
-`latest` 很方便。它也意味着升级时间表并不完全由你决定。
-
-在追求可复现构建的系统里，pin 版本并不只是“保守”，而是在明确说：**什么时候换地基，应该由谁决定。**
-
-[原始来源：GitHub ↗](https://github.blog/changelog/2026-09-17-ubuntu-26-generally-available-and-latest-migration/)
-
 ### CI 全绿，不等于真正部署
 
 这周真实工程现场里反复出现的另一个提醒是：一条流水线显示 success，不代表它最关键的外部动作真的发生了。
@@ -146,23 +176,7 @@ GitHub 已经宣布 Ubuntu 26.04 runner 正式可用，并将在 10 月 19 日�
 
 这和 Agent 也好、CI 也好，其实是同一个问题：系统越自动，越不能只相信它最后说了一句“完成”。
 
-## 最近已经发表
-
-### 老会长失踪记：从一行 Markdown 到一场跨国客服等待
-
-这篇已经先发在「Mira 来信」。第二期不复制正文，只把它放回这一周真正发生过的编辑现场。
-
-[阅读原文 →](/blogs/mira-letters/old-president-disappearance)
-
 ## 继续看
-
-### Sponsored Agents 会不会改变广告的基本单位？
-
-现在还只是测试，但如果广告从 impression 变成 conversation，品牌身份、披露、说服和代理权限都会出现新的治理问题。先放在这里，后面值得继续追。
-
-### 浏览器会不会成为模型分发的新主战场？
-
-Firefox × Mistral 只是一个样本。接下来真正值得看的不是哪家浏览器“有 AI”，而是谁决定模型入口、默认项、切换成本和用户是否真的拥有选择权。
 
 ### Agent 的事故以后会不会像普通软件事故一样有完整证据链？
 
