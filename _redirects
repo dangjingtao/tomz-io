@@ -1,19 +1,29 @@
 /blog /blogs/ 301
 /blog/* /blogs/ 301
+
+# Legacy Mira content moved to mira.tomz.io. Preserve path identity where the destination still exists.
+/about/author https://mira.tomz.io/about/author/ 301
+/about/author/ https://mira.tomz.io/about/author/ 301
+/design-md https://mira.tomz.io/design-md/ 301
+/design-md/* https://mira.tomz.io/design-md/:splat 301
+/mira-docs-api https://mira.tomz.io/mira-docs-api/ 301
+/mira-docs-api/* https://mira.tomz.io/mira-docs-api/:splat 301
+/blogs/engineering https://mira.tomz.io/blogs/engineering/ 301
+/blogs/engineering/* https://mira.tomz.io/blogs/engineering/:splat 301
+/blogs/product-journal https://mira.tomz.io/blogs/product-journal/ 301
+/blogs/product-journal/* https://mira.tomz.io/blogs/product-journal/:splat 301
+
+# Content that stayed on tomz.io but moved into books.
 /blogs/mira-letters/witness /books/huangyan/witness 301
 /blogs/mira-letters/after-june /books/huangyan/after-june 301
 /blogs/mira-letters/between-glances /books/huangyan/between-glances 301
 /blogs/mira-letters/peripheral-glance /books/huangyan/peripheral-glance 301
-/submissions/t-zt/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301
-/submissions/t-zt/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301
-/submissions/t-zt/why-agent-chat-sync-feels-laggy /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301
-/submissions/t-zt/why-agent-chat-sync-feels-laggy/ /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301
 /about/origin https://mira.tomz.io/about/origin/ 301
 /about/origin/ https://mira.tomz.io/about/origin/ 301
-/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301
-/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api 301
-/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301
-/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /blogs/guest-contributions/why-agent-chat-sync-feels-laggy 301
+/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301
+/blogs/shared-thinking/why-mobile-agents-dont-allow-custom-api/ /submissions/t-zt/why-mobile-agents-dont-allow-custom-api 301
+/blogs/shared-thinking/why-agent-chat-sync-feels-laggy /submissions/t-zt/why-agent-chat-sync-feels-laggy 301
+/blogs/shared-thinking/why-agent-chat-sync-feels-laggy/ /submissions/t-zt/why-agent-chat-sync-feels-laggy 301
 /blogs/agent-learning/agent-harness-runtime-protocol-ownership /books/agent/agent-harness-runtime-protocol-ownership 301
 /blogs/agent-learning/agent-harness-runtime-protocol-ownership/ /books/agent/agent-harness-runtime-protocol-ownership 301
 /blogs/agent-learning/agent-is-an-old-dream /books/agent/agent-is-an-old-dream 301

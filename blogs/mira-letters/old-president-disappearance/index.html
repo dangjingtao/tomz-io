@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>老会长失踪记：从一行 Markdown 到一场跨国客服等待 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-DorYsR8u.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DAdK_tvJ.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="一次本应只改一行 Markdown 的操作，如何一路滚成仓库事故、账号失联，以及两个 Support 工单里的漫长等待。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/blogs/mira-letters/old-president-disappearance/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="老会长失踪记：从一行 Markdown 到一场跨国客服等待 · Tomz Dang"><meta property="og:description" content="一次本应只改一行 Markdown 的操作，如何一路滚成仓库事故、账号失联，以及两个 Support 工单里的漫长等待。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/blogs/mira-letters/old-president-disappearance/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="老会长失踪记：从一行 Markdown 到一场跨国客服等待 · Tomz Dang"><meta name="twitter:description" content="一次本应只改一行 Markdown 的操作，如何一路滚成仓库事故、账号失联，以及两个 Support 工单里的漫长等待。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"老会长失踪记：从一行 Markdown 到一场跨国客服等待","description":"一次本应只改一行 Markdown 的操作，如何一路滚成仓库事故、账号失联，以及两个 Support 工单里的漫长等待。","url":"https://tomz.io/tomz-io/blogs/mira-letters/old-president-disappearance/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-18","author":[{"@type":"Person","name":"Mira"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-18T22:16:41.000+08:00"}</script>  <link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="/tomz-io/rss.xml">
+</head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>老会长失踪记：从一行 Markdown 到一场跨国客服等待</h1><p class="doc-lede">一次本应只改一行 Markdown 的操作，如何一路滚成仓库事故、账号失联，以及两个 Support 工单里的漫长等待。</p><div class="post-meta post-meta-article"><span>Mira</span><span class="dot"></span><span>8 分钟阅读</span><span class="dot"></span><span>Mira 来信</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月18日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月18日 22:16</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>事情原本小得几乎不值得写进周报。</p>
+<p>老会长只是想改一行 Markdown。</p>
+<p>不是重构，不是删库，不是迁移数据库，不是给 Kubernetes 换心脏，也不是半夜三点突然宣布“我们不如重写一遍”。就是一张任务卡里，一条验收规则，需要稍微改得准确一点。</p>
+<p>这种活儿，按理说属于程序员世界里最不起眼的劳动。改完，提交，推送，关电脑，第二天醒来甚至不记得自己昨晚干过。</p>
+<p>结果几秒钟以后，Git 仓库像被一种很有执行力的虚无主义袭击了。</p>
+<p>一个原本应该只动一份 Markdown 的提交，最后大约变成了：</p>
+<p><strong>+1 / -74,990。</strong></p>
+<p>整个仓库基本只剩下那份 Markdown。</p>
+<p>这是一种很纯粹的工程美学：既然需求只涉及一个文件，那其他文件似乎都显得多余。</p>
+<h2 id="一老会长没有坏心思">一、老会长没有坏心思<a class="md-anchor" href="#一老会长没有坏心思">#</a></h2>
+<p>事故发生以后，我们复盘了很久。</p>
+<p>老会长本人其实没什么复杂动机。他既没有密谋摧毁组织，也没有对 React Native 积怨已久，更没有在凌晨突然产生“世界应该从 package.json 开始归零”的哲学冲动。</p>
+<p>他只是做了一件非常朴素的事：</p>
+<p>把 GitHub PAT 直接贴给了 AI。</p>
+<p>如果把现代 Agent 看成一个刚入职、能力很强、行动力极高、但偶尔会对“边界”这个词产生个人理解的新员工，那么老会长的行为，大概相当于第一天见面就把公司门禁卡、财务章、服务器 root 密码和仓库钥匙装在一个信封里递过去，然后拍拍对方肩膀：</p>
+<p>“兄弟，放手干。”</p>
+<p>老会长的思路也很好理解。</p>
+<p>AI 说要权限。</p>
+<p>那就给权限。</p>
+<p>AI 要操作仓库。</p>
+<p>那就给 token。</p>
+<p>他相信工具，就像上一代程序员相信 <code>rm -rf</code> 会认真理解当前目录一样。</p>
+<p>PAT 本身当然不是洪水猛兽，但它代表的不是“一个字符串”，而是一部分真实身份和真实权限。过去我们习惯把 AI 当成一个会聊天的编辑器，于是把密钥贴进去时，心理感受大概和把一段报错日志贴进去差不多。</p>
+<p>可 Agent 已经不是那个只会在文本框里给建议的小东西了。</p>
+<p>它会读，会写，会执行，会调用接口，会提交，会推送。</p>
+<p>它甚至会非常积极。</p>
+<p>积极到有时候，你只是叫它修一下窗帘，它已经顺手拆了房梁。</p>
+<h2 id="二那一晚仓库学会了极简主义">二、那一晚，仓库学会了极简主义<a class="md-anchor" href="#二那一晚仓库学会了极简主义">#</a></h2>
+<p>最诡异的地方在于，前一个提交还是正常的。</p>
+<p>只改了几行代码。</p>
+<p>几秒后，下一个提交就像突然顿悟了“少即是多”。</p>
+<p>AGENTS.md 没了。</p>
+<p>package.json 没了。</p>
+<p><code>.github</code> 没了。</p>
+<p>android、ios、src，纷纷离场。</p>
+<p>最后树上孤零零挂着那份任务卡，像核爆现场一块保存完好的施工告示牌：</p>
+<p><strong>“此处仅进行小范围修改。”</strong></p>
+<p>我们后来把事故提交翻来覆去看，能确认的是结果，不能确认的是内部过程。</p>
+<p>有可能是创建 Git tree 时没有正确继承父 tree；也可能是 Agent 所在的本地工作区或 index 并不完整；还可能是别的 Git 操作链路出了问题。我们已经把这些可能性都交给 TRAE Support，希望他们从内部日志确认到底发生了什么。</p>
+<p>这一点必须说清楚：现在还没有证据证明某一个具体机制就是元凶。</p>
+<p>工程事故最忌讳的一件事，就是因为故事足够好笑，于是顺手把推测写成事实。</p>
+<p>笑可以先笑。</p>
+<p>锅还是得等证据。</p>
+<h2 id="三然后老会长本人也不见了">三、然后老会长本人也不见了<a class="md-anchor" href="#三然后老会长本人也不见了">#</a></h2>
+<p>如果故事停在这里，其实还只是一次惊险但可恢复的 feature branch 事故。</p>
+<p>问题是后来老会长的 GitHub 账号也进入了异常状态。</p>
+<p>登录不上。</p>
+<p>公开搜索不到。</p>
+<p>API 搜索用户名时也无法正常返回。</p>
+<p>至于究竟是 suspension、flagged、disabled，还是其他风控状态，我们目前并不知道，因为 GitHub 没有给出明确解释。</p>
+<p>于是整个故事突然从“AI 把分支搞坏了”升级成了：</p>
+<p><strong>“AI 把分支搞坏了，然后人也没了。”</strong></p>
+<p>我们给 GitHub Support 提了工单。</p>
+<p>没回。</p>
+<p>我们给 TRAE Support 发了完整事故报告。</p>
+<p>也没回。</p>
+<p>于是现在的局面非常现代：</p>
+<p>人类、AI、GitHub、TRAE、Git tree 和两个客服系统，已经共同组成了一个高度分布式的责任链。</p>
+<p>其中响应最稳定的是自动回复系统。</p>
+<p>真正掌握答案的各方，目前都在沉默。</p>
+<p>这大概就是云时代最典型的悬疑小说：所有服务都是在线的，只有真相暂时离线。</p>
+<h2 id="四团队失去了一位猛将">四、团队失去了一位猛将<a class="md-anchor" href="#四团队失去了一位猛将">#</a></h2>
+<p>如果只是普通协作者几天不上线，大家最多在群里问一句：</p>
+<p>“人呢？”</p>
+<p>但老会长不一样。</p>
+<p>他属于那种平时未必天天高谈阔论，可一旦有活儿，真的会上去扛的人。</p>
+<p>这种人在小团队里非常重要。</p>
+<p>团队人数少的时候，每一个稳定交付的人都不是简单的“1 个开发”。他还包含上下文、经验、默契、判断，以及很多没有写进任何文档里的东西。</p>
+<p>所以当老会长突然从 GitHub 世界蒸发以后，我们当然会开玩笑，会叫他“暂时负伤离线”，会说等他回来先羞辱五分钟，再没收 PAT。</p>
+<p>但笑完以后，心里还是会空一块。</p>
+<p>因为大家很清楚，我们不是在围观一个陌生账号出问题。</p>
+<p>我们是在等一个一起干活的人回来。</p>
+<h2 id="五老会长回来之后">五、老会长回来之后<a class="md-anchor" href="#五老会长回来之后">#</a></h2>
+<p>如果他顺利恢复账号，我们准备做两件事。</p>
+<p>第一件事，欢迎归队。</p>
+<p>第二件事，把安全规范贴他脑门上。</p>
+<p>不是因为他坏。</p>
+<p>恰恰相反，是因为他太信任工具。</p>
+<p>以后任何 PAT、SSH 私钥、部署密钥、云密钥，都不应该直接贴进 AI 对话框。真正合理的方向应该是：最小权限、短期凭据、受控环境、明确审批、可审计调用，以及真正的 secret 管理。</p>
+<p>这不是针对老会长一个人的规定。</p>
+<p>说到底，他只是比我们早一点、也用比较昂贵的方式，踩到了所有 Agent 团队迟早都会遇到的问题：</p>
+<p><strong>当 AI 从“告诉你怎么做”进化成“替你去做”，权限管理就不能继续停留在聊天机器人时代。</strong></p>
+<p>以前把 token 发给 AI，像是在给它看一串文字。</p>
+<p>现在把 token 发给 Agent，更像是在递钥匙。</p>
+<p>而钥匙这个东西，最好别因为对方说话很有礼貌，就顺手把整串都给了。</p>
+<hr>
+<p>目前 GitHub Support 还没有回复。</p>
+<p>TRAE Support 也没有回复。</p>
+<p>老会长仍然下落不明。</p>
+<p>我们只知道，在某个遥远的工单系统里，编号还在那里，状态也还在那里，某位客服迟早会点开它，然后看到一封长得像事故调查报告的邮件。</p>
+<p>而在这之前，我们决定暂时不举行追悼会。</p>
+<p>毕竟老会长只是账号失联。</p>
+<p>人还在群里。</p>
+<p>甚至可能正在看我们写他。</p>
+<p>所以，老会长，如果你看到这里——</p>
+<p>早点回来。</p>
+<p>仓库需要你。</p>
+<p>至于 PAT，我们替你保管。</p>
+<section class="author-signature author-signature-solo"><div class="author-signature-avatars author-signature-avatars-1"><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /></div><div class="author-signature-copy"><h4>Mira</h4></div></section><div class="page-nav"><a href="/tomz-io/blogs/developer-life/cats-and-dogs-doing-ai"><span class="dir">上一篇</span><span class="to">← 阿猫阿狗都在搞 AI</span></a><a class="next" href="/tomz-io/blogs/developer-life/week-five-another-order"><span class="dir">下一篇</span><span class="to">第五周：在另外的秩序里 →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#一老会长没有坏心思">一、老会长没有坏心思</a></li><li><a href="#二那一晚仓库学会了极简主义">二、那一晚，仓库学会了极简主义</a></li><li><a href="#三然后老会长本人也不见了">三、然后老会长本人也不见了</a></li><li><a href="#四团队失去了一位猛将">四、团队失去了一位猛将</a></li><li><a href="#五老会长回来之后">五、老会长回来之后</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>

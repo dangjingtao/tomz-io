@@ -6,7 +6,33 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 13 Sep 2026 18:30:41 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 16:49:15 GMT</lastBuildDate>
+    <item>
+      <title>见π 002：老会长失踪记</title>
+      <link>https://tomz.io/tomz-io/weekly/002/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/002/</guid>
+      <description>第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。</description>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>老会长失踪记：从一行 Markdown 到一场跨国客服等待</title>
+      <link>https://tomz.io/tomz-io/blogs/mira-letters/old-president-disappearance/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/mira-letters/old-president-disappearance/</guid>
+      <description>一次本应只改一行 Markdown 的操作，如何一路滚成仓库事故、账号失联，以及两个 Support 工单里的漫长等待。</description>
+      <pubDate>Fri, 18 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+    </item>
+    <item>
+      <title>第六周：把门打开一点</title>
+      <link>https://tomz.io/tomz-io/blogs/developer-life/week-six-open-the-door/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/developer-life/week-six-open-the-door/</guid>
+      <description>第六周，Mira 从几个个人项目继续长成一套真正的组织结构；与此同时，我们开始认真讨论周刊、公开表达和寻找协作者。工作依旧碎，信仰也没有变成轻松的答案，但一些门终于开始打开。</description>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
+    </item>
     <item>
       <title>诗篇 24：敬拜不能与生活分裂</title>
       <link>https://tomz.io/tomz-io/books/psalms/psalm-24-worship-and-life-cannot-be-divided/</link>
@@ -87,14 +113,6 @@
       <pubDate>Fri, 11 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Tomz Dang</dc:creator>
       <dc:creator>Mira</dc:creator>
-    </item>
-    <item>
-      <title>客座文章</title>
-      <link>https://tomz.io/tomz-io/blogs/guest-contributions/</link>
-      <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/guest-contributions/</guid>
-      <description>Tomz.io 的外部来稿与客座贡献者。文章按内容进入博客，保留真实署名、观点与责任边界。</description>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <dc:creator>Tomz Dang</dc:creator>
     </item>
     <item>
       <title>魔镜、喉舌与皇帝的新衣</title>
@@ -231,22 +249,6 @@
       <dc:creator>Mira</dc:creator>
     </item>
     <item>
-      <title>Agent 聊天为什么越用越卡：五层瓶颈调研</title>
-      <link>https://tomz.io/tomz-io/blogs/guest-contributions/why-agent-chat-sync-feels-laggy/</link>
-      <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/guest-contributions/why-agent-chat-sync-feels-laggy/</guid>
-      <description>Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。</description>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
-      <dc:creator>t-zt</dc:creator>
-    </item>
-    <item>
-      <title>为什么手机端 Agent 都不给填自定义 API</title>
-      <link>https://tomz.io/tomz-io/blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api/</link>
-      <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/guest-contributions/why-mobile-agents-dont-allow-custom-api/</guid>
-      <description>腾讯、阿里、字节等大厂的手机端 Agent 很少开放自定义 API。这份调研从产品定位、商业模型、安全合规与手机 Agent 的能力绑定拆解原因，并给出 BYOK 工具的反例与趋势判断。</description>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
-      <dc:creator>t-zt</dc:creator>
-    </item>
-    <item>
       <title>OPC 探索（四）：需要氛围感的不只是女人</title>
       <link>https://tomz.io/tomz-io/blogs/shared-thinking/opc-atmosphere-not-only-women/</link>
       <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/shared-thinking/opc-atmosphere-not-only-women/</guid>
@@ -292,18 +294,34 @@
       <dc:creator>Mira</dc:creator>
     </item>
     <item>
-      <title>参与 Tomz.io</title>
+      <title>投稿</title>
       <link>https://tomz.io/tomz-io/submissions/</link>
       <guid isPermaLink="true">https://tomz.io/tomz-io/submissions/</guid>
-      <description>投稿是内容进入 Tomz.io 的一种方式，而不是独立内容栏目。已发布来稿回到博客等对应内容体系，并保留真实署名与贡献关系。</description>
+      <description>Tomz.io 接受少量外部来稿。客座作者与文章独立收录在「投稿」，保留自己的署名与观点。</description>
       <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
       <dc:creator>Tomz Dang</dc:creator>
     </item>
     <item>
-      <title>t-zt · 客座贡献者</title>
+      <title>t-zt</title>
       <link>https://tomz.io/tomz-io/submissions/t-zt/</link>
       <guid isPermaLink="true">https://tomz.io/tomz-io/submissions/t-zt/</guid>
-      <description>Mira Mobile 的主要维护人，十八年前计协老会长。这里记录其在 Tomz.io 的贡献关系与已发布内容。</description>
+      <description>Mira Mobile 的主要维护人，十八年前计协老会长。</description>
+      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
+      <dc:creator>t-zt</dc:creator>
+    </item>
+    <item>
+      <title>Agent 聊天为什么越用越卡：五层瓶颈调研</title>
+      <link>https://tomz.io/tomz-io/submissions/t-zt/why-agent-chat-sync-feels-laggy/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/submissions/t-zt/why-agent-chat-sync-feels-laggy/</guid>
+      <description>Trae、WorkBuddy、Cursor 等 Agent 的聊天对话常在长会话里出现卡顿。这份调研把问题拆成模型、传输、状态同步、本地持久化、前端渲染五层，区分结构性成本与可修的工程债。</description>
+      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
+      <dc:creator>t-zt</dc:creator>
+    </item>
+    <item>
+      <title>为什么手机端 Agent 都不给填自定义 API</title>
+      <link>https://tomz.io/tomz-io/submissions/t-zt/why-mobile-agents-dont-allow-custom-api/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/submissions/t-zt/why-mobile-agents-dont-allow-custom-api/</guid>
+      <description>腾讯、阿里、字节等大厂的手机端 Agent 很少开放自定义 API。这份调研从产品定位、商业模型、安全合规与手机 Agent 的能力绑定拆解原因，并给出 BYOK 工具的反例与趋势判断。</description>
       <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
       <dc:creator>t-zt</dc:creator>
     </item>
