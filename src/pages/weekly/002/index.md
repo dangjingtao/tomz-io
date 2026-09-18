@@ -58,7 +58,7 @@ GitHub 9 月 17 日把 Workflow Execution Protections 推到正式可用：管�
 
 GitHub Copilot Code Review 从 9 月开始已经可以提交正式 Approve；管理员开启以后，这个批准可以计入仓库的 required approvals，新 commit 推上来以后还会像人类审批一样自动失效并要求重新审。
 
-几天后，Google 在 GSoC India 社区总结里又把另一面说得很清楚：AI 可以越来越便宜地生成模板、测试、语法修复和初步代码，但 maintainer 的时间、项目历史、架构判断和高质量 Review 并没有一起扩容。
+两周后，Google 在 GSoC India 社区总结里又把另一面说得很清楚：AI 可以越来越便宜地生成模板、测试、语法修复和初步代码，但 maintainer 的时间、项目历史、架构判断和高质量 Review 并没有一起扩容。
 
 把这两件事放在一起看比单看任何一边都有意思。
 
