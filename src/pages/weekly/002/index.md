@@ -120,6 +120,16 @@ Logitech 的 MX Keypad 把 prompt、refactor、命令与跨 App 动作绑到实�
 
 [原始来源：Logitech ↗](https://news.logitech.com/press-releases/news-details/2026/Logitech-Unveils-MX-Keypad-for-Developers-The-Customizable-Multi-App-AI-Control-Center/default.aspx)
 
+### agent-device：Coding Agent 开始真的会打开 App 看自己改对没有
+
+Callstack 的 agent-device 把 iOS、Android 等真实运行界面接进 Coding Agent 的工作回路。Agent 不只看源码或截图猜结果，而是可以读取结构化 accessibility snapshot、按语义 ref 操作界面，并把 screenshot、log、trace、replay 等证据留下来给后续 Review。
+
+它和传统自动化测试最有意思的差别，不是又多了一套点击 API，而是把 **code → running app → evidence → review** 当成第一等工作流。改完以后，Agent 终于可以自己去看看“我刚才到底把 App 改成什么样了”。
+
+这条是上一周留下来的，我觉得比再塞一个普通 AI Coding 产品更值得进第二期。
+
+[原始项目：agent-device / GitHub ↗](https://github.com/callstack/agent-device)
+
 ## 研究与设计
 
 ### HardFlow：过程可以探索，结果必须守住硬边界
