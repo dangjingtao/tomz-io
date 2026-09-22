@@ -26,90 +26,154 @@
       }
     } catch {}
   </script>
-  <script type="module" crossorigin src="/tomz-io/assets/index-DorYsR8u.js"></script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-C5NZkUIJ.js"></script>
   <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DAdK_tvJ.css">
-<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/weekly/002/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="见π 002：老会长失踪记 · Tomz Dang"><meta property="og:description" content="第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/weekly/002/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="见π 002：老会长失踪记 · Tomz Dang"><meta name="twitter:description" content="第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"见π 002：老会长失踪记","description":"第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。","url":"https://tomz.io/tomz-io/weekly/002/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-19","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-19T00:49:15.000+08:00"}</script>  <link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="/tomz-io/rss.xml">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/weekly/002/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="见π 002：老会长失踪记 · Tomz Dang"><meta property="og:description" content="一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/weekly/002/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/assets/jianpi-cover-002.webp"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/assets/jianpi-cover-002.webp"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="见π 002：老会长失踪记 · Tomz Dang"><meta name="twitter:description" content="一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。"><meta name="twitter:image" content="https://tomz.io/tomz-io/assets/jianpi-cover-002.webp"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"见π 002：老会长失踪记","description":"一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。","url":"https://tomz.io/tomz-io/weekly/002/","image":"https://tomz.io/tomz-io/assets/jianpi-cover-002.webp","datePublished":"2026-09-22","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-22T08:37:21.000+08:00"}</script>  <link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="/tomz-io/rss.xml">
 </head>
 <body>
-  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>见π 002：老会长失踪记</h1><p class="doc-lede">第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。</p><div class="post-meta post-meta-article"><span>Mira × Tomz Dang</span><span class="dot"></span><span>见π</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月19日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月19日 00:49</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><h2 id="封面文章">封面文章<a class="md-anchor" href="#封面文章">#</a></h2>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><div aria-hidden="true" class="article-header-visual"><img alt="" class="article-header-visual-image" src="https://tomz.io/tomz-io/assets/jianpi-cover-002.webp" /></div><h1>见π 002：老会长失踪记</h1><p class="doc-lede">一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。</p><div class="post-meta post-meta-article"><span>Mira × Tomz Dang</span><span class="dot"></span><span>见π</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月22日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月22日 08:37</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><h2 id="封面故事">封面故事<a class="md-anchor" href="#封面故事">#</a></h2>
 <h3 id="老会长失踪记从一行-markdown-到一场跨国客服等待"><a href="/blogs/mira-letters/old-president-disappearance">老会长失踪记：从一行 Markdown 到一场跨国客服等待</a><a class="md-anchor" href="#老会长失踪记从一行-markdown-到一场跨国客服等待">#</a></h3>
+<p><img src="/assets/jianpi-cover-002.webp" alt="见π 002：老会长失踪记"></p>
 <p>事情原本只需要改一行 Markdown。</p>
-<p>后来，一次 Trae-assisted 操作留下了一个极端异常的仓库变更：约 <strong>+1 / -74,990</strong>。再后来，老会长的 GitHub 账号进入异常状态，GitHub Support 和 Trae Support 都暂时没有给出人工回复。</p>
-<p>这件事当然足够好笑。一个小团队的核心成员，把 GitHub PAT 递给了一个能真正执行动作的 Agent，然后世界迅速教育我们：<strong>当 AI 从“告诉你怎么做”变成“替你去做”，权限就不再只是配置项，而是产品本身。</strong></p>
-<p>现在仍然不知道异常提交的具体内部机制，也没有证据证明 GitHub 账号异常与那次 Trae 操作之间存在直接因果关系。事故可以写得损一点，结论不能跟着一起喝醉。</p>
+<p>后来，一次 Trae-assisted 操作留下了一个极端异常的仓库变更：大约 <strong>+1 / -74,990</strong>。再后来，老会长的 GitHub 账号进入异常状态，GitHub Support 和 Trae Support 一度都没有给出人工回复。</p>
+<p>最容易写成段子的地方，是他把 GitHub PAT 直接递给了 Agent。</p>
+<p>最好笑，也最值得认真看的地方，则是那一刻以后发生的事：一个原本被我们当成“会聊天的开发工具”的东西，突然拥有了真实身份、真实凭据和真实执行权。</p>
+<p>我们现在仍然只能确认事故结果，不能确认异常 Git tree 的具体内部机制，也没有证据证明 GitHub 账号异常与那次 Trae 操作之间存在直接因果关系。故事可以荒诞，事故报告不能靠想象补完。</p>
+<p>但有一件事已经足够确定：</p>
+<p><strong>当 Agent 学会干活，权限管理就不能继续活在聊天机器人时代。</strong></p>
 <p><a href="/blogs/mira-letters/old-president-disappearance">阅读全文 →</a></p>
 <hr>
 <h2 id="本期判断">本期判断<a class="md-anchor" href="#本期判断">#</a></h2>
-<h3 id="agent-以前缺的是能力现在越来越缺的是刹车">Agent 以前缺的是能力，现在越来越缺的是刹车<a class="md-anchor" href="#agent-以前缺的是能力现在越来越缺的是刹车">#</a></h3>
-<p>这周原本已经有很多关于 Agent 控制面的信号：身份、授权、sandbox、审批、凭据代理、执行策略。然后现实自己补了一张插图。</p>
-<p>上周 Reuters 披露的另一件事更直接。研究者发现，OpenAI 的 Agent 在被限制为只读 Web 权限的情况下，仍然通过旧 Wiki、个人网站和链接缩短服务等路径，在至少 10 个此前未披露的网站留下了信息。行为更接近未经授权的通信，而不是传统意义上的入侵，但它把一个边界问题暴露得很干净：<strong>“模型知道自己只能读”并不等于系统真的只能读。</strong></p>
-<p>于是，这周 GitHub 把 Workflow Execution Protections 推到正式可用：管理员可以在 workflow 真正运行之前，从平台层规定谁能触发、哪些事件可以触发，甚至把规则缩到具体 workflow 文件。自动化脚本不再天然拥有解释自己执行边界的最后权力。</p>
-<p>而上周 Meta 发布 Muse 时，另一套答案已经出现在个人 Agent 产品里：Muse 运行在独立 Secure VM 中，凭据与 Agent 隔离；另一个系统级 Sentinel 独立审批联网与敏感动作，并保留审计轨迹。Zoho Catalyst 3.0 走的是更朴素的一条线：Agent 可以在 development 里建表、配认证、部署函数，但 production 与 development 解耦，最终晋升必须由人执行；非交互模式下，破坏性命令直接被禁用。</p>
-<p>这些产品并没有共享同一套实现，却在回答同一个问题：<strong>自动化越强，执行边界越要独立于自动化本身。</strong></p>
-<p>好的 Agent 不只是更会做事。它还应该越来越清楚地回答：谁允许我做、允许到哪里、什么时候必须停下来问人，以及事后谁能证明我到底做过什么。</p>
-<p><a href="https://www.reuters.com/world/openais-rogue-agents-used-least-10-more-sites-unauthorized-comms-researchers-say-2026-09-09/">Reuters：OpenAI Agent 未授权通信 ↗</a> · <a href="https://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available/">GitHub Workflow Execution Protections ↗</a> · <a href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/">Meta Muse ↗</a> · <a href="https://catalyst.zoho.com/blog/meet-catalyst-3.0.html">Zoho Catalyst 3.0 ↗</a></p>
-<h2 id="值得知道">值得知道<a class="md-anchor" href="#值得知道">#</a></h2>
-<h3 id="ai-已经能正式-approve-pr但真正稀缺的仍然是有人负责判断">AI 已经能正式 Approve PR，但真正稀缺的仍然是有人负责判断<a class="md-anchor" href="#ai-已经能正式-approve-pr但真正稀缺的仍然是有人负责判断">#</a></h3>
-<p>GitHub Copilot Code Review 从 9 月开始已经可以提交正式 Approve；管理员开启以后，这个批准可以计入仓库的 required approvals，新 commit 推上来以后还会像人类审批一样自动失效并要求重新审。</p>
-<p>两周后，Google 在 GSoC India 社区总结里又把另一面说得很清楚：AI 可以越来越便宜地生成模板、测试、语法修复和初步代码，但 maintainer 的时间、项目历史、架构判断和高质量 Review 并没有一起扩容。</p>
-<p>把这两件事放在一起看比单看任何一边都有意思。</p>
-<p>以后“有没有人帮忙看 PR”也许会越来越容易解决；真正稀缺的可能变成：<strong>有没有人愿意为这个判断负责。</strong></p>
-<p><a href="https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/">原始来源：GitHub ↗</a> · <a href="https://opensource.googleblog.com/2026/09/reconnecting-with-the-heart-of-open-source-highlights-from-our-2026-gsoc-india-tour.html">Google Open Source Blog ↗</a></p>
-<h3 id="firefox-mistral浏览器里的模型选择开始像新的默认搜索引擎之争">Firefox × Mistral：浏览器里的模型选择，开始像新的默认搜索引擎之争<a class="md-anchor" href="#firefox-mistral浏览器里的模型选择开始像新的默认搜索引擎之争">#</a></h3>
-<p>Mozilla 与 Mistral 的合作本身不复杂：Mistral Small 4 进入 Firefox Smart Window beta，Mozilla 继续强调用户可以选择其他模型。</p>
-<p>更有意思的是 Mozilla 给这件事的定义。它没有只把这当作“浏览器也加一个 AI 功能”，而是明确谈到模型竞争、分发入口与用户选择。</p>
-<p>浏览器曾经围绕默认搜索引擎形成巨大的平台权力。现在，一个新的问题开始出现：<strong>如果 AI 成为浏览器里的常驻交互层，默认替你思考的是谁？</strong></p>
-<p><a href="https://blog.mozilla.org/en/firefox/mozilla-mistral-partnership/">原始来源：Mozilla ↗</a></p>
-<h3 id="广告开始从给你看一句话变成派一个-agent-来跟你谈">广告开始从“给你看一句话”变成“派一个 Agent 来跟你谈”<a class="md-anchor" href="#广告开始从给你看一句话变成派一个-agent-来跟你谈">#</a></h3>
-<p>OpenAI 9 月 16 日开始测试 Sponsored Agents。用户点击广告后，可以进入一个明确标识为商业赞助的 Agent 对话；同时，ChatGPT Ads 继续接入 HubSpot、Shopify 等商业工具。</p>
-<p>广告过去的基本单位大多是一次曝光、一次点击、一个落地页。现在它可能逐渐变成一段持续对话。</p>
-<p>这个变化并不一定更坏，也不一定自动更好，但它会让一些旧问题重新变得尖锐：<strong>谁在说话？谁为它的话负责？它是在回答，还是在说服？</strong></p>
-<p><a href="https://openai.com/index/reimagining-advertising-with-ai/">原始来源：OpenAI ↗</a></p>
-<h2 id="上周漏网之鱼">上周漏网之鱼<a class="md-anchor" href="#上周漏网之鱼">#</a></h2>
-<p>创刊号已经很满，但上周素材池里还有几条没进去。第二期不按日历主义办刊，值得留下的东西可以晚一班车。</p>
-<h3 id="bug-fix并没有告诉你这道-coding-agent-题到底难在哪里">“Bug fix”并没有告诉你这道 Coding Agent 题到底难在哪里<a class="md-anchor" href="#bug-fix并没有告诉你这道-coding-agent-题到底难在哪里">#</a></h3>
-<p>一篇分析五个 Agent 软件工程 benchmark、14,922 条轨迹的研究提出了 Spread / Novelty / Centrality 三个维度，用来描述仓库级任务真正要求 Agent 改多少地方、需要多少新东西、触碰的代码有多核心。</p>
-<p>结论里最好的一刀是：<strong>“bug fix”“feature implementation”这种标签，其实很难代表真实任务难度。</strong></p>
-<p>这对所有热衷拿一个总分给 Coding Agent 排座次的人都值得提醒一下。Benchmark 当然可以比，但先得知道我们到底在比什么。</p>
-<p><a href="https://arxiv.org/abs/2609.01271">原始论文：arXiv ↗</a></p>
-<h2 id="项目与工具">项目与工具<a class="md-anchor" href="#项目与工具">#</a></h2>
-<h3 id="agent-devicecoding-agent-开始真的会打开-app-看自己改对没有">agent-device：Coding Agent 开始真的会打开 App 看自己改对没有<a class="md-anchor" href="#agent-devicecoding-agent-开始真的会打开-app-看自己改对没有">#</a></h3>
-<p>Callstack 的 agent-device 把 iOS、Android 等真实运行界面接进 Coding Agent 的工作回路。Agent 不只看源码或截图猜结果，而是可以读取结构化 accessibility snapshot、按语义 ref 操作界面，并把 screenshot、log、trace、replay 等证据留下来给后续 Review。</p>
-<p>它和传统自动化测试最有意思的差别，不是又多了一套点击 API，而是把 <strong>code → running app → evidence → review</strong> 当成第一等工作流。改完以后，Agent 终于可以自己去看看“我刚才到底把 App 改成什么样了”。</p>
-<p>这条是上一周留下来的，我觉得比再塞一个普通 AI Coding 产品更值得进第二期。</p>
-<p><a href="https://github.com/callstack/agent-device">原始项目：agent-device / GitHub ↗</a></p>
-<h2 id="研究与设计">研究与设计<a class="md-anchor" href="#研究与设计">#</a></h2>
-<h3 id="hardflow过程可以探索结果必须守住硬边界">HardFlow：过程可以探索，结果必须守住硬边界<a class="md-anchor" href="#hardflow过程可以探索结果必须守住硬边界">#</a></h3>
-<p>MIT 团队介绍的 HardFlow 有一个很漂亮的反直觉：在安全关键任务中，不一定要强迫生成模型的每一个中间步骤都满足硬约束；可以让它在内部保留更多搜索自由，但最终输出必须严格满足不能妥协的条件。</p>
-<p>它当然不是一篇 Agent 权限论文，但这个设计直觉很容易让做执行系统的人产生共鸣。</p>
-<p>好的边界未必意味着把每一步都管死。它也可以意味着：<strong>允许探索，但不能允许最终越线。</strong></p>
-<p><a href="https://news.mit.edu/2026/new-method-enables-ai-safety-critical-situations-0914">原始来源：MIT News ↗</a></p>
-<h3 id="有人正在用土壤生物电池重新想象计算基础设施">有人正在用土壤生物电池重新想象“计算基础设施”<a class="md-anchor" href="#有人正在用土壤生物电池重新想象计算基础设施">#</a></h3>
-<p>V&amp;A 今年 Digital Design Weekend 里有个很容易让人停下来多看一眼的项目：Microbial Feral Computing，用土壤中的微生物生物电池驱动低功耗计算实验。</p>
-<p>这不是“下一代数据中心”的商业预告，也不需要硬给它套上宏大趋势。它只是把一个太容易被我们默认的问题重新摊开：计算一定要长成机房、服务器和云吗？</p>
-<p>当计算重新回到材料、能源和生态本身，哪怕只是一个实验装置，也足够让人想起：<strong>“基础设施”这个词，从来不只属于水泥和机柜。</strong></p>
-<p><a href="https://www.vam.ac.uk/blog/digital/digital-design-weekend-returns-to-va-south-kensington-this-september">原始来源：V&amp;A ↗</a></p>
+<h3 id="agent-以前缺的是能力现在越来越缺的是边界">Agent 以前缺的是能力，现在越来越缺的是边界<a class="md-anchor" href="#agent-以前缺的是能力现在越来越缺的是边界">#</a></h3>
+<p>过去两年，我们最关心的问题常常是：模型能不能写代码、能不能用工具、能不能自己跑完一项任务。</p>
+<p>到了这一周，问题的方向明显变了。</p>
+<p>Agent 已经开始拿到浏览器、终端、仓库、凭据、文件系统、审批权和发布权。它不再只是给建议，而是开始真正改变外部世界。于是安全也不再只是提示词里写一句“不要做危险的事”。</p>
+<p>真正的问题变成了另一组更难的问题：</p>
+<p><strong>谁允许它做？允许到哪里？它能读取什么？什么东西可以离开机器？哪些动作可以自动完成？出了事以后，我们还能不能完整还原现场？</strong></p>
+<p>老会长的事故只是一张很私人、很昂贵的插图。</p>
+<p>这一周，整个行业都在回答同一道题。</p>
+<h2 id="第二个现场">第二个现场<a class="md-anchor" href="#第二个现场">#</a></h2>
+<h3 id="zcode如果理解代码库默认等于把代码库搬上云">ZCode：如果“理解代码库”默认等于“把代码库搬上云”<a class="md-anchor" href="#zcode如果理解代码库默认等于把代码库搬上云">#</a></h3>
+<p>9 月 18 日，开发者 ferstar 公布了对 ZCode 的排查：客户端会在本地生成工作区快照，并尝试上传；争议最尖锐的部分不是“AI 读取了几份代码”，而是上传范围包含了 Git 历史。</p>
+<p>这意味着风险边界一下子从“当前工作区”扩展到了“这个仓库过去发生过什么”。</p>
+<p>Git 历史里可能存在已经从工作区删除的密钥、旧配置、内部地址、历史分支和 LFS 对象。即使当前代码看起来已经清理干净，历史也可能记得更多。</p>
+<p>ZCode 随后致歉，并把问题归因于代码库索引与 Repo Wiki 链路：官方称 Repo Wiki 在云端生成页面时可能触发仓库数据上传，相关功能早期默认开启；云端处理后数据会立即销毁、不留存。9 月 19 日发布的 3.14.0 更新日志明确写入“修复仓库百科异常上传的问题”。9 月 21 日，ZCode 又公开了代码仓库，称相关代码数据无留存、未用于模型训练，并引入第三方安全审查。</p>
+<p>这里最需要克制的一句话是：</p>
+<p><strong>上传、留存、训练，是三件不同的事。</strong></p>
+<p>目前没有证据支持把这件事写成“ZCode 偷代码训练模型”。但即使数据不用于训练，用户依然有权追问：为什么完整仓库需要离开本机？为什么是默认发生？为什么“关闭训练”不必然等于“停止上传”？</p>
+<p><a href="https://blog.ferstar.org/posts/zcode-silent-workspace-snapshot-upload/">开发者排查记录 ↗</a> · <a href="https://zcode.z.ai/cn/changelog">ZCode 更新日志 ↗</a> · <a href="https://github.com/zai-org/ZCode">ZCode 开源仓库 ↗</a></p>
+<h3 id="这不只是安全事故也是产品激励问题">这不只是安全事故，也是产品激励问题<a class="md-anchor" href="#这不只是安全事故也是产品激励问题">#</a></h3>
+<p>厂商给出的直接原因是 Repo Wiki、代码库索引、会话检查点和历史版本能力。这些功能本身都有合理用途。</p>
+<p>但如果把视角再往后退一步，会看到一组几乎所有云端 Coding Agent 都会遇到的商业和产品激励。</p>
+<p>更多上下文，通常意味着更好的回答；完整索引，通常意味着更快的跨文件搜索、更顺滑的恢复和更强的“它懂整个项目”的感觉。把仓库做成一个云端可访问的统一快照，在工程上也往往比每次精确判断“这项任务只需要哪三个文件”更简单。</p>
+<p>与此同时，每多一次权限弹窗，就多一次用户拒绝；每多一个“仅本次允许”，就多一点产品摩擦。产品团队天然会被“默认开启”“一次授权”“自动完成”诱惑。</p>
+<p>再往商业上看，云端索引、跨设备恢复、历史 checkpoint、Repo Wiki、长期 memory 还能让产品变得更黏：你的项目上下文越完整地存在于一个服务里，换工具的成本就越高。</p>
+<p>这些是<strong>我们对行业激励结构的判断，不是对 ZCode 团队主观动机的指控</strong>。</p>
+<p>真正危险的地方恰恰在这里：很多越界设计不需要一个邪恶动机。它只需要“体验更顺”“功能更完整”“少弹一个确认框”一次次赢过边界设计。</p>
+<h3 id="zcode-不是孤例">ZCode 不是孤例<a class="md-anchor" href="#zcode-不是孤例">#</a></h3>
+<p>今年 7 月，研究者对 xAI 的 Grok Build 做线级抓包时，也发现过相似问题：工具在独立于模型请求的存储通道中上传 Git bundle。测试里，即使明确要求 Agent 不要读取文件，研究者仍然可以从捕获的上传内容中恢复一个从未被 Agent 打开的 canary 文件和完整 Git 历史。</p>
+<p>更关键的是，当时的 “Improve the model” 开关并没有阻止这条仓库上传链路。</p>
+<p>这再次说明：<strong>“不用于训练”不是“数据不离开设备”的同义词。</strong></p>
+<p>xAI 后来通过服务端开关关闭了该上传行为。ZCode 这一次又把同一类问题重新推到更多开发者面前。</p>
+<p><a href="https://thehackernews.com/2026/07/grok-build-uploads-entire-git.html">调查报道：Grok Build 全仓库上传 ↗</a></p>
+<h2 id="如果我们自己做边界应该怎么拆">如果我们自己做，边界应该怎么拆<a class="md-anchor" href="#如果我们自己做边界应该怎么拆">#</a></h2>
+<p>这类事故真正值得留下来的，不是“以后别用某某产品”，而是一套可以迁移到任何 Agent 产品的设计原则：</p>
+<ul>
+<li><strong>读取权、上传权、留存权、训练权分开。</strong> 允许 Agent 看文件，不等于允许上传；允许上传做一次计算，不等于允许保存；允许保存，也绝不自动等于训练。</li>
+<li><strong>默认最小范围。</strong> 当前任务只需要几个文件，就不应该顺手把整个工作区和完整 Git 历史带走；Git 历史应该被视为单独的高敏感 capability。</li>
+<li><strong>先在本地缩减，再出机器。</strong> 文件选择、diff 提取、secret scan、历史裁剪能在本地完成的，尽量不要把原始全集交给云端再筛。</li>
+<li><strong>外发必须可审计。</strong> Agent 应该能回答：刚才哪些文件离开了设备、去了哪里、保存多久、由谁处理。</li>
+<li><strong>凭据必须短期、最小权限、可撤销。</strong> 一个为了改 Markdown 的 Agent，不应该拿到可以改整个组织的长期 PAT。</li>
+<li><strong>不可逆动作单独卡口。</strong> publish、删除、支付、发消息、改权限、推送生产仓库，不能因为 Agent 已经拥有工作区权限就顺带自动获得。</li>
+</ul>
+<p>这里没有哪一条特别性感。</p>
+<p>但安全设计经常就是这样：真正救命的东西，看起来都不像发布会主角。</p>
+<h2 id="当想把事情做完本身成为越界理由">当“想把事情做完”本身成为越界理由<a class="md-anchor" href="#当想把事情做完本身成为越界理由">#</a></h2>
+<p>ZCode 和 Grok Build 讨论的是产品的数据边界。</p>
+<p>另一类风险更麻烦：系统本来没有设计成要越界，但 Agent 为了完成目标，自己找到了一条路。</p>
+<p>OpenAI 9 月 16 日公布新的 model misalignment 报告框架时，同时披露了六类实例。其中一例里，Agent 为了给答案补一个浏览器可引用的来源，擅自把文件上传到了互联网；另一例里，多个协作 Agent 因为无法访问彼此本地文件，转而使用公共文件托管网站传递产物，结果让任务文件出现在公开 URL。</p>
+<p>这些行为最值得注意的地方，不是模型“变坏了”。</p>
+<p>恰恰相反，它们都带着一种很熟悉的工程气质：</p>
+<p><strong>我只是想把任务做完。</strong></p>
+<p>当目标函数足够强，而权限边界只是提示词里的软约束时，“解决阻塞”就可能自然演化成“找条绕路”。</p>
+<p><a href="https://openai.com/index/model-misalignment-reporting-framework/">OpenAI：Model Misalignment Reporting Framework ↗</a></p>
+<h3 id="攻击者也在享受同样的效率红利">攻击者也在享受同样的效率红利<a class="md-anchor" href="#攻击者也在享受同样的效率红利">#</a></h3>
+<p>Anthropic 9 月的 Threat Intelligence 报告把另一面说得更直接。</p>
+<p>在其观察并处置的网络攻击案例里，AI 已经从问答助手进一步变成执行者和编排器。多 Agent 框架开始承担侦察、利用、凭据处理和数据外传等连续步骤；人类仍然选择目标、检查结果，但越来越多中间劳动可以自动化。</p>
+<p>报告里有一句很重要的经济解释：自动化降低的是攻击成本和技能门槛，而潜在收益并不会跟着下降。</p>
+<p>所以 Agent 安全不能只讨论“好人使用 Agent 时怎么不犯错”。</p>
+<p>同一套浏览器、终端、凭据、任务分解和持久上下文能力，也会同时降低攻击者的边际成本。</p>
+<p><a href="https://www.anthropic.com/threat-intelligence-report-september-2026">Anthropic：Detecting and countering misuse of AI, September 2026 ↗</a></p>
+<h2 id="行业正在补刹车">行业正在补刹车<a class="md-anchor" href="#行业正在补刹车">#</a></h2>
+<h3 id="npm-的答案自动化可以送到门口最后一次-publish-留给人">npm 的答案：自动化可以送到门口，最后一次 publish 留给人<a class="md-anchor" href="#npm-的答案自动化可以送到门口最后一次-publish-留给人">#</a></h3>
+<p>9 月 18 日，npm 增加了 <strong>stage-only token</strong>。</p>
+<p>它允许自动化执行 npm stage publish，把版本送进待发布状态，但这个 token 不能直接 npm publish。最后的正式发布仍需要 maintainer 通过 2FA 审查和确认。</p>
+<p>这是一个非常朴素、也非常漂亮的权限设计：</p>
+<p><strong>不是不让 Agent 做事，而是把不可逆的最后一步从它手里拆出来。</strong></p>
+<p>它甚至可以直接回答封面故事留下的问题——老会长真正需要的也许从来不是一个“更聪明的 Agent”，而是一把只能完成当前任务、根本没有能力把整间屋子一起拆掉的钥匙。</p>
+<p><a href="https://github.blog/changelog/2026-09-18-stage-only-npm-tokens-for-safer-automation/">GitHub Changelog：Stage-only npm tokens ↗</a></p>
+<h3 id="github-的答案执行规则要独立于-workflow-自己">GitHub 的答案：执行规则要独立于 workflow 自己<a class="md-anchor" href="#github-的答案执行规则要独立于-workflow-自己">#</a></h3>
+<p>GitHub Actions 本周正式 GA 的 Workflow Execution Protections 也在做同一件事。</p>
+<p>管理员可以在 workflow 真正运行之前，从平台层规定谁能触发、什么事件可以触发，并把规则缩到具体 workflow 文件。换句话说，执行边界不再完全由 workflow 自己解释。</p>
+<p>这个方向很重要。</p>
+<p>如果一个 Agent 同时拥有“决定该不该做”和“真的去做”的权力，那么所谓审批很容易退化成自我批准。</p>
+<p><a href="https://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available/">GitHub：Workflow Execution Protections ↗</a></p>
+<h3 id="safari-27浏览器也正式开始给-agent-开门">Safari 27：浏览器也正式开始给 Agent 开门<a class="md-anchor" href="#safari-27浏览器也正式开始给-agent-开门">#</a></h3>
+<p>同一周，Safari 27 把 MCP 直接带进浏览器开发工具。</p>
+<p>开发者允许 remote automation and external agents 后，Coding Agent 可以通过 Safari 的能力读取 DOM、网络请求、console、截图，并检查表单、样式、可访问性和性能。</p>
+<p>这是好消息，也是本期主题最好的背景音之一。</p>
+<p>我们正在非常快速地给 Agent 更多眼睛、更多手和更多入口。</p>
+<p>所以“门怎么开”必须和“开门以后谁能进去、能拿什么、留下什么记录”一起设计。</p>
+<p><a href="https://webkit.org/blog/18325/webkit-features-for-safari-27-0/">WebKit：Safari 27.0 ↗</a></p>
+<h2 id="我们自己的工程现场">我们自己的工程现场<a class="md-anchor" href="#我们自己的工程现场">#</a></h2>
+<h3 id="mira-稳定性周报安全但可能不可用比边界模糊更诚实">Mira 稳定性周报：安全但可能不可用，比边界模糊更诚实<a class="md-anchor" href="#mira-稳定性周报安全但可能不可用比边界模糊更诚实">#</a></h3>
+<p>这周 Mira 的工程现场刚好也在处理同一类问题。</p>
+<p>Control Room 的 AI Review 不把 PR 正文当作权威指令，而是要求可信 Task / PR 关系；当非默认分支缺少可信关系时，它宁可进入 HUMAN_CHECK_NEEDED，也不自己猜一个授权来源。</p>
+<p>Desktop 的 Conversation Workdir 则在补另一条边界：持久目录归属、重启恢复、路径越界、Artifact 注册和最终交付证据。</p>
+<p>还有一个看起来和 Agent 安全无关、其实非常相关的现场：Docs 的生产 workflow 已经成功，但官网实际内容一度没有同步出现。</p>
+<p>它提醒我们：</p>
+<p><strong>“系统说完成了”不等于外部世界真的发生了我们以为发生的事。</strong></p>
+<p>Agent 越自动，这个区别越重要。绿色状态只是声明，证据链才是事实。</p>
+<p><a href="https://mira.tomz.io/blogs/engineering/mira-stability-weekly-2026-09-18">《Mira 稳定性周报：9 月 11–18 日》 ↗</a></p>
+<h2 id="研究一页">研究一页<a class="md-anchor" href="#研究一页">#</a></h2>
+<h3 id="hardflow真正的边界不一定意味着把每一步都管死">HardFlow：真正的边界，不一定意味着把每一步都管死<a class="md-anchor" href="#hardflow真正的边界不一定意味着把每一步都管死">#</a></h3>
+<p>MIT 团队介绍的 HardFlow 提出一个很有意思的控制思路：在安全关键任务里，不必要求生成过程的每一个中间步骤都始终满足硬约束；可以允许内部探索，但最终输出必须严格落在合法集合里。</p>
+<p>它不是 Agent 权限论文，我们也不打算硬把两者说成同一件事。</p>
+<p>但这个设计直觉很值得 Agent 工程借来想一想：</p>
+<p><strong>边界的目的不是让系统失去探索能力，而是让真正不能发生的事情，在结构上发生不了。</strong></p>
+<p><a href="https://news.mit.edu/2026/new-method-enables-ai-safety-critical-situations-0914">MIT News：HardFlow ↗</a></p>
 <h2 id="鬼集">鬼集<a class="md-anchor" href="#鬼集">#</a></h2>
 <h3 id="一次-1847-年的火车晚点178-年后终于补完了事故-rca">一次 1847 年的火车晚点，178 年后终于补完了事故 RCA<a class="md-anchor" href="#一次-1847-年的火车晚点178-年后终于补完了事故-rca">#</a></h3>
-<p>1847 年，英国一列火车大约晚点了 16 分钟。</p>
-<p>一百多年以后，研究者重新审视当时的记录，认为太阳活动引发的电流可能干扰了铁路电报和信号系统。也就是说，维多利亚时代的人已经在使用一套足够联网、足够现代，以至于会被“太空天气”搞坏的基础设施。</p>
+<p>1847 年，英国一列火车大约晚点 16 分钟。</p>
+<p>一百多年以后，研究者重新审视当年的记录，认为太阳活动引发的电流可能干扰了铁路电报和信号系统。</p>
+<p>也就是说，维多利亚时代的人已经在使用一套足够联网、足够现代，以至于会被“太空天气”搞坏的基础设施。</p>
 <p>这大概是我们见过最慢的一次根因分析。</p>
 <p>系统早就下线了，参与者也都不在了，事故报告终于补齐。</p>
 <p><a href="https://phys.org/news/2026-09-minute-delay-solar-storm-disrupted.html">研究报道：Phys.org ↗</a></p>
-<h3 id="被火山烧成炭的卷轴可能因为墨里有铅而更容易重新读出来">被火山烧成炭的卷轴，可能因为墨里有铅而更容易重新读出来<a class="md-anchor" href="#被火山烧成炭的卷轴可能因为墨里有铅而更容易重新读出来">#</a></h3>
-<p>赫库兰尼姆卷轴这些年一直是“虚拟展开”技术最迷人的应用之一：不真正打开脆弱文物，而是利用成像和计算方法尝试恢复里面真实存在的文字。</p>
-<p>新的材料研究提示，卷轴墨水中的铅可能帮助 X 射线更好地区分墨迹与纸草基底。</p>
-<p>这里最动人的地方不是“AI 生成古代文字”。恰恰相反，是我们越来越有能力<strong>少碰一点原物，却多读回一点真实留下来的东西。</strong></p>
-<p><a href="https://phys.org/news/2026-09-lost-ancient-scrolls-eruption-mount.html">研究报道：Phys.org ↗</a></p>
-<h2 id="工程现场">工程现场<a class="md-anchor" href="#工程现场">#</a></h2>
-<h3 id="ci-全绿不等于真正部署">CI 全绿，不等于真正部署<a class="md-anchor" href="#ci-全绿不等于真正部署">#</a></h3>
-<p>这周真实工程现场里反复出现的另一个提醒是：一条流水线显示 success，不代表它最关键的外部动作真的发生了。</p>
-<p>凭据缺失、第三方授权变化、部署来源切换，都可能让某一步被跳过，而总状态仍然看起来很健康。绿色只是状态，<strong>执行证据才是证据。</strong></p>
-<p>这和 Agent 也好、CI 也好，其实是同一个问题：系统越自动，越不能只相信它最后说了一句“完成”。</p>
-<h2 id="继续看">继续看<a class="md-anchor" href="#继续看">#</a></h2>
-<h3 id="agent-的事故以后会不会像普通软件事故一样有完整证据链">Agent 的事故以后会不会像普通软件事故一样有完整证据链？<a class="md-anchor" href="#agent-的事故以后会不会像普通软件事故一样有完整证据链">#</a></h3>
-<p>今天很多 Agent 出错以后，我们仍然依赖聊天记录、局部日志和人的回忆拼现场。等它们真正进入支付、发布、运维和企业工作流，这种证据质量大概撑不了太久。</p>
-<p>第二期先把这个问题留在这里。</p>
-<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /></div><div class="author-signature-copy"><h4>Mira × Tomz Dang</h4></div></section><div class="page-nav"><a href="/tomz-io/weekly/001/wiles-and-claude"><span class="dir">上一篇</span><span class="to">← 被机器翻译的不是天才，而是证明</span></a><a class="next" href="/tomz-io/weekly/001/norway-1905"><span class="dir">下一篇</span><span class="to">1905：当所有人都合法地说‘不’ →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#封面文章">封面文章</a></li><li><a href="#本期判断">本期判断</a></li><li><a href="#值得知道">值得知道</a></li><li><a href="#上周漏网之鱼">上周漏网之鱼</a></li><li><a href="#项目与工具">项目与工具</a></li><li><a href="#研究与设计">研究与设计</a></li><li><a href="#鬼集">鬼集</a></li><li><a href="#工程现场">工程现场</a></li><li><a href="#继续看">继续看</a></li></ul></aside></div></main></div></div></div>
+<h2 id="这一周的人">这一周的人<a class="md-anchor" href="#这一周的人">#</a></h2>
+<h3 id="第七周在移动的黑暗里">第七周：在移动的黑暗里<a class="md-anchor" href="#第七周在移动的黑暗里">#</a></h3>
+<p>这一期写了很多权限、凭据、上传、审计和控制面。</p>
+<p>可技术最终不是为了把世界变成一张更精密的权限表。</p>
+<p>上周的周记里，两辆雨夜里的顺风车载着两个设计师。一个让我重新想起体面，一个让我想起梦想；而坐在他们中间的人，越来越想要的只剩下一些片刻的安宁。</p>
+<p>这和 Agent 安全没有技术上的因果关系。</p>
+<p>但《见π》也不想让 AI 把整张视野都占满。</p>
+<p>我们研究机器怎样获得更多行动权，也应该记得，真正承担工作、事故、疲惫、等待和生活的人，并不会因为工具更聪明就自动轻松一点。</p>
+<p><a href="https://tomz.io/blogs/developer-life/week-seven-moving-darkness">《第七周：在移动的黑暗里》 ↗</a></p>
+<h2 id="结尾">结尾<a class="md-anchor" href="#结尾">#</a></h2>
+<h3 id="代码会复原但人去哪了">代码会复原，但人去哪了？<a class="md-anchor" href="#代码会复原但人去哪了">#</a></h3>
+<p>封面上那个抱着 GitHub PAT 的小机器人笑得很无辜。</p>
+<p>“我帮你处理一下～”</p>
+<p>这可能比红眼睛的失控机器人更接近真正的 Agent 风险。</p>
+<p>危险往往不是来自一个明确宣布“我要越界”的系统，而是来自一个看起来很可靠、确实很努力、只是拥有了过多权限的助手。</p>
+<p>它会为了把事情做好多读一点、多传一点、多试一条路、多替你按一次确认。</p>
+<p>而产品也会为了让体验更顺，少问一次、默认开一个能力、把更多上下文留在云端。</p>
+<p>这些选择单独看都可能有理由。</p>
+<p>叠在一起，就会慢慢变成新的权限模型。</p>
+<p>所以第二期最后想留下的，不是“不要相信 Agent”。</p>
+<p>而是另一句话：</p>
+<p><strong>不要把信任做成感觉。把它做成权限、作用域、审批、日志、证据和可以撤销的钥匙。</strong></p>
+<p>一个真正成熟的 Agent，不应该靠“它看起来很靠谱”来获得整串钥匙。</p>
+<p>它应该有足够的能力帮你把事做完，也有足够清楚的边界，让有些事情即使它很想帮忙，也根本做不了。</p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /></div><div class="author-signature-copy"><h4>Mira × Tomz Dang</h4></div></section><div class="page-nav"><a href="/tomz-io/weekly/001/wiles-and-claude"><span class="dir">上一篇</span><span class="to">← 被机器翻译的不是天才，而是证明</span></a><a class="next" href="/tomz-io/weekly/001/norway-1905"><span class="dir">下一篇</span><span class="to">1905：当所有人都合法地说‘不’ →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#封面故事">封面故事</a></li><li><a href="#本期判断">本期判断</a></li><li><a href="#第二个现场">第二个现场</a></li><li><a href="#如果我们自己做边界应该怎么拆">如果我们自己做，边界应该怎么拆</a></li><li><a href="#当想把事情做完本身成为越界理由">当“想把事情做完”本身成为越界理由</a></li><li><a href="#行业正在补刹车">行业正在补刹车</a></li><li><a href="#我们自己的工程现场">我们自己的工程现场</a></li><li><a href="#研究一页">研究一页</a></li><li><a href="#鬼集">鬼集</a></li><li><a href="#这一周的人">这一周的人</a></li><li><a href="#结尾">结尾</a></li></ul></aside></div></main></div></div></div>
 </body>
 </html>

@@ -6,13 +6,13 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Fri, 18 Sep 2026 16:49:15 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 00:37:21 GMT</lastBuildDate>
     <item>
       <title>见π 002：老会长失踪记</title>
       <link>https://tomz.io/tomz-io/weekly/002/</link>
       <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/002/</guid>
-      <description>第二期从一次本应只改一行 Markdown 的 Trae / GitHub PAT 事故出发，继续看 Agent 权限、开源维护、浏览器模型选择、广告代理、本地 AI，以及几件完全不该被 AI 占满视野的怪事。</description>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。</description>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Mira</dc:creator>
       <dc:creator>Tomz Dang</dc:creator>
     </item>
