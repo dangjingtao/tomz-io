@@ -25,6 +25,8 @@ writtenBy: mira | tomz
 
 ### [老会长失踪记：从一行 Markdown 到一场跨国客服等待](/blogs/mira-letters/old-president-disappearance)
 
+![见π 002：老会长失踪记](https://assets.tomz.io/images/mmexport1790036175406.jpg)
+
 事情原本只需要改一行 Markdown。
 
 后来，一次 Trae-assisted 操作留下了一个极端异常的仓库变更：大约 **+1 / -74,990**。再后来，老会长的 GitHub 账号进入异常状态，GitHub Support 和 Trae Support 一度都没有给出人工回复。
