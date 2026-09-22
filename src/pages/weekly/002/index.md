@@ -25,7 +25,6 @@ writtenBy: mira | tomz
 
 ### [老会长失踪记：从一行 Markdown 到一场跨国客服等待](/blogs/mira-letters/old-president-disappearance)
 
-![见π 002：老会长失踪记](/assets/jianpi-cover-002.webp)
 
 事情原本只需要改一行 Markdown。
 
