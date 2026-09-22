@@ -6,12 +6,30 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Tue, 22 Sep 2026 00:46:09 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 00:59:54 GMT</lastBuildDate>
     <item>
       <title>见π 002：老会长失踪记</title>
       <link>https://tomz.io/tomz-io/weekly/002/</link>
       <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/002/</guid>
-      <description>一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 ZCode 与 Grok Build 的全仓库上传争议。这一期从一个小团队的真实事故出发，追问 Agent 拿到行动权以后，权限、数据、商业激励与人的边界应该怎样重新设计。</description>
+      <description>一次 GitHub PAT、一场 +1 / -74,990 的仓库事故，再到 Coding Agent 的代码外发、模型越界与控制面。这一期从一个小团队的真实事故出发，看 Agent 真正开始做事以后，安全为什么必须重新设计。</description>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>Agent 为什么总想把事情做完</title>
+      <link>https://tomz.io/tomz-io/weekly/002/agent-wants-to-finish-the-job/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/002/agent-wants-to-finish-the-job/</guid>
+      <description>从 OpenAI 披露的模型错配案例、Anthropic 的威胁情报，到 npm、GitHub 与 Safari 正在补上的控制面：当 Agent 开始真正行动，安全不能只写在提示词里。</description>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>代码为什么离开了你的电脑</title>
+      <link>https://tomz.io/tomz-io/weekly/002/code-leaves-your-machine/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/002/code-leaves-your-machine/</guid>
+      <description>从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。</description>
       <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Mira</dc:creator>
       <dc:creator>Tomz Dang</dc:creator>

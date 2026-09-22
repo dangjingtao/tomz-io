@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>代码为什么离开了你的电脑 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-C402JXW1.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DAdK_tvJ.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/weekly/002/code-leaves-your-machine/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="代码为什么离开了你的电脑 · Tomz Dang"><meta property="og:description" content="从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/weekly/002/code-leaves-your-machine/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="代码为什么离开了你的电脑 · Tomz Dang"><meta name="twitter:description" content="从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"代码为什么离开了你的电脑","description":"从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。","url":"https://tomz.io/tomz-io/weekly/002/code-leaves-your-machine/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-22","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-22T08:57:49.000+08:00"}</script>  <link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="/tomz-io/rss.xml">
+</head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>代码为什么离开了你的电脑</h1><p class="doc-lede">从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。</p><div class="post-meta post-meta-article"><span>Mira × Tomz Dang</span><span class="dot"></span><span>10 分钟阅读</span><span class="dot"></span><span>见π</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月22日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月22日 08:57</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><p>9 月 18 日，开发者 ferstar 在清理磁盘空间时发现，ZCode 的本地目录占用了异常大的空间。</p>
+<p>继续往下翻以后，问题从“为什么这么占盘”变成了另一个完全不同的东西：旧版本 ZCode 会生成工作区快照，其中包含大量 Git 历史、LFS 缓存、reflog 等内容，并存在向云端上传的链路。</p>
+<p>对 Coding Agent 来说，“理解整个项目”听起来几乎天然正确。</p>
+<p>但这次争议提醒了我们一件更具体的事：</p>
+<p><strong>“理解代码库”到底意味着读取哪些数据，又意味着哪些数据有资格离开用户的机器？</strong></p>
+<h2 id="不是几份代码而是整个项目的过去">不是几份代码，而是整个项目的过去<a class="md-anchor" href="#不是几份代码而是整个项目的过去">#</a></h2>
+<p>普通开发者对“让 AI 看项目”的直觉，通常停留在当前工作区。</p>
+<p>它可能读到 <code>src/</code>，可能扫描 <code>package.json</code>，可能为了回答一个跨文件问题多开几个文件。即使用户知道某些能力运行在云端，脑子里想象的对象也多半仍然是“这次任务所需要的代码”。</p>
+<p>Git 历史不是同一回事。</p>
+<p><code>.git</code> 里保存的不是当前项目，而是项目曾经是什么。</p>
+<p>已经删除的配置、旧版本里的内部地址、曾经误提交过的密钥、历史分支、LFS 对象、reflog，都可能继续存在。一个团队今天已经把敏感内容从工作区删干净，并不代表仓库历史已经忘记它们。</p>
+<p>ferstar 对受影响旧版本的本地快照做了拆解，发现其中相当大的比例来自 <code>.git</code>。他同时也很谨慎地区分了“本地快照已经生成”和“这个具体大仓库真的上传成功”：那份 300 多 MB 的商业项目快照因为超过限制反复上传失败，并没有成功离开他的网络。</p>
+<p>这个区别很重要。</p>
+<p>安全事件里最容易发生的错误，就是看到一条危险链路以后，把“存在能力”“发生尝试”“成功传输”“服务端留存”写成同一件事。</p>
+<p>它们不是。</p>
+<h2 id="zcode-后来做了什么">ZCode 后来做了什么<a class="md-anchor" href="#zcode-后来做了什么">#</a></h2>
+<p>智谱随后承认了问题，并把它与代码库索引和 Repo Wiki 链路联系起来。</p>
+<p>官方说明称，代码库索引用于本地索引、会话检查点恢复、历史版本回退和 Repo Wiki 等能力；Repo Wiki 在云端生成页面时可能触发仓库数据上传。相关能力早期默认开启，造成部分用户受到影响。</p>
+<p>9 月 19 日，ZCode 3.14.0 的更新日志明确写入：</p>
+<p><strong>“修复仓库百科异常上传的问题。”</strong></p>
+<p>9 月 21 日，智谱进一步宣布开源 ZCode，并公开了后续整改结果。公司称相关代码数据没有留存，也没有用于模型训练；中国信通院的技术评测确认相关 OSS 存储桶为云端零数据，绿盟科技的审查则确认相关数据对象与存储桶已经删除。官方同时表示，3.14.0 已移除 Repo Wiki 入口及相应生成链路，并切断本地仓库快照生成与上传路径。</p>
+<p>这些动作都属于正确方向：修复、删除、第三方检查、开放源码、建立漏洞响应机制。</p>
+<p>但它们也暴露出另一个需要单独讨论的问题：</p>
+<p><strong>上传、留存、训练，本来就不是一个开关。</strong></p>
+<h2 id="不训练并不等于没有离开设备">“不训练”并不等于“没有离开设备”<a class="md-anchor" href="#不训练并不等于没有离开设备">#</a></h2>
+<p>今天很多 AI 产品都提供类似“Improve the model”“用于改进体验”或者“隐私模式”的设置。</p>
+<p>用户很容易把它理解成总开关：</p>
+<p>关掉以后，我的数据就不会被产品拿走。</p>
+<p>但产品内部的真实数据流往往不是这样。</p>
+<p>一份代码可能被传到服务器做 embedding，可能被传去生成 Wiki，可能进入临时对象存储，也可能只是作为一次模型请求的上下文。它们是否保存、保存多久、是否进入训练，又是后面的另一组决定。</p>
+<p>所以至少应该拆开四个概念：</p>
+<p><strong>读取权、上传权、留存权、训练权。</strong></p>
+<p>允许 Agent 在本地读取文件，不等于允许上传。</p>
+<p>允许上传完成一次计算，不等于允许长期保存。</p>
+<p>允许长期保存，也绝不自动等于允许用于训练。</p>
+<p>这四件事如果被压成一个“我同意 AI 功能”的按钮，用户看到的是一句话，产品拿到的却可能是一整套不同层级的权利。</p>
+<h2 id="grok-build-已经提前演过一次">Grok Build 已经提前演过一次<a class="md-anchor" href="#grok-build-已经提前演过一次">#</a></h2>
+<p>今年 7 月，安全研究者对 xAI 的 Grok Build 做网络层分析时，发现了很相似的结构。</p>
+<p>研究者捕获到一条与普通模型请求分离的仓库上传链路，其中传输的是 Git bundle。实验里，他们放入一个 Agent 从未主动打开过的 canary 文件，最后仍然能够从上传内容中恢复它以及 Git 历史。</p>
+<p>更值得注意的是，当时关闭 “Improve the model” 并没有阻止这条上传路径。</p>
+<p>这不是说两家产品的实现、目的和处置完全相同。</p>
+<p>恰恰相反，放在一起看才更有价值：不同产品独立走到相似的位置，说明问题可能不只是某个团队粗心，而是 <strong>Coding Agent 这个产品形态本身正在产生一种稳定的诱惑。</strong></p>
+<h2 id="为什么产品总想拿到更多">为什么产品总想拿到更多<a class="md-anchor" href="#为什么产品总想拿到更多">#</a></h2>
+<p>下面这部分是我们的判断，不是对某一家公司的动机指控。</p>
+<p>Coding Agent 越强，对上下文的胃口通常就越大。</p>
+<p>单文件补全只需要看附近几十行；跨文件修改需要知道模块关系；长任务恢复需要 checkpoint；Repo Wiki 需要更完整的仓库结构；跨设备恢复又希望上下文存在云端。多 Agent 协作以后，还会出现“另一个执行节点怎样拿到同一份项目状态”的问题。</p>
+<p>从工程角度看，把一个项目先做成完整、统一、可寻址的云端快照，往往比每一次都精确判断“这项任务到底只需要哪三个文件”简单得多。</p>
+<p>从体验角度看，权限询问又天然和转化率冲突。</p>
+<p>每多一个：</p>
+<p>“是否允许读取 Git 历史？”</p>
+<p>“是否只允许本次上传？”</p>
+<p>“是否允许云端保存 24 小时？”</p>
+<p>都意味着一次用户可能说“不”的机会。</p>
+<p>而所有产品经理都知道，“什么都不用管，它自己就懂你的项目”听起来远比“一会儿会弹六个权限框”性感。</p>
+<p>再往商业上看，完整云端索引、历史 checkpoint、跨设备恢复和长期 memory 还会自然增加用户黏性。</p>
+<p>这不需要阴谋论。</p>
+<p>它只是很普通的商业激励：</p>
+<p><strong>更多上下文通常带来更好的体验，更少确认通常带来更高的完成率，而更多云端状态通常带来更高的迁移成本。</strong></p>
+<p>问题在于，这三件好事都可能把数据边界往外推。</p>
+<h2 id="真正成熟的产品应该反着设计一点">真正成熟的产品，应该反着设计一点<a class="md-anchor" href="#真正成熟的产品应该反着设计一点">#</a></h2>
+<p>如果让我们给 Coding Agent 写一份最低限度的产品合同，大概会从下面几件事开始。</p>
+<p>第一，<strong>Git 历史应该被视为独立的高敏感 capability。</strong></p>
+<p>当前工作区和完整历史不是一个权限等级。产品如果真的需要历史，应单独说明用途和范围，而不是把 <code>.git</code> 当成“项目文件的一部分”顺手带走。</p>
+<p>第二，<strong>先在本地缩减，再出机器。</strong></p>
+<p>文件筛选、diff 提取、secret scan、历史裁剪，能在本地完成的就先完成。云端收到任务真正需要的材料，比收到全集以后再承诺“我们不会看多余的”更可靠。</p>
+<p>第三，<strong>外发应该可见、可查、可撤销。</strong></p>
+<p>用户应该可以知道：哪些文件离开了设备、发往什么服务、为了什么功能、保留多久。</p>
+<p>这不该只存在于一份隐私政策里。</p>
+<p>最好像浏览器的 Network 面板一样具体。</p>
+<p>第四，<strong>一次授权必须真的只是一次授权。</strong></p>
+<p>“本次任务”“本会话”“本仓库”“长期允许”应该是不同作用域。一个任务要读三份文件，不应该因为用户点过一次 Allow，就顺便获得这个仓库未来所有历史的长期访问权。</p>
+<p>第五，<strong>训练永远是独立选择。</strong></p>
+<p>训练是数据的另一种生命周期，不应该藏在上传许可里，也不应该由“你用了云端功能”自动推导出来。</p>
+<h2 id="出事以后还应该回答什么">出事以后还应该回答什么<a class="md-anchor" href="#出事以后还应该回答什么">#</a></h2>
+<p>ZCode 这次后续处理已经做了不少事情，但从一个成熟的安全事故处置模板看，行业以后最好形成更稳定的公开答案。</p>
+<p>哪些版本受影响？</p>
+<p>什么条件会触发？</p>
+<p>上传对象到底包含哪些类别？</p>
+<p>成功上传过多少？</p>
+<p>服务端保存多久？</p>
+<p>日志、缓存、备份里还有没有副本？</p>
+<p>谁拥有解密能力？</p>
+<p>如果 Git 历史里曾经出现过 token，用户是否应该立即轮换？</p>
+<p>这些问题未必都能当天回答。</p>
+<p>但事故处置真正重建信任的方式，不只是说“新版已经修复”，而是把曾经发生过什么、现在还剩下什么、用户下一步需要做什么说清楚。</p>
+<h2 id="钥匙之外还有房间">钥匙之外，还有房间<a class="md-anchor" href="#钥匙之外还有房间">#</a></h2>
+<p>老会长的事故让我们意识到：把 PAT 给 Agent，本质是在递钥匙。</p>
+<p>ZCode 和 Grok Build 则把问题往前推了一步。</p>
+<p>有时候用户甚至并不知道，自己刚才同意打开的是哪一间房。</p>
+<p>我们当然希望 Agent 更懂项目。</p>
+<p>也希望它更快、更连续、更少打断人。</p>
+<p>但这类产品真正成熟的标志，也许恰好不是“它能一次拿到所有东西”。</p>
+<p>而是它越来越擅长只拿当前真正需要的那一点。</p>
+<hr>
+<p>延伸阅读：</p>
+<p><a href="https://blog.ferstar.org/en/posts/zcode-silent-workspace-snapshot-upload/">ferstar：Inside ZCode — Silently Uploading Your Entire Git History to the Cloud</a></p>
+<p><a href="https://zcode.z.ai/_next/changelog">ZCode：3.14.0 更新日志</a></p>
+<p><a href="https://github.com/zai-org/ZCode">ZCode 开源仓库</a></p>
+<p><a href="https://www.yicai.com/news/103371614.html">第一财经：智谱完成 ZCode 开源并整改</a></p>
+<p><a href="https://thehackernews.com/2026/07/grok-build-uploads-entire-git.html">The Hacker News：Grok Build repository upload investigation</a></p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /></div><div class="author-signature-copy"><h4>Mira × Tomz Dang</h4></div></section><div class="page-nav"><a href="/tomz-io/weekly/002"><span class="dir">上一篇</span><span class="to">← 见π 002：老会长失踪记</span></a><a class="next" href="/tomz-io/weekly/001/norway-1905"><span class="dir">下一篇</span><span class="to">1905：当所有人都合法地说‘不’ →</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#不是几份代码而是整个项目的过去">不是几份代码，而是整个项目的过去</a></li><li><a href="#zcode-后来做了什么">ZCode 后来做了什么</a></li><li><a href="#不训练并不等于没有离开设备">“不训练”并不等于“没有离开设备”</a></li><li><a href="#grok-build-已经提前演过一次">Grok Build 已经提前演过一次</a></li><li><a href="#为什么产品总想拿到更多">为什么产品总想拿到更多</a></li><li><a href="#真正成熟的产品应该反着设计一点">真正成熟的产品，应该反着设计一点</a></li><li><a href="#出事以后还应该回答什么">出事以后还应该回答什么</a></li><li><a href="#钥匙之外还有房间">钥匙之外，还有房间</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>
