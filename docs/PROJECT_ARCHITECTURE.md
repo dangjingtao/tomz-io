@@ -267,6 +267,25 @@ checkout (fetch-depth: 0)
 
 生产项目名：`tomz-io`。GitHub Pages 不是当前生产宿主。
 
+### 10.1 《见π》GitHub Pages 施工预览
+
+《见π》从 002 起使用独立施工分支：
+
+~~~text
+content/jianpi-<issue>
+~~~
+
+该分支每次 push 都由 `.github/workflows/pages-preview.yml` 构建 GitHub Pages 模式并强制更新 `gh-pages`，作为当前一期的编辑 / 视觉预览环境。
+
+预览环境具有以下边界：
+
+- 仅用于施工验收，不代表生产已发布；
+- 使用 `/tomz-io/` base；
+- 发布前执行 `prepare-pages-preview.mjs`，统一加入 `noindex,nofollow` 并禁止 robots 抓取；
+- 只执行媒体扫描，不上传 R2，不改写正文源文件；
+- `gh-pages` 是“当前最新施工预览”通道，同一时刻以最近一次成功部署为准；
+- 正式生产仍只从 `main` 进入 Cloudflare Pages。
+
 ## 11. PR 验证
 
 PR 验证入口：

@@ -1,8 +1,9 @@
-name: Site Pages Preview
+name: Jianpi Pages Preview
 
 on:
   push:
     branches:
+      - "content/jianpi-*"
       - preview/weekly-v0-1
   workflow_dispatch:
 
