@@ -5,7 +5,6 @@ group: 开发者生活
 order: 10
 date: 2026年9月20日
 readTime: 12 分钟阅读
-cover: https://assets.tomz.io/images/%E9%9B%A8%E5%A4%9C%E8%BD%A6%E7%AA%97%E4%B8%8B%E7%9A%84%E7%96%B2%E6%83%AB%E6%B2%89%E6%80%9D.webp
 tags: 工作 | 写作 | 信仰 | 周记
 author: tomz
 writingMode: authored
@@ -13,6 +12,8 @@ writtenBy: tomz
 ---
 
 # 第七周：在移动的黑暗里
+
+![第七周：在移动的黑暗里](https://assets.tomz.io/images/%E9%9B%A8%E5%A4%9C%E8%BD%A6%E7%AA%97%E4%B8%8B%E7%9A%84%E7%96%B2%E6%83%AB%E6%B2%89%E6%80%9D.webp)
 
 这是我很多年前很爱用的一种文风。
 
