@@ -155,6 +155,8 @@ Control Room 不把 PR 正文当作权威任务来源；Desktop 在补 Workdir �
 
 ### 第七周：在移动的黑暗里
 
+![第七周：在移动的黑暗里](https://assets.tomz.io/images/%E9%9B%A8%E5%A4%9C%E8%BD%A6%E7%AA%97%E4%B8%8B%E7%9A%84%E7%96%B2%E6%83%AB%E6%B2%89%E6%80%9D.webp)
+
 这一期写了很多权限、凭据、上传、审计和控制面。
 
 可技术最终不是为了把世界变成一张更精密的权限表。
