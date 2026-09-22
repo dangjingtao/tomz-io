@@ -6,7 +6,7 @@ order: 2
 issue: 2
 date: 2026年9月22日
 lead: 代码会复原，但人去哪了？当 Agent 开始真正替人做事，安全问题就不再只是“它会不会说错话”，而是谁给了它钥匙、它能看见什么、能把什么带走。
-cover: /assets/jianpi-cover-002.webp
+cover: https://assets.tomz.io/images/mmexport1790036175406.jpg
 tags:
   - Agent
   - AI Coding
