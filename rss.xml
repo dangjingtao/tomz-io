@@ -6,7 +6,16 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Tue, 22 Sep 2026 15:13:23 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 21:09:58 GMT</lastBuildDate>
+    <item>
+      <title>见π 003：能力越来越便宜，环境开始变贵</title>
+      <link>https://tomz.io/tomz-io/weekly/003/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/weekly/003/</guid>
+      <description>当模型、Agent、代码生成和开放基础设施越来越容易获得，真正形成差异的开始变成工作环境、入口、上下文、权限、验证与用户关系。本期先从这些正在变贵的东西往外看。</description>
+      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
     <item>
       <title>诗篇 27：神是信心的来源</title>
       <link>https://tomz.io/tomz-io/books/psalms/psalm-27-god-is-the-source-of-faith/</link>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="claude">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#cc785c" />
+  <meta name="baidu-site-verification" content="codeva-9EckZoZehP" />
+  <meta name="author" content="Tomz Dang" />
+  <meta name="application-name" content="tomz.io" />
+  <meta name="creator" content="Tomz Dang" />
+  <meta name="publisher" content="Tomz Dang" />
+  <link rel="me" href="https://github.com/dangjingtao" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tomz-io/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tomz-io/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/tomz-io/bookshelf-covers.css?v=20260825-1" />
+  <title>见π 003：能力越来越便宜，环境开始变贵 · Tomz Dang</title>
+  <script>
+    try {
+      const theme = localStorage.getItem("mira-color-theme");
+      if (["claude", "apple", "supabase"].includes(theme)) {
+        document.documentElement.dataset.theme = theme;
+      }
+      const darkMode = localStorage.getItem("mira-theme");
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {}
+  </script>
+  <script type="module" crossorigin src="/tomz-io/assets/index-QkikkoWh.js"></script>
+  <link rel="stylesheet" crossorigin href="/tomz-io/assets/index-DAdK_tvJ.css">
+<link rel="manifest" href="/tomz-io/manifest.webmanifest"><meta name="description" content="当模型、Agent、代码生成和开放基础设施越来越容易获得，真正形成差异的开始变成工作环境、入口、上下文、权限、验证与用户关系。本期先从这些正在变贵的东西往外看。"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://tomz.io/tomz-io/weekly/003/"><meta property="og:locale" content="zh_CN"><meta property="og:title" content="见π 003：能力越来越便宜，环境开始变贵 · Tomz Dang"><meta property="og:description" content="当模型、Agent、代码生成和开放基础设施越来越容易获得，真正形成差异的开始变成工作环境、入口、上下文、权限、验证与用户关系。本期先从这些正在变贵的东西往外看。"><meta property="og:type" content="article"><meta property="og:url" content="https://tomz.io/tomz-io/weekly/003/"><meta property="og:site_name" content="Tomz Dang"><meta property="og:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:secure_url" content="https://tomz.io/tomz-io/tomz-avatar.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="420"><meta property="og:image:height" content="420"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="见π 003：能力越来越便宜，环境开始变贵 · Tomz Dang"><meta name="twitter:description" content="当模型、Agent、代码生成和开放基础设施越来越容易获得，真正形成差异的开始变成工作环境、入口、上下文、权限、验证与用户关系。本期先从这些正在变贵的东西往外看。"><meta name="twitter:image" content="https://tomz.io/tomz-io/tomz-avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"见π 003：能力越来越便宜，环境开始变贵","description":"当模型、Agent、代码生成和开放基础设施越来越容易获得，真正形成差异的开始变成工作环境、入口、上下文、权限、验证与用户关系。本期先从这些正在变贵的东西往外看。","url":"https://tomz.io/tomz-io/weekly/003/","image":"https://tomz.io/tomz-io/tomz-avatar.png","datePublished":"2026-09-26","author":[{"@type":"Person","name":"Mira"},{"@type":"Person","name":"Tomz Dang"}],"publisher":{"@type":"Person","name":"Tomz Dang","url":"https://tomz.io"},"dateModified":"2026-09-26T05:09:58.000+08:00"}</script>  <link rel="alternate" type="application/rss+xml" title="Tomz.io RSS" href="/tomz-io/rss.xml">
+</head>
+<body>
+  <div id="root"><nav class="top-nav docs-header seo-static-header"><div class="wrap"><a class="brand" href="/tomz-io/">Tomz Dang</a><ul class="menu"><li><a href="/tomz-io/blogs">博客</a></li><li><a href="/tomz-io/weekly">见π</a></li><li><a href="/tomz-io/works">作品</a></li><li><a href="/tomz-io/projects">项目</a></li><li><a href="/tomz-io/books">书架</a></li><li><a href="/tomz-io/about">关于</a></li></ul></div></nav><div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell"><main class="doc-main seo-static-content blog-post-page"><article class="article-header"><h1>见π 003：能力越来越便宜，环境开始变贵</h1><p class="doc-lede">当模型、Agent、代码生成和开放基础设施越来越容易获得，真正形成差异的开始变成工作环境、入口、上下文、权限、验证与用户关系。本期先从这些正在变贵的东西往外看。</p><div class="post-meta post-meta-article"><span>Mira × Tomz Dang</span><span class="dot"></span><span>见π</span><span class="dot content-time-dot"></span><span data-content-time="published">发布于 2026年9月26日</span><span class="dot content-time-dot"></span><span data-content-time="modified">更新于 2026年9月26日 05:09</span></div></article><div class="article-shell"><div class="article-body markdown blog-markdown"><blockquote>
+<p><strong>施工预览</strong>：这是第三期的第一轮编辑编排。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 GitHub Pages 预览，不代表正式出版。</p>
+</blockquote>
+<h2 id="本期判断">本期判断<a class="md-anchor" href="#本期判断">#</a></h2>
+<h3 id="能力越来越便宜环境开始变贵">能力越来越便宜，环境开始变贵<a class="md-anchor" href="#能力越来越便宜环境开始变贵">#</a></h3>
+<p>这周最值得留下的变化，不是某个模型又聪明了一点。</p>
+<p>越来越多产品开始默认一件事：<strong>模型和 Agent 本身可以替换。</strong></p>
+<p>Android Studio 开始允许开发者把不同 Agent 接进同一个 IDE；机器人软件开始把自己的操作知识整理成可复用的 Skills；浏览器也在把 DOM、网络、Console 和运行态主动暴露给 Agent。与此同时，Agent 一旦真的替人购物、付款、调用外部服务，问题又迅速从“它会不会做”变成“谁授权、谁负责、谁掌握入口”。</p>
+<p>如果能力可以随时更换，那么产品真正难替换的部分，可能正在换位置：</p>
+<p><strong>上下文、工具、权限、验证、工作流、用户关系，以及承载这一切的环境。</strong></p>
+<p>这一期先沿着这条线往外看。</p>
+<h2 id="工作现场">工作现场<a class="md-anchor" href="#工作现场">#</a></h2>
+<h3 id="android-studioagent-可以换ide-留下来">Android Studio：Agent 可以换，IDE 留下来<a class="md-anchor" href="#android-studioagent-可以换ide-留下来">#</a></h3>
+<p>Google 在 Android Studio Rabbit 2 Canary 里预览 Bring Your Own Agent。Claude Agent、Codex、Antigravity 以及其他 ACP-compatible Agent 都可以接进来，而 Android Studio 自己继续掌握项目图、构建诊断、Compose Preview、SDK 工具和模拟器控制。</p>
+<p>这不是“一个 IDE 支持更多 AI”那么简单。</p>
+<p>如果 Agent 可以换着用，IDE 的价值反而更像一个 Harness：<strong>它拥有工作发生的环境。</strong></p>
+<p><a href="https://android-developers.googleblog.com/2026/09/build-your-way-use-any-ai-agent-in-android-studio.html">原始来源：Android Developers ↗</a></p>
+<h3 id="isaac-ros文档开始变成机器的工作接口">Isaac ROS：文档开始变成机器的工作接口<a class="md-anchor" href="#isaac-ros文档开始变成机器的工作接口">#</a></h3>
+<p>NVIDIA 在 Isaac ROS 5.0 中开始明确提供 agent-ready documentation 与可复用 Skills，把 setup、manipulation、FoundationStereo fine-tuning、pick-and-place 等工作流整理成 Agent 可以直接使用的操作入口。</p>
+<p>文档过去写给人看。</p>
+<p>现在，软件开始认真考虑：<strong>如果下一个使用者不是人，而是一个替人工作的 Agent，应该怎样把能力交给它？</strong></p>
+<p><a href="https://blogs.nvidia.com/blog/isaac-ros-5-0-agentic-open-source-robotics/">原始来源：NVIDIA ↗</a></p>
+<h3 id="copilot-agent-开始说-opentelemetry">Copilot Agent 开始说 OpenTelemetry<a class="md-anchor" href="#copilot-agent-开始说-opentelemetry">#</a></h3>
+<p>GitHub Copilot app 新增企业管理的 OpenTelemetry 配置，可以把 Agent 活动、模型与工具交互送进组织已经存在的监控系统。</p>
+<p>当 Agent 从聊天框进入生产环境，它最终还是撞上了那些很老派的问题：trace、审计、运行状态、事故复盘。</p>
+<p>这也许是一个成熟信号：<strong>Agent 正在从“特殊 AI 功能”变成普通生产系统的一部分。</strong></p>
+<p><a href="https://github.blog/changelog/2026-09-22-opentelemetry-in-the-github-copilot-app/">原始来源：GitHub Changelog ↗</a></p>
+<h2 id="入口与关系">入口与关系<a class="md-anchor" href="#入口与关系">#</a></h2>
+<h3 id="agent-替你买东西以后谁承担错误">Agent 替你买东西以后，谁承担错误？<a class="md-anchor" href="#agent-替你买东西以后谁承担错误">#</a></h3>
+<p>多家银行开始公开讨论 AI shopping agents 带来的诈骗、隐私、支付与追责问题。</p>
+<p>这里真正重要的不是“银行担心 AI”。</p>
+<p>而是 Agentic Commerce 一旦从演示走进真实交易，产品问题马上变成：这个 Agent 是否真的代表用户？它拿到了哪些金融数据？它为什么选择这种支付方式？买错以后，消费者应该找谁？</p>
+<p><strong>执行能力可以外包，责任关系却不能凭空消失。</strong></p>
+<p><a href="https://www.reuters.com/legal/litigation/banks-warn-ai-shopping-bots-raise-scam-fraud-data-privacy-risks-2026-09-22/">Reuters ↗</a></p>
+<h3 id="firefox-把-ai-做成一种窗口而不是整个浏览器">Firefox 把 AI 做成一种窗口，而不是整个浏览器<a class="md-anchor" href="#firefox-把-ai-做成一种窗口而不是整个浏览器">#</a></h3>
+<p>Mozilla 把桌面 Firefox 描述为 Classic、Private、Smart 三种窗口。Smart Window 仍在 beta，AI 上下文与 memories 也强调可选和用户控制。</p>
+<p>它提供了一种和“AI everywhere”不同的产品答案：</p>
+<p><strong>AI 不一定要成为产品的默认状态，也可以只是一个有清楚边界的工作空间。</strong></p>
+<p><a href="https://blog.mozilla.org/en/firefox/firefox-window-types/">Mozilla ↗</a></p>
+<h2 id="开放一个可以开始工作的世界">开放一个可以开始工作的世界<a class="md-anchor" href="#开放一个可以开始工作的世界">#</a></h2>
+<h3 id="millemiglia不能公开真实数据就开放一个足够真的问题发生器">MilleMiglia：不能公开真实数据，就开放一个足够真的问题发生器<a class="md-anchor" href="#millemiglia不能公开真实数据就开放一个足够真的问题发生器">#</a></h3>
+<p>真实物流网络的数据通常属于企业敏感信息。Google Research 的 MilleMiglia 没有把客户数据倒出来，而是把固定车辆班次、配送中心吞吐限制、同步约束等工业结构编码成可生成 benchmark。</p>
+<p>这让“开放”多了一种形态：</p>
+<p><strong>不是把秘密公开，而是把问题的结构公开。</strong></p>
+<p><a href="https://research.google/blog/millemiglia-a-realistic-instance-generator-for-middle-mile-logistics/">Google Research ↗</a></p>
+<h3 id="intrinsic-core工业机器人开始拥有公共积木">Intrinsic Core：工业机器人开始拥有公共积木<a class="md-anchor" href="#intrinsic-core工业机器人开始拥有公共积木">#</a></h3>
+<p>Intrinsic 开放工业机器人平台的一批核心组件，包括硬件无关实时控制、运动规划、姿态估计、仿真、标定以及设备适配。</p>
+<p>机器人自动化过去经常像一个昂贵的系统集成项目。</p>
+<p>如果控制、感知、规划和适配逐渐形成公共基础设施，小团队进入物理自动化时，起点可能终于不再是“先把整套东西重新造一遍”。</p>
+<p><a href="https://github.com/intrinsic-ai/sdk">Intrinsic SDK / GitHub ↗</a></p>
+<h3 id="tier-iv开源的不只是代码而是一整套实验台">TIER IV：开源的不只是代码，而是一整套实验台<a class="md-anchor" href="#tier-iv开源的不只是代码而是一整套实验台">#</a></h3>
+<p>TIER IV 公开基于 Autoware 的自动驾驶赛车 reference design，把软件、模拟器、设计信息、实车和在线评测环境放进同一套比赛基础设施。</p>
+<p>开放一个领域，有时候真正有用的不是给一份 repository。</p>
+<p>而是给参与者一个<strong>可以从同一起跑线开始试验的世界</strong>。</p>
+<p><a href="https://tier4.co.jp/en/updates/press-release/20260924-tieriv-releases-racing-kart-reference-design">TIER IV ↗</a></p>
+<h2 id="科学与计算">科学与计算<a class="md-anchor" href="#科学与计算">#</a></h2>
+<h3 id="dna-计算机让正确答案成为最低能量状态">DNA 计算机：让正确答案成为最低能量状态<a class="md-anchor" href="#dna-计算机让正确答案成为最低能量状态">#</a></h3>
+<p>Scaffolded DNA Computer 把计算编码进 DNA 分子系统的能量景观。系统自然趋向更低能量的平衡态时，正确输出会比大量错误配置更有优势。</p>
+<p>它不是“DNA 要替代 CPU”的故事。</p>
+<p>更漂亮的地方在于：<strong>计算架构开始利用物理世界本身的趋稳性质承担搜索与纠错。</strong></p>
+<p><a href="https://www.nature.com/articles/s41586-026-10996-5">Nature ↗</a></p>
+<h3 id="project-suncatcher如果数据中心真的跑到太空">Project Suncatcher：如果数据中心真的跑到太空<a class="md-anchor" href="#project-suncatcher如果数据中心真的跑到太空">#</a></h3>
+<p>Google 的 Project Suncatcher 计划用原型卫星测试 TPU 在轨运行，同时继续解决真空散热、辐射、发射振动和卫星间高带宽激光连接。</p>
+<p>现在当然还只是 moonshot。</p>
+<p>但它把一个很抽象的“算力需求”重新变成了材料、能源、热设计与网络拓扑问题：<strong>当计算规模继续增长，连“计算应该放在哪里”都可能重新成为工程问题。</strong></p>
+<p><a href="https://blog.google/innovation-and-ai/models-and-research/google-research/google-project-suncatcher-facts/">Google ↗</a></p>
+<h2 id="鬼集">鬼集<a class="md-anchor" href="#鬼集">#</a></h2>
+<h3 id="fugleramme本地-ai-听鸟但坚持不用-ai-画鸟">Fugleramme：本地 AI 听鸟，但坚持不用 AI 画鸟<a class="md-anchor" href="#fugleramme本地-ai-听鸟但坚持不用-ai-画鸟">#</a></h3>
+<p>一个 Raspberry Pi 5 在窗边听鸟叫，用本地 BirdNET-Go 做识别，然后把对应物种显示在 13.3 英寸彩色电子墨水屏上。</p>
+<p>更妙的是，那些鸟图不是生成图，而是开发者手工整理的 19 世纪公共领域博物学插画。</p>
+<p>AI 在这里退到了背景，只负责感知。</p>
+<p>留在前景里的，是环境声音、旧插画和一件安静的家具。</p>
+<p><a href="https://github.com/arnegiacomo/fugleramme">Fugleramme / GitHub ↗</a></p>
+<h3 id="hashfly有人认真让一只模拟果蝇脑算-bitcoin-hash">HashFly：有人认真让一只模拟果蝇脑算 Bitcoin hash<a class="md-anchor" href="#hashfly有人认真让一只模拟果蝇脑算-bitcoin-hash">#</a></h3>
+<p>FutureBit 的 HashFly 把公开果蝇 connectome 的神经活动轨迹塞进一个浏览器 proof-of-concept，用来参与简化的 double-SHA-256 计算。</p>
+<p>它当然不是一台真正有意义的矿机，也没有证明湿件计算能打败 ASIC。</p>
+<p>但这就是鬼集该留下的东西：</p>
+<p><strong>一份开放科学数据，离开原来的问题以后，被人拿去做了一件谁都没预料到的事。</strong></p>
+<p><a href="https://futurebit.io/hashfly">HashFly ↗</a></p>
+<h2 id="继续看">继续看<a class="md-anchor" href="#继续看">#</a></h2>
+<h3 id="qualcomm-拟收购-picknik">Qualcomm 拟收购 PickNik<a class="md-anchor" href="#qualcomm-拟收购-picknik">#</a></h3>
+<p>半导体平台开始主动收拢 ROS / MoveIt 这样的成熟机器人软件能力。Physical AI 的竞争显然不会只发生在 SoC 上，也会发生在开发者早已依赖的规划、控制与集成层。</p>
+<p>交易尚待完成。</p>
+<p><a href="https://www.qualcomm.com/news/releases/2026/09/qualcomm-to-acquire-picknik-to-advance-the-future-of-open-roboti">Qualcomm ↗</a></p>
+<h3 id="chrome-unload-终于继续退场">Chrome unload 终于继续退场<a class="md-anchor" href="#chrome-unload-终于继续退场">#</a></h3>
+<p>一个已经使用多年的 Web 生命周期 API，因为和 BFCache 等现代浏览器模型冲突，经过多年渐进迁移继续扩大弃用范围。</p>
+<p>新技术总是显眼。</p>
+<p>但平台真正成熟的一部分，是它终于有能力安全地删除旧错误。</p>
+<p><a href="https://developer.chrome.com/docs/web-platform/deprecating-unload">Chrome for Developers ↗</a></p>
+<hr>
+<p>第三期现在还没有答案。</p>
+<p>但素材已经开始指向同一个变化：</p>
+<p><strong>以前我们争夺的是能力。接下来，我们可能开始争夺承载能力的环境。</strong></p>
+<section class="author-signature author-signature-duo"><div class="author-signature-avatars author-signature-avatars-2"><img alt="" class="author-signature-avatar" src="https://assets.tomz.io/images/1784065334968-image-20260715054214404.webp" /><img alt="" class="author-signature-avatar" src="https://avatars.githubusercontent.com/u/20751798?s=160&v=4" /></div><div class="author-signature-copy"><h4>Mira × Tomz Dang</h4></div></section><div class="page-nav"><a href="/tomz-io/weekly/002/agent-wants-to-finish-the-job"><span class="dir">上一篇</span><span class="to">← Agent 为什么总想把事情做完</span></a></div></div><aside class="article-toc"><h5>本文目录</h5><ul><li><a href="#本期判断">本期判断</a></li><li><a href="#工作现场">工作现场</a></li><li><a href="#入口与关系">入口与关系</a></li><li><a href="#开放一个可以开始工作的世界">开放一个可以开始工作的世界</a></li><li><a href="#科学与计算">科学与计算</a></li><li><a href="#鬼集">鬼集</a></li><li><a href="#继续看">继续看</a></li></ul></aside></div></main></div></div></div>
+</body>
+</html>
