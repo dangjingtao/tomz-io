@@ -14,6 +14,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import { miraDocs } from "@uichat-mira/docs/vite";
 import { miraDocsStaticBuild } from "./mira-docs-static";
 import { parseBookManifest, type BookManifest } from "./src/content/book-manifest";
+import { contentTimeSortValue, resolveContentTime } from "./src/content/content-time";
 import {
   blogDirectoryByGroup,
   appName,
@@ -221,10 +222,26 @@ function docsForBook(context: any, bookId: string): any[] {
     .sort((left: any, right: any) => left.order - right.order || left.path.localeCompare(right.path));
 }
 
+function staticBookEntryPublishedAt(doc: any): string | undefined {
+  const resolved = typeof doc.sourcePath === "string"
+    ? resolveContentTime(doc.sourcePath).publishedAt
+    : undefined;
+  return resolved || doc.date;
+}
+
+function compareBookEntriesNewestFirst(left: any, right: any): number {
+  return (
+    contentTimeSortValue(staticBookEntryPublishedAt(right)) -
+      contentTimeSortValue(staticBookEntryPublishedAt(left)) ||
+    right.order - left.order ||
+    left.path.localeCompare(right.path)
+  );
+}
+
 function bookshelfStaticBody(context: any, books: BookManifest[]): string {
   const cards = books.map((book) => {
     const entries = docsForBook(context, book.id);
-    const latest = [...entries].sort((left: any, right: any) => right.order - left.order)[0];
+    const latest = [...entries].sort(compareBookEntriesNewestFirst)[0];
     return `<article class="area-overview-card"><span class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</span><h2><a href="${hrefFor(context.base, `/books/${book.id}`)}">${escapeHtml(book.title)}</a></h2><p>${escapeHtml(book.description)}</p><p>${entries.length} 篇${latest ? ` · 最近：${escapeHtml(latest.title)}` : ""}</p></article>`;
   }).join("");
   const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>书架</h1><p class="doc-lede">专题、阅读札记与未来的小说，以一本本书的方式放在这里。</p></div><section class="docs-sitemap-grid">${cards}</section></main>`;
