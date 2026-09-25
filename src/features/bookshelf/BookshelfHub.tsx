@@ -118,16 +118,6 @@ function syncHead(title: string, description: string, path: string) {
   canonical.href = `${siteUrl}${path}`;
 }
 
-function entriesNewestFirst(entries: Doc[]) {
-  return [...entries].sort((left, right) => {
-    const dateCompare = String(right.date || "").localeCompare(
-      String(left.date || ""),
-      "zh-CN",
-    );
-    return dateCompare || right.order - left.order;
-  });
-}
-
 function normalizeBookArticleHeadings(source: string, title: string) {
   const lines = source.split(/\r?\n/);
   const firstContentIndex = lines.findIndex((line) => line.trim() !== "");
@@ -207,10 +197,7 @@ function BookshelfIndex() {
 
 function BookIndex({ bookId }: { bookId: string }) {
   const book = getBook(bookId);
-  const entries = useMemo(
-    () => entriesNewestFirst(bookEntries(bookId)),
-    [bookId],
-  );
+  const entries = useMemo(() => bookEntries(bookId), [bookId]);
 
   useEffect(() => {
     if (!book) return;
