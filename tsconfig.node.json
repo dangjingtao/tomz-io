@@ -14,6 +14,8 @@
     "mira-docs-static.ts",
     "site-policy.json",
     "src/site.config.ts",
-    "src/content/book-manifest.ts"
+    "src/content/book-manifest.ts",
+    "src/content/content-time.ts",
+    "src/content/content-times.generated.ts"
   ]
 }

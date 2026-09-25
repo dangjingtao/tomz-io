@@ -64,7 +64,7 @@ function RoutedApp() {
   }, [location.pathname]);
 
   useEffect(() => {
-    document.title = `${getPageTitle(location.pathname, allDocs, siteAreas)} · ${siteTitle}`;
+    document.title = `${getPageTitle(location.pathname, allDocs, siteAreas, books)} · ${siteTitle}`;
   }, [location.pathname]);
 
   useEffect(() => {
