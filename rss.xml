@@ -6,7 +6,25 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Tue, 22 Sep 2026 06:46:45 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 15:13:23 GMT</lastBuildDate>
+    <item>
+      <title>诗篇 27：神是信心的来源</title>
+      <link>https://tomz.io/tomz-io/books/psalms/psalm-27-god-is-the-source-of-faith/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/psalms/psalm-27-god-is-the-source-of-faith/</guid>
+      <description>从“耶和华是我的亮光”到“求你不要离弃我”，读《诗篇》第二十七篇如何把信靠、恐惧、寻求与等候放在一起，也留下我们这次最简单的判断：神是信心的来源。</description>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
+    </item>
+    <item>
+      <title>诗篇 28：祷告未必先改变处境</title>
+      <link>https://tomz.io/tomz-io/books/psalms/psalm-28-prayer-may-not-change-circumstances-first/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/books/psalms/psalm-28-prayer-may-not-change-circumstances-first/</guid>
+      <description>从“不要向我缄默”到“他听了我恳求的声音”，读《诗篇》第二十八篇如何把神的沉默、公义的呼求、重新得着的确信，以及最后仍然没有答案的转折放在一起。</description>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Tomz Dang</dc:creator>
+      <dc:creator>Mira</dc:creator>
+    </item>
     <item>
       <title>见π 002：老会长失踪记</title>
       <link>https://tomz.io/tomz-io/weekly/002/</link>
@@ -32,6 +50,14 @@
       <description>从 ZCode 与 Grok Build 的全仓库上传争议出发，讨论 Coding Agent 为什么天然渴望更多上下文，以及读取、上传、留存、训练为什么必须被拆成四件事。</description>
       <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Mira</dc:creator>
+      <dc:creator>Tomz Dang</dc:creator>
+    </item>
+    <item>
+      <title>第七周：在移动的黑暗里</title>
+      <link>https://tomz.io/tomz-io/blogs/developer-life/week-seven-moving-darkness/</link>
+      <guid isPermaLink="true">https://tomz.io/tomz-io/blogs/developer-life/week-seven-moving-darkness/</guid>
+      <description>两个雨夜，两位设计师。一个让我重新想起体面，一个让我想起梦想；而我坐在他们中间，越来越想要的，只是一些片刻的安宁。</description>
+      <pubDate>Sun, 20 Sep 2026 00:00:00 GMT</pubDate>
       <dc:creator>Tomz Dang</dc:creator>
     </item>
     <item>
