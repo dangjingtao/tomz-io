@@ -96,7 +96,7 @@ legacyPrefix: /blogs/agent-learning
 - id：稳定 book id，必填；**必须与所在目录 `src/pages/books/<book-id>/` 的 `<book-id>` 完全一致**，避免书页路由与 Entry 归属分裂
 - title：书名，必填
 - description：书的说明
-- cover：可选；书架封面。支持 HTTPS URL 或站内绝对路径。推荐竖版约 3:4 比例；展示层按比例缩放，不要求仓库保存图片副本
+- cover：可选；书架封面。支持 HTTPS URL 或站内绝对路径。推荐竖版约 3:4 比例；展示层应保持书目行的既有阅读节奏，统一缩放而不是把单本书撑成海报卡；不要求仓库保存图片副本
 - category：内容属性
 - kind：study | reading-notes | novel | collection | other
 - order：书架排序
