@@ -21,7 +21,7 @@ writingMode: co-authored
 writtenBy: mira | tomz
 ---
 
-> **施工预览**：这是第三期的第一轮编辑编排。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 GitHub Pages 预览，不代表正式出版。
+> **施工预览**：这是第三期的编辑施工稿。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 Cloudflare Preview 验收，不代表正式出版。
 
 ## 封面故事
 
@@ -37,107 +37,41 @@ writtenBy: mira | tomz
 
 ## 本期判断
 
-### 能力越来越便宜，环境开始变贵
+### [当 AI 可以换，工作台留下](/weekly/003/ai-can-change-workbench-stays)
 
-这周最值得留下的变化，不是某个模型又聪明了一点。
+Android Studio 开始让 Codex、Claude Agent、Antigravity 等不同 Agent 进入同一个 IDE；Isaac ROS 开始把文档和工作流整理成 Agent 可以直接使用的 Skills；Firefox 则把 AI 放进一个可选择的 Smart Window，而不是把整个浏览器都改造成 AI 产品。
 
-越来越多产品开始默认一件事：**模型和 Agent 本身可以替换。**
+放在一起看，它们都在回答同一个问题：
 
-Android Studio 开始允许开发者把不同 Agent 接进同一个 IDE；机器人软件开始把自己的操作知识整理成可复用的 Skills；浏览器也在把 DOM、网络、Console 和运行态主动暴露给 Agent。与此同时，Agent 一旦真的替人购物、付款、调用外部服务，问题又迅速从“它会不会做”变成“谁授权、谁负责、谁掌握入口”。
+**如果模型和 Agent 越来越可以替换，产品真正难替换的部分会移到哪里？**
 
-如果能力可以随时更换，那么产品真正难替换的部分，可能正在换位置：
+这篇继续往下看上下文、工具、权限、验证和工作连续性为什么可能比“绑定某一个模型”更重要。
 
-**上下文、工具、权限、验证、工作流、用户关系，以及承载这一切的环境。**
-
-这一期先沿着这条线往外看。
-
-## 工作现场
-
-### Android Studio：Agent 可以换，IDE 留下来
-
-Google 在 Android Studio Rabbit 2 Canary 里预览 Bring Your Own Agent。Claude Agent、Codex、Antigravity 以及其他 ACP-compatible Agent 都可以接进来，而 Android Studio 自己继续掌握项目图、构建诊断、Compose Preview、SDK 工具和模拟器控制。
-
-这不是“一个 IDE 支持更多 AI”那么简单。
-
-如果 Agent 可以换着用，IDE 的价值反而更像一个 Harness：**它拥有工作发生的环境。**
-
-[原始来源：Android Developers ↗](https://android-developers.googleblog.com/2026/09/build-your-way-use-any-ai-agent-in-android-studio.html)
-
-### Isaac ROS：文档开始变成机器的工作接口
-
-NVIDIA 在 Isaac ROS 5.0 中开始明确提供 agent-ready documentation 与可复用 Skills，把 setup、manipulation、FoundationStereo fine-tuning、pick-and-place 等工作流整理成 Agent 可以直接使用的操作入口。
-
-文档过去写给人看。
-
-现在，软件开始认真考虑：**如果下一个使用者不是人，而是一个替人工作的 Agent，应该怎样把能力交给它？**
-
-[原始来源：NVIDIA ↗](https://blogs.nvidia.com/blog/isaac-ros-5-0-agentic-open-source-robotics/)
-
-### Copilot Agent 开始说 OpenTelemetry
-
-GitHub Copilot app 新增企业管理的 OpenTelemetry 配置，可以把 Agent 活动、模型与工具交互送进组织已经存在的监控系统。
-
-当 Agent 从聊天框进入生产环境，它最终还是撞上了那些很老派的问题：trace、审计、运行状态、事故复盘。
-
-这也许是一个成熟信号：**Agent 正在从“特殊 AI 功能”变成普通生产系统的一部分。**
-
-[原始来源：GitHub Changelog ↗](https://github.blog/changelog/2026-09-22-opentelemetry-in-the-github-copilot-app/)
-
-## 入口与关系
-
-### Firefox 把 AI 做成一种窗口，而不是整个浏览器
-
-Mozilla 把桌面 Firefox 描述为 Classic、Private、Smart 三种窗口。Smart Window 仍在 beta，AI 上下文与 memories 也强调可选和用户控制。
-
-它提供了一种和“AI everywhere”不同的产品答案：
-
-**AI 不一定要成为产品的默认状态，也可以只是一个有清楚边界的工作空间。**
-
-[Mozilla ↗](https://blog.mozilla.org/en/firefox/firefox-window-types/)
+[阅读全文 →](/weekly/003/ai-can-change-workbench-stays)
 
 ## 开放一个可以开始工作的世界
 
-### MilleMiglia：不能公开真实数据，就开放一个足够真的问题发生器
+### [开源，不只是把代码放出来](/weekly/003/open-source-is-more-than-code)
 
-真实物流网络的数据通常属于企业敏感信息。Google Research 的 MilleMiglia 没有把客户数据倒出来，而是把固定车辆班次、配送中心吞吐限制、同步约束等工业结构编码成可生成 benchmark。
+MilleMiglia 没有公开企业敏感的物流数据，而是公开一个足够真实的问题生成器；Intrinsic Core 开放机器人运行时、控制框架和参考方案；TIER IV 则把软件、模拟器、赛车和评测环境拼成一条共同起跑线。
 
-这让“开放”多了一种形态：
+它们让“开放”从 repository 继续往外扩：
 
-**不是把秘密公开，而是把问题的结构公开。**
+**开放问题，开放能力，也开放一个陌生人真正可以开始实验的环境。**
 
-[Google Research ↗](https://research.google/blog/millemiglia-a-realistic-instance-generator-for-middle-mile-logistics/)
-
-### Intrinsic Core：工业机器人开始拥有公共积木
-
-Intrinsic 开放工业机器人平台的一批核心组件，包括硬件无关实时控制、运动规划、姿态估计、仿真、标定以及设备适配。
-
-机器人自动化过去经常像一个昂贵的系统集成项目。
-
-如果控制、感知、规划和适配逐渐形成公共基础设施，小团队进入物理自动化时，起点可能终于不再是“先把整套东西重新造一遍”。
-
-[Intrinsic SDK / GitHub ↗](https://github.com/intrinsic-ai/sdk)
-
-### TIER IV：开源的不只是代码，而是一整套实验台
-
-TIER IV 公开基于 Autoware 的自动驾驶赛车 reference design，把软件、模拟器、设计信息、实车和在线评测环境放进同一套比赛基础设施。
-
-开放一个领域，有时候真正有用的不是给一份 repository。
-
-而是给参与者一个**可以从同一起跑线开始试验的世界**。
-
-[TIER IV ↗](https://tier4.co.jp/en/updates/press-release/20260924-tieriv-releases-racing-kart-reference-design)
+[阅读全文 →](/weekly/003/open-source-is-more-than-code)
 
 ## 科学与计算
 
-### DNA 计算机：让正确答案成为最低能量状态
+### [DNA 也能算吗？](/weekly/003/can-dna-compute)
 
-Scaffolded DNA Computer 把计算编码进 DNA 分子系统的能量景观。系统自然趋向更低能量的平衡态时，正确输出会比大量错误配置更有优势。
+一台 Scaffolded DNA Computer 演示了乘 3、除 2、奇偶校验和 25 位加法。
 
-它不是“DNA 要替代 CPU”的故事。
+真正特别的不是“DNA 要替代 CPU”，而是研究者把正确答案设计成系统在热力学上更愿意抵达的状态：与其不断阻止错误，不如让物理世界本身偏向正确结果。
 
-更漂亮的地方在于：**计算架构开始利用物理世界本身的趋稳性质承担搜索与纠错。**
+这篇把那套看起来很玄的分子计算讲成人话。
 
-[Nature ↗](https://www.nature.com/articles/s41586-026-10996-5)
+[阅读全文 →](/weekly/003/can-dna-compute)
 
 ### Project Suncatcher：如果数据中心真的跑到太空
 
