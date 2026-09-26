@@ -164,10 +164,15 @@ function BookshelfIndex() {
             const entries = bookEntries(book.id);
             const latest = latestBookEntry(book.id);
             return (
-              <Link className="bookshelf-book" to={`/books/${book.id}`} key={book.id}>
+              <Link className={`bookshelf-book${book.cover ? " has-cover" : ""}`} to={`/books/${book.id}`} key={book.id}>
                 <div className="bookshelf-book-index" aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </div>
+                {book.cover ? (
+                  <div className="bookshelf-book-cover">
+                    <img src={book.cover} alt={`《${book.title}》封面`} loading="lazy" />
+                  </div>
+                ) : null}
                 <div className="bookshelf-book-copy">
                   <span className="bookshelf-book-category">
                     {book.category || "BOOK"}
