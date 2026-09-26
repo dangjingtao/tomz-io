@@ -140,7 +140,7 @@ jobs:
           BOOK_ID: ${{ steps.external_book.outputs.book_id }}
         run: |
           set -euo pipefail
-          PREVIEW_BRANCH="external-book/$BOOK_ID"
+          PREVIEW_BRANCH="preview/external-book/$BOOK_ID"
           BRANCH_ALIAS="$(printf '%s' "$PREVIEW_BRANCH" \
             | tr '[:upper:]' '[:lower:]' \
             | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
@@ -168,8 +168,10 @@ jobs:
           set -euo pipefail
           for ATTEMPT in $(seq 1 30); do
             HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
+            BODY="$(curl -fsS "$PREVIEW_URL/" || true)"
             DEPLOYED_SHA="$(curl -fsS "$PREVIEW_URL/preview-source-sha.txt" || true)"
             if printf '%s\n' "$HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && printf '%s\n' "$BODY" | grep -q 'noindex,nofollow' \
               && [ "$DEPLOYED_SHA" = "$SOURCE_SHA" ]; then
               echo "Verified $PREVIEW_URL at $SOURCE_REPOSITORY@$SOURCE_SHA"
               exit 0
