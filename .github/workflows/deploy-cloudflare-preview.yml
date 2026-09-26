@@ -45,11 +45,14 @@ jobs:
         env:
           R2_PUBLIC_BASE_URL: https://assets.tomz.io
 
-      - name: Build root preview
+      - name: Build root preview (content times, static metadata, RSS)
         run: pnpm run build
         env:
           CF_PAGES: "1"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify root static output
+        run: pnpm run verify:static-output
 
       - name: Apply preview-only noindex
         run: node scripts/prepare-pages-preview.mjs
@@ -60,6 +63,23 @@ jobs:
           grep -q 'noindex,nofollow' dist/index.html
           grep -q 'noindex,nofollow' dist/blogs/shared-thinking/matter-awakens/index.html
           grep -q 'Disallow: /' dist/robots.txt
+
+      - name: Write preview provenance
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$GITHUB_SHA" > dist/.preview-source-sha
+          printf '%s\n' "$GITHUB_SHA" > dist/preview-source-sha.txt
+          printf '%s\n' "$GITHUB_REF_NAME" > dist/preview-source-branch.txt
+
+      - name: Resolve preview alias
+        id: preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH_ALIAS="$(printf '%s' "$GITHUB_REF_NAME" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          printf 'url=https://%s.tomz-io.pages.dev\n' "$BRANCH_ALIAS" >> "$GITHUB_OUTPUT"
 
       - name: Deploy branch preview to Cloudflare Pages
         run: |
@@ -73,17 +93,33 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Write preview address
-        shell: bash
+      - name: Verify deployed preview
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
         run: |
           set -euo pipefail
-          BRANCH_ALIAS="$(printf '%s' "$GITHUB_REF_NAME" \
-            | tr '[:upper:]' '[:lower:]' \
-            | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          for ATTEMPT in $(seq 1 30); do
+            HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
+            SOURCE_SHA="$(curl -fsS "$PREVIEW_URL/preview-source-sha.txt" || true)"
+            if printf '%s\n' "$HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && [ "$SOURCE_SHA" = "$GITHUB_SHA" ]; then
+              echo "Verified $PREVIEW_URL at $GITHUB_SHA"
+              exit 0
+            fi
+            echo "Attempt $ATTEMPT/30: waiting for preview alias to serve $GITHUB_SHA"
+            sleep 2
+          done
+          echo "Preview alias did not converge to $GITHUB_SHA with noindex."
+          exit 1
+
+      - name: Write preview address
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        run: |
           {
             echo "### Cloudflare branch preview"
             echo
-            echo "https://${BRANCH_ALIAS}.tomz-io.pages.dev"
+            echo "$PREVIEW_URL"
             echo
             echo "Branch: \`$GITHUB_REF_NAME\`"
             echo "Commit: \`$GITHUB_SHA\`"
