@@ -1,5 +1,6 @@
+import { execFileSync } from "node:child_process";
 import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
-import { resolve, sep } from "node:path";
+import { dirname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const BOOK_KINDS = new Set(["study", "reading-notes", "novel", "collection", "other"]);
@@ -76,12 +77,47 @@ async function exists(path) {
   }
 }
 
+function externalGitHistory(sourceRoot, sourcePath) {
+  let raw = "";
+  try {
+    raw = execFileSync(
+      "git",
+      ["-C", sourceRoot, "log", "--follow", "--format=%H%x09%cI%x09%s", "--", sourcePath],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+    ).trim();
+  } catch (error) {
+    fail(`cannot read Git history for ${sourcePath}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
+  const commits = raw
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map((line) => {
+      const [sha, committedAt, ...subjectParts] = line.split("\t");
+      return {
+        sha: sha?.trim(),
+        committedAt: committedAt?.trim(),
+        subject: subjectParts.join("\t").trim(),
+      };
+    })
+    .filter(
+      (commit) =>
+        commit.sha &&
+        commit.committedAt &&
+        !Number.isNaN(Date.parse(commit.committedAt)),
+    );
+
+  if (!commits.length) fail(`no Git history found for external source: ${sourcePath}`);
+  return commits;
+}
+
 function parseArgs(argv) {
   const options = {
     source: "",
     output: "src/pages/books",
     sourceRepository: "",
     sourceSha: "",
+    historyOutput: "",
   };
   for (let index = 0; index < argv.length; index += 1) {
     const key = argv[index];
@@ -90,6 +126,7 @@ function parseArgs(argv) {
     else if (key === "--output") options.output = value || "";
     else if (key === "--source-repository") options.sourceRepository = value || "";
     else if (key === "--source-sha") options.sourceSha = value || "";
+    else if (key === "--history-output") options.historyOutput = value || "";
     else fail(`unknown argument: ${key}`);
     index += 1;
   }
@@ -227,6 +264,22 @@ export async function importExternalBook(options) {
       "",
     ].filter(Boolean).join("\n");
     await writeFile(resolve(destination, `${entry.slug}.md`), frontmatter, "utf8");
+  }
+
+  if (options.historyOutput) {
+    const historyPath = resolve(options.historyOutput);
+    const externalHistory = {};
+    for (const entry of preparedEntries) {
+      const importedSourcePath = `books/${bookId}/${entry.slug}.md`;
+      externalHistory[importedSourcePath] = {
+        sourceRepository: options.sourceRepository || undefined,
+        sourceSha: options.sourceSha || undefined,
+        sourcePath: entry.source,
+        commits: externalGitHistory(sourceRoot, entry.source),
+      };
+    }
+    await mkdir(dirname(historyPath), { recursive: true });
+    await writeFile(historyPath, `${JSON.stringify(externalHistory, null, 2)}\n`, "utf8");
   }
 
   return {

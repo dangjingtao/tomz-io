@@ -105,6 +105,7 @@ CI workspace: src/pages/books/<book-id>/**
 - tomz.io 不提交外部 Book 的 Markdown 副本；
 - importer 不执行外部仓库代码，只读取 `publication.json` 和被声明的 Markdown；
 - 外部来源必须固定到精确 commit SHA，不使用浮动 branch 作为实际构建输入；
+- External Book Preview checkout 外部仓库完整 Git 历史；importer 只在 CI 工作区生成外部内容历史 sidecar，内容时间生成器据此计算 publishedAt / modifiedAt / sitemap lastmod，不把 tomz.io 临时导入提交冒充来源历史；
 - 署名必须由项目仓库显式声明，tomz.io 不允许用默认作者推断补齐；
 - Preview 输出通过 Cloudflare Pages Preview Deployment 发布；它不写入生产 `main`，也不再覆盖 `gh-pages`。
 

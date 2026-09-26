@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -88,6 +89,43 @@ await withTemp(async (root) => {
   assert.match(article, /commitUrl: "https:\/\/github.com\/dangjingtao\/example\/blob\/a{40}\/essays\/first.md"/);
   assert.doesNotMatch(article, /status: Draft/);
   assert.match(article, /# First Essay/);
+});
+
+await withTemp(async (root) => {
+  const { source, output } = await writeFixture(root);
+  execFileSync("git", ["init"], { cwd: source });
+  execFileSync("git", ["add", "."], { cwd: source });
+  execFileSync(
+    "git",
+    ["-c", "user.name=Test", "-c", "user.email=test@example.com", "commit", "-m", "seed external book"],
+    {
+      cwd: source,
+      env: {
+        ...process.env,
+        GIT_AUTHOR_DATE: "2026-01-02T03:04:05+08:00",
+        GIT_COMMITTER_DATE: "2026-01-02T03:04:05+08:00",
+      },
+    },
+  );
+  const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: source, encoding: "utf8" }).trim();
+  const historyOutput = join(root, "external-content-history.json");
+
+  await importExternalBook({
+    source,
+    output,
+    sourceRepository: "dangjingtao/example",
+    sourceSha,
+    historyOutput,
+  });
+
+  const history = JSON.parse(await readFile(historyOutput, "utf8"));
+  const entry = history["books/example-book/first.md"];
+  assert.equal(entry.sourceRepository, "dangjingtao/example");
+  assert.equal(entry.sourceSha, sourceSha);
+  assert.equal(entry.sourcePath, "essays/first.md");
+  assert.equal(entry.commits.length, 1);
+  assert.equal(entry.commits[0].sha, sourceSha);
+  assert.match(entry.commits[0].committedAt, /^2026-01-02T03:04:05/);
 });
 
 await withTemp(async (root) => {
