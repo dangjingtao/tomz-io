@@ -71,27 +71,34 @@ jobs:
           printf '%s\n' "$GITHUB_SHA" > dist/preview-source-sha.txt
           printf '%s\n' "$GITHUB_REF_NAME" > dist/preview-source-branch.txt
 
-      - name: Resolve preview alias
+      - name: Resolve preview branch and alias
         id: preview
         shell: bash
         run: |
           set -euo pipefail
-          BRANCH_ALIAS="$(printf '%s' "$GITHUB_REF_NAME" \
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            echo "Refusing to deploy main through the preview workflow." >&2
+            exit 1
+          fi
+          PREVIEW_BRANCH="preview/$GITHUB_REF_NAME"
+          BRANCH_ALIAS="$(printf '%s' "$PREVIEW_BRANCH" \
             | tr '[:upper:]' '[:lower:]' \
             | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          printf 'branch=%s\n' "$PREVIEW_BRANCH" >> "$GITHUB_OUTPUT"
           printf 'url=https://%s.tomz-io.pages.dev\n' "$BRANCH_ALIAS" >> "$GITHUB_OUTPUT"
 
       - name: Deploy branch preview to Cloudflare Pages
+        env:
+          PREVIEW_BRANCH: ${{ steps.preview.outputs.branch }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -euo pipefail
           npx --yes wrangler@3.90.0 pages deploy dist \
             --project-name=tomz-io \
-            --branch="$GITHUB_REF_NAME" \
+            --branch="$PREVIEW_BRANCH" \
             --commit-hash="$GITHUB_SHA" \
             --commit-message="preview $GITHUB_REF_NAME@$GITHUB_SHA"
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Verify deployed preview
         env:
@@ -100,8 +107,10 @@ jobs:
           set -euo pipefail
           for ATTEMPT in $(seq 1 30); do
             HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
+            BODY="$(curl -fsS "$PREVIEW_URL/" || true)"
             SOURCE_SHA="$(curl -fsS "$PREVIEW_URL/preview-source-sha.txt" || true)"
             if printf '%s\n' "$HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && printf '%s\n' "$BODY" | grep -q 'noindex,nofollow' \
               && [ "$SOURCE_SHA" = "$GITHUB_SHA" ]; then
               echo "Verified $PREVIEW_URL at $GITHUB_SHA"
               exit 0
