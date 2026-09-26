@@ -104,13 +104,14 @@
 }
 
 .bookshelf-book.has-cover {
-  grid-template-columns: 80px 132px minmax(0, 1fr) 24px;
+  grid-template-columns: 58px 114px minmax(0, 1fr) 24px;
+  gap: 22px;
   align-items: start;
 }
 
 .bookshelf-book-cover {
-  width: 132px;
-  aspect-ratio: 1 / 1.4142;
+  width: 114px;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border: 1px solid var(--hairline);
   border-radius: 2px;
@@ -464,11 +465,12 @@
   }
 
   .bookshelf-book.has-cover {
-    grid-template-columns: 40px 78px minmax(0, 1fr) 18px;
+    grid-template-columns: 32px 72px minmax(0, 1fr) 18px;
+    gap: 12px;
   }
 
   .bookshelf-book-cover {
-    width: 78px;
+    width: 72px;
   }
 
   .book-entry-list a {
