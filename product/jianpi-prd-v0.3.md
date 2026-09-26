@@ -601,9 +601,9 @@ Tomz × Mira 写作
 
 > **Mira 负责找与整理，Tomz 负责最终判断。**
 
-### 7.1 每期施工必须有 GitHub Pages 预览
+### 7.1 每期施工必须有独立 Cloudflare Preview
 
-从 002 起，每一期《见π》都从 `dev` 拉独立施工分支，命名约定：
+从 002 起，每一期《见π》都从 `main` 拉独立施工分支，命名约定：
 
 ```text
 content/jianpi-<issue>
@@ -616,18 +616,19 @@ content/jianpi-002
 content/jianpi-003
 ```
 
-该类分支每次 push 后，由 `.github/workflows/pages-preview.yml` 自动执行 GitHub Pages 构建并发布到 `gh-pages`，作为本期的人类编辑与视觉验收入口。
+该类分支每次 push 后，由 `.github/workflows/deploy-cloudflare-preview.yml` 构建 root 站点，并以当前分支名发布到同一个 `tomz-io` Cloudflare Pages 项目的 Preview Deployment。
 
 预览规则：
 
-- GitHub Pages 只用于施工预览，不是生产发布；
-- 预览必须使用 GitHub Pages base（当前为 `/tomz-io/`）；
-- 预览输出统一加 `noindex,nofollow`，并通过 `robots.txt` 禁止索引；
-- 预览不上传正文媒体到 R2，也不改写 Git 中的正文事实源；
-- 当前 `gh-pages` 保存的是最近一次见π施工分支的完整站点预览，因此同一时间以最新一次成功部署为准；
-- 正式发布仍必须经过 Tomz 最终编辑判断，再进入生产分支与 Cloudflare Pages 流程。
+- 每个施工分支拥有自己的 Cloudflare branch preview，不共享“最新预览”槽位；
+- 同一分支的新提交只更新自己的稳定 branch alias，其他施工分支不受影响；
+- Preview 使用与生产一致的 root base，而不是 GitHub Pages 的 `/tomz-io/` base；
+- Preview 输出统一加 `noindex,nofollow`，并通过 `robots.txt` 禁止索引；Cloudflare Preview 同时默认返回 `X-Robots-Tag: noindex`；
+- Preview 不上传正文媒体到 R2，也不改写 Git 中的正文事实源；
+- `.github/workflows/pages-preview.yml` 只保留 GitHub Pages base / 静态输出兼容性验证，不再写入或 force-push `gh-pages`；
+- 正式发布仍必须经过 Tomz 最终编辑判断，再合入 `main`，由生产 Cloudflare Pages workflow 发布到 `tomz.io`。
 
-换句话说：**每一期先在 GitHub Pages 上被看见、被修改、被验收，再考虑正式出版。**
+换句话说：**每一期直接在自己的 Cloudflare Preview 上被看见、被修改、被验收，最后才进入正式出版。**
 
 发布后：
 
