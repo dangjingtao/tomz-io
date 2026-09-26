@@ -5,10 +5,6 @@ on:
     branches:
       - "content/jianpi-*"
       - preview/weekly-v0-1
-      - preview/qishu
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -20,7 +16,6 @@ concurrency:
 
 jobs:
   deploy-preview:
-    if: github.event_name != 'pull_request' || github.head_ref == 'preview/qishu'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
