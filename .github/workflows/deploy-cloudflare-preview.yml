@@ -1,0 +1,90 @@
+name: Cloudflare Branch Preview
+
+on:
+  push:
+    branches:
+      - "content/**"
+      - "preview/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Media pipeline unit tests
+        run: pnpm run media:test
+
+      - name: Media production scan (no upload, no source rewrite)
+        run: pnpm run media:prepare
+        env:
+          R2_PUBLIC_BASE_URL: https://assets.tomz.io
+
+      - name: Build root preview
+        run: pnpm run build
+        env:
+          CF_PAGES: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Apply preview-only noindex
+        run: node scripts/prepare-pages-preview.mjs
+
+      - name: Verify preview isolation
+        run: |
+          set -euo pipefail
+          grep -q 'noindex,nofollow' dist/index.html
+          grep -q 'noindex,nofollow' dist/blogs/shared-thinking/matter-awakens/index.html
+          grep -q 'Disallow: /' dist/robots.txt
+
+      - name: Deploy branch preview to Cloudflare Pages
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@3.90.0 pages deploy dist \
+            --project-name=tomz-io \
+            --branch="$GITHUB_REF_NAME" \
+            --commit-hash="$GITHUB_SHA" \
+            --commit-message="preview $GITHUB_REF_NAME@$GITHUB_SHA"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Write preview address
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH_ALIAS="$(printf '%s' "$GITHUB_REF_NAME" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          {
+            echo "### Cloudflare branch preview"
+            echo
+            echo "https://${BRANCH_ALIAS}.tomz-io.pages.dev"
+            echo
+            echo "Branch: \`$GITHUB_REF_NAME\`"
+            echo "Commit: \`$GITHUB_SHA\`"
+          } >> "$GITHUB_STEP_SUMMARY"
