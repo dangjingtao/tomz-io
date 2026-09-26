@@ -83,6 +83,16 @@ Google 的 Project Suncatcher 计划用原型卫星测试 TPU 在轨运行，同
 
 [Google ↗](https://blog.google/innovation-and-ai/models-and-research/google-research/google-project-suncatcher-facts/)
 
+## 本周已发布 / 延伸阅读
+
+### [Mira 稳定性周报｜2026-09-25](https://mira.tomz.io/blogs/engineering/mira-stability-weekly-2026-09-25)
+
+这一周 Mira 继续把“稳定”当成工程能力，而不是一句发布口号：从文档准确性、契约一致性、可观测性到回归测试，把那些平时不显眼、但决定系统能不能长期工作的东西一点点收紧。
+
+它和这一期“能力越来越便宜，环境开始变贵”的判断其实很接近——真正昂贵的，往往不是再多一个模型，而是让能力能够被可靠地承载、验证和持续使用。
+
+[阅读全文 →](https://mira.tomz.io/blogs/engineering/mira-stability-weekly-2026-09-25)
+
 ## 鬼集
 
 ### Fugleramme：本地 AI 听鸟，但坚持不用 AI 画鸟
