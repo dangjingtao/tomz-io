@@ -1,4 +1,4 @@
-name: External Book Pages Preview
+name: External Book Cloudflare Preview
 
 on:
   repository_dispatch:
@@ -16,10 +16,10 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: site-pages-preview
+  group: external-book-cloudflare-preview-${{ github.event.client_payload.repository || inputs.source_repository }}
   cancel-in-progress: true
 
 jobs:
@@ -91,11 +91,12 @@ jobs:
       - name: Media production scan (no upload, no source rewrite)
         run: npm run media:prepare
 
-      - run: npm run build:github-pages
-
-      - name: Verify GitHub Pages static output
+      - name: Build root preview (content times, static metadata, RSS)
+        run: npm run build
         env:
-          EXPECTED_BASE: tomz-io
+          CF_PAGES: "1"
+
+      - name: Verify root static output
         run: npm run verify:static-output
 
       - name: Apply preview-only noindex
@@ -124,22 +125,71 @@ jobs:
           if (!robots.includes("Disallow: /")) throw new Error("Preview robots.txt does not block crawlers");
           NODE
 
-      - name: Publish preview output to gh-pages
-        shell: bash
+      - name: Write external preview provenance
         run: |
           set -euo pipefail
-          cp -a dist /tmp/pages-dist
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin gh-pages
-          git switch --detach origin/gh-pages
-          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          cp -a /tmp/pages-dist/. .
-          touch .nojekyll
-          printf '%s\n' "$SOURCE_SHA" > .preview-source-sha
-          printf '%s\n' "$SOURCE_SHA" > preview-source-sha.txt
-          printf '%s\n' "$SOURCE_REPOSITORY" > preview-source-repository.txt
-          printf '%s\n' "$RENDERER_SHA" > preview-renderer-sha.txt
-          git add -A
-          git commit -m "deploy: external book preview $SOURCE_REPOSITORY@$SOURCE_SHA"
-          git push --force origin HEAD:gh-pages
+          printf '%s\n' "$SOURCE_SHA" > dist/.preview-source-sha
+          printf '%s\n' "$SOURCE_SHA" > dist/preview-source-sha.txt
+          printf '%s\n' "$SOURCE_REPOSITORY" > dist/preview-source-repository.txt
+          printf '%s\n' "$RENDERER_SHA" > dist/preview-renderer-sha.txt
+
+      - name: Resolve external preview alias
+        id: preview
+        shell: bash
+        env:
+          BOOK_ID: ${{ steps.external_book.outputs.book_id }}
+        run: |
+          set -euo pipefail
+          PREVIEW_BRANCH="preview/external-book/$BOOK_ID"
+          BRANCH_ALIAS="$(printf '%s' "$PREVIEW_BRANCH" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          printf 'branch=%s\n' "$PREVIEW_BRANCH" >> "$GITHUB_OUTPUT"
+          printf 'url=https://%s.tomz-io.pages.dev\n' "$BRANCH_ALIAS" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy external book preview to Cloudflare Pages
+        shell: bash
+        env:
+          PREVIEW_BRANCH: ${{ steps.preview.outputs.branch }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@3.90.0 pages deploy dist \
+            --project-name=tomz-io \
+            --branch="$PREVIEW_BRANCH" \
+            --commit-hash="$SOURCE_SHA" \
+            --commit-message="external book preview $SOURCE_REPOSITORY@$SOURCE_SHA"
+
+      - name: Verify deployed external book preview
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        run: |
+          set -euo pipefail
+          for ATTEMPT in $(seq 1 30); do
+            HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
+            BODY="$(curl -fsS "$PREVIEW_URL/" || true)"
+            DEPLOYED_SHA="$(curl -fsS "$PREVIEW_URL/preview-source-sha.txt" || true)"
+            if printf '%s\n' "$HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && printf '%s\n' "$BODY" | grep -q 'noindex,nofollow' \
+              && [ "$DEPLOYED_SHA" = "$SOURCE_SHA" ]; then
+              echo "Verified $PREVIEW_URL at $SOURCE_REPOSITORY@$SOURCE_SHA"
+              exit 0
+            fi
+            echo "Attempt $ATTEMPT/30: waiting for external preview alias"
+            sleep 2
+          done
+          echo "External preview alias did not converge with noindex."
+          exit 1
+
+      - name: Write external preview address
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        run: |
+          {
+            echo "### External Book Cloudflare preview"
+            echo
+            echo "$PREVIEW_URL"
+            echo
+            echo "Source: \`$SOURCE_REPOSITORY@$SOURCE_SHA\`"
+          } >> "$GITHUB_STEP_SUMMARY"

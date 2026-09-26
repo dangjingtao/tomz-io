@@ -106,7 +106,7 @@ CI workspace: src/pages/books/<book-id>/**
 - importer 不执行外部仓库代码，只读取 `publication.json` 和被声明的 Markdown；
 - 外部来源必须固定到精确 commit SHA，不使用浮动 branch 作为实际构建输入；
 - 署名必须由项目仓库显式声明，tomz.io 不允许用默认作者推断补齐；
-- Preview 输出仍只是 `gh-pages` 派生物。
+- Preview 输出通过 Cloudflare Pages Preview Deployment 发布；它不写入生产 `main`，也不再覆盖 `gh-pages`。
 
 ## 4. 内容时间
 
@@ -292,26 +292,54 @@ checkout (fetch-depth: 0)
 
 生产项目名：`tomz-io`。GitHub Pages 不是当前生产宿主。
 
-### 10.1 《见π》GitHub Pages 施工预览
+### 10.1 工作分支 Cloudflare Preview
 
-《见π》从 002 起使用独立施工分支：
+内容施工分支直接作为 Preview 环境，不再经过共享 `gh-pages` 槽位。
+
+当前入口：
 
 ~~~text
-content/jianpi-<issue>
+.github/workflows/deploy-cloudflare-preview.yml
 ~~~
 
-该分支每次 push 都由 `.github/workflows/pages-preview.yml` 构建 GitHub Pages 模式并强制更新 `gh-pages`，作为当前一期的编辑 / 视觉预览环境。
+触发范围：
 
-预览环境具有以下边界：
+~~~text
+content/**
+preview/**
+~~~
 
-- 仅用于施工验收，不代表生产已发布；
-- 使用 `/tomz-io/` base；
-- 发布前执行 `prepare-pages-preview.mjs`，统一加入 `noindex,nofollow` 并禁止 robots 抓取；
-- 只执行媒体扫描，不上传 R2，不改写正文源文件；
-- `gh-pages` 是“当前最新施工预览”通道，同一时刻以最近一次成功部署为准；
-- 正式生产仍只从 `main` 进入 Cloudflare Pages。
+每个工作分支 push 后，workflow 使用生产同一个 Cloudflare Pages 项目 `tomz-io`，但通过：
 
-### 10.2 External Book GitHub Pages 预览
+~~~text
+wrangler pages deploy dist --project-name=tomz-io --branch=preview/<当前 Git 分支>
+~~~
+
+生成独立 Preview Deployment。
+
+边界：
+
+- `main` 仍是唯一生产分支，继续由 `.github/workflows/deploy-cloudflare-pages.yml` 发布到 `tomz.io`；Preview workflow 同时硬拒绝 `main`，并只使用 `preview/...` Cloudflare branch namespace；
+- 每个非生产工作分支映射到 `preview/<Git 分支>` Cloudflare branch namespace，拥有自己的 Preview Deployment，不与其他分支共享可变部署槽；
+- 同一分支的新提交只更新自己的 branch alias，并保留 Cloudflare 的 commit deployment；
+- Preview 使用 root build（`/` base），运行环境更接近生产 Cloudflare Pages；
+- Preview 继续执行 `prepare-pages-preview.mjs`，在静态 HTML 加入 `noindex,nofollow` 并阻止 robots 抓取；
+- Cloudflare Pages Preview 还会默认附加 `X-Robots-Tag: noindex`；
+- Preview 只做媒体扫描，不上传 R2，也不改写正文源文件；
+- workflow concurrency 按分支隔离；一个分支的新提交只会取消该分支自己的旧 Preview 构建；
+- 部署产物保留 `preview-source-sha.txt` / `preview-source-branch.txt`，workflow 会从 branch alias 实际回读 SHA，并验证 Cloudflare Preview 的 `X-Robots-Tag: noindex` 后才算成功。
+
+`.github/workflows/pages-preview.yml` 不再发布 `gh-pages`。它只提供手工 GitHub Pages base / 静态输出兼容性验证；PR 的 `Verify Site` 仍会自动执行 GitHub Pages 构建与静态校验，防止 `/tomz-io/` 构建能力在后续修改中退化。
+
+因此：
+
+~~~text
+GitHub Actions / GitHub Pages mode = 兼容性验证
+Cloudflare Preview                 = 真人施工预览
+Cloudflare Production              = 正式发布
+~~~
+
+### 10.2 External Book Cloudflare Preview
 
 入口：
 
@@ -319,12 +347,20 @@ content/jianpi-<issue>
 .github/workflows/external-book-preview.yml
 ~~~
 
-触发支持：
+触发仍支持：
 
 - `workflow_dispatch`：人工提供公开项目仓库与精确 SHA；
 - `repository_dispatch: external-book-preview`：由项目仓库在晋级 preview 后通知。
 
-工作流始终 checkout tomz.io `main` 作为受信任渲染器，再 checkout 外部项目的精确 SHA。导入只发生在 runner 工作区；构建完成后继续执行静态校验、`noindex,nofollow` 和 robots 隔离，再覆盖 `gh-pages`。
+工作流始终 checkout tomz.io `main` 作为受信任渲染器，再 checkout 外部项目的精确 SHA。导入只发生在 runner 工作区。
+
+构建完成后：
+
+- 使用 root production-shaped build；
+- 执行静态页面存在性与 `noindex,nofollow` / robots 隔离检查；
+- 以 `preview/external-book/<book-id>` 作为 Cloudflare Preview branch 发布到同一个 `tomz-io` Pages 项目；
+- 保留 `preview-source-sha.txt`、`preview-source-repository.txt`、`preview-renderer-sha.txt` 等来源证据，并在部署后回读校验；
+- 不再覆盖 `gh-pages`，也不会与《见π》或其他施工分支互相取消 / 抢占预览。
 
 ## 11. PR 验证
 
