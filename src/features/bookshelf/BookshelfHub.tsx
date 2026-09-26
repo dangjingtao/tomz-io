@@ -15,6 +15,7 @@ import {
   getBookEntry,
   latestBookEntry,
 } from "../../content/bookshelf";
+import { formatContentTime } from "../../content/content-time";
 import { type Doc } from "../../content/mira-docs-adapter";
 import { siteName, siteUrl } from "../../site.config";
 import "./bookshelf.css";
@@ -163,6 +164,9 @@ function BookshelfIndex() {
           {books.map((book, index) => {
             const entries = bookEntries(book.id);
             const latest = latestBookEntry(book.id);
+            const latestDate = latest
+              ? formatContentTime(latest.publishedAt || latest.date)
+              : undefined;
             return (
               <Link className={`bookshelf-book${book.cover ? " has-cover" : ""}`} to={`/books/${book.id}`} key={book.id}>
                 <div className="bookshelf-book-index" aria-hidden="true">
@@ -181,7 +185,7 @@ function BookshelfIndex() {
                   <p>{book.description}</p>
                   <div className="bookshelf-book-meta">
                     <span>{entries.length} 篇</span>
-                    {latest?.date ? <span>最近更新 · {latest.date}</span> : null}
+                    {latestDate ? <span>最近更新 · {latestDate}</span> : null}
                   </div>
                   {latest ? (
                     <div className="bookshelf-book-latest">
