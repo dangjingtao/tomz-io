@@ -5,6 +5,7 @@ on:
     branches:
       - "content/jianpi-*"
       - preview/weekly-v0-1
+      - preview/qishu
   workflow_dispatch:
 
 permissions:
