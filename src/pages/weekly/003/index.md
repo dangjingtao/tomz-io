@@ -23,6 +23,18 @@ writtenBy: mira | tomz
 
 > **施工预览**：这是第三期的第一轮编辑编排。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 GitHub Pages 预览，不代表正式出版。
 
+## 封面故事
+
+### [AI帮你买东西](/blogs/shared-thinking/ai-shops-for-you)
+
+![见π 003 封面](https://assets.tomz.io/images/%E8%A7%81%CF%80003_%E5%B0%81%E9%9D%A2_%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%AD%A3%E7%A1%AE%E7%89%88.webp)
+
+人已经越来越习惯让 AI 帮忙找商品、比价格、读评价，但“替我选”和“替我买”之间，仍然隔着一道很重要的边界。
+
+这篇从买鞋、订酒店这些普通场景出发，继续往下追问：AI 到底能替我们决定到哪里？它代表消费者，还是代表提供它的平台？哪些摩擦应该被消灭，哪些确认反而是在保护人的选择权？
+
+[阅读全文 →](/blogs/shared-thinking/ai-shops-for-you)
+
 ## 本期判断
 
 ### 能力越来越便宜，环境开始变贵
@@ -72,18 +84,6 @@ GitHub Copilot app 新增企业管理的 OpenTelemetry 配置，可以把 Agent 
 [原始来源：GitHub Changelog ↗](https://github.blog/changelog/2026-09-22-opentelemetry-in-the-github-copilot-app/)
 
 ## 入口与关系
-
-### Agent 替你买东西以后，谁承担错误？
-
-多家银行开始公开讨论 AI shopping agents 带来的诈骗、隐私、支付与追责问题。
-
-这里真正重要的不是“银行担心 AI”。
-
-而是 Agentic Commerce 一旦从演示走进真实交易，产品问题马上变成：这个 Agent 是否真的代表用户？它拿到了哪些金融数据？它为什么选择这种支付方式？买错以后，消费者应该找谁？
-
-**执行能力可以外包，责任关系却不能凭空消失。**
-
-[Reuters ↗](https://www.reuters.com/legal/litigation/banks-warn-ai-shopping-bots-raise-scam-fraud-data-privacy-risks-2026-09-22/)
 
 ### Firefox 把 AI 做成一种窗口，而不是整个浏览器
 
