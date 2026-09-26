@@ -94,8 +94,12 @@ function WeeklyListPage() {
       <header className="weekly-masthead weekly-frame">
         <p className="weekly-eyebrow">TOMZ.IO 一级内容产品 · 每周一出刊</p>
         <h1>见π</h1>
-        <p className="weekly-masthead-statement">不是把这一周发生的东西都搬进来，而是留下这一周值得继续看的东西。</p>
-        <p className="weekly-masthead-desc">Tomz 与 Mira 持续观察外部世界，从技术、产品、开源、商业、研究、历史与异常信息中筛选、聚类与判断，最终形成一期一期经过编辑的内容产品。</p>
+        <p className="weekly-masthead-statement">
+          见π，取意于“见几”。几者，动之微。很多真正重要的变化，在成为趋势以前，只是一些尚未连成线的细微信号。
+        </p>
+        <p className="weekly-masthead-desc">
+          我们每周从技术、产品、开源、商业、研究、历史与生活里，留下那些已经开始发生，却还没有完全显形的东西。不是把这一周都搬进来，而是试着早一点看见下一步。
+        </p>
         <div className="weekly-masthead-meta">
           <span>永久期号</span><i aria-hidden="true" />
           <span>一期一次编辑</span><i aria-hidden="true" />
