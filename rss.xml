@@ -6,16 +6,7 @@
     <description>Tomz 的个人出版空间：独立开发、产品、AI、写作与持续思考。</description>
     <language>zh-CN</language>
     <atom:link href="https://tomz.io/tomz-io/rss.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 26 Sep 2026 00:50:47 GMT</lastBuildDate>
-    <item>
-      <title>盛唐回不来了，然后呢？</title>
-      <link>https://tomz.io/tomz-io/books/qishu/tang-after-755/</link>
-      <guid isPermaLink="true">https://tomz.io/tomz-io/books/qishu/tang-after-755/</guid>
-      <description>安史之乱以后，大唐没有恢复成原来的盛唐，却通过税制、盐利、漕运、市场网络与地方权力重组，换了一套继续活下去的办法。</description>
-      <pubDate>Sat, 26 Sep 2026 00:50:47 GMT</pubDate>
-      <dc:creator>Tomz Dang</dc:creator>
-      <dc:creator>Mira</dc:creator>
-    </item>
+    <lastBuildDate>Fri, 25 Sep 2026 22:39:15 GMT</lastBuildDate>
     <item>
       <title>AI帮你买东西</title>
       <link>https://tomz.io/tomz-io/blogs/shared-thinking/ai-shops-for-you/</link>
