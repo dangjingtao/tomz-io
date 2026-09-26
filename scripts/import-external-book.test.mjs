@@ -26,6 +26,7 @@ async function writeFixture(root, overrides = {}) {
       id: "example-book",
       title: "Example Book",
       description: "Example description",
+      cover: "https://assets.example.com/example-book.webp",
       category: "Research",
       kind: "collection",
       order: 50,
@@ -81,6 +82,7 @@ await withTemp(async (root) => {
   const manifest = await readFile(join(output, "example-book/_book.yml"), "utf8");
   assert.match(manifest, /id: example-book/);
   assert.match(manifest, /title: "Example Book"/);
+  assert.match(manifest, /cover: "https:\/\/assets\.example\.com\/example-book\.webp"/);
 
   const article = await readFile(join(output, "example-book/first.md"), "utf8");
   assert.match(article, /title: "First Essay"/);
