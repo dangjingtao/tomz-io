@@ -186,13 +186,13 @@ function BookshelfIndex() {
                   <div className="bookshelf-book-meta">
                     <span>{entries.length} 篇</span>
                     {latestDate ? <span>最近更新 · {latestDate}</span> : null}
+                    {latest ? (
+                      <>
+                        <span className="bookshelf-book-meta-latest-label">最近写下 ·</span>
+                        <strong className="bookshelf-book-meta-latest-title">{latest.title}</strong>
+                      </>
+                    ) : null}
                   </div>
-                  {latest ? (
-                    <div className="bookshelf-book-latest">
-                      <span>最近写下</span>
-                      <strong>{latest.title}</strong>
-                    </div>
-                  ) : null}
                 </div>
                 <ArrowUpRight className="bookshelf-book-arrow" size={19} strokeWidth={1.5} aria-hidden="true" />
               </Link>
