@@ -1,4 +1,0 @@
-repository=dangjingtao/qishu
-ref=test
-commit=66390f11c4630093b80fcd06f640436362cca8ee
-source=essays/tang-after-755.md
