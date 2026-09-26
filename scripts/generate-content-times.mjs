@@ -13,6 +13,7 @@ const root = process.cwd();
 const pagesRoot = resolve(root, "src/pages");
 const outputPath = resolve(root, "src/content/content-times.generated.ts");
 const cachePath = resolve(root, ".mira-cache/content-times.json");
+const externalHistoryPath = resolve(root, ".mira-cache/external-content-history.json");
 const SITE_OFFSET_MS = 8 * 60 * 60 * 1000;
 
 // These commits remain valid modification history, but are not evidence that an
@@ -128,26 +129,31 @@ if (shallow === "true") {
   console.warn(`Warning: ${message}`);
 }
 
+const externalHistory = existsSync(externalHistoryPath)
+  ? JSON.parse(readFileSync(externalHistoryPath, "utf8"))
+  : {};
+
 const contentTimes = {};
 for (const file of markdownFiles(pagesRoot)) {
   const repositoryPath = relative(root, file).replace(/\\/g, "/");
   const sourcePath = relative(pagesRoot, file).replace(/\\/g, "/");
   const source = readFileSync(file, "utf8");
   const doc = parseMiraDoc(sourcePath, source);
-  const raw = runGit(
-    ["log", "--follow", "--format=%H%x09%cI%x09%s", "--", repositoryPath],
-    { quiet: true },
-  );
-  const commits = raw
-    .split(/\r?\n/)
-    .map((line) => {
-      const [sha, committedAt, ...subjectParts] = line.split("\t");
-      return {
-        sha: sha?.trim(),
-        committedAt: committedAt?.trim(),
-        subject: subjectParts.join("\t").trim(),
-      };
-    })
+  const external = externalHistory[sourcePath];
+  const raw = external
+    ? ""
+    : runGit(
+        ["log", "--follow", "--format=%H%x09%cI%x09%s", "--", repositoryPath],
+        { quiet: true },
+      );
+  const commits = (external?.commits || raw.split(/\r?\n/).map((line) => {
+    const [sha, committedAt, ...subjectParts] = line.split("\t");
+    return {
+      sha: sha?.trim(),
+      committedAt: committedAt?.trim(),
+      subject: subjectParts.join("\t").trim(),
+    };
+  }))
     .filter(
       (commit) =>
         commit.sha &&
