@@ -23,7 +23,7 @@ Tomz.io 是个人主站和长期出版空间，不是单一博客模板。
 
 ## 2. 内容入口与运行时数据流
 
-源内容位于 `src/pages/`。
+本仓库原生源内容位于 `src/pages/`。外部项目 Book 是例外：其内容真相保留在项目仓库，tomz.io 只在 CI 工作区按精确 commit SHA 临时导入，导入结果不提交回本仓库。
 
 MiraDocs Vite 插件读取 Markdown 后，运行时数据主要经过：
 
@@ -82,6 +82,31 @@ src/pages/books/<book-id>/
 ### works
 
 作品保持独立根。连环画相关还有独立素材检查、构建与 R2 发布 pipeline；它与通用正文媒体链分开维护。
+
+### External Book
+
+长期研究 / 写作项目可以由独立仓库持有正文与出版合同：
+
+~~~text
+project repository @ exact SHA
+├── publication.json
+└── essays / source content
+        ↓
+scripts/import-external-book.mjs
+        ↓
+CI workspace: src/pages/books/<book-id>/**
+        ↓
+现有 MiraDocs / Bookshelf / static SEO
+~~~
+
+边界：
+
+- 项目仓库是正文、Book 元数据、条目关系与署名声明的单一真相源；
+- tomz.io 不提交外部 Book 的 Markdown 副本；
+- importer 不执行外部仓库代码，只读取 `publication.json` 和被声明的 Markdown；
+- 外部来源必须固定到精确 commit SHA，不使用浮动 branch 作为实际构建输入；
+- 署名必须由项目仓库显式声明，tomz.io 不允许用默认作者推断补齐；
+- Preview 输出仍只是 `gh-pages` 派生物。
 
 ## 4. 内容时间
 
@@ -286,6 +311,21 @@ content/jianpi-<issue>
 - `gh-pages` 是“当前最新施工预览”通道，同一时刻以最近一次成功部署为准；
 - 正式生产仍只从 `main` 进入 Cloudflare Pages。
 
+### 10.2 External Book GitHub Pages 预览
+
+入口：
+
+~~~text
+.github/workflows/external-book-preview.yml
+~~~
+
+触发支持：
+
+- `workflow_dispatch`：人工提供公开项目仓库与精确 SHA；
+- `repository_dispatch: external-book-preview`：由项目仓库在晋级 preview 后通知。
+
+工作流始终 checkout tomz.io `main` 作为受信任渲染器，再 checkout 外部项目的精确 SHA。导入只发生在 runner 工作区；构建完成后继续执行静态校验、`noindex,nofollow` 和 robots 隔离，再覆盖 `gh-pages`。
+
 ## 11. PR 验证
 
 PR 验证入口：
@@ -315,7 +355,8 @@ PR 另有统一 AI Review Gate；其 provider / fallback 规则以当前 `.githu
 
 人工事实源：
 
-- `src/pages/**`
+- `src/pages/**`（tomz.io 原生内容）
+- 外部 Book：对应项目仓库的 `publication.json` + 被其引用的正文，按精确 SHA 读取；tomz.io 中的临时导入目录不是人工事实源
 - `src/pages/books/*/_book.yml`
 - `site-policy.json`
 - `src/site.config.ts`
