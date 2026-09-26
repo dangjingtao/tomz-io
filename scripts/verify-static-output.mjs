@@ -185,6 +185,7 @@ if (!books.length) {
     if (!html.includes('"@type":"CollectionPage"')) failures.push("/books 缺少 CollectionPage JSON-LD");
     for (const book of books) {
       if (!html.includes(book.title)) failures.push(`/books 未展示书目: ${book.title}`);
+      if (book.cover && !html.includes(book.cover)) failures.push(`/books 未展示书封: ${book.title}`);
     }
   }
 
@@ -206,6 +207,8 @@ if (!books.length) {
       if (!html.includes(`<link rel="canonical" href="${routeUrl(bookRoute)}">`)) failures.push(`书首页 canonical 错误: ${bookRoute}`);
       if (!html.includes('"@type":"CollectionPage"')) failures.push(`书首页缺少 CollectionPage JSON-LD: ${bookRoute}`);
       if (!html.includes('"@type":"ItemList"')) failures.push(`书首页缺少 ItemList JSON-LD: ${bookRoute}`);
+      if (book.cover && !html.includes(book.cover)) failures.push(`书首页未展示书封: ${bookRoute}`);
+      if (book.cover && !html.includes('"image"')) failures.push(`书首页 JSON-LD 缺少书封 image: ${bookRoute}`);
       for (const entryFile of entryFiles) {
         const slug = relative(resolve(booksRoot, book.id), entryFile).replace(/\\/g, "/").replace(/\.md$/i, "");
         const entryRoute = `${bookRoute}/${slug}`;
