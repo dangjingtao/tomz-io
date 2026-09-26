@@ -60,7 +60,7 @@ jobs:
           repository: ${{ env.SOURCE_REPOSITORY }}
           ref: ${{ env.SOURCE_SHA }}
           path: .external-book-source
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: actions/setup-node@v4
@@ -81,7 +81,8 @@ jobs:
             --source .external-book-source \
             --output src/pages/books \
             --source-repository "$SOURCE_REPOSITORY" \
-            --source-sha "$SOURCE_SHA"
+            --source-sha "$SOURCE_SHA" \
+            --history-output .mira-cache/external-content-history.json
           BOOK_ID="$(node --input-type=module -e "import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('.external-book-source/publication.json','utf8')); process.stdout.write(p.book.id)")"
           printf 'book_id=%s\n' "$BOOK_ID" >> "$GITHUB_OUTPUT"
 
