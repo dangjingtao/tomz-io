@@ -329,7 +329,7 @@ wrangler pages deploy dist --project-name=tomz-io --branch=<当前分支>
 - workflow concurrency 按分支隔离；一个分支的新提交只会取消该分支自己的旧 Preview 构建；
 - 部署产物保留 `preview-source-sha.txt` / `preview-source-branch.txt`，workflow 会从 branch alias 实际回读 SHA，并验证 Cloudflare Preview 的 `X-Robots-Tag: noindex` 后才算成功。
 
-`.github/workflows/pages-preview.yml` 不再发布 `gh-pages`。它仅保留 GitHub Pages base / 静态输出兼容性验证，防止 `/tomz-io/` 构建能力在后续修改中退化。
+`.github/workflows/pages-preview.yml` 不再发布 `gh-pages`。它只提供手工 GitHub Pages base / 静态输出兼容性验证；PR 的 `Verify Site` 仍会自动执行 GitHub Pages 构建与静态校验，防止 `/tomz-io/` 构建能力在后续修改中退化。
 
 因此：
 
