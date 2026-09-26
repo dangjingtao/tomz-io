@@ -185,6 +185,10 @@
   }
 }
 
+.bookshelf-grid > .bookshelf-book:last-child {
+  border-bottom: 0;
+}
+
 .bookshelf-book:hover .bookshelf-book-arrow {
   transform: translate(3px, -3px);
 }
