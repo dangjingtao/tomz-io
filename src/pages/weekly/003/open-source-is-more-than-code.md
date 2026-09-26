@@ -52,7 +52,7 @@ MilleMiglia 的答案不是要求企业把秘密交出来。
 
 **不公开秘密本身，而是公开秘密背后那个问题的结构。**
 
-陌生研究者因此第一次能够在同一类问题上比较方法，而不需要先得到某家物流企业的数据库。
+陌生研究者因此能够在同一类问题上比较方法，而不需要先得到某家物流企业的数据库。
 
 [Google Research：MilleMiglia](https://www.research.google/blog/millemiglia-a-realistic-instance-generator-for-middle-mile-logistics/)
 
