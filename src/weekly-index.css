@@ -65,10 +65,9 @@
 .weekly-index-markdown img{
   display:block;
   width:100%;
-  max-height:620px;
+  height:auto;
   margin:0 0 30px;
   border-radius:2px;
-  object-fit:cover;
 }
 .weekly-index-markdown>hr{
   margin:70px 0 0;
