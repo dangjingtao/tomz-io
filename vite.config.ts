@@ -242,7 +242,8 @@ function bookshelfStaticBody(context: any, books: BookManifest[]): string {
   const cards = books.map((book) => {
     const entries = docsForBook(context, book.id);
     const latest = [...entries].sort(compareBookEntriesNewestFirst)[0];
-    return `<article class="area-overview-card"><span class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</span><h2><a href="${hrefFor(context.base, `/books/${book.id}`)}">${escapeHtml(book.title)}</a></h2><p>${escapeHtml(book.description)}</p><p>${entries.length} 篇${latest ? ` · 最近：${escapeHtml(latest.title)}` : ""}</p></article>`;
+    const cover = book.cover ? `<img src="${escapeHtml(book.cover)}" alt="《${escapeHtml(book.title)}》封面" loading="lazy">` : "";
+    return `<article class="area-overview-card">${cover}<span class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</span><h2><a href="${hrefFor(context.base, `/books/${book.id}`)}">${escapeHtml(book.title)}</a></h2><p>${escapeHtml(book.description)}</p><p>${entries.length} 篇${latest ? ` · 最近：${escapeHtml(latest.title)}` : ""}</p></article>`;
   }).join("");
   const main = `<main class="doc-main seo-static-content"><div class="doc-title-block"><h1>书架</h1><p class="doc-lede">专题、阅读札记与未来的小说，以一本本书的方式放在这里。</p></div><section class="docs-sitemap-grid">${cards}</section></main>`;
   return `${bookshelfStaticNav(context.base)}${main}`;
@@ -251,7 +252,8 @@ function bookshelfStaticBody(context: any, books: BookManifest[]): string {
 function bookStaticBody(context: any, book: BookManifest): string {
   const entries = docsForBook(context, book.id);
   const list = entries.map((doc: any) => `<li><a href="${hrefFor(context.base, doc.path)}"><span>${String(doc.order).padStart(2, "0")}</span> ${escapeHtml(doc.title)}</a>${doc.description ? `<p>${escapeHtml(doc.description)}</p>` : ""}</li>`).join("");
-  const main = `<main class="doc-main seo-static-content"><div class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</div><div class="doc-title-block"><h1>${escapeHtml(book.title)}</h1><p class="doc-lede">${escapeHtml(book.description)}</p></div><section class="area-overview-card"><ol>${list}</ol></section></main>`;
+  const cover = book.cover ? `<img src="${escapeHtml(book.cover)}" alt="《${escapeHtml(book.title)}》封面">` : "";
+  const main = `<main class="doc-main seo-static-content">${cover}<div class="doc-eyebrow">${escapeHtml(book.category || "BOOK")}</div><div class="doc-title-block"><h1>${escapeHtml(book.title)}</h1><p class="doc-lede">${escapeHtml(book.description)}</p></div><section class="area-overview-card"><ol>${list}</ol></section></main>`;
   return `${bookshelfStaticNav(context.base)}${main}`;
 }
 
@@ -262,6 +264,7 @@ function collectionJsonLd(context: any, book: BookManifest, entries: any[]) {
     name: book.title,
     description: book.description,
     url: `${siteUrl}/books/${book.id}`,
+    ...(book.cover ? { image: book.cover } : {}),
     mainEntity: {
       "@type": "ItemList",
       itemListElement: entries.map((entry: any, index: number) => ({
