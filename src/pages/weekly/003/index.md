@@ -23,7 +23,7 @@ writtenBy: mira | tomz
 
 > **施工预览**：这是第三期的编辑施工稿。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 Cloudflare Preview 验收，不代表正式出版。
 
-## 封面故事
+## 封面文章
 
 ### [AI帮你买东西](/blogs/shared-thinking/ai-shops-for-you)
 
@@ -83,7 +83,7 @@ Google 的 Project Suncatcher 计划用原型卫星测试 TPU 在轨运行，同
 
 [Google ↗](https://blog.google/innovation-and-ai/models-and-research/google-research/google-project-suncatcher-facts/)
 
-## 本周已发布 / 延伸阅读
+## 近期已经发表
 
 ### [Mira 稳定性周报｜2026-09-25](https://mira.tomz.io/blogs/engineering/mira-stability-weekly-2026-09-25)
 
