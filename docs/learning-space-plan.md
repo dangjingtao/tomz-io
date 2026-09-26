@@ -83,6 +83,7 @@ kind / category 是属性，不改变 /books/<book-id> 的基础层级。
 id: agent
 title: 一起学智能体
 description: 从真实产品与工程问题出发，持续理解 Agent、Tool Calling、MCP、Skill 与相关实践。
+cover: https://assets.example.com/book-cover.webp
 category: AI / Agent
 kind: study
 order: 10
@@ -95,6 +96,7 @@ legacyPrefix: /blogs/agent-learning
 - id：稳定 book id，必填；**必须与所在目录 `src/pages/books/<book-id>/` 的 `<book-id>` 完全一致**，避免书页路由与 Entry 归属分裂
 - title：书名，必填
 - description：书的说明
+- cover：可选；书架封面。支持 HTTPS URL 或站内绝对路径。推荐竖版约 1:1.414 比例；展示层按比例缩放，不要求仓库保存图片副本
 - category：内容属性
 - kind：study | reading-notes | novel | collection | other
 - order：书架排序
