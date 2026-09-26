@@ -175,44 +175,13 @@
   }
 
   .bookshelf-book.has-cover .bookshelf-book-meta {
-    grid-column: 1;
+    grid-column: 1 / -1;
     grid-row: 4;
     flex-wrap: nowrap;
+    min-width: 0;
     margin-top: 14px;
     white-space: nowrap;
-  }
-
-  .bookshelf-book.has-cover .bookshelf-book-latest {
-    grid-column: 2;
-    grid-row: 4;
-    display: flex;
-    align-items: baseline;
-    min-width: 0;
-    gap: 8px;
-    margin-top: 14px;
     overflow: hidden;
-  }
-
-  .bookshelf-book.has-cover .bookshelf-book-latest span {
-    flex: 0 0 auto;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    white-space: nowrap;
-  }
-
-  .bookshelf-book.has-cover .bookshelf-book-latest span::after {
-    content: "·";
-    margin-left: 8px;
-    color: var(--muted-soft);
-  }
-
-  .bookshelf-book.has-cover .bookshelf-book-latest strong {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 13px;
-    line-height: 1.5;
   }
 }
 
@@ -245,6 +214,7 @@
 .bookshelf-book-meta {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: 8px 18px;
   margin-top: 18px;
   color: var(--muted-soft);
@@ -252,22 +222,21 @@
   font-size: 11px;
 }
 
-.bookshelf-book-latest {
-  display: grid;
-  gap: 4px;
-  margin-top: 24px;
+.bookshelf-book-meta-latest-label {
+  flex: 0 0 auto;
 }
 
-.bookshelf-book-latest span {
-  font-size: 12px;
-  color: var(--muted-soft);
-}
-
-.bookshelf-book-latest strong {
-  font-size: 15px;
-  font-weight: 500;
+.bookshelf-book-meta-latest-title {
+  min-width: 0;
+  overflow: hidden;
   color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
 
 .bookshelf-book-arrow {
   margin-top: 8px;
@@ -575,7 +544,8 @@
 
   .bookshelf-book.has-cover > .bookshelf-book-index,
   .bookshelf-book.has-cover > .bookshelf-book-arrow,
-  .bookshelf-book.has-cover .bookshelf-book-latest {
+  .bookshelf-book.has-cover .bookshelf-book-meta-latest-label,
+  .bookshelf-book.has-cover .bookshelf-book-meta-latest-title {
     display: none;
   }
 
