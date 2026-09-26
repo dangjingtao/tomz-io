@@ -1,18 +1,14 @@
 name: GitHub Pages Compatibility
 
 on:
-  push:
-    branches:
-      - "content/**"
-      - "preview/**"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: github-pages-compat-${{ github.ref }}
-  cancel-in-progress: true
+  group: github-pages-compat
+  cancel-in-progress: false
 
 jobs:
   verify-github-pages-output:
