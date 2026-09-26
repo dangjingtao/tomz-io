@@ -616,11 +616,11 @@ content/jianpi-002
 content/jianpi-003
 ```
 
-该类分支每次 push 后，由 `.github/workflows/deploy-cloudflare-preview.yml` 构建 root 站点，并以当前分支名发布到同一个 `tomz-io` Cloudflare Pages 项目的 Preview Deployment。
+该类分支每次 push 后，由 `.github/workflows/deploy-cloudflare-preview.yml` 构建 root 站点，并映射到 `preview/<当前 Git 分支>` Cloudflare branch，发布到同一个 `tomz-io` Cloudflare Pages 项目的 Preview Deployment。
 
 预览规则：
 
-- 每个施工分支拥有自己的 Cloudflare branch preview，不共享“最新预览”槽位；
+- 每个施工分支拥有自己的 Cloudflare branch preview，不共享“最新预览”槽位；稳定地址形如 `https://preview-content-jianpi-003.tomz-io.pages.dev/`；
 - 同一分支的新提交只更新自己的稳定 branch alias，其他施工分支不受影响；
 - Preview 使用与生产一致的 root base，而不是 GitHub Pages 的 `/tomz-io/` base；
 - Preview 输出统一加 `noindex,nofollow`，并通过 `robots.txt` 禁止索引；Cloudflare Preview 同时默认返回 `X-Robots-Tag: noindex`；
@@ -628,7 +628,7 @@ content/jianpi-003
 - `.github/workflows/pages-preview.yml` 只保留 GitHub Pages base / 静态输出兼容性验证，不再写入或 force-push `gh-pages`；
 - 正式发布仍必须经过 Tomz 最终编辑判断，再合入 `main`，由生产 Cloudflare Pages workflow 发布到 `tomz.io`。
 
-换句话说：**每一期直接在自己的 Cloudflare Preview 上被看见、被修改、被验收，最后才进入正式出版。**
+换句话说：**每一期直接在自己的 Cloudflare Preview 上被看见、被修改、被验收，最后才进入正式出版。** 旧 GitHub Pages 施工地址不再代表当前预览状态。
 
 发布后：
 
