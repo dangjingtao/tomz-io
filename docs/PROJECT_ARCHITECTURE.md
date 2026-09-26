@@ -312,15 +312,15 @@ preview/**
 每个工作分支 push 后，workflow 使用生产同一个 Cloudflare Pages 项目 `tomz-io`，但通过：
 
 ~~~text
-wrangler pages deploy dist --project-name=tomz-io --branch=<当前分支>
+wrangler pages deploy dist --project-name=tomz-io --branch=preview/<当前 Git 分支>
 ~~~
 
 生成独立 Preview Deployment。
 
 边界：
 
-- `main` 仍是唯一生产分支，继续发布到 `tomz.io`；
-- 每个非生产工作分支拥有自己的 Cloudflare branch preview，不与其他分支共享可变部署槽；
+- `main` 仍是唯一生产分支，继续由 `.github/workflows/deploy-cloudflare-pages.yml` 发布到 `tomz.io`；Preview workflow 同时硬拒绝 `main`，并只使用 `preview/...` Cloudflare branch namespace；
+- 每个非生产工作分支映射到 `preview/<Git 分支>` Cloudflare branch namespace，拥有自己的 Preview Deployment，不与其他分支共享可变部署槽；
 - 同一分支的新提交只更新自己的 branch alias，并保留 Cloudflare 的 commit deployment；
 - Preview 使用 root build（`/` base），运行环境更接近生产 Cloudflare Pages；
 - Preview 继续执行 `prepare-pages-preview.mjs`，在静态 HTML 加入 `noindex,nofollow` 并阻止 robots 抓取；
@@ -358,7 +358,7 @@ Cloudflare Production              = 正式发布
 
 - 使用 root production-shaped build；
 - 执行静态页面存在性与 `noindex,nofollow` / robots 隔离检查；
-- 以 `external-book/<book-id>` 作为 Cloudflare Preview branch 发布到同一个 `tomz-io` Pages 项目；
+- 以 `preview/external-book/<book-id>` 作为 Cloudflare Preview branch 发布到同一个 `tomz-io` Pages 项目；
 - 保留 `preview-source-sha.txt`、`preview-source-repository.txt`、`preview-renderer-sha.txt` 等来源证据，并在部署后回读校验；
 - 不再覆盖 `gh-pages`，也不会与《见π》或其他施工分支互相取消 / 抢占预览。
 
