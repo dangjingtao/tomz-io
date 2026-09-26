@@ -176,6 +176,10 @@ export async function importExternalBook(options) {
   const bookId = safeSlug(book.id, "book.id");
   const title = requiredString(book.title, "book.title");
   const description = requiredString(book.description, "book.description");
+  const cover = typeof book.cover === "string" ? book.cover.trim() : "";
+  if (cover && !/^(?:https:\/\/|\/)/i.test(cover)) {
+    fail("book.cover must be an https URL or a site-relative path");
+  }
   const kind = requiredString(book.kind || "other", "book.kind");
   const status = requiredString(book.status || "active", "book.status");
   const order = Number(book.order ?? 0);
@@ -232,6 +236,7 @@ export async function importExternalBook(options) {
     `id: ${bookId}`,
     `title: ${yamlString(title)}`,
     `description: ${yamlString(description)}`,
+    cover ? `cover: ${yamlString(cover)}` : "",
     book.category ? `category: ${yamlString(book.category)}` : "",
     `kind: ${kind}`,
     `order: ${order}`,
