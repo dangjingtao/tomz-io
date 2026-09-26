@@ -1,0 +1,145 @@
+name: External Book Pages Preview
+
+on:
+  repository_dispatch:
+    types:
+      - external-book-preview
+  workflow_dispatch:
+    inputs:
+      source_repository:
+        description: Public project repository in owner/name form
+        required: true
+        type: string
+      source_sha:
+        description: Exact 40-character source commit SHA
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-pages-preview
+  cancel-in-progress: true
+
+jobs:
+  deploy-external-book-preview:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_REPOSITORY: ${{ github.event.client_payload.repository || inputs.source_repository }}
+      SOURCE_SHA: ${{ github.event.client_payload.sha || inputs.source_sha }}
+      SOURCE_STAGE: ${{ github.event.client_payload.stage || 'preview' }}
+      RENDERER_SHA: ${{ github.sha }}
+    steps:
+      - name: Validate dispatch contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_REPOSITORY" =~ ^dangjingtao/[A-Za-z0-9._-]+$ ]] || {
+            echo "Unsupported source repository: $SOURCE_REPOSITORY" >&2
+            exit 1
+          }
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "source_sha must be an exact 40-character commit SHA" >&2
+            exit 1
+          }
+          [[ "$SOURCE_STAGE" == "preview" ]] || {
+            echo "Only preview dispatches are accepted by this workflow" >&2
+            exit 1
+          }
+
+      - name: Checkout trusted renderer
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Checkout external book source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPOSITORY }}
+          ref: ${{ env.SOURCE_SHA }}
+          path: .external-book-source
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install
+
+      - name: External book importer tests
+        run: npm run external-book:test
+
+      - name: Import external book into build workspace
+        id: external_book
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/import-external-book.mjs \
+            --source .external-book-source \
+            --output src/pages/books \
+            --source-repository "$SOURCE_REPOSITORY" \
+            --source-sha "$SOURCE_SHA"
+          BOOK_ID="$(node --input-type=module -e "import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('.external-book-source/publication.json','utf8')); process.stdout.write(p.book.id)")"
+          printf 'book_id=%s\n' "$BOOK_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Media pipeline unit tests
+        run: npm run media:test
+
+      - name: Media production scan (no upload, no source rewrite)
+        run: npm run media:prepare
+
+      - run: npm run build:github-pages
+
+      - name: Verify GitHub Pages static output
+        env:
+          EXPECTED_BASE: tomz-io
+        run: npm run verify:static-output
+
+      - name: Apply preview-only noindex
+        run: node scripts/prepare-pages-preview.mjs
+
+      - name: Verify imported book preview
+        env:
+          BOOK_ID: ${{ steps.external_book.outputs.book_id }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const publication = JSON.parse(fs.readFileSync(".external-book-source/publication.json", "utf8"));
+          const bookRoot = `dist/books/${publication.book.id}`;
+          const required = [
+            `${bookRoot}/index.html`,
+            ...publication.entries.map((entry) => `${bookRoot}/${entry.slug}/index.html`),
+          ];
+          for (const path of required) {
+            if (!fs.existsSync(path)) throw new Error(`Missing external book output: ${path}`);
+            const html = fs.readFileSync(path, "utf8");
+            if (!html.includes("noindex,nofollow")) {
+              throw new Error(`External book preview is indexable: ${path}`);
+            }
+          }
+          const robots = fs.readFileSync("dist/robots.txt", "utf8");
+          if (!robots.includes("Disallow: /")) throw new Error("Preview robots.txt does not block crawlers");
+          NODE
+
+      - name: Publish preview output to gh-pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp -a dist /tmp/pages-dist
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages
+          git switch --detach origin/gh-pages
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/pages-dist/. .
+          touch .nojekyll
+          printf '%s\n' "$SOURCE_SHA" > .preview-source-sha
+          printf '%s\n' "$SOURCE_SHA" > preview-source-sha.txt
+          printf '%s\n' "$SOURCE_REPOSITORY" > preview-source-repository.txt
+          printf '%s\n' "$RENDERER_SHA" > preview-renderer-sha.txt
+          git add -A
+          git commit -m "deploy: external book preview $SOURCE_REPOSITORY@$SOURCE_SHA"
+          git push --force origin HEAD:gh-pages
