@@ -382,6 +382,8 @@ PR 验证入口：
 ~~~text
 unit tests
 → media pipeline unit tests
+→ external book importer tests
+→ production external book import
 → media production scan（不上传、不改源码）
 → MiraDocs parse / route uniqueness
 → root build
