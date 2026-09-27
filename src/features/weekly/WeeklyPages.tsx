@@ -14,6 +14,7 @@ import {
   weeklyIssueNumber,
   weeklyIssuePath,
 } from "./weekly-utils";
+import { weeklyMastheadDescription, weeklyMastheadStatement, weeklyWatchTopics } from "./weekly-copy";
 
 function resolveWeeklyMarkdownUrls(html: string) {
   return html.replace(/\b(href|src)="\/(?!\/)/g, `$1="${appBase}`);
