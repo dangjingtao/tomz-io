@@ -26,6 +26,7 @@
     "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
     "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
     "preview": "vite preview",
+    "external-books:production": "node scripts/import-production-external-books.mjs",
     "external-book:test": "node scripts/import-external-book.test.mjs"
   },
   "dependencies": {

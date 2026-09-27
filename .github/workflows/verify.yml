@@ -28,6 +28,9 @@ jobs:
       - name: External book importer tests
         run: npm run external-book:test
 
+      - name: Import pinned production external books
+        run: npm run external-books:production
+
       - name: Media production scan (no upload, no source rewrite)
         run: npm run media:prepare
 
