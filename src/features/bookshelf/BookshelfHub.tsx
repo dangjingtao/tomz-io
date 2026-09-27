@@ -118,9 +118,10 @@ function BookshelfMobileBackbar({
               onClick={toc.onOpen}
               aria-expanded={toc.open}
               aria-controls="book-reader-mobile-toc-sheet"
+              aria-label="文章目录"
+              title="文章目录"
             >
-              <List size={16} aria-hidden="true" />
-              <span>目录</span>
+              <List size={18} aria-hidden="true" />
             </button>
           ) : null}
           {share ? <BookShareButton title={share.title} text={share.text} /> : null}
