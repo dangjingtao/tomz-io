@@ -10,6 +10,7 @@ import {
   weeklyIssueNumber,
   weeklyIssuePath,
 } from "./weekly-utils";
+import { weeklyMastheadDescription, weeklyMastheadStatement, weeklyWatchTopics } from "./weekly-copy";
 
 const appBase = import.meta.env.BASE_URL;
 
