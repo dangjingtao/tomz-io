@@ -627,18 +627,20 @@
   }
 
   .book-reader-toc-trigger {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 0 11px;
-    border: 1px solid var(--hairline);
-    border-radius: 999px;
-    background: var(--surface-card);
-    color: var(--ink);
-    font: 500 12px/1 var(--font-sans);
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
     cursor: pointer;
+  }
+
+  .book-reader-toc-trigger:hover {
+    color: var(--ink);
   }
 
   .book-reader-toc-trigger:focus-visible,
