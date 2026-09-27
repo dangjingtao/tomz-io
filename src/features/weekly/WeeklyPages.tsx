@@ -14,6 +14,7 @@ import {
   weeklyIssueNumber,
   weeklyIssuePath,
 } from "./weekly-utils";
+import { weeklyMastheadDescription, weeklyMastheadStatement, weeklyWatchTopics } from "./weekly-copy";
 
 function resolveWeeklyMarkdownUrls(html: string) {
   return html.replace(/\b(href|src)="\/(?!\/)/g, `$1="${appBase}`);
@@ -37,18 +38,6 @@ function issueNeighbors(doc: Doc) {
 export function WeeklyListPage({ area }: { area: SiteArea }) {
   const issues = weeklyIssueIndexDocs(area.docs).sort(compareWeeklyDocs);
   const latest = issues[0];
-  const watchTopics = [
-    "Agent / AI",
-    "开源项目",
-    "产品与工具",
-    "中国开发者现场",
-    "商业与分发",
-    "研究与值得读",
-    "历史 / 制度",
-    "异常信号",
-    "鬼集",
-  ];
-
   if (!latest) return null;
 
   const latestCover = latest.cover?.trim() ? resolveCoverSource(latest) : "";
@@ -58,19 +47,15 @@ export function WeeklyListPage({ area }: { area: SiteArea }) {
       <header className="weekly-masthead weekly-frame">
         <p className="weekly-eyebrow">TOMZ.IO 一级内容产品 · 每周一出刊</p>
         <h1>见π</h1>
-        <p className="weekly-masthead-statement">
-          不是把这一周发生的东西都搬进来，而是留下这一周值得继续看的东西。
-        </p>
-        <p className="weekly-masthead-desc">
-          Tomz 与 Mira 持续观察外部世界，从技术、产品、开源、商业、研究、历史与异常信息中筛选、聚类与判断，最终形成一期一期经过编辑的内容产品。
-        </p>
+        <p className="weekly-masthead-statement">{weeklyMastheadStatement}</p>
+        <p className="weekly-masthead-desc">{weeklyMastheadDescription}</p>
         <div className="weekly-masthead-meta">
           <span>永久期号</span><i aria-hidden="true" />
           <span>一期一次编辑</span><i aria-hidden="true" />
           <span>Tomz × Mira</span>
         </div>
         <div className="weekly-scope" aria-label="见π长期观察范围">
-          {watchTopics.map((topic) => <span key={topic}>{topic}</span>)}
+          {weeklyWatchTopics.map((topic) => <span key={topic}>{topic}</span>)}
         </div>
       </header>
 
