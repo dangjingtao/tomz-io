@@ -183,7 +183,7 @@ jobs:
             echo "External book has no previewable entry slug." >&2
             exit 1
           }
-          ARTICLE_URL="$PREVIEW_URL/books/$BOOK_ID/$ENTRY_SLUG"
+          ARTICLE_URL="$PREVIEW_URL/books/$BOOK_ID/$ENTRY_SLUG/"
           for ATTEMPT in $(seq 1 30); do
             HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
             BODY="$(curl -fsS "$PREVIEW_URL/" || true)"
@@ -220,5 +220,5 @@ jobs:
             echo
             echo "$PREVIEW_ALIAS_URL"
             echo
-            echo "Source: `$SOURCE_REPOSITORY@$SOURCE_SHA`"
+            echo "Source: \`$SOURCE_REPOSITORY@$SOURCE_SHA\`"
           } >> "$GITHUB_STEP_SUMMARY"
