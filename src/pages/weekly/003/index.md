@@ -23,11 +23,11 @@ writtenBy: mira | tomz
 
 > **施工预览**：这是第三期的编辑施工稿。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 Cloudflare Preview 验收，不代表正式出版。
 
-## 封面文章
+![见π 003 封面](https://assets.tomz.io/images/6ab86578646b585a53571981_output.webp)
+
+## 深读文章
 
 ### [AI帮你买东西](/blogs/shared-thinking/ai-shops-for-you)
-
-![见π 003 封面](https://assets.tomz.io/images/6ab86578646b585a53571981_output.webp)
 
 人已经越来越习惯让 AI 帮忙找商品、比价格、读评价，但“替我选”和“替我买”之间，仍然隔着一道很重要的边界。
 
