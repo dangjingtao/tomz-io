@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -106,7 +106,7 @@ function BookshelfMobileBackbar({
   return (
     <div className="bookshelf-mobile-backbar">
       <div className="bookshelf-mobile-backbar-inner">
-        <Link className="bookshelf-back" to={to}>
+        <Link className="bookshelf-back" to={to} title={label}>
           <ArrowLeft size={15} aria-hidden="true" />
           <span className="bookshelf-back-label">{label}</span>
         </Link>
@@ -278,6 +278,8 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
   );
   const hasToc = headings.length >= 4;
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const openMobileToc = useCallback(() => setMobileTocOpen(true), []);
+  const closeMobileToc = useCallback(() => setMobileTocOpen(false), []);
   const activeHeading = useActiveHeading(headings, {
     enabled: hasToc,
     rootMargin: "-120px 0px -60% 0px",
@@ -308,7 +310,7 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
           hasToc
             ? {
                 open: mobileTocOpen,
-                onOpen: () => setMobileTocOpen(true),
+                onOpen: openMobileToc,
               }
             : undefined
         }
@@ -318,7 +320,7 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
           open={mobileTocOpen}
           headings={headings}
           activeHeading={activeHeading}
-          onClose={() => setMobileTocOpen(false)}
+          onClose={closeMobileToc}
         />
       ) : null}
       <main className={`book-reader${hasToc ? " has-toc" : ""}`}>
