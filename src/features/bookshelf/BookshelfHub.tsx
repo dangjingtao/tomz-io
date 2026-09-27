@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
   BookOpen,
   Check,
+  List,
   Share2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -25,6 +26,7 @@ import {
   bookReaderHeadings,
   normalizeBookArticleSource,
 } from "./book-reader-source";
+import MobileBookToc from "./MobileBookToc";
 import "./bookshelf.css";
 
 
@@ -94,19 +96,35 @@ function BookshelfMobileBackbar({
   to,
   label,
   share,
+  toc,
 }: {
   to: string;
   label: string;
   share?: { title: string; text?: string };
+  toc?: { open: boolean; onOpen: () => void };
 }) {
   return (
     <div className="bookshelf-mobile-backbar">
       <div className="bookshelf-mobile-backbar-inner">
-        <Link className="bookshelf-back" to={to}>
+        <Link className="bookshelf-back" to={to} title={label}>
           <ArrowLeft size={15} aria-hidden="true" />
-          {label}
+          <span className="bookshelf-back-label">{label}</span>
         </Link>
-        {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+        <div className="bookshelf-mobile-actions">
+          {toc ? (
+            <button
+              className="book-reader-toc-trigger"
+              type="button"
+              onClick={toc.onOpen}
+              aria-expanded={toc.open}
+              aria-controls="book-reader-mobile-toc-sheet"
+            >
+              <List size={16} aria-hidden="true" />
+              <span>目录</span>
+            </button>
+          ) : null}
+          {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+        </div>
       </div>
     </div>
   );
@@ -259,6 +277,9 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
     [entry],
   );
   const hasToc = headings.length >= 4;
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const openMobileToc = useCallback(() => setMobileTocOpen(true), []);
+  const closeMobileToc = useCallback(() => setMobileTocOpen(false), []);
   const activeHeading = useActiveHeading(headings, {
     enabled: hasToc,
     rootMargin: "-120px 0px -60% 0px",
@@ -285,7 +306,23 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
         to={`/books/${book.id}`}
         label={`返回《${book.title}》`}
         share={{ title: entry.title, text: entry.description || book.description }}
+        toc={
+          hasToc
+            ? {
+                open: mobileTocOpen,
+                onOpen: openMobileToc,
+              }
+            : undefined
+        }
       />
+      {hasToc ? (
+        <MobileBookToc
+          open={mobileTocOpen}
+          headings={headings}
+          activeHeading={activeHeading}
+          onClose={closeMobileToc}
+        />
+      ) : null}
       <main className={`book-reader${hasToc ? " has-toc" : ""}`}>
         <div className="book-reader-desktop-backbar">
           <div className="book-reader-desktop-backbar-inner">
@@ -305,20 +342,6 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
             {entry.readTime ? <span>{entry.readTime}</span> : null}
           </div>
         </article>
-
-        {hasToc ? (
-          <details className="book-reader-mobile-toc">
-            <summary>
-              <span>文章目录</span>
-              <small>{headings.length} 节</small>
-            </summary>
-            <PageTocLinks
-              headings={headings}
-              activeHeading={activeHeading}
-              numbered
-            />
-          </details>
-        ) : null}
 
         <div className={`book-reader-reading-layout${hasToc ? " has-toc" : ""}`}>
           <RenderedMarkdown
