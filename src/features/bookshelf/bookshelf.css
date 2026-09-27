@@ -627,7 +627,7 @@
   }
 
   .book-reader-toc-trigger {
-    min-height: 40px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -648,9 +648,9 @@
   }
 
   .book-reader-share {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
     display: inline-grid;
     place-items: center;
     padding: 0;
@@ -808,9 +808,9 @@
   }
 
   .book-reader-mobile-toc-close {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
     display: grid;
     place-items: center;
     border: 0;
