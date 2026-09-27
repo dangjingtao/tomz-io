@@ -47,7 +47,11 @@ writtenBy: mira | tomz
 
 这篇从买鞋、订酒店这些普通场景出发，继续往下追问：AI 到底能替我们决定到哪里？它代表消费者，还是代表提供它的平台？哪些摩擦应该被消灭，哪些确认反而是在保护人的选择权？
 
-[阅读全文 →](/blogs/shared-thinking/ai-shops-for-you)
+这篇写完以后，现实又往前走了一点。银行开始公开警告 agentic commerce 在诈骗、金融数据和责任归属上的风险；Meta 则在 Muse 里测试 “human concierge”——有些所谓 Agent 的行动，最后可能还是由真人接过去完成。
+
+也就是说，“替我买”真正落地以后，问题已经从“AI 会不会选”变成了：**谁允许它代表我？出了问题，又该找谁？**
+
+[阅读全文 →](/blogs/shared-thinking/ai-shops-for-you) · [Reuters：银行的风险警告 ↗](https://www.reuters.com/legal/litigation/banks-warn-ai-shopping-bots-raise-scam-fraud-data-privacy-risks-2026-09-22/) · [Reuters：Muse 的 human concierge ↗](https://www.reuters.com/business/meta-testing-human-concierge-its-new-personal-ai-agent-muse-2026-09-22/)
 
 ## 本期判断
 
@@ -61,7 +65,13 @@ Android Studio 开始让 Codex、Claude Agent、Antigravity 等不同 Agent 进�
 
 这篇继续往下看上下文、工具、权限、验证和工作连续性为什么可能比“绑定某一个模型”更重要。
 
-[阅读全文 →](/weekly/003/ai-can-change-workbench-stays)
+但微软刚好在押另一种答案。新版 Copilot 正把 Home、Code、Office 和长期运行的 Autopilot 往同一个入口收：Autopilot 甚至拥有自己的 identity、memory、computer 和 workspace，可以在人不在线时继续工作。
+
+也就是说，有人认为**工作台会承载 Agent**，也有人正在尝试让 **Agent 自己长成工作台**。
+
+这件事还没定型。
+
+[阅读全文 →](/weekly/003/ai-can-change-workbench-stays) · [Microsoft ↗](https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/)
 
 ## 开放一个可以开始工作的世界
 
@@ -135,13 +145,17 @@ FutureBit 的 HashFly 把公开果蝇 connectome 的神经活动轨迹塞进一�
 
 ## 继续看
 
-### Qualcomm 拟收购 PickNik
+### AI 最后撞上的是输电线
 
-半导体平台开始主动收拢 ROS / MoveIt 这样的成熟机器人软件能力。Physical AI 的竞争显然不会只发生在 SoC 上，也会发生在开发者早已依赖的规划、控制与集成层。
+美国能源部 9 月 24 日宣布拟支持 26 个州的 31 个电网升级项目，联邦资金约 19 亿美元，总投资约 52.5 亿美元。
 
-交易尚待完成。
+这些项目不是在训练一个更大的模型，而是在重建和升级输电线路、部署电网增强技术，让现有电网释放更多容量。数据中心等大型新增负荷，已经把“算力需求”重新压回电网、材料和基础设施。
 
-[Qualcomm ↗](https://www.qualcomm.com/news/releases/2026/09/qualcomm-to-acquire-picknik-to-advance-the-future-of-open-roboti)
+模型还在软件层狂奔。
+
+下面已经开始有人换输电线了。
+
+[U.S. Department of Energy ↗](https://www.energy.gov/articles/energy-department-announces-speed-power-investments-across-26-states-lower-electricity-0)
 
 ### Chrome unload 终于继续退场
 
