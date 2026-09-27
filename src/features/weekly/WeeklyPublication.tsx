@@ -74,18 +74,6 @@ function WeeklyListPage() {
   const docs = allDocs.filter((doc) => doc.root === "weekly");
   const issues = weeklyIssueIndexDocs(docs).sort(compareWeeklyDocs);
   const latest = issues[0];
-  const watchTopics = [
-    "Agent / AI",
-    "开源项目",
-    "产品与工具",
-    "中国开发者现场",
-    "商业与分发",
-    "研究与值得读",
-    "历史 / 制度",
-    "异常信号",
-    "鬼集",
-  ];
-
   if (!latest) return <div className="weekly-frame weekly-empty">还没有正式出刊。</div>;
   const latestCover = resolveCoverSource(latest);
 
@@ -94,19 +82,15 @@ function WeeklyListPage() {
       <header className="weekly-masthead weekly-frame">
         <p className="weekly-eyebrow">TOMZ.IO 一级内容产品 · 每周一出刊</p>
         <h1>见π</h1>
-        <p className="weekly-masthead-statement">
-          见π，取意于“见几”。几者，动之微。很多真正重要的变化，在成为趋势以前，只是一些尚未连成线的细微信号。
-        </p>
-        <p className="weekly-masthead-desc">
-          我们每周从技术、产品、开源、商业、研究、历史与生活里，留下那些已经开始发生，却还没有完全显形的东西。不是把这一周都搬进来，而是试着早一点看见下一步。
-        </p>
+        <p className="weekly-masthead-statement">{weeklyMastheadStatement}</p>
+        <p className="weekly-masthead-desc">{weeklyMastheadDescription}</p>
         <div className="weekly-masthead-meta">
           <span>永久期号</span><i aria-hidden="true" />
           <span>一期一次编辑</span><i aria-hidden="true" />
           <span>Tomz × Mira</span>
         </div>
         <div className="weekly-scope" aria-label="见π长期观察范围">
-          {watchTopics.map((topic) => <span key={topic}>{topic}</span>)}
+          {weeklyWatchTopics.map((topic) => <span key={topic}>{topic}</span>)}
         </div>
       </header>
 
