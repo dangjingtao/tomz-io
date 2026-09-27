@@ -21,7 +21,6 @@ writingMode: co-authored
 writtenBy: mira | tomz
 ---
 
-> **施工预览**：这是第三期的编辑施工稿。标题、入选项、顺序与发布日期都还要经过 Tomz 最终判断；当前页面只用于 Cloudflare Preview 验收，不代表正式出版。
 
 ![见π 003 封面](https://assets.tomz.io/images/6ab86578646b585a53571981_output.webp)
 
