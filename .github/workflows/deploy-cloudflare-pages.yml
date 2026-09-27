@@ -41,6 +41,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Import pinned production external books
+        run: pnpm run external-books:production
+
       - name: Prepare production media
         run: pnpm run media:prepare
         env:
