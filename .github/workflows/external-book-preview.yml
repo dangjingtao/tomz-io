@@ -1,0 +1,196 @@
+name: External Book Cloudflare Preview
+
+on:
+  repository_dispatch:
+    types:
+      - external-book-preview
+  workflow_dispatch:
+    inputs:
+      source_repository:
+        description: Public project repository in owner/name form
+        required: true
+        type: string
+      source_sha:
+        description: Exact 40-character source commit SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: external-book-cloudflare-preview-${{ github.event.client_payload.repository || inputs.source_repository }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-external-book-preview:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_REPOSITORY: ${{ github.event.client_payload.repository || inputs.source_repository }}
+      SOURCE_SHA: ${{ github.event.client_payload.sha || inputs.source_sha }}
+      SOURCE_STAGE: ${{ github.event.client_payload.stage || 'preview' }}
+      RENDERER_SHA: ${{ github.sha }}
+    steps:
+      - name: Validate dispatch contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_REPOSITORY" =~ ^dangjingtao/[A-Za-z0-9._-]+$ ]] || {
+            echo "Unsupported source repository: $SOURCE_REPOSITORY" >&2
+            exit 1
+          }
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "source_sha must be an exact 40-character commit SHA" >&2
+            exit 1
+          }
+          [[ "$SOURCE_STAGE" == "preview" ]] || {
+            echo "Only preview dispatches are accepted by this workflow" >&2
+            exit 1
+          }
+
+      - name: Checkout trusted renderer
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Checkout external book source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPOSITORY }}
+          ref: ${{ env.SOURCE_SHA }}
+          path: .external-book-source
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install
+
+      - name: External book importer tests
+        run: npm run external-book:test
+
+      - name: Import external book into build workspace
+        id: external_book
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/import-external-book.mjs \
+            --source .external-book-source \
+            --output src/pages/books \
+            --source-repository "$SOURCE_REPOSITORY" \
+            --source-sha "$SOURCE_SHA" \
+            --history-output .mira-cache/external-content-history.json
+          BOOK_ID="$(node --input-type=module -e "import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('.external-book-source/publication.json','utf8')); process.stdout.write(p.book.id)")"
+          printf 'book_id=%s\n' "$BOOK_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Media pipeline unit tests
+        run: npm run media:test
+
+      - name: Media production scan (no upload, no source rewrite)
+        run: npm run media:prepare
+
+      - name: Build root preview (content times, static metadata, RSS)
+        run: npm run build
+        env:
+          CF_PAGES: "1"
+
+      - name: Verify root static output
+        run: npm run verify:static-output
+
+      - name: Apply preview-only noindex
+        run: node scripts/prepare-pages-preview.mjs
+
+      - name: Verify imported book preview
+        env:
+          BOOK_ID: ${{ steps.external_book.outputs.book_id }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const publication = JSON.parse(fs.readFileSync(".external-book-source/publication.json", "utf8"));
+          const bookRoot = `dist/books/${publication.book.id}`;
+          const required = [
+            `${bookRoot}/index.html`,
+            ...publication.entries.map((entry) => `${bookRoot}/${entry.slug}/index.html`),
+          ];
+          for (const path of required) {
+            if (!fs.existsSync(path)) throw new Error(`Missing external book output: ${path}`);
+            const html = fs.readFileSync(path, "utf8");
+            if (!html.includes("noindex,nofollow")) {
+              throw new Error(`External book preview is indexable: ${path}`);
+            }
+          }
+          const robots = fs.readFileSync("dist/robots.txt", "utf8");
+          if (!robots.includes("Disallow: /")) throw new Error("Preview robots.txt does not block crawlers");
+          NODE
+
+      - name: Write external preview provenance
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$SOURCE_SHA" > dist/.preview-source-sha
+          printf '%s\n' "$SOURCE_SHA" > dist/preview-source-sha.txt
+          printf '%s\n' "$SOURCE_REPOSITORY" > dist/preview-source-repository.txt
+          printf '%s\n' "$RENDERER_SHA" > dist/preview-renderer-sha.txt
+
+      - name: Resolve external preview alias
+        id: preview
+        shell: bash
+        env:
+          BOOK_ID: ${{ steps.external_book.outputs.book_id }}
+        run: |
+          set -euo pipefail
+          PREVIEW_BRANCH="preview/external-book/$BOOK_ID"
+          BRANCH_ALIAS="$(printf '%s' "$PREVIEW_BRANCH" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          printf 'branch=%s\n' "$PREVIEW_BRANCH" >> "$GITHUB_OUTPUT"
+          printf 'url=https://%s.tomz-io.pages.dev\n' "$BRANCH_ALIAS" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy external book preview to Cloudflare Pages
+        shell: bash
+        env:
+          PREVIEW_BRANCH: ${{ steps.preview.outputs.branch }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@3.90.0 pages deploy dist \
+            --project-name=tomz-io \
+            --branch="$PREVIEW_BRANCH" \
+            --commit-hash="$SOURCE_SHA" \
+            --commit-message="external book preview $SOURCE_REPOSITORY@$SOURCE_SHA"
+
+      - name: Verify deployed external book preview
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        run: |
+          set -euo pipefail
+          for ATTEMPT in $(seq 1 30); do
+            HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
+            BODY="$(curl -fsS "$PREVIEW_URL/" || true)"
+            DEPLOYED_SHA="$(curl -fsS "$PREVIEW_URL/preview-source-sha.txt" || true)"
+            if printf '%s\n' "$HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && printf '%s\n' "$BODY" | grep -q 'noindex,nofollow' \
+              && [ "$DEPLOYED_SHA" = "$SOURCE_SHA" ]; then
+              echo "Verified $PREVIEW_URL at $SOURCE_REPOSITORY@$SOURCE_SHA"
+              exit 0
+            fi
+            echo "Attempt $ATTEMPT/30: waiting for external preview alias"
+            sleep 2
+          done
+          echo "External preview alias did not converge with noindex."
+          exit 1
+
+      - name: Write external preview address
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        run: |
+          {
+            echo "### External Book Cloudflare preview"
+            echo
+            echo "$PREVIEW_URL"
+            echo
+            echo "Source: \`$SOURCE_REPOSITORY@$SOURCE_SHA\`"
+          } >> "$GITHUB_STEP_SUMMARY"

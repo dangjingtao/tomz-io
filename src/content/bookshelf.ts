@@ -1,5 +1,6 @@
 import { allDocs, compareDocs, type Doc } from "./mira-docs-adapter";
 import { parseBookManifest, type BookManifest } from "./book-manifest";
+import { contentTimeSortValue } from "./content-time";
 
 const rawManifests = import.meta.glob("../pages/books/*/_book.yml", {
   eager: true,
@@ -34,7 +35,9 @@ export function getBookEntry(bookId: string, entrySlug: string): Doc | undefined
 
 export function latestBookEntry(bookId: string): Doc | undefined {
   return [...bookEntries(bookId)].sort((left, right) => {
-    const dateCompare = String(right.date || "").localeCompare(String(left.date || ""), "zh-CN");
-    return dateCompare || right.order - left.order;
+    const timeCompare =
+      contentTimeSortValue(right.publishedAt || right.date) -
+      contentTimeSortValue(left.publishedAt || left.date);
+    return timeCompare || right.order - left.order || left.path.localeCompare(right.path);
   })[0];
 }

@@ -25,7 +25,8 @@
     "comic:test": "node scripts/comic-pipeline/test.mjs",
     "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
     "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "external-book:test": "node scripts/import-external-book.test.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.11",

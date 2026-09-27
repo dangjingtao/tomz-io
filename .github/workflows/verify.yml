@@ -25,6 +25,9 @@ jobs:
       - name: Media pipeline unit tests
         run: npm run media:test
 
+      - name: External book importer tests
+        run: npm run external-book:test
+
       - name: Media production scan (no upload, no source rewrite)
         run: npm run media:prepare
 

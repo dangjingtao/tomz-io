@@ -36,7 +36,7 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 - 生产站点：https://tomz.io
 - 生产宿主：Cloudflare Pages。
 - GitHub Pages 模式保留用于兼容性 / 静态输出验证，不是当前生产宿主。
-- 内容入口：src/pages/。
+- 本仓库原生内容入口：src/pages/。外部项目 Book 可在 CI 构建工作区按精确 commit SHA 临时导入，但源正文仍归外部项目仓库所有，禁止把导入副本提交回 tomz-io。
 - 当前公开内容根：blogs、weekly、submissions、projects、books、works。
 - 书架由 src/pages/books/*/_book.yml 数据驱动。
 - 内容时间在构建期从 Git 历史生成，不由浏览器查询 GitHub。
@@ -206,6 +206,7 @@ pnpm run verify:static-output
 ## 5. 发布与 CI
 
 - PR 验证入口：.github/workflows/verify.yml。
+- 外部 Book 预览入口：.github/workflows/external-book-preview.yml；只从 tomz-io `main` 运行受信任渲染代码，按精确 SHA 读取外部项目 `publication.json` 与正文。
 - 生产发布入口：.github/workflows/deploy-cloudflare-pages.yml。
 - 生产发布从 main 构建并部署到 Cloudflare Pages 项目 tomz-io。
 - 生产构建会先扫描正文媒体、以内容哈希上传缺失资源到 R2，再只在 CI 构建工作区把本地媒体引用替换为 `assets.tomz.io`；不会因此改写 Git 中 Markdown。

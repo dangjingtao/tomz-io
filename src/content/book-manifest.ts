@@ -5,6 +5,7 @@ export type BookManifest = {
   id: string;
   title: string;
   description: string;
+  cover?: string;
   category?: string;
   kind: BookKind;
   order: number;
@@ -66,6 +67,7 @@ export function parseBookManifest(source: string, sourcePath = "_book.yml"): Boo
     id,
     title,
     description: values.get("description") || "",
+    cover: values.get("cover") || undefined,
     category: values.get("category") || undefined,
     kind: allowedKinds.includes(kindValue as BookKind) ? (kindValue as BookKind) : "other",
     order: Number.isFinite(parsedOrder) ? parsedOrder : 0,

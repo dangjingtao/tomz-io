@@ -15,6 +15,7 @@ import {
   getBookEntry,
   latestBookEntry,
 } from "../../content/bookshelf";
+import { formatContentTime } from "../../content/content-time";
 import { type Doc } from "../../content/mira-docs-adapter";
 import { siteName, siteUrl } from "../../site.config";
 import "./bookshelf.css";
@@ -118,16 +119,6 @@ function syncHead(title: string, description: string, path: string) {
   canonical.href = `${siteUrl}${path}`;
 }
 
-function entriesNewestFirst(entries: Doc[]) {
-  return [...entries].sort((left, right) => {
-    const dateCompare = String(right.date || "").localeCompare(
-      String(left.date || ""),
-      "zh-CN",
-    );
-    return dateCompare || right.order - left.order;
-  });
-}
-
 function normalizeBookArticleHeadings(source: string, title: string) {
   const lines = source.split(/\r?\n/);
   const firstContentIndex = lines.findIndex((line) => line.trim() !== "");
@@ -173,11 +164,19 @@ function BookshelfIndex() {
           {books.map((book, index) => {
             const entries = bookEntries(book.id);
             const latest = latestBookEntry(book.id);
+            const latestDate = latest
+              ? formatContentTime(latest.publishedAt || latest.date)
+              : undefined;
             return (
-              <Link className="bookshelf-book" to={`/books/${book.id}`} key={book.id}>
+              <Link className={`bookshelf-book${book.cover ? " has-cover" : ""}`} to={`/books/${book.id}`} key={book.id}>
                 <div className="bookshelf-book-index" aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </div>
+                {book.cover ? (
+                  <div className="bookshelf-book-cover">
+                    <img src={book.cover} alt={`《${book.title}》封面`} loading="lazy" />
+                  </div>
+                ) : null}
                 <div className="bookshelf-book-copy">
                   <span className="bookshelf-book-category">
                     {book.category || "BOOK"}
@@ -186,14 +185,14 @@ function BookshelfIndex() {
                   <p>{book.description}</p>
                   <div className="bookshelf-book-meta">
                     <span>{entries.length} 篇</span>
-                    {latest?.date ? <span>最近更新 · {latest.date}</span> : null}
+                    {latestDate ? <span>最近更新 · {latestDate}</span> : null}
+                    {latest ? (
+                      <>
+                        <span className="bookshelf-book-meta-latest-label">最近写下 ·</span>
+                        <strong className="bookshelf-book-meta-latest-title">{latest.title}</strong>
+                      </>
+                    ) : null}
                   </div>
-                  {latest ? (
-                    <div className="bookshelf-book-latest">
-                      <span>最近写下</span>
-                      <strong>{latest.title}</strong>
-                    </div>
-                  ) : null}
                 </div>
                 <ArrowUpRight className="bookshelf-book-arrow" size={19} strokeWidth={1.5} aria-hidden="true" />
               </Link>
@@ -207,10 +206,7 @@ function BookshelfIndex() {
 
 function BookIndex({ bookId }: { bookId: string }) {
   const book = getBook(bookId);
-  const entries = useMemo(
-    () => entriesNewestFirst(bookEntries(bookId)),
-    [bookId],
-  );
+  const entries = useMemo(() => bookEntries(bookId), [bookId]);
 
   useEffect(() => {
     if (!book) return;
