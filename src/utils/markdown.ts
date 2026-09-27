@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import hljs from 'highlight.js/lib/common';
-import { slug } from '../content/mira-docs-adapter';
+import { slug } from './slug';
 
 function escapeHtml(value: string) {
   return value.replace(

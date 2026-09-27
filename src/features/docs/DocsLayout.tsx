@@ -7,6 +7,7 @@ import { useActiveHeading } from "../../hooks/useActiveHeading";
 import { decodedPathname } from "../../utils/paths";
 import { buildAreaDirectoryModel } from "./area-directory-model";
 import { directoryTitle, projectNavTitle } from "./docs-utils";
+import { PageToc, PageTocLinks } from "./PageToc";
 
 function AreaDocNav({ area, current }: { area: SiteArea; current: string }) {
   const directoryModel = buildAreaDirectoryModel(area);
@@ -158,36 +159,9 @@ function MobilePageToc({ doc, onClose }: { doc: Doc; onClose: () => void }) {
           <X size={17} aria-hidden="true" />
         </button>
       </div>
-      <ul>
-        {doc.headings.map((heading) => (
-          <li key={heading.id}>
-            <a href={`#${heading.id}`} onClick={onClose}>
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <PageTocLinks headings={doc.headings} onNavigate={onClose} />
     </div>
   );
-}
-function Toc({ doc, activeHeading }: { doc?: Doc; activeHeading: string }) {
-  return doc && doc.headings.length > 0 ? (
-    <aside className="toc">
-      <h5>本页目录</h5>
-      <ul>
-        {doc.headings.map((heading) => (
-          <li key={heading.id}>
-            <a
-              className={activeHeading === heading.id ? "active" : ""}
-              href={`#${heading.id}`}
-            >
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </aside>
-  ) : null;
 }
 export default function DocsLayout({ siteAreas }: { siteAreas: SiteArea[] }) {
   const location = useLocation();
@@ -249,7 +223,9 @@ export default function DocsLayout({ siteAreas }: { siteAreas: SiteArea[] }) {
         >
           <Outlet />
         </main>
-        {!isEditorialArea && <Toc doc={currentDoc} activeHeading={activeHeading} />}
+        {!isEditorialArea && currentDoc ? (
+          <PageToc headings={currentDoc.headings} activeHeading={activeHeading} />
+        ) : null}
       </div>
     </div>
   );
