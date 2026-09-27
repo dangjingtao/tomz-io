@@ -6,7 +6,7 @@ order: 3
 issue: 3
 date: 2026年9月26日
 lead: 模型可以换，Agent 可以换，代码也越来越容易生成。可一旦能力变得普遍，谁掌握工作现场、用户入口和可验证的环境，谁就开始拥有更难替换的东西。
-cover: /assets/jianpi-cover-003.webp
+cover: https://assets.tomz.io/images/6ab86578646b585a53571981_output.webp
 tags:
   - Agent
   - 产品
@@ -27,7 +27,7 @@ writtenBy: mira | tomz
 
 ### [AI帮你买东西](/blogs/shared-thinking/ai-shops-for-you)
 
-![见π 003 封面](/assets/jianpi-cover-003.webp)
+![见π 003 封面](https://assets.tomz.io/images/6ab86578646b585a53571981_output.webp)
 
 人已经越来越习惯让 AI 帮忙找商品、比价格、读评价，但“替我选”和“替我买”之间，仍然隔着一道很重要的边界。
 
