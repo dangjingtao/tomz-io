@@ -516,7 +516,8 @@
   font-size: 9.5px;
 }
 
-.book-reader-mobile-toc {
+.book-reader-mobile-toc-layer,
+.book-reader-toc-trigger {
   display: none;
 }
 
@@ -602,18 +603,54 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
   }
 
   .bookshelf-mobile-backbar .bookshelf-back {
+    min-width: 0;
     min-height: 48px;
     margin: 0;
   }
 
+  .bookshelf-back-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bookshelf-mobile-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .book-reader-toc-trigger {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 11px;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    background: var(--surface-card);
+    color: var(--ink);
+    font: 500 12px/1 var(--font-sans);
+    cursor: pointer;
+  }
+
+  .book-reader-toc-trigger:focus-visible,
+  .book-reader-mobile-toc-close:focus-visible {
+    outline: 2px solid var(--primary-active);
+    outline-offset: 2px;
+  }
+
   .book-reader-share {
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
     display: inline-grid;
     place-items: center;
     padding: 0;
@@ -710,32 +747,59 @@
     display: none;
   }
 
-  .book-reader-mobile-toc {
-    display: block;
-    max-width: var(--book-reader-prose-width);
-    margin: 0 auto 30px;
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
+  .book-reader-mobile-toc-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    align-items: flex-end;
   }
 
-  .book-reader-mobile-toc summary {
+  .book-reader-mobile-toc-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--ink) 24%, transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .book-reader-mobile-toc-sheet {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-height: min(72dvh, 680px);
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    border-bottom: 0;
+    border-radius: 20px 20px 0 0;
+    background: var(--canvas);
+    box-shadow: 0 -18px 48px color-mix(in srgb, var(--ink) 16%, transparent);
+    padding: 8px 20px max(18px, env(safe-area-inset-bottom));
+  }
+
+  .book-reader-mobile-toc-header {
+    min-height: 58px;
     display: flex;
-    min-height: 52px;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .book-reader-mobile-toc-header > div {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .book-reader-mobile-toc-header span {
     color: var(--ink);
-    cursor: pointer;
-    list-style: none;
     font-family: var(--font-display);
-    font-size: 18px;
+    font-size: 20px;
   }
 
-  .book-reader-mobile-toc summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .book-reader-mobile-toc summary small {
+  .book-reader-mobile-toc-header small {
     color: var(--muted-soft);
     font-family: var(--font-mono);
     font-size: 10px;
@@ -743,32 +807,59 @@
     letter-spacing: 0.08em;
   }
 
-  .book-reader-mobile-toc .page-toc-links {
-    padding: 2px 0 12px;
+  .book-reader-mobile-toc-close {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
   }
 
-  .book-reader-mobile-toc .page-toc-links a {
+  .book-reader-mobile-toc-close:hover {
+    background: var(--surface-card);
+    color: var(--ink);
+  }
+
+  .book-reader-mobile-toc-scroll {
+    max-height: calc(min(72dvh, 680px) - 76px - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .book-reader-mobile-toc-scroll .page-toc-links {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 10px;
+  }
+
+  .book-reader-mobile-toc-scroll .page-toc-links a {
     display: grid;
-    grid-template-columns: 30px minmax(0, 1fr);
+    grid-template-columns: 32px minmax(0, 1fr);
     gap: 8px;
-    padding: 9px 0;
-    border-top: 1px solid var(--hairline-soft);
+    padding: 11px 0;
+    border-bottom: 1px solid var(--hairline-soft);
     color: var(--body-c);
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
     text-decoration: none;
   }
 
-  .book-reader-mobile-toc .page-toc-links a.active {
+  .book-reader-mobile-toc-scroll .page-toc-links a.active {
     color: var(--ink);
     font-weight: 600;
   }
 
-  .book-reader-mobile-toc .page-toc-number {
+  .book-reader-mobile-toc-scroll .page-toc-number {
     padding-top: 1px;
     color: var(--muted-soft);
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 10px;
   }
 
   .book-reader-pagination {
