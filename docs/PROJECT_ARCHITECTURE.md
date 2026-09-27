@@ -360,6 +360,8 @@ Cloudflare Production              = 正式发布
 - 使用 root production-shaped build；
 - 执行静态页面存在性与 `noindex,nofollow` / robots 隔离检查；
 - 以 `preview/external-book/<book-id>` 作为 Cloudflare Preview branch 发布到同一个 `tomz-io` Pages 项目；
+- 真人验收优先使用 Wrangler 返回的**本次不可变 deployment URL**，不要把稳定 branch alias 当作内容已刷新的唯一证据；同一 alias 在已有浏览器 profile 中可能仍受旧 PWA Service Worker 控制；
+- 稳定 branch alias 继续保留为便捷入口与自动化定位，但 workflow 的部署后校验改为读取本次 immutable deployment，并同时检查外部 Book 的正文路由；
 - 保留 `preview-source-sha.txt`、`preview-source-repository.txt`、`preview-renderer-sha.txt` 等来源证据，并在部署后回读校验；
 - 不再覆盖 `gh-pages`，也不会与《见π》或其他施工分支互相取消 / 抢占预览。
 
