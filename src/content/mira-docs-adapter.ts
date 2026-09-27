@@ -13,19 +13,14 @@ import {
   type ContentTimePrecision,
 } from "./content-time";
 import { normalizeSiteTags } from "./tag-taxonomy";
+import { slug } from "../utils/slug";
 
 export type AuthorKey = "tomz" | "mira" | "t-zt";
 export type WritingMode = "authored" | "co-authored";
 
 export const pageDirectories = miraDocsRoots;
 
-export function slug(value: string): string {
-  return value
-    .replace(/<[^>]+>/g, "")
-    .replace(/[\s/]+/g, "-")
-    .replace(/[^\w\u4e00-\u9fff-]/g, "")
-    .toLowerCase();
-}
+export { slug };
 
 export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   path: string;

@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { marked } from "marked";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
   BookOpen,
   Check,
+  List,
   Share2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import RenderedMarkdown from "../../components/RenderedMarkdown";
 import {
   bookEntries,
   books,
@@ -18,6 +19,14 @@ import {
 import { formatContentTime } from "../../content/content-time";
 import { type Doc } from "../../content/mira-docs-adapter";
 import { siteName, siteUrl } from "../../site.config";
+import { useActiveHeading } from "../../hooks/useActiveHeading";
+import { renderMarkdown } from "../../utils/markdown";
+import { PageToc, PageTocLinks } from "../docs/PageToc";
+import {
+  bookReaderHeadings,
+  normalizeBookArticleSource,
+} from "./book-reader-source";
+import MobileBookToc from "./MobileBookToc";
 import "./bookshelf.css";
 
 
@@ -87,19 +96,36 @@ function BookshelfMobileBackbar({
   to,
   label,
   share,
+  toc,
 }: {
   to: string;
   label: string;
   share?: { title: string; text?: string };
+  toc?: { open: boolean; onOpen: () => void };
 }) {
   return (
     <div className="bookshelf-mobile-backbar">
       <div className="bookshelf-mobile-backbar-inner">
-        <Link className="bookshelf-back" to={to}>
+        <Link className="bookshelf-back" to={to} title={label}>
           <ArrowLeft size={15} aria-hidden="true" />
-          {label}
+          <span className="bookshelf-back-label">{label}</span>
         </Link>
-        {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+        <div className="bookshelf-mobile-actions">
+          {toc ? (
+            <button
+              className="book-reader-toc-trigger"
+              type="button"
+              onClick={toc.onOpen}
+              aria-expanded={toc.open}
+              aria-controls="book-reader-mobile-toc-sheet"
+              aria-label="文章目录"
+              title="文章目录"
+            >
+              <List size={18} aria-hidden="true" />
+            </button>
+          ) : null}
+          {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+        </div>
       </div>
     </div>
   );
@@ -117,28 +143,6 @@ function syncHead(title: string, description: string, path: string) {
     document.head.appendChild(canonical);
   }
   canonical.href = `${siteUrl}${path}`;
-}
-
-function normalizeBookArticleHeadings(source: string, title: string) {
-  const lines = source.split(/\r?\n/);
-  const firstContentIndex = lines.findIndex((line) => line.trim() !== "");
-  let inFence = false;
-
-  return lines
-    .flatMap((line, index) => {
-      if (/^\s*(```|~~~)/.test(line)) {
-        inFence = !inFence;
-        return [line];
-      }
-      if (inFence) return [line];
-
-      const heading = line.match(/^#\s+(.+?)\s*#*\s*$/);
-      if (!heading) return [line];
-      if (index === firstContentIndex && heading[1].trim() === title.trim()) return [];
-      return [`#${line}`];
-    })
-    .join("\n")
-    .replace(/^\s*\n/, "");
 }
 
 function BookshelfIndex() {
@@ -265,12 +269,25 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
   const book = getBook(bookId);
   const entry = getBookEntry(bookId, entrySlug);
   const entries = useMemo(() => bookEntries(bookId), [bookId]);
-  const html = useMemo(
-    () =>
-      entry
-        ? String(marked.parse(normalizeBookArticleHeadings(entry.source, entry.title)))
-        : "",
+  const articleSource = useMemo(
+    () => (entry ? normalizeBookArticleSource(entry.source, entry.title) : ""),
     [entry],
+  );
+  const headings = useMemo(
+    () => (entry ? bookReaderHeadings(entry.source, entry.title) : []),
+    [entry],
+  );
+  const hasToc = headings.length >= 4;
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const openMobileToc = useCallback(() => setMobileTocOpen(true), []);
+  const closeMobileToc = useCallback(() => setMobileTocOpen(false), []);
+  const activeHeading = useActiveHeading(headings, {
+    enabled: hasToc,
+    rootMargin: "-120px 0px -60% 0px",
+  });
+  const html = useMemo(
+    () => (articleSource ? renderMarkdown(articleSource) : ""),
+    [articleSource],
   );
 
   useEffect(() => {
@@ -290,8 +307,24 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
         to={`/books/${book.id}`}
         label={`返回《${book.title}》`}
         share={{ title: entry.title, text: entry.description || book.description }}
+        toc={
+          hasToc
+            ? {
+                open: mobileTocOpen,
+                onOpen: openMobileToc,
+              }
+            : undefined
+        }
       />
-      <main className="book-reader">
+      {hasToc ? (
+        <MobileBookToc
+          open={mobileTocOpen}
+          headings={headings}
+          activeHeading={activeHeading}
+          onClose={closeMobileToc}
+        />
+      ) : null}
+      <main className={`book-reader${hasToc ? " has-toc" : ""}`}>
         <div className="book-reader-desktop-backbar">
           <div className="book-reader-desktop-backbar-inner">
             <Link className="bookshelf-back book-reader-desktop-back" to={`/books/${book.id}`}>
@@ -311,10 +344,22 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
           </div>
         </article>
 
-        <article
-          className="book-reader-body markdown blog-markdown"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <div className={`book-reader-reading-layout${hasToc ? " has-toc" : ""}`}>
+          <RenderedMarkdown
+            html={html}
+            className="book-reader-body markdown blog-markdown"
+          />
+          {hasToc ? (
+            <PageToc
+              headings={headings}
+              activeHeading={activeHeading}
+              className="book-reader-toc"
+              label="文章目录"
+              numbered
+              headingAs="span"
+            />
+          ) : null}
+        </div>
 
         <nav className="book-reader-pagination" aria-label="书内翻页">
           {previous ? (

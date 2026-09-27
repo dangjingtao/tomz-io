@@ -84,7 +84,13 @@ jobs:
             --source-sha "$SOURCE_SHA" \
             --history-output .mira-cache/external-content-history.json
           BOOK_ID="$(node --input-type=module -e "import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('.external-book-source/publication.json','utf8')); process.stdout.write(p.book.id)")"
+          ENTRY_SLUG="$(node --input-type=module -e "import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('.external-book-source/publication.json','utf8')); process.stdout.write(p.entries[0]?.slug || '')")"
+          [ -n "$ENTRY_SLUG" ] || {
+            echo "External book publication.json has no previewable entry slug." >&2
+            exit 1
+          }
           printf 'book_id=%s\n' "$BOOK_ID" >> "$GITHUB_OUTPUT"
+          printf 'entry_slug=%s\n' "$ENTRY_SLUG" >> "$GITHUB_OUTPUT"
 
       - name: Media pipeline unit tests
         run: npm run media:test
@@ -149,6 +155,7 @@ jobs:
           printf 'url=https://%s.tomz-io.pages.dev\n' "$BRANCH_ALIAS" >> "$GITHUB_OUTPUT"
 
       - name: Deploy external book preview to Cloudflare Pages
+        id: deploy
         shell: bash
         env:
           PREVIEW_BRANCH: ${{ steps.preview.outputs.branch }}
@@ -156,41 +163,74 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -euo pipefail
+          DEPLOY_LOG="$(mktemp)"
           npx --yes wrangler@3.90.0 pages deploy dist \
             --project-name=tomz-io \
             --branch="$PREVIEW_BRANCH" \
             --commit-hash="$SOURCE_SHA" \
-            --commit-message="external book preview $SOURCE_REPOSITORY@$SOURCE_SHA"
+            --commit-message="external book preview $SOURCE_REPOSITORY@$SOURCE_SHA" \
+            | tee "$DEPLOY_LOG"
+          DEPLOYMENT_URL="$(sed -nE 's|.*Deployment complete! Take a peek over at (https://[a-z0-9]+\.tomz-io\.pages\.dev).*|\1|p' "$DEPLOY_LOG" | tail -n 1)"
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "Could not resolve immutable Cloudflare deployment URL from Wrangler output." >&2
+            exit 1
+          fi
+          printf 'url=%s\n' "$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
 
       - name: Verify deployed external book preview
         env:
-          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+          PREVIEW_ALIAS_URL: ${{ steps.preview.outputs.url }}
+          BOOK_ID: ${{ steps.external_book.outputs.book_id }}
+          ENTRY_SLUG: ${{ steps.external_book.outputs.entry_slug }}
         run: |
           set -euo pipefail
+          ARTICLE_URL="$PREVIEW_URL/books/$BOOK_ID/$ENTRY_SLUG/"
           for ATTEMPT in $(seq 1 30); do
             HEADERS="$(curl -fsSI "$PREVIEW_URL/" || true)"
             BODY="$(curl -fsS "$PREVIEW_URL/" || true)"
+            ARTICLE_HEADERS="$(curl -fsSI "$ARTICLE_URL" || true)"
+            ARTICLE_BODY="$(curl -fsS "$ARTICLE_URL" || true)"
             DEPLOYED_SHA="$(curl -fsS "$PREVIEW_URL/preview-source-sha.txt" || true)"
+
+            ALIAS_HEADERS="$(curl -fsSI "$PREVIEW_ALIAS_URL/" || true)"
+            ALIAS_BODY="$(curl -fsS "$PREVIEW_ALIAS_URL/" || true)"
+            ALIAS_SHA="$(curl -fsS "$PREVIEW_ALIAS_URL/preview-source-sha.txt" || true)"
+
             if printf '%s\n' "$HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
               && printf '%s\n' "$BODY" | grep -q 'noindex,nofollow' \
-              && [ "$DEPLOYED_SHA" = "$SOURCE_SHA" ]; then
-              echo "Verified $PREVIEW_URL at $SOURCE_REPOSITORY@$SOURCE_SHA"
+              && printf '%s\n' "$ARTICLE_HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && printf '%s\n' "$ARTICLE_BODY" | grep -q 'noindex,nofollow' \
+              && [ "$DEPLOYED_SHA" = "$SOURCE_SHA" ] \
+              && printf '%s\n' "$ALIAS_HEADERS" | grep -qi '^x-robots-tag:.*noindex' \
+              && printf '%s\n' "$ALIAS_BODY" | grep -q 'noindex,nofollow' \
+              && [ "$ALIAS_SHA" = "$SOURCE_SHA" ]; then
+              echo "Verified immutable deployment $PREVIEW_URL at $SOURCE_REPOSITORY@$SOURCE_SHA"
+              echo "Verified stable branch alias origin $PREVIEW_ALIAS_URL at the same source SHA"
               exit 0
             fi
-            echo "Attempt $ATTEMPT/30: waiting for external preview alias"
+            echo "Attempt $ATTEMPT/30: waiting for immutable deployment and stable alias origin"
             sleep 2
           done
-          echo "External preview alias did not converge with noindex."
+          echo "External preview deployment did not converge with expected provenance."
           exit 1
 
       - name: Write external preview address
         env:
-          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+          PREVIEW_ALIAS_URL: ${{ steps.preview.outputs.url }}
         run: |
           {
             echo "### External Book Cloudflare preview"
             echo
+            echo "PRIMARY human acceptance URL — use this to judge freshness (immutable deployment):"
+            echo
             echo "$PREVIEW_URL"
+            echo
+            echo
+            echo "Convenience alias only — do NOT use this to judge freshness in an existing browser profile:"
+            echo
+            echo "$PREVIEW_ALIAS_URL"
             echo
             echo "Source: \`$SOURCE_REPOSITORY@$SOURCE_SHA\`"
           } >> "$GITHUB_STEP_SUMMARY"

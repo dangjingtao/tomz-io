@@ -105,6 +105,7 @@ CI workspace: src/pages/books/<book-id>/**
 - tomz.io 不提交外部 Book 的 Markdown 副本；
 - importer 不执行外部仓库代码，只读取 `publication.json` 和被声明的 Markdown；
 - 外部来源必须固定到精确 commit SHA，不使用浮动 branch 作为实际构建输入；
+- `external-books.production.json` 只保存生产渠道当前采用的外部仓库与精确 SHA，不复制正文；生产构建临时 clone 并导入这些版本；
 - External Book Preview checkout 外部仓库完整 Git 历史；importer 只在 CI 工作区生成外部内容历史 sidecar，内容时间生成器据此计算 publishedAt / modifiedAt / sitemap lastmod，不把 tomz.io 临时导入提交冒充来源历史；
 - 署名必须由项目仓库显式声明，tomz.io 不允许用默认作者推断补齐；
 - Preview 输出通过 Cloudflare Pages Preview Deployment 发布；它不写入生产 `main`，也不再覆盖 `gh-pages`。
@@ -280,6 +281,7 @@ RSS 不维护第二套文章清单，而是从最终静态 HTML 中的 canonical
 ~~~text
 checkout (fetch-depth: 0)
 → pnpm install --frozen-lockfile
+→ external-books:production
 → media:prepare
 → media:publish -- --confirm
 → media:apply
@@ -289,7 +291,9 @@ checkout (fetch-depth: 0)
 → 验证 tomz.io domain active
 ~~~
 
-生产 workflow 对仓库内容保持只读，不直接提交或推送生成快照。媒体 URL 的替换只发生在 CI 工作区。
+生产 workflow 对仓库内容保持只读，不直接提交或推送生成快照。外部 Book 与媒体 URL 的导入 / 替换都只发生在 CI 工作区。
+
+外部 Book 的生产发布版本由 `external-books.production.json` 固定到精确 commit SHA。该文件是渠道部署锁，不是正文或出版合同的第二份真相；正文、Book 元数据和署名仍以外部项目仓库的 `publication.json` 与源 Markdown 为准。
 
 生产项目名：`tomz-io`。GitHub Pages 不是当前生产宿主。
 
@@ -360,6 +364,8 @@ Cloudflare Production              = 正式发布
 - 使用 root production-shaped build；
 - 执行静态页面存在性与 `noindex,nofollow` / robots 隔离检查；
 - 以 `preview/external-book/<book-id>` 作为 Cloudflare Preview branch 发布到同一个 `tomz-io` Pages 项目；
+- 真人验收优先使用 Wrangler 返回的**本次不可变 deployment URL**，不要把稳定 branch alias 当作内容已刷新的唯一证据；同一 alias 在已有浏览器 profile 中可能仍受旧 PWA Service Worker 控制；workflow 只能验证 alias 的网络源站已更新，不能检测客户端 Service Worker 是否仍在返回旧页面；
+- 稳定 branch alias 继续保留为便捷入口与自动化定位，但 workflow 的部署后校验改为读取本次 immutable deployment，并同时检查外部 Book 的正文路由；
 - 保留 `preview-source-sha.txt`、`preview-source-repository.txt`、`preview-renderer-sha.txt` 等来源证据，并在部署后回读校验；
 - 不再覆盖 `gh-pages`，也不会与《见π》或其他施工分支互相取消 / 抢占预览。
 
@@ -376,6 +382,8 @@ PR 验证入口：
 ~~~text
 unit tests
 → media pipeline unit tests
+→ external book importer tests
+→ production external book import
 → media production scan（不上传、不改源码）
 → MiraDocs parse / route uniqueness
 → root build
