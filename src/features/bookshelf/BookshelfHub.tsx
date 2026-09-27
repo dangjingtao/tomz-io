@@ -4,7 +4,9 @@ import {
   ArrowUpRight,
   BookOpen,
   Check,
+  List,
   Share2,
+  X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import RenderedMarkdown from "../../components/RenderedMarkdown";
@@ -94,20 +96,108 @@ function BookshelfMobileBackbar({
   to,
   label,
   share,
+  toc,
 }: {
   to: string;
   label: string;
   share?: { title: string; text?: string };
+  toc?: { open: boolean; onOpen: () => void };
 }) {
   return (
     <div className="bookshelf-mobile-backbar">
       <div className="bookshelf-mobile-backbar-inner">
         <Link className="bookshelf-back" to={to}>
           <ArrowLeft size={15} aria-hidden="true" />
-          {label}
+          <span className="bookshelf-back-label">{label}</span>
         </Link>
-        {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+        <div className="bookshelf-mobile-actions">
+          {toc ? (
+            <button
+              className="book-reader-toc-trigger"
+              type="button"
+              onClick={toc.onOpen}
+              aria-expanded={toc.open}
+              aria-controls="book-reader-mobile-toc-sheet"
+            >
+              <List size={16} aria-hidden="true" />
+              <span>目录</span>
+            </button>
+          ) : null}
+          {share ? <BookShareButton title={share.title} text={share.text} /> : null}
+        </div>
       </div>
+    </div>
+  );
+}
+
+function MobileBookToc({
+  open,
+  headings,
+  activeHeading,
+  onClose,
+}: {
+  open: boolean;
+  headings: readonly { id: string; text: string }[];
+  activeHeading: string;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className="book-reader-mobile-toc-layer">
+      <button
+        className="book-reader-mobile-toc-backdrop"
+        type="button"
+        aria-label="关闭文章目录"
+        onClick={onClose}
+      />
+      <section
+        id="book-reader-mobile-toc-sheet"
+        className="book-reader-mobile-toc-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="book-reader-mobile-toc-title"
+      >
+        <header className="book-reader-mobile-toc-header">
+          <div>
+            <span id="book-reader-mobile-toc-title">文章目录</span>
+            <small>{headings.length} 节</small>
+          </div>
+          <button
+            className="book-reader-mobile-toc-close"
+            type="button"
+            onClick={onClose}
+            aria-label="关闭文章目录"
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+        </header>
+        <div className="book-reader-mobile-toc-scroll">
+          <PageTocLinks
+            headings={headings}
+            activeHeading={activeHeading}
+            numbered
+            onNavigate={onClose}
+          />
+        </div>
+      </section>
     </div>
   );
 }
@@ -259,6 +349,7 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
     [entry],
   );
   const hasToc = headings.length >= 4;
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const activeHeading = useActiveHeading(headings, {
     enabled: hasToc,
     rootMargin: "-120px 0px -60% 0px",
@@ -285,7 +376,23 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
         to={`/books/${book.id}`}
         label={`返回《${book.title}》`}
         share={{ title: entry.title, text: entry.description || book.description }}
+        toc={
+          hasToc
+            ? {
+                open: mobileTocOpen,
+                onOpen: () => setMobileTocOpen(true),
+              }
+            : undefined
+        }
       />
+      {hasToc ? (
+        <MobileBookToc
+          open={mobileTocOpen}
+          headings={headings}
+          activeHeading={activeHeading}
+          onClose={() => setMobileTocOpen(false)}
+        />
+      ) : null}
       <main className={`book-reader${hasToc ? " has-toc" : ""}`}>
         <div className="book-reader-desktop-backbar">
           <div className="book-reader-desktop-backbar-inner">
@@ -305,20 +412,6 @@ function BookEntry({ bookId, entrySlug }: { bookId: string; entrySlug: string })
             {entry.readTime ? <span>{entry.readTime}</span> : null}
           </div>
         </article>
-
-        {hasToc ? (
-          <details className="book-reader-mobile-toc">
-            <summary>
-              <span>文章目录</span>
-              <small>{headings.length} 节</small>
-            </summary>
-            <PageTocLinks
-              headings={headings}
-              activeHeading={activeHeading}
-              numbered
-            />
-          </details>
-        ) : null}
 
         <div className={`book-reader-reading-layout${hasToc ? " has-toc" : ""}`}>
           <RenderedMarkdown
