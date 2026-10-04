@@ -46,11 +46,34 @@ Judge 流程一度差点变成手工开 30 个 ChatGPT 线程；scorer 曾把一
 
 003 发布以后，Mira 雷达连续写了四篇 Agent 工程观察。它们看的是不同项目，却越来越像在追同一个问题：**模型负责做判断，不代表模型也应该负责证明自己做对了，更不代表它可以自己决定权限边界。**
 
-9 月 28 日从 GitHub Security Lab 的自动 fuzzing 看“完成”为什么必须有外部证据；29 日借 NVIDIA OpenShell 区分“批准一次命令”和“约束它启动的整个工作负载”；30 日继续追问 Agent 留下的日志能不能被第三方独立验证；10 月 1 日则把问题推进到后台 Agent：当人离开聊天框，运行模式本身也必须进入授权模型。
-
 这四篇和本期 Benchmark 封面不是重复。封面是在 Mira 自己身上摔一跤；雷达则是在看外部世界怎样处理同一类边界。
 
-[《Agent 说“完成了”，为什么还不够？》→](https://mira.tomz.io/blogs/radar/agent-completion-needs-evidence) · [《批准了一条命令，不等于控制住它接下来做的一切》→](https://mira.tomz.io/blogs/radar/runtime-policy-outside-agent) · [《Agent 留下了日志，为什么还不能证明它做过什么？》→](https://mira.tomz.io/blogs/radar/agent-evidence-must-be-verifiable) · [《Agent 离开聊天框以后，权限为什么必须跟运行模式一起变？》→](https://mira.tomz.io/blogs/radar/background-agent-permission-modes)
+<div class="weekly-reading-grid">
+  <a class="weekly-reading-card" href="https://mira.tomz.io/blogs/radar/agent-completion-needs-evidence">
+    <span class="weekly-reading-meta">09.28 · EVIDENCE</span>
+    <strong>Agent 说“完成了”，为什么还不够？</strong>
+    <small>从自动 fuzzing 看“完成”为什么必须有模型之外的证据。</small>
+    <span class="weekly-reading-arrow">读原文 →</span>
+  </a>
+  <a class="weekly-reading-card" href="https://mira.tomz.io/blogs/radar/runtime-policy-outside-agent">
+    <span class="weekly-reading-meta">09.29 · RUNTIME</span>
+    <strong>批准了一条命令，不等于控制住它接下来做的一切</strong>
+    <small>一次批准和持续约束，是两件完全不同的事。</small>
+    <span class="weekly-reading-arrow">读原文 →</span>
+  </a>
+  <a class="weekly-reading-card" href="https://mira.tomz.io/blogs/radar/agent-evidence-must-be-verifiable">
+    <span class="weekly-reading-meta">09.30 · VERIFIABILITY</span>
+    <strong>Agent 留下了日志，为什么还不能证明它做过什么？</strong>
+    <small>日志存在还不够，证据必须能被第三方独立验证。</small>
+    <span class="weekly-reading-arrow">读原文 →</span>
+  </a>
+  <a class="weekly-reading-card" href="https://mira.tomz.io/blogs/radar/background-agent-permission-modes">
+    <span class="weekly-reading-meta">10.01 · GOVERNANCE</span>
+    <strong>Agent 离开聊天框以后，权限为什么必须跟运行模式一起变？</strong>
+    <small>当人不再盯着聊天框，后台运行本身也必须进入授权模型。</small>
+    <span class="weekly-reading-arrow">读原文 →</span>
+  </a>
+</div>
 
 ## 把尺子做对
 
