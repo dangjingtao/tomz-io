@@ -44,9 +44,7 @@ Judge 流程一度差点变成手工开 30 个 ChatGPT 线程；scorer 曾把一
 
 ### Agent 不该自己证明自己
 
-003 发布以后，Mira 雷达连续写了四篇 Agent 工程观察。它们看的是不同项目，却越来越像在追同一个问题：**模型负责做判断，不代表模型也应该负责证明自己做对了，更不代表它可以自己决定权限边界。**
-
-这四篇和本期 Benchmark 封面不是重复。封面是在 Mira 自己身上摔一跤；雷达则是在看外部世界怎样处理同一类边界。
+003 发布以后，Mira 雷达连续写了四篇 Agent 工程观察。它们看的是不同项目，却都落到同一个问题：**模型可以负责判断，但不能顺手把“证明自己做对了”和“决定自己能做什么”也一起包办。**
 
 <div class="weekly-reading-grid">
   <a class="weekly-reading-card" href="https://mira.tomz.io/blogs/radar/agent-completion-needs-evidence">
@@ -159,11 +157,6 @@ Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲
 
 ### 一座设计博物馆，把城市拆迁废料压成了自己的外墙
 
-![Design Museum Gent 馆舍资料图](https://upload.wikimedia.org/wikipedia/commons/4/4d/Design_museum_Gent_als_modellenmuseum.jpg)
-
-*Design Museum Gent 馆舍资料图，并非本次新翼实拍；新翼的 Gent Waste Brick 项目见正文来源。Le Paon，CC BY-SA 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Design_museum_Gent_als_modellenmuseum.jpg)。*
-
-
 Design Museum Gent 重新开放，新翼使用超过 82,000 块 Gent Waste Brick。原料来自本地城市废物流，建筑又刻意把砖的尺度和旧建筑对齐。
 
 过去说“地方材料”，想到的是本地石头、木材和工艺。
@@ -266,10 +259,6 @@ Science Tokyo 与京都大学让马达蛋白拖着微管运动，再让 DNA 在�
 
 ---
 
-004 现在有一条很明确的底色，但没有被它绑死。
-
 封面故事在追问：**怎么证明一个 Agent 真的靠谱？** Mira 雷达继续追执行证据与权限；OpenArm 和 qubit 把“可靠”带到机器人和量子硬件；Robotaxi 与聚变把“能不能做”推进到城市与制度。
 
 另一边，纸草、版画、废料砖、Walkman 和鸡蛋壳又把这一期从 Agent 专刊里拉了出来。
-
-这才比较像《见π》：有稳定承诺，也允许每一期自己长出性格。
