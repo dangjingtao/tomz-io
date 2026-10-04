@@ -179,13 +179,13 @@ NC State 等团队把磨碎的废鸡蛋壳直接加入镁材料，再在加工�
 
 ## 人的现场
 
-### [两个男人，也不能只靠心有灵犀](/blogs/developer-life/two-men-cant-rely-on-telepathy)
+### [第九周：虽休弗休](/blogs/developer-life/week-nine-sui-xiu-fu-xiu)
 
-九月的 Mira 开始认真组织化：两个男人、一群 Agent、越来越多的规矩，以及一个手续齐全却越看越离谱的 Workdir。
+两个月里，给老板干活四五百小时，真正专职做 Mira 的时间却不到四百分钟。好不容易等到国庆，几十张任务卡、架构债和一个该死的 workdir 又把人按回了电脑前。
 
-这是一篇月度回顾，也刚好补上这一期技术材料里最容易消失的东西：系统怎么长大是一回事，真正每天在里面协作、误解、返工和重新建立秩序的人，又是另一回事。
+这不是一篇勤奋宣言。更像一份关于时间、判断和 AI 协作的周记：为什么一句疲惫时的“好的”可能长成工程债，为什么能力越强越要知道什么不该做，以及“虽休弗休”回到原义以后，究竟提醒了什么。
 
-[阅读全文 →](/blogs/developer-life/two-men-cant-rely-on-telepathy)
+[阅读全文 →](/blogs/developer-life/week-nine-sui-xiu-fu-xiu)
 
 ## Mira 现场
 
