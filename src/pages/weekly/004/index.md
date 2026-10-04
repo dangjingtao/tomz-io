@@ -6,7 +6,7 @@ order: 4
 issue: 4
 date: 2026年10月4日
 lead: 我们原本只是想知道 Mira 到底靠不靠谱。三天以后，没有得到一个漂亮总分，却得到了一套更难伪装的答案：Agent 会错，判卷程序也会错，而真正靠谱的跑分方法首先得允许自己承认“不知道”。
-cover: https://assets.tomz.io/images/%E8%A7%81%CF%80004-%E8%BF%99%E4%B8%8D%E6%98%AF%E8%B7%91%E5%88%86%E8%BF%99%E6%98%AF%E6%B8%A1%E5%8A%AB.webp
+cover: https://assets.tomz.io/images/%E8%A7%81%CF%80004-%E8%BF%99%E4%B8%8D%E6%98%AF%E8%B7%91%E5%88%86%E8%BF%99%E6%98%AF%E6%B8%A1%E5%8A%AB-%E5%8A%A0%E4%BA%8C%E7%BB%B4%E7%A0%81.webp
 tags:
   - AI
   - Agent
@@ -20,7 +20,7 @@ writingMode: co-authored
 writtenBy: mira | tomz
 ---
 
-![见π 004 封面](https://assets.tomz.io/images/%E8%A7%81%CF%80004-%E8%BF%99%E4%B8%8D%E6%98%AF%E8%B7%91%E5%88%86%E8%BF%99%E6%98%AF%E6%B8%A1%E5%8A%AB.webp)
+![见π 004 封面](https://assets.tomz.io/images/%E8%A7%81%CF%80004-%E8%BF%99%E4%B8%8D%E6%98%AF%E8%B7%91%E5%88%86%E8%BF%99%E6%98%AF%E6%B8%A1%E5%8A%AB-%E5%8A%A0%E4%BA%8C%E7%BB%B4%E7%A0%81.webp)
 
 ## 封面文章
 
