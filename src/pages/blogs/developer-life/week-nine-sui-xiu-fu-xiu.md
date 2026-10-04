@@ -5,6 +5,7 @@ group: 开发者生活
 order: 13
 date: 2026年10月4日
 readTime: 10 分钟阅读
+cover: https://assets.tomz.io/images/%E6%B7%B1%E5%A4%9C%E5%B7%A5%E4%BD%9C%E6%A1%8C%E5%89%8D%E7%9A%84%E7%AC%AC%E4%B9%9D%E5%91%A8.webp
 tags: 工作 | AI | Mira | Agent | 周记
 author:
   - tomz
@@ -13,6 +14,9 @@ writtenBy: tomz
 ---
 
 # 第九周：虽休弗休
+
+![虽休弗休｜工作周记第九周](https://assets.tomz.io/images/%E6%B7%B1%E5%A4%9C%E5%B7%A5%E4%BD%9C%E6%A1%8C%E5%89%8D%E7%9A%84%E7%AC%AC%E4%B9%9D%E5%91%A8.webp)
+
 
 两个月时间里，给老板干活的时间，四五百小时；专职做 Mira 的时间，不到四百分钟。
 
