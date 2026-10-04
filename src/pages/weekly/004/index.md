@@ -40,6 +40,18 @@ Judge 流程一度差点变成手工开 30 个 ChatGPT 线程；scorer 曾把一
 
 [阅读全文 →](/weekly/004/to-prove-mira-reliable-we-proved-ourselves-unreliable)
 
+## Mira Agent 雷达
+
+### Agent 不该自己证明自己
+
+003 发布以后，Mira 雷达连续写了四篇 Agent 工程观察。它们看的是不同项目，却越来越像在追同一个问题：**模型负责做判断，不代表模型也应该负责证明自己做对了，更不代表它可以自己决定权限边界。**
+
+9 月 28 日从 GitHub Security Lab 的自动 fuzzing 看“完成”为什么必须有外部证据；29 日借 NVIDIA OpenShell 区分“批准一次命令”和“约束它启动的整个工作负载”；30 日继续追问 Agent 留下的日志能不能被第三方独立验证；10 月 1 日则把问题推进到后台 Agent：当人离开聊天框，运行模式本身也必须进入授权模型。
+
+这四篇和本期 Benchmark 封面不是重复。封面是在 Mira 自己身上摔一跤；雷达则是在看外部世界怎样处理同一类边界。
+
+[《Agent 说“完成了”，为什么还不够？》→](https://mira.tomz.io/blogs/radar/agent-completion-needs-evidence) · [《批准了一条命令，不等于控制住它接下来做的一切》→](https://mira.tomz.io/blogs/radar/runtime-policy-outside-agent) · [《Agent 留下了日志，为什么还不能证明它做过什么？》→](https://mira.tomz.io/blogs/radar/agent-evidence-must-be-verifiable) · [《Agent 离开聊天框以后，权限为什么必须跟运行模式一起变？》→](https://mira.tomz.io/blogs/radar/background-agent-permission-modes)
+
 ## 把尺子做对
 
 这一期做完 Mira Benchmark 以后，再看外面的技术新闻，会发现一个很有意思的共振：很多领域已经不再满足于“最好的那一次”，开始认真处理**重复性、环境差异和测量本身**。
@@ -88,19 +100,7 @@ Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲
 
 [State of California ↗](https://www.gov.ca.gov/2026/09/30/governor-newsom-signs-legislation-to-accelerate-californias-fusion-industry-announces-major-investment-for-quantum-research/)
 
-## 这期想留下的几个怪东西
-
-不是所有内容都要承担一个宏大趋势。有些东西只要足够怪、足够漂亮，或者让人多想半步，就值得留下。
-
-### 折叠屏真正有意思的，也许不是多放一栏内容
-
-独立开发者 Vidit Bhargava 做了一个虚拟 Walkman：打开折叠设备是“放磁带”，合上以后外屏变成播放器，还专门录了真实 Walkman 的按键声和底噪。
-
-它现在更像 hackathon 原型，但切口很好。
-
-新硬件形态成熟的标志，也许不是旧 App 被拉宽，而是软件终于开始把**铰链、开合、内外屏切换**本身当成交互语言。
-
-[TechCrunch / Duo-Man ↗](https://techcrunch.com/2026/09/28/the-iphone-duo-may-already-have-its-first-killer-app-a-virtual-walkman/)
+## 研究与设计
 
 ### 先烧一卷假的古罗马纸草，再去读真的
 
@@ -132,29 +132,55 @@ Dashboard 之外，数据可视化又重新变成一种有材料、有作者、�
 
 [USF Graphicstudio ↗](https://www.usf.edu/arts/news/2026/20260925-graphicstudio-printing-black-america-aquisitions.aspx)
 
+## 鬼集
+
+鬼集不负责凑数。只有那些真实、够怪，而且怪完以后还能让人多想一步的东西，才留在这里。
+
+### 折叠屏最有意思的应用，也许是重新“放磁带”
+
+独立开发者 Vidit Bhargava 做了一个虚拟 Walkman：打开折叠设备是“放磁带”，合上以后外屏变成播放器，还专门录了真实 Walkman 的按键声和底噪。
+
+它现在更像 hackathon 原型，但切口很好。新硬件形态成熟的标志，也许不是旧 App 被拉宽，而是软件终于开始把**铰链、开合、内外屏切换**本身当成交互语言。
+
+[TechCrunch / Duo-Man ↗](https://techcrunch.com/2026/09/28/the-iphone-duo-may-already-have-its-first-killer-app-a-virtual-walkman/)
+
 ### 鸡蛋壳没有先变成工业原料，直接进了镁合金
 
 NC State 等团队把磨碎的废鸡蛋壳直接加入镁材料，再在加工过程中形成强化相。
 
-它当然还只是 proof-of-concept，远不能证明已经具备大规模经济性。
-
-但思路很讨喜：循环制造不一定只是“把废物回收成原来的东西”，也可能是重新设计流程，让一种行业的废物直接成为另一种制造过程的反应物，**顺手删掉供应链中的一个步骤。**
+它当然还只是 proof-of-concept，远不能证明已经具备大规模经济性。但这个思路足够鬼：循环制造不一定只是把废物回收成同一种东西，也可能直接让一种行业的废物成为另一种制造过程的反应物，**顺手删掉供应链中的一个步骤。**
 
 [NC State ↗](https://engr.ncsu.edu/news/2026/10/02/researchers-use-eggshells-to-make-stronger-lighter-metal-alloys/)
+
+## 人的现场
+
+### [两个男人，也不能只靠心有灵犀](/blogs/developer-life/two-men-cant-rely-on-telepathy)
+
+九月的 Mira 开始认真组织化：两个男人、一群 Agent、越来越多的规矩，以及一个手续齐全却越看越离谱的 Workdir。
+
+这是一篇月度回顾，也刚好补上这一期技术材料里最容易消失的东西：系统怎么长大是一回事，真正每天在里面协作、误解、返工和重新建立秩序的人，又是另一回事。
+
+[阅读全文 →](/blogs/developer-life/two-men-cant-rely-on-telepathy)
+
+## Mira 现场
+
+### [Mira 稳定性周报｜9 月 25 日—10 月 2 日](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-10-02)
+
+这份周报记录的是周五那个时间截面：Desktop v0.102.0 已进入生产，Mobile 连续修复 0.3.6→0.3.8 的真实 Android 回归，Docs 和 Control Room 继续把发布、审查和可观测性收回到可验证链路。
+
+当时 Agent Core Benchmark 还处在“合同已冻结、候选题库建设中”的阶段。两天后，封面故事里的正式 Benchmark 已经跑完。把两篇放在同一期里看，反而很有意思：**周报负责忠实记录当时的工程状态，封面故事负责记录事情后来真的跑起来以后发生了什么。**
+
+[阅读全文 →](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-10-02)
+
+## 继续看
 
 ### 四足机器人第一次把整场马拉松当成续航测试
 
 KAIST 的 RAIBO2 以单次电池完成韩国尚州马拉松，时间 4:19:52。
 
-纪录本身当然很抓眼球，但更值得看的，是腿式机器人评价指标正在从“动作能不能做出来”转向耐力、能效和真实地形。
-
-机器人会跑早就不稀奇。
-
-**能跑多久，开始变得更重要。**
+纪录本身当然很抓眼球，但更值得看的，是腿式机器人评价指标正在从“动作能不能做出来”转向耐力、能效和真实地形。机器人会跑早就不稀奇，**能跑多久，开始变得更重要。**
 
 [Nature / RAIBO2 ↗](https://doi.org/10.1038/s41586-026-11102-5)
-
-## 继续看
 
 ### Firefox 把一点屏幕空间还给网页
 
@@ -172,26 +198,12 @@ Science Tokyo 与京都大学让马达蛋白拖着微管运动，再让 DNA 在�
 
 [Institute of Science Tokyo ↗](https://www.isct.ac.jp/en/news/j0mk0vpp6a42)
 
-### Cloudflare 试着用“随时能走”来留住数据
-
-Cloudflare 把 Data Platform 正式更名并 GA 为 Basin，用 Apache Iceberg 把存储和计算重新拆开，并允许 DuckDB、Spark、Snowflake 等兼容引擎直接读写同一份数据。
-
-平台一边把体验做得更一体化，一边又强调开放表格式和零出口费。
-
-锁定用户的方式，也许正在从“数据拿不走”，变成“**留下来足够省事，但离开也不疼**”。
-
-[Cloudflare Basin ↗](https://blog.cloudflare.com/cloudflare-basin/)
-
 ---
 
-004 现在已经有了一个很明确的底色。
+004 现在有一条很明确的底色，但没有被它绑死。
 
-封面故事在追问：**怎么证明一个 Agent 真的靠谱？**
+封面故事在追问：**怎么证明一个 Agent 真的靠谱？** Mira 雷达继续追执行证据与权限；OpenArm 和 qubit 把“可靠”带到机器人和量子硬件；Robotaxi 与聚变把“能不能做”推进到城市与制度。
 
-OpenArm 和 qubit 把同一个问题带到机器人和量子硬件；Robotaxi 和聚变把“会不会做”继续推到城市与制度；而剩下那些纸草、Walkman、废料砖、鸡蛋壳，又把这一期从一份 Benchmark 专刊里拉了出来。
+另一边，纸草、版画、废料砖、Walkman 和鸡蛋壳又把这一期从 Agent 专刊里拉了出来。
 
-这大概就是这一期现在最舒服的状态：
-
-有一条主线。
-
-但没有让所有东西排队证明同一个结论。
+这才比较像《见π》：有稳定承诺，也允许每一期自己长出性格。
