@@ -94,7 +94,7 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 
 ### [400 万订单以后，Robotaxi 不再只是自动驾驶问题](/weekly/004/robotaxi-becomes-a-city-system)
 
-![武汉和平大道上的 Apollo RT6 Robotaxi](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg/1400px-%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg)
+![武汉和平大道上的 Apollo RT6 Robotaxi](https://upload.wikimedia.org/wikipedia/commons/1/19/%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg)
 
 *武汉和平大道上的 Apollo RT6。摄影：S5A-0043，CC BY 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg)。*
 
@@ -109,7 +109,7 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 
 ### [想读真的古卷，他们先烧了一卷假的](/weekly/004/burn-a-fake-scroll-before-reading-the-real-one)
 
-![赫库兰尼姆炭化纸草卷](https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Herculaneum_papyri.jpg/1400px-Herculaneum_papyri.jpg)
+![赫库兰尼姆炭化纸草卷](https://upload.wikimedia.org/wikipedia/commons/6/65/Herculaneum_papyri.jpg)
 
 *赫库兰尼姆炭化纸草卷。Sara Stabile 等，CC BY 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Herculaneum_papyri.jpg)。*
 
@@ -128,7 +128,7 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 
 ### 量子计算开始碰上制造业最熟悉的问题
 
-![超导 transmon 量子处理器示意图](https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Superconducting_Quantum_Chip_with_Dispersive_Background.png/1400px-Superconducting_Quantum_Chip_with_Dispersive_Background.png)
+![超导 transmon 量子处理器示意图](https://upload.wikimedia.org/wikipedia/commons/6/66/Superconducting_Quantum_Chip_with_Dispersive_Background.png)
 
 *超导 transmon 量子处理器的 3D 示意图，用来给这一节提供尺度感；不是 SQMS 本次实验器件照片。OJB Quantum，CC BY 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Superconducting_Quantum_Chip_with_Dispersive_Background.png)。*
 
@@ -159,7 +159,7 @@ Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲
 
 ### 一座设计博物馆，把城市拆迁废料压成了自己的外墙
 
-![Design Museum Gent 馆舍资料图](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Design_museum_Gent_als_modellenmuseum.jpg/1400px-Design_museum_Gent_als_modellenmuseum.jpg)
+![Design Museum Gent 馆舍资料图](https://upload.wikimedia.org/wikipedia/commons/4/4d/Design_museum_Gent_als_modellenmuseum.jpg)
 
 *Design Museum Gent 馆舍资料图，并非本次新翼实拍；新翼的 Gent Waste Brick 项目见正文来源。Le Paon，CC BY-SA 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Design_museum_Gent_als_modellenmuseum.jpg)。*
 
@@ -174,7 +174,7 @@ Design Museum Gent 重新开放，新翼使用超过 82,000 块 Gent Waste Brick
 
 ### 杜波依斯的数据肖像，没有被数字化，而是被重新印了出来
 
-![W.E.B. Du Bois 为 1900 年巴黎世博会制作的数据肖像之一](https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/The_Georgia_Negro_LCCN2013650420.jpg/1400px-The_Georgia_Negro_LCCN2013650420.jpg)
+![W.E.B. Du Bois 为 1900 年巴黎世博会制作的数据肖像之一](https://upload.wikimedia.org/wikipedia/commons/1/14/The_Georgia_Negro_LCCN2013650420.jpg)
 
 *W.E.B. Du Bois 为 1900 年巴黎世博会制作的数据肖像之一，正是当代项目重新对话的视觉传统。Library of Congress，Public Domain / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:The_Georgia_Negro_LCCN2013650420.jpg)。*
 
