@@ -9,5 +9,6 @@ describe("Site header desktop dropdown layout contract", () => {
 
     expect(css).toMatch(/\.menu-dropdown-panel\s*\{[^}]*display:\s*none/);
     expect(css).toMatch(/\.menu-dropdown\.open \.menu-dropdown-panel\s*\{[^}]*display:\s*grid/);
+    expect(css).toMatch(/\.about-nav-dropdown \.blog-nav-panel\s*\{[^}]*left:\s*auto[^}]*right:\s*-10px/);
   });
 });
