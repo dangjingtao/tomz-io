@@ -93,6 +93,32 @@ jobs:
                   """)
                   print("\nVIEWPORT", width)
                   print(json.dumps(result, ensure_ascii=False, indent=2))
+
+                  if width > 820:
+                      driver.execute_script("""
+                        const menus = [...document.querySelectorAll('.menu-dropdown')];
+                        const about = menus[menus.length - 1];
+                        about?.dispatchEvent(new MouseEvent('mouseover', {bubbles:true}));
+                      """)
+                      time.sleep(0.2)
+                      opened = driver.execute_script("""
+                        const vw = document.documentElement.clientWidth;
+                        const sw = document.documentElement.scrollWidth;
+                        const panel = [...document.querySelectorAll('.menu-dropdown')].at(-1)?.querySelector('.menu-dropdown-panel');
+                        const r = panel?.getBoundingClientRect();
+                        return {
+                          vw, sw, delta: sw-vw,
+                          panel: r ? {left:r.left, right:r.right, width:r.width, display:getComputedStyle(panel).display} : null
+                        };
+                      """)
+                      print("OPEN_ABOUT", width)
+                      print(json.dumps(opened, ensure_ascii=False, indent=2))
+                      driver.execute_script("""
+                        const menus = [...document.querySelectorAll('.menu-dropdown')];
+                        const about = menus[menus.length - 1];
+                        about?.dispatchEvent(new MouseEvent('mouseout', {bubbles:true}));
+                      """)
+                      time.sleep(0.1)
           finally:
               driver.quit()
           PY
