@@ -98,7 +98,7 @@ export default function SiteHeader({
             if (target === "/about") {
               return (
                 <li
-                  className={`menu-dropdown blog-nav-dropdown${openMenu === "about" ? " open" : ""}`}
+                  className={`menu-dropdown blog-nav-dropdown about-nav-dropdown${openMenu === "about" ? " open" : ""}`}
                   key={item.href}
                   onMouseEnter={() => setOpenMenu("about")}
                   onMouseLeave={() => setOpenMenu(null)}
