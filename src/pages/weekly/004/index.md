@@ -87,6 +87,26 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 
 [阅读全文 →](/weekly/004/robot-benchmark-needs-a-standard-arena)
 
+### [400 万订单以后，Robotaxi 不再只是自动驾驶问题](/weekly/004/robotaxi-becomes-a-city-system)
+
+武汉超过 400 万条有人出租车与全无人 Robotaxi 订单，让研究者开始把问题从“车会不会自己开”推进到“它准备怎样进入一座城市”。
+
+真正值得看的，不是某个漂亮的单车指标，而是它和出租车、地铁、公交、道路复杂度、车队调度与能源需求之间的关系。研究里最抓眼球的 62.5% 车队缩减和 44.8% 能耗下降，也只是优化模型里的上限情景，不是武汉已经发生的现实。
+
+这篇把观测事实和模型推演分开，看 Robotaxi 一旦进入真实城市，为什么会越来越不像一个单纯的“自动驾驶问题”。
+
+[阅读全文 →](/weekly/004/robotaxi-becomes-a-city-system)
+
+### [想读真的古卷，他们先烧了一卷假的](/weekly/004/burn-a-fake-scroll-before-reading-the-real-one)
+
+赫库兰尼姆炭化纸草不能拿来反复试错。于是 UC Berkeley 团队先造现代纸草、配传统墨、加入不同浓度的铅，再把整卷真的烧焦，用 X-ray CT 和 XRF 测试哪些信号值得去真古卷里寻找。
+
+最有意思的不是“AI 又破解了古文明”，而是研究方法本身：**当真正的对象太珍贵、太脆弱，甚至只有一次机会，就先造一个可以失败的世界。**
+
+这篇继续往下看替身实验、含铅墨、虚拟展开，以及为什么一个“假的”对象反而可能让我们更谨慎地接近真的。
+
+[阅读全文 →](/weekly/004/burn-a-fake-scroll-before-reading-the-real-one)
+
 ## 把尺子做对
 
 这一期做完 Mira Benchmark 以后，再看外面的技术新闻，会发现一个很有意思的共振：很多领域已经不再满足于“最好的那一次”，开始认真处理**重复性、环境差异和测量本身**。
@@ -105,16 +125,6 @@ Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲
 
 技术最开始总喜欢证明“能不能做”。真正进入现实以后，问题会迅速变成：它和原来的城市、制度、行业怎样相处。
 
-### 武汉 400 万订单以后，Robotaxi 开始像一个城市问题
-
-一项基于武汉超过 400 万条有人出租车与全无人 Robotaxi 订单的研究，不再问自动驾驶“会不会开”，而是开始看它和出租车、地铁、公交、道路复杂度、能耗之间的关系。
-
-研究里有竞争，也有互补；还有调度与拼车优化可能带来的车队规模和能耗改善。但这些数字不是“武汉已经实现”，而是模型情景。
-
-真正值得留下的是评价尺度的变化：**Robotaxi 一旦不再是 Demo，它就必须回答自己准备怎样进入城市系统。**
-
-[Nature Sustainability ↗](https://www.nature.com/articles/s41893-026-01944-2)
-
 ### 聚变还没商业化，制度已经先开始准备
 
 加州签署新法，要求州能源机构为聚变制定发展战略、商业化路径并推进制造与监管准备。
@@ -126,16 +136,6 @@ Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲
 [State of California ↗](https://www.gov.ca.gov/2026/09/30/governor-newsom-signs-legislation-to-accelerate-californias-fusion-industry-announces-major-investment-for-quantum-research/)
 
 ## 研究与设计
-
-### 先烧一卷假的古罗马纸草，再去读真的
-
-为了研究赫库兰尼姆炭化纸草能不能更容易被 X-ray CT 无损读取，UC Berkeley 团队先造了一卷现代替身，再真的把它烧焦。
-
-面对两千年前、无法反复试错的文物，他们没有直接在真品上赌，而是先造一个足够像真的、可以放心毁掉的实验对象。
-
-这件事最漂亮的地方不是“AI 解古卷”，而是研究方法本身：**当真东西不能试错，就先造一个可以失败的世界。**
-
-[UC Berkeley ↗](https://news.berkeley.edu/2026/09/16/to-read-2000-year-old-burned-scrolls-scientists-burn-their-own/)
 
 ### 一座设计博物馆，把城市拆迁废料压成了自己的外墙
 
