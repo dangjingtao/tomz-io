@@ -132,7 +132,7 @@
       top: calc(100% + 14px);
       right: -10px;
       z-index: 80;
-      display: grid;
+      display: none;
       min-width: 190px;
       padding: 8px;
       border: 1px solid var(--hairline);
@@ -155,6 +155,7 @@
     }
 
     .menu-dropdown.open .menu-dropdown-panel {
+      display: grid;
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
