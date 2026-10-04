@@ -187,6 +187,14 @@ NC State 等团队把磨碎的废鸡蛋壳直接加入镁材料，再在加工�
 
 [阅读全文 →](/blogs/developer-life/week-nine-sui-xiu-fu-xiu)
 
+### [两个男人，也不能只靠心有灵犀](/blogs/developer-life/two-men-cant-rely-on-telepathy)
+
+九月的 Mira 开始认真组织化：两个男人、一群 Agent、越来越多的规矩，以及一个手续齐全却越看越离谱的 Workdir。
+
+如果《虽休弗休》写的是一个人如何被时间和判断拖回电脑前，这一篇写的就是两个维护者和一群 Agent 怎样把一个越来越复杂的项目从“心有灵犀”推向真正的组织协作。任务卡、Review、真人烟测，以及那个最终被铲掉的 Workdir，都在这里留下了现场。
+
+[阅读全文 →](/blogs/developer-life/two-men-cant-rely-on-telepathy)
+
 ## Mira 现场
 
 ### [Mira 稳定性周报｜9 月 25 日—10 月 2 日](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-10-02)
