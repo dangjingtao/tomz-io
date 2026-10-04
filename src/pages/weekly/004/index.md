@@ -79,6 +79,11 @@ Judge 流程一度差点变成手工开 30 个 ChatGPT 线程；scorer 曾把一
 
 ### [机器人 Benchmark，为什么连考场都要标准化？](/weekly/004/robot-benchmark-needs-a-standard-arena)
 
+![OpenArm Cell 中用于固定机械臂姿态的零位校准夹具](https://raw.githubusercontent.com/enactic/openarm/76f820b5234420be6d72d5b1e0923a039aa7c3c6/website/static/img/hardware/openarm-cell/calibration-workflow/step5.png)
+
+*OpenArm Cell 的零位校准夹具，把“大家差不多装好了”变成同一个机械参考点。图源：[OpenArm 官方文档 ↗](https://docs.openarm.dev/hardware/openarm-cell/calibration-workflow/)。*
+
+
 OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把背景、灯光、相机、安装位置和机械校准一起当成评测基础设施。
 
 具身智能里，现实世界本身也会参加考试。如果两个实验室的光线、相机和装配误差都不一样，“模型 A 胜过模型 B”可能根本不是同一场考试。
@@ -89,6 +94,11 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 
 ### [400 万订单以后，Robotaxi 不再只是自动驾驶问题](/weekly/004/robotaxi-becomes-a-city-system)
 
+![武汉和平大道上的 Apollo RT6 Robotaxi](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg/1400px-%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg)
+
+*武汉和平大道上的 Apollo RT6。摄影：S5A-0043，CC BY 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg)。*
+
+
 武汉超过 400 万条有人出租车与全无人 Robotaxi 订单，让研究者开始把问题从“车会不会自己开”推进到“它准备怎样进入一座城市”。
 
 真正值得看的，不是某个漂亮的单车指标，而是它和出租车、地铁、公交、道路复杂度、车队调度与能源需求之间的关系。研究里最抓眼球的 62.5% 车队缩减和 44.8% 能耗下降，也只是优化模型里的上限情景，不是武汉已经发生的现实。
@@ -98,6 +108,11 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 [阅读全文 →](/weekly/004/robotaxi-becomes-a-city-system)
 
 ### [想读真的古卷，他们先烧了一卷假的](/weekly/004/burn-a-fake-scroll-before-reading-the-real-one)
+
+![赫库兰尼姆炭化纸草卷](https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Herculaneum_papyri.jpg/1400px-Herculaneum_papyri.jpg)
+
+*赫库兰尼姆炭化纸草卷。Sara Stabile 等，CC BY 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Herculaneum_papyri.jpg)。*
+
 
 赫库兰尼姆炭化纸草不能拿来反复试错。于是 UC Berkeley 团队先造现代纸草、配传统墨、加入不同浓度的铅，再把整卷真的烧焦，用 X-ray CT 和 XRF 测试哪些信号值得去真古卷里寻找。
 
@@ -112,6 +127,11 @@ OpenArm 2.0 真正有意思的，不只是机械臂升级，而是它开始把�
 这一期做完 Mira Benchmark 以后，再看外面的技术新闻，会发现一个很有意思的共振：很多领域已经不再满足于“最好的那一次”，开始认真处理**重复性、环境差异和测量本身**。
 
 ### 量子计算开始碰上制造业最熟悉的问题
+
+![超导 transmon 量子处理器示意图](https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Superconducting_Quantum_Chip_with_Dispersive_Background.png/1400px-Superconducting_Quantum_Chip_with_Dispersive_Background.png)
+
+*超导 transmon 量子处理器的 3D 示意图，用来给这一节提供尺度感；不是 SQMS 本次实验器件照片。OJB Quantum，CC BY 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Superconducting_Quantum_Chip_with_Dispersive_Background.png)。*
+
 
 Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲测。材料分析人员事先不知道器件性能，最后再把微观结构和 T1 表现对照。
 
@@ -139,6 +159,11 @@ Fermilab 牵头的 SQMS 对 22 个超导 qubit 做了一次跨 6 家机构的盲
 
 ### 一座设计博物馆，把城市拆迁废料压成了自己的外墙
 
+![Design Museum Gent 馆舍资料图](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Design_museum_Gent_als_modellenmuseum.jpg/1400px-Design_museum_Gent_als_modellenmuseum.jpg)
+
+*Design Museum Gent 馆舍资料图，并非本次新翼实拍；新翼的 Gent Waste Brick 项目见正文来源。Le Paon，CC BY-SA 4.0 / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:Design_museum_Gent_als_modellenmuseum.jpg)。*
+
+
 Design Museum Gent 重新开放，新翼使用超过 82,000 块 Gent Waste Brick。原料来自本地城市废物流，建筑又刻意把砖的尺度和旧建筑对齐。
 
 过去说“地方材料”，想到的是本地石头、木材和工艺。
@@ -148,6 +173,11 @@ Design Museum Gent 重新开放，新翼使用超过 82,000 块 Gent Waste Brick
 [Design Museum Gent ↗](https://designmuseumgent.be/en/de-nieuwe-vleugel)
 
 ### 杜波依斯的数据肖像，没有被数字化，而是被重新印了出来
+
+![W.E.B. Du Bois 为 1900 年巴黎世博会制作的数据肖像之一](https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/The_Georgia_Negro_LCCN2013650420.jpg/1400px-The_Georgia_Negro_LCCN2013650420.jpg)
+
+*W.E.B. Du Bois 为 1900 年巴黎世博会制作的数据肖像之一，正是当代项目重新对话的视觉传统。Library of Congress，Public Domain / [Wikimedia Commons ↗](https://commons.wikimedia.org/wiki/File:The_Georgia_Negro_LCCN2013650420.jpg)。*
+
 
 William Villalongo 与 Shraddha Ramani 以 W.E.B. Du Bois 为 1900 巴黎世博会制作的数据肖像为起点，用当代数据重做 30 幅版画。
 
