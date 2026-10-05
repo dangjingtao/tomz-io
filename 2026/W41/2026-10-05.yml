@@ -1,0 +1,43 @@
+- title: "污水处理后的藻类，能不能再变成制造材料？"
+  url: "https://www.unsw.edu.au/newsroom/news/2026/10/could-wastewater-algae-become-a-new-material-for-manufacturing"
+  source: "UNSW Sydney"
+  radar: "科技与科学 / 城市、环境与生活方式"
+  topic: "循环材料、污水基础设施、纺织废弃物、分布式制造"
+  discoveredAt: "2026-10-05"
+  origin: radar
+  note: "UNSW、Sydney Water 与 Pacific Bio 正在尝试把污水处理末端用于吸收氮磷的原生绿藻，从“处理副产物”继续变成天然 binder/resin，再与废弃纺织纤维结合做制造材料。项目仍处早期、目标是原型，不宜写成成熟循环经济方案；真正有意思的切口是基础设施的角色变化：污水厂从处理废物的终点，逐渐被重新想象成同时回收水、营养、能源和材料的资源节点。研究团队还提出小型本地加工可能比把低密度生物质运往大型中央工厂更合理，这把材料科学、城市基础设施与地方制造接到了一起。"
+  status: candidate
+  imageUrl: "https://www.unsw.edu.au/content/unsw-sites/au/en/newsroom/news/2026/10/could-wastewater-algae-become-a-new-material-for-manufacturing/_jcr_content/root/responsivegrid-layout-fixed-width/responsivegrid-full-top/column_layout_1/par_2_1_75/column_layout/par_1/column_layout/par_1/image_1372213361.coreimg.jpeg/1790832652173/algaefreshpictonmacroalgaetrial.jpeg"
+  imageSourceUrl: "https://www.unsw.edu.au/newsroom/news/2026/10/could-wastewater-algae-become-a-new-material-for-manufacturing"
+  imageSource: "UNSW Sydney / Pacific Biotechnologies"
+  imageNote: "Picton Water Resource Recovery Facility 的新鲜原生绿藻实物照片；适合解释“污水处理副产物成为下一段制造原料”这一核心关系，而不是作装饰图。"
+  imageStatus: "verify-rights"
+
+- title: "把太阳能板铺进铁轨之间：韩国研究在既有交通走廊里找能源空间"
+  url: "https://www.pv-magazine.com/2026/10/03/the-case-for-railway-integrated-solar-in-south-korea/"
+  source: "pv magazine / Engineering Science and Technology, an International Journal"
+  radar: "城市、环境与生活方式 / 科技与科学"
+  topic: "铁路光伏、土地约束、城市能源基础设施"
+  discoveredAt: "2026-10-05"
+  origin: radar
+  note: "一项针对韩国五条地面铁路走廊的研究，不再把新能源选址理解成“再找一块地”，而是筛选隧道、桥梁、遮阴等约束后，把柔性光伏嵌入既有轨道空间。研究估算 28.4 km 合适走廊可形成约 8.51 MW 容量、年发电约 9.95 GWh；无储能时约 62.3% 发电与牵引需求同时发生。数字本身规模不大，值得保留的是城市尺度问题：在土地稀缺地区，交通基础设施是否会逐渐兼任能源基础设施。需注意这是建模研究而非已建成项目，经济性也明显依赖补贴和储能条件。"
+  status: candidate
+  imageSourceUrl: "https://www.pv-magazine.com/2026/10/03/the-case-for-railway-integrated-solar-in-south-korea/"
+  imageSource: "pv magazine / study authors"
+  imageNote: "来源文章含铁路光伏相关配图，但当前未确认可长期直链且版权归属需核验；正式排版前优先回到论文原图或作者/机构公开图源。"
+  imageStatus: "verify-rights"
+
+- title: "当公司有 800 个 MCP Server、5000 个工具，真正的问题变成了“谁管这些能力”"
+  url: "https://www.uber.com/us/en/blog/designing-mcp-gateway/"
+  source: "Uber Engineering"
+  radar: "科技与科学 / 开发工具"
+  topic: "MCP、工具治理、控制面、Agent 基础设施"
+  discoveredAt: "2026-10-05"
+  origin: radar
+  note: "Uber Engineering 披露内部 MCP Gateway 已承载 800+ MCP servers 和 5000+ tools，并把 Registry/control plane 与 runtime Proxy/data plane 分开。更值得注意的是规模效应：自动从 IDL 发现 API、默认 disabled、owner review、统一 ownership/observability/security；到了数百 server 后，工具发现本身又会造成 context bloat，不能再靠把所有工具塞进模型上下文。它把一个常被当作“接几个 MCP”的局部功能，暴露成真正的组织级能力治理问题。适合与 Mira 的工具治理经验互相照亮，但素材阶段只保留 Uber 的事实与张力，不预设结论。"
+  status: candidate
+  imageUrl: "https://cn-geo1.uber.com/image-proc/resize/udam/format%3Dauto/srcb64%3DaHR0cHM6Ly90Yi1zdGF0aWMudWJlci5jb20vcHJvZC91ZGFtLWFzc2V0cy9lMzliNmE2MC1iYTYyLTQxZmYtOWUwYi0zYTdiNmI2YTE2ZGQucG5n"
+  imageSourceUrl: "https://www.uber.com/us/en/blog/designing-mcp-gateway/"
+  imageSource: "Uber Engineering"
+  imageNote: "官方 Figure 1，直接展示多个 Agent/MCP caller 经统一 Gateway 路由到 TChannel、REST、gRPC 和原生 MCP 服务；适合解释 control/data plane 的必要性。"
+  imageStatus: "verify-rights"
