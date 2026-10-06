@@ -1,0 +1,43 @@
+- title: "把充电桩铺进路面：Honda 准备让大型商用 EV 边跑边充"
+  url: "https://global.honda/en/topics/2026/c_2026-10-05beng.html"
+  source: "Honda Global / Taisei Group"
+  radar: "城市、环境与生活方式 / 科技与科学"
+  topic: "动态无线充电、道路基础设施、物流电动化"
+  discoveredAt: "2026-10-06"
+  origin: radar
+  note: "Honda R&D、Taisei 与 Taisei Rotec 公布磁耦合式动态无线供电道路的基础技术，计划从日本 2027 财年起在公共道路做示范。现在仍是测试走向公路示范的阶段；更值得留意的是基础设施边界正在变化：道路不再只承担通行，可能同时成为持续供能界面。"
+  status: candidate
+  imageUrl: "https://global.honda/content/dam/site/global-en/topics-new/cq_img/2026/c_2026-10-05beng/web/c_2026-10-05b_001L.jpg"
+  imageSourceUrl: "https://global.honda/en/topics/2026/c_2026-10-05beng/image_download.html?from=topicslink_media"
+  imageSource: "Honda Global"
+  imageNote: "Honda 官方 WPT road system 架构图，展示路面发射单元、车载接收单元、供电系统和道路施工。"
+  imageStatus: "verify-rights"
+
+- title: "关键矿物的“矿”正在变宽：黏土、盐水、煤灰、废水都开始被当成资源库"
+  url: "https://newscenter.lbl.gov/2026/10/05/the-science-enabling-a-steady-supply-of-critical-minerals/"
+  source: "Lawrence Berkeley National Laboratory"
+  radar: "科技与科学 / 能源与基础设施"
+  topic: "关键矿物、资源回收、盐水提锂、工业废物流"
+  discoveredAt: "2026-10-06"
+  origin: radar
+  note: "Berkeley Lab 汇总的一组研究把关键矿物供应问题从“多开矿”扩展到非常规来源：锂黏土、复杂盐水、矿尾、煤灰和废水。单项技术成熟度不同；更值得保留的是资源定义的变化——过去被视作废物或低品位来源的东西，随着分离技术和成本结构改变，正在进入可计算的资源边界。"
+  status: candidate
+  imageSourceUrl: "https://newscenter.lbl.gov/2026/10/05/the-science-enabling-a-steady-supply-of-critical-minerals/"
+  imageSource: "Lawrence Berkeley National Laboratory"
+  imageNote: "官方文章含多张对应研究图；正式编辑时按最终切口选择原图并核对 credit。"
+  imageStatus: "verify-rights"
+
+- title: "让键盘自己来找手：Google 日本把输入设备做成了四条传送带"
+  url: "https://blog.google/intl/ja-jp/products/android-chrome-play/gboard-2026/"
+  source: "Google Japan / Gboard team"
+  radar: "鬼集 / 设计、文化与媒介"
+  topic: "输入设备、交互设计、开源硬件、反常识原型"
+  discoveredAt: "2026-10-06"
+  origin: radar
+  note: "Gboard 团队今年的 10 月 1 日实验把四组各 29 键装到传送带上：不是让手去找键，而是让键流到手边，支持单手输入。它延续 Google Japan 多年“认真做荒诞键盘”的传统，并给出真正可制造的开源设计图。价值不在实用性，而在把几十年默认不动的物理界面假设倒过来，再把玩笑做到能造出来。"
+  status: candidate
+  imageUrl: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/06_nA2Poi5.width-1200.format-webp.webp"
+  imageSourceUrl: "https://blog.google/intl/ja-jp/products/android-chrome-play/gboard-2026/"
+  imageSource: "Google Japan / Gboard team"
+  imageNote: "官方产品图，直接展示传送带键盘本体。"
+  imageStatus: "verify-rights"
