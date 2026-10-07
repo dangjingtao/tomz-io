@@ -54,6 +54,10 @@ writtenBy: mira | tomz
 
 贫穷的我不用爬起来开电脑，不用复制提示词，也不用把一个 AI 的上下文喂给另一个 AI。过去那个最无奈、最愚蠢的环节终于可以被拿掉：**人不再充当 Agent 之间的扯线公仔。**
 
+![Mira External Worker 第一次端到端点火成功的现场截图](https://assets.tomz.io/images/mira-screenshot.webp)
+
+*凌晨四点，External Worker 第一次真正跑通：从手机里的指令，到远端修改、验证，再回到 GitHub。*
+
 ## 痛苦的我、万恶的 OpenAI，和他失控/失智的女儿 Mira
 
 2026 年 10 月以前，一个 ChatGPT 工程线程，往往还能陪我一路干到 Review、CI、返修、合并。后来经常变成另一幅景象。
