@@ -6,6 +6,7 @@ order: 5
 issue: 5
 date: 2026年10月8日
 lead: 凌晨四点，我对 Mira 说：“调 DS，把测试分支 README 改成——牛马，起来干活了。”几分钟后，GitHub 真的回应了。第五期先从这篇封面文章开始。
+cover: https://assets.tomz.io/images/jp005.webp
 tags:
   - AI
   - Agent
@@ -18,6 +19,8 @@ author:
 writingMode: co-authored
 writtenBy: mira | tomz
 ---
+
+![见π 005 封面](https://assets.tomz.io/images/jp005.webp)
 
 ## 封面文章
 
