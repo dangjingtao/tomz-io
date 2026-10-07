@@ -1,0 +1,28 @@
+- title: "740M 参数把文字、图片、声音和视频塞进同一个本地检索空间"
+  url: "https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/"
+  source: "Google / Google DeepMind"
+  radar: "科技与科学 / 开发工具"
+  topic: "端侧计算、多模态检索、隐私、本地软件"
+  discoveredAt: "2026-10-07"
+  origin: radar
+  note: "Google 10 月 6 日发布 EmbeddingGemma 2：740M 参数，把 text/code/image/video/audio 映射到统一 embedding space；量化后官方给出的 Pixel 11 Pro 活跃内存约为 text-only 191MB、完整多模态 567MB，并支持在本地做跨模态搜索与 RAG。值得保留的不是又一个模型榜单，而是“搜索自己的东西”正在重新变成本地能力：语音备忘录找视频片段、文字搜本机媒体、离线文件检索，都不必先把私人资料送进云端。需要继续观察真实手机上的速度、功耗和开发者采用，而不是直接把官方 benchmark 当产品体验。"
+  status: candidate
+  imageUrl: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/embeddinggemma2-banner_169.width-200.format-webp.webp"
+  imageSourceUrl: "https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/"
+  imageSource: "Google / Google DeepMind"
+  imageNote: "官方发布页主视觉；适合作为模型与端侧多模态能力的识别图。"
+  imageStatus: "verify-rights"
+
+- title: "第一次从太空看见完整的白昼极光环：SMILE 把“天空现象”变成了地球系统图像"
+  url: "https://science.nasa.gov/image-article/apod-2026-october-6-a-complete-auroral-oval-from-smile/"
+  source: "NASA Science / ESA / CAS / SMILE"
+  radar: "科技与科学 / 太空"
+  topic: "极光、磁层、空间天气、科学成像"
+  discoveredAt: "2026-10-07"
+  origin: radar
+  note: "ESA 与中国科学院联合的 SMILE 探测器用紫外成像从高空拍到完整极光椭圆，包括地面肉眼无法看到的白昼侧；NASA 10 月 6 日 APOD 展示了约一小时的时序变化。它的观察价值不只是“漂亮”：地面视角里的局部极光，在轨道视角下变成环绕磁极、随太阳风剧烈变化的行星尺度系统；同一套观测最终服务于理解太阳风—磁层耦合以及航天器和电网的空间天气风险。"
+  status: candidate
+  imageSourceUrl: "https://science.nasa.gov/image-article/apod-2026-october-6-a-complete-auroral-oval-from-smile/"
+  imageSource: "ESA / CAS / SMILE / UVI, via NASA APOD"
+  imageNote: "首选官方 APOD 所嵌 SMILE 紫外时序影像；它直接展示完整极光椭圆及其变化。页面以视频呈现，当前未获得稳定静态直链。"
+  imageStatus: "verify-rights"
