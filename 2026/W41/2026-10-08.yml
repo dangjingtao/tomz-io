@@ -1,0 +1,94 @@
+- title: 森林的“自然状态”也有历史：千年沉积记录重估澳大利亚传统用火
+  url: https://www.nature.com/articles/s41586-026-11097-z
+  source: Nature / University of Melbourne / Gunaikurnai Land and Waters Aboriginal Corporation
+  radar: 历史与制度 / 环境 / 科学方法
+  topic: 文化性用火、殖民土地管理、生态基线、火灾反馈
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: 10 月 7 日 Nature 论文利用澳大利亚东南部约千年的花粉与木炭记录，发现传统低温用火中断后，当地林地结构、火灾强度和侵蚀发生明显变化；研究提出殖民土地管理变化与当代火灾风险间存在长期反馈。观察问题：被认为“天然”的森林形态，是否本来就是历史管理实践的结果？结论仅来自具体地区，不可外推全澳，也不能据此否认气候变化的作用。
+  status: candidate
+  imageSourceUrl: https://www.nature.com/articles/s41586-026-11097-z
+  imageSource: Nature / Fletcher et al.
+  imageNote: 首选论文 Fig. 3 植被—火—退化概念图，或 Fig. 2 沉积记录；本轮未获得可验证的原图直链。
+  imageStatus: verify-rights
+- title: 一座小镇决定能不能赶海，过去可能先给有雨量计的邻居打电话
+  url: https://news.mit.edu/2026/turning-tide-massachusetts-shellfishing-data-1007
+  source: MIT Sea Grant / MIT News
+  radar: 公共服务 / 城市生活 / 社会制度
+  topic: 地方自治、数据互通、贝类采集、用户研究
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: MIT 10 月 7 日介绍 Seashell：马萨诸塞州贝类采集区域横跨州级和市镇管辖，旧流程依赖雨量计电话与码头纸通知。新平台同步州政府既有 GIS 记录、环境数据和市镇局部封闭规则，重点是让居民知道“我附近今天能否采集”，而非造大仪表盘。2026
+    年 1 月已启动，实际采用程度各镇不一。观察问题：公共服务数字化如何尊重真实的权限和基层人手约束？
+  status: candidate
+  imageSourceUrl: https://news.mit.edu/2026/turning-tide-massachusetts-shellfishing-data-1007
+  imageSource: MIT Sea Grant / Seashell
+  imageNote: 优先官方开放区域地图或移动端界面；新闻主图为 Getty 贝壳图库，不适合用作解释性配图。
+  imageStatus: none
+- title: 1181 年出现了 185 天的客星，845 年后望远镜看见它像串珠
+  url: https://noirlab.edu/public/news/noirlab2624/
+  source: NSF NOIRLab / Gemini North / ISTA / NASA APOD
+  radar: 历史与制度 / 天文学
+  topic: 古代天文记录、超新星遗迹、跨文明证据
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: 10 月 6 日 NOIRLab 发布 Gemini North 对 Pa 30 的新成像，发现放射状丝线中存在串珠状气体结节。Pa 30 被认为很可能与 1181 年中国、日本和阿拉伯记载的持续约
+    185 天的客星有关。观察问题：古代独立史料如何在数百年后成为现代自然科学的观测线索？遗迹与史料对应仍需保留科学上的不确定性。
+  status: candidate
+  imageSourceUrl: https://noirlab.edu/public/images/noirlab2624a/
+  imageSource: International Gemini Observatory / NOIRLab / NSF / AURA
+  imageNote: 首选 NOIRLab 官方 noirlab2624a 观测图；可在 NASA 2026-10-07 APOD 交叉核验，尚未验证稳定原图直链。
+  imageStatus: verify-rights
+- title: 一棵橄榄树成了建筑的“甲方”：178 块打印土砖给其他物种留位置
+  url: https://www.designboom.com/architecture/robotically-3d-printed-earth-bricks-multispecies-habitat-olive-tree-mtrl-technion/
+  source: Technion MTRL / Weizmann Tree Lab / designboom 项目投稿
+  radar: 设计 / 鬼集 / 环境
+  topic: 多物种建筑、传统农艺、土砖、微气候
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: BUSTAN 是在 Design Museum Holon 展出的全尺度原型，以 178 块机器人打印的本地土砖围绕活橄榄树，砖的几何用于遮阴、通风、保湿，也为虫鸟菌类留栖息空间。值得看的不是打印技术本身，而是建筑需求方从人扩展到一棵树及其生态邻居。尚无长期生态效果数据，不宜写成成熟方案。
+  status: candidate
+  imageSourceUrl: https://www.designboom.com/architecture/robotically-3d-printed-earth-bricks-multispecies-habitat-olive-tree-mtrl-technion/
+  imageSource: MTRL / 摄影 Edo Asoulin
+  imageNote: 首选橄榄树冠与土砖围合实拍，次选多孔砖特写；原摄影署名 © Edo Asoulin，版权及图片直链待核验。
+  imageStatus: verify-rights
+- title: 阿波罗登月的软件首先学会了“人真的会按错按钮”
+  url: https://news.mit.edu/2026/margaret-hamilton-computing-pioneer-dies-1007
+  source: MIT News / MIT Museum
+  radar: 技术史 / 人的现场
+  topic: Margaret Hamilton、阿波罗、容错、工程职业史
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: MIT 10 月 7 日讣告确认 Hamilton 于 9 月 30 日逝世。她的女儿曾在模拟器误触发飞行前程序，她提出防护却遭拒，Apollo 8 后来发生类似误操作；Apollo 11
+    的优先级软件又在过载时保障关键任务。可讨论的软件史小切口：工程不只是写对程序，还要在系统里承认人和机器都会出错。正式写作应避免将团队成果完全归于个人。
+  status: candidate
+  imageUrl: https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202610/margaret-hamilton-mit-apollo-code-00.jpg?itok=sj6Xq-N2
+  imageSourceUrl: https://news.mit.edu/2026/margaret-hamilton-computing-pioneer-dies-1007
+  imageSource: MIT News / MIT Museum
+  imageNote: 1969 年 Hamilton 与 Apollo 软件打印件的历史合影，图片来自 MIT Museum；Drupal 样式链接含参数，稳定性与授权需复核。
+  imageStatus: verify-rights
+  images:
+  - imageUrl: https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202610/margaret-hamilton-mit-apollo-code-00.jpg?itok=sj6Xq-N2
+    imageSourceUrl: https://news.mit.edu/2026/margaret-hamilton-computing-pioneer-dies-1007
+    imageSource: MIT News / MIT Museum
+    imageNote: 1969 年 Hamilton 与代码打印件合影；历史工程现场，版权待核验。
+    imageStatus: verify-rights
+  - imageUrl: https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202610/mit-instrumentation-lab-margaret-hamilton-apollo-meeting-00.jpg?itok=U39W8AHr
+    imageSourceUrl: https://news.mit.edu/2026/margaret-hamilton-computing-pioneer-dies-1007
+    imageSource: MIT News / MIT Museum
+    imageNote: 1960 年代 Hamilton 与团队讨论 Apollo 8 软件；团队协作场景。
+    imageStatus: verify-rights
+- title: Agent 写代码越快，Git 的写入与合并越可能成为稀缺资源
+  url: https://github.blog/engineering/architecture-optimization/building-git-infrastructure-for-agent-scale-development/
+  source: GitHub Engineering
+  radar: 开发工具 / 基础设施
+  topic: Git、Agent 并发、持久化写入、版本治理
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: GitHub 10 月 6 日发布、7 日更新的工程文披露：2026 年 9 月提交量 73.8 亿，月度 push 从去年同期 6.9 亿增至 33.5 亿。大量并发 Agent 使单
+    ref 一致性更新、durable writes、CI 扇出成为瓶颈；GitHub 正将权威存储与计算层解耦，内部 benchmark 报告最高 35 倍写吞吐提升（非全站已实现）。观察问题：当生产代码越来越便宜，协调与治理为何反而更贵？
+  status: candidate
+  imageSourceUrl: https://github.blog/engineering/architecture-optimization/building-git-infrastructure-for-agent-scale-development/
+  imageSource: GitHub Engineering
+  imageNote: 文章主图为装饰性 Logo，无助理解；不使用。后续可根据工程文另绘清晰示意图并标明二次制作。
+  imageStatus: none
