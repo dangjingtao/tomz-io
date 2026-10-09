@@ -81,6 +81,36 @@ Google 10 月 6 日发布 EmbeddingGemma 2：740M 参数，把 text / code / ima
 
 [Google / Google DeepMind ↗](https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/)
 
+### 写代码的人和 Agent 越多，Git 反而越需要重修地基
+
+GitHub 在 10 月 6 日披露：2026 年 9 月，平台记录了 73.8 亿次提交，是一年前的五倍多。GitHub 正在重新设计 Git 基础设施，以适应大量并发读写和 Agent 工作流。
+
+值得留意的是，这个数字并不等于“73.8 亿次都是 AI 提交”。它说明的是整个代码协作现场正在扩张，而**当改动越来越容易产生，写入一致性、权限边界和协作协调就越不能凭运气。**
+
+[GitHub Engineering ↗](https://github.blog/engineering/architecture-optimization/building-git-infrastructure-for-agent-scale-development/)
+
+### AI Code Review 的考卷，不能假装答案已经列全
+
+GitHub 10 月 5 日发布 ReviewBench：先分析 1.039 亿个真实 PR 的分布，再选取覆盖 19 种语言的 219 个公开 PR 组成评测集。它不只检查模型是否找到已有的标准答案，还尝试评价那些“标准答案里没有、却可能确实存在”的新问题。
+
+这击中了 AI 评测里一个不舒服的事实：**如果标准答案本来就有遗漏，更强的审查者可能反而被判低分。**
+
+但别把 GitHub 公布的人类标注一致性，误读成“AI 审查有 96.6% 准确率”。测量方法可信与被测模型可靠，是两个不同的问题。
+
+[GitHub / ReviewBench ↗](https://github.blog/ai-and-ml/reviewbench-an-open-benchmark-for-ai-code-review/)
+
+## 人的现场
+
+### [玛格丽特·汉密尔顿：让错误有退路的人](/weekly/005/margaret-hamilton-error-has-a-way-out)
+
+1969 年，阿波罗 11 号登月舱的计算机在接近月球时反复报警。让任务得以继续的，不是有人保证系统永不出错，而是团队提前设计了任务优先级与故障恢复。
+
+这位领导过阿波罗机载软件团队的工程师，于 2026 年 9 月 30 日辞世，享年 90 岁。我们从她女儿在模拟器上按错按钮的故事写起，走过 Apollo 8、Apollo 11，以及那个曾被当成笑话的词——“软件工程”。
+
+如果封面讨论的是**人不该成为基础设施**，这篇想继续追问：**真正尊重人，是否也意味着不再要求使用系统的人永不犯错？**
+
+[阅读全文 →](/weekly/005/margaret-hamilton-error-has-a-way-out)
+
 ## 看世界
 
 ### 第一次从太空看见完整的白昼极光环
@@ -92,6 +122,16 @@ ESA 与中国科学院联合的 SMILE 探测器，用紫外成像从高空看到
 有时候新的科学仪器没有“发现一个新东西”，只是把原本零碎的现象第一次放进了同一张图里。**而系统，往往就是从能看见全貌的那一刻才真正出现。**
 
 [NASA Science / SMILE ↗](https://science.nasa.gov/image-article/apod-2026-october-6-a-complete-auroral-oval-from-smile/)
+
+### 被当成自然的森林，原来也有人的历史
+
+10 月 7 日发表在《Nature》的一项研究，重建了澳大利亚东南部一处桉树林约一千年的植被与火灾记录。研究认为，原住民长期的小规模、低温文化用火曾帮助维持较开阔的林地；殖民时期土地管理方式改变、传统用火中断后，当地植被密度、火情和侵蚀也随之变化。
+
+它提出一个很难忘的问题：**我们今天拿来当作“自然状态”的景观，会不会本身就是历史管理的结果？**
+
+研究只涉及特定地区，不能推广为全澳结论，更不能据此否认气候变化在现代野火中的作用。
+
+[Nature / Fletcher 等 ↗](https://www.nature.com/articles/s41586-026-11097-z)
 
 ## 鬼集
 
@@ -106,6 +146,16 @@ Google Japan 的 Gboard 团队今年又认真做了一件神经病的事：把�
 它当然不是下一代主流键盘，但 Google 甚至给出了可以真正制造的开源设计。好的荒诞原型就是这样——先把一个习以为常的假设倒过来，然后一本正经地把笑话做到能运行。
 
 [Google Japan / Gboard ↗](https://blog.google/intl/ja-jp/products/android-chrome-play/gboard-2026/)
+
+### 一只新陶器里，藏着几代人的旧陶器
+
+佛罗里达博物馆的考古研究发现，坦帕湾一批特殊的装饰陶器虽然使用了当地陶土，内部却混有来自其他地区制陶传统的旧陶碎料；有些碎料里面竟然还嵌着更早一代的碎陶。
+
+研究者据此提出，掌握特定技艺的工匠可能迁居到这里，在新的家园继续沿用熟悉的配方。人员迁徙是综合证据支持的解释，至于陶片是否承载了乡愁，考古无法直接替古人作答。
+
+但这个细节太美了：**一件新东西，真的把几代旧东西包在了自己身体里。**
+
+[Florida Museum of Natural History ↗](https://www.floridamuseum.ufl.edu/science/archaeologists-uncover-centuries-old-mystery-of-tampa-bays-secret-community-of-migrant-potters/)
 
 ## Mira 现场
 
