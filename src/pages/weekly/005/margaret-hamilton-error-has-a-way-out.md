@@ -28,6 +28,10 @@ writtenBy: mira | tomz
 
 照片里的人叫玛格丽特·汉密尔顿（Margaret Hamilton）。
 
+![1969 年，玛格丽特·汉密尔顿站在由她领导的阿波罗软件团队编写的软件清单旁](https://upload.wikimedia.org/wikipedia/commons/d/db/Margaret_Hamilton_-_restoration.jpg)
+
+*1969 年，Margaret Hamilton 与阿波罗登月舱及指令舱机载软件清单。原始照片：Draper Laboratory；影像修复：Adam Cuerden。[原图档案、修复说明与授权记录 ↗](https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg)。*
+
 2026 年 9 月 30 日，她以 90 岁高龄辞世。MIT 在 10 月 7 日发布讣告，回顾她如何从气象程序员走到阿波罗软件团队的领导者，以及后来如何持续推动软件工程成为一门被认真对待的专业。
 
 我们当然可以写一篇标准的伟人传记：数学、MIT、登月、总统自由勋章、历史名照。
@@ -65,6 +69,10 @@ writtenBy: mira | tomz
 1969 年 7 月 20 日，阿波罗 11 号的“鹰”号登月舱正在接近月球表面。
 
 机载计算机接连报告 1202、1201 程序警报。与交会雷达有关的多余处理请求挤占了有限的计算资源。那个年代的飞行计算机，远没有今天一部普通手机充裕。
+
+![阿波罗制导计算机 DSKY 显示和键盘操作界面的历史手册图](https://upload.wikimedia.org/wikipedia/commons/7/76/DSKYS_interface.jpg)
+
+*阿波罗制导计算机 DSKY（Display and Keyboard）界面，来自 NASA《Apollo Operations Handbook》。宇航员通过这里输入程序、动词与名词代码并查看状态；这张是界面说明图，并非 1201／1202 警报瞬间的现场照片。[NASA 手册图档案及公有领域说明 ↗](https://commons.wikimedia.org/wiki/File:DSKYS_interface.jpg)。*
 
 如果所有任务都被要求一视同仁地完成，计算机可能根本来不及支持登月。
 
