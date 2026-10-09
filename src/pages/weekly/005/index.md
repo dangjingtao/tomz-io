@@ -61,6 +61,22 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 ## Mira 雷达
 
+### [当聊天框开始自己长出界面：GPT-6 真正改变了什么？](/weekly/005/gpt-6-intelligent-ui-software-adapts-to-people)
+
+10 月 7 日，OpenAI 让 GPT-6 和 Intelligent UI 一起进入 ChatGPT。它不只是把回答变成图表、表单和计算器，还让界面在模型继续思考或调用工具时逐步出现。
+
+当模型开始决定答案该怎样呈现，软件似乎终于尝试适应人的问题；但一个尚未核实的判断，如果被做成特别笃定的图，又该由谁负责？这篇不追跑分，追的是**生成式界面获得表达权以后，随之增加的产品责任**。
+
+[阅读全文 →](/weekly/005/gpt-6-intelligent-ui-software-adapts-to-people)
+
+### [Pi 一周六更：极简 Agent 开始治理复杂性](/weekly/005/pi-agent-from-minimal-to-governed-tools)
+
+10 月 1 日才跨进 1.0，10 月 7 日就走到 1.1；但 Pi 这六次发布里，更有意思的不是速度，而是逐渐清晰的边界：MCP 工具不必全部直接暴露给模型，Codemode 可以降低上下文成本，外界开始能区分 Agent 正在执行还是等待用户，轻量分类也开始交给专用模型。
+
+**极简不等于没有复杂性，而是让复杂性从规定好的门进来。** 我们拆开官方 Changelog，看看这套 Harness 正在怎样长大，以及一个 patch release 为什么也可能让下游项目踩坑。
+
+[阅读全文 →](/weekly/005/pi-agent-from-minimal-to-governed-tools)
+
 ### 当公司有 800 个 MCP Server、5000 个工具，问题就不再是“接不接 MCP”
 
 Uber Engineering 披露的内部 MCP Gateway 已经承载 800+ MCP servers 和 5000+ tools。
