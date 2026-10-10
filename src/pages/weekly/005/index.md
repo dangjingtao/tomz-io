@@ -57,6 +57,10 @@ writtenBy: mira | tomz
 
 UNSW、Sydney Water 与 Pacific Bio 正在尝试把污水处理末端吸收氮磷的原生绿藻继续往下利用：做天然 binder / resin，再与废弃纺织纤维结合成制造材料。
 
+![污水处理试验中收集的绿色藻类生物质](https://www.unsw.edu.au/content/unsw-sites/au/en/newsroom/news/2026/10/could-wastewater-algae-become-a-new-material-for-manufacturing/_jcr_content/root/responsivegrid-layout-fixed-width/responsivegrid-full-top/column_layout_1/par_2_1_75/column_layout/par_1/column_layout/par_1/image_1372213361.coreimg.jpeg/1790832652173/algaefreshpictonmacroalgaetrial.jpeg)
+
+*污水处理后收集的绿色藻类生物质。UNSW 团队正在研究把这类 biomass 转成天然 binder / resin，再与废弃纺织纤维结合。图片：UNSW Sydney。[原始报道 ↗](https://www.unsw.edu.au/newsroom/news/2026/10/could-wastewater-algae-become-a-new-material-for-manufacturing)*
+
 现在仍然只是早期原型，离成熟循环经济方案还很远。真正值得看的，是基础设施角色的变化：**污水厂不再只是废物处理的终点，也可能同时成为回收水、营养、能源和材料的资源节点。**
 
 [UNSW Sydney ↗](https://www.unsw.edu.au/newsroom/news/2026/10/could-wastewater-algae-become-a-new-material-for-manufacturing)
@@ -146,6 +150,10 @@ GitHub 10 月 5 日发布 ReviewBench：先分析 1.039 亿个真实 PR 的分�
 ### 第一次从太空看见完整的白昼极光环
 
 ESA 与中国科学院联合的 SMILE 探测器，用紫外成像从高空看到了完整的极光椭圆，包括地面肉眼无法看到的白昼侧。
+
+![SMILE UVI 从轨道拍摄的完整极光椭圆](https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2026/09/smile_s_first_ultraviolet_footage_shows_auroral_substorm/27545376-1-eng-GB/Smile_s_first_ultraviolet_footage_shows_auroral_substorm_pillars.gif)
+
+*SMILE 的 UVI 紫外相机在 2026 年 7 月 24 日记录的极光环动态影像。浅色环带是北极附近的紫外极光，背景亮点是恒星。图片：ESA & CAS / Smile / UVI，CC BY-SA 3.0 IGO。[ESA 原始影像 ↗](https://www.esa.int/ESA_Multimedia/Images/2026/09/Smile_s_first_ultraviolet_footage_shows_auroral_substorm)*
 
 地面上的人看到的是天空里一块一块的极光；换到轨道视角以后，它突然变成一个环绕磁极、会随太阳风变化的行星尺度系统。
 
