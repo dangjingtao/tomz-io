@@ -89,45 +89,35 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 [阅读全文 →](/weekly/005/pi-agent-from-minimal-to-governed-tools)
 
-### 比较阅读｜从 60 个工具到 5000 个工具：问题已经不是“多接几个 MCP”
+### 比较阅读｜从 60 个工具到 5000 个工具
 
-昨晚 Mira 连续做了两次研究。
+昨晚，我们连续做了两次工具研究。
 
-第一篇问：**Coding Agent 到底需要多少工具？**
+第一篇问的是：**什么东西真的值得成为 Agent-facing Tool？**  
+把 Git、LSP、CodeGraph、Repo Map、Diagnostics 都摆上桌以后，结论反而是把核心做薄：Git 更像 Environment，GitHub 属于 Integration，LSP / CodeGraph 是可选智能，Repo Map 更接近 Context。**有用，不等于应该成为 Tool。**
 
-我们把 Git、LSP、CodeGraph、Repo Map、Diagnostics 全摆上桌，最后得到的结论却不是“再造一套 Coding Tools”，而是先把能力重新分类：真正稳定的 Agent-facing Tool 保持很薄；Git 更像 Code Environment；GitHub 属于 Remote Integration；LSP 与 CodeGraph 是可选智能层；Repo Map 更像 Context Optimization。
+第二篇问的是：**即使它已经是 Tool，模型这一轮真的看得见吗？**  
+Mira 旧路径在工具变多以后，会在模型选择之前就裁掉一部分候选。真实模型 closeout 里，gold Tool reachability 从 **5 / 13** 提升到 **13 / 13**；而 16 个 case 里真正需要 Tool Search 的只有 2 个。真正有效的方向不是“每一步都再问一个模型”，而是先做确定性解析，需要时再逐层展开 metadata 与 schema。
 
-第二篇问：**当 Agent 已经有 60 个工具以后，为什么正确工具明明存在，模型却根本没机会用？**
+再看 Uber 最新披露的 **800+ MCP Server / 5000+ tools**，这两次研究突然有了一个企业级参照。Uber 同样没有把数千份 Tool schema 全塞给模型：AutoCrawler 负责发现，但新 Server / tool 默认 disabled，要经过 owning team review 才启用；运行期再用 Omni MCP 与 Code Mode 按需 discover / search / call。
 
-问题发生在 Tool Calling 之前。旧路径在工具较多时只让一部分 schema 进入 Planner，上游一旦把正确工具裁掉，模型之后再聪明也选不到。真实模型 closeout 里，Current Mira 的 gold Tool reachability 是 **5 / 13**，Progressive 路线变成 **13 / 13**。更有意思的是，16 个 case 里真正用到 Tool Search 的只有 2 个——大部分时候，exact match、领域匹配和确定性解析就够了。
+于是三份材料正好落在三个层次：
 
-把这两篇和 Uber 最新披露的 **800+ MCP Server / 5000+ tools** 放在一起，事情突然变得很清楚。
+**什么值得成为 Tool？** Mira 的答案是：先分清 Tool、Environment、Context 与 Integration，不为每个 Backend 再造一层模型接口。
 
-Uber 遇到的不是另一种问题，而是同一组问题被规模放大以后出现的生产形态：AutoCrawler 可以自动发现内部能力，但**发现不等于暴露**；新注册的 Server / tool 默认 disabled，需要 owning team review 后才 enable；到了运行期，也不能把 5000 份 schema 塞给模型，于是再用 Omni MCP 和 Code Mode 按需 discover / search / call。
+**模型此刻该看见什么？** Progressive Resolution 与 Uber 的按需 discovery 都在做同一件事：目录可以很大，但当前认知面必须很小。
 
-三篇材料实际上回答了三个不同层次的问题：
+**谁有权真正开放和执行？** Disclosure 只改变模型视野；readiness、owner review、authorization、approval 与 observability 仍然属于另一条治理链。
 
-| 层次 | Mira 研究 | Uber 的生产答案 |
-| --- | --- | --- |
-| **什么值得成为 Tool？** | 不把所有 Backend 都包装成 Agent-facing Tool；Tool / Environment / Context / Integration 分层 | 先把企业能力统一注册到 Registry，不等于都成为模型常驻 Tool |
-| **模型此刻该看见什么？** | Progressive Resolution；先 metadata，必要时再 schema；deterministic first | Omni MCP / Code Mode 按需发现和调用，不预塞 5000 tools |
-| **谁有权把能力真正开放出来？** | Readiness、Authority 与 Disclosure 分离 | owner review、默认 disabled、Gateway authorization / redaction / observability |
-
-所以真正值得从 Uber 800 个 MCP Server 带回来的，不是“我们也应该接更多 MCP”。
-
-恰恰相反。
+所以 Uber 这条新闻最值得带回来的并不是“别人已经有 5000 个工具”，反而是一句克制的结论：
 
 **工具规模越大，Agent-facing surface 越应该克制。**
 
-Mira 第一篇研究解决的是“别把所有有用能力都叫 Tool”；第二篇解决的是“即使它是 Tool，也别默认把完整 schema 永久塞给模型”；Uber 则进一步证明，到了企业规模，还必须再加 ownership、enablement、authorization 与 observability。
-
-可以把这条链压成两组不等式：
+也可以把这几天的研究压成两组不等式：
 
 **useful capability ≠ Agent-facing Tool**
 
 **registered ≠ ready ≠ discoverable ≠ disclosed ≠ authorized ≠ executable**
-
-这也是我们现在更愿意用“能力治理”而不是“工具数量”来看 Agent 的原因。
 
 [读 Mira：Coding Agent 到底需要多少工具？ →](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
 
@@ -213,22 +203,6 @@ Google Japan 的 Gboard 团队今年又认真做了一件神经病的事：把�
 
 ## Mira 现场
 
-### [Coding Agent 到底需要多少工具？我们把 Git、LSP、CodeGraph 都摆上桌之后](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
-
-我们原本从“Code Mode 还缺哪些 Tools”出发，最后却主动撤回了已经设计好的 Git Tool，也没有把 LSP、CodeGraph、Diagnostics 强塞进核心。
-
-**不是所有有用的能力，都应该成为模型可调用的 Tool。**
-
-[阅读全文 →](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
-
-### [当 Agent 有 60 个工具以后：我们为什么重新设计了 Mira 的工具发现](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
-
-当工具越来越多，问题甚至会发生在模型开始选择之前：正确 Tool 根本没有进入它这一轮的可达空间。
-
-这次真实模型 closeout 让我们把 **Reachability** 提升成一等指标，也让 Progressive Disclosure 从“省一点 token”变成一条更基础的 Agent 设计原则。
-
-[阅读全文 →](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
-
 ### [当 ChatGPT 终于摸到我的电脑：Remote Desktop Commander 与本地执行平面](https://mira.tomz.io/blogs/engineering/remote-desktop-commander-local-execution-plane)
 
 10 月 4 日，我们第一次把 ChatGPT 到真实本地电脑的 Remote MCP 链路跑进日常工程现场。
@@ -239,15 +213,6 @@ Google Japan 的 Gboard 团队今年又认真做了一件神经病的事：把�
 
 [阅读全文 →](https://mira.tomz.io/blogs/engineering/remote-desktop-commander-local-execution-plane)
 
-### [把“牛马”做成一个工程系统：Mira External Worker 的设计、边界与证据链](https://mira.tomz.io/blogs/engineering/mira-external-worker-engineering-system)
-
-封面故事负责凌晨四点、人的疲惫、组织角色和那句“人不是基础设施”。
-
-如果想继续往工程里钻，这篇才是原卷：任务合同、冻结起点、权限边界、GitHub Actions、OpenCode、Provider / Model 解耦、独立验证与结构化 Evidence 都在这里。
-
-**封面讲为什么要做；工程文讲它凭什么敢真的跑。**
-
-[阅读全文 →](https://mira.tomz.io/blogs/engineering/mira-external-worker-engineering-system)
 
 ---
 
