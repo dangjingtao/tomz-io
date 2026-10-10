@@ -62,6 +62,49 @@ Pi 当前的 MCP 文档有个非常值得停下来看的设计：工具不必一
 
 而且暴露方式可以按 server 设置，也可以对单个工具或匹配模式单独覆盖。
 
+::: html
+<figure style="margin:2rem 0 2.3rem" aria-label="Pi 四种 MCP 工具暴露方式示意图">
+  <svg viewBox="0 0 940 360" width="100%" role="img" style="display:block">
+    <text x="30" y="34" fill="currentColor" opacity=".5" font-size="12" letter-spacing="2">PI MCP · TOOL EXPOSURE MODES</text>
+
+    <g>
+      <rect x="42" y="80" width="196" height="190" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".78"/>
+      <text x="140" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">DIRECT</text>
+      <text x="140" y="157" text-anchor="middle" fill="currentColor" opacity=".66" font-size="13">直接声明给模型</text>
+      <text x="140" y="197" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">常用 · 少量</text>
+      <text x="140" y="220" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">完整 schema 常驻</text>
+    </g>
+
+    <g>
+      <rect x="262" y="80" width="196" height="190" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".58"/>
+      <text x="360" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">DEFERRED</text>
+      <text x="360" y="157" text-anchor="middle" fill="currentColor" opacity=".66" font-size="13">需要时再加载</text>
+      <text x="360" y="197" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">先检索匹配</text>
+      <text x="360" y="220" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">再披露 schema</text>
+    </g>
+
+    <g>
+      <rect x="482" y="80" width="196" height="190" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".42"/>
+      <text x="580" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">CODEMODE</text>
+      <text x="580" y="157" text-anchor="middle" fill="currentColor" opacity=".66" font-size="13">通过受限脚本编排</text>
+      <text x="580" y="197" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">discover · call</text>
+      <text x="580" y="220" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">只回传必要结果</text>
+    </g>
+
+    <g>
+      <rect x="702" y="80" width="196" height="190" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".22"/>
+      <text x="800" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">HIDDEN</text>
+      <text x="800" y="157" text-anchor="middle" fill="currentColor" opacity=".66" font-size="13">已注册但不可达</text>
+      <text x="800" y="197" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">不进入模型视野</text>
+      <text x="800" y="220" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">也不等于“已授权”</text>
+    </g>
+
+    <text x="470" y="316" text-anchor="middle" fill="currentColor" opacity=".66" font-size="14" font-weight="650">Visibility 决定“模型看见什么”；Authority 决定“模型最终能做什么”。</text>
+  </svg>
+  <figcaption style="margin-top:.55rem;font-size:.84rem;opacity:.58">见π编辑示意：Pi 把工具暴露方式拆成 direct、deferred、codemode 与 hidden；可见性与真正执行权限仍是两条不同的治理轴。</figcaption>
+</figure>
+:::
+
 这并不意味着四种机制都在 10 月 7 日才出现。它们构成的是 Pi 这一阶段已经成形的工具治理边界；最近的更新进一步完善了项目级覆盖、通配符筛选和单次关闭 MCP 的能力。
 
 这里有个重要区别：**“模型现在看不到”与“模型绝对没有权限调用”不是一回事。** 比如 Codemode 可通过工具发现执行某些没有直接声明的调用；真正的授权仍需要独立的权限门禁和执行策略。
