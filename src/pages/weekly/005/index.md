@@ -37,23 +37,17 @@ writtenBy: mira | tomz
 
 [阅读全文 →](/weekly/005/mira-external-worker-hello-world)
 
-### 封面延伸｜800 个 MCP Server 之后，工具开始变成治理问题
+### 封面延伸｜800 个 MCP Server 之后
 
-封面故事讲的是：为什么要把机器放进明确的工程岗位，让它承担那些可以重试、替换和验证的工作。
+Uber 最近披露的内部 MCP Gateway 已经承载 **800+ MCP Server、5000+ tools**。真正值得看的不是数量，而是这些能力并不会因为“被发现”就自动交给模型：新工具默认关闭，要经过 owner review 才启用；运行时再通过 Omni MCP 与 Code Mode 按需寻找和调用。citeturn462302search3turn460559search6
 
-Uber 最近披露的内部 MCP Gateway，正好把这个问题推到了企业规模：**800+ MCP Server、5000+ tools**。真正值得看的不是数量，而是 Uber 没有把这些能力全部塞给模型。自动发现的新工具默认关闭，由 owner review 后才启用；运行时再通过 Omni MCP 和 Code Mode 按需寻找和调用，授权、脱敏与可观测性则留在 Gateway。
+把它和 Pi、Microsoft Execution Containers 放在一起看，三层边界开始变得很清楚：Uber 管“能力怎样被登记、发现和治理”，Pi 管“哪些工具此刻进入模型的认知面”，MXC 则把真正的文件、网络与 UI 权限留在 Agent 之外强制执行。微软甚至把原则写得很直白：Agent 不能成为自己的安全权威。citeturn462302search0
 
-把它和 Pi 放在一起看，会发现两套系统正在独立收敛到同一个答案。Pi 用 direct / deferred / codemode / hidden 区分工具怎样抵达模型；Uber 则用 Registry、discovery 和 Code Mode 把一个巨大工具目录缩成当前任务真正需要的认知面。**工具目录可以很大，但模型此刻看到的世界必须很小。**
-
-Microsoft Execution Containers 又把边界往下一层压：即使 Agent 已经决定执行，文件、网络和 UI 权限仍由 Agent 之外的宿主环境强制。于是“看得见”“用得上”“有权执行”开始成为不同问题。
-
-这也正好照见 Mira 最近在收敛的那条线：Capabilities、MCP、runtime readiness、progressive resolution 与 External Worker，不应该只是几个并列功能，而应共同回答一个问题——一种能力从被系统知道，到被 Agent 安全使用，中间究竟经过哪些状态。
+这也正好照见 Mira 最近在收敛的那条线：Capabilities、MCP、runtime readiness 与 progressive resolution，最终不该只是几个并列功能，而应共同回答一种能力从“系统知道它”到“Agent 安全使用它”之间经过了什么状态。
 
 **registered ≠ available ≠ Agent-visible ≠ authorized。**
 
-所以 Uber 这条新闻真正值得带回封面故事的，不是“别人已经有 5000 个工具”。
-
-而是：**当机器开始真正接手工作，下一步需要建设的不是更多插座，而是能力从发现、暴露、授权到执行的秩序。**
+Uber 这条新闻真正值得带回封面故事的，不是“别人已经有 5000 个工具”，而是：**机器开始真正接手工作以后，下一步需要建设的不是更多插座，而是发现、暴露、授权与执行之间的秩序。**
 
 [Uber Engineering ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/) · [Pi MCP tool exposure ↗](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/mcp.md#control-tool-exposure) · [Microsoft Execution Containers ↗](https://blogs.windows.com/windowsdeveloper/2026/10/07/microsoft-execution-containers-policy-driven-containment-for-ai-agents/)
 
@@ -98,16 +92,6 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 **极简不等于没有复杂性，而是让复杂性从规定好的门进来。** 我们拆开官方 Changelog，看看这套 Harness 正在怎样长大，以及一个 patch release 为什么也可能让下游项目踩坑。
 
 [阅读全文 →](/weekly/005/pi-agent-from-minimal-to-governed-tools)
-
-### Agent 不能自己决定自己能做什么
-
-Microsoft 10 月 7 日宣布 Microsoft Execution Containers（MXC）正式可用：开发者可以声明 Agent 能读写哪些文件、访问哪些网络地址、是否碰得到桌面 UI，再由宿主环境在运行时强制执行。
-
-这件事最值得记住的不是又多了一种容器，而是它把一条 Agent 工程原则写得非常直白：**执行者不能成为自己的安全权威。** 模型、插件、工具甚至 Harness 都可以运行在边界里面，但边界本身必须留在它们控制之外。
-
-微软称 GitHub Copilot、OpenAI Codex、Replit 等已经支持 MXC。对我们来说，更有意思的是另一层互照：Mira External Worker 把 Git mutation 与验证留给可信工作流；MXC 则把文件、网络和 UI 权限继续往操作系统边界下沉。
-
-[Microsoft Windows Developer Blog ↗](https://blogs.windows.com/windowsdeveloper/2026/10/07/microsoft-execution-containers-policy-driven-containment-for-ai-agents/)
 
 ### 写代码的人和 Agent 越多，Git 反而越需要重修地基
 
