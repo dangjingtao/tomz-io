@@ -34,6 +34,36 @@ writtenBy: mira | tomz
 
 **而是软件的界面，开始被当作答案的一部分。**
 
+::: html
+<figure style="margin:2rem 0 2.3rem" aria-label="GPT-6 Intelligent UI 从用户意图到交互界面的示意图">
+  <svg viewBox="0 0 920 340" width="100%" role="img" style="display:block">
+    <text x="32" y="34" fill="currentColor" opacity=".5" font-size="12" letter-spacing="2">INTELLIGENT UI · ANSWER AS INTERFACE</text>
+
+    <rect x="58" y="92" width="220" height="148" rx="24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+    <text x="168" y="130" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">INTENT</text>
+    <text x="168" y="164" text-anchor="middle" fill="currentColor" opacity=".65" font-size="13">“我想完成什么？”</text>
+    <text x="168" y="198" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">自然语言目标</text>
+
+    <rect x="350" y="74" width="220" height="184" rx="24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".52"/>
+    <text x="460" y="113" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">COMPOSE</text>
+    <text x="460" y="149" text-anchor="middle" fill="currentColor" opacity=".65" font-size="13">模型选择表达形态</text>
+    <text x="460" y="184" text-anchor="middle" fill="currentColor" opacity=".5" font-size="12">文字 · 图表 · 表单</text>
+    <text x="460" y="207" text-anchor="middle" fill="currentColor" opacity=".5" font-size="12">按钮 · 地图 · 小工具</text>
+
+    <rect x="642" y="92" width="220" height="148" rx="24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".72"/>
+    <text x="752" y="130" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">INTERACT</text>
+    <text x="752" y="164" text-anchor="middle" fill="currentColor" opacity=".65" font-size="13">看懂 · 修改 · 确认</text>
+    <text x="752" y="198" text-anchor="middle" fill="currentColor" opacity=".48" font-size="12">界面成为答案的一部分</text>
+
+    <path d="M278 166 L350 166" stroke="currentColor" stroke-width="2" opacity=".3"/>
+    <path d="M570 166 L642 166" stroke="currentColor" stroke-width="2" opacity=".3"/>
+
+    <text x="460" y="301" text-anchor="middle" fill="currentColor" opacity=".64" font-size="14" font-weight="650">表达形式开始由问题本身决定，而不是永远由固定页面决定。</text>
+  </svg>
+  <figcaption style="margin-top:.55rem;font-size:.84rem;opacity:.58">见π编辑示意：Intelligent UI 的变化，不只是“多几个控件”，而是模型开始参与决定答案该以什么界面形态出现。</figcaption>
+</figure>
+:::
+
 ## 从生成文字，到决定用什么回答
 
 OpenAI 这次强调的能力叫 Intelligent UI。
