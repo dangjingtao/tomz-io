@@ -79,15 +79,17 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 [阅读全文 →](/weekly/005/pi-agent-from-minimal-to-governed-tools)
 
-### 当公司有 800 个 MCP Server、5000 个工具，问题就不再是“接不接 MCP”
+### [800 个 MCP Server 之后：Agent 的下一层不是更多工具，而是治理](/weekly/005/uber-mcp-800-governance-beyond-tools)
 
-Uber Engineering 披露的内部 MCP Gateway 已经承载 800+ MCP servers 和 5000+ tools。
+Uber Engineering 披露的内部 MCP Gateway 已经承载 800+ MCP servers 和 5000+ tools。真正值得看的却不是数字，而是它没有把这些工具全塞给模型：自动发现后默认 disabled，owner review 后才启用；运行期再通过 Omni MCP 和 Code Mode 渐进发现，权限与脱敏则由 Gateway 独立执行。
 
-到了这个规模，工具治理不可能继续靠“把所有工具塞给模型”：Registry、ownership、owner review、默认 disabled、统一 observability / security，以及 control plane 与 runtime proxy 的拆分，都开始变成组织基础设施。
+把 Uber 与 Pi 的 deferred / codemode、Microsoft Execution Containers 的外部执行边界，以及 Mira 最近在做的 runtime readiness 与 progressive resolution 放在一起看，会出现一条越来越清楚的主线：
 
-这和 Mira 最近正在做的事情有一种很直接的互照：**Agent 的问题越来越不是缺工具，而是谁有权发现、暴露、选择和调用这些能力。**
+**registered ≠ available ≠ Agent-visible ≠ authorized。**
 
-[Uber Engineering ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/)
+这篇比较阅读不讨论“谁支持的 MCP 更多”，而是追问 MCP 真正进入生产以后，为什么必然从连接协议变成能力治理。
+
+[阅读全文 →](/weekly/005/uber-mcp-800-governance-beyond-tools)
 
 ### Agent 不能自己决定自己能做什么
 
@@ -128,6 +130,26 @@ GitHub 10 月 5 日发布 ReviewBench：先分析 1.039 亿个真实 PR 的分�
 如果封面讨论的是**人不该成为基础设施**，这篇想继续追问：**真正尊重人，是否也意味着不再要求使用系统的人永不犯错？**
 
 [阅读全文 →](/weekly/005/margaret-hamilton-error-has-a-way-out)
+
+## 本周札记
+
+技术文章这一边，我们一直在谈边界、恢复、授权和系统怎样少把人垫在流程下面。
+
+这两天，我们也继续把《诗篇》读了下去。它们没有给这期技术主线提供一个漂亮的“类比答案”，却把同一个问题拉回了人的尺度：当力量、平安和早晨都还没有按预期到来，人还能怎样继续说话。
+
+### [诗篇 29：雷霆之后，何为平安](https://tomz.io/books/psalms/psalm-29-peace-after-thunder)
+
+从七次“耶和华的声音”读到最后的“力量与平安”。我们最后留下的不是“信仰会让人免于风暴”，而是一个更克制的判断：**平安有真实的生活重量；力量也可以在人仍然受苦时成为帮助。**
+
+[阅读全文 ↗](https://tomz.io/books/psalms/psalm-29-peace-after-thunder)
+
+### [诗篇 30：如果早晨还没有来到](https://tomz.io/books/psalms/psalm-30-before-the-morning)
+
+“一宿虽然有哭泣，早晨便必欢呼”很美，但它不是一张可以倒数的时间表。这篇札记保留了一个尚未走出黑夜的人怎样继续祷告，也保留了一个我们很想放进 005 的句子：
+
+**当我还不能欢呼时，愿我的呼求，也能成为献给神的祷告。**
+
+[阅读全文 ↗](https://tomz.io/books/psalms/psalm-30-before-the-morning)
 
 ## 看世界
 
