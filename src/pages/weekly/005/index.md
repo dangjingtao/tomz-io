@@ -91,39 +91,25 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 ### 比较阅读｜从 60 个工具到 5000 个工具
 
-昨晚，我们连续做了两次工具研究。
+昨晚 Mira 连续做了两次工具研究。
 
-第一篇问的是：**什么东西真的值得成为 Agent-facing Tool？**  
-把 Git、LSP、CodeGraph、Repo Map、Diagnostics 都摆上桌以后，结论反而是把核心做薄：Git 更像 Environment，GitHub 属于 Integration，LSP / CodeGraph 是可选智能，Repo Map 更接近 Context。**有用，不等于应该成为 Tool。**
+第一篇回答：**什么东西值得成为 Agent-facing Tool？**  
+结论不是“越多越好”，而是把 Git、LSP、CodeGraph、Repo Map 分回 Environment、Integration、Optional Intelligence 与 Context，核心 Tool 反而更薄。
 
-第二篇问的是：**即使它已经是 Tool，模型这一轮真的看得见吗？**  
-Mira 旧路径在工具变多以后，会在模型选择之前就裁掉一部分候选。真实模型 closeout 里，gold Tool reachability 从 **5 / 13** 提升到 **13 / 13**；而 16 个 case 里真正需要 Tool Search 的只有 2 个。真正有效的方向不是“每一步都再问一个模型”，而是先做确定性解析，需要时再逐层展开 metadata 与 schema。
+第二篇回答：**即使它已经是 Tool，模型这一轮真的看得见吗？**  
+真实模型 closeout 里，gold Tool reachability 从 **5 / 13** 提升到 **13 / 13**。这让我们把问题从“模型会不会选工具”前移到了“正确工具有没有进入它的可达空间”。
 
-再看 Uber 最新披露的 **800+ MCP Server / 5000+ tools**，这两次研究突然有了一个企业级参照。Uber 同样没有把数千份 Tool schema 全塞给模型：AutoCrawler 负责发现，但新 Server / tool 默认 disabled，要经过 owning team review 才启用；运行期再用 Omni MCP 与 Code Mode 按需 discover / search / call。
-
-于是三份材料正好落在三个层次：
-
-**什么值得成为 Tool？** Mira 的答案是：先分清 Tool、Environment、Context 与 Integration，不为每个 Backend 再造一层模型接口。
-
-**模型此刻该看见什么？** Progressive Resolution 与 Uber 的按需 discovery 都在做同一件事：目录可以很大，但当前认知面必须很小。
-
-**谁有权真正开放和执行？** Disclosure 只改变模型视野；readiness、owner review、authorization、approval 与 observability 仍然属于另一条治理链。
-
-所以 Uber 这条新闻最值得带回来的并不是“别人已经有 5000 个工具”，反而是一句克制的结论：
-
-**工具规模越大，Agent-facing surface 越应该克制。**
-
-也可以把这几天的研究压成两组不等式：
+再看 Uber 的 **800+ MCP Server / 5000+ tools**，其实只是同一个问题到了企业规模：目录可以非常大，但 Agent-facing surface 必须克制；发现、可用、披露、授权和执行不能混成一个状态。
 
 **useful capability ≠ Agent-facing Tool**
 
-**registered ≠ ready ≠ discoverable ≠ disclosed ≠ authorized ≠ executable**
+**registered ≠ ready ≠ disclosed ≠ authorized ≠ executable**
 
 [读 Mira：Coding Agent 到底需要多少工具？ →](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
 
 [读 Mira：当 Agent 有 60 个工具以后 →](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
 
-[Uber Engineering：Designing MCP Gateway ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/)
+[详细阅读：Uber Engineering｜Designing MCP Gateway ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/)
 
 ### 写代码的人和 Agent 越多，Git 反而越需要重修地基
 
