@@ -1,6 +1,6 @@
 ---
 title: "见π 005：牛马，起来干活了"
-description: 凌晨四点，一条从手机、ChatGPT、GitHub 到远端 Worker 的链路第一次真正活了。第五期从“人不是基础设施”出发，继续看道路、污水厂、MCP、端侧检索与那些正在获得第二职业的基础设施。
+description: 从凌晨四点跑通的 External Worker，到玛格丽特·汉密尔顿留下的故障退路，再到 MCP、Agent 权限与基础设施的新角色：第五期继续追问，机器开始承担更多工作以后，人怎样不再成为系统的基础设施。
 group: 见π
 order: 5
 issue: 5
@@ -61,6 +61,8 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 ## Mira 雷达
 
+这一期不追“谁又把模型做大了一点”。更值得看的，是 Agent 开始真正进入工作现场以后，工具、权限、状态、界面和基础设施分别要承担什么责任。
+
 ### [当聊天框开始自己长出界面：GPT-6 真正改变了什么？](/weekly/005/gpt-6-intelligent-ui-software-adapts-to-people)
 
 10 月 7 日，OpenAI 让 GPT-6 和 Intelligent UI 一起进入 ChatGPT。它不只是把回答变成图表、表单和计算器，还让界面在模型继续思考或调用工具时逐步出现。
@@ -87,15 +89,15 @@ Uber Engineering 披露的内部 MCP Gateway 已经承载 800+ MCP servers 和 5
 
 [Uber Engineering ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/)
 
-### 搜索自己的东西，正在重新变成本地能力
+### Agent 不能自己决定自己能做什么
 
-Google 10 月 6 日发布 EmbeddingGemma 2：740M 参数，把 text / code / image / video / audio 映射进统一 embedding space，并把重点放在端侧多模态检索与 RAG。
+Microsoft 10 月 7 日宣布 Microsoft Execution Containers（MXC）正式可用：开发者可以声明 Agent 能读写哪些文件、访问哪些网络地址、是否碰得到桌面 UI，再由宿主环境在运行时强制执行。
 
-比又一个模型榜单更值得看的，是产品方向本身：语音备忘录、照片、视频和本地文件之间的搜索，不一定要先把私人资料送进云端。
+这件事最值得记住的不是又多了一种容器，而是它把一条 Agent 工程原则写得非常直白：**执行者不能成为自己的安全权威。** 模型、插件、工具甚至 Harness 都可以运行在边界里面，但边界本身必须留在它们控制之外。
 
-**“搜索我的东西”这件事，正在重新变成设备自己会做的事。**
+微软称 GitHub Copilot、OpenAI Codex、Replit 等已经支持 MXC。对我们来说，更有意思的是另一层互照：Mira External Worker 把 Git mutation 与验证留给可信工作流；MXC 则把文件、网络和 UI 权限继续往操作系统边界下沉。
 
-[Google / Google DeepMind ↗](https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/)
+[Microsoft Windows Developer Blog ↗](https://blogs.windows.com/windowsdeveloper/2026/10/07/microsoft-execution-containers-policy-driven-containment-for-ai-agents/)
 
 ### 写代码的人和 Agent 越多，Git 反而越需要重修地基
 
@@ -199,6 +201,6 @@ Google Japan 的 Gboard 团队今年又认真做了一件神经病的事：把�
 
 005 还没有收刊。
 
-Radar 会继续往素材池里落东西。现在先把这一期的骨架立起来：机器开始承担更多机器该承担的工作；真正的基础设施则开始生产、供能、治理和感知。
+接下来只收真正能改变这条主线的东西：机器怎样接手那些可以重试、替换和验证的工作，系统怎样把约束、恢复和责任留在自己身上，以及人怎样一点点从流程缝隙里的“人工中间件”位置撤出来。
 
 至于人——**别再拿来垫系统。**
