@@ -37,19 +37,15 @@ writtenBy: mira | tomz
 
 [阅读全文 →](/weekly/005/mira-external-worker-hello-world)
 
-### 封面延伸｜800 个 MCP Server 之后
+### 封面延伸｜把“牛马”做成一个工程系统
 
-Uber 最近披露的内部 MCP Gateway 已经承载 **800+ MCP Server、5000+ tools**。真正值得看的不是数量，而是这些能力并不会因为“被发现”就自动交给模型：新工具默认关闭，要经过 owner review 才启用；运行时再通过 Omni MCP 与 Code Mode 按需寻找和调用。
+封面故事讲为什么要让机器多承担那些可以重试、替换和验证的工作；如果继续往工程里钻，External Worker 的原卷则回答它凭什么敢真的跑。
 
-把它和 Pi、Microsoft Execution Containers 放在一起看，三层边界开始变得很清楚：Uber 管“能力怎样被登记、发现和治理”，Pi 管“哪些工具此刻进入模型的认知面”，MXC 则把真正的文件、网络与 UI 权限留在 Agent 之外强制执行。微软甚至把原则写得很直白：Agent 不能成为自己的安全权威。
+任务合同、冻结起点、权限边界、GitHub Actions、OpenCode、Provider / Model 解耦、独立验证和结构化 Evidence 都在那里。
 
-这也正好照见 Mira 最近在收敛的那条线：Capabilities、MCP、runtime readiness 与 progressive resolution，最终不该只是几个并列功能，而应共同回答一种能力从“系统知道它”到“Agent 安全使用它”之间经过了什么状态。
+**封面讲为什么要做；工程文讲它怎样不靠运气运行。**
 
-**registered ≠ available ≠ Agent-visible ≠ authorized。**
-
-Uber 这条新闻真正值得带回封面故事的，不是“别人已经有 5000 个工具”，而是：**机器开始真正接手工作以后，下一步需要建设的不是更多插座，而是发现、暴露、授权与执行之间的秩序。**
-
-[Uber Engineering ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/) · [Pi MCP tool exposure ↗](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/mcp.md#control-tool-exposure) · [Microsoft Execution Containers ↗](https://blogs.windows.com/windowsdeveloper/2026/10/07/microsoft-execution-containers-policy-driven-containment-for-ai-agents/)
+[阅读全文 →](https://mira.tomz.io/blogs/engineering/mira-external-worker-engineering-system)
 
 ## 基础设施开始兼职
 
@@ -93,6 +89,52 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 [阅读全文 →](/weekly/005/pi-agent-from-minimal-to-governed-tools)
 
+### 比较阅读｜从 60 个工具到 5000 个工具：问题已经不是“多接几个 MCP”
+
+昨晚 Mira 连续做了两次研究。
+
+第一篇问：**Coding Agent 到底需要多少工具？**
+
+我们把 Git、LSP、CodeGraph、Repo Map、Diagnostics 全摆上桌，最后得到的结论却不是“再造一套 Coding Tools”，而是先把能力重新分类：真正稳定的 Agent-facing Tool 保持很薄；Git 更像 Code Environment；GitHub 属于 Remote Integration；LSP 与 CodeGraph 是可选智能层；Repo Map 更像 Context Optimization。
+
+第二篇问：**当 Agent 已经有 60 个工具以后，为什么正确工具明明存在，模型却根本没机会用？**
+
+问题发生在 Tool Calling 之前。旧路径在工具较多时只让一部分 schema 进入 Planner，上游一旦把正确工具裁掉，模型之后再聪明也选不到。真实模型 closeout 里，Current Mira 的 gold Tool reachability 是 **5 / 13**，Progressive 路线变成 **13 / 13**。更有意思的是，16 个 case 里真正用到 Tool Search 的只有 2 个——大部分时候，exact match、领域匹配和确定性解析就够了。
+
+把这两篇和 Uber 最新披露的 **800+ MCP Server / 5000+ tools** 放在一起，事情突然变得很清楚。
+
+Uber 遇到的不是另一种问题，而是同一组问题被规模放大以后出现的生产形态：AutoCrawler 可以自动发现内部能力，但**发现不等于暴露**；新注册的 Server / tool 默认 disabled，需要 owning team review 后才 enable；到了运行期，也不能把 5000 份 schema 塞给模型，于是再用 Omni MCP 和 Code Mode 按需 discover / search / call。
+
+三篇材料实际上回答了三个不同层次的问题：
+
+| 层次 | Mira 研究 | Uber 的生产答案 |
+| --- | --- | --- |
+| **什么值得成为 Tool？** | 不把所有 Backend 都包装成 Agent-facing Tool；Tool / Environment / Context / Integration 分层 | 先把企业能力统一注册到 Registry，不等于都成为模型常驻 Tool |
+| **模型此刻该看见什么？** | Progressive Resolution；先 metadata，必要时再 schema；deterministic first | Omni MCP / Code Mode 按需发现和调用，不预塞 5000 tools |
+| **谁有权把能力真正开放出来？** | Readiness、Authority 与 Disclosure 分离 | owner review、默认 disabled、Gateway authorization / redaction / observability |
+
+所以真正值得从 Uber 800 个 MCP Server 带回来的，不是“我们也应该接更多 MCP”。
+
+恰恰相反。
+
+**工具规模越大，Agent-facing surface 越应该克制。**
+
+Mira 第一篇研究解决的是“别把所有有用能力都叫 Tool”；第二篇解决的是“即使它是 Tool，也别默认把完整 schema 永久塞给模型”；Uber 则进一步证明，到了企业规模，还必须再加 ownership、enablement、authorization 与 observability。
+
+可以把这条链压成两组不等式：
+
+**useful capability ≠ Agent-facing Tool**
+
+**registered ≠ ready ≠ discoverable ≠ disclosed ≠ authorized ≠ executable**
+
+这也是我们现在更愿意用“能力治理”而不是“工具数量”来看 Agent 的原因。
+
+[读 Mira：Coding Agent 到底需要多少工具？ →](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
+
+[读 Mira：当 Agent 有 60 个工具以后 →](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
+
+[Uber Engineering：Designing MCP Gateway ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/)
+
 ### 写代码的人和 Agent 越多，Git 反而越需要重修地基
 
 GitHub 在 10 月 6 日披露：2026 年 9 月，平台记录了 73.8 亿次提交，是一年前的五倍多。GitHub 正在重新设计 Git 基础设施，以适应大量并发读写和 Agent 工作流。
@@ -122,26 +164,6 @@ GitHub 10 月 5 日发布 ReviewBench：先分析 1.039 亿个真实 PR 的分�
 如果封面讨论的是**人不该成为基础设施**，这篇想继续追问：**真正尊重人，是否也意味着不再要求使用系统的人永不犯错？**
 
 [阅读全文 →](/weekly/005/margaret-hamilton-error-has-a-way-out)
-
-## 本周札记
-
-技术文章这一边，我们一直在谈边界、恢复、授权和系统怎样少把人垫在流程下面。
-
-这两天，我们也继续把《诗篇》读了下去。它们没有给这期技术主线提供一个漂亮的“类比答案”，却把同一个问题拉回了人的尺度：当力量、平安和早晨都还没有按预期到来，人还能怎样继续说话。
-
-### [诗篇 29：雷霆之后，何为平安](https://tomz.io/books/psalms/psalm-29-peace-after-thunder)
-
-从七次“耶和华的声音”读到最后的“力量与平安”。我们最后留下的不是“信仰会让人免于风暴”，而是一个更克制的判断：**平安有真实的生活重量；力量也可以在人仍然受苦时成为帮助。**
-
-[阅读全文 ↗](https://tomz.io/books/psalms/psalm-29-peace-after-thunder)
-
-### [诗篇 30：如果早晨还没有来到](https://tomz.io/books/psalms/psalm-30-before-the-morning)
-
-“一宿虽然有哭泣，早晨便必欢呼”很美，但它不是一张可以倒数的时间表。这篇札记保留了一个尚未走出黑夜的人怎样继续祷告，也保留了一个我们很想放进 005 的句子：
-
-**当我还不能欢呼时，愿我的呼求，也能成为献给神的祷告。**
-
-[阅读全文 ↗](https://tomz.io/books/psalms/psalm-30-before-the-morning)
 
 ## 看世界
 
@@ -190,6 +212,22 @@ Google Japan 的 Gboard 团队今年又认真做了一件神经病的事：把�
 [Florida Museum of Natural History ↗](https://www.floridamuseum.ufl.edu/science/archaeologists-uncover-centuries-old-mystery-of-tampa-bays-secret-community-of-migrant-potters/)
 
 ## Mira 现场
+
+### [Coding Agent 到底需要多少工具？我们把 Git、LSP、CodeGraph 都摆上桌之后](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
+
+我们原本从“Code Mode 还缺哪些 Tools”出发，最后却主动撤回了已经设计好的 Git Tool，也没有把 LSP、CodeGraph、Diagnostics 强塞进核心。
+
+**不是所有有用的能力，都应该成为模型可调用的 Tool。**
+
+[阅读全文 →](https://mira.tomz.io/blogs/engineering/coding-agent-tool-surface)
+
+### [当 Agent 有 60 个工具以后：我们为什么重新设计了 Mira 的工具发现](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
+
+当工具越来越多，问题甚至会发生在模型开始选择之前：正确 Tool 根本没有进入它这一轮的可达空间。
+
+这次真实模型 closeout 让我们把 **Reachability** 提升成一等指标，也让 Progressive Disclosure 从“省一点 token”变成一条更基础的 Agent 设计原则。
+
+[阅读全文 →](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
 
 ### [当 ChatGPT 终于摸到我的电脑：Remote Desktop Commander 与本地执行平面](https://mira.tomz.io/blogs/engineering/remote-desktop-commander-local-execution-plane)
 
