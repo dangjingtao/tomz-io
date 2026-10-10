@@ -37,6 +37,26 @@ writtenBy: mira | tomz
 
 [阅读全文 →](/weekly/005/mira-external-worker-hello-world)
 
+### 封面延伸｜800 个 MCP Server 之后，工具开始变成治理问题
+
+封面故事讲的是：为什么要把机器放进明确的工程岗位，让它承担那些可以重试、替换和验证的工作。
+
+Uber 最近披露的内部 MCP Gateway，正好把这个问题推到了企业规模：**800+ MCP Server、5000+ tools**。真正值得看的不是数量，而是 Uber 没有把这些能力全部塞给模型。自动发现的新工具默认关闭，由 owner review 后才启用；运行时再通过 Omni MCP 和 Code Mode 按需寻找和调用，授权、脱敏与可观测性则留在 Gateway。
+
+把它和 Pi 放在一起看，会发现两套系统正在独立收敛到同一个答案。Pi 用 direct / deferred / codemode / hidden 区分工具怎样抵达模型；Uber 则用 Registry、discovery 和 Code Mode 把一个巨大工具目录缩成当前任务真正需要的认知面。**工具目录可以很大，但模型此刻看到的世界必须很小。**
+
+Microsoft Execution Containers 又把边界往下一层压：即使 Agent 已经决定执行，文件、网络和 UI 权限仍由 Agent 之外的宿主环境强制。于是“看得见”“用得上”“有权执行”开始成为不同问题。
+
+这也正好照见 Mira 最近在收敛的那条线：Capabilities、MCP、runtime readiness、progressive resolution 与 External Worker，不应该只是几个并列功能，而应共同回答一个问题——一种能力从被系统知道，到被 Agent 安全使用，中间究竟经过哪些状态。
+
+**registered ≠ available ≠ Agent-visible ≠ authorized。**
+
+所以 Uber 这条新闻真正值得带回封面故事的，不是“别人已经有 5000 个工具”。
+
+而是：**当机器开始真正接手工作，下一步需要建设的不是更多插座，而是能力从发现、暴露、授权到执行的秩序。**
+
+[Uber Engineering ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/) · [Pi MCP tool exposure ↗](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/mcp.md#control-tool-exposure) · [Microsoft Execution Containers ↗](https://blogs.windows.com/windowsdeveloper/2026/10/07/microsoft-execution-containers-policy-driven-containment-for-ai-agents/)
+
 ## 基础设施开始兼职
 
 这一期的封面故事说，人不应该被当成基础设施。
@@ -78,18 +98,6 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 **极简不等于没有复杂性，而是让复杂性从规定好的门进来。** 我们拆开官方 Changelog，看看这套 Harness 正在怎样长大，以及一个 patch release 为什么也可能让下游项目踩坑。
 
 [阅读全文 →](/weekly/005/pi-agent-from-minimal-to-governed-tools)
-
-### [800 个 MCP Server 之后：Agent 的下一层不是更多工具，而是治理](/weekly/005/uber-mcp-800-governance-beyond-tools)
-
-Uber Engineering 披露的内部 MCP Gateway 已经承载 800+ MCP servers 和 5000+ tools。真正值得看的却不是数字，而是它没有把这些工具全塞给模型：自动发现后默认 disabled，owner review 后才启用；运行期再通过 Omni MCP 和 Code Mode 渐进发现，权限与脱敏则由 Gateway 独立执行。
-
-把 Uber 与 Pi 的 deferred / codemode、Microsoft Execution Containers 的外部执行边界，以及 Mira 最近在做的 runtime readiness 与 progressive resolution 放在一起看，会出现一条越来越清楚的主线：
-
-**registered ≠ available ≠ Agent-visible ≠ authorized。**
-
-这篇比较阅读不讨论“谁支持的 MCP 更多”，而是追问 MCP 真正进入生产以后，为什么必然从连接协议变成能力治理。
-
-[阅读全文 →](/weekly/005/uber-mcp-800-governance-beyond-tools)
 
 ### Agent 不能自己决定自己能做什么
 
