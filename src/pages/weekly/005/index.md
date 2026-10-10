@@ -69,6 +69,35 @@ UNSW、Sydney Water 与 Pacific Bio 正在尝试把污水处理末端吸收氮�
 
 Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无线供电道路技术，并计划从日本 2027 财年开始在公共道路做示范。
 
+::: html
+<figure style="margin:1.5rem 0 1.8rem" aria-label="Honda 动态无线供电道路系统简图">
+  <svg viewBox="0 0 900 330" width="100%" role="img" style="display:block">
+    <text x="34" y="34" fill="currentColor" opacity=".5" font-size="12" letter-spacing="2">DWPT ROAD · EDITORIAL SCHEMATIC</text>
+
+    <rect x="62" y="226" width="776" height="52" rx="8" fill="currentColor" opacity=".08"/>
+    <rect x="188" y="230" width="110" height="18" rx="5" fill="currentColor" opacity=".28"/>
+    <rect x="395" y="230" width="110" height="18" rx="5" fill="currentColor" opacity=".28"/>
+    <rect x="602" y="230" width="110" height="18" rx="5" fill="currentColor" opacity=".28"/>
+
+    <path d="M243 220 C243 188 270 172 300 172" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="6 7" opacity=".5"/>
+    <path d="M450 220 C450 178 466 158 500 153" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="6 7" opacity=".66"/>
+    <path d="M657 220 C657 190 628 173 600 171" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="6 7" opacity=".5"/>
+
+    <rect x="344" y="103" width="240" height="68" rx="18" fill="none" stroke="currentColor" stroke-width="2" opacity=".75"/>
+    <circle cx="390" cy="172" r="22" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="538" cy="172" r="22" fill="none" stroke="currentColor" stroke-width="3"/>
+    <rect x="417" y="150" width="94" height="16" rx="7" fill="currentColor" opacity=".22"/>
+
+    <rect x="420" y="184" width="88" height="18" rx="5" fill="currentColor" opacity=".5"/>
+    <text x="464" y="80" text-anchor="middle" fill="currentColor" font-size="16" font-weight="650">VA · 车载接收单元</text>
+    <text x="450" y="307" text-anchor="middle" fill="currentColor" opacity=".72" font-size="14">GA · 路面发射单元</text>
+    <text x="92" y="307" fill="currentColor" opacity=".48" font-size="12">DC POWER →</text>
+    <text x="734" y="307" text-anchor="end" fill="currentColor" opacity=".48" font-size="12">车辆行驶中接收电能</text>
+  </svg>
+  <figcaption style="margin-top:.55rem;font-size:.84rem;opacity:.58">根据 Honda、Taisei 与 Taisei Rotec 公布的系统结构整理：路面 GA 发射单元通过磁耦合向车底 VA 接收单元供能。示意图为见π编辑绘制，并非 Honda 原始工程图。</figcaption>
+</figure>
+:::
+
 它还远没有走到“边跑边充已经普及”的阶段。但这个方向很有意思：**道路本身开始从通行基础设施，变成持续供能界面。**
 
 [Honda Global ↗](https://global.honda/en/topics/2026/c_2026-10-05beng.html)
@@ -95,15 +124,48 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 ### 比较阅读｜从 60 个工具到 5000 个工具
 
-昨晚 Mira 连续做了两次工具研究。
+昨晚 Mira 做了两次工具研究，Uber 则给出了一个企业级参照。
 
-第一篇回答：**什么东西值得成为 Agent-facing Tool？**  
-结论不是“越多越好”，而是把 Git、LSP、CodeGraph、Repo Map 分回 Environment、Integration、Optional Intelligence 与 Context，核心 Tool 反而更薄。
+::: html
+<figure style="margin:1.4rem 0 1.7rem" aria-label="从工具资格到能力治理的三层比较">
+  <svg viewBox="0 0 900 360" width="100%" role="img" style="display:block">
+    <text x="32" y="34" fill="currentColor" opacity=".5" font-size="12" letter-spacing="2">FROM TOOL COUNT TO CAPABILITY GOVERNANCE</text>
 
-第二篇回答：**即使它已经是 Tool，模型这一轮真的看得见吗？**  
-真实模型 closeout 里，gold Tool reachability 从 **5 / 13** 提升到 **13 / 13**。这让我们把问题从“模型会不会选工具”前移到了“正确工具有没有进入它的可达空间”。
+    <rect x="52" y="82" width="236" height="188" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+    <text x="170" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">TOOL</text>
+    <text x="170" y="153" text-anchor="middle" fill="currentColor" opacity=".68" font-size="13">什么值得成为工具？</text>
+    <text x="170" y="196" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">Environment</text>
+    <text x="170" y="218" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">Integration · Context</text>
+    <text x="170" y="240" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">不要都包装成 Tool</text>
 
-再看 Uber 的 **800+ MCP Server / 5000+ tools**，其实只是同一个问题到了企业规模：目录可以非常大，但 Agent-facing surface 必须克制；发现、可用、披露、授权和执行不能混成一个状态。
+    <rect x="332" y="82" width="236" height="188" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
+    <text x="450" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">VISIBILITY</text>
+    <text x="450" y="153" text-anchor="middle" fill="currentColor" opacity=".68" font-size="13">模型此刻看见什么？</text>
+    <text x="450" y="190" text-anchor="middle" fill="currentColor" font-size="28" font-weight="700">5/13 → 13/13</text>
+    <text x="450" y="224" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">Progressive Resolution</text>
+    <text x="450" y="246" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">需要时再展开</text>
+
+    <rect x="612" y="82" width="236" height="188" rx="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+    <text x="730" y="120" text-anchor="middle" fill="currentColor" font-size="18" font-weight="700">GOVERNANCE</text>
+    <text x="730" y="153" text-anchor="middle" fill="currentColor" opacity=".68" font-size="13">谁有权真正开放？</text>
+    <text x="730" y="193" text-anchor="middle" fill="currentColor" font-size="20" font-weight="700">800+ / 5000+</text>
+    <text x="730" y="224" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">Registry · Owner · Policy</text>
+    <text x="730" y="246" text-anchor="middle" fill="currentColor" opacity=".52" font-size="12">Uber MCP Gateway</text>
+
+    <path d="M288 176 L332 176" stroke="currentColor" stroke-width="2" opacity=".28"/>
+    <path d="M568 176 L612 176" stroke="currentColor" stroke-width="2" opacity=".28"/>
+
+    <text x="450" y="323" text-anchor="middle" fill="currentColor" opacity=".7" font-size="15" font-weight="650">目录可以很大，Agent-facing surface 应该更克制。</text>
+  </svg>
+  <figcaption style="margin-top:.55rem;font-size:.84rem;opacity:.58">两篇 Mira 研究分别讨论 Tool 资格与 Tool Reachability；Uber 的 800+ MCP Server / 5000+ tools，则把同一问题推到了组织级治理。</figcaption>
+</figure>
+:::
+
+第一篇的结论很简单：**有用，不等于应该成为 Agent-facing Tool。**
+
+第二篇把问题再往前推：即使 Tool 已经存在，模型也必须先“看得见”。真实模型 closeout 里，gold Tool reachability 从 **5 / 13** 提升到 **13 / 13**。
+
+Uber 的规模则提醒我们：当目录大到 800+ MCP Server、5000+ tools，发现、可用、披露、授权和执行更不能混成一个状态。
 
 **useful capability ≠ Agent-facing Tool**
 
