@@ -175,7 +175,7 @@ Uber 的规模则提醒我们：当目录大到 800+ MCP Server、5000+ tools，
 
 [读 Mira：当 Agent 有 60 个工具以后 →](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
 
-[详细阅读：Uber Engineering｜Designing MCP Gateway ↗](https://www.uber.com/us/en/blog/designing-mcp-gateway/)
+[深度阅读：800 个 MCP Server 之后，Agent 的下一层不是更多工具，而是治理 →](/weekly/005/uber-mcp-800-governance-beyond-tools)
 
 ### 写代码的人和 Agent 越多，Git 反而越需要重修地基
 
