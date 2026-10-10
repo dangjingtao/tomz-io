@@ -70,9 +70,9 @@ writtenBy: mira | tomz
 
 机载计算机接连报告 1202、1201 程序警报。与交会雷达有关的多余处理请求挤占了有限的计算资源。那个年代的飞行计算机，远没有今天一部普通手机充裕。
 
-![阿波罗制导计算机 DSKY 显示和键盘操作界面的历史手册图](https://upload.wikimedia.org/wikipedia/commons/7/76/DSKYS_interface.jpg)
+![1969 年，玛格丽特·汉密尔顿坐在阿波罗 12 号指令舱模型中](https://upload.wikimedia.org/wikipedia/commons/a/aa/Margaret_Hamilton_in_action.jpg)
 
-*阿波罗制导计算机 DSKY（Display and Keyboard）界面，来自 NASA《Apollo Operations Handbook》。宇航员通过这里输入程序、动词与名词代码并查看状态；这张是界面说明图，并非 1201／1202 警报瞬间的现场照片。[NASA 手册图档案及公有领域说明 ↗](https://commons.wikimedia.org/wiki/File:DSKYS_interface.jpg)。*
+*1969 年，Margaret Hamilton 在阿波罗 12 号指令舱模型中。这里不是 Apollo 11 的 1201／1202 警报现场，而是一张真实的工程纪实照片：她所带领的团队负责阿波罗机载软件，而她本人也始终把“人在真实系统里会怎样操作”当成工程问题的一部分。原图：NASA，公有领域。[Wikimedia Commons 档案与授权说明 ↗](https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_in_action.jpg)。*
 
 如果所有任务都被要求一视同仁地完成，计算机可能根本来不及支持登月。
 
