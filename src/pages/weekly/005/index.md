@@ -39,9 +39,9 @@ writtenBy: mira | tomz
 
 ### 封面延伸｜800 个 MCP Server 之后
 
-Uber 最近披露的内部 MCP Gateway 已经承载 **800+ MCP Server、5000+ tools**。真正值得看的不是数量，而是这些能力并不会因为“被发现”就自动交给模型：新工具默认关闭，要经过 owner review 才启用；运行时再通过 Omni MCP 与 Code Mode 按需寻找和调用。citeturn462302search3turn460559search6
+Uber 最近披露的内部 MCP Gateway 已经承载 **800+ MCP Server、5000+ tools**。真正值得看的不是数量，而是这些能力并不会因为“被发现”就自动交给模型：新工具默认关闭，要经过 owner review 才启用；运行时再通过 Omni MCP 与 Code Mode 按需寻找和调用。
 
-把它和 Pi、Microsoft Execution Containers 放在一起看，三层边界开始变得很清楚：Uber 管“能力怎样被登记、发现和治理”，Pi 管“哪些工具此刻进入模型的认知面”，MXC 则把真正的文件、网络与 UI 权限留在 Agent 之外强制执行。微软甚至把原则写得很直白：Agent 不能成为自己的安全权威。citeturn462302search0
+把它和 Pi、Microsoft Execution Containers 放在一起看，三层边界开始变得很清楚：Uber 管“能力怎样被登记、发现和治理”，Pi 管“哪些工具此刻进入模型的认知面”，MXC 则把真正的文件、网络与 UI 权限留在 Agent 之外强制执行。微软甚至把原则写得很直白：Agent 不能成为自己的安全权威。
 
 这也正好照见 Mira 最近在收敛的那条线：Capabilities、MCP、runtime readiness 与 progressive resolution，最终不该只是几个并列功能，而应共同回答一种能力从“系统知道它”到“Agent 安全使用它”之间经过了什么状态。
 
