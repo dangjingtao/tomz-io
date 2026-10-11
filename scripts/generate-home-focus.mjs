@@ -1,6 +1,11 @@
-import { randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+
+import {
+  homepageAiRoute,
+  missingHomepageAiConfiguration,
+  runHomepageStructuredPrompt,
+} from "./homepage-ai-opencode.mjs";
 
 const root = process.cwd();
 const outputPath = path.join(root, "src/content/home-focus.generated.ts");
@@ -10,10 +15,6 @@ const contentRoots = [
   { root: "books", dir: path.join(root, "src/pages/books") },
 ];
 
-const aiBaseUrl = process.env.HOMEPAGE_AI_BASE_URL?.replace(/\/+$/, "");
-const aiApiKey = process.env.HOMEPAGE_AI_API_KEY;
-const aiModel = process.env.HOMEPAGE_AI_MODEL;
-const aiSessionId = `tomz-io-home-focus-${randomUUID()}`;
 const refreshIntervalDays = 7;
 const forceAiRefresh = ["1", "true", "yes"].includes(
   String(process.env.HOMEPAGE_AI_FORCE || "").toLowerCase(),
@@ -103,20 +104,6 @@ async function collectEvidence() {
     .slice(0, 80);
 }
 
-function extractJson(text) {
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i)?.[1];
-  const candidate = (fenced || text).trim();
-  const start = candidate.indexOf("{");
-  const end = candidate.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("AI response did not contain JSON");
-
-  try {
-    return JSON.parse(candidate.slice(start, end + 1));
-  } catch (error) {
-    throw new Error(`AI JSON parse failed: ${error instanceof Error ? error.message : error}`);
-  }
-}
-
 function validateQuestions(value) {
   if (!Array.isArray(value?.questions)) {
     throw new Error("AI response did not contain a questions array");
@@ -133,21 +120,6 @@ function validateQuestions(value) {
   }
 
   return questions;
-}
-
-function compactLogPreview(value, limit = 240) {
-  return String(value)
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, limit);
-}
-
-function missingAiConfiguration() {
-  const missing = [];
-  if (!aiBaseUrl) missing.push("HOMEPAGE_AI_BASE_URL");
-  if (!aiApiKey) missing.push("HOMEPAGE_AI_API_KEY");
-  if (!aiModel) missing.push("HOMEPAGE_AI_MODEL");
-  return missing;
 }
 
 async function readSnapshotMeta() {
@@ -169,62 +141,57 @@ function snapshotAgeDays(generatedAt) {
   return Math.max(0, Math.floor((Date.now() - timestamp) / 86_400_000));
 }
 
+const focusQuestionsSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    questions: {
+      type: "array",
+      minItems: 4,
+      maxItems: 6,
+      items: { type: "string", minLength: 1 },
+    },
+  },
+  required: ["questions"],
+};
+
 async function generateWithAi(evidence) {
-  const missing = missingAiConfiguration();
+  const missing = missingHomepageAiConfiguration();
   if (missing.length > 0) return null;
 
-  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 提炼“长期关注”的问题。\n\n这不是人格生成，也不是替 Tomz 决定他应该关心什么。你只能从公开内容中观察长期、反复出现的主题，并把它们写成 4 到 6 个没有标准答案的问题。\n\n要求：\n1. 每个问题必须能从多个不同内容条目中找到支持；不要因为单篇偶发内容新增长期主题。\n2. 主题类别完全开放，不预设技术、生活、创作或价值方向；只按证据归纳。\n3. 不要把 Tomz 写成专家、思想领袖或某种固定人格。\n4. 不写结论，只写开放问题。\n5. 措辞克制、自然、具体，每条不超过 42 个汉字；尽量保持长期稳定，不追逐短期热点。\n6. 不要机械复制标题，不要输出解释或证据列表。\n\n输出纯 JSON：{"questions":["问题1。","问题2。"]}\n\n公开内容证据：\n${JSON.stringify(evidence, null, 2)}`;
+  const route = homepageAiRoute();
+  const prompt = `你是谨慎的个人网站编辑，只能从公开材料中归纳长期主题，不能定义作者人格。
+
+你在为 Tomz Dang 的个人网站 tomz.io 提炼“长期关注”的问题。
+
+这不是人格生成，也不是替 Tomz 决定他应该关心什么。你只能从公开内容中观察长期、反复出现的主题，并把它们写成 4 到 6 个没有标准答案的问题。
+
+要求：
+1. 每个问题必须能从多个不同内容条目中找到支持；不要因为单篇偶发内容新增长期主题。
+2. 主题类别完全开放，不预设技术、生活、创作或价值方向；只按证据归纳。
+3. 不要把 Tomz 写成专家、思想领袖或某种固定人格。
+4. 不写结论，只写开放问题。
+5. 措辞克制、自然、具体，每条不超过 42 个汉字；尽量保持长期稳定，不追逐短期热点。
+6. 不要机械复制标题，不要输出解释或证据列表。
+
+返回符合给定结构化输出 schema 的对象。
+
+公开内容证据：
+${JSON.stringify(evidence, null, 2)}`;
 
   console.log(
-    `[home-focus] request model=${aiModel} evidence=${evidence.length} promptChars=${prompt.length} promptBytes=${Buffer.byteLength(prompt, "utf8")}`,
+    `[home-focus] request route=${route.provider}/${route.model} evidence=${evidence.length} promptChars=${prompt.length} promptBytes=${Buffer.byteLength(prompt, "utf8")}`,
   );
 
-  const response = await fetch(`${aiBaseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${aiApiKey}`,
-      "Content-Type": "application/json",
-      "User-Agent": "tomz-io-homepage-ai/1.0",
-      "x-opencode-session": aiSessionId,
-    },
-    body: JSON.stringify({
-      model: aiModel,
-      temperature: 0.2,
-      messages: [
-        {
-          role: "system",
-          content: "你是谨慎的个人网站编辑，只能从公开材料中归纳长期主题，不能定义作者人格。",
-        },
-        { role: "user", content: prompt },
-      ],
-    }),
+  const structured = await runHomepageStructuredPrompt({
+    title: "Tomz.io Homepage Focus",
+    prompt,
+    schema: focusQuestionsSchema,
+    retryCount: 1,
   });
+  if (!structured) return null;
 
-  console.log(`[home-focus] response status=${response.status} ok=${response.ok}`);
-
-  const responseBody = await response.text();
-  if (!response.ok) {
-    throw new Error(
-      `AI endpoint returned ${response.status}; body=${compactLogPreview(responseBody, 320) || "<empty>"}`,
-    );
-  }
-
-  let payload;
-  try {
-    payload = JSON.parse(responseBody);
-  } catch (error) {
-    throw new Error(`AI HTTP response was not JSON: ${error instanceof Error ? error.message : error}`);
-  }
-
-  const text = payload?.choices?.[0]?.message?.content;
-  if (!text) throw new Error("AI response was empty");
-
-  console.log(
-    `[home-focus] completion chars=${text.length} preview=${JSON.stringify(compactLogPreview(text))}`,
-  );
-
-  const parsed = extractJson(text);
-  const questions = validateQuestions(parsed);
+  const questions = validateQuestions(structured);
   console.log(
     `[home-focus] validation ok count=${questions.length} lengths=${questions.map((item) => item.length).join(",")}`,
   );
@@ -270,7 +237,7 @@ async function main() {
     `[home-focus] evidence collected total=${evidence.length} bySource=${JSON.stringify(sourceCounts)} chars=${evidenceJson.length} bytes=${Buffer.byteLength(evidenceJson, "utf8")}`,
   );
 
-  const missing = missingAiConfiguration();
+  const missing = missingHomepageAiConfiguration();
   if (missing.length > 0) {
     console.warn(`[home-focus] AI configuration missing: ${missing.join(", ")}`);
   }
