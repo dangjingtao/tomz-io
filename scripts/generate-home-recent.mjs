@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
@@ -8,6 +9,7 @@ const projectsRoot = path.join(root, "src/pages/projects");
 const aiBaseUrl = process.env.HOMEPAGE_AI_BASE_URL?.replace(/\/+$/, "");
 const aiApiKey = process.env.HOMEPAGE_AI_API_KEY;
 const aiModel = process.env.HOMEPAGE_AI_MODEL;
+const aiSessionId = `tomz-io-home-recent-${randomUUID()}`;
 const aiMaxAttempts = 2;
 const githubToken = process.env.HOMEPAGE_GITHUB_TOKEN || process.env.GITHUB_TOKEN;
 const githubRepos = (process.env.HOMEPAGE_GITHUB_REPOS || "dangjingtao/tomz-io,dangjingtao/uichat-mira")
@@ -419,6 +421,8 @@ async function generateWithAi(facts) {
     headers: {
       Authorization: `Bearer ${aiApiKey}`,
       "Content-Type": "application/json",
+      "User-Agent": "tomz-io-homepage-ai/1.0",
+      "x-opencode-session": aiSessionId,
     },
     body: JSON.stringify({
       model: aiModel,
