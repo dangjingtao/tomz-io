@@ -15,20 +15,35 @@ export function missingHomepageAiConfiguration(env = process.env) {
   return missing;
 }
 
-function structuredOutputFrom(result) {
+function jsonTextOutputFrom(result) {
   const response = result?.data ?? result;
   const info = response?.info;
 
-  if (info?.error?.name === "StructuredOutputError") {
-    throw new Error("structured_output_failed");
+  if (info?.error?.name) {
+    const detail = info.error?.data?.message || info.error.name;
+    throw new Error(`model_error:${info.error.name}:${detail}`);
   }
 
-  const output = info?.structured ?? info?.structured_output;
-  if (!output || typeof output !== "object" || Array.isArray(output)) {
-    throw new Error("structured_output_missing");
+  const text = (response?.parts || [])
+    .filter((part) => part?.type === "text" && typeof part.text === "string")
+    .map((part) => part.text)
+    .join("")
+    .trim();
+
+  if (!text) throw new Error("json_text_missing");
+
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error("json_text_invalid");
   }
 
-  return output;
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("json_text_not_object");
+  }
+
+  return parsed;
 }
 
 async function disposeOpenCode(instance, timeoutMs = 5_000) {
@@ -59,11 +74,10 @@ async function disposeOpenCode(instance, timeoutMs = 5_000) {
   instance.server?.close?.();
 }
 
-export async function runHomepageStructuredPrompt({
+export async function runHomepageJsonPrompt({
   title,
   prompt,
   schema,
-  retryCount = 1,
 }) {
   const missing = missingHomepageAiConfiguration();
   if (missing.length > 0) return null;
@@ -147,16 +161,20 @@ export async function runHomepageStructuredPrompt({
           providerID: route.provider,
           modelID: route.model,
         },
-        parts: [{ type: "text", text: prompt }],
-        format: {
-          type: "json_schema",
-          schema,
-          retryCount,
-        },
+        parts: [{
+          type: "text",
+          text: `${prompt}
+
+输出合同：
+- 只输出一个完整 JSON 对象。
+- 不要代码围栏，不要解释，不要前后缀文字。
+- 必须满足以下 JSON Schema：
+${JSON.stringify(schema, null, 2)}`,
+        }],
       },
     });
 
-    return structuredOutputFrom(result);
+    return jsonTextOutputFrom(result);
   } finally {
     if (instance) await disposeOpenCode(instance);
     for (const key of managedEnvKeys) {
