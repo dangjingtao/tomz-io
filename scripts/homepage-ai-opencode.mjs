@@ -26,6 +26,15 @@ function structuredOutputFrom(result) {
   if (info?.error?.name === "StructuredOutputError") {
     throw new Error("structured_output_failed");
   }
+  if (info?.error?.name === "APIError") {
+    const status = Number.isInteger(info.error.data?.statusCode)
+      ? info.error.data.statusCode
+      : "unknown";
+    const retryable = typeof info.error.data?.isRetryable === "boolean"
+      ? info.error.data.isRetryable
+      : "unknown";
+    throw new Error(`model_error:APIError:status=${status}:retryable=${retryable}`);
+  }
   if (info?.error?.name) {
     throw new Error(`model_error:${info.error.name}`);
   }
