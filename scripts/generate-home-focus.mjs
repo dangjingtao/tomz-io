@@ -4,7 +4,7 @@ import path from "node:path";
 import {
   homepageAiRoute,
   missingHomepageAiConfiguration,
-  runHomepageJsonPrompt,
+  runHomepageStructuredPrompt,
 } from "./homepage-ai-opencode.mjs";
 
 const root = process.cwd();
@@ -184,10 +184,11 @@ ${JSON.stringify(evidence, null, 2)}`;
     `[home-focus] request route=${route.provider}/${route.model} evidence=${evidence.length} promptChars=${prompt.length} promptBytes=${Buffer.byteLength(prompt, "utf8")}`,
   );
 
-  const jsonData = await runHomepageJsonPrompt({
+  const jsonData = await runHomepageStructuredPrompt({
     title: "Tomz.io Homepage Focus",
     prompt,
     schema: focusQuestionsSchema,
+    retryCount: 1,
   });
   if (!jsonData) return null;
 
