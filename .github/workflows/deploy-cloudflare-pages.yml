@@ -65,6 +65,7 @@ jobs:
           sdk_entry="$(node "$runtime_dir/resolve-sdk.mjs")"
           rm -f "$runtime_dir/resolve-sdk.mjs"
           echo "OPENCODE_SDK_ENTRY=$sdk_entry" >> "$GITHUB_ENV"
+          echo "$runtime_dir/node_modules/.bin" >> "$GITHUB_PATH"
 
       - name: Import pinned production external books
         run: pnpm run external-books:production
