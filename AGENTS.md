@@ -41,7 +41,7 @@ docs/CONTENT_ARCHITECTURE.md 负责 Group、Tag、Book、Tag canonicalization、
 - 书架由 src/pages/books/*/_book.yml 数据驱动。
 - 内容时间在构建期从 Git 历史生成，不由浏览器查询 GitHub。
 - 首页存在两个构建期派生快照：home-recent.generated.ts 与 home-focus.generated.ts。
-- 首页 AI 使用 OpenAI Chat Completions 兼容接口；AI 失败时必须保持可构建 fallback。生产环境的 `home-recent` 不得因一次模型输出异常回退到明显陈旧的已提交快照；在 AI 配置完整但生成失败时，应优先使用当次公开事实生成确定性近期 fallback。
+- 首页 AI 通过隔离 OpenCode runtime / SDK 调用 provider + model route，不由生成器自行拼接模型 HTTP endpoint；AI 失败时必须保持可构建 fallback。生产环境的 `home-recent` 不得因一次模型输出异常回退到明显陈旧的已提交快照；在 AI 配置完整但生成失败时，应优先使用当次公开事实生成确定性近期 fallback。
 - 站点包含 PWA / Service Worker 更新机制。
 - 站点 RSS 由静态 Article 输出生成，不维护第二套文章索引。
 - 通用正文媒体在生产构建中通过内容寻址发布到 Cloudflare R2；Git 中的 Markdown 仍是正文事实源。
