@@ -177,6 +177,8 @@ AI 只负责从输入事实中选 3 条并写短摘要。链接不是模型自�
 {HOMEPAGE_AI_BASE_URL}/chat/completions
 ~~~
 
+当 `HOMEPAGE_AI_BASE_URL` 指向 OpenCode Go 直连 API 时，首页生成器会显式发送稳定于单次生成会话的 `x-opencode-session`，并使用站点自己的 `User-Agent`；这是 Go 对自定义客户端的路由 / 缓存识别要求。
+
 主要环境变量：
 
 ~~~text
