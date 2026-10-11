@@ -230,6 +230,7 @@ function validateItems(value) {
   return value.items.map((item, index) => {
     if (!allowedKinds.has(item.kind)) throw new Error(`Unsupported kind: ${item.kind}`);
     if (!item.title || !item.summary) throw new Error("Each item needs title and summary");
+    if (!item.sourceId) throw new Error("Each item needs sourceId");
     if (item.href) {
       console.warn(`[home-recent] item ${index + 1} returned href directly; ignored`);
     }
