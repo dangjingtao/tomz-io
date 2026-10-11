@@ -72,6 +72,16 @@ export async function runHomepageStructuredPrompt({
   const apiKey = process.env.HOMEPAGE_AI_API_KEY.trim();
   const sdkEntry = process.env.OPENCODE_SDK_ENTRY.trim();
 
+  const managedEnvKeys = [
+    "OPENCODE_DISABLE_PROJECT_CONFIG",
+    "OPENCODE_DISABLE_CLAUDE_CODE",
+    "OPENCODE_PURE",
+    "OPENCODE_AUTH_CONTENT",
+  ];
+  const previousEnv = Object.fromEntries(
+    managedEnvKeys.map((key) => [key, process.env[key]]),
+  );
+
   process.env.OPENCODE_DISABLE_PROJECT_CONFIG = "1";
   process.env.OPENCODE_DISABLE_CLAUDE_CODE = "1";
   process.env.OPENCODE_PURE = "1";
@@ -79,12 +89,14 @@ export async function runHomepageStructuredPrompt({
     [route.provider]: { type: "api", key: apiKey },
   });
 
-  const sdk = await import(pathToFileURL(sdkEntry).href);
-  if (typeof sdk.createOpencode !== "function") {
-    throw new Error("opencode_runtime_unavailable");
-  }
+  let instance;
+  try {
+    const sdk = await import(pathToFileURL(sdkEntry).href);
+    if (typeof sdk.createOpencode !== "function") {
+      throw new Error("opencode_runtime_unavailable");
+    }
 
-  const instance = await sdk.createOpencode({
+    instance = await sdk.createOpencode({
     hostname: "127.0.0.1",
     timeout: 15_000,
     config: {
@@ -121,7 +133,6 @@ export async function runHomepageStructuredPrompt({
     },
   });
 
-  try {
     const created = await instance.client.session.create({
       body: { title: title || "Tomz.io Homepage AI" },
     });
@@ -147,6 +158,11 @@ export async function runHomepageStructuredPrompt({
 
     return structuredOutputFrom(result);
   } finally {
-    await disposeOpenCode(instance);
+    if (instance) await disposeOpenCode(instance);
+    for (const key of managedEnvKeys) {
+      const previous = previousEnv[key];
+      if (previous === undefined) delete process.env[key];
+      else process.env[key] = previous;
+    }
   }
 }
