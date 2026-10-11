@@ -364,13 +364,13 @@ ${JSON.stringify(facts, null, 2)}`;
     `[home-recent] request route=${route.provider}/${route.model} factsBytes=${Buffer.byteLength(JSON.stringify(facts), "utf8")}`,
   );
 
-  const structured = await runHomepageJsonPrompt({
+  const jsonData = await runHomepageJsonPrompt({
     title: "Tomz.io Homepage Recent",
     prompt,
     schema: recentItemsSchema,
-});
-  if (!structured) return null;
-  return validateItems(structured);
+  });
+  if (!jsonData) return null;
+  return validateItems(jsonData);
 }
 
 function factsForAi(writing, projects, github) {
