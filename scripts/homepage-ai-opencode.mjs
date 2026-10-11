@@ -15,34 +15,27 @@ export function missingHomepageAiConfiguration(env = process.env) {
   return missing;
 }
 
-function jsonTextOutputFrom(result) {
+function structuredOutputFrom(result) {
+  if (result?.error) {
+    throw new Error("opencode_prompt_failed");
+  }
+
   const response = result?.data ?? result;
   const info = response?.info;
 
+  if (info?.error?.name === "StructuredOutputError") {
+    throw new Error("structured_output_failed");
+  }
   if (info?.error?.name) {
     throw new Error(`model_error:${info.error.name}`);
   }
 
-  const text = (response?.parts || [])
-    .filter((part) => part?.type === "text" && typeof part.text === "string")
-    .map((part) => part.text)
-    .join("")
-    .trim();
-
-  if (!text) throw new Error("json_text_missing");
-
-  let parsed;
-  try {
-    parsed = JSON.parse(text);
-  } catch {
-    throw new Error("json_text_invalid");
+  const output = info?.structured;
+  if (!output || typeof output !== "object" || Array.isArray(output)) {
+    throw new Error("structured_output_missing");
   }
 
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error("json_text_not_object");
-  }
-
-  return parsed;
+  return output;
 }
 
 async function disposeOpenCode(instance, timeoutMs = 5_000) {
@@ -61,7 +54,7 @@ async function disposeOpenCode(instance, timeoutMs = 5_000) {
     try {
       await Promise.race([
         Promise.resolve(
-          dispose.call(instance.client.instance, { signal: controller.signal }),
+          dispose.call(instance.client.instance, undefined, { signal: controller.signal }),
         ).catch(() => undefined),
         disposeTimedOut,
       ]);
@@ -73,10 +66,11 @@ async function disposeOpenCode(instance, timeoutMs = 5_000) {
   instance.server?.close?.();
 }
 
-export async function runHomepageJsonPrompt({
+export async function runHomepageStructuredPrompt({
   title,
   prompt,
   schema,
+  retryCount = 1,
 }) {
   const missing = missingHomepageAiConfiguration();
   if (missing.length > 0) return null;
@@ -147,33 +141,29 @@ export async function runHomepageJsonPrompt({
     });
 
     const created = await instance.client.session.create({
-      body: { title: title || "Tomz.io Homepage AI" },
+      title: title || "Tomz.io Homepage AI",
     });
+    if (created?.error) throw new Error("opencode_session_create_failed");
+
     const session = created?.data ?? created;
     const sessionId = session?.id;
     if (!sessionId) throw new Error("opencode_session_create_failed");
 
     const result = await instance.client.session.prompt({
-      path: { sessionID: sessionId },
-      body: {
-        model: {
-          providerID: route.provider,
-          modelID: route.model,
-        },
-        parts: [{
-          type: "text",
-          text: `${prompt}
-
-输出合同：
-- 只输出一个完整 JSON 对象。
-- 不要代码围栏，不要解释，不要前后缀文字。
-- 必须满足以下 JSON Schema：
-${JSON.stringify(schema, null, 2)}`,
-        }],
+      sessionID: sessionId,
+      model: {
+        providerID: route.provider,
+        modelID: route.model,
+      },
+      parts: [{ type: "text", text: prompt }],
+      format: {
+        type: "json_schema",
+        schema,
+        retryCount,
       },
     });
 
-    return jsonTextOutputFrom(result);
+    return structuredOutputFrom(result);
   } finally {
     if (instance) await disposeOpenCode(instance);
     for (const key of managedEnvKeys) {
