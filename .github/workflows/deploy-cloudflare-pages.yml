@@ -66,7 +66,7 @@ jobs:
           CF_PAGES: "1"
           HOMEPAGE_AI_BASE_URL: ${{ secrets.HOMEPAGE_AI_BASE_URL }}
           HOMEPAGE_AI_API_KEY: ${{ secrets.HOMEPAGE_AI_API_KEY }}
-          HOMEPAGE_AI_MODEL: ${{ secrets.HOMEPAGE_AI_MODEL }}
+          HOMEPAGE_AI_MODEL: deepseek-v4.1-flash
           HOMEPAGE_AI_FORCE: ${{ inputs.force_home_focus || false }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
