@@ -4,7 +4,7 @@ import path from "node:path";
 import {
   homepageAiRoute,
   missingHomepageAiConfiguration,
-  runHomepageJsonPrompt,
+  runHomepageStructuredPrompt,
 } from "./homepage-ai-opencode.mjs";
 
 const root = process.cwd();
@@ -364,10 +364,11 @@ ${JSON.stringify(facts, null, 2)}`;
     `[home-recent] request route=${route.provider}/${route.model} factsBytes=${Buffer.byteLength(JSON.stringify(facts), "utf8")}`,
   );
 
-  const jsonData = await runHomepageJsonPrompt({
+  const jsonData = await runHomepageStructuredPrompt({
     title: "Tomz.io Homepage Recent",
     prompt,
     schema: recentItemsSchema,
+    retryCount: 1,
   });
   if (!jsonData) return null;
   return validateItems(jsonData);
