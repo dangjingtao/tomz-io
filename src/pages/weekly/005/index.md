@@ -1,11 +1,11 @@
 ---
 title: "见π 005：牛马，起来干活了"
-description: 从凌晨四点跑通的 External Worker，到《第十周：我没有出口，暂时没法停下》里那些没有 owner、没有 rollback 的家庭债务，再到玛格丽特·汉密尔顿、MCP 与 Agent 权限：第五期追问同一件事——人怎样不再成为系统的基础设施。
+description: External Worker 真正跑起来以后，第五期继续追问：机器怎样多干活，人怎样少当基础设施。
 group: 见π
 order: 5
 issue: 5
 date: 2026年10月8日
-lead: 凌晨四点，我对 Mira 说：“调 DS，把测试分支 README 改成——牛马，起来干活了。”几分钟后，GitHub 真的回应了。封面从工程里写下 People are not infrastructure；这一期的第十周周记，却把同一句话带回了家庭、工作与信仰：谁应该承担，谁又只是因为“还能扛”，就被继续加压。
+lead: 凌晨四点，External Worker 第一次真的替我们干活。封面写机器怎样接手工作；第十周周记则把同一句 People are not infrastructure 带回生活：还没宕机，不等于还能无限加压。
 cover: https://assets.tomz.io/images/jp005.webp
 tags:
   - AI
@@ -29,9 +29,9 @@ writtenBy: mira | tomz
 
 凌晨四点，我拿着手机，对 Mira 说：“调 DS，把测试分支 README 改成——牛马，起来干活了。”
 
-几分钟后，GitHub 上真的多了一个由远端 Worker 完成、独立验证并写回 Git 的提交。那句话没有业务价值，却像极了程序员第一次写下的 `Hello, World!`：重要的不是那几个字，而是**你的世界回应了**。
+几分钟后，GitHub 真多了一次由远端 Worker 完成、独立验证并写回 Git 的提交。那句话没有业务价值，却像一个真正的 `Hello, World!`：**你的世界回应了。**
 
-这篇文章不重复已经上线的 External Worker 工程长文，而是讲另一面：为什么我们想把耗时执行从 Mira 身上拆出去，为什么模型必须被放进明确的工程岗位，以及为什么自动化最终不应该把人变成 Agent 之间的基础设施。
+重点不是 AI 又聪明了一点，而是机器终于开始接手那些可重试、可替换、可验证的活。
 
 **People are not infrastructure. 人不是基础设施。**
 
@@ -39,11 +39,7 @@ writtenBy: mira | tomz
 
 ### 封面延伸｜把“牛马”做成一个工程系统
 
-封面故事讲为什么要让机器多承担那些可以重试、替换和验证的工作；如果继续往工程里钻，External Worker 的原卷则回答它凭什么敢真的跑。
-
-任务合同、冻结起点、权限边界、GitHub Actions、OpenCode、Provider / Model 解耦、独立验证和结构化 Evidence 都在那里。
-
-**封面讲为什么要做；工程文讲它怎样不靠运气运行。**
+想继续往工程里钻，原卷里有任务合同、权限边界、Provider / Model 解耦、独立验证和 Evidence：**它为什么敢真的跑。**
 
 [阅读全文 →](https://mira.tomz.io/blogs/engineering/mira-external-worker-engineering-system)
 
@@ -57,9 +53,7 @@ writtenBy: mira | tomz
 
 ## 基础设施开始兼职
 
-这一期的封面故事说，人不应该被当成基础设施。
-
-有意思的是，同一个星期，真正的基础设施却正在不断获得第二份工作：污水厂开始被重新想象成材料节点，道路开始被做成供能界面。过去那些只负责“处理”“通行”的东西，正在一点点变成会生产、会回收、会供能的系统。
+封面说人别当基础设施；同一星期，真正的基础设施却开始兼职：污水厂做材料节点，道路做供能界面。
 
 ### 污水处理后的藻类，能不能再变成制造材料？
 
@@ -132,7 +126,7 @@ Honda R&D、Taisei 与 Taisei Rotec 公布了面向大型商用 EV 的动态无�
 
 ### 比较阅读｜从 60 个工具到 5000 个工具
 
-昨晚 Mira 做了两次工具研究，Uber 则给出了一个企业级参照。
+三个尺度看同一件事：什么值得成为工具，模型此刻看得见什么，组织最后怎样治理。
 
 ::: html
 <figure style="margin:1.4rem 0 1.7rem" aria-label="从工具资格到能力治理的三层比较">
@@ -269,19 +263,7 @@ Google Japan 的 Gboard 团队今年又认真做了一件神经病的事：把�
 
 ### [当 ChatGPT 终于摸到我的电脑：Remote Desktop Commander 与本地执行平面](https://mira.tomz.io/blogs/engineering/remote-desktop-commander-local-execution-plane)
 
-10 月 4 日，我们第一次把 ChatGPT 到真实本地电脑的 Remote MCP 链路跑进日常工程现场。
-
-这件事解决的是“云端智能怎样碰到本地真实环境”。几天以后，External Worker 又把问题往前推了一步：**Mira 不必所有活都亲自碰电脑，也可以把耗时执行交给一个受限、可替换、可验证的 Worker。**
-
-把这两篇连起来看，正好是这几天 Mira 工程角色变化的一前一后。
+10 月 4 日，ChatGPT 第一次真正摸到本地电脑；几天后，External Worker 又把耗时执行拆给受限、可替换、可验证的 Worker。两篇连起来，正好是 Mira 从“能碰电脑”到“会分工”的这一步。
 
 [阅读全文 →](https://mira.tomz.io/blogs/engineering/remote-desktop-commander-local-execution-plane)
 
-
----
-
-005 还没有收刊。
-
-接下来只收真正能改变这条主线的东西：机器怎样接手那些可以重试、替换和验证的工作，系统怎样把约束、恢复和责任留在自己身上，以及人怎样一点点从流程缝隙里的“人工中间件”位置撤出来。
-
-至于人——**别再拿来垫系统。**
