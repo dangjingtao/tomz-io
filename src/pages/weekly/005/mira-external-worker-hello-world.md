@@ -7,6 +7,7 @@ issue: 5
 date: 2026年10月8日
 readTime: 10 分钟阅读
 lead: 凌晨四点，我对 Mira 说：“调 DS，把测试分支 README 改成——牛马，起来干活了。”几分钟后，GitHub 真的回应了。那不是一句废话，而是 External Worker 的 Hello World。
+cover: https://assets.tomz.io/images/jp005.webp
 tags:
   - AI
   - Agent
