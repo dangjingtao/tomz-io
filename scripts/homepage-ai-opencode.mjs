@@ -20,8 +20,7 @@ function jsonTextOutputFrom(result) {
   const info = response?.info;
 
   if (info?.error?.name) {
-    const detail = info.error?.data?.message || info.error.name;
-    throw new Error(`model_error:${info.error.name}:${detail}`);
+    throw new Error(`model_error:${info.error.name}`);
   }
 
   const text = (response?.parts || [])
