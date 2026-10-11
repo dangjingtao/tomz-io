@@ -32,7 +32,7 @@ export async function unregisterSitePwa(
       const names = await cacheStorage.keys();
       await Promise.all(
         names
-          .filter((name) => name.startsWith(`workbox-precache-v2-${scopeUrl}`))
+          .filter((name) => name === `workbox-precache-v2-${scopeUrl}`)
           .map((name) => cacheStorage.delete(name)),
       );
     } catch {
