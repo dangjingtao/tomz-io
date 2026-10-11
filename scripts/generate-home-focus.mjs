@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
@@ -12,6 +13,7 @@ const contentRoots = [
 const aiBaseUrl = process.env.HOMEPAGE_AI_BASE_URL?.replace(/\/+$/, "");
 const aiApiKey = process.env.HOMEPAGE_AI_API_KEY;
 const aiModel = process.env.HOMEPAGE_AI_MODEL;
+const aiSessionId = `tomz-io-home-focus-${randomUUID()}`;
 const refreshIntervalDays = 7;
 const forceAiRefresh = ["1", "true", "yes"].includes(
   String(process.env.HOMEPAGE_AI_FORCE || "").toLowerCase(),
@@ -182,6 +184,8 @@ async function generateWithAi(evidence) {
     headers: {
       Authorization: `Bearer ${aiApiKey}`,
       "Content-Type": "application/json",
+      "User-Agent": "tomz-io-homepage-ai/1.0",
+      "x-opencode-session": aiSessionId,
     },
     body: JSON.stringify({
       model: aiModel,
