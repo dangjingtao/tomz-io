@@ -171,20 +171,26 @@ AI 只负责从输入事实中选 3 条并写短摘要。链接不是模型自�
 
 ### 5.3 AI 协议
 
-当前使用 OpenAI Chat Completions 兼容协议：
+首页生成器不直接维护 provider endpoint。生产构建会安装与 Mira Organization AI Review 同版本的隔离 OpenCode runtime / SDK，由共享适配器 `scripts/homepage-ai-opencode.mjs` 创建 OpenCode session，并用 `provider + model` route 发起请求。
+
+当前生产 route：
 
 ~~~text
-{HOMEPAGE_AI_BASE_URL}/chat/completions
+provider = opencode-go
+model    = deepseek-v4.1-flash
 ~~~
 
-当 `HOMEPAGE_AI_BASE_URL` 指向 OpenCode Go 直连 API 时，首页生成器会显式发送稳定于单次生成会话的 `x-opencode-session`，并使用站点自己的 `User-Agent`；这是 Go 对自定义客户端的路由 / 缓存识别要求。
+`home-recent` 与 `home-focus` 都使用 OpenCode 的 `json_schema` structured output；生成器只负责业务 prompt、schema 后校验、公开事实边界和 fallback，不再自行解析 provider 返回的自由文本 JSON，也不自行处理 provider-specific endpoint / session header。
+
+生产 workflow 将 OpenCode runtime 安装在 runner 临时目录，并通过 `OPENCODE_SDK_ENTRY` 把 SDK entry 交给生成器；runtime 不进入网站应用依赖树。
 
 主要环境变量：
 
 ~~~text
-HOMEPAGE_AI_BASE_URL
+HOMEPAGE_AI_PROVIDER
 HOMEPAGE_AI_API_KEY
 HOMEPAGE_AI_MODEL
+OPENCODE_SDK_ENTRY
 HOMEPAGE_AI_FORCE
 HOMEPAGE_GITHUB_TOKEN
 HOMEPAGE_GITHUB_REPOS
