@@ -141,7 +141,7 @@ export async function runHomepageStructuredPrompt({
     if (!sessionId) throw new Error("opencode_session_create_failed");
 
     const result = await instance.client.session.prompt({
-      path: { id: sessionId },
+      path: { sessionID: sessionId },
       body: {
         model: {
           providerID: route.provider,
