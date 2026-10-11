@@ -32,7 +32,8 @@ describe("WeChat PWA policy", () => {
     expect(await unregisterSitePwa(serviceWorkers, scope, cacheStorage)).toBe(true);
     expect(targetUnregister).toHaveBeenCalledOnce();
     expect(otherUnregister).not.toHaveBeenCalled();
-    expect(cacheStorage.delete).toHaveBeenCalledExactlyOnceWith(
+    expect(cacheStorage.delete).toHaveBeenCalledOnce();
+    expect(cacheStorage.delete).toHaveBeenCalledWith(
       "workbox-precache-v2-https://tomz.io/",
     );
   });
