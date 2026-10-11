@@ -4,7 +4,7 @@ import path from "node:path";
 import {
   homepageAiRoute,
   missingHomepageAiConfiguration,
-  runHomepageStructuredPrompt,
+  runHomepageJsonPrompt,
 } from "./homepage-ai-opencode.mjs";
 
 const root = process.cwd();
@@ -230,6 +230,7 @@ function validateItems(value) {
   return value.items.map((item, index) => {
     if (!allowedKinds.has(item.kind)) throw new Error(`Unsupported kind: ${item.kind}`);
     if (!item.title || !item.summary) throw new Error("Each item needs title and summary");
+    if (!item.sourceId) throw new Error("Each item needs sourceId");
     if (item.href) {
       console.warn(`[home-recent] item ${index + 1} returned href directly; ignored`);
     }
@@ -363,14 +364,13 @@ ${JSON.stringify(facts, null, 2)}`;
     `[home-recent] request route=${route.provider}/${route.model} factsBytes=${Buffer.byteLength(JSON.stringify(facts), "utf8")}`,
   );
 
-  const structured = await runHomepageStructuredPrompt({
+  const jsonData = await runHomepageJsonPrompt({
     title: "Tomz.io Homepage Recent",
     prompt,
     schema: recentItemsSchema,
-    retryCount: 1,
   });
-  if (!structured) return null;
-  return validateItems(structured);
+  if (!jsonData) return null;
+  return validateItems(jsonData);
 }
 
 function factsForAi(writing, projects, github) {

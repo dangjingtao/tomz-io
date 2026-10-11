@@ -180,7 +180,7 @@ provider = opencode-go
 model    = deepseek-v4.1-flash
 ~~~
 
-`home-recent` 与 `home-focus` 都使用 OpenCode 的 `json_schema` structured output；生成器只负责业务 prompt、schema 后校验、公开事实边界和 fallback，不再自行解析 provider 返回的自由文本 JSON，也不自行处理 provider-specific endpoint / session header。
+`home-recent` 与 `home-focus` 都通过 OpenCode session 获取最终 text part。由于当前 `opencode-go/deepseek-v4.1-flash` 路由未稳定完成 OpenCode 内建 `StructuredOutput` 工具调用，站点采用严格 JSON 文本合同：模型只能返回一个完整 JSON 对象，生成器直接 `JSON.parse` 后继续业务校验；不恢复旧的 `<think>` 清洗、代码围栏剥离、平衡括号猜测等宽松解析。生成器仍不自行处理 provider-specific endpoint / session header。
 
 生产 workflow 将 OpenCode runtime 安装在 runner 临时目录，并通过 `OPENCODE_SDK_ENTRY` 把 `@opencode-ai/sdk/v2` entry 交给生成器；runtime 不进入网站应用依赖树。OpenCode 在本地启动受限 runtime server，provider adapter 自己解析上游 endpoint；旧的 `HOMEPAGE_AI_BASE_URL` 已退役，不再参与生产路由。
 
