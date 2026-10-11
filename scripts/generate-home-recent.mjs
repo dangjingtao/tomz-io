@@ -377,11 +377,7 @@ function deterministicRecentItems(writing, projects, github) {
   const laneCounts = new Map();
   const usedSources = new Set();
 
-  for (const candidate of candidates) {
-    if (usedSources.has(candidate.sourceId)) continue;
-    const laneCount = laneCounts.get(candidate.lane) || 0;
-    if (candidate.lane === "writing" && laneCount >= 2) continue;
-
+  function addCandidate(candidate) {
     selected.push({
       kind: candidate.kind,
       title: String(candidate.title).slice(0, 48),
@@ -389,7 +385,25 @@ function deterministicRecentItems(writing, projects, github) {
       sourceId: candidate.sourceId,
     });
     usedSources.add(candidate.sourceId);
-    laneCounts.set(candidate.lane, laneCount + 1);
+    laneCounts.set(candidate.lane, (laneCounts.get(candidate.lane) || 0) + 1);
+  }
+
+  // First pass prefers source diversity.
+  for (const candidate of candidates) {
+    if (usedSources.has(candidate.sourceId)) continue;
+    const laneCount = laneCounts.get(candidate.lane) || 0;
+    if (candidate.lane === "writing" && laneCount >= 2) continue;
+
+    addCandidate(candidate);
+    if (selected.length === 3) return selected;
+  }
+
+  // If public facts only exist in one lane, freshness is more important than
+  // preserving diversity: fill the remaining slots instead of falling back to
+  // a stale committed snapshot.
+  for (const candidate of candidates) {
+    if (usedSources.has(candidate.sourceId)) continue;
+    addCandidate(candidate);
     if (selected.length === 3) break;
   }
 
