@@ -1,15 +1,16 @@
-import { randomUUID } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+
+import {
+  homepageAiRoute,
+  missingHomepageAiConfiguration,
+  runHomepageStructuredPrompt,
+} from "./homepage-ai-opencode.mjs";
 
 const root = process.cwd();
 const outputPath = path.join(root, "src/content/home-recent.generated.ts");
 const blogsRoot = path.join(root, "src/pages/blogs");
 const projectsRoot = path.join(root, "src/pages/projects");
-const aiBaseUrl = process.env.HOMEPAGE_AI_BASE_URL?.replace(/\/+$/, "");
-const aiApiKey = process.env.HOMEPAGE_AI_API_KEY;
-const aiModel = process.env.HOMEPAGE_AI_MODEL;
-const aiSessionId = `tomz-io-home-recent-${randomUUID()}`;
 const aiMaxAttempts = 2;
 const githubToken = process.env.HOMEPAGE_GITHUB_TOKEN || process.env.GITHUB_TOKEN;
 const githubRepos = (process.env.HOMEPAGE_GITHUB_REPOS || "dangjingtao/tomz-io,dangjingtao/uichat-mira")
@@ -221,89 +222,6 @@ function serializeSnapshot(snapshot) {
   return `export type HomeRecentItem = {\n  kind: "在做" | "在想" | "在读" | "在写" | "生活" | "工作";\n  title: string;\n  summary: string;\n  href?: string;\n};\n\nexport const homeRecentSnapshot = {\n  generatedAt: ${JSON.stringify(snapshot.generatedAt)},\n  generatedBy: ${JSON.stringify(snapshot.generatedBy)} as const,\n  items: ${items} satisfies HomeRecentItem[],\n};\n`;
 }
 
-function stripThinkBlocks(text) {
-  return String(text)
-    .replace(/<think>[\s\S]*?<\/think>/gi, "")
-    .replace(/<mm:think>[\s\S]*?<\/mm:think>/gi, "")
-    .trim();
-}
-
-function jsonObjectCandidates(text) {
-  const cleaned = stripThinkBlocks(text);
-  const fenced = [...cleaned.matchAll(/```(?:json)?\s*([\s\S]*?)```/gi)]
-    .map((match) => match[1]?.trim())
-    .filter(Boolean);
-  const sources = [...fenced, cleaned];
-  const candidates = [];
-  const seen = new Set();
-
-  for (const source of sources) {
-    let start = -1;
-    let depth = 0;
-    let inString = false;
-    let escaped = false;
-
-    for (let index = 0; index < source.length; index += 1) {
-      const char = source[index];
-
-      if (inString) {
-        if (escaped) {
-          escaped = false;
-        } else if (char === "\\") {
-          escaped = true;
-        } else if (char === '"') {
-          inString = false;
-        }
-        continue;
-      }
-
-      if (char === '"') {
-        inString = true;
-        continue;
-      }
-
-      if (char === "{") {
-        if (depth === 0) start = index;
-        depth += 1;
-        continue;
-      }
-
-      if (char === "}" && depth > 0) {
-        depth -= 1;
-        if (depth === 0 && start >= 0) {
-          const candidate = source.slice(start, index + 1);
-          if (!seen.has(candidate)) {
-            seen.add(candidate);
-            candidates.push(candidate);
-          }
-          start = -1;
-        }
-      }
-    }
-  }
-
-  return candidates;
-}
-
-function extractItemsJson(text) {
-  const candidates = jsonObjectCandidates(text);
-  let lastError = null;
-
-  for (const candidate of candidates) {
-    try {
-      const parsed = JSON.parse(candidate);
-      if (Array.isArray(parsed?.items)) return parsed;
-    } catch (error) {
-      lastError = error;
-    }
-  }
-
-  if (lastError) {
-    throw new Error(`AI JSON parse failed: ${lastError instanceof Error ? lastError.message : lastError}`);
-  }
-  throw new Error("AI response did not contain a usable items JSON object");
-}
-
 function validateItems(value) {
   const allowedKinds = new Set(["在做", "在想", "在读", "在写", "生活", "工作"]);
   if (!Array.isArray(value?.items) || value.items.length !== 3) {
@@ -322,21 +240,6 @@ function validateItems(value) {
       ...(item.sourceId ? { sourceId: String(item.sourceId) } : {}),
     };
   });
-}
-
-function missingAiConfiguration() {
-  const missing = [];
-  if (!aiBaseUrl) missing.push("HOMEPAGE_AI_BASE_URL");
-  if (!aiApiKey) missing.push("HOMEPAGE_AI_API_KEY");
-  if (!aiModel) missing.push("HOMEPAGE_AI_MODEL");
-  return missing;
-}
-
-function compactLogPreview(value, limit = 280) {
-  return String(value)
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, limit);
 }
 
 function deterministicRecentItems(writing, projects, github) {
@@ -412,52 +315,62 @@ function deterministicRecentItems(writing, projects, github) {
   return selected;
 }
 
-async function generateWithAi(facts) {
-  if (missingAiConfiguration().length > 0) return null;
-  const prompt = `你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。\n\n只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、项目记录、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。\n\n每一项必须引用事实中已有的 sourceId。不要生成、猜测或返回任何 href / URL，链接由程序根据 sourceId 映射。\n\n输出纯 JSON：{"items":[{"kind":"在做|在想|在读|在写|生活|工作","title":"短标题","summary":"一两句自然中文","sourceId":"事实中已有的 sourceId"}]}。不要补充事实，不要输出 Markdown。\n\n事实：\n${JSON.stringify(facts, null, 2)}`;
-
-  const response = await fetch(`${aiBaseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${aiApiKey}`,
-      "Content-Type": "application/json",
-      "User-Agent": "tomz-io-homepage-ai/1.0",
-      "x-opencode-session": aiSessionId,
+const recentItemsSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    items: {
+      type: "array",
+      minItems: 3,
+      maxItems: 3,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          kind: {
+            type: "string",
+            enum: ["在做", "在想", "在读", "在写", "生活", "工作"],
+          },
+          title: { type: "string", minLength: 1 },
+          summary: { type: "string", minLength: 1 },
+          sourceId: { type: "string", minLength: 1 },
+        },
+        required: ["kind", "title", "summary", "sourceId"],
+      },
     },
-    body: JSON.stringify({
-      model: aiModel,
-      temperature: 0.3,
-      messages: [
-        { role: "system", content: "你是谨慎的个人网站编辑，只能总结输入事实。" },
-        { role: "user", content: prompt },
-      ],
-    }),
+  },
+  required: ["items"],
+};
+
+async function generateWithAi(facts) {
+  if (missingHomepageAiConfiguration().length > 0) return null;
+
+  const route = homepageAiRoute();
+  const prompt = `你是谨慎的个人网站编辑，只能总结输入事实。
+
+你在为 Tomz Dang 的个人网站 tomz.io 编辑首页“最近”模块。
+
+只使用给定事实，选出最能代表最近状态的 3 件事。允许项目、项目记录、公开工作、写作、阅读和生活混合；同一个项目不要垄断三个位置。公司/组织相关内容默认尽量脱敏，把重点放在 Tomz 正在解决什么问题。不要把 Tomz 写成专家、思想领袖或夸张人物。
+
+每一项必须引用事实中已有的 sourceId。不要生成、猜测或返回任何 href / URL，链接由程序根据 sourceId 映射。
+
+返回符合给定结构化输出 schema 的对象，不要补充输入事实之外的信息。
+
+事实：
+${JSON.stringify(facts, null, 2)}`;
+
+  console.log(
+    `[home-recent] request route=${route.provider}/${route.model} factsBytes=${Buffer.byteLength(JSON.stringify(facts), "utf8")}`,
+  );
+
+  const structured = await runHomepageStructuredPrompt({
+    title: "Tomz.io Homepage Recent",
+    prompt,
+    schema: recentItemsSchema,
+    retryCount: 1,
   });
-  const responseBody = await response.text();
-  if (!response.ok) {
-    throw new Error(
-      `AI endpoint returned ${response.status}; body=${compactLogPreview(responseBody, 320) || "<empty>"}`,
-    );
-  }
-
-  let payload;
-  try {
-    payload = JSON.parse(responseBody);
-  } catch (error) {
-    throw new Error(`AI HTTP response was not JSON: ${error instanceof Error ? error.message : error}`);
-  }
-
-  const text = payload?.choices?.[0]?.message?.content;
-  if (!text) throw new Error("AI response was empty");
-
-  try {
-    return validateItems(extractItemsJson(text));
-  } catch (error) {
-    const reason = error instanceof Error ? error.message : String(error);
-    throw new Error(
-      `${reason}; completionPreview=${JSON.stringify(compactLogPreview(text))}`,
-    );
-  }
+  if (!structured) return null;
+  return validateItems(structured);
 }
 
 function factsForAi(writing, projects, github) {
@@ -485,7 +398,7 @@ async function main() {
   ]);
   const policy = createLinkPolicy(writing, projects, github);
   const facts = factsForAi(writing, projects, github);
-  const missing = missingAiConfiguration();
+  const missing = missingHomepageAiConfiguration();
   let failureReason = "";
 
   if (missing.length === 0) {
