@@ -184,14 +184,14 @@ ${JSON.stringify(evidence, null, 2)}`;
     `[home-focus] request route=${route.provider}/${route.model} evidence=${evidence.length} promptChars=${prompt.length} promptBytes=${Buffer.byteLength(prompt, "utf8")}`,
   );
 
-  const structured = await runHomepageJsonPrompt({
+  const jsonData = await runHomepageJsonPrompt({
     title: "Tomz.io Homepage Focus",
     prompt,
     schema: focusQuestionsSchema,
-});
-  if (!structured) return null;
+  });
+  if (!jsonData) return null;
 
-  const questions = validateQuestions(structured);
+  const questions = validateQuestions(jsonData);
   console.log(
     `[home-focus] validation ok count=${questions.length} lengths=${questions.map((item) => item.length).join(",")}`,
   );
