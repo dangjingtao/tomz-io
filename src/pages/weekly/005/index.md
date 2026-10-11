@@ -1,11 +1,11 @@
 ---
 title: "见π 005：牛马，起来干活了"
-description: 从凌晨四点跑通的 External Worker，到玛格丽特·汉密尔顿留下的故障退路，再到 MCP、Agent 权限与基础设施的新角色：第五期继续追问，机器开始承担更多工作以后，人怎样不再成为系统的基础设施。
+description: 从凌晨四点跑通的 External Worker，到《第十周：我没有出口，暂时没法停下》里那些没有 owner、没有 rollback 的家庭债务，再到玛格丽特·汉密尔顿、MCP 与 Agent 权限：第五期追问同一件事——人怎样不再成为系统的基础设施。
 group: 见π
 order: 5
 issue: 5
 date: 2026年10月8日
-lead: 凌晨四点，我对 Mira 说：“调 DS，把测试分支 README 改成——牛马，起来干活了。”几分钟后，GitHub 真的回应了。机器开始多承担一点机器该承担的工作，而这一期也顺着这个现场继续追问：谁应该成为基础设施，谁绝不应该。
+lead: 凌晨四点，我对 Mira 说：“调 DS，把测试分支 README 改成——牛马，起来干活了。”几分钟后，GitHub 真的回应了。封面从工程里写下 People are not infrastructure；这一期的第十周周记，却把同一句话带回了家庭、工作与信仰：谁应该承担，谁又只是因为“还能扛”，就被继续加压。
 cover: https://assets.tomz.io/images/jp005.webp
 tags:
   - AI
@@ -46,6 +46,24 @@ writtenBy: mira | tomz
 **封面讲为什么要做；工程文讲它怎样不靠运气运行。**
 
 [阅读全文 →](https://mira.tomz.io/blogs/engineering/mira-external-worker-engineering-system)
+
+## 本期周记
+
+### [第十周：我没有出口，暂时没法停下](https://tomz.io/blogs/developer-life/week-ten-no-exit)
+
+这一期最私人、也最像封面命题的一篇文章，不在工程栏。
+
+10 月 1 日凌晨，一条没有看到的宵夜消息，几个小时后接上朋友母亲的离世；父亲住在我名下已经断供的房子里，转头来问一万块种牙钱；母亲半年买了五六万保健品，已经把家里两张床一点点占掉。另一边，External Worker 刚刚跑通，三场会又要求一个联调满打满算四天的工程，按五十万、一百万用户的规模去承载。
+
+这些事情原本互不相干，最后却挤进了同一句话里：
+
+**People are not infrastructure.**
+
+工程里，一个节点还没宕机，不代表可以继续无限加流量；家庭里，一个人还在上班、还能讲话、偶尔还能转账，往往就被称作“懂事”。
+
+这篇周记没有把自己写成受难者。朋友的沉重、老头子的种牙、母亲的保健品、一个轻轻的点赞、凌晨的祷告和还在继续的工作，都照原样放在那里。荒诞已经足够，不需要再替它配哭声。
+
+[读第十周周记 →](https://tomz.io/blogs/developer-life/week-ten-no-exit)
 
 ## 基础设施开始兼职
 
