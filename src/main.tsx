@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import {registerSW} from "virtual:pwa-register";
+import { registerSW } from "virtual:pwa-register";
+import { isWeChatBrowser, unregisterSitePwa } from "./utils/wechat-pwa";
 import "@fontsource/public-sans/400.css";
 import "@fontsource/public-sans/500.css";
 import "@fontsource/public-sans/600.css";
@@ -86,16 +87,44 @@ if (normalizedBuildBase !== "/" && window.location.pathname === normalizedBuildB
 
 document.documentElement.dataset.theme = initialTheme;
 
-const updateSW = registerSW({
-  immediate: true,
-  onNeedRefresh() {
-    window.dispatchEvent(new Event("mira:pwa-update-available"));
-  },
-});
+if (isWeChatBrowser(navigator.userAgent)) {
+  // Treat WeChat as a regular browser: skip new PWA registration, and retire a
+  // Workbox worker left by older visits if this WebView permits access to it.
+  if ("serviceWorker" in navigator) {
+    const worker = navigator.serviceWorker;
+    const wasControlled = Boolean(worker.controller);
+    const scopeUrl = new URL(buildBase, window.location.origin).href;
 
-window.addEventListener("mira:pwa-update-confirmed", () => {
-  void updateSW();
-});
+    void unregisterSitePwa(
+      worker,
+      scopeUrl,
+      "caches" in window ? window.caches : undefined,
+    ).then((unregistered) => {
+      if (!unregistered || !wasControlled) return;
+      try {
+        // Unregistering takes effect on the next navigation. Reload once so
+        // an already controlled page can leave the stale worker behind.
+        const reloadKey = "tomz:wechat-pwa-retired";
+        if (window.sessionStorage.getItem(reloadKey) === "1") return;
+        window.sessionStorage.setItem(reloadKey, "1");
+        window.location.reload();
+      } catch {
+        // Restricted WebView storage must never prevent normal page rendering.
+      }
+    });
+  }
+} else {
+  const updateSW = registerSW({
+    immediate: true,
+    onNeedRefresh() {
+      window.dispatchEvent(new Event("mira:pwa-update-available"));
+    },
+  });
+
+  window.addEventListener("mira:pwa-update-confirmed", () => {
+    void updateSW();
+  });
+}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
