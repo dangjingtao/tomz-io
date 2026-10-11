@@ -59,7 +59,7 @@ jobs:
 
           cat > "$runtime_dir/resolve-sdk.mjs" <<'NODE'
           import { fileURLToPath } from 'node:url';
-          process.stdout.write(fileURLToPath(import.meta.resolve('@opencode-ai/sdk')));
+          process.stdout.write(fileURLToPath(import.meta.resolve('@opencode-ai/sdk/v2')));
           NODE
 
           sdk_entry="$(node "$runtime_dir/resolve-sdk.mjs")"
