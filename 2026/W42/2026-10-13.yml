@@ -1,0 +1,65 @@
+- title: "南极海冰的冬季最大值仍在低位：2026 年列卫星记录第三低"
+  url: "https://science.nasa.gov/earth/earth-observatory/antarctic-sea-ice-grows-to-its-2026-maximum/"
+  source: "NASA Earth Observatory / NSIDC"
+  radar: "城市、环境与生活方式 / 科技与科学"
+  topic: "南极海冰、长期观测、卫星微波遥感、气候不确定性"
+  discoveredAt: "2026-10-13"
+  origin: radar
+  note: "NASA 10 月 12 日回顾：南极海冰于 2026 年 9 月 14 日达到约 1759 万平方公里的年度最大范围，是 1978 年末以来卫星记录中的第三低。南极海冰在 2012–2014 年曾出现冬季纪录高位，2016 年后整体转入较低水平；年际波动显著，NASA 仍提醒要持续观测，不能仅凭一个年度判断长期机制。真正值得看的，是一条几十年连续观测曲线如何把‘今年的异常’与‘气候结构变化’分开。地图使用被动微波观测，能穿过云层；配图的黄色线是 1981–2010 年中位边界，不是陆地边界。"
+  status: candidate
+  imageUrl: "https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2026/antarctic-sea-ice-grows-to-its-2026-maximum/antarctic_nsidc_20260914_lrg.jpg?crop=faces%2Cfocalpoint&fit=clip&h=1905&w=1805"
+  imageSourceUrl: "https://science.nasa.gov/earth/earth-observatory/antarctic-sea-ice-grows-to-its-2026-maximum/"
+  imageSource: "NASA Earth Observatory / Michala Garrison / NSIDC"
+  imageNote: "2026-09-14 海冰范围地图，黄线为 1981–2010 年中位范围；与长期时间序列配合使用可解释‘最大值为何仍偏低’。官方 HTTPS 图源，URL 为图像裁切参数而非临时签名。"
+  imageStatus: verify-rights
+
+- title: "飞行路径不再只考虑哪里有障碍，而要考虑障碍下一秒可能去哪里"
+  url: "https://news.mit.edu/2026/planning-system-ensures-robots-flight-path-will-remain-collision-free-1007"
+  source: "MIT News / IEEE Transactions on Robotics"
+  radar: "科技与科学 / 机器人 / 开发工具"
+  topic: "无人机、动态障碍、形式化安全、时空规划"
+  discoveredAt: "2026-10-13"
+  origin: radar
+  note: "MIT 10 月 7 日介绍 SANDO：无人机在未知环境里根据障碍物的速度上限，推算未来一段时间的可能活动区域，再在四维时空里构造安全走廊并实时重规划。研究在仿真及 12 次实机飞行中避开动态障碍。论文的数学安全保证依赖感知、障碍速度上界等建模前提，不是现实世界‘绝不撞机’的无限保证。可讨论的切口是：安全不只是当前空间里没有障碍，还取决于你是否给未来的不确定性留了余地。"
+  status: candidate
+  imageUrl: "https://news.mit.edu/sites/default/files/download/202610/MIT-Safe-Planner-01-press.jpg"
+  imageSourceUrl: "https://news.mit.edu/2026/planning-system-ensures-robots-flight-path-will-remain-collision-free-1007"
+  imageSource: "MIT News / Melanie Gonick"
+  imageNote: "MIT 官方无人机实飞场景，呈现移动障碍与测试环境；图像只说明实验现场，不宜误作算法安全证明。MIT News 图片采用 CC BY-NC-ND，商业刊发与修改须另核权。"
+  imageStatus: verify-rights
+
+- title: "能腐蚀航天器的原子氧，反过来成了修复艺术品的无接触清洁工具"
+  url: "https://www.unipi.it/en/news/from-space-to-earth-atomic-oxygen-enters-conservation-laboratories-revolutionising-the-cleaning-of-the-most-fragile-surfaces/"
+  source: "University of Pisa / EU MOXY project"
+  radar: "设计、文化与媒介 / 科技与科学 / 鬼集"
+  topic: "文物修复、原子氧、太空材料、跨学科技术转用"
+  discoveredAt: "2026-10-13"
+  origin: radar
+  note: "比萨大学 10 月 6 日披露欧盟 MOXY 项目成果：将过去在航天材料领域被视作腐蚀风险的原子氧，变成常压、无接触、无溶剂的文物表面清洁手段。已在石材、绘画、纺织、纸张及塑料等样本上试验，尤其用于处理烟尘和碳质沉积；团队在比萨、根特和埃因霍温建立三个原型，尚处早期，不应写成对所有颜料和材质都安全的通用技术。值得保留的是技术的用途倒转：同一种物理化学效应，在一种场景里是损害，在另一种场景里却成了工具。"
+  status: candidate
+  imageUrl: "https://www.unipi.it/wp-content/uploads/moxyok.png"
+  imageSourceUrl: "https://www.unipi.it/en/news/from-space-to-earth-atomic-oxygen-enters-conservation-laboratories-revolutionising-the-cleaning-of-the-most-fragile-surfaces/"
+  imageSource: "University of Pisa / MOXY project"
+  imageNote: "官方研究人员操作 MOXY 设备的现场照片，可说明常压实验室装置而非使用泛化艺术品图库；大学图片再使用许可未明确，正式刊发前核权。"
+  imageStatus: verify-rights
+
+- title: "黑洞不用贴图：一个浏览器项目让光线真的沿弯曲时空走"
+  url: "https://github.com/algometrix/blackhole-sim"
+  source: "algometrix / GitHub open-source project"
+  radar: "鬼集 / 设计、文化与媒介 / Web"
+  topic: "WebGL2、广义相对论、科学可视化、个人作品"
+  discoveredAt: "2026-10-13"
+  origin: radar
+  note: "个人开源项目 blackhole-sim 在浏览器 GPU 上逐像素积分光子的测地线，模拟黑洞阴影、光子环、引力透镜、吸积盘，以及潮汐撕裂和双黑洞并合的互动效果；README 说明只需 WebGL2、无需账户或后端。它不只是播放‘星际穿越式’贴图，而是尝试把方程变成可玩的图像。不过仓库也包含 cinematic 模式与近似模型，不能把全部画面当作经过独立验证的精确科学仿真。它属于‘个人把高门槛科学概念做成能在普通浏览器里触摸的玩具’。"
+  status: candidate
+  imageUrl: "https://raw.githubusercontent.com/algometrix/blackhole-sim/main/assets/images/blackhole_1.png"
+  imageSourceUrl: "https://github.com/algometrix/blackhole-sim"
+  imageSource: "algometrix / project README"
+  imageNote: "README 第一张实机渲染图：被潮汐撕裂的恒星物质流与引力透镜化的背景天区，直接呈现该项目可视化能力；GitHub 仓库内原图路径可追溯，正式使用需核对素材授权。"
+  imageStatus: verify-rights
+  images:
+    - imageUrl: "https://raw.githubusercontent.com/algometrix/blackhole-sim/main/assets/images/blackhole_2.png"
+      imageSourceUrl: "https://github.com/algometrix/blackhole-sim"
+      imageSource: "algometrix / project README"
+      imageNote: "第二张 README 图展示 Flamm 抛物面曲率网格，适合解释数学模型与视觉表现之间的关系；使用前核对仓库素材许可。"
+      imageStatus: verify-rights
