@@ -1,0 +1,43 @@
+- title: "GitHub 的 Star 曲线终于不必暴露每个点赞者：少给数据，也要少做数据库工作"
+  url: "https://github.blog/engineering/architecture-optimization/from-2500-requests-to-24-rebuilding-star-history-without-the-stargazers/"
+  source: "GitHub Engineering / Taylor Cuilty & Sarita Iyer"
+  radar: "社会与商业 / 开发工具 / 基础设施"
+  topic: "平台隐私、API 契约、数据聚合、开源社区、数据库性能"
+  discoveredAt: "2026-10-15"
+  origin: radar
+  note: "GitHub 10 月 14 日复盘 Star History API 重设计：原接口按点赞用户分页，第三方为还原热门仓库曲线需要抓取个人身份和时间戳，既可被滥用于骚扰与钓鱼，也造成高成本数据库查询。平台先限制 stargazer 列表权限，再与工具维护者确认他们实际需要的是增长趋势；新接口按索引时间范围先筛选再聚合，单次可返回至多 30 周日计数，react/react 全历史请求量示例由约 2511 次降至约 24 次。注意该统计基于当前仍保留的 Star，不是完整事件日志；极密集周仍可能昂贵。切口：真正的隐私保护不只是删除姓名，而是重做产品契约和查询顺序；平台规则变化如何避免误伤依赖者？"
+  status: candidate
+  imageSourceUrl: "https://github.blog/engineering/architecture-optimization/from-2500-requests-to-24-rebuilding-star-history-without-the-stargazers/"
+  imageSource: "GitHub Engineering"
+  imageNote: "官方文章含慢查询趋势图，值得在编辑阶段确认原图地址；封面 Mona 插画不解释 API 与隐私问题，本次不采用。"
+  imageStatus: none
+
+- title: "一辆能推着走的菜园，在大学里先成了 DJ 台，又变成冬季温室"
+  url: "https://news.mit.edu/2026/mit-farm-growing-1013"
+  source: "MIT News / MIT School of Architecture and Planning"
+  radar: "城市、环境与生活方式 / 设计、文化与媒介 / 人的现场"
+  topic: "城市农业、建筑教育、食物系统、移动空间、社区组织"
+  discoveredAt: "2026-10-15"
+  origin: radar
+  note: "MIT 10 月 13 日介绍学生发起的 MIT Farm：建筑系学生用松木、聚碳酸酯板和实验室回收育苗盒造出可移动的双层菜园车，曾兼作校园 DJ 台、学校教育装置及宿舍冬季微型温室；项目还连接校外农场劳动、校园蔬菜袋配送与社区食物安全。并非证明可移动菜园能规模化解决粮食问题；有趣的是建筑教育从绘制空间转向亲自种植、维护和组织关系，设计物在不同场景里不断改变用途。观察点：好设计是否有时首先是持续照料而非完成一件作品？"
+  status: candidate
+  imageUrl: "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202609/FarmCart_JP-23%20copy.jpg?itok=-qVXIxsh"
+  imageSourceUrl: "https://news.mit.edu/2026/mit-farm-growing-1013"
+  imageSource: "MIT Farm / MIT News"
+  imageNote: "官方照片：两位学生推着装有植物的可移动菜园车，实物本体及使用方式清楚；MIT 图片衍生样式带 itok 参数，链接稳定性与正式刊发授权需核验。"
+  imageStatus: unstable
+
+- title: "一座陨石坑为什么长得像蜘蛛：地貌会保存被侵蚀的冲击证据"
+  url: "https://science.nasa.gov/earth/earth-observatory/an-impact-structure-with-legs/"
+  source: "NASA Earth Observatory / USGS Landsat 9"
+  radar: "科技与科学 / 历史与制度 / 鬼集"
+  topic: "地质时间、陨石撞击、遥感、科学方法、地貌侵蚀"
+  discoveredAt: "2026-10-15"
+  origin: radar
+  note: "NASA 10 月 13 日揭晓西澳 Kimberley 的 Spider Crater 卫星谜题：2026 年 9 月 20 日 Landsat 9 影像中，浅色砂岩山脊像蜘蛛脚一样从中央隆起辐射，完整结构约 13×11 公里；地质学家曾提出火山成因，后来在现场发现冲击锥、受冲击石英与锆石等证据，支持陨石撞击解释。撞击年代估计约在 9 亿至 6 亿年前，仍有不确定性。值得保留的不是奇形怪状照片本身，而是远看似生物图案、近看由漫长侵蚀与冲击地质构成的科学识别过程。"
+  status: candidate
+  imageUrl: "https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2026/an-impact-structure-with-legs/aus_spidercrater_oli2_20260920_lrg.jpg?crop=faces%2Cfocalpoint&fit=clip&h=4837&w=5122"
+  imageSourceUrl: "https://science.nasa.gov/earth/earth-observatory/an-impact-structure-with-legs/"
+  imageSource: "NASA Earth Observatory / Michala Garrison / USGS Landsat"
+  imageNote: "2026-09-20 Landsat 9 原始观测的官方可视化：清楚显示放射状砂岩脊与撞击结构。NASA 图片裁切参数非临时签名，正式刊发前仍核对具体图像署名与许可。"
+  imageStatus: verify-rights
