@@ -63,3 +63,45 @@
       imageSource: "algometrix / project README"
       imageNote: "第二张 README 图展示 Flamm 抛物面曲率网格，适合解释数学模型与视觉表现之间的关系；使用前核对仓库素材许可。"
       imageStatus: verify-rights
+
+- title: 51 名学生把虾、藻和微生物装进小水缸，送上空间站
+  url: https://www.esa.int/Education/ESA_Academy_Experiments_programme/Student-built_SCAMPI_experiment_launches_to_the_International_Space_Station
+  source: European Space Agency / ESA Academy / SCAMPI student consortium
+  radar: 科技与科学 / 生命科学 / 人的现场
+  topic: 微重力生态系统、闭环生命支持、学生工程、空间实验
+  discoveredAt: '2026-10-13'
+  origin: radar
+  note: ESA 10 月 13 日确认 SCAMPI 随 CRS-35 货运任务发射：来自欧洲与美国高校的 51 名学生设计、测试并交付一个包含虾、藻和微生物的密闭水生生态系统，计划在国际空间站研究微重力下的生物与环境相互作用，之后返回地球进行生物学比较分析。值得关注的不只是把水族箱送上太空，而是长期深空生活支持系统的基础问题：小型生态循环如何在重力消失时维持平衡？这是实验刚发射、尚无科学结果，不能把预期用途写成已验证成果；团队协作和临发射前的活体维护也值得记录。
+  status: candidate
+  imageUrl: https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2026/10/a_member_of_the_scampi_team_monitoring_shrimp_health_and_verifying_the_integration_of_the_biological_payload_within_the_ecosystem_prior_to_launch/27575527-1-eng-GB/A_member_of_the_SCAMPI_team_monitoring_shrimp_health_and_verifying_the_integration_of_the_biological_payload_within_the_ecosystem_prior_to_launch_pillars.jpg
+  imageSourceUrl: https://www.esa.int/ESA_Multimedia/Images/2026/10/A_member_of_the_SCAMPI_team_monitoring_shrimp_health_and_verifying_the_integration_of_the_biological_payload_within_the_ecosystem_prior_to_launch
+  imageSource: ESA / SCAMPI team
+  imageNote: 官方实拍：学生在发射前检查活体虾和密闭生态舱；能同时说明实验尺度与工程现场。ESA Standard Licence，刊发前核对许可、署名与用途。
+  imageStatus: verify-rights
+  images:
+  - imageUrl: https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2026/10/sealing_of_the_aquarium_ecosphere_prior_to_integration_into_the_payload_s_mechanical_structure_and_handover_to_nasa/27575574-1-eng-GB/Sealing_of_the_aquarium_ecosphere_prior_to_integration_into_the_payload_s_mechanical_structure_and_handover_to_NASA_pillars.jpg
+    imageSourceUrl: https://www.esa.int/ESA_Multimedia/Images/2026/10/Sealing_of_the_aquarium_ecosphere_prior_to_integration_into_the_payload_s_mechanical_structure_and_handover_to_NASA
+    imageSource: ESA / SCAMPI team
+    imageNote: 官方实拍：生态舱封装近景，适合解释封闭水生生态系统而不是泛化太空图片。
+    imageStatus: verify-rights
+
+- title: 一座筹划四十年的城市广场，到了开建前才重新争论谁有决定权
+  url: https://www.cityofsydney.nsw.gov.au/building-new-infrastructure/town-hall-square
+  source: City of Sydney / NSW planning process
+  radar: 历史与制度 / 城市、环境与生活方式 / 社会与商业
+  topic: 公共空间、地方与州规划权、城市更新、拆迁与公共利益
+  discoveredAt: '2026-10-13'
+  origin: radar
+  note: 悉尼市政府 10 月更新的 Town Hall Square 项目页显示：这处市政厅对面公共广场的构想始于 1980 年代，2026 年 10 月 1 日提交开发申请，9 日被州规划部长认定为州级重大开发项目，拟转交独立规划委员会审定。方案计划拆除 7 栋非遗产保护建筑，建设约 4500 平方米公共开放空间、30 余棵本土树木及遮阴水景，市政府列出的建设预算为 1.5 亿澳元。当前是规划与审批阶段，不是已建成成果。它留下的真实张力是：城市中心究竟更需要新公共空间，还是现有商户与建筑；长期公共愿景与当下成本冲突时，市级和州级机构如何分配决定权？应同时核查政府、商户与居民立场，不将市政府效果图等同公共共识。
+  status: candidate
+  imageUrl: https://www.cityofsydney.nsw.gov.au/-/jssmedia/corporate/images/projects/building-new-infrastructure/town-hall-square/town-hall-square-map.jpg?mw=640
+  imageSourceUrl: https://www.cityofsydney.nsw.gov.au/building-new-infrastructure/town-hall-square
+  imageSource: City of Sydney
+  imageNote: 官方区位图标出 Town Hall Square 与现有 Sydney Square、轨道站及街道关系；首选解释建设位置与公共空间尺度。
+  imageStatus: verify-rights
+  images:
+  - imageUrl: https://www.cityofsydney.nsw.gov.au/-/jssmedia/corporate/images/projects/building-new-infrastructure/town-hall-square/01_view01-1_2048x1536.jpg?mw=640
+    imageSourceUrl: https://www.cityofsydney.nsw.gov.au/building-new-infrastructure/town-hall-square
+    imageSource: City of Sydney / JPW / ASPECT Studios
+    imageNote: 官方概念效果图，展示广场与市政厅的视线关系；必须标注“尚未建成的方案”，不是现场实拍。
+    imageStatus: verify-rights
