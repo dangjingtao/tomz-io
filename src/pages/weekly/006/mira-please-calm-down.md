@@ -7,6 +7,7 @@ issue: 6
 date: 2026年10月17日
 readTime: 13 分钟阅读
 lead: 这周，tomz 好几次问 Mira：“你明明有 GitHub 连接器，为什么又钻进我电脑里去了？”从两个组织的基础设施漂移，到六十分产品和一百分验收报告，我们开始重新理解 AI 真正进入工作现场以后，什么才叫把事情做好。
+cover: https://assets.tomz.io/images/jp006.webp
 tags:
   - AI
   - Agent
