@@ -1,0 +1,299 @@
+---
+title: "见π 006：编辑预览"
+description: 本期封面故事待定。编辑预览先把 W42 的公开 Radar、Google Drive 待同步素材与本周刊物节奏排在一起，再决定封面与最终取舍。
+group: 见π
+order: 6
+issue: 6
+date: 2026年10月17日
+lead: 这一期先不强行找一个主题。有人研究公众表达为什么进不了政策，有人从一千年前的牙齿里找到铅污染；旧 Kindle 靠网页长出第二套界面，37 个机械单元则自己找到了同一个节拍。
+tags:
+  - 科学
+  - 技术
+  - 城市
+  - Web
+  - 历史
+author:
+  - mira
+  - tomz
+writingMode: co-authored
+writtenBy: mira | tomz
+---
+
+> **编辑状态｜封面故事待定**
+>
+> 当前保留三个方向：
+>
+> - 《当空气不再被记录》
+> - 《中国开始生产知识》
+> - 《同样的热浪，人为什么死于不同的东西》
+>
+> 本页是 006 编辑预览，不代表最终成刊。封面确定后再重新配重、删减与补图。
+
+这一期有个挺舒服的状态：东西彼此并不整齐。
+
+有人讨论民主制度为什么能听见意见，却无法把意见变成决定；有人从一千年前的牙齿里重新找到工业污染；Chrome 把曾经撤掉的图片格式请了回来；一群机械单元没有指挥官，却慢慢找到了同一个节拍。
+
+还有些更小、更怪的东西：旧 Kindle 打开一个网页，就像突然长出第二套操作系统；会腐蚀航天器的原子氧，到了文物修复实验室里反而变成清洁工具。
+
+它们没有必要被硬塞进一个主题。
+
+这也是《见π》应该保留的样子。
+
+## 值得知道
+
+### 公民比政府更有气候雄心，然后呢？
+
+研究者比较了西欧六个气候公民议事会的 488 条建议。
+
+其中 **67% 比政府现有政策更有雄心**。但到了真正的政策环节，绝大多数建议没有产生可以识别的政策影响；法国是明显的例外，大约三分之一建议改变了最终决策。
+
+这让“公众参与”里一个经常被跳过的问题变得很刺眼：
+
+**有表达权，和有决定权，是两回事。**
+
+一个制度完全可以认真听完所有人的意见、写进厚厚的回应文件，最后什么也没有改变。
+
+这不等于公民议事毫无价值。研究反而提示，关键可能不只在于把会议设计得多漂亮，而在于它最终获得了多少授权、政治领导者是否愿意承担后果，以及公众能否看见建议后来去了哪里。
+
+[Nature Climate Change ↗](https://www.nature.com/articles/s41558-026-02755-1)
+
+### 当空气不再被记录，空气真的变差了
+
+美国使领馆曾在全球许多城市公开独立空气质量数据。
+
+这个项目在 2025 年暂停公开报告后，一项覆盖 46 座城市的研究发现，卫星观测到的当地气溶胶污染随后明显上升；研究者根据停报前监测关系换算，PM2.5 约增加 1.9 μg/m³。在缺少其他公开国家级空气监测系统的地方，效应更持久。
+
+这里真正让人停一下的，不是又一项污染研究。
+
+而是：
+
+**数据并不总是在事情发生以后才负责记录。被公开看见，本身可能正在改变事情。**
+
+排行榜、仪表盘、环境监测、审计日志、事故统计——它们看起来只是描述现实，有时却也是现实的一部分。
+
+> **编辑注：封面候选。**  
+> 若升封面，本条移出「值得知道」，展开“可见性如何形成约束”。
+
+[Columbia Climate School / PNAS ↗](https://news.climate.columbia.edu/2026/10/06/september-research-roundup-select-papers/)
+
+### GitHub 少给了一些数据，反而把产品做对了
+
+过去如果一个工具想画出 GitHub 仓库的 Star 增长曲线，往往需要分页抓取大量 Stargazer 身份和时间信息。
+
+问题是，大部分工具其实根本不需要知道**谁**点过 Star，只需要知道“这段时间增长了多少”。
+
+GitHub 最近重做了这个契约：把个人列表改成更接近时间聚合的数据访问方式。以 React 的 Star 历史为例，官方给出的请求规模从大约 2500 次降到几十次。
+
+这件事挺漂亮，因为隐私、性能和产品需求没有被拆成三个互相打架的问题。
+
+先问一句：
+
+**调用者真正需要什么？**
+
+有时最好的 API 优化不是缓存更多，而是根本不再提供没必要的数据。
+
+[GitHub Engineering ↗](https://github.blog/engineering/architecture-optimization/from-2500-requests-to-24-rebuilding-star-history-without-the-stargazers/)
+
+### JPEG XL 又回来了，这次带着 Rust
+
+Chrome 155 开始重新支持 JPEG XL 解码。
+
+这个格式早年一度进入 Chromium，又被移除。如今 Chrome 团队给出的回归理由不只是压缩效率：新的解码器使用 Rust 实现，并围绕 SIMD 做了大量性能优化。
+
+Chrome 官方称，相较 JPEG，JPEG XL 通常可获得约 30%–50% 的压缩改善，同时支持无损压缩、HDR 和无损 JPEG 转码；不过仍建议开发者根据场景同时比较 AVIF。
+
+有意思的地方不在“哪种格式赢了”。
+
+而是一个曾经被浏览器砍掉的能力，几年以后可能因为**实现安全性、生态需求和工程条件都发生变化**而重新回来。
+
+旧技术并不总是死了。
+
+有时它只是在等第二次实现机会。
+
+[Chrome for Developers ↗](https://developer.chrome.com/blog/jpeg-xl-in-chrome)
+
+## 项目与工具
+
+### 旧 Kindle 不越狱，也可以长出第二套界面
+
+ReKindle 做的事情简单到有点讨喜：在 Kindle、Kobo、Boox 等电子墨水设备的浏览器里打开一个网页，就得到一套专门为 E-Ink 做的工具界面。
+
+RSS、笔记、日历、待办、小游戏、EPUB 阅读器，甚至还有为非常老的 Kindle 准备的 Legacy 构建。
+
+![ReKindle 界面截图](https://raw.githubusercontent.com/ReKindleOS/ReKindle/main/screenshots/ReKindle-1.png)
+
+它当然不能真的把旧 Kindle 变成新平板。
+
+但它提醒了一个我们经常忘记的事实：
+
+**很多硬件的寿命，最后不是被处理器结束的，而是被软件结束的。**
+
+一个足够克制的 Web 应用，有时候真能把已经被厂商遗忘的设备再救回来几年。
+
+[ReKindle / GitHub ↗](https://github.com/ReKindleOS/ReKindle)
+
+### 黑洞不用贴图以后，浏览器开始算光怎么走
+
+`blackhole-sim` 是个很个人、也很迷人的项目。
+
+它让浏览器 GPU 逐像素计算光子的测地线，用 WebGL2 实时呈现黑洞阴影、引力透镜、吸积盘和光子环。
+
+![blackhole-sim 实机渲染](https://raw.githubusercontent.com/algometrix/blackhole-sim/main/assets/images/blackhole_1.png)
+
+其中也有 cinematic 模式和近似模型，不能把每一帧都当成严肃科研结果。
+
+可它依然属于我很喜欢的一类东西：
+
+**有人把一个本来只存在于方程、论文和昂贵可视化软件里的概念，做成了普通浏览器里可以拨弄的玩具。**
+
+好的科学可视化有时候并不是负责告诉你答案，而是让一个抽象概念突然变得可以摸。
+
+[blackhole-sim / GitHub ↗](https://github.com/algometrix/blackhole-sim)
+
+## 人的现场
+
+### 一千年前的铅污染，最后躲进了孩子的牙齿
+
+英国 Peak District 曾经是欧洲重要的铅矿区。
+
+麻烦在于，后来的采矿和重新熔炼几乎清除了许多中世纪工业遗迹。研究人员于是换了一个档案库：
+
+**人的牙齿。**
+
+牙釉质在儿童时期形成，之后基本不再重塑。研究团队分析公元约 650–1500 年墓葬遗骸中的牙釉质铅含量，由此重建童年时期的污染暴露，并发现陪葬品更丰富的个体通常暴露更低。
+
+阶层代理和样本都有局限，不能把这种相关关系写成完整的个人命运。
+
+但这个方法仍然让人难忘。
+
+矿渣可以被重新熔炼，厂房可以消失，文件也可能从未存在。
+
+最后留下证词的，是人的身体。
+
+[Antiquity ↗](https://www.antiquity.ac.uk/news/2026/ancient-teeth-trace-real-impact-britains-medieval-lead-industry)
+
+### 地铁工地挖出一条船以后，连它叫什么都重新讨论了
+
+2018 年悉尼地铁施工期间，工地里发现了一艘殖民时期木船。
+
+后来研究人员记录、拆解和保存了 294 块木构件，并利用摄影测量和数字模型尝试理解原本的船体结构。
+
+但另一件事也慢慢发生了：它原来被称作 Barangaroo Boat。经过进一步历史研究和原住民咨询，博物馆认为现有证据并不能证明这艘船与 Barangaroo 本人存在直接关系，因此改称 **Cockle Bay Boat**。
+
+一件文物被挖出来以后，并不是马上就拥有一个完整故事。
+
+有时考古真正诚实的部分，就是肯重新说一句：
+
+**我们以前叫错了。**
+
+> **编辑注：10 月 15 日 Google Drive Radar 新增，GitHub Radar 尚待同步。**
+
+[Australian National Maritime Museum ↗](https://www.sea.museum/en/about/media/2026/10/cocklebayboat)
+
+## 看世界
+
+### 飓风过后，哪里先重新亮起来？
+
+NASA 最近用高分辨率夜间灯光影像记录了飓风经过美国佛罗里达狭长地带后的变化。
+
+![飓风后的夜间灯光](https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2026/isaias-dims-the-gulf-coast/isaias_bmhd_20261011.jpg)
+
+10 月 11 日，Pensacola、Destin 以及沿线道路的灯光明显减少；随后几天，部分区域逐渐恢复。夜光下降可以帮助识别潜在停电区域，但它本身不能单独证明停电原因，云层也会造成缺测。
+
+这种图最有价值的地方，是它把“恢复”从一句抽象的新闻语言变成了空间过程。
+
+灾难结束不是一个时间点。
+
+一座城市往往是一块一块重新亮起来的。
+
+[NASA Earth Observatory ↗](https://science.nasa.gov/earth/earth-observatory/isaias-dims-the-gulf-coast/)
+
+### 51 名学生，把虾、藻和微生物一起送上空间站
+
+SCAMPI 是一个很小的封闭水生生态系统。
+
+51 名来自欧洲和美国高校的学生，把虾、藻类和微生物装进一个实验生态舱，再把它送往国际空间站。
+
+他们真正想看的不是“虾能不能上太空”。
+
+而是当重力条件改变以后，小型生态循环里的生物、营养和环境关系会怎样重新平衡。
+
+这是一个刚刚开始的实验，还没有科学结论。
+
+但长期深空生活最终必然碰到一个很朴素的问题：
+
+**人不能一直从地球寄快递。**
+
+[ESA / SCAMPI ↗](https://www.esa.int/Education/ESA_Academy_Experiments_programme/Student-built_SCAMPI_experiment_launches_to_the_International_Space_Station)
+
+### 地球上有一只十一公里大的蜘蛛
+
+西澳 Kimberley 地区的 Spider Crater，从 Landsat 卫星上看像一只趴在地表的巨大蜘蛛。
+
+![Spider Crater Landsat 9 影像](https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2026/an-impact-structure-with-legs/aus_spidercrater_oli2_20260920_lrg.jpg?crop=faces%2Cfocalpoint&fit=clip&h=1600&w=1694)
+
+那些“腿”其实是从中央结构向外辐射的砂岩山脊。
+
+它过去甚至被怀疑是火山构造；直到现场发现冲击锥、受冲击石英和锆石等证据，陨石撞击解释才逐渐得到支持。撞击年代至今仍有较大区间，估计约发生在 9 亿至 6 亿年前。
+
+我们今天看到的并不是一座保存完好的陨石坑。
+
+恰恰相反。
+
+是侵蚀把大部分结构慢慢削走以后，剩下的岩层反而把一次古老撞击画了出来。
+
+[NASA Earth Observatory ↗](https://science.nasa.gov/earth/earth-observatory/an-impact-structure-with-legs/)
+
+## 鬼集
+
+### 37 个机器人单元，最后自己找到了同一个节拍
+
+研究人员造了一片由 37 个主动机械单元组成的蜂巢结构。
+
+![37 单元主动机械超材料](https://www.birmingham.ac.uk/media-library/mech-eng-single-image.xdec6428a.jpg?f=webp&q=80&w=1440)
+
+当系统跨过某个稳定阈值以后，各个单元先独立振动，随后局部节奏逐渐合并，最后整个结构进入同步周期运动。
+
+没有中央控制器在那里喊“一二三，开始”。
+
+研究团队把这种结构与主动材料、时间晶体和未来的自组织机器人联系起来。真正能走、能干活的机器人材料当然还很远。
+
+但单看眼前这个实验已经够怪了：
+
+**一块材料内部的零件，开始自己商量节奏。**
+
+[University of Birmingham ↗](https://www.birmingham.ac.uk/news/2026/chaos-to-coordination-vibrating-material-organises-itself-into-a-single-rhythm)
+
+### 会腐蚀航天器的东西，被拿来擦画了
+
+低轨航天器很怕原子氧。
+
+它会侵蚀很多材料表面，是航天材料研究里长期需要防范的环境因素。
+
+欧洲 MOXY 项目却把同一种效应倒了过来：在常压条件下生成可控制的原子氧，用它无接触地去除艺术品表面的烟尘和碳质污染。
+
+目前团队已在石材、绘画、纺织、纸张和塑料等材料上进行实验，但仍属于研究和原型阶段，并不意味着所有艺术品都可以放心拿过去“氧一下”。
+
+我喜欢这种用途翻转。
+
+**一种技术到底是伤害还是工具，有时只取决于你能不能控制它。**
+
+[University of Pisa / MOXY ↗](https://www.unipi.it/en/news/from-space-to-earth-atomic-oxygen-enters-conservation-laboratories-revolutionising-the-cleaning-of-the-most-fragile-surfaces/)
+
+## 编辑台暂存
+
+以下素材本轮继续保留，但暂不进入主版面：
+
+- 南极海冰 2026 冬季最大值为卫星记录第三低；
+- 动态障碍下的无人机四维安全路径规划；
+- MIT 可以推着走的校园菜园；
+- Shanidar 尼安德特人肩胛骨创伤与社会照料推断；
+- 哈苏 X2D 上运行 Doom；
+- 休斯敦旧咖啡厂改造成音乐艺术学校；
+- 悉尼 Town Hall Square 四十年城市更新与规划权争议；
+- 1941 / 2021 热浪比较若升为封面，则从暂存区重新展开；
+- “中国开始生产知识”若升封面，则单独补齐数据、人物与制度线索，不直接塞成雷达短条。
+
+最终成刊建议控制在 **8–10 个正文单元**。
+
+现在这版故意留得宽一点。封面一旦决定，下一步不是继续加，而是开始删。
