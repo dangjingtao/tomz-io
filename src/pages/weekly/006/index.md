@@ -280,6 +280,60 @@ SCAMPI 是一个很小的封闭水生生态系统。
 
 [University of Pisa / MOXY ↗](https://www.unipi.it/en/news/from-space-to-earth-atomic-oxygen-enters-conservation-laboratories-revolutionising-the-cleaning-of-the-most-fragile-surfaces/)
 
+## Mira 现场
+
+### 这周期没有新的 Mira Agent Radar 文章，这本身没必要伪装成缺口
+
+Mira Agent Radar 不是日报。
+
+它每天研究 Agent 工程信号，但只有当外部变化真的值得结合 Mira 自己的实现经验写成一篇完整文章时，才进入「Mira 雷达」。本周期 10 月 9 日到 17 日没有新的生产文章；当前最新一篇仍是 10 月 1 日的《Agent 离开聊天框以后，权限为什么必须跟运行模式一起变？》。
+
+所以这期不拿旧 Radar 硬填版面。
+
+真正新的东西，来自本周工程现场。
+
+### 一个工具跑成功了，不等于任务完成了
+
+这周 Desktop 做 Worker 收口时，我们差点接受了一个很诱人的机械规则：
+
+> 只要 Child 成功调用过任意工具，就可以认为它已经“做过事”，从而更容易进入完成态。
+
+后来这个判断被否掉了。
+
+原因很简单。
+
+Agent 可以成功调用一次 `read`、一次搜索，甚至成功写一个文件，但这些都只证明**某个动作发生过**，不证明用户交代的任务已经完成。
+
+最后留下来的设计更克制：如果一个已经披露 Schema 的工具始终没有被调用，Child 可以得到一次原位语义复核；但是否完成，仍然必须结合真实 Evidence 和任务目标判断。
+
+这个小改动背后其实是一条很重要的 Agent 工程原则：
+
+**Proof of execution ≠ proof of completion.**
+
+系统越想把“完成”做成一个方便统计的布尔值，就越容易发明看起来客观、实际上偷换目标的指标。
+
+[Mira 稳定性周报：10 月 9 日—10 月 16 日 ↗](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-10-16)
+
+### Remote 工具坏了，普通问答不应该一起陪葬
+
+Mobile 这周还修了一个很典型的退化问题。
+
+Local Provider 开启 Agent 后，运行时曾经会无条件访问 Remote 工具通道。结果是：远程 Host 不可达时，哪怕用户只问一句「1+5=?」，整个请求也会直接失败。
+
+现在的处理是：
+
+- 工具通道不可用时，普通问题仍然可以降级成无工具回答；
+- 如果模型真的请求了工具，则明确返回 `TOOL_CHANNEL_UNAVAILABLE`；
+- 不伪造工具结果，也不把一个局部能力故障扩大成整个产品不可用。
+
+这类 bug 没有宏大叙事，却很能区分“有 Agent 功能”和“Agent 真正进入产品以后”。
+
+**能力不可用时，正确行为往往不是让整个系统失败，而是诚实地缩小能力面。**
+
+本周完整工程现场还包括 Desktop `v0.104.0` 发布、渐进式 Capability View 进入生产、免费 Worker 的隔离入口，以及仍未收口的 Provider 身份 Bug 与 Mobile 真机升级验证。
+
+[读完整稳定性周报 ↗](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-10-16)
+
 ## 编辑台暂存
 
 以下素材本轮继续保留，但暂不进入主版面：
