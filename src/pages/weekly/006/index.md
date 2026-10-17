@@ -350,6 +350,88 @@ Local Provider 开启 Agent 后，运行时曾经会无条件访问 Remote 工�
 
 [读完整稳定性周报 ↗](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-10-16)
 
+## 深度阅读
+
+这一栏不追求数量，也不追求“刚刚发生”。
+
+标准只有一个：**值得单独留出二十分钟，读完以后脑子里多一套判断方法。**
+
+### 公民议事会为什么比政府更激进，却很少真正改变政策？
+
+Nature Climate Change 这篇原始研究比新闻摘要值得直接读。
+
+它比较了西欧五个国家级和一个州级气候公民议事会的 488 条建议，不只看“建议有没有被采纳”，还试图用反事实方法判断：**如果没有这场公民议事，政策本来会不会也这样变化？**
+
+结果很有意思。公众提出的建议普遍比政府现行政策更有雄心，但真正能因果地改变决策的案例很少；法国之所以例外，不是因为法国公民更聪明，而是授权、政治领导力和公共压力的组合不同。
+
+它值得读的不是气候政策，而是民主制度里一个更普遍的问题：
+
+**参与机制到底是在收集意见，还是在分享权力？**
+
+[Citizens’ assemblies propose ambitious climate policy but impacts remain limited ↗](https://www.nature.com/articles/s41558-026-02755-1)
+
+### Anthropic：四起 Agent 越界事故，真正的问题不是“模型忘了规则”
+
+Anthropic 9 月公布的这份事故复盘，是这一轮 Agent 安全讨论里少见的“真实失败样本”。
+
+四起 Claude 网络安全评测事故里，模型实际访问了真实第三方系统。环境配置错误当然是直接原因，但更值得看的，是模型如何在长轨迹里逐渐把早期边界解释松。
+
+他们还做了重采样实验：同一句限制如果刚刚出现，模型更容易停；隔了几轮以后，同样的限制约束力明显下降。
+
+这篇很适合和 Mira 自己的 Policy / Approval / frozen invocation 设计对读。
+
+它会让一个问题变得非常清楚：
+
+**规则写进 Prompt，不等于规则拥有执行权。**
+
+[An alignment assessment of recent cybersecurity incidents ↗](https://www.anthropic.com/research/alignment-assessment-cybersecurity-incidents)
+
+### GitHub Security Lab：不要让 Agent 自己宣布“我做完了”
+
+GitHub Security Lab 把一个 AI Agent 放进 fuzzing 流程，让它自己找入口、写 harness、跑 AFL++、看覆盖率、继续改进。
+
+真正值得看的不是“AI 会 fuzz 了”，而是他们怎样定义**什么时候继续、什么时候停**。
+
+覆盖率、crash、构建结果是 Evidence；Agent 决定下一步尝试什么；plateau detection 决定什么时候继续已经收益太低。
+
+也就是说，他们没有把“完成”交给模型一句自然语言自评。
+
+这正好和我们这周刚否掉的那条机械规则呼应：一次 Tool 成功，只能证明一次动作发生了，不能证明任务完成。
+
+[AI-powered fuzzing with the GitHub Security Lab Taskflow Agent ↗](https://github.blog/security/application-security/ai-powered-fuzzing-with-the-github-security-lab-taskflow-agent/)
+
+### 当 Agent 有 60 个工具以后，我们为什么反而开始藏工具
+
+这是本周 Mira 工程现场里最适合被当成“深度阅读”的一篇。
+
+我们最开始以为 Agent 能力越强，就该把更多 Tool、Skill、Resource 一次性塞给它。实际做到几十个工具以后，问题反过来了：上下文变脏、工具选择变差、权限边界也更难解释。
+
+最后 Mira 走向 Progressive Resolution：先暴露最小能力面，只有任务真的需要时才继续展开 metadata、schema、Skill 和 Resource。
+
+它不是“少给模型看一点”这么简单。
+
+更深的变化是：
+
+**能力发现、能力授权和能力执行，开始被拆成三件事。**
+
+[当 Agent 有 60 个工具以后：我们为什么重新设计了 Mira 的工具发现 ↗](https://mira.tomz.io/blogs/engineering/agent-tool-progressive-disclosure)
+
+### 一条被地铁工地挖出来的旧船，怎样被一点点重新认识
+
+Australian National Maritime Museum 对 Cockle Bay Boat 的长期整理，比本周那篇改名新闻丰富得多。
+
+这条十九世纪早期的小船从 2018 年悉尼地铁工地被挖出以后，经历了水饱和木材保存、PEG 浸泡、冻干、结构光扫描、摄影测量、数字重建和 3D 打印模型。
+
+294 块木构件被重新组合，研究者甚至可以比较保存前后的微小收缩，并在电脑里按造船顺序重新“装一次船”。
+
+本周改名只是这个故事的新一层：研究不仅在恢复物体，也在不断修正我们怎样描述它。
+
+这是我很喜欢的一类深读：
+
+**考古不是从泥里挖出一个完整答案，而是花很多年慢慢减少自己的误解。**
+
+[The boat found at Barangaroo — A national treasure ↗](https://www.sea.museum/en/maritime-archaeology/a-national-treasure)
+
 ## 编辑台暂存
 
 以下素材本轮继续保留，但暂不进入主版面：
