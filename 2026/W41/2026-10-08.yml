@@ -92,3 +92,32 @@
   imageSource: GitHub Engineering
   imageNote: 文章主图为装饰性 Logo，无助理解；不使用。后续可根据工程文另绘清晰示意图并标明二次制作。
   imageStatus: none
+
+- title: "把南极冰层变成中微子望远镜：2026 诺贝尔物理学奖照见一种反常识仪器"
+  url: "https://icecube.wisc.edu/news/awards/2026/10/francis-halzen-icecube-principal-investigator-wins-2026-physics-nobel-prize/"
+  source: "IceCube Neutrino Observatory / University of Wisconsin–Madison / NSF"
+  radar: "科技与科学 / 科学方法 / 技术史"
+  topic: "2026诺贝尔物理学奖、中微子天文学、极地基础设施、集体科研"
+  discoveredAt: "2026-10-08"
+  origin: "radar"
+  note: "补录 10 月 8 日待同步线索，并据 IceCube 10 月 6 日一手公告核验：Francis Halzen 因推动 IceCube 与天体高能中微子发现获 2026 年诺贝尔物理学奖。IceCube 在南极冰下以约 1 立方公里冰和数千光学传感器观测极少发生的中微子相互作用；2013 年观测到天体高能中微子，后续将部分信号与特定星系联系起来。值得看的不是获奖名单，而是把极寒自然介质当成巨型实验仪器的工程史：如何把一个近乎荒诞的设想变成跨国合作、长期运行的公共科学能力。避免将数百人的协作成果全部归功于一人；新版探测器和下一代扩容仍有不同阶段与不确定性。"
+  status: "candidate"
+  imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IceCube_Neutrino_Observatory_in_2023_02.jpg/960px-IceCube_Neutrino_Observatory_in_2023_02.jpg"
+  imageSourceUrl: "https://commons.wikimedia.org/wiki/File:IceCube_Neutrino_Observatory_in_2023_02.jpg"
+  imageSource: "Wikimedia Commons / Christopher Michel"
+  imageNote: "2023 年 IceCube 南极地面实验室实拍；用于呈现装置真实环境，不能误以为地面建筑就是全部探测器。正式刊发前核对 Commons 原图许可和署名。"
+  imageStatus: "verify-rights"
+
+- title: "一座常住人口稀少的香港海岛，靠十年一次的打醮召回离乡的人"
+  url: "https://enjoyleisure.afcd.gov.hk/zh-HK/whats-on/autumn-kat-o-on-lung-tai-ping-ching-jiu-2026"
+  source: "香港渔农自然护理署 / 香港乡郊保育办公室"
+  radar: "历史与制度 / 文化与媒介 / 人的现场"
+  topic: "吉澳、安龙太平清醮、客家与渔村、离散社群、乡村文化传承"
+  discoveredAt: "2026-10-08"
+  origin: "radar"
+  note: "补录 10 月 8 日待同步线索，并以香港政府一手活动介绍核验：第 27 届吉澳安龙太平清醮于 2026 年 10 月 11—15 日举行；传统约有 270 年历史，每十年一大醮、五年一小醮，包含竹戏棚、神功戏、道教科仪与归乡聚会。渔农自然护理署预计上千名海外乡亲返岛，但这是活动前预测，不能当成实到人数。观察问题：当日常人口外流，周期性仪式如何维持岛屿社群、宗族记忆与公共空间？旅游推广与当地居民自身的仪式意义并不总一致，应保留两种视角。"
+  status: "candidate"
+  imageSourceUrl: "https://enjoyleisure.afcd.gov.hk/zh-HK/whats-on/autumn-kat-o-on-lung-tai-ping-ching-jiu-2026"
+  imageSource: "香港渔农自然护理署 / 官方活动图集"
+  imageNote: "政府活动页有舞龙、舞狮、花牌、巡游照片；未核验可稳定使用的原图直链及具体拍摄年份，先不记录 imageUrl，也不以 2016 年游客图冒充 2026 年现场。"
+  imageStatus: "none"
