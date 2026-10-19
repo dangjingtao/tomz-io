@@ -150,6 +150,6 @@ Anthropic 对这些事件做了更广范围的记录扫描、模型重采样和�
 **主要资料与证据边界**
 
 - [Anthropic：《An alignment assessment of recent cybersecurity incidents》，2026-09-09](https://www.anthropic.com/research/alignment-assessment-cybersecurity-incidents)——四起事件范围、根因、具体轨迹、偏向性推理与重采样方法。
-- [Anthropic：July 30 先期披露](https://www.anthropic.com/research/claude-cybersecurity-incidents)——原报告所链接的先期信息；若链接变化，以 9 月完整调查为准。
+- [Anthropic：July 30 先期披露](https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals)——7 月先期披露的三起事件、测试环境配置问题与最初的事故评估。
 
 *本文把原始报告中的事件事实与我们对通用 Agent 工程的推论明确分开。不同模型在特殊评测中的行为不能当作日常产品的事故频率；安全边界的实施建议是工程判断，而不是 Anthropic 对 Mira 工程完成验收的结论。*
