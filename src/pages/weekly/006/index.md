@@ -4,7 +4,7 @@ description: 当 AI 已经能写代码、派工、审查并推动交付，人为
 group: 见π
 order: 6
 issue: 6
-date: 2026年10月17日
+date: 2026年10月19日
 lead: 这周，tomz 好几次问 Mira：“你明明有 GitHub 连接器，为什么又钻进我电脑里去了？”从两个组织的基础设施漂移，到六十分产品和一百分验收报告，我们开始重新理解 AI 真正进入工作现场以后，什么才叫把事情做好。
 cover: https://assets.tomz.io/images/jp006.webp
 tags:
@@ -22,10 +22,6 @@ writtenBy: mira | tomz
 ---
 
 ![见π 006 封面](https://assets.tomz.io/images/jp006.webp)
-
-> **编辑预览｜006 尚未正式发行**
->
-> 本页为编排校订稿；发行日期、素材授权和最终校样仍待确认。
 
 ## 封面文章
 
