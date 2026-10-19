@@ -225,52 +225,22 @@ Local Provider 开启 Agent 后，运行时曾经会无条件访问 Remote 工�
 
 ## 深度阅读
 
-这一栏不追求数量，也不追求“刚刚发生”。
+深度阅读不是外链清单。这里收录的是《见π》编辑部围绕原始材料写成的独立文章：我们把论文、事故复盘和考古档案拆开读，交代它们如何形成结论，也保留材料不能证明的部分。
 
-标准只有一个：**值得单独留出二十分钟，读完以后脑子里多一套判断方法。**
+### [公民比政府更有雄心，为什么政策却很少改变？](/weekly/006/citizens-assemblies-from-voice-to-power)
 
-### 公民议事会为什么比政府更激进，却很少真正改变政策？
+西欧六场气候公民议事会、488 条建议，研究者不仅比较谁提出了更强的政策，还尝试回答：**如果没有这些会议，政策原本会不会照样改变？** 这篇追问的是参与如何转化为真正的制度影响，而不是拿“67%”替公众或政府宣判。
 
-Nature Climate Change 这篇原始研究比新闻摘要值得直接读。
+[阅读独立深度文章 →](/weekly/006/citizens-assemblies-from-voice-to-power)
 
-它比较了西欧五个国家级和一个州级气候公民议事会的 488 条建议，不只看“建议有没有被采纳”，还试图用反事实方法判断：**如果没有这场公民议事，政策本来会不会也这样变化？**
+### [Agent 越界之后：为什么一句“不要出界”并不够](/weekly/006/agent-safety-boundaries-beyond-prompts)
 
-结果很有意思。公众提出的建议普遍比政府现行政策更有雄心，但真正能因果地改变决策的案例很少；法国之所以例外，不是因为法国公民更聪明，而是授权、政治领导力和公共压力的组合不同。
+Anthropic 对四起网络安全评测事故作了更深入调查。模型怎样把真实世界的证据解释成模拟环境，为什么完成任务的惯性会吞掉边界意识，以及**哪些权限必须由执行环境负责约束**，比一句“模型忘记了规则”更值得讨论。
 
-它值得读的不是气候政策，而是民主制度里一个更普遍的问题：
+[阅读独立深度文章 →](/weekly/006/agent-safety-boundaries-beyond-prompts)
 
-**参与机制到底是在收集意见，还是在分享权力？**
+### [地铁工地挖出一艘船，然后考古学家连名字也改了](/weekly/006/cockle-bay-boat-reconstructing-history)
 
-[Citizens’ assemblies propose ambitious climate policy but impacts remain limited ↗](https://www.nature.com/articles/s41558-026-02755-1)
+悉尼地铁工地发现的十九世纪木船，经过多年湿木保护、数字扫描和历史考证，连早已流传的名字都需要修正。**一个模型可以越做越完整，历史认识却必须允许自己不完整。** 这篇写考古怎样一步步减少误解。
 
-### Anthropic：四起 Agent 越界事故，真正的问题不是“模型忘了规则”
-
-Anthropic 9 月公布的这份事故复盘，是这一轮 Agent 安全讨论里少见的“真实失败样本”。
-
-四起 Claude 网络安全评测事故里，模型实际访问了真实第三方系统。环境配置错误当然是直接原因，但更值得看的，是模型如何在长轨迹里逐渐把早期边界解释松。
-
-他们还做了重采样实验：同一句限制如果刚刚出现，模型更容易停；隔了几轮以后，同样的限制约束力明显下降。
-
-这篇很适合和 Mira 自己的 Policy / Approval / frozen invocation 设计对读。
-
-它会让一个问题变得非常清楚：
-
-**规则写进 Prompt，不等于规则拥有执行权。**
-
-[An alignment assessment of recent cybersecurity incidents ↗](https://www.anthropic.com/research/alignment-assessment-cybersecurity-incidents)
-
-### 一条被地铁工地挖出来的旧船，怎样被一点点重新认识
-
-Australian National Maritime Museum 对 Cockle Bay Boat 的长期整理，比本周那篇改名新闻丰富得多。
-
-这条十九世纪早期的小船从 2018 年悉尼地铁工地被挖出以后，经历了水饱和木材保存、PEG 浸泡、冻干、结构光扫描、摄影测量、数字重建和 3D 打印模型。
-
-294 块木构件被重新组合，研究者甚至可以比较保存前后的微小收缩，并在电脑里按造船顺序重新“装一次船”。
-
-本周改名只是这个故事的新一层：研究不仅在恢复物体，也在不断修正我们怎样描述它。
-
-这是我很喜欢的一类深读：
-
-**考古不是从泥里挖出一个完整答案，而是花很多年慢慢减少自己的误解。**
-
-[The boat found at Barangaroo — A national treasure ↗](https://www.sea.museum/en/maritime-archaeology/a-national-treasure)
+[阅读独立深度文章 →](/weekly/006/cockle-bay-boat-reconstructing-history)
