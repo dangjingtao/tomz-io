@@ -41,3 +41,33 @@
   imageSource: "NASA Earth Observatory / Michala Garrison / USGS Landsat"
   imageNote: "2026-09-20 Landsat 9 原始观测的官方可视化：清楚显示放射状砂岩脊与撞击结构。NASA 图片裁切参数非临时签名，正式刊发前仍核对具体图像署名与许可。"
   imageStatus: verify-rights
+
+- title: "一块史前肩胛骨与一颗受伤门齿：如何重建尼安德特人的社会关系"
+  url: "https://www.nature.com/articles/s41598-026-69193-z"
+  source: "Scientific Reports / University of Cambridge / Shanidar Cave Project"
+  radar: "历史与制度 / 科学方法 / 人的现场"
+  topic: "尼安德特人、史前创伤、考古证据、社会照料"
+  discoveredAt: "2026-10-15"
+  origin: radar
+  note: "10 月 15 日开放获取论文报告伊拉克 Shanidar 洞穴约 7.5 万年前的尼安德特人遗存 Shanidar A：左肩胛骨有约 15 毫米近圆形穿孔，团队推测可能来自史前木制狩猎工具；门齿也有明显旧伤，提示个体受伤后继续存活。研究者由此讨论史前人群的冲突与相互照料，但工具并未随遗骸出土，伤痕成因、是否有意行为、照料程度及埋葬解释都存在不确定性。应保留论文的证据链，而非将推断写成确定的史前故事。"
+  status: candidate
+  imageUrl: "https://cdn.prod.website-files.com/66291ceb75bda80771024415/6ad0e2f3e3e3577e308f2cce_Scapula%231.webp"
+  imageSourceUrl: "https://www.joh.cam.ac.uk/about-us/news-and-research/neanderthals-violent-death-in-the-middle-east-reveals-possible-prehistoric-murder"
+  imageSource: "St John's College Cambridge / Emma Pomeroy"
+  imageNote: "官方研究图展示 Shanidar A 肩胛骨两面；图像直链访问状态未完全确认，正式刊发前核实摄影授权。"
+  imageStatus: verify-rights
+
+- title: "地铁工地里的旧木船，连名字也要重新考证"
+  url: "https://www.sea.museum/en/about/media/2026/10/cocklebayboat"
+  source: "Australian National Maritime Museum"
+  radar: "历史与制度 / 城市与公共空间 / 技术史"
+  topic: "悉尼港口史、船舶考古、原住民命名、文物保护"
+  discoveredAt: "2026-10-15"
+  origin: radar
+  note: "澳大利亚国家海事博物馆 10 月 13 日披露，2018 年悉尼地铁施工发现的殖民时期木船，保存了 294 块木构件，团队发现隐蔽铁质紧固件，并使用摄影测量和数字模型研究保护与复原。馆方经原住民咨询认为旧称 Barangaroo Boat 与历史人物缺少直接联系，改称 Cockle Bay Boat。船的具体航行范围仍待考证，永久展陈计划于 2028 年开放。切口：地下施工如何揭示城市经济史，文物命名又如何体现历史解释权。"
+  status: candidate
+  imageUrl: "https://www.sea.museum/_next/image?q=80&url=https%3A%2F%2Fcms-web-media.seamuseum.net%2Fpublic%2Fstyles%2Fsquare%2Fpublic%2Ffotoweb%2F2026-10%2FDSC_2919.jpg%3Fitok%3D6ccGhoR_%26v%3D3c2f4af1104a&w=3840"
+  imageSourceUrl: "https://www.sea.museum/en/about/media/2026/10/cocklebayboat"
+  imageSource: "Australian National Maritime Museum"
+  imageNote: "官方出土木船照片，可见船板与船体结构；站点代理含转换参数，刊发前复核直链、署名和授权。"
+  imageStatus: verify-rights
