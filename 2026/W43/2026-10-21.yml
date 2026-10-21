@@ -1,0 +1,43 @@
+- title: "卫星称量二十年的水：人类活动开始在大陆水循环地图上留下可辨认的指纹"
+  url: "https://science.nasa.gov/earth/earth-observatory/the-human-fingerprint-on-earths-water-cycle/"
+  source: "NASA Earth Observatory / GRACE & GRACE-FO / O’Neill et al., PNAS"
+  radar: "科技与科学 / 城市、环境与生活方式 / 历史与制度"
+  topic: "陆地水储量、地下水、灌溉、工程水文、重力卫星"
+  discoveredAt: "2026-10-21"
+  origin: radar
+  note: "NASA 10 月 20 日介绍基于 GRACE/GRACE-FO 2002 年 4 月至 2025 年 11 月数据的空间精细化研究：利用双星间距变化推算陆地水储量趋势，识别 40 个与灌溉、筑坝、土地利用等人类活动有显著关联的区域。加州中央谷地和印度北部的地下水消耗，与部分非洲雨养农地、俄罗斯大型水库和土库曼斯坦运河附近的储水增加形成反差。空间分辨率提升约 5–10 倍，但牺牲了时间分辨率；统计关联不能简化为单一因果归因。问题不是'人类正在改变水循环'这个泛泛结论，而是哪些日常农业和工程选择已经能从地球重力的长期变化里被辨认出来。"
+  status: candidate
+  imageUrl: "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/the-human-fingerprint-on-earth%E2%80%99s-water-cycle/terrestrialwaterstorage_trends_lrg.jpg/jcr%3Acontent/renditions/cq5dam.thumbnail.319.319.png"
+  imageSourceUrl: "https://science.nasa.gov/earth/earth-observatory/the-human-fingerprint-on-earths-water-cycle/"
+  imageSource: "NASA Earth Observatory / Michala Garrison / O’Neill et al."
+  imageNote: "官方全球陆地水储量趋势地图，橙褐表示减少、蓝色表示增加；目前验证到的外链为 319px 缩略图，正式排版应从同页 Downloads 取高分辨率原图并核对署名。"
+  imageStatus: verify-rights
+
+- title: "树木育种要等几十年，研究者试着在一代杨树里重排整段染色体"
+  url: "https://research.uga.edu/news/crispr-shortcut-could-cut-decades-from-chromosome-design-in-poplars-uga-study-shows/"
+  source: "University of Georgia Research / Plant Biotechnology Journal"
+  radar: "科技与科学 / 生命科学 / 社会与商业"
+  topic: "杨树、CRISPR、染色体重排、林木育种、长周期实验"
+  discoveredAt: "2026-10-21"
+  origin: radar
+  note: "佐治亚大学 10 月 19 日公布概念验证：研究团队将 CRISPR 指向杨树基因组里重复出现的卫星 DNA，在第一代编辑植株中触发大尺度染色体重排；研究者称超过 40% 的编辑植株出现此类变化。过去逐代杂交才能探索的染色体组合，开始可以直接进行结构层面的实验，但这不是几十年育种已经被压缩成可上市新品种，也不代表目标性状、遗传稳定性和生态安全已经验证。值得追问：当实验对象是一棵需要多年长大的树，基因组工程改变的是'等待一代'这一科研时间成本。"
+  status: candidate
+  imageUrl: "https://research.uga.edu/news/wp-content/uploads/sites/19/2026/10/cj-tsai-lab.jpg"
+  imageSourceUrl: "https://research.uga.edu/news/crispr-shortcut-could-cut-decades-from-chromosome-design-in-poplars-uga-study-shows/"
+  imageSource: "University of Georgia Research"
+  imageNote: "大学官方实验室实拍，研究者 C.J. Tsai 查看培养中的杨树植株；适合展示林木育种的真实工作现场，不应当作染色体重排的显微证据。"
+  imageStatus: verify-rights
+
+- title: "一座关闭四十多年的庞贝豪宅，修复费用由私人承担：公共遗产如何重新开放"
+  url: "https://apnews.com/article/9b45a80893bc825f45babd2e177fc971"
+  source: "Associated Press / Pompeii Archaeological Park"
+  radar: "历史与制度 / 设计文化与媒介 / 社会与商业"
+  topic: "文化遗产、修复资助、公共开放、古罗马城市生活"
+  discoveredAt: "2026-10-21"
+  origin: radar
+  note: "美联社 10 月 20 日报道，庞贝的 Marcus Fabius Rufus 住宅自 1980 年起不向公众开放，目前由私人赞助约 140 万欧元修复；继 2021–2023 年结构维护后，现阶段重点保护壁画，园方希望 2026 年圣诞前部分开放导览。古宅沿城墙分布、楼层和走廊复杂，园方还计划用数字方式帮助参观者理解空间。值得观察的不是单次赞助金额，而是遗址的保存、解释与开放由谁持续支付、谁决定优先顺序。重开仍属计划，私人赞助的长期治理效果不能凭发布会推断。"
+  status: candidate
+  imageSourceUrl: "https://apnews.com/article/9b45a80893bc825f45babd2e177fc971"
+  imageSource: "Pompeii Archaeological Park / Silvia Vacca, distributed via AP"
+  imageNote: "报道配图为修复人员在古宅内工作的现场照片，适合呈现保护劳动；AP 及摄影版权限制不清，暂不记录直链，正式排版应向园方核实可用原图。"
+  imageStatus: verify-rights
