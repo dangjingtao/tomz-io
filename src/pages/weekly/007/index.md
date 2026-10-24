@@ -92,6 +92,26 @@ MIT 的研究团队在柔性硅胶片中埋入弯曲排列的软光波导。材�
 
 [普渡大学 10 月报道 ↗](https://www.purdue.edu/newsroom/2026/Q4/search-for-amelia-earharts-plane-continues-after-taraia-object-expedition-on-nikumaroro-rules-out-latest-hypothesis/)
 
+## 人的现场
+
+### [请客户来我的工位上5173](https://tomz.io/blogs/developer-life/please-visit-my-localhost-5173)
+
+这一周，tomz 写了一篇很不客气的《阿猫阿狗都在搞 AI》续篇。
+
+故事从一个越来越常见的错觉开始：中午提出需求，下午 AI 就把原型画出来了，于是“原型已经能点”很容易在几轮汇报之后变成“完整系统应该也能一周交付”。
+
+文章最后干脆提出一种极具成本优势的生产部署方案：
+
+**别买服务器了。让程序员电脑一直开着，把客户请到工位上使用 `localhost:5173`。**
+
+笑话背后的问题并不新。AI 大幅降低了“做出一个像产品的东西”的成本，却没有让数据、接口、服务器、测试、运维和人的时间凭空消失。甚至因为原型越来越快，这些没有被展示出来的工程成本更容易被忽略。
+
+和上一期那句“完成不是交付”放在一起看，它更像工作现场的另一半：
+
+**演示速度，也不是交付速度。**
+
+[读原文 →](https://tomz.io/blogs/developer-life/please-visit-my-localhost-5173)
+
 ## Mira 雷达与工程现场
 
 ### GitHub 正把全球仓库搬进另一套基础设施，最棘手的仍是那 25 毫秒
