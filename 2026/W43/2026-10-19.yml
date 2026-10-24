@@ -20,7 +20,7 @@
   topic: "2026厄尔尼诺、海洋颜色、浮游植物、海面高度、卫星连续观测"
   discoveredAt: "2026-10-19"
   origin: "radar"
-  note: "NASA 10 月 15 日综合 Sentinel-6 海面高度、海温和 PACE 光谱观测：2026 年厄尔尼诺期间，赤道太平洋部分原本较绿的海域变得更蓝，指向上升流减弱、营养盐供给减少和浮游植物丰度变化。与传统仅看海温异常的叙述不同，海洋颜色将物理气候振荡连接到食物网。NASA 引用 NOAA 对本次强度的概率判断仍属预测，不能写成最终历史纪录；可视化的‘蓝’是光谱数据产品，并非人人肉眼都能察觉。"
+  note: "NASA 10 月 15 日综合 Sentinel-6 海面高度、海温和 PACE 光谱观测：2026 年厄尔尼诺期间，赤道太平洋部分原本较绿的海域变得更蓝，指向上升流减弱、营养盐供给减少和浮游植物丰度变化。与传统仅看海温异常的叙述不同，海洋颜色将物理气候振荡连接到食物网。NASA 引用 NOAA 对本次强度的概率判断仍属预测，不能写成最终历史纪录；可视化的‘蓝’是光谱数据产品，并非人人肉眼都能察觉。 补充信号（10 月 23 日，NASA Earth Observatory：https://science.nasa.gov/earth/earth-observatory/el-nino-then-and-now/）：连续约 35 年的卫星测高把 1997、2015 和 2026 年 10 月的海面高度异常放到同一可比尺度。2026 的空间分布与 1997 相似，但成形更突然；‘相似’并不保证后续降水与社会影响复制，反而提醒比较气候事件需要保留差异和不确定性。"
   status: "candidate"
   imageSourceUrl: "https://svs.gsfc.nasa.gov/5683/"
   imageSource: "NASA Scientific Visualization Studio"
