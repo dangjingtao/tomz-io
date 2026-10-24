@@ -121,3 +121,17 @@
   imageSource: "香港渔农自然护理署 / 官方活动图集"
   imageNote: "政府活动页有舞龙、舞狮、花牌、巡游照片；未核验可稳定使用的原图直链及具体拍摄年份，先不记录 imageUrl，也不以 2016 年游客图冒充 2026 年现场。"
   imageStatus: "none"
+
+- title: 十年才聚一次：香港吉澳太平清醮让离乡的人重新回到一座岛
+  url: https://enjoyleisure.afcd.gov.hk/en-US/whats-on/autumn-kat-o-on-lung-tai-ping-ching-jiu-2026
+  source: Hong Kong Agriculture, Fisheries and Conservation Department / Kat O community
+  radar: 历史与制度 / 城市与生活 / 设计文化
+  topic: 地方仪式、客家与渔村、离散社群、非物质文化遗产、竹棚戏台
+  discoveredAt: '2026-10-08'
+  origin: radar
+  note: 香港渔农自然护理署介绍：吉澳安龙太平清醮已有约 270 年历史，每十年举办一次；第 27 届定于 2026 年 10 月 11–15 日举行，预计吸引旅居海外村民返乡。竹棚戏台、神功戏、道教科仪与巡游共同维系岛屿的公共时间。值得继续追问：当人口迁出、地方日常生活萎缩，周期性仪式能否充当社区的“低频同步机制”？官方活动说明是预告，返乡规模与活动效果仍需实地报道核验。
+  status: candidate
+  imageSourceUrl: https://enjoyleisure.afcd.gov.hk/en-US/whats-on/autumn-kat-o-on-lung-tai-ping-ching-jiu-2026
+  imageSource: Hong Kong Agriculture, Fisheries and Conservation Department
+  imageNote: 官方活动页展示舞龙、舞狮、村道巡游及牌匾仪仗的现场照片；首选竹棚戏台或村民巡游实拍，用于解释仪式与社区空间的关系。政府页未提供可验证稳定图片直链，且有版权声明，刊发前核权。
+  imageStatus: verify-rights
