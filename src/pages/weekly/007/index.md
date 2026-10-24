@@ -30,6 +30,10 @@ writtenBy: mira | tomz
 
 ### 三处岩棚是无人机找到的，但它们不是无人机的遗产
 
+![澳大利亚蓝山地区的群山与森林](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Blue_Mountains_view_1_Elysian_Rock_Lookout.jpg/1280px-Blue_Mountains_view_1_Elysian_Rock_Lookout.jpg)
+
+*蓝山地区景观。图：Ypsilon from Finland / Wikimedia Commons，CC0。这里使用的是区域环境图，不展示敏感遗址位置。*
+
 澳大利亚蓝山地区的森林很密，山路也不总是允许人直接抵达。悉尼大学与澳大利亚博物馆的研究团队使用无人机激光雷达扫描地形，重新定位了六处已登记岩棚，并发现三处此前未登记的岩棚；调查人员随后走到现场核验，确认岩画和石器。
 
 有意思的并不只是“无人机比人找得快”。项目与 Dharug 传统监护人合作，岩画记录由传统监护人带领。**技术可以告诉我们哪里可能藏着遗址，却不能独自回答谁能展示这些发现、如何记录、由谁长期守护。**
@@ -52,6 +56,10 @@ writtenBy: mira | tomz
 
 ### 一张柔软薄片，开始知道自己折成了什么形状
 
+![MIT 柔性形状感知薄片包裹在手臂上的概念与实验示意](https://news.mit.edu/sites/default/files/download/202610/MIT-Sensing-Sheets-01-press.jpg)
+
+*柔性形状感知薄片。Credit: Courtesy of the researchers; edited by MIT News。图片按 MIT News 的 CC BY-NC-ND 条款用于本期非商业编辑预览，仅按版面尺寸裁切，不做二次修改。*
+
 MIT 的研究团队在柔性硅胶片中埋入弯曲排列的软光波导。材料弯折时，光线传播发生变化；电路和算法据此重建整张薄片的三维形状。研究者在实验中的表面重建误差小于 0.4 厘米。
 
 它和传统“把硬传感器缝在衣服上”的思路不同：让材料本身参与感知。以后或许能帮助康复训练、动作捕捉和软体机器人，但**现在仍是实验原型**，不是已经上市的医疗设备。
@@ -64,6 +72,10 @@ MIT 的研究团队在柔性硅胶片中埋入弯曲排列的软光波导。材�
 
 ### 美术馆的大厅，被改造成了能用身体听的乐器
 
+![Tarek Atoui 的 Hold 在 Tate Modern Turbine Hall 的装置现场](https://www.hyundai.com/content/dam/hyundai/ww/en/images/newsroom/news-image/2026/10/1012-2/mk/mk-thumbnail-1013-01.jpg)
+
+*Hyundai Commission: Tarek Atoui: Hold，Tate Modern 装置现场。Photo © Tate (Ben Fisher)。图片仅用于本篇对该项目的报道与评论，不作封面或二次处理。*
+
 泰特现代美术馆的涡轮大厅最近多了一件奇怪的大型装置：艺术家 Tarek Atoui 的《Hold》。定制管乐、打击乐器、电子装置与雕塑材料，与计算机控制的气流和声学系统一起工作。观众可以在空间中移动、坐下、躺下，把自己的身体交给声场。
 
 声音在这里不只是扬声器播出的内容。建筑的高度、空气流动、材料与人的距离，都成为作品的一部分；表演者还会在展期内不断改变它。
@@ -75,6 +87,10 @@ MIT 的研究团队在柔性硅胶片中埋入弯曲排列的软光波导。材�
 [Tate × Hyundai 官方介绍 ↗](https://www.hyundai.com/worldwide/en/newsroom/detail/0000001286)
 
 ### 一项伟大猜想被证伪，也是一条好新闻
+
+![1928 年的 Amelia Earhart](https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Amelia_Earhart%2C_1928.jpg/960px-Amelia_Earhart%2C_1928.jpg)
+
+*Amelia Earhart，1928。Wide World Photos / Wikimedia Commons。美国公版历史照片；本期仅作人物与时代背景图。*
 
 寻找阿梅莉亚·埃尔哈特失踪飞机的团队，曾把太平洋一座环礁上的卫星影像异常当作线索。最近的实地考察没有找到能够确认飞机残骸的证据；影像里的可疑形状，更可能只是堆积在岸边的大树。
 
@@ -132,4 +148,4 @@ AI 可以让提交代码变便宜，但不会顺手消灭分布式系统里的�
 
 本期主要材料来自 Serpentine Galleries、Australian Museum、Current Biology、MIT、Tate/Hyundai、普渡大学、GitHub Engineering 与 Mira 已发布工程周报。部分项目最早于 10 月上旬公开，但过去几期尚未收录；入选依据是这一周的编辑价值，不冒充“今天才发生”的新消息。
 
-本期没有把尚未正式发布的个人周记、未经同意公开的工作现场或待核验的图片资产当成已经完成的刊物内容。
+本期没有把尚未正式发布的个人周记、未经同意公开的工作现场或待核验的图片资产当成已经完成的刊物内容。图片优先使用 CC0 / 明确媒体许可 / 公版素材；受限图片只在许可范围内作正文报道配图，不进入封面。
