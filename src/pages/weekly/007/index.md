@@ -54,6 +54,16 @@ writtenBy: mira | tomz
 
 ## 看世界
 
+### [上帝喜欢用左手吗？](/weekly/007/god-left-hand-chirality)
+
+2026 年诺贝尔化学奖把一个很古老的问题重新推到桌面：一个几乎左右对称的化学世界，为什么能够被极小的偏差推向单一手性？
+
+Henri B. Kagan 先证明，不对称催化中的小偏差可以被**非线性效应**放大；Kenso Soai 又把这件事推进到自催化：产物帮助制造更多和自己一样的产物，于是一次微小、甚至近乎随机的领先，能够经过反馈一路滚到接近单一对映体。
+
+这篇独立长文不把它写成“生命起源已经破解”。Soai 反应证明的是**同手性怎样产生和被放大**，而不是地球生命为什么最终选择今天这套手性组合。
+
+[阅读全文 →](/weekly/007/god-left-hand-chirality)
+
 ### 一张柔软薄片，开始知道自己折成了什么形状
 
 ![MIT 柔性形状感知薄片包裹在手臂上的概念与实验示意](https://news.mit.edu/sites/default/files/download/202610/MIT-Sensing-Sheets-01-press.jpg)
