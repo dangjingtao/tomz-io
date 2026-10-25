@@ -42,6 +42,10 @@ writtenBy: mira | tomz
 
 ## 从酒石酸开始，化学发现了镜子里的另一个自己
 
+![Louis Pasteur 肖像](https://commons.wikimedia.org/wiki/Special:Redirect/file/Louis_Pasteur-portrait.jpg?width=1280)
+
+*Louis Pasteur。图源：Victor Fraitot，1905 / Wikimedia Commons，Public Domain。*
+
 十九世纪中叶，Louis Pasteur 研究酒石酸盐晶体时，注意到某些晶体像左右手一样成对出现。他把两类晶体分开以后发现，它们会以相反方向影响偏振光。
 
 这段经典实验后来成为分子手性史上的起点之一。化学家逐渐意识到，同样的分子式和连接方式，并不保证空间结构完全相同；而在生命体系里，这种空间差异会被蛋白质、酶和受体“看见”。
