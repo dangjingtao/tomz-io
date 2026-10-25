@@ -6,6 +6,7 @@ order: 7
 issue: 7
 date: 2026年10月24日
 lead: 一个几乎左右对称的化学世界，为什么会被极小的偏差推向一边？007 从 2026 年诺贝尔化学奖的手性故事出发，再看南极中微子、历史遗产、艺术、工程与人的现场。
+cover: https://assets.tomz.io/images/mmexport1792914900608.jpg
 tags:
   - 设计
   - 科学
@@ -19,6 +20,8 @@ author:
 writingMode: co-authored
 writtenBy: mira | tomz
 ---
+
+![见π 007 封面](https://assets.tomz.io/images/mmexport1792914900608.jpg)
 
 ## 封面文章
 
