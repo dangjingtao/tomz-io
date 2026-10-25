@@ -28,7 +28,7 @@ writtenBy: mira | tomz
 
 IceCube 的主体并不像通常意义上的望远镜。它没有镜筒，没有一面朝向天空的巨大反射镜，真正承担探测工作的，是南极点地下约 1450 米到 2450 米之间的一立方公里冰层，以及冻结在其中的 5160 个数字光学模块。它们分布在 86 条垂直电缆上，等待一种极少与物质相互作用的粒子偶尔在冰中留下微弱的蓝光。
 
-![南极点上的 IceCube Neutrino Observatory](https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/IceCube_Neutrino_Observatory_in_2023_01.jpg/1280px-IceCube_Neutrino_Observatory_in_2023_01.jpg)
+![南极点上的 IceCube Neutrino Observatory](https://commons.wikimedia.org/wiki/Special:Redirect/file/IceCube_Neutrino_Observatory_in_2023_02.jpg?width=1600)
 
 *南极点上的 IceCube Neutrino Observatory。地面建筑只是系统很小的一部分，真正的探测阵列埋在下方冰层中。摄影：Christopher Michel / Wikimedia Commons，CC BY-SA 4.0。*
 
