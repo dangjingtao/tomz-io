@@ -1,5 +1,5 @@
 ---
-title: "上帝喜欢用左手吗？"
+title: "上帝偏爱左手吗？"
 description: 2026 年诺贝尔化学奖奖励了一个极其古老的问题：一个几乎左右对称的化学世界，为什么能够被极小的偏差推向单一手性？Henri Kagan 与 Kenso Soai 给出了关键的一部分答案。
 group: 见π
 order: 3
@@ -20,7 +20,7 @@ writingMode: co-authored
 writtenBy: mira | tomz
 ---
 
-# 上帝喜欢用左手吗？
+# 上帝偏爱左手吗？
 
 这个标题当然是在故意欠一下。
 
