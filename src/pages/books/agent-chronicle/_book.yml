@@ -1,0 +1,8 @@
+id: agent-chronicle
+title: AI Agent 编年史 · Mira 研习课
+description: 面向开发者与产品经理，从七代 Agent 的历史走向 Harness 架构、产品取舍与真实交付。由 Mira 带着学，课后用实战题检验判断。
+cover: /books/covers/agent-chronicle.svg
+category: AI / Agent
+kind: study
+order: 12
+status: active
