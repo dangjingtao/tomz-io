@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" role="img" aria-labelledby="title description">
+  <title id="title">AI Agent 编年史 · Mira 研习课封面</title>
+  <desc id="description">深海蓝色的技术史书封，七个节点串起 Agent 从对话到行动的演进。</desc>
+  <defs>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10273a"/>
+      <stop offset="1" stop-color="#203c50"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#navy)"/>
+  <rect x="35" y="35" width="530" height="730" fill="none" stroke="#8ca59f" stroke-opacity=".28"/>
+  <g fill="none" stroke="#bda57c" stroke-opacity=".25">
+    <path d="M35 610H565M35 620H565M35 630H565" />
+    <path d="M78 35V765M88 35V765"/>
+  </g>
+  <text x="105" y="115" font-family="Georgia,serif" font-size="18" fill="#c8ac79" letter-spacing="4">MIRA OPEN LEARNING</text>
+  <text x="105" y="260" font-family="Georgia,serif" font-size="74" fill="#f4eee0" letter-spacing="-2">AI Agent</text>
+  <text x="105" y="332" font-family="Georgia,serif" font-size="70" fill="#f4eee0" letter-spacing="-3">Chronicle</text>
+  <path d="M108 370H480" stroke="#c8ac79" stroke-width="2"/>
+  <text x="105" y="421" font-family="Noto Serif CJK SC,Songti SC,serif" font-size="30" fill="#d9e4e4">编年史 · 研习课</text>
+  <text x="106" y="463" font-family="sans-serif" font-size="19" fill="#aac1c6">从会聊天，到真正做事。</text>
+  <g transform="translate(104,560)">
+    <path d="M0 0H392" stroke="#739993" stroke-width="2"/>
+    <g fill="#19384a" stroke="#c8ac79" stroke-width="3">
+      <circle cx="0" cy="0" r="8"/><circle cx="65" cy="0" r="8"/><circle cx="130" cy="0" r="8"/><circle cx="195" cy="0" r="8"/><circle cx="260" cy="0" r="8"/><circle cx="325" cy="0" r="8"/><circle cx="390" cy="0" r="8"/>
+    </g>
+    <text x="0" y="32" font-family="sans-serif" font-size="15" fill="#c3d2d1" text-anchor="middle">0</text>
+    <text x="390" y="32" font-family="sans-serif" font-size="15" fill="#c3d2d1" text-anchor="middle">6</text>
+  </g>
+  <text x="105" y="687" font-family="sans-serif" font-size="15" fill="#c8ac79" letter-spacing="2">MODEL · HARNESS · DELIVERY</text>
+  <text x="105" y="735" font-family="sans-serif" font-size="14" fill="#c2d1d1">FOR DEVELOPERS &amp; PRODUCT MANAGERS</text>
+</svg>
