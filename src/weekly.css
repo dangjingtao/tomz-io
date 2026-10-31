@@ -167,8 +167,8 @@
 
 /* issue body */
 .weekly-issue-layout{
-  display:grid;grid-template-columns:minmax(0,800px) 220px;
-  justify-content:space-between;gap:clamp(44px,6vw,72px);align-items:start;
+  display:grid;grid-template-columns:minmax(0,880px) 220px;
+  justify-content:start;gap:64px;align-items:start;
   padding-top:34px;border-top:1px solid var(--hairline)
 }
 .weekly-article{min-width:0}
