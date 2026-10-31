@@ -360,7 +360,7 @@
   --book-reader-toc-width: 220px;
   --book-reader-toc-gap: 60px;
   --book-reader-anchor-offset: calc(var(--top-nav-height, 64px) + 68px);
-  width: min(900px, calc(100% - 64px));
+  width: min(var(--book-reader-prose-width), calc(100% - 64px));
   margin: 0 auto;
   padding: 70px 0 100px;
 }
@@ -370,8 +370,7 @@
     calc(
       var(--book-reader-prose-width) +
       var(--book-reader-toc-width) +
-      var(--book-reader-toc-gap) +
-      40px
+      var(--book-reader-toc-gap)
     ),
     calc(100% - 64px)
   );
@@ -382,8 +381,8 @@
 }
 
 .book-reader-header {
-  max-width: 780px;
-  margin: 0 auto 48px;
+  max-width: var(--book-reader-prose-width);
+  margin: 0 0 48px;
 }
 
 .book-reader-desktop-backbar {
@@ -397,8 +396,8 @@
 }
 
 .book-reader-desktop-backbar-inner {
-  max-width: 780px;
-  margin: 0 auto;
+  max-width: var(--book-reader-prose-width);
+  margin: 0;
 }
 
 .book-reader-desktop-backbar .bookshelf-back {
@@ -425,7 +424,7 @@
 
 .book-reader-reading-layout {
   max-width: var(--book-reader-prose-width);
-  margin: 0 auto;
+  margin: 0;
 }
 
 .book-reader-reading-layout.has-toc {
@@ -445,10 +444,6 @@
 .book-reader-body {
   min-width: 0;
   max-width: var(--book-reader-prose-width);
-  margin: 0 auto;
-}
-
-.book-reader-reading-layout.has-toc .book-reader-body {
   margin: 0;
 }
 
@@ -523,7 +518,7 @@
 
 .book-reader-pagination {
   max-width: var(--book-reader-prose-width);
-  margin: 56px auto 0;
+  margin: 56px 0 0;
   padding-top: 24px;
   border-top: 1px solid var(--hairline);
   display: grid;
