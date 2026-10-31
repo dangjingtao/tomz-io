@@ -7,7 +7,7 @@
 }
 .weekly-shell{display:block;max-width:none}
 .weekly-main{width:100%;max-width:none;padding:0}
-.weekly-frame{width:min(calc(100% - 64px),1120px);margin:0 auto}
+.weekly-frame{width:min(calc(100% - 64px),1216px);margin:0 auto}
 .weekly-index-page{padding-bottom:0}
 .weekly-eyebrow,.weekly-toc-label,.weekly-archive-year,.weekly-archive-no{
   font-family:var(--font-mono)
@@ -50,7 +50,7 @@
   padding:clamp(48px,7vw,86px) 0;border-top:2px solid var(--ink)
 }
 .weekly-latest-grid{
-  display:grid;grid-template-columns:300px minmax(0,1fr);
+  display:grid;grid-template-columns:clamp(300px,28vw,350px) minmax(0,1fr);
   gap:clamp(36px,6vw,76px);align-items:start
 }
 .weekly-issue-cover{position:sticky;top:92px}
@@ -167,7 +167,7 @@
 
 /* issue body */
 .weekly-issue-layout{
-  display:grid;grid-template-columns:minmax(0,760px) 220px;
+  display:grid;grid-template-columns:minmax(0,800px) 220px;
   justify-content:space-between;gap:clamp(44px,6vw,72px);align-items:start;
   padding-top:34px;border-top:1px solid var(--hairline)
 }
