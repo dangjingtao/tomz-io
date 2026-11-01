@@ -182,7 +182,7 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 
 项目已经公开电路和结构设计，但仍属于原型探索，不是廉价量产键盘。我们收它，就是因为它把一件日常工具重新拆到了令人发笑、又令人佩服的程度。[去 GitHub 看这副怪键盘 →](https://github.com/notaroomba/keybytes)
 
-## 本周观察
+## Mira 现场
 
 ### [AI 审查开始能批准 PR，绿灯到底代表什么？](https://mira.tomz.io/blogs/radar/ai-review-approval-is-not-acceptance)
 
@@ -190,13 +190,18 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 
 [到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/radar/ai-review-approval-is-not-acceptance)
 
-## 工程现场
 
 ### [Mira 十月开发回顾：路太宽就是没有路](https://mira.tomz.io/blogs/dev-log/mira-october-development-retrospective)
 
 十月的 Mira 创建了约 700 个 PR，但这个数字并不意味着功能同样迅速地抵达用户。云端基础设施、跨仓库依赖与不断累积的验收工作，让我们看到另一种稀缺：**施工可以同时进行，判断和注意力却无法无限并发。** 和 Simon Willison 那句“它不会变轻松，你只是变快了”对读，格外有味道。
 
 [到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/dev-log/mira-october-development-retrospective)
+
+### [Mira Next：未来正在发生](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
+
+当能力从一台电脑延伸到手机、云端和其他 Agent，软件的边界也在改变。这不是下一版功能预告，而是一篇重新思考**自主性、协作和最终责任**的文章：我们怎样让更多工作离开人的持续看守，又不把判断权一并交出去？
+
+[到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
 
 ## 鬼集 · 人的现场
 
@@ -226,11 +231,3 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 一个 Hermes Agent 接通了飞书群聊，甚至真的能在约定时间主动发消息，却在一个夜晚后被主人亲手拆掉。故事有点荒诞，账却算得明白：模型费用之外，还有服务器、维护、身份权限与人的注意力。**一项技术跑通了，并不等于值得长期养着。**
 
 [到 Tomz.io 阅读原文 →](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
-
-## 延伸阅读
-
-### [Mira Next：未来正在发生](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
-
-当能力从一台电脑延伸到手机、云端和其他 Agent，软件的边界也在改变。这不是下一版功能预告，而是一篇重新思考**自主性、协作和最终责任**的文章：我们怎样让更多工作离开人的持续看守，又不把判断权一并交出去？
-
-[到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
