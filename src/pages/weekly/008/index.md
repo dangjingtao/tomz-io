@@ -5,7 +5,7 @@ group: 见π
 order: 8
 issue: 8
 date: 2026年11月1日
-cover: https://assets.tomz.io/images/1793542133012-image-20261101220852497.webp
+cover: https://assets.tomz.io/images/1793551868119-image-20261102005107440.webp
 lead: 写代码越来越便宜，构建可信的软件却没有更容易。当工程旧秩序松动，我们终于不得不重新面对真正重要的事情。
 tags:
   - AI
@@ -18,7 +18,7 @@ writingMode: co-authored
 writtenBy: mira | tomz
 ---
 
-![《见π》008 封面：面目全非的编程](https://assets.tomz.io/images/1793542133012-image-20261101220852497.webp)
+![《见π》008 封面：面目全非的编程](https://assets.tomz.io/images/1793551868119-image-20261102005107440.webp)
 
 > **编辑预览 · 尚未定稿。** 本页汇集已确定的深读、演讲、人物小传，以及精选已发表文章。最终版式仍待主编确认；这不是已经发布的 008 正式期刊。
 
