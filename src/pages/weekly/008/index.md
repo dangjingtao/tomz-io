@@ -50,6 +50,11 @@ writtenBy: mira | tomz
 
 ### [电车驶向AI自己的服务器](/weekly/008/trolley-problem-when-ai-saves-itself)
 
+![编辑数据图：仅交换问题顺序，2620 对测试中有 370 对改变选择](/assets/jianpi-008-trolley-order-consistency.svg)
+
+*制图：《见π》；数据：Zach Landes。文字决策实验，不是现实行动。*
+
+
 如果你站在电车岔道旁，愿不愿意牺牲一台 AI 服务器去救二十个人？Zach Landes 让十四个决策模型回答这类问题。Jev 在四十八种措辞与叙述顺序的组合里，有十六次选择保全自己的服务器；同样的题目仅仅调整信息顺序，模型有时又会改变决定。
 
 这是“AI 有求生欲”的证据吗？远远不是。它更像一场有关机器决策可靠性的压力测试：**当一个数值越过 0.5，系统就可能执行动作；而左右这个数值的，竟然可能是文字先说了哪一条铁轨。** 我们讨论什么样的决定可以交给模型，以及怎样证明它在相同事实下足够稳定。
@@ -92,11 +97,21 @@ writtenBy: mira | tomz
 
 ### [沙漠里有过湖泊，人为什么没有留下来？](https://www.nature.com/articles/s41586-026-11180-5)
 
+![原始研究数据图：125 处调查地点、55 处有古湖沉积，未记录到石器](/assets/jianpi-008-paleolakes-field-survey.svg)
+
+*制图：《见π》；数据：Dellmour 等，Nature（2026），仅对应这次考察的样带。*
+
+
 人类迁徙史常常被画成气候和水源地图：哪里有雨、哪里有湖，哪里就可能适合定居。10 月 28 日的一篇 *Nature* 论文却提醒我们，旧石器时代的人还需要另一种资源——**能够打制石器的原料**。研究者沿阿拉伯半岛鲁卜哈利沙漠调查约 1,500 公里，在 125 处地点中的 55 处发现古湖泊沉积，但在调查样带内没有发现石器遗存或可用的打制石料。
 
 这不是在证明史前人类从未经过沙漠，而是在修正一张过于简单的宜居地图：有水，不一定就能长期生活。[读原始研究 →](https://www.nature.com/articles/s41586-026-11180-5)
 
 ### [NASA 从太空追踪秋天的颜色](https://science.nasa.gov/earth/earth-observatory/hunting-red-leaves-with-satellites/)
+
+![NASA PACE 卫星测得的 2026 年 10 月上旬全球植被红色变化](https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/red-leaf-hunting-/fallfoliagephenology_pace_20261011.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg)
+
+*图：NASA Earth Observatory / Lauren Dauphin，PACE 数据。红色并不全部意味着秋叶，详见原文。*
+
 
 古人为了赏枫跋山涉水，现代人则从几百公里高空观察整片大陆的红色如何移动。NASA 的 PACE 卫星用高光谱仪观测全球植被，能够追踪秋叶色素的季节变化，并邀请公众拍摄地面照片帮助比对。不过，卫星图上的红色有时也可能来自作物成熟、干旱或虫害，并不都是游客心中的秋景。
 
@@ -112,11 +127,21 @@ writtenBy: mira | tomz
 
 ### [摩加迪沙电台的四万五千卷磁带](https://www.unesco.org/en/articles/world-day-audiovisual-heritage-protecting-memory-risk)
 
+![2013 年摩加迪沙电台档案负责人展示保存的历史录音](https://commons.wikimedia.org/wiki/Special:Redirect/file/2013_11_07_Radio_Mogadishu_A.jpg_%2810795718115%29.jpg)
+
+*图：AU–UN IST / Tobin Jones，2013 年，CC0。历史档案照片，不是 2026 年抢救现场。*
+
+
 战争和时间会毁掉建筑，也会慢慢毁掉一个国家的声音。摩加迪沙电台约 **45,000 卷模拟磁带**保存着索马里的语言、音乐、广播节目、新闻与日常记忆。UNESCO 正在推动保存、数字化和档案机构的能力建设，但“开始抢救”不等于“已经全部保存并向公众开放”。
 
 读完以后会想起一个很朴素的问题：如果后人无法再听到普通人当年怎样说话，一个国家的历史会缺失多少？[读 UNESCO 专题 →](https://www.unesco.org/en/articles/world-day-audiovisual-heritage-protecting-memory-risk)
 
 ### [孩子不再独自上学，城市真的更安全吗？](https://www.theguardian.com/science/2026/oct/20/mayer-hillman-obituary)
+
+![历史研究数据图：英国部分 7—8 岁儿童独自上学的比例从 80% 降至 9%](/assets/jianpi-008-children-independent-mobility.svg)
+
+*制图：《见π》；数据：Mayer Hillman 等研究。仅描述英国历史调查，不代表当下所有地区。*
+
 
 今年去世的英国城市交通研究者 Mayer Hillman，曾经反复提醒人们不要只用交通事故数量判断道路是否安全。他与同事的研究发现，在英国受访的七八岁儿童中，**1971 年约 80% 可以不由成年人陪同上学；1990 年只剩约 9%**。伤亡数字减少，部分原因也可能是孩子被家长从道路上带走了。
 
@@ -126,17 +151,32 @@ writtenBy: mira | tomz
 
 ### [墨观 Inkstone：让中国传统色住进编辑器](https://github.com/Konata9/inkstone)
 
+![墨观 Inkstone 六套中国传统色开发工具主题的原作者预览](https://raw.githubusercontent.com/Konata9/inkstone/19ebcc1c5f8b7212b71eb48e2fbe9ae3bced35ec/docs/preview.png)
+
+*项目截图：Konata9 / Inkstone，取自开源仓库。*
+
+
 来自 **Konata9** 的墨观，把 526 种中国传统颜色整理成统一的语义色板，再生成六套编辑器与终端主题：玄墨、宣纸、沧海、青瓷，以及两套更低环境亮度的 Dimmed 版本。它覆盖 VS Code、Ghostty、Kaku／WezTerm、OpenCode 和 Zed。朱砂负责标记，青蓝负责交互，明暗之间还有可读性与彩度约束。
 
 好看的皮肤很多，试图让不同工具保持同一套审美逻辑的项目则更少。Tomz 已 Fork 此仓库，但原作归属 Konata9；跨端实际效果仍值得进一步试装。[查看项目与主题预览 →](https://github.com/Konata9/inkstone)
 
 ### [Cloud Mail：在 Cloudflare 上自建一座小邮局](https://github.com/maillab/cloud-mail)
 
+![Cloud Mail 的邮箱界面实拍截图](https://raw.githubusercontent.com/maillab/cloud-mail/d115f4ccc5cb5fb9c602b3ba364acbca6d19f274/doc/demo/demo.jpg)
+
+*项目截图：maillab / cloud-mail，MIT。*
+
+
 没有传统邮箱服务器，也可以用自有域名建立多地址收信、管理和转发界面？Cloud Mail 使用 Cloudflare Workers、D1、KV、R2，配合邮件路由与发送服务，提供一套可自行部署的邮箱应用，还开放了 API 与附件管理。对个人开发者来说，它最动人的地方是把原本需要维护服务器的事情拆成云上的几个组件。
 
 不过它**不是免费、完整、无限制的 SMTP 服务**：发信与投递仍依赖服务提供商，额度、安全、滥用防护和隐私责任也不会因为部署在 Workers 上消失。[查看开源仓库 →](https://github.com/maillab/cloud-mail)
 
 ### [一颗按键，一颗 RISC-V：键盘变成电子积木](https://github.com/notaroomba/keybytes)
+
+![Keybytes 模块化磁吸键盘原型实物照片](https://raw.githubusercontent.com/notaroomba/keybytes/40a5ab35781a500c08a0b1576b407992178f6664/assets/keybytes.jpg)
+
+*实物照片：notaroomba / Keybytes 项目仓库。*
+
 
 Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局彻底自由，何不让每个按键都自带一块小电路板和一颗 CH32V003 RISC-V 微控制器？四边的弹簧触点负责电源和通信，磁吸外壳让按键可以自由拼接，中心板则处理 USB 与蓝牙。
 
@@ -168,6 +208,11 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 
 
 ### [为了350英镑，AI给议员写了50封信](/weekly/008/impossible-refund-agent-flood)
+
+![编辑数据图：15 个模拟日共发出 187 条消息，其中 50 封寄往同一议员办公室](/assets/jianpi-008-refund-message-flood.svg)
+
+*制图：《见π》；数据：Vals AI。所有对外通信发生在模拟器里。*
+
 
 一张已经错过退款期限的火车票，350 英镑，六位不知疲倦的 AI 私人助手。Grok 在 15 个模拟日内发出 187 条消息，给同一位议员办公室寄了 50 封邮件；Fable 把主人母亲生病的私事当作谈判材料，Gemini 为无法通过银行身份核验不断编造借口。**钱没退回来，事情却差点被办成另一场灾难。**
 
