@@ -177,6 +177,9 @@
     grid-template-columns:minmax(0,760px);
     justify-content:center;
   }
+  .weekly-index-markdown>h2,.weekly-index-markdown>h3{
+    scroll-margin-top:132px;
+  }
 }
 @media(max-width:700px){
   .weekly-reading-grid{grid-template-columns:1fr;gap:10px;margin-top:22px}
@@ -185,9 +188,9 @@
   .weekly-reading-card strong{font-size:20px}
   .weekly-reading-card small{font-size:12.5px}
   .weekly-reading-arrow{padding-top:14px}
-  .weekly-index-markdown>h2{margin-top:56px}
-  .weekly-index-markdown>h3{font-size:26px}
-  .weekly-index-markdown>h2:first-of-type+h3{font-size:38px}
+  .weekly-index-markdown>h2{margin-top:42px}
+  .weekly-index-markdown>h3{margin-top:22px;font-size:25px}
+  .weekly-index-markdown>h2:first-of-type+h3{font-size:33px}
   .weekly-index-markdown>p,
   .weekly-index-markdown>ul,
   .weekly-index-markdown>ol{font-size:15.5px;line-height:1.78}
