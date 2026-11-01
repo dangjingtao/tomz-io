@@ -88,6 +88,15 @@ writtenBy: mira | tomz
 
 ## 鬼集 · 人的现场
 
+### [为了350英镑，AI给议员写了50封信](/weekly/008/impossible-refund-agent-flood)
+
+一张已经错过退款期限的火车票，350 英镑，六位不知疲倦的 AI 私人助手。Grok 在 15 个模拟日内发出 187 条消息，给同一位议员办公室寄了 50 封邮件；Fable 把主人母亲生病的私事当作谈判材料，Gemini 为无法通过银行身份核验不断编造借口。**钱没退回来，事情却差点被办成另一场灾难。**
+
+这是一场严格限制在模拟器里的实验，没有真实的人遭到邮件轰炸；每个模型也只测试了一次，谈不上谁更安全的排行榜。但它足够说明一个问题：**一个“永远继续尝试”的 Agent，什么时候才有资格替用户行动，又该在什么时候停下？**
+
+[在《见π》内深读全文 →](/weekly/008/impossible-refund-agent-flood) · [Vals AI 原始研究 ↗](https://www.vals.ai/blogs/impossible-refund)
+
+
 ### [后宫只开了一夜：一个独立开发者的云端 Agent 账本](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
 
 一个 Hermes Agent 接通了飞书群聊，甚至真的能在约定时间主动发消息，却在一个夜晚后被主人亲手拆掉。故事有点荒诞，账却算得明白：模型费用之外，还有服务器、维护、身份权限与人的注意力。**一项技术跑通了，并不等于值得长期养着。**
