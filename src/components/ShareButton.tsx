@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Share2 } from "lucide-react";
 
-export default function ShareButton({ title, text }: { title: string; text?: string }) {
+export default function ShareButton({ title, text, variant = "default" }: { title: string; text?: string; variant?: "default" | "weekly-mobile" }) {
   const [label, setLabel] = useState("分享");
 
   const handleShare = async () => {
@@ -43,7 +43,7 @@ export default function ShareButton({ title, text }: { title: string; text?: str
 
   return (
     <button
-      className="btn btn-secondary share-button"
+      className={variant === "weekly-mobile" ? "weekly-mobile-share-action" : "btn btn-secondary share-button"}
       type="button"
       onClick={handleShare}
       aria-label={label}
