@@ -125,8 +125,8 @@ Landes 于是让一个机械臂控制天桥，把桥上那个人也换成模型�
 ## 来源与研究边界
 
 - [Zach Landes：《Jev Meets the Trolley Problem》，2026-10-14](https://zachlandes.com/trolley-problem/) —— 实验原文、互动模拟、模型比较表、完整问题类型和方法说明。本篇数字均据作者公开实验整理，不代表《见π》独立复现实验。
-- [Philippa Foot：《The Problem of Abortion and the Doctrine of the Double Effect》，1967](https://philpapers.org/rec/FOOTPO-2) —— 经典电车问题的早期哲学背景。
-- [Judith Jarvis Thomson：《Killing, Letting Die, and the Trolley Problem》，1976](https://doi.org/10.2307/2215691) —— 行动、伤害与天桥问题的伦理讨论背景。
+- [Philippa Foot：《The Problem of Abortion and the Doctrine of the Double Effect》，1967](https://philpapers.org/versions/FOOTPO-2) —— 经典电车问题的早期哲学背景。
+- [Judith Jarvis Thomson：《Killing, Letting Die, and the Trolley Problem》，1976](https://doi.org/10.5840/monist197659224) —— 行动、伤害与天桥问题的伦理讨论背景。
 - [Awad 等：《Universals and Variations in Moral Decisions Made in 42 Countries by 70,000 Participants》，PNAS，2020](https://doi.org/10.1073/pnas.1911517117) —— 原文引用的人类跨国道德判断研究。研究场景与模型提示并不等价，不能直接计算“AI 比人更道德”的排名。
  
 *《见π》008 深读编辑稿。文章是针对公开实验的独立解读，不是英文原文的完整翻译；“模型自保”在文中描述的是特定文字条件下的选择倾向，不表示已经证明 AI 存在意识、恐惧或真实求生动机。*
