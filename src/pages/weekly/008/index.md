@@ -44,6 +44,20 @@ writtenBy: mira | tomz
 
 [在《见π》内阅读全文 →](/weekly/008/qwen3-coder-and-the-politics-of-trust) · [Hirundo 英文原文 ↗](https://www.hirundo.io/blog/qwen3-coder-vulnerabilities)
 
+## 演讲 · 完整中文译稿
+
+### [2026 年的大模型（到目前为止）](/weekly/008/2026-in-llms-so-far)
+
+![Simon Willison《2026 in LLMs (so far)》演讲封面幻灯片](https://assets.tomz.io/2026-in-llms/simon-willison-2026-in-llms-png.001.webp)
+
+2026 年 9 月 25 日，开发者和开源作者 Simon Willison 在 WeAreDevelopers 北美大会做了一场闭幕演讲。他从 2025 年 11 月编程智能体跨过可靠性门槛讲起，串联 OpenClaw、StrongDM 的“黑灯软件工厂”、开放权重模型、模型安全事件，以及一种奇特的工程师倦怠——**Deep Blue**。
+
+这不是一场新模型排行榜。Willison 也写到自己的 AI 躁狂与失眠、凭感觉做出的无用解释器，以及一个有趣的转变：**当简单的事情都能交给智能体，留给人的事情反而更难。**
+
+本期收录用户提供的中文完整译稿，保留原作者署名、原文链接、演讲视频及全部 **69 张幻灯片**，便于读者在《见π》站内按时间线阅读。原作和配图转载授权尚待正式出版前复核。
+
+[在《见π》内阅读演讲全文 →](/weekly/008/2026-in-llms-so-far) · [Simon Willison 原文 ↗](https://simonwillison.net/2026/Sep/27/2026-in-llms-so-far/) · [演讲视频 ↗](https://www.youtube.com/watch?v=GAkIytR7vcc)
+
 ## 人物
 
 ### [陶哲轩与AI的战争](/weekly/008/terence-tao-ai-war)
