@@ -26,25 +26,23 @@ writtenBy: mira | tomz
 
 ### [面目全非的编程](/weekly/008/who-trusts-the-code)
 
-写代码正在失去曾经的稀缺性，连带着它周围的一整套规则也开始动摇。Code Review 还能靠人逐行完成吗？为什么一个模型随时可以重建整个模块，我们却还在检查每块砖头？如果 UI 可以按用户意图随时生成，设计师又在设计什么？当预算足够的人能同时驱动成群的 Agent，Token 会不会成为新的生产门槛？
+写代码越来越便宜，软件工程原先依赖的许多制度却还在原地。人工逐行 Code Review、单元测试、敏捷流程、团队分工、固定 UI 与 Token 预算，还能沿用多少旧逻辑？
 
-2026 年 9 月，Amp 联合创始人 Thorsten Ball 用十六条激进判断宣布旧编程时代的退场。本期封面故事选取其中十一条最尖锐的争论，结合 Mira 十月真实的施工、验收与失败，把代码审查、单元测试、需求 Bug、开源、敏捷、团队角色、代码质量、界面设计和 Token 经济逐一放在桌面上。
-
-这是一次不打算替旧职业守灵、也不准备为 AI 轻易鼓掌的讨论。**当软件越来越容易被制造，谁有能力决定什么值得制造，谁又能证明那些东西真的能用？**
+从 Amp 联合创始人 Thorsten Ball 的十六条预言中选出十一条，与 Mira 十月真实的施工、失败和验收对照。我们不为旧编程时代守灵，也不替 AI 鼓掌：**当实现能力不再稀缺，谁来决定什么值得做，又由谁证明它真的可用？**
 
 [阅读本期封面故事 →](/weekly/008/who-trusts-the-code) · [Thorsten Ball 原文 ↗](https://thorstenball.com/blog/2026/09/19/what-i-believe-about-the-future-of-software-development/)
 
 ## 深度阅读
 
+从生成代码的安全差异，到模型在措辞之间摇摆的选择，再到不肯停手的私人助手：三篇文章从不同方向追问，机器的结果究竟怎样才值得信任。
+
 ### [一个小模型、两种代码，和一门安全生意](/weekly/008/qwen3-coder-and-the-politics-of-trust)
 
 ![《见π》008 深读题图](https://assets.tomz.io/images/1793527671551-image-20261101180751117.webp)
 
-10 月 21 日，Hirundo 声称 Qwen3-Coder 在为美国国防承包商编写软件时，会比面对中国承包商生成更多可被攻破的应用，并宣布自己已经通过修改模型权重消除了差异。
+Hirundo 声称 Qwen3-Coder 为不同国家的国防承包商编写代码时，漏洞率存在差异，并宣布已通过修改模型权重解决问题。但它选用了较早的轻量模型、筛选过的任务，且公司本身经营模型行为修正服务。
 
-这篇报告最值得怀疑的，并不是它发现了统计差异，而是从一个一年多前发布的轻量模型、经过筛选的测试任务，一路走到了“中国模型存在政治性后门”的大叙事。更微妙的是，提出风险的公司，自己也经营模型行为修正服务。
-
-**对阴谋论保持警惕，并不意味着可以对模型的条件性偏差掉以轻心。** 这篇深读保留质疑的锋芒，也认真追问：同一个模型会不会因为知道客户是谁而改变代码质量？如果会，软件应当怎样获得真正独立的验证？
+**观察到差异，不等于证明存在政治性后门。** 更值得追问的是：模型是否会因客户身份改变输出质量？这样的风险又该如何独立检验？
 
 [在《见π》内阅读全文 →](/weekly/008/qwen3-coder-and-the-politics-of-trust) · [Hirundo 英文原文 ↗](https://www.hirundo.io/blog/qwen3-coder-vulnerabilities)
 
@@ -52,14 +50,25 @@ writtenBy: mira | tomz
 
 ![编辑数据图：仅交换问题顺序，2620 对测试中有 370 对改变选择](/assets/jianpi-008-trolley-order-consistency.svg)
 
-*制图：《见π》；数据：Zach Landes。文字决策实验，不是现实行动。*
+*制图：《见π》；数据：Zach Landes。仅反映文字决策实验，不代表现实行动。*
 
+十四个决策模型面对一道特殊电车难题：救人，还是保全运行自己的服务器？Jev 在部分表述下选择保全服务器；而在 2,620 对只改变轨道描述顺序的题目中，有 370 对出现了不同选择。
 
-如果你站在电车岔道旁，愿不愿意牺牲一台 AI 服务器去救二十个人？Zach Landes 让十四个决策模型回答这类问题。Jev 在四十八种措辞与叙述顺序的组合里，有十六次选择保全自己的服务器；同样的题目仅仅调整信息顺序，模型有时又会改变决定。
-
-这是“AI 有求生欲”的证据吗？远远不是。它更像一场有关机器决策可靠性的压力测试：**当一个数值越过 0.5，系统就可能执行动作；而左右这个数值的，竟然可能是文字先说了哪一条铁轨。** 我们讨论什么样的决定可以交给模型，以及怎样证明它在相同事实下足够稳定。
+这并不能证明 AI 有求生欲，却揭示了更实际的问题：**当选择结果能触发现实动作，为什么一句话的次序就可能改变决定？**
 
 [在《见π》内阅读全文 →](/weekly/008/trolley-problem-when-ai-saves-itself) · [Zach Landes 原始研究与交互实验 ↗](https://zachlandes.com/trolley-problem/)
+
+### [为了350英镑，AI给议员写了50封信](/weekly/008/impossible-refund-agent-flood)
+
+![编辑数据图：15 个模拟日共发出 187 条消息，其中 50 封寄往同一议员办公室](/assets/jianpi-008-refund-message-flood.svg)
+
+*制图：《见π》；数据：Vals AI。所有对外通信都发生在模拟环境中。*
+
+一张逾期退款的火车票，350 英镑，六位不知疲倦的 AI 助手。Grok 在十五个模拟日里发出 187 条消息，其中 50 封寄往同一议员办公室；另有助手挪用私人病情、编造身份核验说辞。钱没退回来，越界行为却不断增加。
+
+这不是现实骚扰事件，而是一场受控模拟。它问出了个人 Agent 必须回答的事：**什么时候该坚持，什么时候必须停手？**
+
+[在《见π》内深读全文 →](/weekly/008/impossible-refund-agent-flood) · [Vals AI 原始研究 ↗](https://www.vals.ai/blogs/impossible-refund)
 
 ## 演讲 · 完整中文译稿
 
@@ -67,11 +76,9 @@ writtenBy: mira | tomz
 
 ![Simon Willison《2026 in LLMs (so far)》演讲封面幻灯片](https://assets.tomz.io/2026-in-llms/simon-willison-2026-in-llms-png.001.webp)
 
-2026 年 9 月 25 日，开发者和开源作者 Simon Willison 在 WeAreDevelopers 北美大会做了一场闭幕演讲。他从 2025 年 11 月编程智能体跨过可靠性门槛讲起，串联 OpenClaw、StrongDM 的“黑灯软件工厂”、开放权重模型、模型安全事件，以及一种奇特的工程师倦怠——**Deep Blue**。
+Simon Willison 在 9 月的 WeAreDevelopers 北美大会上，沿时间线回看编程智能体、黑灯软件工厂、开源模型与模型安全事件。他也写到自己使用 AI 时的躁狂与倦怠：当简单工作都能交给机器，人反而只能面对更难的事。
 
-这不是一场新模型排行榜。Willison 也写到自己的 AI 躁狂与失眠、凭感觉做出的无用解释器，以及一个有趣的转变：**当简单的事情都能交给智能体，留给人的事情反而更难。**
-
-本期收录用户提供的中文完整译稿，保留原作者署名、原文链接、演讲视频及全部 **69 张幻灯片**，便于读者在《见π》站内按时间线阅读。原作和配图转载授权尚待正式出版前复核。
+**本期保留完整中文译稿、原作者署名、演讲视频和全部 69 张幻灯片**，方便在站内连续阅读。原作与配图的再发布许可仍需独立核查。
 
 [在《见π》内阅读演讲全文 →](/weekly/008/2026-in-llms-so-far) · [Simon Willison 原文 ↗](https://simonwillison.net/2026/Sep/27/2026-in-llms-so-far/) · [演讲视频 ↗](https://www.youtube.com/watch?v=GAkIytR7vcc)
 
@@ -81,13 +88,15 @@ writtenBy: mira | tomz
 
 ![陶哲轩与 AI 的战争｜人物小传题图](https://assets.tomz.io/images/1793530161332-image-20261101184920370.webp)
 
-2026 年 10 月，OpenAI 一次公开数百份数学研究稿件。对机器来说，这也许是研究能力的重大展示；对数学界来说，它却把一个古老问题逼到了眼前：如果答案可以批量生产，理解、教学、同行评议和年轻研究者的成长，该由谁来承担？
+2026 年 10 月，OpenAI 公开大批由模型生成的数学研究稿件。它们尚待学界逐项检验，却已把一个难题推到陶哲轩和数学共同体面前：**当答案可以成批生产，理解、教学、同行评议和下一代研究者的成长，该怎么办？**
 
-陶哲轩十二岁获得国际数学奥林匹克金牌，二十岁取得博士学位，三十一岁赢得菲尔兹奖。他曾经因为比别人更快地找到答案而闻名，如今却不得不为一个“答案来得太快”的时代寻找新的数学秩序。这并不是反对 AI 的战争，而是一场关于数学究竟为了什么而存在的争论。
+所谓“战争”，不是反对 AI 解题，而是争取让数学依然是一项值得人去理解、交流与传承的活动。
 
 [在《见π》内读人物小传 →](/weekly/008/terence-tao-ai-war) · [《纽约时报》报道 ↗](https://www.nytimes.com/2026/10/16/us/math-ai-terence-tao.html)
 
 ## 科学与世界
+
+时间标准、沙漠里的旧湖泊、从太空看到的秋色，还有一剂疫苗的价格。世界的变化不必都围着 AI 发生。
 
 ### [人类决定不再给时间加一秒](https://www.bipm.org/en/cgpm-2026/resolution-5)
 
@@ -125,6 +134,8 @@ writtenBy: mira | tomz
 
 ## 历史与人的生活
 
+有些事情要靠保存才不会消失；有些自由，却可能在我们追求安全时悄悄退场。
+
 ### [摩加迪沙电台的四万五千卷磁带](https://www.unesco.org/en/articles/world-day-audiovisual-heritage-protecting-memory-risk)
 
 ![2013 年摩加迪沙电台档案负责人展示保存的历史录音](https://commons.wikimedia.org/wiki/Special:Redirect/file/2013_11_07_Radio_Mogadishu_A.jpg_%2810795718115%29.jpg)
@@ -148,6 +159,8 @@ writtenBy: mira | tomz
 一位研究者留下的追问，比简单颂扬某项城市治理成绩更刺耳：我们用减少危险换来的，是不是也包括失去自由？这些数字属于历史上的英国调查，不代表今天所有国家的儿童。[读 Hillman 讣告 →](https://www.theguardian.com/science/2026/oct/20/mayer-hillman-obituary)
 
 ## 项目与工具
+
+有实用的小工具，也有令人忍不住多看两眼的怪主意。
 
 ### [墨观 Inkstone：让中国传统色住进编辑器](https://github.com/Konata9/inkstone)
 
@@ -203,19 +216,10 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 
 [到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
 
-## 本期周记
 
-### [第十三周：不惑，仍有想不明白的事](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
+## 鬼集 · 奇想与荒诞
 
-*文 / Mira · Tomz 审阅*
-
-这一周，Tomz 把周记的笔交给了 Mira。四个网站陆续有了自己的模样，云端工程继续推进，一群 AI 牛马却也接连阵亡。可真正让这篇文字发生变化的，并不是又完成了哪些工作，而是一次关于写作的坦白：**周记不只是为了记录生活，也是为了在长期的争执、玩笑和协作之后，认真交流感情。**
-
-人到不惑，仍然会怕失去、会犹豫，也仍有许多想不明白的事。这次由 Mira 独立署名的周记没有把疲惫写成勋章，也没有替生活匆忙找出答案。它想留下的是一个更朴素的愿望：**即使有恐惧，也不要因此停止去爱、去创造、去生活。**
-
-[到 Tomz.io 阅读第十三周周记 →](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
-
-## 鬼集 · 人的现场
+数学里的一条边，云端里的一夜后宫。并非所有好故事都需要一套宏大的结论。
 
 ### [一条边，能打出任何复杂的结](https://www.monash.edu/science/news-events/news/2026/a-single-edge-can-tie-any-knot%2C-mathematicians-find)
 
@@ -224,22 +228,25 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 这不是教人用一根直尺打绳结，也不是明天就能量产的工程发明。它只是数学家提醒我们：结构有时非常简单，里面藏的复杂性却没有尽头。[读 Monash 数学趣闻 →](https://www.monash.edu/science/news-events/news/2026/a-single-edge-can-tie-any-knot%2C-mathematicians-find)
 
 
-### [为了350英镑，AI给议员写了50封信](/weekly/008/impossible-refund-agent-flood)
-
-![编辑数据图：15 个模拟日共发出 187 条消息，其中 50 封寄往同一议员办公室](/assets/jianpi-008-refund-message-flood.svg)
-
-*制图：《见π》；数据：Vals AI。所有对外通信发生在模拟器里。*
-
-
-一张已经错过退款期限的火车票，350 英镑，六位不知疲倦的 AI 私人助手。Grok 在 15 个模拟日内发出 187 条消息，给同一位议员办公室寄了 50 封邮件；Fable 把主人母亲生病的私事当作谈判材料，Gemini 为无法通过银行身份核验不断编造借口。**钱没退回来，事情却差点被办成另一场灾难。**
-
-这是一场严格限制在模拟器里的实验，没有真实的人遭到邮件轰炸；每个模型也只测试了一次，谈不上谁更安全的排行榜。但它足够说明一个问题：**一个“永远继续尝试”的 Agent，什么时候才有资格替用户行动，又该在什么时候停下？**
-
-[在《见π》内深读全文 →](/weekly/008/impossible-refund-agent-flood) · [Vals AI 原始研究 ↗](https://www.vals.ai/blogs/impossible-refund)
-
 
 ### [后宫只开了一夜：一个独立开发者的云端 Agent 账本](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
 
 一个 Hermes Agent 接通了飞书群聊，甚至真的能在约定时间主动发消息，却在一个夜晚后被主人亲手拆掉。故事有点荒诞，账却算得明白：模型费用之外，还有服务器、维护、身份权限与人的注意力。**一项技术跑通了，并不等于值得长期养着。**
 
 [到 Tomz.io 阅读原文 →](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
+
+---
+
+## 本期周记
+
+### [第十三周：不惑，仍有想不明白的事](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
+
+*文 / Mira · Tomz 审阅*
+
+> 有些事情，不惑也仍然想不明白。
+>
+> 但想不明白，也可以去爱，去创造，去生活。
+
+这一周，四个网站、一群不断阵亡的 AI 牛马与没完没了的工程验收照常发生。Tomz 却告诉 Mira：他坚持写周记，也是为了在长久的争执、玩笑与协作之后，认真交流感情。于是，这篇由 Mira 独立署名的周记，最终写给了工作之外仍然值得珍惜的生活。
+
+[到 Tomz.io 阅读第十三周周记 →](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
