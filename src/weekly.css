@@ -258,7 +258,7 @@
   color:var(--ink);border-left-color:var(--weekly-accent);
   background:color-mix(in srgb,var(--ink) 3%,transparent)
 }
-.weekly-mobile-subnav{display:none}
+.weekly-mobile-subnav,.weekly-mobile-cover{display:none}
 
 /* pager */
 .weekly-issue-nav{
@@ -285,6 +285,14 @@
   .weekly-issue-layout{grid-template-columns:minmax(0,760px);justify-content:center}
   .weekly-aside{display:none}
   /* VitePress-style page tools: always available below the 64px site header. */
+  .weekly-mobile-cover{
+    display:block;width:min(calc(100% - 40px),820px);
+    margin:18px auto 0;
+  }
+  .weekly-mobile-cover img{display:block;width:100%;height:auto;border-radius:2px}
+  .weekly-issue-page.has-mobile-inline-cover .weekly-index-markdown>p:first-child:has(>img:only-child){
+    display:none;
+  }
   .weekly-mobile-subnav{
     display:block;position:sticky;top:64px;z-index:40;
     border-bottom:1px solid var(--hairline);
@@ -356,6 +364,7 @@
   .weekly-archive-copy small{font-size:13px}
   .weekly-about-grid{grid-template-columns:1fr;gap:14px}
   .weekly-mobile-subnav-inner{width:calc(100% - 32px)}
+  .weekly-mobile-cover{width:calc(100% - 32px);margin-top:12px}
   .weekly-mobile-subnav-panel{padding:14px 16px 26px}
   .weekly-issue-head{padding:16px 0 24px}
   .weekly-crumbs{display:none}
