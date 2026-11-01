@@ -1,6 +1,7 @@
 .weekly-issue-index-layout{
-  grid-template-columns:minmax(0,1fr);
-  justify-content:stretch;
+  /* Magazine issue indexes share the right-hand chapter navigation. */
+  grid-template-columns:minmax(0,800px) minmax(220px,260px);
+  justify-content:space-between;
 }
 
 .weekly-index-markdown{
@@ -53,7 +54,6 @@
   .weekly-index-markdown>ul,
   .weekly-index-markdown>ol{max-width:min(100%,840px)}
   .weekly-index-markdown>p:has(>img:only-child){max-width:min(100%,960px)}
-  .weekly-index-markdown>p:first-child:has(>img:only-child){max-width:min(100%,560px)}
 }
 .weekly-index-markdown strong{color:var(--ink)}
 .weekly-index-markdown>p:has(>a:only-child){
@@ -172,6 +172,12 @@
   font:500 18px/1.4 var(--weekly-serif);
 }
 
+@media(max-width:920px){
+  .weekly-issue-index-layout{
+    grid-template-columns:minmax(0,760px);
+    justify-content:center;
+  }
+}
 @media(max-width:700px){
   .weekly-reading-grid{grid-template-columns:1fr;gap:10px;margin-top:22px}
   .weekly-reading-card{min-height:0;padding:17px 16px 15px}
