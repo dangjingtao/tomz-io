@@ -193,6 +193,9 @@ export function WeeklyIssuePage({
   const { issueIndex, previousIssue, nextIssue } = issueNeighbors(doc);
   const issuePath = issueIndex?.path || weeklyIssuePath(doc);
   const resolvedHtml = resolveWeeklyMarkdownUrls(html);
+  const mobileIssueCover = isIssueIndex && doc.cover?.trim() ? resolveCoverSource(doc) : "";
+  const firstInlineImage = doc.source.trimStart().match(/^!\[[^\]]*\]\(([^)\s]+)\)/)?.[1];
+  const duplicatesMobileCover = Boolean(mobileIssueCover && firstInlineImage === doc.cover?.trim());
   const activeHeading = useActiveHeading(doc.headings, {
     enabled: doc.headings.length > 0,
     rootMargin: "-125px 0px -65% 0px",
@@ -211,7 +214,7 @@ export function WeeklyIssuePage({
   }, [tocOpen]);
 
   return (
-    <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}`}>
+    <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}${duplicatesMobileCover ? " has-mobile-inline-cover" : ""}`}>
       <div className="weekly-mobile-subnav" role="navigation" aria-label="见π阅读工具">
         <div className="weekly-mobile-subnav-inner">
           {doc.headings.length ? (
@@ -255,6 +258,14 @@ export function WeeklyIssuePage({
           </nav>
         ) : null}
       </div>
+      {mobileIssueCover ? (
+        <div className="weekly-mobile-cover">
+          <img
+            src={mobileIssueCover}
+            alt={`《见π》NO.${issue} 封面`}
+          />
+        </div>
+      ) : null}
       <header className="weekly-issue-head weekly-frame">
         <nav className="weekly-crumbs" aria-label="面包屑">
           <Link to="/weekly">见π</Link><span>/</span>
