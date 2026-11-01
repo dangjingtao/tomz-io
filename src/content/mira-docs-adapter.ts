@@ -139,19 +139,22 @@ function inferDocAuthors(
 function siteHeadings(source: string, includeSubheadings = false): Doc["headings"] {
   const headings: MiraHeading[] = extractHeadings(source);
   const seen = new Set<string>();
-  return headings
-    .filter((heading: MiraHeading) => heading.depth === 2 || (includeSubheadings && heading.depth === 3))
-    .filter((heading: MiraHeading) => {
-      const id = slug(heading.text);
-      if (!id || seen.has(id)) return false;
-      seen.add(id);
-      return true;
-    })
-    .map((heading: MiraHeading) => ({
-      text: heading.text,
-      id: slug(heading.text),
-      depth: heading.depth as 2 | 3,
-    }));
+  const result: Doc["headings"] = [];
+  for (const heading of headings) {
+    if (heading.depth !== 2 && !(includeSubheadings && heading.depth === 3)) continue;
+    // Issue index H3 entries may be Markdown links; the rendered heading anchor
+    // uses visible link text, not the source URL or Markdown punctuation.
+    const text = heading.text
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .replace(/[`*_~]/g, "")
+      .trim();
+    const id = slug(text);
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    result.push({ text, id, depth: heading.depth as 2 | 3 });
+  }
+  return result;
 }
 
 function adaptSiteDoc(core: MiraDoc): Doc {
@@ -192,7 +195,7 @@ function adaptSiteDoc(core: MiraDoc): Doc {
     mergeIndex: dataString(core.data, "mergeIndex") === "true",
     ...authorInfo,
     ...contentTime,
-    headings: siteHeadings(core.body, root === "weekly" && !/\/index\.md$/i.test(core.sourcePath)),
+    headings: siteHeadings(core.body, root === "weekly"),
   };
 }
 
@@ -236,7 +239,7 @@ export const allDocs = parsedDocs
       ...doc,
       source: mergedSource,
       modifiedAt: latestModifiedAt(mergedSections.map((section) => section.modifiedAt)),
-      headings: siteHeadings(mergedSource, doc.root === "weekly" && !/\/index\.md$/i.test(doc.sourcePath)),
+      headings: siteHeadings(mergedSource, doc.root === "weekly"),
     };
   })
   .sort(compareDocs);
