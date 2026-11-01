@@ -1,3 +1,5 @@
+import { useEffect, useId, useState } from "react";
+import { ChevronDown, List, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import RenderedMarkdown from "../../components/RenderedMarkdown";
 import { useActiveHeading } from "../../hooks/useActiveHeading";
@@ -193,11 +195,65 @@ export function WeeklyIssuePage({
   const resolvedHtml = resolveWeeklyMarkdownUrls(html);
   const activeHeading = useActiveHeading(doc.headings, {
     enabled: doc.headings.length > 0,
-    rootMargin: "-100px 0px -65% 0px",
+    rootMargin: "-125px 0px -65% 0px",
   });
+  const [tocOpen, setTocOpen] = useState(false);
+  const tocId = useId();
+
+  useEffect(() => setTocOpen(false), [doc.path]);
+  useEffect(() => {
+    if (!tocOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setTocOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [tocOpen]);
 
   return (
     <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}`}>
+      <div className="weekly-mobile-subnav" aria-label="见π阅读工具">
+        <div className="weekly-mobile-subnav-inner">
+          {doc.headings.length ? (
+            <button
+              className="weekly-mobile-subnav-toc"
+              type="button"
+              aria-expanded={tocOpen}
+              aria-controls={tocId}
+              onClick={() => setTocOpen((open) => !open)}
+            >
+              {tocOpen ? <X size={17} aria-hidden="true" /> : <List size={17} aria-hidden="true" />}
+              <span>{isIssueIndex ? "本期目录" : "文章目录"}</span>
+              <ChevronDown className={tocOpen ? "is-open" : ""} size={14} aria-hidden="true" />
+            </button>
+          ) : <span className="weekly-mobile-subnav-label">见π · NO.{issue}</span>}
+          <div className="weekly-mobile-subnav-share">
+            <ShareButton title={doc.title} text={doc.description} />
+          </div>
+        </div>
+        {tocOpen && doc.headings.length ? (
+          <>
+            <div
+              className="weekly-mobile-subnav-backdrop"
+              aria-hidden="true"
+              onClick={() => setTocOpen(false)}
+            />
+            <nav
+              className="weekly-mobile-subnav-panel"
+              id={tocId}
+              aria-label={isIssueIndex ? "本期栏目目录" : "文章章节目录"}
+              onClick={(event) => {
+                if ((event.target as HTMLElement).closest('a[href^="#"]')) setTocOpen(false);
+              }}
+            >
+              <p className="weekly-mobile-subnav-panel-label">
+                {isIssueIndex ? "本期栏目" : "阅读章节"} · {groupWeeklyToc(doc.headings).length}
+              </p>
+              <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
+            </nav>
+          </>
+        ) : null}
+      </div>
       <header className="weekly-issue-head weekly-frame">
         <nav className="weekly-crumbs" aria-label="面包屑">
           <Link to="/weekly">见π</Link><span>/</span>
@@ -230,15 +286,6 @@ export function WeeklyIssuePage({
 
       <div className={`weekly-frame weekly-issue-layout${isIssueIndex ? " weekly-issue-index-layout" : ""}`}>
         <div className="weekly-article">
-          {doc.headings.length ? (
-            <details className="weekly-mobile-toc">
-              <summary>{isIssueIndex ? "本期目录" : "文章目录"} · {groupWeeklyToc(doc.headings).length} 章</summary>
-              <nav aria-label={isIssueIndex ? "本期栏目" : "文章章节"}>
-                <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
-              </nav>
-            </details>
-          ) : null}
-
           <RenderedMarkdown
             html={resolvedHtml}
             className={`markdown blog-markdown ${isIssueIndex ? "weekly-index-markdown" : "weekly-markdown"}`}
