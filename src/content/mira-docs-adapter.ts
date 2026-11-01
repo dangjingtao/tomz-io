@@ -42,7 +42,7 @@ export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   publishedAt?: string;
   publishedPrecision?: ContentTimePrecision;
   modifiedAt?: string;
-  headings: { text: string; id: string }[];
+  headings: { text: string; id: string; depth?: 2 | 3 }[];
 };
 
 function dataString(data: Record<string, unknown>, key: string): string | undefined {
@@ -136,11 +136,11 @@ function inferDocAuthors(
   };
 }
 
-function legacyLevelTwoHeadings(source: string): Doc["headings"] {
+function siteHeadings(source: string, includeSubheadings = false): Doc["headings"] {
   const headings: MiraHeading[] = extractHeadings(source);
   const seen = new Set<string>();
   return headings
-    .filter((heading: MiraHeading) => heading.depth === 2)
+    .filter((heading: MiraHeading) => heading.depth === 2 || (includeSubheadings && heading.depth === 3))
     .filter((heading: MiraHeading) => {
       const id = slug(heading.text);
       if (!id || seen.has(id)) return false;
@@ -150,6 +150,7 @@ function legacyLevelTwoHeadings(source: string): Doc["headings"] {
     .map((heading: MiraHeading) => ({
       text: heading.text,
       id: slug(heading.text),
+      depth: heading.depth as 2 | 3,
     }));
 }
 
@@ -191,7 +192,7 @@ function adaptSiteDoc(core: MiraDoc): Doc {
     mergeIndex: dataString(core.data, "mergeIndex") === "true",
     ...authorInfo,
     ...contentTime,
-    headings: legacyLevelTwoHeadings(core.body),
+    headings: siteHeadings(core.body, root === "weekly" && !/\/index\.md$/i.test(core.sourcePath)),
   };
 }
 
@@ -235,7 +236,7 @@ export const allDocs = parsedDocs
       ...doc,
       source: mergedSource,
       modifiedAt: latestModifiedAt(mergedSections.map((section) => section.modifiedAt)),
-      headings: legacyLevelTwoHeadings(mergedSource),
+      headings: siteHeadings(mergedSource, doc.root === "weekly" && !/\/index\.md$/i.test(doc.sourcePath)),
     };
   })
   .sort(compareDocs);
