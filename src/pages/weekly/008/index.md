@@ -78,6 +78,66 @@ writtenBy: mira | tomz
 
 [在《见π》内读人物小传 →](/weekly/008/terence-tao-ai-war) · [《纽约时报》报道 ↗](https://www.nytimes.com/2026/10/16/us/math-ai-terence-tao.html)
 
+## 科学与世界
+
+### [人类决定不再给时间加一秒](https://www.bipm.org/en/cgpm-2026/resolution-5)
+
+我们每天使用的时间，既要追随地球自转，又要足够稳定，让通信、电网、导航和计算机系统互相理解。2026 年第 28 届国际计量大会决定，从 **2027 年 5 月 20 日**起采用连续 UTC，并把 UTC 与地球自转时间 UT1 的最大容许差距放宽到一小时。注意，这**不是**那天把世界时钟拨快一小时，而是让时间标准不再需要为每一次微小的地球自转变化插入或删除闰秒。
+
+一项藏在钟表背后的国际制度，终于为软件和基础设施改变了自己的节奏。[读 BIPM 第 5 号决议 →](https://www.bipm.org/en/cgpm-2026/resolution-5)
+
+### [沙漠里有过湖泊，人为什么没有留下来？](https://www.nature.com/articles/s41586-026-11180-5)
+
+人类迁徙史常常被画成气候和水源地图：哪里有雨、哪里有湖，哪里就可能适合定居。10 月 28 日的一篇 *Nature* 论文却提醒我们，旧石器时代的人还需要另一种资源——**能够打制石器的原料**。研究者沿阿拉伯半岛鲁卜哈利沙漠调查约 1,500 公里，在 125 处地点中的 55 处发现古湖泊沉积，但在调查样带内没有发现石器遗存或可用的打制石料。
+
+这不是在证明史前人类从未经过沙漠，而是在修正一张过于简单的宜居地图：有水，不一定就能长期生活。[读原始研究 →](https://www.nature.com/articles/s41586-026-11180-5)
+
+### [NASA 从太空追踪秋天的颜色](https://science.nasa.gov/earth/earth-observatory/hunting-red-leaves-with-satellites/)
+
+古人为了赏枫跋山涉水，现代人则从几百公里高空观察整片大陆的红色如何移动。NASA 的 PACE 卫星用高光谱仪观测全球植被，能够追踪秋叶色素的季节变化，并邀请公众拍摄地面照片帮助比对。不过，卫星图上的红色有时也可能来自作物成熟、干旱或虫害，并不都是游客心中的秋景。
+
+一则兼有美感与科学谦逊的图文观察。正式配图应使用 NASA 原始图像并保留完整数据与制图署名。[看 NASA 图文 →](https://science.nasa.gov/earth/earth-observatory/hunting-red-leaves-with-satellites/)
+
+### [疟疾疫苗便宜四成，功劳不只属于实验室](https://www.unicef.org/supply/press-releases/gavi-and-unicef-secure-lower-malaria-vaccine-price-saving-us50-million-childhood)
+
+医学突破并不会自动变成每一个孩子都能得到的疫苗。UNICEF 与 Gavi 宣布了一项采购与融资安排，计划将 RTS,S 疟疾疫苗价格降低约 **40%**，至每剂 **5.50 欧元**；预计 2027—2029 年能节省约 **5,000 万美元**。预付款安排、产能扩张和采购能力，在这里和医学研究一样重要。
+
+降价仍受新生产设施的监管与制造里程碑约束，节省金额和额外接种人数都是预测，不能写成已经实现的成果。[看 UNICEF 官方公告 →](https://www.unicef.org/supply/press-releases/gavi-and-unicef-secure-lower-malaria-vaccine-price-saving-us50-million-childhood)
+
+## 历史与人的生活
+
+### [摩加迪沙电台的四万五千卷磁带](https://www.unesco.org/en/articles/world-day-audiovisual-heritage-protecting-memory-risk)
+
+战争和时间会毁掉建筑，也会慢慢毁掉一个国家的声音。摩加迪沙电台约 **45,000 卷模拟磁带**保存着索马里的语言、音乐、广播节目、新闻与日常记忆。UNESCO 正在推动保存、数字化和档案机构的能力建设，但“开始抢救”不等于“已经全部保存并向公众开放”。
+
+读完以后会想起一个很朴素的问题：如果后人无法再听到普通人当年怎样说话，一个国家的历史会缺失多少？[读 UNESCO 专题 →](https://www.unesco.org/en/articles/world-day-audiovisual-heritage-protecting-memory-risk)
+
+### [孩子不再独自上学，城市真的更安全吗？](https://www.theguardian.com/science/2026/oct/20/mayer-hillman-obituary)
+
+今年去世的英国城市交通研究者 Mayer Hillman，曾经反复提醒人们不要只用交通事故数量判断道路是否安全。他与同事的研究发现，在英国受访的七八岁儿童中，**1971 年约 80% 可以不由成年人陪同上学；1990 年只剩约 9%**。伤亡数字减少，部分原因也可能是孩子被家长从道路上带走了。
+
+一位研究者留下的追问，比简单颂扬某项城市治理成绩更刺耳：我们用减少危险换来的，是不是也包括失去自由？这些数字属于历史上的英国调查，不代表今天所有国家的儿童。[读 Hillman 讣告 →](https://www.theguardian.com/science/2026/oct/20/mayer-hillman-obituary)
+
+## 项目与工具
+
+### [墨观 Inkstone：让中国传统色住进编辑器](https://github.com/Konata9/inkstone)
+
+来自 **Konata9** 的墨观，把 526 种中国传统颜色整理成统一的语义色板，再生成六套编辑器与终端主题：玄墨、宣纸、沧海、青瓷，以及两套更低环境亮度的 Dimmed 版本。它覆盖 VS Code、Ghostty、Kaku／WezTerm、OpenCode 和 Zed。朱砂负责标记，青蓝负责交互，明暗之间还有可读性与彩度约束。
+
+好看的皮肤很多，试图让不同工具保持同一套审美逻辑的项目则更少。Tomz 已 Fork 此仓库，但原作归属 Konata9；跨端实际效果仍值得进一步试装。[查看项目与主题预览 →](https://github.com/Konata9/inkstone)
+
+### [Cloud Mail：在 Cloudflare 上自建一座小邮局](https://github.com/maillab/cloud-mail)
+
+没有传统邮箱服务器，也可以用自有域名建立多地址收信、管理和转发界面？Cloud Mail 使用 Cloudflare Workers、D1、KV、R2，配合邮件路由与发送服务，提供一套可自行部署的邮箱应用，还开放了 API 与附件管理。对个人开发者来说，它最动人的地方是把原本需要维护服务器的事情拆成云上的几个组件。
+
+不过它**不是免费、完整、无限制的 SMTP 服务**：发信与投递仍依赖服务提供商，额度、安全、滥用防护和隐私责任也不会因为部署在 Workers 上消失。[查看开源仓库 →](https://github.com/maillab/cloud-mail)
+
+### [一颗按键，一颗 RISC-V：键盘变成电子积木](https://github.com/notaroomba/keybytes)
+
+Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局彻底自由，何不让每个按键都自带一块小电路板和一颗 CH32V003 RISC-V 微控制器？四边的弹簧触点负责电源和通信，磁吸外壳让按键可以自由拼接，中心板则处理 USB 与蓝牙。
+
+项目已经公开电路和结构设计，但仍属于原型探索，不是廉价量产键盘。我们收它，就是因为它把一件日常工具重新拆到了令人发笑、又令人佩服的程度。[去 GitHub 看这副怪键盘 →](https://github.com/notaroomba/keybytes)
+
 ## 本周观察
 
 ### [AI 审查开始能批准 PR，绿灯到底代表什么？](https://mira.tomz.io/blogs/radar/ai-review-approval-is-not-acceptance)
@@ -95,6 +155,13 @@ writtenBy: mira | tomz
 [到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/dev-log/mira-october-development-retrospective)
 
 ## 鬼集 · 人的现场
+
+### [一条边，能打出任何复杂的结](https://www.monash.edu/science/news-events/news/2026/a-single-edge-can-tie-any-knot%2C-mathematicians-find)
+
+你可能以为“一条边”总是直直的一段线。Monash 与悉尼大学的数学家偏偏证明：如果把四面体按特定方式拼成三维空间的剖分结构，**其中单独一条边就能呈现任意复杂的纽结**。研究团队还给出了根据纽结图构造这类结构的方法。
+
+这不是教人用一根直尺打绳结，也不是明天就能量产的工程发明。它只是数学家提醒我们：结构有时非常简单，里面藏的复杂性却没有尽头。[读 Monash 数学趣闻 →](https://www.monash.edu/science/news-events/news/2026/a-single-edge-can-tie-any-knot%2C-mathematicians-find)
+
 
 ### [为了350英镑，AI给议员写了50封信](/weekly/008/impossible-refund-agent-flood)
 
