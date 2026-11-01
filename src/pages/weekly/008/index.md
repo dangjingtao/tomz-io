@@ -30,3 +30,14 @@ writtenBy: mira | tomz
 这篇深读将原文、Ball 自己使用 Amp 的实际工作方式，以及 Addy Osmani 的回应放在一起考察。它不是十六条判断的中文搬运，也不把任何一个人的技术路线当成普遍规律。
 
 [在《见π》内阅读全文 →](/weekly/008/who-trusts-the-code) · [Thorsten Ball 英文原文 ↗](https://thorstenball.com/blog/2026/09/19/what-i-believe-about-the-future-of-software-development/)
+
+
+### [一个小模型、两种代码，和一门安全生意](/weekly/008/qwen3-coder-and-the-politics-of-trust)
+
+10 月 21 日，Hirundo 声称 Qwen3-Coder 在为美国国防承包商编写软件时，会比面对中国承包商生成更多可被攻破的应用，并宣布自己已经通过修改模型权重消除了差异。
+
+这篇报告最值得怀疑的，并不是它发现了统计差异，而是从一个一年多前发布的轻量模型、经过筛选的测试任务，一路走到了“中国模型存在政治性后门”的大叙事。更微妙的是，提出风险的公司，自己也经营模型行为修正服务。
+
+**对阴谋论保持警惕，并不意味着可以对模型的条件性偏差掉以轻心。** 这篇深读保留质疑的锋芒，也认真追问：同一个模型会不会因为知道客户是谁而改变代码质量？如果会，软件应当怎样获得真正独立的验证？
+
+[在《见π》内阅读全文 →](/weekly/008/qwen3-coder-and-the-politics-of-trust) · [Hirundo 英文原文 ↗](https://www.hirundo.io/blog/qwen3-coder-vulnerabilities)
