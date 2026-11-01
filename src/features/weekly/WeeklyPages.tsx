@@ -206,11 +206,16 @@ export function WeeklyIssuePage({
   useEffect(() => setTocOpen(false), [doc.path]);
   useEffect(() => {
     if (!tocOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setTocOpen(false);
     };
     window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
   }, [tocOpen]);
 
   return (
@@ -235,9 +240,10 @@ export function WeeklyIssuePage({
           </div>
         </div>
         {tocOpen && doc.headings.length ? (
-          <div
+          <button
+            type="button"
             className="weekly-mobile-subnav-backdrop"
-            aria-hidden="true"
+            aria-label="关闭目录"
             onClick={() => setTocOpen(false)}
           />
         ) : null}
