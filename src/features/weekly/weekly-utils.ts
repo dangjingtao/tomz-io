@@ -28,3 +28,24 @@ export function weeklyIssueIndexDocs(docs: Doc[]) {
 export function weeklyIssuePath(doc: Doc) {
   return `/weekly/${String(weeklyIssueNumber(doc)).padStart(3, "0")}`;
 }
+
+export type WeeklyTocHeading = Pick<Doc["headings"][number], "id" | "text" | "depth">;
+
+export type WeeklyTocGroup = {
+  heading: WeeklyTocHeading;
+  children: WeeklyTocHeading[];
+};
+
+/** H2 chapters and their H3 sections. Older H2-only issues remain flat. */
+export function groupWeeklyToc(headings: readonly WeeklyTocHeading[]): WeeklyTocGroup[] {
+  const groups: WeeklyTocGroup[] = [];
+  for (const heading of headings) {
+    if (heading.depth === 3 && groups.length) {
+      groups[groups.length - 1].children.push(heading);
+    } else {
+      // Treat an orphan H3 as a top-level entry, never hide navigable content.
+      groups.push({ heading, children: [] });
+    }
+  }
+  return groups;
+}
