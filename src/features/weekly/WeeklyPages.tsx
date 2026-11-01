@@ -212,7 +212,7 @@ export function WeeklyIssuePage({
 
   return (
     <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}`}>
-      <div className="weekly-mobile-subnav" aria-label="见π阅读工具">
+      <div className="weekly-mobile-subnav" role="navigation" aria-label="见π阅读工具">
         <div className="weekly-mobile-subnav-inner">
           {doc.headings.length ? (
             <button
@@ -232,26 +232,27 @@ export function WeeklyIssuePage({
           </div>
         </div>
         {tocOpen && doc.headings.length ? (
-          <>
-            <div
-              className="weekly-mobile-subnav-backdrop"
-              aria-hidden="true"
-              onClick={() => setTocOpen(false)}
-            />
-            <nav
-              className="weekly-mobile-subnav-panel"
-              id={tocId}
-              aria-label={isIssueIndex ? "本期栏目目录" : "文章章节目录"}
-              onClick={(event) => {
-                if ((event.target as HTMLElement).closest('a[href^="#"]')) setTocOpen(false);
-              }}
-            >
-              <p className="weekly-mobile-subnav-panel-label">
-                {isIssueIndex ? "本期栏目" : "阅读章节"} · {groupWeeklyToc(doc.headings).length}
-              </p>
-              <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
-            </nav>
-          </>
+          <div
+            className="weekly-mobile-subnav-backdrop"
+            aria-hidden="true"
+            onClick={() => setTocOpen(false)}
+          />
+        ) : null}
+        {doc.headings.length ? (
+          <nav
+            className="weekly-mobile-subnav-panel"
+            id={tocId}
+            hidden={!tocOpen}
+            aria-label={isIssueIndex ? "本期栏目目录" : "文章章节目录"}
+            onClick={(event) => {
+              if ((event.target as HTMLElement).closest('a[href^="#"]')) setTocOpen(false);
+            }}
+          >
+            <p className="weekly-mobile-subnav-panel-label">
+              {isIssueIndex ? "本期栏目" : "阅读章节"} · {groupWeeklyToc(doc.headings).length}
+            </p>
+            <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
+          </nav>
         ) : null}
       </div>
       <header className="weekly-issue-head weekly-frame">
