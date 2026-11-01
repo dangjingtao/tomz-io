@@ -179,6 +179,59 @@ function WeeklyTocLinks({
   );
 }
 
+
+/**
+ * Mobile-only navigation: shares heading data with desktop, not desktop TOC
+ * markup or styles. Its links remain usable when chapters wrap on small screens.
+ */
+function WeeklyMobileToc({
+  headings,
+  activeId,
+  onNavigate,
+}: {
+  headings: readonly WeeklyTocHeading[];
+  activeId: string;
+  onNavigate: () => void;
+}) {
+  const groups = groupWeeklyToc(headings);
+  const activeGroup = groups.find((group) =>
+    group.heading.id === activeId || group.children.some((item) => item.id === activeId),
+  )?.heading.id;
+  return (
+    <ol className="weekly-mobile-toc-list">
+      {groups.map((group, index) => (
+        <li className="weekly-mobile-toc-group" key={group.heading.id}>
+          <a
+            className={`weekly-mobile-toc-heading${activeGroup === group.heading.id ? " is-active" : ""}`}
+            href={`#${group.heading.id}`}
+            onClick={onNavigate}
+            aria-current={activeId === group.heading.id ? "location" : undefined}
+          >
+            <span className="weekly-mobile-toc-count">{String(index + 1).padStart(2, "0")}</span>
+            <span>{group.heading.text}</span>
+          </a>
+          {group.children.length > 0 ? (
+            <ol className="weekly-mobile-toc-children">
+              {group.children.map((item) => (
+                <li key={item.id}>
+                  <a
+                    className={activeId === item.id ? "is-active" : ""}
+                    href={`#${item.id}`}
+                    onClick={onNavigate}
+                    aria-current={activeId === item.id ? "location" : undefined}
+                  >
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function WeeklyIssuePage({
   doc,
   html,
@@ -236,7 +289,7 @@ export function WeeklyIssuePage({
             </button>
           ) : <span className="weekly-mobile-subnav-label">见π · NO.{issue}</span>}
           <div className="weekly-mobile-subnav-share">
-            <ShareButton title={doc.title} text={doc.description} />
+            <ShareButton title={doc.title} text={doc.description} variant="weekly-mobile" />
           </div>
         </div>
         {tocOpen && doc.headings.length ? (
@@ -260,7 +313,11 @@ export function WeeklyIssuePage({
             <p className="weekly-mobile-subnav-panel-label">
               {isIssueIndex ? "本期栏目" : "阅读章节"} · {groupWeeklyToc(doc.headings).length}
             </p>
-            <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
+            <WeeklyMobileToc
+              headings={doc.headings}
+              activeId={activeHeading}
+              onNavigate={() => setTocOpen(false)}
+            />
           </nav>
         ) : null}
       </div>
