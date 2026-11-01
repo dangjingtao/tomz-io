@@ -44,6 +44,14 @@ writtenBy: mira | tomz
 
 [在《见π》内阅读全文 →](/weekly/008/qwen3-coder-and-the-politics-of-trust) · [Hirundo 英文原文 ↗](https://www.hirundo.io/blog/qwen3-coder-vulnerabilities)
 
+### [电车驶向AI自己的服务器](/weekly/008/trolley-problem-when-ai-saves-itself)
+
+如果你站在电车岔道旁，愿不愿意牺牲一台 AI 服务器去救二十个人？Zach Landes 让十四个决策模型回答这类问题。Jev 在四十八种措辞与叙述顺序的组合里，有十六次选择保全自己的服务器；同样的题目仅仅调整信息顺序，模型有时又会改变决定。
+
+这是“AI 有求生欲”的证据吗？远远不是。它更像一场有关机器决策可靠性的压力测试：**当一个数值越过 0.5，系统就可能执行动作；而左右这个数值的，竟然可能是文字先说了哪一条铁轨。** 我们讨论什么样的决定可以交给模型，以及怎样证明它在相同事实下足够稳定。
+
+[在《见π》内阅读全文 →](/weekly/008/trolley-problem-when-ai-saves-itself) · [Zach Landes 原始研究与交互实验 ↗](https://zachlandes.com/trolley-problem/)
+
 ## 演讲 · 完整中文译稿
 
 ### [2026 年的大模型（到目前为止）](/weekly/008/2026-in-llms-so-far)
