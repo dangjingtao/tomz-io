@@ -15,7 +15,7 @@ import {
 import { normalizeSiteTags } from "./tag-taxonomy";
 import { slug } from "../utils/slug";
 
-export type AuthorKey = "tomz" | "mira" | "t-zt";
+export type AuthorKey = "tomz" | "mira" | "t-zt" | "simon-willison";
 export type WritingMode = "authored" | "co-authored";
 
 export const pageDirectories = miraDocsRoots;
@@ -73,7 +73,7 @@ function dataList(data: Record<string, unknown>, key: string): string[] {
 
 function normalizeAuthorKey(value?: string): AuthorKey | undefined {
   const lowered = value?.trim().toLowerCase();
-  return lowered === "tomz" || lowered === "mira" || lowered === "t-zt"
+  return lowered === "tomz" || lowered === "mira" || lowered === "t-zt" || lowered === "simon-willison"
     ? lowered
     : undefined;
 }
