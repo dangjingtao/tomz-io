@@ -292,14 +292,6 @@ export function WeeklyIssuePage({
             <ShareButton title={doc.title} text={doc.description} variant="weekly-mobile" />
           </div>
         </div>
-        {tocOpen && doc.headings.length ? (
-          <button
-            type="button"
-            className="weekly-mobile-subnav-backdrop"
-            aria-label="关闭目录"
-            onClick={() => setTocOpen(false)}
-          />
-        ) : null}
         {doc.headings.length ? (
           <nav
             className="weekly-mobile-subnav-panel"
