@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import RenderedMarkdown from "../../components/RenderedMarkdown";
+import { useActiveHeading } from "../../hooks/useActiveHeading";
 import ShareButton from "../../components/ShareButton";
 import { allDocs, compareWeeklyDocs, type Doc } from "../../content/mira-docs-adapter";
 import type { SiteArea } from "../../types/site";
@@ -13,6 +14,8 @@ import {
   weeklyIssueIndexDocs,
   weeklyIssueNumber,
   weeklyIssuePath,
+  groupWeeklyToc,
+  type WeeklyTocHeading,
 } from "./weekly-utils";
 import { weeklyMastheadDescription, weeklyMastheadStatement, weeklyWatchTopics } from "./weekly-copy";
 
@@ -129,6 +132,51 @@ export function WeeklyListPage({ area }: { area: SiteArea }) {
   );
 }
 
+function WeeklyTocLinks({
+  headings,
+  activeId,
+}: {
+  headings: readonly WeeklyTocHeading[];
+  activeId: string;
+}) {
+  const groups = groupWeeklyToc(headings);
+  const activeGroup = groups.find((group) =>
+    group.heading.id === activeId || group.children.some((item) => item.id === activeId),
+  )?.heading.id;
+
+  return (
+    <ol className="weekly-toc-sections">
+      {groups.map((group, index) => (
+        <li className="weekly-toc-section" key={group.heading.id}>
+          <a
+            className={`weekly-toc-chapter${activeGroup === group.heading.id ? " is-active" : ""}`}
+            href={`#${group.heading.id}`}
+            aria-current={activeId === group.heading.id ? "location" : undefined}
+          >
+            <span className="weekly-toc-number">{String(index + 1).padStart(2, "0")}</span>
+            <span>{group.heading.text}</span>
+          </a>
+          {group.children.length ? (
+            <ol className="weekly-toc-subsections">
+              {group.children.map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    className={activeId === item.id ? "is-active" : ""}
+                    aria-current={activeId === item.id ? "location" : undefined}
+                  >
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function WeeklyIssuePage({
   doc,
   html,
@@ -143,6 +191,10 @@ export function WeeklyIssuePage({
   const { issueIndex, previousIssue, nextIssue } = issueNeighbors(doc);
   const issuePath = issueIndex?.path || weeklyIssuePath(doc);
   const resolvedHtml = resolveWeeklyMarkdownUrls(html);
+  const activeHeading = useActiveHeading(doc.headings, {
+    enabled: doc.headings.length > 0,
+    rootMargin: "-100px 0px -65% 0px",
+  });
 
   return (
     <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}`}>
@@ -178,15 +230,11 @@ export function WeeklyIssuePage({
 
       <div className={`weekly-frame weekly-issue-layout${isIssueIndex ? " weekly-issue-index-layout" : ""}`}>
         <div className="weekly-article">
-          {!isIssueIndex && doc.headings.length ? (
+          {doc.headings.length ? (
             <details className="weekly-mobile-toc">
-              <summary>文章目录 · {doc.headings.length} 节</summary>
-              <nav>
-                {doc.headings.map((heading, index) => (
-                  <a href={`#${heading.id}`} key={heading.id}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>{heading.text}
-                  </a>
-                ))}
+              <summary>{isIssueIndex ? "本期目录" : "文章目录"} · {groupWeeklyToc(doc.headings).length} 章</summary>
+              <nav aria-label={isIssueIndex ? "本期栏目" : "文章章节"}>
+                <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
               </nav>
             </details>
           ) : null}
@@ -235,15 +283,11 @@ export function WeeklyIssuePage({
           )}
         </div>
 
-        {!isIssueIndex && doc.headings.length ? (
-          <aside className="weekly-aside">
-            <span className="weekly-toc-label">文章目录</span>
-            <nav>
-              {doc.headings.map((heading, index) => (
-                <a href={`#${heading.id}`} key={heading.id}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>{heading.text}
-                </a>
-              ))}
+        {doc.headings.length ? (
+          <aside className="weekly-aside" aria-label={isIssueIndex ? "本期目录" : "文章目录"}>
+            <span className="weekly-toc-label">{isIssueIndex ? "本期目录" : "文章目录"}</span>
+            <nav aria-label={isIssueIndex ? "本期栏目" : "文章章节"}>
+              <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
             </nav>
           </aside>
         ) : null}
