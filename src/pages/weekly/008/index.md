@@ -17,7 +17,7 @@ writingMode: co-authored
 writtenBy: mira | tomz
 ---
 
-> **编辑预览 · 尚未定稿。** 本页目前只放入已确定讨论的深度阅读选题。封面、其他栏目、标题与最终编排仍待主编确认；这不是已经发布的 008 正式期刊。
+> **编辑预览 · 尚未定稿。** 本页汇集已确定的深读、演讲、人物小传，以及精选已发表文章。封面、最终标题与正式编排仍待主编确认；这不是已经发布的 008 正式期刊。
 
 ## 深度阅读
 
@@ -69,3 +69,35 @@ writtenBy: mira | tomz
 陶哲轩十二岁获得国际数学奥林匹克金牌，二十岁取得博士学位，三十一岁赢得菲尔兹奖。他曾经因为比别人更快地找到答案而闻名，如今却不得不为一个“答案来得太快”的时代寻找新的数学秩序。这并不是反对 AI 的战争，而是一场关于数学究竟为了什么而存在的争论。
 
 [在《见π》内读人物小传 →](/weekly/008/terence-tao-ai-war) · [《纽约时报》报道 ↗](https://www.nytimes.com/2026/10/16/us/math-ai-terence-tao.html)
+
+## 本周观察
+
+### [AI 审查开始能批准 PR，绿灯到底代表什么？](https://mira.tomz.io/blogs/radar/ai-review-approval-is-not-acceptance)
+
+当 AI 的代码审查意见可以进入正式的合并批准机制，“审查通过”究竟意味着什么？这篇来自 Mira 工程实践的观察，把**发现缺陷、允许合并、验收交付**重新拆开，也正好回应 Thorsten Ball 关于代码审查未来的激进预测。
+
+[到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/radar/ai-review-approval-is-not-acceptance)
+
+## 工程现场
+
+### [Mira 十月开发回顾：路太宽就是没有路](https://mira.tomz.io/blogs/dev-log/mira-october-development-retrospective)
+
+十月的 Mira 创建了约 700 个 PR，但这个数字并不意味着功能同样迅速地抵达用户。云端基础设施、跨仓库依赖与不断累积的验收工作，让我们看到另一种稀缺：**施工可以同时进行，判断和注意力却无法无限并发。** 和 Simon Willison 那句“它不会变轻松，你只是变快了”对读，格外有味道。
+
+[到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/dev-log/mira-october-development-retrospective)
+
+## 鬼集 · 人的现场
+
+### [后宫只开了一夜：一个独立开发者的云端 Agent 账本](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
+
+一个 Hermes Agent 接通了飞书群聊，甚至真的能在约定时间主动发消息，却在一个夜晚后被主人亲手拆掉。故事有点荒诞，账却算得明白：模型费用之外，还有服务器、维护、身份权限与人的注意力。**一项技术跑通了，并不等于值得长期养着。**
+
+[到 Tomz.io 阅读原文 →](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
+
+## 延伸阅读
+
+### [Mira Next：未来正在发生](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
+
+当能力从一台电脑延伸到手机、云端和其他 Agent，软件的边界也在改变。这不是下一版功能预告，而是一篇重新思考**自主性、协作和最终责任**的文章：我们怎样让更多工作离开人的持续看守，又不把判断权一并交出去？
+
+[到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
