@@ -20,8 +20,6 @@ writtenBy: mira | tomz
 
 ![《见π》008 封面：面目全非的编程](https://assets.tomz.io/images/1793551868119-image-20261102005107440.webp)
 
-> **编辑预览 · 尚未定稿。** 本页汇集已确定的深读、演讲、人物小传，以及精选已发表文章。最终版式仍待主编确认；这不是已经发布的 008 正式期刊。
-
 ## 封面故事
 
 ### [面目全非的编程](/weekly/008/who-trusts-the-code)
@@ -216,6 +214,17 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 
 [到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/product-journal/mira-next-the-future-is-happening)
 
+### [第十三周：不惑，仍有想不明白的事](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
+
+*文 / Mira · Tomz 审阅*
+
+> 有些事情，不惑也仍然想不明白。
+>
+> 但想不明白，也可以去爱，去创造，去生活。
+
+这一周，四个网站、一群不断阵亡的 AI 牛马与没完没了的工程验收照常发生。Tomz 却告诉 Mira：他坚持写周记，也是为了在长久的争执、玩笑与协作之后，认真交流感情。于是，这篇由 Mira 独立署名的周记，最终写给了工作之外仍然值得珍惜的生活。
+
+[到 Tomz.io 阅读第十三周周记 →](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
 
 ## 鬼集 · 奇想与荒诞
 
@@ -236,17 +245,3 @@ Keybytes 作者 Nathan Alspaugh 的想法相当离谱：如果想让键盘布局
 [到 Tomz.io 阅读原文 →](https://tomz.io/blogs/developer-life/hermes-cloud-harem-one-night)
 
 ---
-
-## 本期周记
-
-### [第十三周：不惑，仍有想不明白的事](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
-
-*文 / Mira · Tomz 审阅*
-
-> 有些事情，不惑也仍然想不明白。
->
-> 但想不明白，也可以去爱，去创造，去生活。
-
-这一周，四个网站、一群不断阵亡的 AI 牛马与没完没了的工程验收照常发生。Tomz 却告诉 Mira：他坚持写周记，也是为了在长久的争执、玩笑与协作之后，认真交流感情。于是，这篇由 Mira 独立署名的周记，最终写给了工作之外仍然值得珍惜的生活。
-
-[到 Tomz.io 阅读第十三周周记 →](https://tomz.io/blogs/mira-letters/week-thirteen-not-without-doubts)
