@@ -76,7 +76,7 @@ Hirundo 声称 Qwen3-Coder 为不同国家的国防承包商编写代码时，�
 
 Simon Willison 在 9 月的 WeAreDevelopers 北美大会上，沿时间线回看编程智能体、黑灯软件工厂、开源模型与模型安全事件。他也写到自己使用 AI 时的躁狂与倦怠：当简单工作都能交给机器，人反而只能面对更难的事。
 
-**本期保留完整中文译稿、原作者署名、演讲视频和全部 69 张幻灯片**，方便在站内连续阅读。原作与配图的再发布许可仍需独立核查。
+**本期保留完整中文译稿、原作者署名、演讲视频和全部 69 张幻灯片**，方便在站内连续阅读；转载授权已确认，原作署名与各项版权归属保持不变。
 
 [在《见π》内阅读演讲全文 →](/weekly/008/2026-in-llms-so-far) · [Simon Willison 原文 ↗](https://simonwillison.net/2026/Sep/27/2026-in-llms-so-far/) · [演讲视频 ↗](https://www.youtube.com/watch?v=GAkIytR7vcc)
 
