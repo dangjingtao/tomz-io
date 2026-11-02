@@ -727,7 +727,7 @@ https://static.simonwillison.net/static/2026/2026-in-llms/simon-willison-2026-in
 
 ### 版权与出处
 
-- 原作版权与署名：© Simon Willison，[simonwillison.net](https://simonwillison.net/2026/Sep/27/2026-in-llms-so-far/)。用户提供的译稿将博客正文标注为 CC BY 4.0；该许可尚未由编辑独立核实，亦不能直接推断幻灯片内所有第三方图片均获相同许可。
+- 原作版权与署名：© Simon Willison，[simonwillison.net](https://simonwillison.net/2026/Sep/27/2026-in-llms-so-far/)。经 Tomz 确认，已取得本中文译稿及 69 张幻灯片的转载授权；原作署名与版权归属保持不变。
 - 本文件为中文翻译，仅用于阅读与存档；引用请注明原作者与原文链接。
 - 幻灯片图片按原站地址原样下载、原样上传，字节未作任何修改（sha256 见 `r2-manifest.json`）。
 - 本文件内嵌图片托管于 Cloudflare R2（`assets.tomz.io`），仅作为转载镜像，版权仍归原作者。
