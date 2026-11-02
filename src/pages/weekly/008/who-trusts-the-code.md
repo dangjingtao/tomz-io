@@ -5,7 +5,7 @@ group: 见π
 order: 1
 issue: 8
 date: 2026年11月1日
-cover: https://assets.tomz.io/images/1793551868119-image-20261102005107440.webp
+cover: /images/weekly-008-cover-qr-fixed.webp
 readTime: 24 分钟阅读
 lead: 写代码越来越便宜，软件却没有因此变得容易。那套以手写代码为中心的工程制度，或许正比我们愿意承认的更快失去前提。
 tags:
