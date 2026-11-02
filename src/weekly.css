@@ -276,6 +276,13 @@
 .weekly-issue-nav .to{font:500 18px/1.4 var(--weekly-serif)}
 .weekly-issue-nav .disabled .to{color:var(--muted);font-family:var(--font-sans);font-size:13px}
 
+@media(min-width:921px) and (max-width:1144px){
+  .weekly-issue-layout{
+    grid-template-columns:minmax(0,1fr) minmax(220px,260px);
+    gap:clamp(24px,4vw,46px);
+  }
+}
+
 @media(max-width:920px){
   .weekly-frame{width:min(calc(100% - 40px),820px)}
   .weekly-latest-grid{grid-template-columns:1fr;gap:24px}
