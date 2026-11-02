@@ -113,4 +113,3 @@ Hirundo 认为，修改权重后政治问答表现和编程安全差异同时变
 - [Booz Allen：《What's In America's Code?》，2026-06](https://www.boozallen.com/expertise/cybersecurity/whats-in-americas-code.html) —— Hirundo 选型依据所引用的早期研究；该机构同样表示没有证据证明漏洞是故意植入。
 - [见π 008 深读：《不再逐行阅读代码之后，我们如何相信软件？》](/weekly/008/who-trusts-the-code) —— 关于 AI 代码生成、独立验证与软件工程责任的对应讨论。
 
-*《见π》008 编辑预览稿。本文为对公开研究的独立评论，不是 Hirundo 原文翻译；研究结论、作者推断与本文观点已尽量分别标明，尚未正式发布。*
