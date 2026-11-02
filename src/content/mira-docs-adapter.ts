@@ -15,7 +15,7 @@ import {
 import { normalizeSiteTags } from "./tag-taxonomy";
 import { slug } from "../utils/slug";
 
-export type AuthorKey = "tomz" | "mira" | "t-zt";
+export type AuthorKey = "tomz" | "mira" | "t-zt" | "simon-willison";
 export type WritingMode = "authored" | "co-authored";
 
 export const pageDirectories = miraDocsRoots;
@@ -42,7 +42,7 @@ export type Doc = Omit<MiraDoc, "body" | "headings" | "path"> & {
   publishedAt?: string;
   publishedPrecision?: ContentTimePrecision;
   modifiedAt?: string;
-  headings: { text: string; id: string }[];
+  headings: { text: string; id: string; depth?: 2 | 3 }[];
 };
 
 function dataString(data: Record<string, unknown>, key: string): string | undefined {
@@ -73,7 +73,7 @@ function dataList(data: Record<string, unknown>, key: string): string[] {
 
 function normalizeAuthorKey(value?: string): AuthorKey | undefined {
   const lowered = value?.trim().toLowerCase();
-  return lowered === "tomz" || lowered === "mira" || lowered === "t-zt"
+  return lowered === "tomz" || lowered === "mira" || lowered === "t-zt" || lowered === "simon-willison"
     ? lowered
     : undefined;
 }
@@ -136,21 +136,25 @@ function inferDocAuthors(
   };
 }
 
-function legacyLevelTwoHeadings(source: string): Doc["headings"] {
+function siteHeadings(source: string, includeSubheadings = false): Doc["headings"] {
   const headings: MiraHeading[] = extractHeadings(source);
   const seen = new Set<string>();
-  return headings
-    .filter((heading: MiraHeading) => heading.depth === 2)
-    .filter((heading: MiraHeading) => {
-      const id = slug(heading.text);
-      if (!id || seen.has(id)) return false;
-      seen.add(id);
-      return true;
-    })
-    .map((heading: MiraHeading) => ({
-      text: heading.text,
-      id: slug(heading.text),
-    }));
+  const result: Doc["headings"] = [];
+  for (const heading of headings) {
+    if (heading.depth !== 2 && !(includeSubheadings && heading.depth === 3)) continue;
+    // Issue index H3 entries may be Markdown links; the rendered heading anchor
+    // uses visible link text, not the source URL or Markdown punctuation.
+    const text = heading.text
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .replace(/[`*_~]/g, "")
+      .trim();
+    const id = slug(text);
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    result.push({ text, id, depth: heading.depth as 2 | 3 });
+  }
+  return result;
 }
 
 function adaptSiteDoc(core: MiraDoc): Doc {
@@ -191,7 +195,7 @@ function adaptSiteDoc(core: MiraDoc): Doc {
     mergeIndex: dataString(core.data, "mergeIndex") === "true",
     ...authorInfo,
     ...contentTime,
-    headings: legacyLevelTwoHeadings(core.body),
+    headings: siteHeadings(core.body, root === "weekly"),
   };
 }
 
@@ -235,7 +239,7 @@ export const allDocs = parsedDocs
       ...doc,
       source: mergedSource,
       modifiedAt: latestModifiedAt(mergedSections.map((section) => section.modifiedAt)),
-      headings: legacyLevelTwoHeadings(mergedSource),
+      headings: siteHeadings(mergedSource, doc.root === "weekly"),
     };
   })
   .sort(compareDocs);

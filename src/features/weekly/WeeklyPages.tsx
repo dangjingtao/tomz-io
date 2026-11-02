@@ -1,5 +1,8 @@
+import { useEffect, useId, useState } from "react";
+import { ChevronDown, List, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import RenderedMarkdown from "../../components/RenderedMarkdown";
+import { useActiveHeading } from "../../hooks/useActiveHeading";
 import ShareButton from "../../components/ShareButton";
 import { allDocs, compareWeeklyDocs, type Doc } from "../../content/mira-docs-adapter";
 import type { SiteArea } from "../../types/site";
@@ -13,6 +16,8 @@ import {
   weeklyIssueIndexDocs,
   weeklyIssueNumber,
   weeklyIssuePath,
+  groupWeeklyToc,
+  type WeeklyTocHeading,
 } from "./weekly-utils";
 import { weeklyMastheadDescription, weeklyMastheadStatement, weeklyWatchTopics } from "./weekly-copy";
 
@@ -129,6 +134,104 @@ export function WeeklyListPage({ area }: { area: SiteArea }) {
   );
 }
 
+function WeeklyTocLinks({
+  headings,
+  activeId,
+}: {
+  headings: readonly WeeklyTocHeading[];
+  activeId: string;
+}) {
+  const groups = groupWeeklyToc(headings);
+  const activeGroup = groups.find((group) =>
+    group.heading.id === activeId || group.children.some((item) => item.id === activeId),
+  )?.heading.id;
+
+  return (
+    <ol className="weekly-toc-sections">
+      {groups.map((group, index) => (
+        <li className="weekly-toc-section" key={group.heading.id}>
+          <a
+            className={`weekly-toc-chapter${activeGroup === group.heading.id ? " is-active" : ""}`}
+            href={`#${group.heading.id}`}
+            aria-current={activeId === group.heading.id ? "location" : undefined}
+          >
+            <span className="weekly-toc-number">{String(index + 1).padStart(2, "0")}</span>
+            <span>{group.heading.text}</span>
+          </a>
+          {group.children.length ? (
+            <ol className="weekly-toc-subsections">
+              {group.children.map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    className={activeId === item.id ? "is-active" : ""}
+                    aria-current={activeId === item.id ? "location" : undefined}
+                  >
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+
+/**
+ * Mobile-only navigation: shares heading data with desktop, not desktop TOC
+ * markup or styles. Its links remain usable when chapters wrap on small screens.
+ */
+function WeeklyMobileToc({
+  headings,
+  activeId,
+  onNavigate,
+}: {
+  headings: readonly WeeklyTocHeading[];
+  activeId: string;
+  onNavigate: () => void;
+}) {
+  const groups = groupWeeklyToc(headings);
+  const activeGroup = groups.find((group) =>
+    group.heading.id === activeId || group.children.some((item) => item.id === activeId),
+  )?.heading.id;
+  return (
+    <ol className="weekly-mobile-toc-list">
+      {groups.map((group, index) => (
+        <li className="weekly-mobile-toc-group" key={group.heading.id}>
+          <a
+            className={`weekly-mobile-toc-heading${activeGroup === group.heading.id ? " is-active" : ""}`}
+            href={`#${group.heading.id}`}
+            onClick={onNavigate}
+            aria-current={activeId === group.heading.id ? "location" : undefined}
+          >
+            <span className="weekly-mobile-toc-count">{String(index + 1).padStart(2, "0")}</span>
+            <span>{group.heading.text}</span>
+          </a>
+          {group.children.length > 0 ? (
+            <ol className="weekly-mobile-toc-children">
+              {group.children.map((item) => (
+                <li key={item.id}>
+                  <a
+                    className={activeId === item.id ? "is-active" : ""}
+                    href={`#${item.id}`}
+                    onClick={onNavigate}
+                    aria-current={activeId === item.id ? "location" : undefined}
+                  >
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function WeeklyIssuePage({
   doc,
   html,
@@ -143,9 +246,81 @@ export function WeeklyIssuePage({
   const { issueIndex, previousIssue, nextIssue } = issueNeighbors(doc);
   const issuePath = issueIndex?.path || weeklyIssuePath(doc);
   const resolvedHtml = resolveWeeklyMarkdownUrls(html);
+  const mobileIssueCover = isIssueIndex && doc.cover?.trim() ? resolveCoverSource(doc) : "";
+  const firstInlineImage = doc.source.trimStart().match(/^!\[[^\]]*\]\(([^)\s]+)\)/)?.[1];
+  const duplicatesMobileCover = Boolean(mobileIssueCover && firstInlineImage === doc.cover?.trim());
+  const activeHeading = useActiveHeading(doc.headings, {
+    enabled: doc.headings.length > 0,
+    rootMargin: "-125px 0px -65% 0px",
+  });
+  const [tocOpen, setTocOpen] = useState(false);
+  const tocId = useId();
+
+  useEffect(() => setTocOpen(false), [doc.path]);
+  useEffect(() => {
+    if (!tocOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setTocOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [tocOpen]);
 
   return (
-    <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}`}>
+    <article className={`weekly-issue-page${isIssueIndex ? " is-index" : " is-detail"}${duplicatesMobileCover ? " has-mobile-inline-cover" : ""}`}>
+      <div className="weekly-mobile-subnav" role="navigation" aria-label="见π阅读工具">
+        <div className="weekly-mobile-subnav-inner">
+          {doc.headings.length ? (
+            <button
+              className="weekly-mobile-subnav-toc"
+              type="button"
+              aria-expanded={tocOpen}
+              aria-controls={tocId}
+              onClick={() => setTocOpen((open) => !open)}
+            >
+              {tocOpen ? <X size={17} aria-hidden="true" /> : <List size={17} aria-hidden="true" />}
+              <span>{isIssueIndex ? "本期目录" : "文章目录"}</span>
+              <ChevronDown className={tocOpen ? "is-open" : ""} size={14} aria-hidden="true" />
+            </button>
+          ) : <span className="weekly-mobile-subnav-label">见π · NO.{issue}</span>}
+          <div className="weekly-mobile-subnav-share">
+            <ShareButton title={doc.title} text={doc.description} variant="weekly-mobile" />
+          </div>
+        </div>
+        {doc.headings.length ? (
+          <nav
+            className="weekly-mobile-subnav-panel"
+            id={tocId}
+            hidden={!tocOpen}
+            aria-label={isIssueIndex ? "本期栏目目录" : "文章章节目录"}
+            onClick={(event) => {
+              if ((event.target as HTMLElement).closest('a[href^="#"]')) setTocOpen(false);
+            }}
+          >
+            <p className="weekly-mobile-subnav-panel-label">
+              {isIssueIndex ? "本期栏目" : "阅读章节"} · {groupWeeklyToc(doc.headings).length}
+            </p>
+            <WeeklyMobileToc
+              headings={doc.headings}
+              activeId={activeHeading}
+              onNavigate={() => setTocOpen(false)}
+            />
+          </nav>
+        ) : null}
+      </div>
+      {mobileIssueCover ? (
+        <div className="weekly-mobile-cover">
+          <img
+            src={mobileIssueCover}
+            alt={`《见π》NO.${issue} 封面`}
+          />
+        </div>
+      ) : null}
       <header className="weekly-issue-head weekly-frame">
         <nav className="weekly-crumbs" aria-label="面包屑">
           <Link to="/weekly">见π</Link><span>/</span>
@@ -178,19 +353,6 @@ export function WeeklyIssuePage({
 
       <div className={`weekly-frame weekly-issue-layout${isIssueIndex ? " weekly-issue-index-layout" : ""}`}>
         <div className="weekly-article">
-          {!isIssueIndex && doc.headings.length ? (
-            <details className="weekly-mobile-toc">
-              <summary>文章目录 · {doc.headings.length} 节</summary>
-              <nav>
-                {doc.headings.map((heading, index) => (
-                  <a href={`#${heading.id}`} key={heading.id}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>{heading.text}
-                  </a>
-                ))}
-              </nav>
-            </details>
-          ) : null}
-
           <RenderedMarkdown
             html={resolvedHtml}
             className={`markdown blog-markdown ${isIssueIndex ? "weekly-index-markdown" : "weekly-markdown"}`}
@@ -235,15 +397,11 @@ export function WeeklyIssuePage({
           )}
         </div>
 
-        {!isIssueIndex && doc.headings.length ? (
-          <aside className="weekly-aside">
-            <span className="weekly-toc-label">文章目录</span>
-            <nav>
-              {doc.headings.map((heading, index) => (
-                <a href={`#${heading.id}`} key={heading.id}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>{heading.text}
-                </a>
-              ))}
+        {doc.headings.length ? (
+          <aside className="weekly-aside" aria-label={isIssueIndex ? "本期目录" : "文章目录"}>
+            <span className="weekly-toc-label">{isIssueIndex ? "本期目录" : "文章目录"}</span>
+            <nav aria-label={isIssueIndex ? "本期栏目" : "文章章节"}>
+              <WeeklyTocLinks headings={doc.headings} activeId={activeHeading} />
             </nav>
           </aside>
         ) : null}

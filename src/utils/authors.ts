@@ -41,6 +41,15 @@ export function getDocSignature(doc: Doc) {
       accentClassName: "is-mira",
     };
   }
+  if (authors[0] === "simon-willison") {
+    return {
+      title: authorProfiles["simon-willison"].name,
+      body: authorProfiles["simon-willison"].bio,
+      links: [{ label: "原作者网站 →", href: "https://simonwillison.net/" }],
+      showKicker: true,
+      accentClassName: "",
+    };
+  }
   if (authors[0] === "t-zt") {
     return {
       title: authorProfiles["t-zt"].name,

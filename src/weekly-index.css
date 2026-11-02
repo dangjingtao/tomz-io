@@ -1,6 +1,7 @@
 .weekly-issue-index-layout{
-  grid-template-columns:minmax(0,1fr);
-  justify-content:stretch;
+  /* Magazine issue indexes share the right-hand chapter navigation. */
+  grid-template-columns:minmax(0,800px) minmax(220px,260px);
+  justify-content:space-between;
 }
 
 .weekly-index-markdown{
@@ -53,7 +54,6 @@
   .weekly-index-markdown>ul,
   .weekly-index-markdown>ol{max-width:min(100%,840px)}
   .weekly-index-markdown>p:has(>img:only-child){max-width:min(100%,960px)}
-  .weekly-index-markdown>p:first-child:has(>img:only-child){max-width:min(100%,560px)}
 }
 .weekly-index-markdown strong{color:var(--ink)}
 .weekly-index-markdown>p:has(>a:only-child){
@@ -172,6 +172,21 @@
   font:500 18px/1.4 var(--weekly-serif);
 }
 
+@media(min-width:921px) and (max-width:1144px){
+  .weekly-issue-index-layout{
+    grid-template-columns:minmax(0,1fr) minmax(220px,260px);
+    gap:clamp(24px,4vw,46px);
+  }
+}
+@media(max-width:920px){
+  .weekly-issue-index-layout{
+    grid-template-columns:minmax(0,760px);
+    justify-content:center;
+  }
+  .weekly-index-markdown>h2,.weekly-index-markdown>h3{
+    scroll-margin-top:132px;
+  }
+}
 @media(max-width:700px){
   .weekly-reading-grid{grid-template-columns:1fr;gap:10px;margin-top:22px}
   .weekly-reading-card{min-height:0;padding:17px 16px 15px}
@@ -179,9 +194,9 @@
   .weekly-reading-card strong{font-size:20px}
   .weekly-reading-card small{font-size:12.5px}
   .weekly-reading-arrow{padding-top:14px}
-  .weekly-index-markdown>h2{margin-top:56px}
-  .weekly-index-markdown>h3{font-size:26px}
-  .weekly-index-markdown>h2:first-of-type+h3{font-size:38px}
+  .weekly-index-markdown>h2{margin-top:42px}
+  .weekly-index-markdown>h3{margin-top:22px;font-size:25px}
+  .weekly-index-markdown>h2:first-of-type+h3{font-size:33px}
   .weekly-index-markdown>p,
   .weekly-index-markdown>ul,
   .weekly-index-markdown>ol{font-size:15.5px;line-height:1.78}

@@ -24,6 +24,12 @@ export const authorProfiles: Record<
     roleLabel: "A LETTER FROM MIRA",
     accentClassName: "is-mira",
   },
+  "simon-willison": {
+    name: "Simon Willison",
+    avatar: "https://github.com/simonw.png",
+    bio: "开发者、Django 共同创建者与技术作者。此处收录其 2026 年闭幕演讲的中文译稿，原作及观点归 Simon Willison。",
+    roleLabel: "ORIGINAL AUTHOR · TRANSLATED TALK",
+  },
   "t-zt": {
     name: "t-zt",
     avatar: "https://avatars.githubusercontent.com/u/194352280?v=4",

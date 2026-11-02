@@ -167,8 +167,8 @@
 
 /* issue body */
 .weekly-issue-layout{
-  display:grid;grid-template-columns:minmax(0,880px) 220px;
-  justify-content:start;gap:64px;align-items:start;
+  display:grid;grid-template-columns:minmax(0,800px) minmax(220px,260px);
+  justify-content:space-between;gap:clamp(36px,5vw,72px);align-items:start;
   padding-top:34px;border-top:1px solid var(--hairline)
 }
 .weekly-article{min-width:0}
@@ -223,19 +223,42 @@
 .weekly-markdown hr{margin:42px 0;border:0;border-top:1px solid var(--hairline)}
 .weekly-markdown pre{border-radius:10px}
 
-/* toc */
-.weekly-aside{position:sticky;top:88px;font-size:12px}
+/* Magazine TOC: H2 chapters and optional indented H3 subsections. */
+.weekly-aside{
+  position:sticky;top:88px;max-height:calc(100vh - 108px);
+  min-width:0;overflow-y:auto;overscroll-behavior:contain;
+  padding:12px 0 16px 18px;border-left:1px solid var(--hairline);
+  font-size:12px;scrollbar-width:thin
+}
 .weekly-toc-label{
-  display:block;margin-bottom:13px;color:var(--muted);font-size:10px;letter-spacing:.14em
+  display:block;margin-bottom:16px;color:var(--muted);
+  font:600 10px/1.4 var(--font-mono);letter-spacing:.14em
 }
-.weekly-aside nav{display:flex;flex-direction:column}
-.weekly-aside a{
-  display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;padding:7px 8px;margin:0 -8px;
-  color:var(--muted);line-height:1.4;text-decoration:none
+.weekly-toc-sections,.weekly-toc-subsections{margin:0;padding:0;list-style:none}
+.weekly-toc-section+.weekly-toc-section{margin-top:13px}
+.weekly-toc-chapter{
+  display:grid;grid-template-columns:24px minmax(0,1fr);align-items:start;gap:8px;
+  padding:6px 6px 6px 0;color:var(--body-c);font-weight:600;
+  line-height:1.45;text-decoration:none;border-radius:4px
 }
-.weekly-aside a span{padding-top:2px;color:var(--muted-soft);font:10px var(--font-mono)}
-.weekly-aside a:hover{background:color-mix(in srgb,var(--ink) 3%,transparent);color:var(--ink)}
-.weekly-mobile-toc{display:none}
+.weekly-toc-number{color:var(--muted-soft);font:10px/1.7 var(--font-mono)}
+.weekly-toc-chapter:hover,.weekly-toc-chapter.is-active{color:var(--ink)}
+.weekly-toc-chapter.is-active .weekly-toc-number{color:var(--weekly-accent)}
+.weekly-toc-subsections{
+  margin:5px 0 0 12px;padding-left:18px;
+  border-left:1px solid var(--hairline)
+}
+.weekly-toc-subsections a{
+  display:block;margin:3px 0;padding:5px 7px;border-left:2px solid transparent;
+  color:var(--muted);font-weight:400;font-size:12px;line-height:1.5;
+  text-decoration:none;overflow-wrap:anywhere
+}
+.weekly-toc-subsections a:hover,
+.weekly-toc-subsections a.is-active{
+  color:var(--ink);border-left-color:var(--weekly-accent);
+  background:color-mix(in srgb,var(--ink) 3%,transparent)
+}
+.weekly-mobile-subnav,.weekly-mobile-cover{display:none}
 
 /* pager */
 .weekly-issue-nav{
@@ -253,6 +276,13 @@
 .weekly-issue-nav .to{font:500 18px/1.4 var(--weekly-serif)}
 .weekly-issue-nav .disabled .to{color:var(--muted);font-family:var(--font-sans);font-size:13px}
 
+@media(min-width:921px) and (max-width:1144px){
+  .weekly-issue-layout{
+    grid-template-columns:minmax(0,1fr) minmax(220px,260px);
+    gap:clamp(24px,4vw,46px);
+  }
+}
+
 @media(max-width:920px){
   .weekly-frame{width:min(calc(100% - 40px),820px)}
   .weekly-latest-grid{grid-template-columns:1fr;gap:24px}
@@ -261,20 +291,102 @@
   .weekly-issue-cover>span{display:none}
   .weekly-issue-layout{grid-template-columns:minmax(0,760px);justify-content:center}
   .weekly-aside{display:none}
-  .weekly-mobile-toc{
-    display:block;margin:0 0 30px;overflow:hidden;border:1px solid var(--hairline);border-radius:10px
+  /* VitePress-style page tools: always available below the 64px site header. */
+  .weekly-mobile-cover{
+    display:block;width:min(calc(100% - 40px),820px);
+    margin:18px auto 0;
   }
-  .weekly-mobile-toc summary{
-    display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 16px;
-    color:var(--ink);font-size:14px;font-weight:600;cursor:pointer
+  .weekly-mobile-cover img{display:block;width:100%;height:auto;border-radius:2px}
+  .weekly-issue-page.has-mobile-inline-cover .weekly-index-markdown>p:first-child:has(>img:only-child){
+    display:none;
   }
-  .weekly-mobile-toc nav{display:grid;padding:0 16px 12px;border-top:1px solid var(--hairline)}
-  .weekly-mobile-toc a{
-    display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;padding:10px 0;
-    border-bottom:1px solid var(--hairline-soft);color:var(--body-c);font-size:13px;text-decoration:none
+  .weekly-mobile-subnav{
+    display:block;position:sticky;top:64px;z-index:40;
+    border-bottom:1px solid var(--hairline);
+    background:var(--canvas);
   }
-  .weekly-mobile-toc a:last-child{border-bottom:0}
-  .weekly-mobile-toc a span{color:var(--muted);font:10px var(--font-mono)}
+  .weekly-mobile-subnav-inner{
+    position:relative;z-index:3;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;width:min(calc(100% - 40px),820px);height:48px;margin:0 auto;
+  }
+  .weekly-mobile-subnav-toc{
+    appearance:none;box-sizing:border-box;
+    display:inline-flex;align-items:center;gap:8px;min-width:0;height:44px;
+    margin:0;padding:0 6px;border:0;border-radius:0;
+    background:none;color:var(--body-c);white-space:nowrap;
+    font:600 13px/1.3 var(--font-sans);cursor:pointer;
+  }
+  .weekly-mobile-subnav-toc svg{flex:none}
+  .weekly-mobile-subnav-toc .is-open{transform:rotate(180deg)}
+  .weekly-mobile-subnav-label{color:var(--muted);font-size:13px}
+  /* Isolated mobile action; does not inherit .btn/.share-button or the 821px visibility rule. */
+  .weekly-mobile-subnav-share{display:flex;align-items:center;flex:none;min-width:0}
+  .weekly-mobile-subnav-share .weekly-mobile-share-action{
+    appearance:none;box-sizing:border-box;display:inline-flex;align-items:center;
+    justify-content:center;gap:7px;height:44px;min-height:44px;margin:0;
+    padding:0 6px;border:0;border-radius:0;
+    background:none;color:var(--body-c);white-space:nowrap;
+    font:600 13px/1.2 var(--font-sans);cursor:pointer;
+  }
+  .weekly-mobile-subnav-share .weekly-mobile-share-action svg{flex:none}
+  .weekly-mobile-share-action:focus-visible,
+  .weekly-mobile-subnav-toc:focus-visible{
+    outline:2px solid var(--weekly-accent);outline-offset:2px;
+  }
+  .weekly-issue-head-foot .share-button{display:none}
+  /* Full-screen dropdown below both 64px site nav and 48px page toolbar.
+     It owns its scrolling, without changing the desktop chapter sidebar. */
+  .weekly-mobile-subnav-panel{
+    box-sizing:border-box;position:fixed;inset:112px 0 0;z-index:2;
+    width:100%;height:auto;max-height:none;min-width:0;
+    overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+    padding:20px max(20px,calc((100vw - 740px)/2)) max(32px,env(safe-area-inset-bottom));
+    border:0;border-radius:0;background:var(--canvas);box-shadow:none;
+  }
+  .weekly-mobile-subnav-panel[hidden]{display:none}
+  .weekly-mobile-subnav-panel-label{
+    position:sticky;top:-20px;z-index:1;
+    margin:0 0 8px;padding:6px 0 14px;
+    background:var(--canvas);color:var(--muted);
+    font:600 10px/1.5 var(--font-mono);letter-spacing:.12em;
+  }
+  /* Mobile TOC has its own tree markup, with touch-sized links and wrapping text. */
+  .weekly-mobile-toc-list,.weekly-mobile-toc-children{
+    margin:0;padding:0;list-style:none;
+  }
+  .weekly-mobile-toc-group+.weekly-mobile-toc-group{
+    margin-top:8px;padding-top:8px;border-top:1px solid var(--hairline-soft);
+  }
+  .weekly-mobile-toc-heading{
+    display:grid;grid-template-columns:28px minmax(0,1fr);gap:9px;
+    align-items:center;min-height:44px;padding:9px 2px;
+    color:var(--body-c);font:600 13.5px/1.45 var(--font-sans);
+    text-decoration:none;overflow-wrap:anywhere;
+  }
+  .weekly-mobile-toc-count{
+    color:var(--muted-soft);font:10px/1.5 var(--font-mono);
+  }
+  .weekly-mobile-toc-heading.is-active{color:var(--weekly-accent)}
+  .weekly-mobile-toc-children{
+    margin:2px 0 4px 13px;padding-left:19px;
+    border-left:1px solid var(--hairline);
+  }
+  .weekly-mobile-toc-children a{
+    display:flex;align-items:center;min-height:44px;
+    padding:9px 8px;color:var(--muted);
+    font:400 13px/1.5 var(--font-sans);
+    text-decoration:none;overflow-wrap:anywhere;
+  }
+  .weekly-mobile-toc-children a:hover,
+  .weekly-mobile-toc-children a.is-active{color:var(--weekly-accent)}
+  .weekly-mobile-toc-heading:focus-visible,
+  .weekly-mobile-toc-children a:focus-visible{
+    outline:2px solid var(--weekly-accent);outline-offset:1px;
+  }
+  .weekly-markdown>h2,.weekly-markdown>h3{scroll-margin-top:132px}
+
 }
 @media(max-width:700px){
   .weekly-frame{width:calc(100% - 32px)}
@@ -292,11 +404,22 @@
   }
   .weekly-archive-copy small{font-size:13px}
   .weekly-about-grid{grid-template-columns:1fr;gap:14px}
-  .weekly-issue-head{padding:24px 0 38px}
-  .weekly-issue-series{margin-top:30px}
-  .weekly-issue-head h1{font-size:clamp(42px,13vw,56px)}
-  .weekly-issue-lead{font-size:18px}
-  .weekly-issue-head-foot{align-items:flex-start}
+  .weekly-mobile-subnav-inner{width:calc(100% - 32px)}
+  .weekly-mobile-cover{width:calc(100% - 32px);margin-top:6px}
+  .weekly-mobile-subnav-panel{
+    left:0;right:0;padding:16px 20px max(26px,env(safe-area-inset-bottom));
+  }
+  .weekly-mobile-subnav-panel-label{top:-16px}
+  .weekly-issue-head{padding:16px 0 24px}
+  .weekly-crumbs{display:none}
+  .weekly-issue-series{margin-top:0}
+  .weekly-issue-head h1{margin-top:12px;font-size:clamp(32px,9vw,42px);line-height:1.12}
+  .weekly-issue-head .weekly-issue-meta{margin-top:12px}
+  .weekly-issue-lead{
+    margin-top:16px;padding-top:14px;font-size:16.5px;line-height:1.65
+  }
+  .weekly-issue-head-foot{display:none}
+  .weekly-issue-layout{padding-top:22px}
   .weekly-article{padding-top:0}
   .weekly-markdown>h2{margin-top:54px;padding-top:22px;font-size:27px}
   .weekly-markdown>p,.weekly-markdown>ul,.weekly-markdown>ol{font-size:16px;line-height:1.85}

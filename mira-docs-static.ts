@@ -58,17 +58,21 @@ function authorName(value: string): string {
   if (normalized === "tomz") return siteName;
   if (normalized === "mira") return "Mira";
   if (normalized === "t-zt") return "t-zt";
+  if (normalized === "simon-willison") return "Simon Willison";
   return value;
 }
 
 function authorAvatar(name: string): string {
   if (name === "Mira") return miraAvatarUrl;
   if (name.toLowerCase() === "t-zt") return tztAvatarUrl;
+  if (name === "Simon Willison") return "https://github.com/simonw.png";
   return authorAvatarUrl;
 }
 
 function authorBio(name: string): string {
-  return name.toLowerCase() === "t-zt" ? tztBio : "";
+  if (name.toLowerCase() === "t-zt") return tztBio;
+  if (name === "Simon Willison") return "开发者、Django 共同创建者。此篇为其公开演讲的中文译稿。";
+  return "";
 }
 
 function staticDocs(docs: MiraDoc[]): StaticDoc[] {
