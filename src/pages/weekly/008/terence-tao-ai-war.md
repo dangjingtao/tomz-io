@@ -141,4 +141,4 @@ Open Math OS 的早期版本使用已有的开放数学模型，能力还落后�
 - [Association for Human Mathematics：10 月 7 日声明，陶哲轩博客客座转载](https://terrytao.wordpress.com/2026/10/07/ahm-statement-on-openais-october-6-release-of-mathematical-documents/) —— 代表该团体，不等同于陶哲轩本人声明。
 - [TechCrunch：OpenAI 数学成果与验证标准争议，2026-10-08](https://techcrunch.com/2026/10/08/openais-math-solutions-arent-meeting-the-fields-standards-yet/) —— 第三方报道及陶哲轩对成果解释责任的批评。
 
-*《见π》008 人物小传编辑初稿。本文为基于公开材料的独立人物写作，并非《纽约时报》专访的翻译或转载；研究者的主张、第三方争论与编辑判断分别呈现。*
+*《见π》008 人物小传编辑稿。本文为基于公开材料的独立人物写作，并非《纽约时报》专访的翻译或转载；研究者的主张、第三方争论与编辑判断分别呈现。*
