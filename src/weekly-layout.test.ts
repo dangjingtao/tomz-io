@@ -25,6 +25,11 @@ describe("Weekly publication layout contract", () => {
     expect(weeklyCss).toMatch(/\.weekly-aside\s*\{[^}]*position:sticky;top:88px/);
   });
 
+  it("keeps article and TOC columns fluid on compact desktop widths", () => {
+    expect(weeklyCss).toMatch(/@media\(min-width:921px\) and \(max-width:1144px\)\{\s*\.weekly-issue-layout\{\s*grid-template-columns:minmax\(0,1fr\) minmax\(220px,260px\)/);
+    expect(indexCss).toMatch(/@media\(min-width:921px\) and \(max-width:1144px\)\{\s*\.weekly-issue-index-layout\{\s*grid-template-columns:minmax\(0,1fr\) minmax\(220px,260px\)/);
+  });
+
   it("uses a full-height mobile TOC below the site and page navigation", () => {
     expect(weeklyCss).toMatch(/\.weekly-mobile-subnav\s*\{[^}]*position:sticky;top:64px/);
     expect(weeklyCss).toMatch(/\.weekly-mobile-subnav-panel\s*\{[^}]*position:fixed;inset:112px 0 0/);
