@@ -56,6 +56,14 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 
 [在《见π》内阅读全文 →](/weekly/009/the-ai-cost-of-javascript-frameworks) · [Nolan Lawson 原文 ↗](https://nolanlawson.com/2026/10/28/the-ai-cost-of-javascript-frameworks/) · [公开 Benchmark ↗](https://github.com/nolanlawson/agent-framework-benchmark)
 
+### [我们怀念的不是2003年，而是离线的权利](/weekly/009/the-right-to-go-offline)
+
+Łukasz Kups 在一篇充满怀旧气息的短文里，把 2000 年代初称作技术与生活最接近平衡的年代：手机负责通信，网络是一个可以走进去、也可以离开的地方。我们没有必要跟着宣布 2003 年是人类巅峰，甚至应该认真反驳那个年代所隐含的技术门槛。
+
+**真正值得追回的，不是旧手机和拨号上网，而是一个人可以不在线、不回应、不留下数据的自由。** 这篇深读从怀旧写到数字鸿沟、注意力经济与产品设计，最后与本期《停电》形成一次不刻意的对读。
+
+[在《见π》内阅读全文 →](/weekly/009/the-right-to-go-offline) · [Łukasz Kups 原文 ↗](https://lukaszkups.net/notes/early-2000s-were-peak-of-humanity/)
+
 ### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
 
 “多种树”几乎天然站在正确答案一边，但全球尺度的数据并不总支持如此简单的叙事。
@@ -178,4 +186,4 @@ Agent 真正进入 Web 以后，这几层身份迟早要被分开。
 
 ---
 
-*009 编辑部施工中。下一轮重点：封面命题是否成立、新增长文与其余三篇深读的重量如何安排，以及 Bowie 是否值得占一篇独立长稿。*
+*009 编辑部施工中。下一轮重点：封面命题是否成立、两篇独立深读与其余三篇候选的重量如何安排，以及 Bowie 是否值得占一篇独立长稿。*
