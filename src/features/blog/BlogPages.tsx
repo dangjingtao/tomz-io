@@ -289,7 +289,7 @@ export function BlogPostPage({
   }, []);
   return (
     <>
-      <div className="blog-post-page">
+      <div className="blog-post-page" lang={doc.data?.lang === "en" ? "en" : undefined}>
         <article
           className={`article-header${articleHeaderCollapsed ? " is-collapsed" : ""}`}
         >
