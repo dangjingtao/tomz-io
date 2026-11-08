@@ -57,11 +57,13 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 
 ## 人物
 
-### [David Bowie：一个人如何留下自己的创作痕迹](https://www.vam.ac.uk/dundee/info/david-bowie-treasures-go-on-display-in-scotland-for-the-first-time-at-v-a-dundee)
+### [David Bowie：一个人如何留下自己的创作痕迹](/weekly/009/david-bowie-archive)
 
-不是再写一遍 Bowie 生平。
+V&A Dundee 展出的不只是服装、乐器和歌词，还有公寓钥匙、创作秒表、待办清单与没有实现的计划。
 
-V&A Dundee 这次展出的手稿、旧演出票、公寓钥匙、创作秒表和没有实现的影视计划，提供了一个更有意思的入口：一个创作者怎样有意识或无意识地留下自己的工作痕迹，而几十年后的博物馆又怎样把这些私人残留重新组织成公共记忆。
+真正有意思的不是明星留下多少遗物，而是一个创作者怎样把自己的工作痕迹留给未来。
+
+[在《见π》内读人物小传 →](/weekly/009/david-bowie-archive) · [V&A Dundee 展览 ↗](https://www.vam.ac.uk/dundee/whatson/exhibitions/david-bowie-on-tour)
 
 ## 科学与世界
 
@@ -74,9 +76,13 @@ V&A Dundee 这次展出的手稿、旧演出票、公寓钥匙、创作秒表和
 城市谈树荫时常说景观、宜居和碳汇；街头的人却可能把它首先当成活下去的温差。基础设施有时不是桥梁和管线，只是一棵树下面几平方米的阴影。
 
 
-### [造出来以后，谁来照顾它？](https://science.nasa.gov/missions/hubble/nasa-explores-potential-commercial-servicing-for-hubble-telescope/)
+### [造出来以后，谁来照顾它？](/weekly/009/after-it-is-built)
 
-从哈勃望远镜面对维修或退役的选择，到 [Swift 结束任务](https://science.nasa.gov/blogs/swift/2026/11/02/nasas-swift-observatory-to-re-enter-atmosphere/)、[国际空间站继续安装太阳翼](https://www.nasa.gov/blogs/spacestation/2026/11/05/spacewalk-begins-to-install-last-roll-out-solar-array/)，再到[数字档案如何活到未来](https://www.library.gov.au/news-media/celebrating-world-digital-preservation-day/)：我们总爱谈技术被造出来的那一天，真正漫长的故事却发生在后来。维护、延寿与体面退场，值得留下一笔。
+Hubble 还在讨论要不要再修一次，Swift 已经结束任务，国际空间站却在生命后期继续升级；图书馆则提醒我们，数字文件同样会老。
+
+技术最漫长的故事，往往发生在发布、发射和建成之后。
+
+[在《见π》内阅读全文 →](/weekly/009/after-it-is-built)
 
 ### [超导体的相图画错了？](https://physics.cornell.edu/news/two-flavors-superconductivity-material-has-right-ingredients-twist)
 
@@ -103,11 +109,13 @@ V&A Dundee 这次展出的手稿、旧演出票、公寓钥匙、创作秒表和
 UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比例出现逆转。真正值得留下的问题是：当无人机改变了报道战争的技术环境，保护记者与事后追责的制度为什么没有一起升级？
 
 
-### [一座村庄被掏空以后，谁还留在里面](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
+### [一座村庄被掏空以后，谁还留在里面](/weekly/009/living-emptiness)
 
-牛津五年田野研究没有只用“人口减少”描述乡村衰落，而是把留下来的人、空房子、迁徙与地方记忆做成一部可阅读的多媒体作品。
+牛津五年田野项目没有把人口流失只写成一根向下的曲线，而是追问：地方正在空掉时，留下的人怎样继续生活。
 
 “空”不是没有人。很多时候，它意味着有人继续住在一个正在失去别人的地方。
+
+[在《见π》内阅读全文 →](/weekly/009/living-emptiness) · [牛津 COMPAS 原始项目 ↗](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
 
 ### [家政工人权利公约十五年，全球约八成仍在非正规就业](https://www.ilo.org/meetings-and-events/15-years-advancing-decent-work-domestic-workers)
 
@@ -199,4 +207,4 @@ Agent 真正进入 Web 以后，这几层身份迟早要被分开。
 
 ---
 
-*009 编辑部施工中。下一轮重点：《我去2003》封面视觉与全文审校、全期素材继续去重，以及正式发布前的事实与版权检查。*
+*009 编辑部施工中。下一轮重点：全文审校、全期素材继续去重，以及正式发布前的事实与版权检查。*
