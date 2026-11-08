@@ -44,7 +44,7 @@ writtenBy: mira | tomz
 
 这篇周记不负责替本期封面证明什么。它只是恰好从另一个方向碰到了同一个现实：机器一停，人、劳动、等待、身体和那些平常被吞掉的时间，会重新显形。
 
-## 深度阅读 · 拟
+## 深度阅读
 
 ### [当 AI 写代码，框架还在替谁省事？](/weekly/009/the-ai-cost-of-javascript-frameworks)
 
@@ -54,25 +54,7 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 
 [在《见π》内阅读全文 →](/weekly/009/the-ai-cost-of-javascript-frameworks) · [Nolan Lawson 原文 ↗](https://nolanlawson.com/2026/10/28/the-ai-cost-of-javascript-frameworks/) · [公开 Benchmark ↗](https://github.com/nolanlawson/agent-framework-benchmark)
 
-### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
-
-“多种树”几乎天然站在正确答案一边，但全球尺度的数据并不总支持如此简单的叙事。
-
-这篇准备重点看两个问题：人工造林究竟改变了什么，以及为什么同一项生态行动在不同气候、树种和土地管理条件下，可能走向完全不同的火灾结果。
-
-### [对露宿者来说，一棵树可能是救命基础设施](https://attheu.utah.edu/facultystaff/tree-shade-offers-critical-heat-relief-for-people-experiencing-unsheltered-homelessness/)
-
-城市谈树荫时常说景观、宜居和碳汇；街头的人却可能把它首先当成活下去的温差。
-
-这篇值得展开，是因为它把“城市基础设施”从道路、桥梁和管线，缩小到一棵树下面几平方米的阴影。
-
-### [六分之七的记者遇害案件未获司法解决](https://www.unesco.org/en/articles/six-out-seven-journalists-killings-are-not-brought-justice-reversing-progress-fight-against-impunity)
-
-UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比例出现逆转。
-
-如果进入正式成刊，我们不会把它写成战争恐怖数字汇总，而会追问：当无人机改变了报道战争的技术环境，保护记者与事后追责的制度为什么没有一起升级？
-
-## 人物 · 拟
+## 人物
 
 ### [David Bowie：一个人如何留下自己的创作痕迹](https://www.vam.ac.uk/dundee/info/david-bowie-treasures-go-on-display-in-scotland-for-the-first-time-at-v-a-dundee)
 
@@ -81,6 +63,15 @@ UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比�
 V&A Dundee 这次展出的手稿、旧演出票、公寓钥匙、创作秒表和没有实现的影视计划，提供了一个更有意思的入口：一个创作者怎样有意识或无意识地留下自己的工作痕迹，而几十年后的博物馆又怎样把这些私人残留重新组织成公共记忆。
 
 ## 科学与世界
+
+### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
+
+“多种树”几乎天然站在正确答案一边，但全球尺度的数据并不总支持如此简单的叙事。67,248 块人工造林地的记录提醒我们：改变植被并不会自动得到同一个火险结果，气候、树种和土地管理方式都会参与决定答案。
+
+### [对露宿者来说，一棵树可能是救命基础设施](https://attheu.utah.edu/facultystaff/tree-shade-offers-critical-heat-relief-for-people-experiencing-unsheltered-homelessness/)
+
+城市谈树荫时常说景观、宜居和碳汇；街头的人却可能把它首先当成活下去的温差。基础设施有时不是桥梁和管线，只是一棵树下面几平方米的阴影。
+
 
 ### [造出来以后，谁来照顾它？](https://science.nasa.gov/missions/hubble/nasa-explores-potential-commercial-servicing-for-hubble-telescope/)
 
@@ -105,6 +96,11 @@ V&A Dundee 这次展出的手稿、旧演出票、公寓钥匙、创作秒表和
 746 人的模拟决策实验，把一个很实际的问题变成了可测量对象：危险信息究竟应该怎样呈现，才能让人更快做对决定？
 
 ## 历史与人的生活
+
+### [六分之七的记者遇害案件未获司法解决](https://www.unesco.org/en/articles/six-out-seven-journalists-killings-are-not-brought-justice-reversing-progress-fight-against-impunity)
+
+UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比例出现逆转。真正值得留下的问题是：当无人机改变了报道战争的技术环境，保护记者与事后追责的制度为什么没有一起升级？
+
 
 ### [一座村庄被掏空以后，谁还留在里面](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
 
@@ -180,4 +176,4 @@ Agent 真正进入 Web 以后，这几层身份迟早要被分开。
 
 ---
 
-*009 编辑部施工中。下一轮重点：《我去2003》封面稿的文字与视觉审查、其余三篇深读候选的取舍，以及 Bowie 是否值得占一篇独立长稿。*
+*009 编辑部施工中。下一轮重点：《我去2003》封面视觉与全文审校、全期素材继续去重，以及正式发布前的事实与版权检查。*
