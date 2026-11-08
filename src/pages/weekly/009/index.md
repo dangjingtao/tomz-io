@@ -104,9 +104,13 @@ Hubble 还在讨论要不要再修一次，Swift 已经结束任务，国际空�
 
 ## 历史与人的生活
 
-### [六分之七的记者遇害案件未获司法解决](https://www.unesco.org/en/articles/six-out-seven-journalists-killings-are-not-brought-justice-reversing-progress-fight-against-impunity)
+### [六分之七的记者遇害案件，没有得到司法解决](/weekly/009/journalists-impunity)
 
-UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比例出现逆转。真正值得留下的问题是：当无人机改变了报道战争的技术环境，保护记者与事后追责的制度为什么没有一起升级？
+UNESCO 最新报告显示，全球记者遇害案件的司法未解决比例升到 86%，并首次自 2012 年开始持续监测以来出现反弹。
+
+更刺眼的是：无人机正在改变前线记者被杀死的方式，而追责机制并没有一起升级。
+
+[在《见π》内阅读全文 →](/weekly/009/journalists-impunity) · [UNESCO 原始报告 ↗](https://www.unesco.org/en/articles/six-out-seven-journalists-killings-are-not-brought-justice-reversing-progress-fight-against-impunity)
 
 
 ### [一座村庄被掏空以后，谁还留在里面](/weekly/009/living-emptiness)
@@ -117,11 +121,13 @@ UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比�
 
 [在《见π》内阅读全文 →](/weekly/009/living-emptiness) · [牛津 COMPAS 原始项目 ↗](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
 
-### [家政工人权利公约十五年，全球约八成仍在非正规就业](https://www.ilo.org/meetings-and-events/15-years-advancing-decent-work-domestic-workers)
+### [家政工人权利公约十五年，为什么八成劳动仍然在制度外](/weekly/009/domestic-workers-fifteen-years)
 
 法律已经写下来了，然后呢？
 
-这条不准备做成公约纪念文章，而是把“制度存在”与“制度实际抵达劳动者”之间那段漫长距离留下来。
+ILO 最新统计显示，全球约 8000 万名家政工人中，83.1% 仍处于非正规就业。问题已经不只是“有没有权利”，而是制度怎样真正进入家庭里的劳动关系。
+
+[在《见π》内阅读全文 →](/weekly/009/domestic-workers-fifteen-years) · [ILO 原始统计 ↗](https://www.ilo.org/node/747726)
 
 ## 项目与工具
 
