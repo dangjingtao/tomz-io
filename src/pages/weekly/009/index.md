@@ -6,7 +6,7 @@ order: 9
 issue: 9
 date: 2026年11月8日
 lead: 当年我们满怀期待地走向未来。二十多年后，我们已经住进了那个未来，却偶尔会想回到 2003 年，看看那时的自己。
-cover: /assets/jianpi-009-cover-2003.svg
+cover: /assets/jianpi-009-cover-2003.svg?v=009-1
 tags:
   - 互联网
   - 数字生活
@@ -23,7 +23,7 @@ writtenBy: mira | tomz
 >
 > 这是《见π》009 的施工页，不是最终成刊。标题、栏目、条目重量和独立长文数量仍会继续调整；已经公开的文章只做回链，不在《见π》复制第二份正文。
 
-![《见π》009 封面：我去2003](/assets/jianpi-009-cover-2003.svg)
+![《见π》009 封面：我去2003](/assets/jianpi-009-cover-2003.svg?v=009-1)
 
 ## 封面文章
 
@@ -121,7 +121,7 @@ UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比�
 
 ### [MyGo Music：在 2026 年重新做一台“属于自己”的音乐播放器](https://github.com/egoist/mygo-music)
 
-![MyGo Music：本地音乐优先，外部能力由插件扩展](/assets/jianpi-009-mygo-music.svg)
+![MyGo Music：本地音乐优先，外部能力由插件扩展](/assets/jianpi-009-mygo-music.svg?v=009-1)
 
 它不是流媒体入口，也不是套着 WebView 的网页壳。MyGo Music 用 Go 写成原生桌面播放器，本地 MP3、FLAC、ALAC、歌词和播放列表开箱即用；网络音乐、播客和额外服务则交给插件。
 
