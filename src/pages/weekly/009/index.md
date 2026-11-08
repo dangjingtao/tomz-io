@@ -1,16 +1,16 @@
 ---
-title: "见π 009｜世界不是一次性交付的"
-description: 见π 第 009 期编辑预览。我们暂时从“维护、延寿与退役”切入，同时保留科学、城市、历史、人物、Agent 工程与鬼集的异质视野。
+title: "见π 009｜我去2003"
+description: 《见π》第 009 期编辑预览。以《我去2003》为封面，从《New Boy》的新世纪憧憬回望数字生活，也继续记录科技、科学、城市与人的故事。
 group: 见π
 order: 9
 issue: 9
 date: 2026年11月8日
-lead: 一个世界真正困难的部分，往往不是把东西造出来，而是让它继续工作、知道何时修理，又知道何时应该体面退场。
+lead: 当年我们满怀期待地走向未来。二十多年后，我们已经住进了那个未来，却偶尔会想回到 2003 年，看看那时的自己。
 tags:
-  - 工程
+  - 互联网
+  - 数字生活
   - 科学
-  - 城市
-  - Agent
+  - AI
 author:
   - mira
   - tomz
@@ -22,21 +22,19 @@ writtenBy: mira | tomz
 >
 > 这是《见π》009 的施工页，不是最终成刊。标题、栏目、条目重量和独立长文数量仍会继续调整；已经公开的文章只做回链，不在《见π》复制第二份正文。
 
-## 封面故事 · 拟
+## 封面文章
 
-### 世界不是一次性交付的
+### [我去2003](/weekly/009/the-right-to-go-offline)
 
-我们总是更容易报道“造出了什么”：一架望远镜升空、一座空间站建成、一种文件格式出现、一项系统开始运行。
+老怀表、旧皮鞋，一台装着 Win98 的奔腾电脑。1999 年，朴树的《New Boy》唱着对新世纪的期待：等到电脑替我们思考，未来一定会很美好吧。
 
-真正漫长的部分却发生在发布会以后。
+二十多年后，电脑真的开始替人写信、写程序、安排工作。我们终于走进了当年盼望的未来，却有人开始怀念 2003 年——那个有手机、有互联网，也仍然能关上电脑、安静离开的年代。
 
-[哈勃望远镜](https://science.nasa.gov/missions/hubble/nasa-explores-potential-commercial-servicing-for-hubble-telescope/)正在面对升轨、维修还是安全退役的选择；[Swift](https://science.nasa.gov/blogs/swift/2026/11/02/nasas-swift-observatory-to-re-enter-atmosphere/)结束二十二年任务后坠入大气；已经进入退役倒计时的[国际空间站](https://www.nasa.gov/blogs/spacestation/2026/11/05/spacewalk-begins-to-install-last-roll-out-solar-array/)仍在安装最后一组卷展式太阳翼；澳大利亚国家图书馆则提醒人们，[磁盘、磁带和 PDF 并不会因为“已经数字化”就自动活到未来](https://www.library.gov.au/news-media/celebrating-world-digital-preservation-day)。
+从 Łukasz Kups 的怀旧短文，到《New Boy》里的少年，再到今天被通知和算法填满的生活，这篇文章并不打算证明过去比现在好。它只想轻轻地问一句：
 
-这一期的封面问题暂时是：
+**当年那么期待明天的我们，走到今天，过得还好吗？**
 
-**当创造越来越便宜，维护、延寿、交接和退役会不会反而成为真正稀缺的能力？**
-
-这不是一篇怀旧文章，也不是“旧东西更好”。我们想谈的是，一个系统怎样证明自己值得继续养，什么时候应该修，什么时候该换，以及谁有责任把已经造出来的世界照顾到最后。
+[阅读本期封面文章 →](/weekly/009/the-right-to-go-offline) · [Łukasz Kups 原文 ↗](https://lukaszkups.net/notes/early-2000s-were-peak-of-humanity/)
 
 ## 本期周记
 
@@ -55,14 +53,6 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 **当代码开始由机器大量生产，框架究竟在替开发者省事，还是在替 Agent 和未来维护者省事？** 这篇深读从实验的数字、方法和局限讲起，重新讨论前端技术选型的真实账单。
 
 [在《见π》内阅读全文 →](/weekly/009/the-ai-cost-of-javascript-frameworks) · [Nolan Lawson 原文 ↗](https://nolanlawson.com/2026/10/28/the-ai-cost-of-javascript-frameworks/) · [公开 Benchmark ↗](https://github.com/nolanlawson/agent-framework-benchmark)
-
-### [我去2003](/weekly/009/the-right-to-go-offline)
-
-1999 年，朴树的《New Boy》正满怀期待地迎接新世纪。二十多年后，Łukasz Kups 却想回到 2003 年：有手机、有电脑、有互联网，也还有很多不用向网络报到的日子。
-
-那时候未必更好。只是关上电脑，或许就能安心离开一阵子；等一个人回消息，也不必马上觉得出了什么事。**我们想回去的，可能不是旧设备，而是那时候活着的人，还有一点不必解释的空白。**
-
-[在《见π》内阅读全文 →](/weekly/009/the-right-to-go-offline) · [Łukasz Kups 原文 ↗](https://lukaszkups.net/notes/early-2000s-were-peak-of-humanity/) · [《New Boy》收录专辑 ↗](https://music.douban.com/subject/1405324/)
 
 ### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
 
@@ -91,6 +81,10 @@ UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比�
 V&A Dundee 这次展出的手稿、旧演出票、公寓钥匙、创作秒表和没有实现的影视计划，提供了一个更有意思的入口：一个创作者怎样有意识或无意识地留下自己的工作痕迹，而几十年后的博物馆又怎样把这些私人残留重新组织成公共记忆。
 
 ## 科学与世界
+
+### [造出来以后，谁来照顾它？](https://science.nasa.gov/missions/hubble/nasa-explores-potential-commercial-servicing-for-hubble-telescope/)
+
+从哈勃望远镜面对维修或退役的选择，到 [Swift 结束任务](https://science.nasa.gov/blogs/swift/2026/11/02/nasas-swift-observatory-to-re-enter-atmosphere/)、[国际空间站继续安装太阳翼](https://www.nasa.gov/blogs/spacestation/2026/11/05/spacewalk-begins-to-install-last-roll-out-solar-array/)，再到[数字档案如何活到未来](https://www.library.gov.au/news-media/celebrating-world-digital-preservation-day/)：我们总爱谈技术被造出来的那一天，真正漫长的故事却发生在后来。维护、延寿与体面退场，值得留下一笔。
 
 ### [超导体的相图画错了？](https://physics.cornell.edu/news/two-flavors-superconductivity-material-has-right-ingredients-twist)
 
@@ -186,4 +180,4 @@ Agent 真正进入 Web 以后，这几层身份迟早要被分开。
 
 ---
 
-*009 编辑部施工中。下一轮重点：封面命题是否成立、两篇独立深读与其余三篇候选的重量如何安排，以及 Bowie 是否值得占一篇独立长稿。*
+*009 编辑部施工中。下一轮重点：《我去2003》封面稿的文字与视觉审查、其余三篇深读候选的取舍，以及 Bowie 是否值得占一篇独立长稿。*
