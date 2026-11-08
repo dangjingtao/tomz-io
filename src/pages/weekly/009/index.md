@@ -48,6 +48,14 @@ writtenBy: mira | tomz
 
 ## 深度阅读 · 拟
 
+### [当 AI 写代码，框架还在替谁省事？](/weekly/009/the-ai-cost-of-javascript-frameworks)
+
+Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。Hono + htmx 的估算构建成本最低，Astro 紧随其后；但五次运行的差异、不同渲染路线的性能偏向，以及代码行数与长期维护之间的距离，都让“谁赢了”变成一个太简单的问题。
+
+**当代码开始由机器大量生产，框架究竟在替开发者省事，还是在替 Agent 和未来维护者省事？** 这篇深读从实验的数字、方法和局限讲起，重新讨论前端技术选型的真实账单。
+
+[在《见π》内阅读全文 →](/weekly/009/the-ai-cost-of-javascript-frameworks) · [Nolan Lawson 原文 ↗](https://nolanlawson.com/2026/10/28/the-ai-cost-of-javascript-frameworks/) · [公开 Benchmark ↗](https://github.com/nolanlawson/agent-framework-benchmark)
+
 ### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
 
 “多种树”几乎天然站在正确答案一边，但全球尺度的数据并不总支持如此简单的叙事。
@@ -170,4 +178,4 @@ Agent 真正进入 Web 以后，这几层身份迟早要被分开。
 
 ---
 
-*009 编辑部施工中。下一轮重点：封面命题是否成立、三篇深读谁需要降级，以及 Bowie 是否值得占一篇独立长稿。*
+*009 编辑部施工中。下一轮重点：封面命题是否成立、新增长文与其余三篇深读的重量如何安排，以及 Bowie 是否值得占一篇独立长稿。*
