@@ -6,6 +6,7 @@ order: 9
 issue: 9
 date: 2026年11月8日
 lead: 当年我们满怀期待地走向未来。二十多年后，我们已经住进了那个未来，却偶尔会想回到 2003 年，看看那时的自己。
+cover: /assets/jianpi-009-cover-2003.svg
 tags:
   - 互联网
   - 数字生活
@@ -21,6 +22,8 @@ writtenBy: mira | tomz
 > **编辑预览**
 >
 > 这是《见π》009 的施工页，不是最终成刊。标题、栏目、条目重量和独立长文数量仍会继续调整；已经公开的文章只做回链，不在《见π》复制第二份正文。
+
+![《见π》009 封面：我去2003](/assets/jianpi-009-cover-2003.svg)
 
 ## 封面文章
 
@@ -118,11 +121,17 @@ UNESCO 的新报告不只给出死亡数字，也显示全球司法未解决比�
 
 ### [MyGo Music：在 2026 年重新做一台“属于自己”的音乐播放器](https://github.com/egoist/mygo-music)
 
+![MyGo Music：本地音乐优先，外部能力由插件扩展](/assets/jianpi-009-mygo-music.svg)
+
 它不是流媒体入口，也不是套着 WebView 的网页壳。MyGo Music 用 Go 写成原生桌面播放器，本地 MP3、FLAC、ALAC、歌词和播放列表开箱即用；网络音乐、播客和额外服务则交给插件。
 
 这件事放在《我去2003》旁边很妙：我们已经拥有几乎无限的在线音乐，却仍有人重新做一台把音乐留在自己电脑里的播放器。不是为了回到过去，而是重新决定什么应该属于本机、什么应该由服务提供。
 
 ### [MonkeyCode 正在长成一套团队 AI 工作台](https://github.com/chaitin/MonkeyCode)
+
+![MonkeyAI 官方仓库中的办公场景示意图](https://raw.githubusercontent.com/chaitin/MonkeyCode/ad169c9b946ea04a1fc19a7abff9815d38116a73/monkeyai/landing/src/assets/scene-office.webp)
+
+*图：MonkeyCode / MonkeyAI 项目仓库公开素材，固定到 `ad169c9`。*
 
 仓库名字还叫 MonkeyCode，但它已经不只是一个 AI coding 工具。当前主线以“百智办公 / MonkeyAI”继续扩展，把办公、编程、设计、模型、知识库、技能、MCP 连接器、权限、审计和团队资源管理放进同一套可私有部署的工作台。
 
@@ -157,6 +166,10 @@ Agent 真正进入 Web 以后，这几层身份迟早要被分开。
 ## 鬼集 · 奇想与荒诞
 
 ### [任天堂红白机上出现桌面、鼠标和回收站：但它绝不是 Windows](https://github.com/ThroatyMumbo/NESPC)
+
+![NESPC 项目仓库中的桌面截图](https://raw.githubusercontent.com/ThroatyMumbo/NESPC/13e6cd8cb4391d95a77eb3bd5921872d455d1d18/screenshots/desktop.png)
+
+*图：NESPC 项目仓库公开截图，固定到 `13e6cd8`。*
 
 一台原本只为游戏设计的 8-bit 机器，在 FPGA 卡带和外接适配器帮助下，硬是长出了桌面、鼠标和回收站。
 
