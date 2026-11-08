@@ -16,10 +16,10 @@
 | 01 礼拜日 | [working/01-sunday.md](working/01-sunday.md) | [mira-originals/01-sunday-long.md](mira-originals/01-sunday-long.md) | Tomz 修订、审阅过，仍可继续调整 |
 | 02 盗火者 | [working/02-firebringer.md](working/02-firebringer.md) | [mira-originals/02-firebringer-initial.md](mira-originals/02-firebringer-initial.md) | Tomz 修改为刘工小传，经文字卫生核对 |
 | 03 没有名字的人 | [working/03-nameless.md](working/03-nameless.md) | [mira-originals/03-nameless-initial.md](mira-originals/03-nameless-initial.md) | Tomz 修订，Mira 补完演讲与局部问题，尚可再审 |
-| 04 不死者 | [working/04-immortal.md](working/04-immortal.md) | [mira-originals/04-immortal-initial.md](mira-originals/04-immortal-initial.md) | Mira 初稿，**未经过 Tomz 的逐章审阅** |
+| 04 不死教宗 | [working/04-immortal.md](working/04-immortal.md) | [mira-originals/04-immortal-initial.md](mira-originals/04-immortal-initial.md) | **Tomz 已过稿；当前工作稿为双方确认版本。** |
 | 05 投票日 | 尚未写作 | 无 | 只有创作提纲 |
 
-注：第二章后来经历了「人物传记式重写」，目前 working 版本是经过 Tomz 修改（称刘工）和局部清理的版本。mira-originals 保存的是重写之前首次写出的审查过程母稿。Git commit 历史保存此分支之后的改动。
+注：第二章后来经历了「人物传记式重写」，目前 working 版本是经过 Tomz 修改（称刘工）和局部清理的版本。mira-originals 保存的是重写之前首次写出的审查过程母稿。第四章母稿保持首次写作版本；本次过稿仅更新 working 文件。Git commit 历史保存此分支之后的改动。
 
 ## 核心创作约束
 
