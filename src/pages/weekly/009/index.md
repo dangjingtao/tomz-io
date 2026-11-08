@@ -58,11 +58,11 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 
 ### [我去2003](/weekly/009/the-right-to-go-offline)
 
-1999 年，朴树唱着《我去2000年》，一边走向新世纪，一边舍不得过去。二十多年后，Łukasz Kups 却说，他想回到 2003 年：有手机、有电脑、有互联网，也还有很多不用向网络报到的日子。
+1999 年，朴树的《New Boy》正满怀期待地迎接新世纪。二十多年后，Łukasz Kups 却想回到 2003 年：有手机、有电脑、有互联网，也还有很多不用向网络报到的日子。
 
 那时候未必更好。只是关上电脑，或许就能安心离开一阵子；等一个人回消息，也不必马上觉得出了什么事。**我们想回去的，可能不是旧设备，而是那时候活着的人，还有一点不必解释的空白。**
 
-[在《见π》内阅读全文 →](/weekly/009/the-right-to-go-offline) · [Łukasz Kups 原文 ↗](https://lukaszkups.net/notes/early-2000s-were-peak-of-humanity/) · [朴树早年访谈 ↗](https://ent.sina.com.cn/p/i/2003-03-10/1525136761.html)
+[在《见π》内阅读全文 →](/weekly/009/the-right-to-go-offline) · [Łukasz Kups 原文 ↗](https://lukaszkups.net/notes/early-2000s-were-peak-of-humanity/) · [《New Boy》收录专辑 ↗](https://music.douban.com/subject/1405324/)
 
 ### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
 
