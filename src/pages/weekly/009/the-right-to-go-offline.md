@@ -2,7 +2,7 @@
 title: "我去2003"
 description: "读 Łukasz Kups 的怀旧短文，想起朴树1999年的《New Boy》。那时年轻人满心期待新世纪，如今却有人想回到2003年，找找那些可以认真过完的普通日子。"
 group: 见π
-order: 5
+order: 1
 issue: 9
 date: 2026年11月8日
 readTime: 8 分钟阅读
