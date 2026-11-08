@@ -56,7 +56,7 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 
 [在《见π》内阅读全文 →](/weekly/009/the-ai-cost-of-javascript-frameworks) · [Nolan Lawson 原文 ↗](https://nolanlawson.com/2026/10/28/the-ai-cost-of-javascript-frameworks/) · [公开 Benchmark ↗](https://github.com/nolanlawson/agent-framework-benchmark)
 
-### [我们怀念的不是2003年，而是离线的权利](/weekly/009/the-right-to-go-offline)
+### [我去2003](/weekly/009/the-right-to-go-offline)
 
 Łukasz Kups 在一篇充满怀旧气息的短文里，把 2000 年代初称作技术与生活最接近平衡的年代：手机负责通信，网络是一个可以走进去、也可以离开的地方。我们没有必要跟着宣布 2003 年是人类巅峰，甚至应该认真反驳那个年代所隐含的技术门槛。
 
