@@ -313,7 +313,7 @@ function articleBody(
     .join("");
   const authorCountClass = doc.authors.length > 1 ? "duo" : "solo";
   const bio = doc.authors.length === 1 ? authorBio(doc.authors[0]) : "";
-  const main = `<main class="doc-main seo-static-content blog-post-page"><article class="article-header">${visual}<h1>${miraDocsEscapeHtml(doc.title)}</h1>${doc.description ? `<p class="doc-lede">${miraDocsEscapeHtml(doc.description)}</p>` : ""}<div class="post-meta post-meta-article">${meta}</div></article><div class="article-shell"><div class="article-body markdown blog-markdown">${body}<section class="author-signature author-signature-${authorCountClass}"><div class="author-signature-avatars author-signature-avatars-${doc.authors.length}">${authorAvatars}</div><div class="author-signature-copy"><h4>${miraDocsEscapeHtml(authors)}</h4>${bio ? `<p>${miraDocsEscapeHtml(bio)}</p>` : ""}</div></section>${pageNavigation(previous, next, context)}</div>${articleToc(doc)}</div></main>`;
+  const main = `<main class="doc-main seo-static-content blog-post-page"${dataString(doc.data, "lang") === "en" ? ' lang="en"' : ""}><article class="article-header">${visual}<h1>${miraDocsEscapeHtml(doc.title)}</h1>${doc.description ? `<p class="doc-lede">${miraDocsEscapeHtml(doc.description)}</p>` : ""}<div class="post-meta post-meta-article">${meta}</div></article><div class="article-shell"><div class="article-body markdown blog-markdown">${body}<section class="author-signature author-signature-${authorCountClass}"><div class="author-signature-avatars author-signature-avatars-${doc.authors.length}">${authorAvatars}</div><div class="author-signature-copy"><h4>${miraDocsEscapeHtml(authors)}</h4>${bio ? `<p>${miraDocsEscapeHtml(bio)}</p>` : ""}</div></section>${pageNavigation(previous, next, context)}</div>${articleToc(doc)}</div></main>`;
   return `${staticSiteHeader(context)}<div class="docs-app blog-app seo-static-docs-app"><div class="docs-shell blog-shell">${main}</div></div>`;
 }
 
@@ -436,6 +436,7 @@ function documentJsonLd(
         : "TechArticle",
     headline: doc.title,
     description: doc.description,
+    ...(dataString(doc.data, "lang") ? { inLanguage: dataString(doc.data, "lang") } : {}),
     url,
     image: imageUrl(doc, context),
     datePublished: doc.date,
