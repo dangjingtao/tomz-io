@@ -14,6 +14,8 @@ writtenBy: tomz
 
 # 第十四周：停电
 
+*English translation: [Week Fourteen: Power Outage](https://tomz.io/blogs/developer-life/week-fourteen-power-outage-en).*
+
 这个星期，两家 AI 供应商的额度相继见了底。
 
 其中还包括一些免费额度。过去一周，我几乎没有停止过使用它们。几个软件项目同时开发，十几个任务在不同线程里推进，代码提交、测试、审查、部署，偶尔还要从一堆漂亮的交付报告中找出那些并没有真正运行起来的功能。
