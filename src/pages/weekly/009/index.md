@@ -68,6 +68,33 @@ V&A Dundee 展出的不只是服装、乐器和歌词，还有公寓钥匙、创
 
 [在《见π》内读人物小传 →](/weekly/009/david-bowie-archive) · [V&A Dundee 展览 ↗](https://www.vam.ac.uk/dundee/whatson/exhibitions/david-bowie-on-tour)
 
+## 历史与人的生活
+
+### [六分之七的记者遇害案件，没有得到司法解决](/weekly/009/journalists-impunity)
+
+UNESCO 最新报告显示，全球记者遇害案件的司法未解决比例升到 86%，并首次自 2012 年开始持续监测以来出现反弹。
+
+更刺眼的是：无人机正在改变前线记者被杀死的方式，而追责机制并没有一起升级。
+
+[在《见π》内阅读全文 →](/weekly/009/journalists-impunity) · [UNESCO 原始报告 ↗](https://www.unesco.org/en/articles/six-out-seven-journalists-killings-are-not-brought-justice-reversing-progress-fight-against-impunity)
+
+
+### [一座村庄被掏空以后，谁还留在里面](/weekly/009/living-emptiness)
+
+牛津五年田野项目没有把人口流失只写成一根向下的曲线，而是追问：地方正在空掉时，留下的人怎样继续生活。
+
+“空”不是没有人。很多时候，它意味着有人继续住在一个正在失去别人的地方。
+
+[在《见π》内阅读全文 →](/weekly/009/living-emptiness) · [牛津 COMPAS 原始项目 ↗](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
+
+### [家政工人权利公约十五年，为什么八成劳动仍然在制度外](/weekly/009/domestic-workers-fifteen-years)
+
+法律已经写下来了，然后呢？
+
+ILO 最新统计显示，全球约 8000 万名家政工人中，83.1% 仍处于非正规就业。问题已经不只是“有没有权利”，而是制度怎样真正进入家庭里的劳动关系。
+
+[在《见π》内阅读全文 →](/weekly/009/domestic-workers-fifteen-years) · [ILO 原始统计 ↗](https://www.ilo.org/node/747726)
+
 ## 科学与世界
 
 ### [种树未必降低火险：67248 块人工造林地的反直觉结果](https://oembed.uef.fi/en/article/afforestation-reshapes-wildfire-activity-across-temperate-regions-worldwide)
@@ -104,33 +131,6 @@ Hubble 还在讨论要不要再修一次，Swift 已经结束任务，国际空�
 ### [洪水警报直接画出哪里会淹，会不会比一大段文字更快救人？](https://doi.org/10.1080/29986907.2026.2746540)
 
 746 人的模拟决策实验，把一个很实际的问题变成了可测量对象：危险信息究竟应该怎样呈现，才能让人更快做对决定？
-
-## 历史与人的生活
-
-### [六分之七的记者遇害案件，没有得到司法解决](/weekly/009/journalists-impunity)
-
-UNESCO 最新报告显示，全球记者遇害案件的司法未解决比例升到 86%，并首次自 2012 年开始持续监测以来出现反弹。
-
-更刺眼的是：无人机正在改变前线记者被杀死的方式，而追责机制并没有一起升级。
-
-[在《见π》内阅读全文 →](/weekly/009/journalists-impunity) · [UNESCO 原始报告 ↗](https://www.unesco.org/en/articles/six-out-seven-journalists-killings-are-not-brought-justice-reversing-progress-fight-against-impunity)
-
-
-### [一座村庄被掏空以后，谁还留在里面](/weekly/009/living-emptiness)
-
-牛津五年田野项目没有把人口流失只写成一根向下的曲线，而是追问：地方正在空掉时，留下的人怎样继续生活。
-
-“空”不是没有人。很多时候，它意味着有人继续住在一个正在失去别人的地方。
-
-[在《见π》内阅读全文 →](/weekly/009/living-emptiness) · [牛津 COMPAS 原始项目 ↗](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
-
-### [家政工人权利公约十五年，为什么八成劳动仍然在制度外](/weekly/009/domestic-workers-fifteen-years)
-
-法律已经写下来了，然后呢？
-
-ILO 最新统计显示，全球约 8000 万名家政工人中，83.1% 仍处于非正规就业。问题已经不只是“有没有权利”，而是制度怎样真正进入家庭里的劳动关系。
-
-[在《见π》内阅读全文 →](/weekly/009/domestic-workers-fifteen-years) · [ILO 原始统计 ↗](https://www.ilo.org/node/747726)
 
 ## 项目与工具
 
