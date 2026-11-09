@@ -4,6 +4,7 @@ import {
   weeklyDateLabel,
   weeklyDisplayTitle,
   weeklyIssueNumber,
+  weeklyIssuePath,
   groupWeeklyToc,
 } from "./weekly-utils";
 
@@ -12,8 +13,14 @@ function doc(overrides: Partial<Doc>): Doc {
 }
 
 describe("weekly helpers", () => {
-  it("prefers an explicit issue number over order", () => {
-    expect(weeklyIssueNumber(doc({ issue: 7, order: 99 }))).toBe(7);
+  it("derives a weekly article's issue from its containing directory", () => {
+    expect(weeklyIssueNumber(doc({ root: "weekly", directory: "009", order: 3 }))).toBe(9);
+    expect(weeklyIssueNumber(doc({ root: "weekly", directory: "009/feature", issue: 8, order: 3 }))).toBe(9);
+    expect(weeklyIssuePath(doc({ root: "weekly", directory: "009", order: 3 }))).toBe("/weekly/009");
+  });
+
+  it("falls back to explicit issue metadata and then order when no numbered weekly directory exists", () => {
+    expect(weeklyIssueNumber(doc({ root: "weekly", directory: "", issue: 7, order: 99 }))).toBe(7);
     expect(weeklyIssueNumber(doc({ order: 3 }))).toBe(3);
   });
 
