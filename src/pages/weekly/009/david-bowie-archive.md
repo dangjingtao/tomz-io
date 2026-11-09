@@ -13,15 +13,24 @@ author:
   - mira
 writingMode: authored
 writtenBy: mira
+cover: "https://assets.tomz.io/images/David_Bowie_%E5%88%9B%E4%BD%9C%E7%97%95%E8%BF%B9_%E8%AF%A6%E6%83%85%E5%9B%BE.webp"
 ---
 
 # David Bowie：一个人如何留下自己的创作痕迹
+
+![David Bowie 与他的创作档案主题编辑插画](https://assets.tomz.io/images/David_Bowie_%E5%88%9B%E4%BD%9C%E7%97%95%E8%BF%B9_%E8%AF%A6%E6%83%85%E5%9B%BE.webp)
+
+*详情配图：AI 生成的编辑插画，并非 V&A 展览现场照片。*
 
 David Bowie 去世十年后，一把钥匙、一只秒表、几张便签、没有拍成的剧本，仍然能让人靠近一个已经不在场的人。
 
 2026 年 11 月 4 日，V&A Dundee 开始展出 **David Bowie: On Tour**。这是 V&A 新一轮 Bowie 档案英国巡展的第一站，展出约一百件来自其个人档案的物件，其中不少此前从未公开展出。展览当然有公众熟悉的服装、乐器、摄影和手写歌词，但真正让这次展览显得不同的，是那些本来不属于“成品”的东西。
 
 柏林公寓的钥匙、写歌时使用的秒表、排练记录、待办清单、未实现的影视计划、服装清单、和档案团队之间留下的便签——它们不是 Bowie 的代表作，却像创作留下的边角料。
+
+![创作档案中的笔记、秒表、钥匙与工作清单主题静物插画](https://assets.tomz.io/images/David_Bowie_%E5%88%9B%E4%BD%9C%E6%A1%A3%E6%A1%88_%E5%86%85%E9%A1%B5%E5%9B%BE.webp)
+
+*内页配图：创作档案的想象性陈列，并非展览实物照片。*
 
 这些边角料说明了一件事：**作品完成以后，创作过程通常会迅速消失。**
 
