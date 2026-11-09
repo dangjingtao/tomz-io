@@ -16,7 +16,10 @@ author:
   - tomz
 writingMode: co-authored
 writtenBy: mira | tomz
+cover: "https://assets.tomz.io/images/%E6%88%91%E5%8E%BB2003_%E5%B0%81%E9%9D%A2_QR%E7%89%88_200k%E4%BB%A5%E5%86%85.webp"
 ---
+
+![《见π》009 封面：我去2003](https://assets.tomz.io/images/%E6%88%91%E5%8E%BB2003_%E5%B0%81%E9%9D%A2_QR%E7%89%88_200k%E4%BB%A5%E5%86%85.webp)
 
 > **编辑预览**
 >
