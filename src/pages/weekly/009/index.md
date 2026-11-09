@@ -62,6 +62,10 @@ Nolan Lawson 让编程 Agent 用十二种前端技术栈完成同一款应用。
 
 ### [David Bowie：一个人如何留下自己的创作痕迹](/weekly/009/david-bowie-archive)
 
+![David Bowie 与他的创作档案主题编辑插画](https://assets.tomz.io/images/David_Bowie_%E5%88%9B%E4%BD%9C%E7%97%95%E8%BF%B9_%E8%AF%A6%E6%83%85%E5%9B%BE.webp)
+
+*详情配图：AI 生成的编辑插画，并非 V&A 展览现场照片。*
+
 V&A Dundee 展出的不只是服装、乐器和歌词，还有公寓钥匙、创作秒表、待办清单与没有实现的计划。
 
 真正有意思的不是明星留下多少遗物，而是一个创作者怎样把自己的工作痕迹留给未来。
