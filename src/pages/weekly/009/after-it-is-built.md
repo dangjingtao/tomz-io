@@ -1,6 +1,7 @@
 ---
 title: "造出来以后，谁来照顾它？"
 description: 从 Hubble、Swift、国际空间站到 born-digital 档案：技术最漫长的故事，往往发生在发布、发射和建成之后。
+cover: "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/servicing-missions/sm2/STScI-01EVT1QH07QFA3XKSG6N2JGH6J.png?fit=clip&h=1333&w=2000"
 group: 见π
 order: 4
 date: 2026年11月8日
@@ -43,6 +44,10 @@ NASA 在 10 月 29 日发布 Request for Information，希望了解商业公司�
 这还不是一项已经获批的任务。
 
 NASA 只是开始询问：现在的商业航天能力，是否已经足以让一台老望远镜再多活几年。
+
+![NASA 宇航员 Steve Smith 在 1997 年 Hubble 第二次维修任务中使用特制棘轮工具工作](https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/servicing-missions/sm2/STScI-01EVT1QH07QFA3XKSG6N2JGH6J.png?fit=clip&h=1333&w=2000)
+
+*历史档案照片：Steve Smith 在 STS-82 第二次维修任务中使用特制工具维修 Hubble，1997 年 2 月。图片来源：NASA and the STS-82 Crew；[NASA 原始图片说明](https://science.nasa.gov/asset/hubble/repairing-hubble-with-specially-designed-tools-1997/)。*
 
 这个问题很有意思，因为 Hubble 并不是“坏了所以修”。
 

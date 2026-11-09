@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" role="img" aria-labelledby="title desc">
+<title id="title">记者遇害案件的司法问责现状</title>
+<desc id="desc">UNESCO 2026 年报告：2024 至 2025 年全球 189 名记者遇害，86% 的记者遇害案件未获司法解决；127 人死于冲突地区，其中 50 人死于无人机袭击，约占冲突地区遇害记者的 40%。</desc>
+<rect width="1000" height="520" fill="#f7f5ef"/>
+<text x="54" y="54" fill="#28333a" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="700">记者安全与司法问责</text>
+<text x="54" y="84" fill="#68716e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="14" letter-spacing="1.5">UNESCO · 2024—2025 年记者遇害数据</text>
+<rect x="48" y="112" width="904" height="205" rx="18" fill="#eee7dd"/>
+<text x="82" y="246" fill="#a64e43" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="126" font-weight="700">86%</text>
+<text x="445" y="177" fill="#28333a" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700">记者遇害案件</text>
+<text x="445" y="211" fill="#28333a" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700">尚未获得司法解决</text>
+<text x="445" y="247" fill="#68716e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="14">约六分之七 · 自 2012 年持续监测以来首次反弹</text>
+<g transform="translate(448 269)">
+<rect x="0" y="0" width="44" height="12" rx="3" fill="#a64e43"/><rect x="54" y="0" width="44" height="12" rx="3" fill="#a64e43"/><rect x="108" y="0" width="44" height="12" rx="3" fill="#a64e43"/><rect x="162" y="0" width="44" height="12" rx="3" fill="#a64e43"/><rect x="216" y="0" width="44" height="12" rx="3" fill="#a64e43"/><rect x="270" y="0" width="44" height="12" rx="3" fill="#a64e43"/><rect x="324" y="0" width="44" height="12" rx="3" fill="#d5cfc5"/>
+</g>
+<g font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="48" y="340" width="280" height="108" rx="12" fill="#e7ebe6"/><text x="72" y="394" fill="#647b6d" font-size="47" font-weight="700">189</text><text x="72" y="425" fill="#39464a" font-size="15">全球记者遇害总数</text>
+<rect x="360" y="340" width="280" height="108" rx="12" fill="#e6ebed"/><text x="384" y="394" fill="#597381" font-size="47" font-weight="700">127</text><text x="384" y="425" fill="#39464a" font-size="15">死于冲突地区</text>
+<rect x="672" y="340" width="280" height="108" rx="12" fill="#f0e5dc"/><text x="696" y="394" fill="#a66d50" font-size="47" font-weight="700">50</text><text x="696" y="425" fill="#39464a" font-size="15">死于无人机袭击 · 约占 40%</text>
+</g>
+<line x1="48" y1="473" x2="952" y2="473" stroke="#d4cec3"/>
+<text x="50" y="499" fill="#68716e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="12">注：40% 的分母为冲突地区遇害记者（127 人）。来源：UNESCO《记者安全与有罪不罚风险报告》2026。</text>
+</svg>

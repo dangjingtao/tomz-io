@@ -76,6 +76,10 @@ V&A Dundee 展出的不只是服装、乐器和歌词，还有公寓钥匙、创
 
 ### [六分之七的记者遇害案件，没有得到司法解决](/weekly/009/journalists-impunity)
 
+![UNESCO 2026 年记者安全统计：86% 的记者遇害案件未获司法解决，2024—2025 年共有 189 名记者遇害](/assets/jianpi-009-journalists-impunity.svg)
+
+*图表：UNESCO《记者安全与有罪不罚风险报告》2026。无人机袭击占比以冲突地区遇害记者为分母；“未获司法解决”按 UNESCO 监测口径，不等于完全没有调查。*
+
 UNESCO 最新报告显示，全球记者遇害案件的司法未解决比例升到 86%，并首次自 2012 年开始持续监测以来出现反弹。
 
 更刺眼的是：无人机正在改变前线记者被杀死的方式，而追责机制并没有一起升级。
@@ -85,6 +89,10 @@ UNESCO 最新报告显示，全球记者遇害案件的司法未解决比例升�
 
 ### [一座村庄被掏空以后，谁还留在里面](/weekly/009/living-emptiness)
 
+![牛津 COMPAS 五年田野研究覆盖拉脱维亚边境地区、乌克兰中部、亚美尼亚高地和俄罗斯远东](/assets/jianpi-009-living-emptiness.svg)
+
+*研究区域示意图：横向排列仅用于呈现四个田野区域，不代表精确地图、行政边界或比例距离。*
+
 牛津五年田野项目没有把人口流失只写成一根向下的曲线，而是追问：地方正在空掉时，留下的人怎样继续生活。
 
 “空”不是没有人。很多时候，它意味着有人继续住在一个正在失去别人的地方。
@@ -92,6 +100,10 @@ UNESCO 最新报告显示，全球记者遇害案件的司法未解决比例升�
 [在《见π》内阅读全文 →](/weekly/009/living-emptiness) · [牛津 COMPAS 原始项目 ↗](https://www.compas.ox.ac.uk/article/emptiness-has-moved-in-next-door)
 
 ### [家政工人权利公约十五年，为什么八成劳动仍然在制度外](/weekly/009/domestic-workers-fifteen-years)
+
+![ILO 2025 年全球家政劳动统计：83.1% 的家政工人处于非正规就业](/assets/jianpi-009-domestic-workers.svg)
+
+*图表：ILO《The state of domestic work in 2025》。比例和人数为全球估算，报告于 2026 年发布。*
 
 法律已经写下来了，然后呢？
 
@@ -111,6 +123,10 @@ ILO 最新统计显示，全球约 8000 万名家政工人中，83.1% 仍处于�
 
 
 ### [造出来以后，谁来照顾它？](/weekly/009/after-it-is-built)
+
+![NASA 宇航员 Steve Smith 在 1997 年 Hubble 第二次维修任务中使用特制棘轮工具工作](https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/servicing-missions/sm2/STScI-01EVT1QH07QFA3XKSG6N2JGH6J.png?fit=clip&h=1333&w=2000)
+
+*历史档案照片：Steve Smith 在 STS-82 第二次维修任务中使用特制工具维修 Hubble，1997 年 2 月。图片来源：NASA and the STS-82 Crew；[NASA 原始图片说明](https://science.nasa.gov/asset/hubble/repairing-hubble-with-specially-designed-tools-1997/)。*
 
 Hubble 还在讨论要不要再修一次，Swift 已经结束任务，国际空间站却在生命后期继续升级；图书馆则提醒我们，数字文件同样会老。
 
