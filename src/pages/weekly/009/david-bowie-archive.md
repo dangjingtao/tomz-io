@@ -3,7 +3,9 @@ title: "David Bowie：一个人如何留下自己的创作痕迹"
 description: V&A Dundee 的 Bowie 档案巡展，不只是在展示明星遗物，也让人看见一个创作者如何留下未完成的计划、工作痕迹与自我整理。
 group: 见π
 order: 3
+issue: 9
 date: 2026年11月8日
+readTime: 6 分钟阅读
 lead: "真正有意思的，不是明星留下了多少东西，而是一个人怎样在创作的一生里，无意或有意地把自己留下。"
 tags:
   - 人物

@@ -4,7 +4,9 @@ description: 牛津五年田野项目研究“空掉的地方”：人口流失�
 cover: "/assets/jianpi-009-living-emptiness.svg"
 group: 见π
 order: 5
+issue: 9
 date: 2026年11月8日
+readTime: 6 分钟阅读
 lead: "空，不是没有人。很多时候，它意味着有人继续住在一个正在失去别人的地方。"
 tags:
   - 人类学

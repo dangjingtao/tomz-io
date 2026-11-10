@@ -3,8 +3,10 @@ title: "家政工人权利公约十五年，为什么八成劳动仍然在制度
 description: ILO 最新统计显示，全球约 8000 万家政工人中，83.1% 仍处于非正规就业。问题不再只是有没有法律，而是法律怎样真正抵达家庭中的劳动关系。
 cover: "/assets/jianpi-009-domestic-workers.svg"
 group: 见π
-order: 7
+order: 6
+issue: 9
 date: 2026年11月8日
+readTime: 7 分钟阅读
 lead: "法律已经写下来了，然后呢？十五年过去，全球家政劳动仍有超过八成处于非正规就业。"
 tags:
   - 劳动

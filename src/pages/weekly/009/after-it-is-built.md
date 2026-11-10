@@ -3,8 +3,10 @@ title: "造出来以后，谁来照顾它？"
 description: 从 Hubble、Swift、国际空间站到 born-digital 档案：技术最漫长的故事，往往发生在发布、发射和建成之后。
 cover: "https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/servicing-missions/sm2/STScI-01EVT1QH07QFA3XKSG6N2JGH6J.png?fit=clip&h=1333&w=2000"
 group: 见π
-order: 4
+order: 7
+issue: 9
 date: 2026年11月8日
+readTime: 8 分钟阅读
 lead: "工程最喜欢庆祝第一次点亮、第一次发射和第一次运行。真正漫长的工作，却从那一天以后才开始。"
 tags:
   - 工程

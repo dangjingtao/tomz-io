@@ -2,7 +2,7 @@
 title: "当 AI 写代码，框架还在替谁省事？"
 description: "Nolan Lawson 让同一个编程智能体用十二种前端技术栈实现同一款应用。Hono + htmx 的单次构建成本最低，但这场实验真正触动的，是软件框架在 AI 时代究竟应该替谁节省什么。"
 group: 见π
-order: 4
+order: 2
 issue: 9
 date: 2026年11月8日
 readTime: 9 分钟阅读

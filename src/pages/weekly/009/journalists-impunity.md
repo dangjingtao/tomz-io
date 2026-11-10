@@ -3,8 +3,10 @@ title: "六分之七的记者遇害案件，没有得到司法解决"
 description: UNESCO 2026 年报告显示，全球记者遇害案件的司法未解决比例首次自 2012 年开始监测以来出现反弹。问题不只是死亡数字，而是追责机制为何跟不上战争技术的变化。
 cover: "/assets/jianpi-009-journalists-impunity.svg"
 group: 见π
-order: 6
+order: 4
+issue: 9
 date: 2026年11月8日
+readTime: 6 分钟阅读
 lead: "记者越来越可能被无人机杀死，而司法系统仍然以更慢的速度追赶。真正危险的，不只是战争如何变化，而是追责没有一起变化。"
 tags:
   - 新闻自由
