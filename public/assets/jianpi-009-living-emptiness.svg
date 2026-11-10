@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" role="img" aria-labelledby="title desc">
+<title id="title">Living Emptiness：牛津 COMPAS 五年田野研究的四个区域</title>
+<desc id="desc">研究区域包括拉脱维亚边境地区、乌克兰中部、亚美尼亚高地和俄罗斯远东。图中采用示意性横向排列，不代表精确地图、行政边界或比例距离。</desc>
+<rect width="1000" height="460" fill="#f7f5ef"/>
+<text x="52" y="54" fill="#28333a" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="700">一座村庄被掏空以后，谁还留在里面</text>
+<text x="52" y="84" fill="#68716e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="14" letter-spacing="1.3">UNIVERSITY OF OXFORD · COMPAS · 五年田野项目</text>
+<rect x="52" y="112" width="896" height="92" rx="14" fill="#e9e8dc"/>
+<text x="82" y="151" fill="#64724e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="700">研究的问题</text>
+<text x="82" y="180" fill="#303a3c" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="22">空，不是没有人，而是有人继续住在一个正在失去别人的地方。</text>
+<text x="54" y="247" fill="#68716e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="12">四个田野区域 · 示意性排列（非比例地图）</text>
+<line x1="130" y1="286" x2="870" y2="286" stroke="#c6c9bd" stroke-width="4" stroke-linecap="round"/>
+<g>
+<circle cx="145" cy="286" r="12" fill="#6d806e"/><circle cx="145" cy="286" r="5" fill="#f7f5ef"/>
+<circle cx="382" cy="286" r="12" fill="#5f7882"/><circle cx="382" cy="286" r="5" fill="#f7f5ef"/>
+<circle cx="618" cy="286" r="12" fill="#b47a5a"/><circle cx="618" cy="286" r="5" fill="#f7f5ef"/>
+<circle cx="855" cy="286" r="12" fill="#7a775a"/><circle cx="855" cy="286" r="5" fill="#f7f5ef"/>
+</g>
+<g font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="52" y="316" width="190" height="82" rx="10" fill="#e5ebe6"/><text x="70" y="350" fill="#526e60" font-size="17" font-weight="700">拉脱维亚</text><text x="70" y="376" fill="#526e60" font-size="14">边境地区</text>
+<rect x="289" y="316" width="190" height="82" rx="10" fill="#e6ebed"/><text x="307" y="350" fill="#526f7b" font-size="17" font-weight="700">乌克兰</text><text x="307" y="376" fill="#526f7b" font-size="14">中部</text>
+<rect x="525" y="316" width="190" height="82" rx="10" fill="#f0e6dc"/><text x="543" y="350" fill="#9c684c" font-size="17" font-weight="700">亚美尼亚</text><text x="543" y="376" fill="#9c684c" font-size="14">高地</text>
+<rect x="762" y="316" width="186" height="82" rx="10" fill="#e9e8dc"/><text x="780" y="350" fill="#6e704f" font-size="17" font-weight="700">俄罗斯</text><text x="780" y="376" fill="#6e704f" font-size="14">远东</text>
+</g>
+<text x="52" y="432" fill="#68716e" font-family="Arial, Noto Sans CJK SC, Microsoft YaHei, sans-serif" font-size="12">研究主题：人口流失、边境与资本、公共服务，以及留下的人如何继续生活。</text>
+</svg>

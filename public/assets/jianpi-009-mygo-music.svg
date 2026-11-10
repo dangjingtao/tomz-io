@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-labelledby="t d">
+<title id="t">MyGo Music：本地音乐优先，能力由插件扩展</title>
+<desc id="d">编辑示意图：本地音乐库位于播放器核心，插件负责连接外部账号、目录、播客、歌词和远程播放。</desc>
+<rect width="840" height="420" fill="#f7f5ef"/>
+<text x="42" y="48" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="18" font-weight="700" fill="#252e38">MyGo Music：本地文件是核心，外部能力交给插件</text>
+<text x="42" y="77" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="12" fill="#697583">Go 原生桌面播放器 · no WebView · AGPL-3.0</text>
+<g transform="translate(44 110)">
+  <rect width="270" height="220" rx="14" fill="#e8ece8"/>
+  <text x="22" y="38" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="14" font-weight="700" fill="#26313a">LOCAL LIBRARY</text>
+  <rect x="22" y="60" width="78" height="78" rx="10" fill="#c7a97e"/>
+  <circle cx="61" cy="99" r="24" fill="#f4eadc"/>
+  <circle cx="61" cy="99" r="8" fill="#8a6e4c"/>
+  <text x="118" y="82" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="18" font-weight="700" fill="#26313a">本地音乐</text>
+  <text x="118" y="108" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="12" fill="#62707a">MP3 · FLAC · ALAC</text>
+  <text x="118" y="129" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="12" fill="#62707a">歌词 · 封面 · 播放列表</text>
+  <line x1="22" y1="158" x2="248" y2="158" stroke="#c9cfca"/>
+  <text x="22" y="188" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="12" fill="#46545f">播放 / 搜索 / 收藏 / 队列</text>
+</g>
+<path d="M332 220 H410" stroke="#8e877a" stroke-width="2.5" stroke-dasharray="7 7"/>
+<path d="M398 212 L410 220 L398 228" fill="none" stroke="#8e877a" stroke-width="2.5"/>
+<g transform="translate(426 110)">
+  <rect width="370" height="220" rx="14" fill="#ece7f2"/>
+  <text x="22" y="38" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="14" font-weight="700" fill="#3c3150">PLUGIN LAYER</text>
+  <g font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="13" fill="#4f435f">
+    <rect x="22" y="60" width="150" height="44" rx="8" fill="#faf8fc"/><text x="38" y="87">账号 / Catalog</text>
+    <rect x="194" y="60" width="150" height="44" rx="8" fill="#faf8fc"/><text x="210" y="87">播客 / Stations</text>
+    <rect x="22" y="120" width="150" height="44" rx="8" fill="#faf8fc"/><text x="38" y="147">歌词 / Comments</text>
+    <rect x="194" y="120" width="150" height="44" rx="8" fill="#faf8fc"/><text x="210" y="147">Remote Play</text>
+  </g>
+  <text x="22" y="198" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="11" fill="#6f647c">插件按 network / process 等权限声明能力</text>
+</g>
+<line x1="42" x2="798" y1="359" y2="359" stroke="#d2d4cb"/>
+<text x="42" y="383" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="11" fill="#63717d">来源：egoist/mygo-music README · 《见π》编辑制图</text>
+<text x="42" y="400" font-family="Arial,Noto Sans CJK SC,sans-serif" font-size="10" fill="#63717d">示意结构，不是产品界面截图</text>
+</svg>

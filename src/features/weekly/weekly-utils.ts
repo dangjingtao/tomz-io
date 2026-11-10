@@ -1,6 +1,12 @@
 import type { Doc } from '../../content/mira-docs-adapter';
 
 export function weeklyIssueNumber(doc: Doc) {
+  if (doc.root === "weekly") {
+    const directoryIssue = doc.directory.split("/").filter(Boolean)[0];
+    if (directoryIssue && /^\d+$/.test(directoryIssue)) {
+      return Number(directoryIssue);
+    }
+  }
   return doc.issue ?? doc.order;
 }
 
