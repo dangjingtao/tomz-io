@@ -62,21 +62,25 @@ Constantin Gonzalez 同时指挥几个 Agent，五小时里推进了三个项目
 
 ## 科技与创造
 
-### [工程师不想等 AI 设计完，才发现它造不出来](https://news.mit.edu/2026/new-ai-copilot-helps-engineers-design-better-structures-1113)
+### [工程师不想等 AI 设计完，才发现它造不出来](/weekly/010/human-in-the-loop-structural-design)
 
 MIT 研究者让工程师在结构优化过程中提出修改意见，而不是等算法算出最后形状，再从头返工。
 
-研究报告称，设计者在过程中干预后，结构的可制造性与抗屈曲表现得到改善，而实验里的额外设计时间只有十几秒。现在还只是研究中的结构设计方法，不能写成桥梁已经开始采用。
+研究者用机器学习提示工程师该修改哪个区域，再让拓扑优化继续计算。在演示中，这种方式可以改善可制造性，或者使线性屈曲载荷提高约 39%，而设计时间只增加约 15 秒。这是实验案例，并非已在桥梁工程中部署。
 
 AI 自动生成设计的能力越来越强。能够在正确时刻打断它、加入人的工程经验，也许同样重要。
 
-### [用缝纫机制造混凝土梁](https://news.mit.edu/2026/fabric-molds-could-bring-material-saving-concrete-beams-within-reach-1106)
+[在《见π》内阅读全文 →](/weekly/010/human-in-the-loop-structural-design) · [MIT 原始报道 ↗](https://news.mit.edu/2026/new-ai-copilot-helps-engineers-design-better-structures-1113)
+
+### [用缝纫机制造混凝土梁](/weekly/010/fabric-formed-concrete-beam)
 
 另一组 MIT 工程师做了一根约三米长的混凝土梁，模具不是木板或钢板，而是缝出来的布。
 
 和设计承载目标相当的常规梁相比，这件试验品使用的混凝土约为三分之一，钢筋约为一半。实验室试验不等于已经通过实际建筑规范，但它把一个昂贵的算法设计结果，带进了普通人能理解的制造方法：裁布、缝线、浇筑。
 
 低碳建筑不一定都要从更贵的机器开始。
+
+[在《见π》内阅读全文 →](/weekly/010/fabric-formed-concrete-beam) · [MIT 原始报道 ↗](https://news.mit.edu/2026/fabric-molds-could-bring-material-saving-concrete-beams-within-reach-1106)
 
 ## 科学与世界
 
