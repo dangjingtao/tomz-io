@@ -40,6 +40,10 @@ MIT 工程师给这根梁设计的模具也不像普通模板。
 
 普通混凝土梁的模板可以重复使用，材料和做法也很成熟。可如果优化结果有许多薄壁、斜腿和不规则空洞，就很难用几块直板拼出来。
 
+![常规铝制混凝土硬模板施工现场](https://assets.tomz.io/jianpi/010/conventional-rigid-formwork-v1.webp)
+
+*传统硬模工艺对照：WTF Formwork；[Wikimedia Commons 原图](https://commons.wikimedia.org/wiki/File:Concrete_formwork.jpg)，[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)，本期转换为 WebP 并缩放。**不是 MIT 的织物模具实验照片**。*
+
 当然可以使用机器人、3D 打印机，或者数控设备加工出复杂模具。但这样一来，材料省下来了，制造设备和模具的成本却可能上升。特别是在缺乏高端设备的地方，一份理论上节省材料的设计，反而更难落实。
 
 研究团队换了一个思路：既然硬模具难做，能不能用柔软的布？
