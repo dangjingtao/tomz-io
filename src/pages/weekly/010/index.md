@@ -52,11 +52,19 @@ Constantin Gonzalez 把同时管理几个 Agent 比作餐厅主厨：执行工�
 
 ### [工程师不想等 AI 设计完，才发现它造不出来](/weekly/010/human-in-the-loop-structural-design)
 
+![经典 Michell 受力结构的公版复绘图，展示结构设计中的材料分布思路](https://assets.tomz.io/jianpi/010/michell-cantilever-historic-v1.webp)
+
+*历史参考图：Arek Mazurek 根据 A. G. M. Michell 1904 年论文复绘，已释出公有领域。[原图及权利声明](https://commons.wikimedia.org/wiki/File:MichellCantilever.jpg)。这不是 MIT 2026 年实验结果。*
+
 MIT 研究者让工程师在结构拓扑优化过程中提出修改意见，而不是等算法算完，再发现某些地方难以制造。实验中的特定屈曲载荷指标提高约 39%，额外设计时间约 15 秒；这并非已在桥梁工程中推广的成果。
 
 [阅读全文](/weekly/010/human-in-the-loop-structural-design) · [MIT 报道](https://news.mit.edu/2026/new-ai-copilot-helps-engineers-design-better-structures-1113)
 
 ### [用缝纫机制造混凝土梁](/weekly/010/fabric-formed-concrete-beam)
+
+![常规混凝土铝制硬模板的现场照片，作为新研究织物模具的对照背景](https://assets.tomz.io/jianpi/010/conventional-rigid-formwork-v1.webp)
+
+*工艺对照图：WTF Formwork 摄影，传统铝制硬模板，非本次 MIT 试验。来自 [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Concrete_formwork.jpg)，[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)，缩放及 WebP 格式转换。*
 
 另一组 MIT 工程师用裁剪、缝合的布模浇筑三米长的试验梁。与对照设计相比，混凝土少用了约三分之二，钢筋少用了约一半。但布要怎么缝、梁能承受多少力、在什么地方才省钱，都还有值得细看的实验细节。
 
