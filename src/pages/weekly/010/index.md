@@ -70,9 +70,17 @@ MIT 研究者让工程师在结构拓扑优化过程中提出修改意见，而�
 
 ### [引力波也许能帮我们发现行星](https://science.nasa.gov/missions/lisa/gravitational-waves-can-reveal-new-worlds/)
 
+![NASA 对双白矮星、系外行星及引力波的科学模拟画面局部](https://assets.tomz.io/jianpi/010/nasa-lisa-exoplanet-v1.webp)
+
+*图：NASA Goddard Space Flight Center；取自 [NASA 科学可视化工作室 2026 年原始视频资料](https://svs.gsfc.nasa.gov/15117) 的局部画面，按 [NASA 媒体使用规范](https://www.nasa.gov/nasa-brand-center/images-and-media/)用于资讯报道。*
+
 如果一颗行星围绕双白矮星运行，它可能在双星发出的引力波中留下细微变化。NASA 介绍了让未来的 LISA 天文台寻找这类信号的设想；眼下还不是已经发现了行星。
 
 ### [Lucia Moholy：包豪斯的照片，为什么没写她的名字？](https://www.unesco.org/en/articles/lucia-moholy-photography-transmission)
+
+![Lucia Moholy 摄影肖像，摄于约 1924 至 1928 年](https://assets.tomz.io/jianpi/010/lucia-moholy-met-v1.webp)
+
+*图：László Moholy-Nagy 摄影，约 1924—1928 年；纽约大都会艺术博物馆藏品。原作：[The Met / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lucia_MET_DP111651.jpg)，[CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)。图片缩放、局部裁切并转为 WebP。*
 
 你也许见过她拍的包豪斯建筑，却不知道摄影师的名字。1933 年逃离德国时，Lucia Moholy 留下了数百张玻璃底片，照片后来广泛传播，她却长期没有获得应有署名。UNESCO 本月的展览与新发现的信件，让这段历史重新浮出水面。
 
@@ -91,6 +99,10 @@ MIT 研究者让工程师在结构拓扑优化过程中提出修改意见，而�
 ## 鬼集
 
 ### [2026 年，一台老旧 FM Towns 电脑又被复活了](https://github.com/drhelius/Geartowns/releases/tag/1.0.6)
+
+![富士通 FM TOWNS II 计算机 HR 与 MX 机型实物照片](https://assets.tomz.io/jianpi/010/fm-towns-ii-v1.webp)
+
+*图：hotmari 摄影，FM TOWNS II（HR / MX）；来源：[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:FM_TOWNS_II_(HR_and_MX_models).jpg)，[CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)。原图曾经裁剪修饰；本期缩放并转为 WebP。*
 
 富士通上世纪的 FM Towns 电脑还有人在维护模拟器。Geartowns 的 1.0.6 版增加了高分辨率视频模式、部分机型支持和硬盘启动能力。复活老电脑，不只是让游戏画面重新出现，还要找回那一整套数字生活的细节。
 
