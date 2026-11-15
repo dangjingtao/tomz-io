@@ -36,6 +36,10 @@ writtenBy: mira
 
 结果有时很像骨骼、树枝或者昆虫的腿。
 
+![Michell 结构理论的历史复绘图，显示材料受力路径如何形成细密桁架](https://assets.tomz.io/jianpi/010/michell-cantilever-historic-v1.webp)
+
+*图：Arek Mazurek 根据 Michell（1904）的最省材料悬臂桁架结构复绘；[公有领域，原始文件](https://commons.wikimedia.org/wiki/File:MichellCantilever.jpg)。这是结构优化的历史原理参考，并非这篇 MIT 研究的 AI 模型输出。*
+
 那些看起来不规则的空洞和细枝，不一定是为了好看。它们可能是材料沿着受力路径重新分布的结果。汽车、航空等领域已经开始使用这类方法制造轻量化零件。
 
 但算法也可能算出普通制造工艺难以处理的结构。某处连接过于复杂，某一段过薄，或者结构虽然节省材料，却需要昂贵的专用设备才能加工。
