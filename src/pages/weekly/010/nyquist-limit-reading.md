@@ -32,6 +32,4 @@ Ryan 觉得，软件工程正在遇到类似的事情。
 
 不过，Ryan 留下了一个好问题。软件交付速度能够测量，也很容易向老板展示；理解系统的程度却很难放进同一张图表。**如果只奖励前者，后者究竟由谁来维护？**
 
-*本文为《见π》独立导读与评论，非原文翻译。*
-
 [阅读 Ryan Prior 原文](https://www.ryanprior.com/posts/nyquist-limit-frequency-of-changes-in-tech-invalidates-understanding/)

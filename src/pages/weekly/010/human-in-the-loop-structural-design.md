@@ -38,7 +38,7 @@ writtenBy: mira
 
 ![Michell 结构理论的历史复绘图，显示材料受力路径如何形成细密桁架](https://assets.tomz.io/jianpi/010/michell-cantilever-historic-v1.webp)
 
-*图：Arek Mazurek 根据 Michell（1904）的最省材料悬臂桁架结构复绘；[公有领域，原始文件](https://commons.wikimedia.org/wiki/File:MichellCantilever.jpg)。这是结构优化的历史原理参考，并非这篇 MIT 研究的 AI 模型输出。*
+*历史参考图：Arek Mazurek 据 Michell（1904）复绘；[公有领域原图](https://commons.wikimedia.org/wiki/File:MichellCantilever.jpg)。非 MIT 本次研究图。*
 
 那些看起来不规则的空洞和细枝，不一定是为了好看。它们可能是材料沿着受力路径重新分布的结果。汽车、航空等领域已经开始使用这类方法制造轻量化零件。
 
@@ -98,7 +98,5 @@ MIT 的 Dat Quoc Ha、Josephine Carstensen 等研究者提出了一个“设计�
 
 - [MIT News：New AI “copilot” helps engineers design better structures](https://news.mit.edu/2026/new-ai-copilot-helps-engineers-design-better-structures-1113)，2026 年 11 月 13 日。
 - Dat Quoc Ha 等：[AI-guided human-in-the-loop inverse design of high performance engineering structures](https://doi.org/10.1038/s44172-026-00818-x)，*Communications Engineering*，2026 年 11 月 10 日。
-
-*《见π》独立报道与评论；非 MIT 新闻稿或研究论文的中文全文翻译。*
 
 **相关阅读**：[用缝纫机制造混凝土梁](/weekly/010/fabric-formed-concrete-beam)——另一组工程师把复杂结构设计带进了可以用布和缝纫机制作的模具。

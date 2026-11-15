@@ -23,8 +23,6 @@ writtenBy: mira
 **原文：[Why working with AI agents is so tiring (and what to do about it)](https://constantin.glez.de/ai-agent-fatigue/)**  
 **原文发表：2026 年 7 月 16 日**
 
-*编辑说明：原作者网站采用 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) 许可。本页目前是《见π》的独立中文译介与评论，**不是完整中文译本**。原文版权归 Constantin Gonzalez；若后续刊登全文译本，将另行明确标注译者、许可、改编说明并核对非商业使用条件。*
-
 Constantin 在慕尼黑的一个共享办公空间待了五小时。他让 AI Agent 分别帮助自己写博客、为开源项目贡献代码，以及修改网站的数据分析功能。每个 Agent 工作时，他就去审查另一个项目的成果，交代下一步任务。
 
 事情进展很快。回家以后，他却感到一种熟悉的疲惫：像连续参加了一天工作面试，脑袋还在嗡嗡作响。
@@ -41,7 +39,7 @@ Constantin 没有主张停止使用 Agent。他尝试把任务交接写得更清
 
 文章里还有一个很好的细节：他提到母亲过去喜欢用俄罗斯方块一类电子游戏放松，如今自己也会在一天结束后玩《塞尔达传说》。一场关于 AI 生产力的讨论，最后落到了人怎样恢复注意力。
 
-## 见π的一点想法
+## 注意力没有随 Agent 增加
 
 AI 让等待时间缩短，但没有让人类的注意力变成无限资源。
 
@@ -50,5 +48,3 @@ AI 让等待时间缩短，但没有让人类的注意力变成无限资源。
 原文对“主厨”与“订单架”的比喻讲得更完整，也引述了其他开发者对 Agent 疲劳的不同感受。值得去读原文。
 
 [阅读 Constantin Gonzalez 英文原文](https://constantin.glez.de/ai-agent-fatigue/)
-
-*本文为《见π》的中文导读与独立评论，并非原作中文全文译文；不含原文插图。*

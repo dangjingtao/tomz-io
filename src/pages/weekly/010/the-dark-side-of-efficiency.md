@@ -56,8 +56,6 @@ Ryan 主张控制系统变更的节奏，让人有足够的时间观察、检查
 
 ![奈奎斯特极限类比：同一变化轨迹，稀疏观察与密集观察得到的认识不同](https://assets.tomz.io/jianpi/010/nyquist-analogy-v1.svg)
 
-*编辑示意图：《见π》。用于说明“变化太快、观察不足”的直观差别，不把采样定理的二倍频率当成软件审查公式。*
-
 当然，奈奎斯特定理不能直接套用到软件工程。代码不是周期信号，读两次代码也不能保证理解得比读一次更好。
 
 一天内修改十次、最后完整审查一次，可能比每次修改后匆忙看一眼更有效。
@@ -100,8 +98,6 @@ Constantin 借用餐厅厨房来解释这件事。
 
 ![三个 Agent 分别承担写作、编码和检索，最终仍需要人审查和决策](https://assets.tomz.io/jianpi/010/agent-attention-v1.svg)
 
-*编辑示意图：《见π》。工作可以并行推进，人的注意力和判断能力却不是无限资源。*
-
 Constantin 后来开始限制同时进行的任务数量，为每项委托写清楚要求，在交接工作以后安排休息，而不是随时盯着 Agent 的运行状态。
 
 这些做法并不复杂，但提醒了我们一件容易忽略的事：机器能够持续工作，并不代表人能够持续决策。
@@ -117,8 +113,6 @@ Constantin 后来开始限制同时进行的任务数量，为每项委托写清
 但随之而来的测试、维护、文档更新、技术支持和故障排查，并不会因为代码生成得快就自动消失。
 
 ![从 AI 生成到人工审查、测试验证、发布上线和维护返工的五个环节](https://assets.tomz.io/jianpi/010/hidden-delivery-costs-v1.svg)
-
-*编辑示意图：《见π》。这里只列出工作环节，没有虚构各环节的时间或金额。*
 
 例如，一个 Agent 用十分钟写完新功能，另一个 Agent 又用十分钟补齐测试。这当然可能是一件好事。
 
@@ -166,10 +160,8 @@ AI 可以让我们更快地把一件事情做出来。
 
 ---
 
-**本文讨论的原始材料**
+**参考资料**
 
 - Ryan Prior：[Nyquist Limit — the frequency of changes in tech is invalidating our understanding](https://www.ryanprior.com/posts/nyquist-limit-frequency-of-changes-in-tech-invalidates-understanding/)，2026 年 11 月 2 日。
 - Reddit / r/ClaudeCode：[A year after the 100% AI mandate nobody understands our code](https://www.reddit.com/r/ClaudeCode/comments/1xq2n3t/a_year_after_the_100_ai_mandate_nobody/)，匿名用户自述，未经独立核实。
 - Constantin Gonzalez：[Why working with AI agents is so tiring (and what to do about it)](https://constantin.glez.de/ai-agent-fatigue/)，2026 年 7 月 16 日。
-
-*本文是《见π》的独立编辑评论，并非上述文章的中文全文翻译。*

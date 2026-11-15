@@ -42,7 +42,7 @@ MIT 工程师给这根梁设计的模具也不像普通模板。
 
 ![常规铝制混凝土硬模板施工现场](https://assets.tomz.io/jianpi/010/conventional-rigid-formwork-v1.webp)
 
-*传统硬模工艺对照：WTF Formwork；[Wikimedia Commons 原图](https://commons.wikimedia.org/wiki/File:Concrete_formwork.jpg)，[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)，本期转换为 WebP 并缩放。**不是 MIT 的织物模具实验照片**。*
+*传统硬模工艺对照（非 MIT 实验照片）。摄影：WTF Formwork；[原图](https://commons.wikimedia.org/wiki/File:Concrete_formwork.jpg)，[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)。缩放并转为 WebP。*
 
 当然可以使用机器人、3D 打印机，或者数控设备加工出复杂模具。但这样一来，材料省下来了，制造设备和模具的成本却可能上升。特别是在缺乏高端设备的地方，一份理论上节省材料的设计，反而更难落实。
 
@@ -141,7 +141,5 @@ MIT 工程师给这根梁设计的模具也不像普通模板。
 - [MIT News：Fabric molds could bring material-saving concrete beams within reach](https://news.mit.edu/2026/fabric-molds-could-bring-material-saving-concrete-beams-within-reach-1106)，2026 年 11 月 6 日。
 - Mark Hellrich 等：[Affordable construction of topology optimized reinforced concrete through fabric formwork](https://doi.org/10.1016/j.jobe.2026.117472)，*Journal of Building Engineering*，2026 年。
 - [Boston University Shape DeCo Lab：研究摘要与论文信息](https://shape.bu.edu/concrete-fabric-formwork)。
-
-*《见π》独立报道与评论，研究数字取自原论文摘要及 MIT 报道；并非英文报道的中文全文翻译。*
 
 **相关阅读**：[工程师不想等 AI 设计完，才发现它造不出来](/weekly/010/human-in-the-loop-structural-design)——优化算法怎样在设计过程中接受人的制造经验。
