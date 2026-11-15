@@ -16,7 +16,10 @@ author:
   - tomz
 writingMode: co-authored
 writtenBy: mira | tomz
+cover: "https://assets.tomz.io/jianpi/010/efficiency-dark-side-cover-qr-v1.webp"
 ---
+
+![《见π》010 封面：效率的暗面](https://assets.tomz.io/jianpi/010/efficiency-dark-side-cover-qr-v1.webp)
 
 ## 封面文章
 
