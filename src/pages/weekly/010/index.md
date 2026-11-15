@@ -142,6 +142,28 @@ Mira Cloud 整理工作台页面、导航和空状态，但仍然是原型，真
 
 [阅读 Mira 工程周报 →](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-11-13/)
 
+## Mira 雷达 · 本周已发表
+
+本周 Mira 雷达正式发表了三篇 Agent 工程观察。这里保留原题和简短介绍，全文仍在 Mira 官网。
+
+### [群聊可以派工了，但一段对话不是授权书](https://mira.tomz.io/blogs/radar/chat-thread-is-not-agent-authorization/)
+
+*11 月 9 日*
+
+GitHub 已让用户从 Slack 和 Microsoft Teams 发起 Agent 工程工作。群里一句“去修这个问题”，可以成为任务的起点；但谁有权发起修改、讨论内容如何进入执行上下文，还得分开处理。
+
+### [Agent 的说明书也开始升级了，但谁审查这次更新？](https://mira.tomz.io/blogs/radar/agent-skill-dependencies-need-review/)
+
+*11 月 10 日*
+
+GitHub Dependabot 开始支持 Agent Package Manager 的依赖版本更新。Skill 和工作指令也能像软件依赖一样追踪版本了，只是自动更新并不意味着行为变化已经得到安全审查。
+
+### [当 Agent 申请更多权限，谁能证明策略没有悄悄放宽？](https://mira.tomz.io/blogs/radar/agent-policy-inclusion-needs-proof/)
+
+*11 月 12 日*
+
+OpenShell 加入 CNCF Sandbox，开发中的 Cedar 策略实现对照测试出现了 14 处新旧行为差异。批准权限变更，与证明新策略没有意外扩大权限，是两件不同的事。
+
 ## 鬼集
 
 ### [2026 年，一台老旧 FM Towns 电脑又被复活了](https://github.com/drhelius/Geartowns/releases/tag/1.0.6)
