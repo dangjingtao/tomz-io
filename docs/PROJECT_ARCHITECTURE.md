@@ -259,7 +259,7 @@ RSS 不维护第二套文章清单，而是从最终静态 HTML 中的 canonical
 `scripts/generate-book-catalog.mjs` 在 `generate:rss` 之后，从**已经发布的** `dist/books/<book-id>/index.html` 中的 `CollectionPage` / `ItemList` JSON-LD 投影 `dist/books/catalog.json`，用于外部 Folio 消费者读取书封、标题、详情入口与章节目录。它既不解析站外 HTML，也不维护第二套人工书目。
 
 - `schemaVersion: 1`，`source: https://tomz.io/books/`，`books[]`。
-- 每本书包含 `id`、`title`、`description`、`url`、`cover`、`entryCount`、`entries[]`（`title`、`url`、`position`）。
+- 每本书包含 `id`、`title`、`description`、`url`、`cover`、`order`、`category`、`kind`、`status`、`entryCount`、`entries[]`（`title`、`url`、`position`）。
 - `entries` 顺序来自已生成的 ItemList，可指向书籍原生章节或 逻辑收录的 博客原文 canonical；不复制正文。
 - 只聚合实际生成了静态书页的公开 Book（包含构建期导入的外部 Book）；源数据仍是 `_book.yml` / 外部 `publication.json` / 原有 MiraDocs 章节。
 - 产物与静态内容一同走 Cloudflare Pages 缓存 / ETag；生成失败必须使构建失败，避免发布过时/不完整的清单。

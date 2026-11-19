@@ -5,6 +5,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseBookManifest } from "../src/content/book-manifest.ts";
 
 const SITE = "https://tomz.io";
 
@@ -36,7 +37,13 @@ function siteUrl(value, label) {
   return parsed.href;
 }
 
-function bookFromHtml(html, id) {
+function bookFromHtml(html, id, sourceRoot) {
+  const manifestPath = resolve(sourceRoot, "src", "pages", "books", id, "_book.yml");
+  if (!existsSync(manifestPath)) fail(`missing source Book manifest for ${id}`);
+  const manifest = parseBookManifest(readFileSync(manifestPath, "utf8"), manifestPath);
+  if (manifest.status === "draft" || manifest.status === "archived") {
+    fail(`unpublished Book leaked into public static output: ${id}`);
+  }
   const doc = jsonLd(html).find((item) => item["@type"] === "CollectionPage" && item.mainEntity?.["@type"] === "ItemList");
   if (!doc) fail(`missing Book CollectionPage + ItemList for ${id}`);
   const url = siteUrl(doc.url, `${id}.url`);
@@ -62,13 +69,15 @@ function bookFromHtml(html, id) {
   });
   const title = typeof doc.name === "string" ? doc.name.trim() : "";
   if (!title) fail(`missing book title for ${id}`);
+  if (title !== manifest.title) fail(`published title/manifest mismatch for ${id}`);
   return {
-    id, title, description: typeof doc.description === "string" ? doc.description : "",
+    id, title, order: manifest.order, category: manifest.category ?? null,
+    kind: manifest.kind, status: manifest.status, description: typeof doc.description === "string" ? doc.description : "",
     url, cover, entryCount: entries.length, entries,
   };
 }
 
-export function createCatalog(distRoot) {
+export function createCatalog(distRoot, sourceRoot = process.cwd()) {
   const booksDir = resolve(distRoot, "books");
   if (!existsSync(resolve(booksDir, "index.html"))) fail("missing published /books/ index");
   const ids = readdirSync(booksDir, { withFileTypes: true })
@@ -77,7 +86,8 @@ export function createCatalog(distRoot) {
     .map((entry) => entry.name)
     .sort();
   if (!ids.length) fail("no publicly rendered books");
-  const books = ids.map((id) => bookFromHtml(readFileSync(resolve(booksDir, id, "index.html"), "utf8"), id));
+  const books = ids.map((id) => bookFromHtml(readFileSync(resolve(booksDir, id, "index.html"), "utf8"), id, sourceRoot))
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
   return { schemaVersion: 1, source: SITE + "/books/", books };
 }
 

@@ -22,6 +22,9 @@ function fixture(mutator = (x) => x) {
       ],
     },
   });
+  mkdirSync(join(root, "src", "pages", "books", "agent"), { recursive: true });
+  writeFileSync(join(root, "src", "pages", "books", "agent", "_book.yml"),
+    "id: agent\ntitle: 一起学智能体\norder: 10\nkind: study\nstatus: active\n");
   writeFileSync(join(root, "books", "agent", "index.html"),
     '<script type="application/ld+json">' + JSON.stringify(data) + "</script>");
   return root;
@@ -29,18 +32,20 @@ function fixture(mutator = (x) => x) {
 test("publishes book metadata and logically included chapters from public JSON-LD", () => {
   const root = fixture();
   try {
-    const result = createCatalog(root);
+    const result = createCatalog(root, root);
     assert.equal(result.schemaVersion, 1);
     assert.equal(result.books.length, 1);
     assert.equal(result.books[0].cover, "https://tomz.io/books/covers/agent.webp");
     assert.equal(result.books[0].entryCount, 2);
+    assert.equal(result.books[0].order, 10);
+    assert.equal(result.books[0].status, "active");
     assert.deepEqual(result.books[0].entries.map((x) => x.position), [1, 2]);
     assert.equal(result.books[0].entries[1].url, "https://tomz.io/blogs/second");
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 test("rejects an untrusted cover instead of exposing it to consumers", () => {
   const root = fixture((data) => ({ ...data, image: "https://attacker.invalid/cover.png" }));
-  try { assert.throws(() => createCatalog(root), /untrusted book cover/); }
+  try { assert.throws(() => createCatalog(root, root), /untrusted book cover/); }
   finally { rmSync(root, { recursive: true, force: true }); }
 });
 test("rejects broken chapter positions and non-public URLs", () => {
@@ -48,6 +53,6 @@ test("rejects broken chapter positions and non-public URLs", () => {
     ...data,
     mainEntity: { "@type": "ItemList", itemListElement: [{ name: "x", position: 5, url: "javascript:alert(1)" }] },
   }));
-  try { assert.throws(() => createCatalog(root), /invalid agent.entries/); }
+  try { assert.throws(() => createCatalog(root, root), /invalid agent.entries/); }
   finally { rmSync(root, { recursive: true, force: true }); }
 });
