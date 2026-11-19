@@ -252,6 +252,21 @@ RSS 不维护第二套文章清单，而是从最终静态 HTML 中的 canonical
 
 书籍原生内容、客座投稿与《见π》都必须进入同一套静态 SEO / 内容时间链，而不是只在客户端能打开。
 
+### 7.1 书架公开订阅清单
+
+现有全站 `/rss.xml` 已按 Article JSON-LD 发布 Book 章节，继续作为**篇章更新流**；书籍目录本身不是 Article，不混入 RSS。
+
+`scripts/generate-book-catalog.mjs` 在 `generate:rss` 之后，从**已经发布的** `dist/books/<book-id>/index.html` 中的 `CollectionPage` / `ItemList` JSON-LD 投影 `dist/books/catalog.json`，用于外部 Folio 消费者读取书封、标题、详情入口与章节目录。它既不解析站外 HTML，也不维护第二套人工书目。
+
+- `schemaVersion: 1`，`source: https://tomz.io/books/`，`books[]`。
+- 每本书包含 `id`、`title`、`description`、`url`、`cover`、`entryCount`、`entries[]`（`title`、`url`、`position`）。
+- `entries` 顺序来自已生成的 ItemList，可指向书籍原生章节或 逻辑收录的 博客原文 canonical；不复制正文。
+- 只聚合实际生成了静态书页的公开 Book（包含构建期导入的外部 Book）；源数据仍是 `_book.yml` / 外部 `publication.json` / 原有 MiraDocs 章节。
+- 产物与静态内容一同走 Cloudflare Pages 缓存 / ETag；生成失败必须使构建失败，避免发布过时/不完整的清单。
+- 不在清单中手工制造 `modifiedAt` 或派生另一套书籍出版时间；更新时间以现有 RSS 的 `pubDate` / 正文 JSON-LD 负责。
+
+接口当前只发布在源站新代码部署后的 `/books/catalog.json`；本文件不是对当前线上已存在接口的声明。兼容构建也在 `dist/books/catalog.json` 输出，路径不随 base 变形。
+
 ## 8. 通用正文媒体与 R2
 
 通用 Markdown 媒体链位于 `scripts/media-pipeline/`，详细合同见 `docs/MEDIA_PIPELINE.md`。

@@ -12,7 +12,7 @@
     "generate:rss": "node scripts/generate-rss.mjs",
     "verify:mira-docs": "node scripts/verify-mira-docs-compat.mjs",
     "verify:content-times": "node scripts/verify-content-times.mjs",
-    "verify:static-output": "node scripts/verify-static-output.mjs && node scripts/verify-legacy-mira-redirects.mjs && node scripts/verify-rss.mjs && node scripts/verify-content-times.mjs",
+    "verify:static-output": "node scripts/verify-static-output.mjs && node scripts/verify-legacy-mira-redirects.mjs && node scripts/verify-rss.mjs && node scripts/verify-content-times.mjs && npm run test:book-catalog",
     "prepare:site": "npm run generate:content-times && npm run verify:mira-docs && npm run generate:home-recent && npm run generate:home-focus && tsc -b",
     "media:prepare": "node scripts/media-pipeline/prepare.mjs",
     "media:publish": "node scripts/media-pipeline/publish-r2.mjs",
@@ -23,11 +23,13 @@
     "comic:verify": "node scripts/comic-pipeline/verify.mjs",
     "comic:publish": "node scripts/comic-pipeline/publish-r2.mjs",
     "comic:test": "node scripts/comic-pipeline/test.mjs",
-    "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
-    "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs && npm run generate:rss",
+    "build": "npm run prepare:site && vite build && node scripts/apply-content-times-to-static.mjs && npm run generate:rss && npm run generate:book-catalog",
+    "build:github-pages": "npm run prepare:site && vite build --mode github-pages && node scripts/apply-content-times-to-static.mjs && npm run generate:rss && npm run generate:book-catalog",
     "preview": "vite preview",
     "external-books:production": "node scripts/import-production-external-books.mjs",
-    "external-book:test": "node scripts/import-external-book.test.mjs"
+    "external-book:test": "node scripts/import-external-book.test.mjs",
+    "generate:book-catalog": "node scripts/generate-book-catalog.mjs",
+    "test:book-catalog": "node --test scripts/book-catalog-check.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.11",
