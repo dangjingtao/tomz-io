@@ -49,7 +49,7 @@ function bookFromHtml(html, id, sourceRoot) {
   const url = siteUrl(doc.url, `${id}.url`);
   if (new URL(url).pathname.replace(/\/$/, "") !== `/books/${id}`) fail(`Book id/url mismatch: ${id}`);
   const cover = doc.image ? new URL(doc.image, SITE).href : null;
-  if (cover && (new URL(cover).protocol !== "https:" || !["tomz.io", "assets.tomz.io"].includes(new URL(cover).hostname))) {
+  if (cover && (new URL(cover).protocol !== "https:" || new URL(cover).username || new URL(cover).password)) {
     fail(`untrusted book cover: ${id}`);
   }
   const elements = doc.mainEntity.itemListElement;

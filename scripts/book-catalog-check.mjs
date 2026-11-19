@@ -43,9 +43,14 @@ test("publishes book metadata and logically included chapters from public JSON-L
     assert.equal(result.books[0].entries[1].url, "https://tomz.io/blogs/second");
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
-test("rejects an untrusted cover instead of exposing it to consumers", () => {
-  const root = fixture((data) => ({ ...data, image: "https://attacker.invalid/cover.png" }));
+test("rejects insecure cover schemes, preserving the publisher's arbitrary HTTPS cover contract", () => {
+  const root = fixture((data) => ({ ...data, image: "http://untrusted.invalid/cover.png" }));
   try { assert.throws(() => createCatalog(root, root), /untrusted book cover/); }
+  finally { rmSync(root, { recursive: true, force: true }); }
+});
+test("accepts a publisher-specified external HTTPS cover", () => {
+  const root = fixture((data) => ({ ...data, image: "https://cdn.example.com/cover.webp?v=2" }));
+  try { assert.equal(createCatalog(root, root).books[0].cover, "https://cdn.example.com/cover.webp?v=2"); }
   finally { rmSync(root, { recursive: true, force: true }); }
 });
 test("rejects broken chapter positions and non-public URLs", () => {
