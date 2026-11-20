@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="《众生》：一场当代职场荒诞现实主义大型沉浸式演出。">
+  <title>众生｜一场不设防的荒诞剧</title>
+  <style>
+    :root {
+      --ink:#292121; --paper:#f5efdf; --paper-deep:#e9dfc9;
+      --wine:#421921; --wine-dark:#2b1017; --verm:#ae4037;
+      --gold:#d9ac6a; --muted:#806e66; --line:#c5b8a2;
+      --serif:"Iowan Old Style","Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC",serif;
+      --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    }
+    *,*::before,*::after { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); font-family:var(--sans); background:var(--paper);
+      background-image:radial-gradient(rgba(67,37,34,.055) .65px,transparent .65px); background-size:5px 5px;
+      -webkit-font-smoothing:antialiased; }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    [hidden] { display:none!important; }
+    ::selection { background:var(--wine); color:var(--paper); }
+    .frame { max-width:1160px; margin:auto; padding:0 28px; }
+    .masthead { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; padding:24px 0 18px; border-bottom:1px solid #5d444057; }
+    .masthead .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.18em; }
+    .masthead .aside { font-size:11px; letter-spacing:.18em; color:#775b56; font-weight:700; }
+    .poster { margin-top:22px; position:relative; overflow:hidden; background:var(--wine-dark);
+      border:8px solid var(--wine-dark); outline:1px solid #402323; isolation:isolate;
+      box-shadow:9px 10px 0 rgba(57,25,29,.10); }
+    .poster::before { content:""; position:absolute; inset:0; z-index:-1;
+      background:repeating-linear-gradient(92deg,transparent 0,transparent 42px,rgba(255,217,171,.047) 44px,rgba(0,0,0,.085) 72px,transparent 100px),
+                 radial-gradient(ellipse at 47% 5%,rgba(255,210,143,.24),transparent 59%),linear-gradient(125deg,#67252e 0%,#3a151d 67%,#2a1119 100%); }
+    .poster::after { content:""; position:absolute; pointer-events:none; inset:12px; border:1px solid rgba(235,188,124,.42); }
+    .poster-inner { min-height:500px; padding:39px 52px 28px; color:#fff0d3; display:flex; flex-direction:column; justify-content:space-between; position:relative; }
+    .poster-top { display:flex; align-items:start; justify-content:space-between; gap:18px; text-transform:uppercase; font-size:11px; font-weight:700; letter-spacing:.22em; color:#e9c690; }
+    .poster-top span:last-child { text-align:right; line-height:1.65; }
+    .poster-center { padding:30px 0 40px; text-align:center; }
+    .poster-center .eyebrow { letter-spacing:.5em; font-size:12px; padding-left:.5em; font-weight:600; color:#d8ab79; }
+    .poster h1 { font-family:var(--serif); font-weight:700; font-size:clamp(110px,19vw,232px); line-height:1.28; margin:-3px 0 -25px;
+      letter-spacing:.075em; padding-left:.075em; text-shadow:5px 5px 0 #9d493d, 10px 10px 0 #2a1119; }
+    .poster-center .sub { margin:0; font-family:Georgia,serif; color:#d7b37d; font-style:italic; font-size:clamp(17px,2.7vw,26px); letter-spacing:.17em; }
+    .poster-bottom { display:flex; justify-content:space-between; align-items:end; gap:12px; border-top:1px solid rgba(230,185,127,.52); padding-top:17px; }
+    .poster-bottom b { font-size:12px; letter-spacing:.15em; font-weight:600; }
+    .poster-bottom small { color:#d6aa82; font-size:11px; letter-spacing:.13em; line-height:1.6; text-align:right; }
+    .seal { position:absolute; right:6.2%; top:34%; width:117px; height:117px; border:3px double var(--gold); border-radius:50%;
+      transform:rotate(17deg); display:flex; flex-direction:column; justify-content:center; text-align:center; color:var(--gold);
+      font-family:var(--serif); font-size:14px; font-weight:700; letter-spacing:.09em; opacity:.90; pointer-events:none;
+      box-shadow:inset 0 0 0 7px #421921, inset 0 0 0 8px var(--gold); }
+    .seal strong { font-size:27px; letter-spacing:.05em; }
+    .bill { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 4px 19px; border-bottom:2px solid var(--ink); }
+    .bill .small { color:#7f6a5b; letter-spacing:.17em; font-size:11px; font-weight:700; }
+    .bill .ticket-no { font:700 15px Georgia,serif; letter-spacing:.13em; }
+    main { padding-bottom:70px; }
+    .chapter-shell { display:grid; grid-template-columns:180px minmax(0,1fr); gap:28px; }
+    .margin-note { padding-top:53px; color:#8a746b; font-size:11px; font-weight:700; letter-spacing:.17em; line-height:2; }
+    .margin-note strong { display:block; font:normal 26px Georgia,serif; letter-spacing:.01em; color:var(--verm); padding-bottom:8px; }
+    .prose { font-family:var(--serif); font-size:clamp(17px,1.85vw,20px); line-height:2.05; letter-spacing:.012em; }
+    .prose p { margin:0 0 1.5em; }
+    .prose strong { color:#7b282a; font-weight:700; }
+    .intro { padding:54px 0 26px; max-width:735px; }
+    .intro p:first-child::first-letter { float:left; font-size:4.2em; font-weight:700; line-height:.88; margin:.09em .12em 0 0; color:#963f36; }
+    .gate { border:1px solid #a38979; margin:28px auto 72px; background:var(--wine); color:#f8e9d0;
+      position:relative; box-shadow:13px 13px 0 #d9ccb5; max-width:990px; }
+    .gate::before,.gate::after { content:""; position:absolute; width:26px; height:26px; background:var(--paper); border-radius:50%; top:50%; transform:translateY(-50%); z-index:2; }
+    .gate::before { left:-14px; border-right:1px solid #9e8374; }
+    .gate::after { right:-14px; border-left:1px solid #9e8374; }
+    .gate-top { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px 24px;
+      border-bottom:1px dashed #b89483; background:#2c1118; color:#dfb78d; font:700 11px var(--sans); letter-spacing:.2em; }
+    .gate-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(310px,.93fr); gap:0; }
+    .gate-pitch { padding:39px 39px 42px; border-right:1px dashed rgba(236,191,153,.55); position:relative; }
+    .gate-pitch .circle { border:1px solid var(--gold); display:inline-flex; width:49px; height:49px; align-items:center; justify-content:center;
+      border-radius:50%; font-family:Georgia,serif; color:var(--gold); font-size:24px; margin-bottom:18px; transform:rotate(-12deg); }
+    .gate-pitch h2 { font:700 clamp(34px,4.2vw,49px)/1.3 var(--serif); margin:0 0 16px; letter-spacing:.04em; }
+    .gate-pitch h2 em { display:block; font-weight:400; font-size:25px; color:#dfb47a; font-style:normal; }
+    .gate-pitch p { color:#e8ceb1; font-size:13px; line-height:1.95; margin:0; }
+    .gate-action { padding:40px 42px 32px; display:flex; justify-content:center; flex-direction:column; }
+    .gate-action label { color:#fbeacb; font:700 14px var(--sans); letter-spacing:.08em; }
+    .gate-action .hint { font-size:12px; color:#dfb783; margin-top:9px; }
+    .pass-field { margin-top:22px; display:flex; gap:8px; }
+    .pass-field input { min-width:0; flex:1; padding:14px 15px; outline:0; border:1px solid #b18a70; border-radius:0;
+      color:#fae8cb; background:#35151c; font:20px Georgia,serif; letter-spacing:.06em;
+      transition:border .15s, box-shadow .15s; }
+    .pass-field input::placeholder { color:#8d716e; font-style:italic; font-size:16px; }
+    .pass-field input:focus { border-color:#f3c07f; box-shadow:0 0 0 2px rgba(243,192,127,.2); }
+    .pass-field button { border:0; padding:0 20px; background:var(--gold); color:#29151b; font-size:14px; font-weight:800;
+      min-height:56px; white-space:nowrap; transition:background .15s,transform .15s; }
+    .pass-field button:hover { background:#f0ca92; transform:translateY(-2px); }
+    .pass-field button:focus-visible { outline:3px solid white; outline-offset:3px; }
+    .feedback { min-height:22px; margin:9px 0 0; font-size:12px; color:#ffe3a4; }
+    .disclaimer { border-top:1px solid rgba(226,178,133,.35); margin-top:22px; padding-top:15px; font-size:11px; line-height:1.85; color:#dcc0a8; }
+    .disclaimer b { color:#f6d3a1; }
+    .gate-foot { padding:12px 24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+      border-top:1px dashed #b89483; background:#2c1118; color:#dfb78d; font:700 10px var(--sans); letter-spacing:.14em; }
+    .unlocked { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding:17px 26px; }
+    .unlocked strong { font-family:var(--serif); font-size:19px; letter-spacing:.08em; }
+    .unlocked small { display:block; margin-top:4px; color:#ddba9e; letter-spacing:.04em; }
+    .unlocked button { border:1px solid #b18a70; background:transparent; color:#f7e5ca; padding:10px 16px; }
+    .unlocked button:hover { background:#652e36; }
+    .story { animation:curtain .55s ease-out both; }
+    @keyframes curtain { from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)} }
+    .story .act { padding:27px 0 32px; border-top:1px solid #b6a58c; }
+    .act h2 { margin:0 0 23px; display:flex; align-items:baseline; gap:18px; font-family:var(--serif); font-size:29px; }
+    .act h2 .act-no { font:italic 18px Georgia,serif; color:var(--verm); font-weight:400; }
+    .act .prose { max-width:735px; }
+    .story .intro-return { padding-bottom:23px; }
+    .ending-wrap { max-width:900px; margin:55px auto 0; position:relative; }
+    .ending-wrap::before { content:""; display:block; height:13px; margin-bottom:42px; background:repeating-linear-gradient(90deg,#361c23 0 12px,#d8b879 12px 24px); }
+    .ending { text-align:center; padding:33px 22px 43px; position:relative; }
+    .ending::before { content:"“"; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font:115px Georgia,serif; color:#c7b69d; opacity:.68; }
+    .ending p { position:relative; font-family:var(--serif); font-size:clamp(25px,4.5vw,39px); line-height:1.9; font-weight:500; letter-spacing:.07em; margin:0; }
+    .ending p:last-child { color:var(--verm); }
+    .curtain-call { margin:18px auto 45px; width:max-content; color:#745e57; text-align:center; font-size:11px; line-height:2; letter-spacing:.2em; }
+    .colophon { border-top:1px solid #bbad97; display:flex; justify-content:space-between; align-items:center; gap:15px; flex-wrap:wrap; padding:20px 0 29px;
+      font-size:11px; color:#80695d; letter-spacing:.11em; }
+    .colophon b { color:var(--wine); }
+    .tag { display:inline-block; transform:rotate(-3deg); border:2px solid #a14b42; color:#a14b42; font-weight:900; letter-spacing:.1em;
+      padding:7px 12px; font-size:11px; margin-top:18px; }
+    @media(max-width:760px) {
+      .frame{padding:0 17px}.masthead{padding:17px 0 13px}.masthead .brand{font-size:16px}.masthead .aside{font-size:9px}
+      .poster{margin-top:15px;border-width:5px;box-shadow:5px 6px 0 rgba(57,25,29,.12)}.poster::after{inset:8px}
+      .poster-inner{min-height:345px;padding:26px 24px 20px}.poster-top{font-size:9px}.poster-top span:last-child{font-size:8px;letter-spacing:.05em;white-space:nowrap}.poster-center{padding:10px 0 23px}
+      .poster h1{font-size:clamp(95px,24vw,164px);margin:0 0 -12px}.poster-center .eyebrow{font-size:9px;letter-spacing:.24em}
+      .poster-bottom b,.poster-bottom small{font-size:9px}.seal{right:6%;top:39%;width:72px;height:72px;font-size:9px;border-width:2px;box-shadow:inset 0 0 0 4px #421921,inset 0 0 0 5px var(--gold)}.seal strong{font-size:16px}
+      .bill .small{font-size:9px;max-width:62%;letter-spacing:.08em}.bill .ticket-no{font-size:12px;white-space:nowrap}.chapter-shell{display:block}.margin-note{padding:30px 0 8px;font-size:10px}.margin-note strong{display:inline;font-size:18px;margin-right:7px}
+      .intro{padding:15px 0 23px}.prose{font-size:17px;line-height:1.95}.gate{margin:10px 0 51px;box-shadow:6px 8px 0 #d9ccb5}
+      .gate-top,.gate-foot{padding:12px 19px;font-size:9px}.gate-body{display:block}.gate-pitch{padding:25px 25px 20px;border-right:0;border-bottom:1px dashed rgba(236,191,153,.55)}
+      .gate-pitch .circle{width:34px;height:34px;font-size:18px;margin-bottom:12px}.gate-pitch h2{font-size:33px;margin-bottom:8px}.gate-pitch h2 em{font-size:21px}.gate-action{padding:24px 25px 22px}
+      .pass-field input{width:100%;font-size:18px}.pass-field button{padding:0 14px}.act h2{font-size:25px}.ending-wrap{margin-top:32px}.ending p{font-size:27px}
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important} }
+  </style>
+</head>
+<body>
+<div class="frame">
+  <header class="masthead"><span class="brand">私人周记 · 临时剧团</span><span class="aside">观察纪事 / 2026.11.20 / 星期五</span></header>
+  <section class="poster" aria-label="《众生》戏剧式封面">
+    <div class="poster-inner">
+      <div class="poster-top"><span>AN ABSURD LITTLE THEATRE<br>荒诞现实主义小剧场</span><span>本周公演 · 无需预约<br>演员若干 · 片酬未结</span></div>
+      <div class="poster-center"><div class="eyebrow">一场无法报销的沉浸式演出</div><h1>众生</h1><p class="sub">All the World's a Stage</p></div>
+      <div class="seal" aria-hidden="true">演出<br><strong>已完成</strong><br>待验收</div>
+      <div class="poster-bottom"><b>编剧 / 演员 / 技术指导 / 善后人员：同一人</b><small>节目单 07 幕<br>如有雷同，纯属现实</small></div>
+    </div>
+  </section>
+  <div class="bill"><span class="small">PERSONAL JOURNAL · WEEKLY PERFORMANCE</span><span class="ticket-no">№ 2026-1120</span></div>
+  <main>
+    <div class="chapter-shell"><aside class="margin-note"><strong>00</strong>序幕 / 聚光灯亮起</aside>
+      <div class="prose intro" aria-label="公开开篇两段">
+        <p>这一周，我参加了一场当代职场荒诞现实主义大型沉浸式演出。</p>
+        <p>我既是编剧、演员、技术指导，还是那个演出结束后负责收拾舞台的人。</p>
+      </div>
+    </div>
+
+    <section class="gate" id="gate" aria-label="象征性口令入场">
+      <div class="gate-top"><span>▣ 临时检票口 / ADMIT ONE</span><span>本演出没有真正的门锁</span></div>
+      <div class="gate-body" id="gateLocked">
+        <div class="gate-pitch"><div class="circle" aria-hidden="true">?</div><h2>请出示<br><em>一张不存在的门票。</em></h2>
+          <p>正文并不保密。我们只是郑重其事地设置了一道毫无意义的手续，好让这场演出更像生活。</p>
+          <span class="tag">无需实名 · 自觉入场</span>
+        </div>
+        <div class="gate-action">
+          <form id="passwordForm" novalidate>
+            <label for="password">检票口令</label>
+            <div class="hint" id="passwordHint">提示：作者的英文名。大小写不敏感。</div>
+            <div class="pass-field"><input id="password" type="text" placeholder="Your ticket, please" aria-describedby="passwordHint feedback" autocapitalize="off" autocomplete="off" spellcheck="false" required><button type="submit">推门入场 ↗</button></div>
+            <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+          </form>
+          <div class="disclaimer"><b>郑重声明：</b>这不是服务端加密，也不是安全保护。完整正文已经随 HTML 交给你的浏览器；任何人均可查看页面源代码取得全文。我们没有认证服务、没有密码数据库，也不记录你的尝试。<br><br>剧团没有预算采购真正的锁。</div>
+        </div>
+      </div>
+      <div class="unlocked" id="gateUnlocked" hidden aria-live="polite"><div><strong>✓ 验票成功。欢迎，众生之一。</strong><small>门从未上锁。只是你亲手推开了它。</small></div><button id="relock" type="button">重新拉上幕布</button></div>
+      <div class="gate-foot"><span>NO SECURITY / JUST CEREMONY</span><span>剧团保留解释权，且不承担解释义务</span></div>
+    </section>
+
+    <!-- 刻意保持全文在 HTML 中。这个前端门槛不提供隐私或访问控制。 -->
+    <div class="story" id="story" hidden>
+      <div class="chapter-shell intro-return"><aside class="margin-note"><strong>·</strong>序幕 / 继续</aside><div class="prose">
+        <p>舞台上有人描绘宏伟蓝图，有人盘算成本与收益，有人讲究体面，也有人精通如何把责任交给别人。</p>
+        <p>我负责让那些尚未实现的愿景，在草台班子的聚光灯下运行几分钟。</p>
+        <p>我行尸走肉，也干脆放弃了演出效果。</p>
+      </div></div>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>01</strong>本地生活</aside><div><h2><span class="act-no">第一幕</span>已签收</h2><div class="prose">
+        <p>先说本地生活。</p>
+        <p>这个项目从沟通需求、设计方案、技术实现，到微信支付资质申请、商户号配置，几乎都是我一个人在推动。</p>
+        <p>项目里原本还有地图功能。老板觉得地图服务要花钱，于是砍掉了。</p>
+        <p>省钱当然没有错。做产品总得考虑成本。只是我渐渐发现，大家对于成本的理解并不相同。</p>
+        <p>有些成本看得见，比如地图服务的账单。</p>
+        <p>有些成本看不见，比如一个人同时扮演产品经理、开发负责人、实施工程师、商务协调员，还得负责跑支付资质。</p>
+        <p>前者需要批准，后者似乎天然免费。</p>
+        <p>最精彩的一幕发生在交接环节。</p>
+        <p>我整理好了微信支付相关配置，交给负责对接的包工头。结果他转手就把材料扔给了 AI。</p>
+        <p>我倒不反对使用 AI。恰恰相反，我可能是这家公司最热衷于让 AI 参与工作的人。</p>
+        <p>但使用工具和承担责任是两回事。涉及支付配置的材料，接手的人至少应该清楚自己拿到了什么、需要保护什么、接下来应该做什么。</p>
+        <p>既然如此，我决定按规矩办事。</p>
+        <p>我要求他给出已读回执，并且特别强调两个字：</p>
+        <p><strong>「已签收」。</strong></p>
+        <p>他迟迟不肯签。</p>
+        <p>那就先不推进上线。</p>
+        <p>不是我不肯做，而是我已经把能做的做完了。接下来，总该有人承认自己接过了什么。</p>
+        <p>以前我大概会继续催促、协调、解释，最后再替他把事情办完。</p>
+        <p>这一次，我选择安静地等着。</p>
+        <p>老实人有老实人的做法。</p>
+      </div></div></section>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>02</strong>卡博士</aside><div><h2><span class="act-no">第二幕</span>嫁衣</h2><div class="prose">
+        <p>另一个故事发生在卡博士。</p>
+        <p>卡博士新版 App 终于上线了。连同商城、权益业务和新的内容专栏，一并成为这轮项目建设的成果。</p>
+        <p>但如果仔细看看背后的商业关系，事情就没有那么简单。</p>
+        <p>原来的硬件商，急于摆脱旧版的维护费用。</p>
+        <p>那家公司我去过很多次。办公室白天也不开灯，能省的似乎都要省一点。</p>
+        <p>如今，连旧版广告服务器的费用也不愿继续承担。按照我了解到的情况，他们希望借此加快新旧版本的切换。</p>
+        <p>旧版的广告已经满天飞。</p>
+        <p>对于经营者来说，旧系统是一笔等待甩掉的成本。对于用户来说，却是一个仍然需要使用的产品。</p>
+        <p>新版的商业关系又是另一番景象。</p>
+        <p>广告运营权到了另一家合作方手里，权益资源也逐渐集中到他们那里。硬件商掌握着原有设备和用户，我们公司则负责新版开发，并且正在逐步接手运营。</p>
+        <p>至于钱，我们并不直接负责收。</p>
+        <p>这样看下来，分工倒也明确。</p>
+        <p>有人掌握用户，有人掌握权益和广告，有人负责把系统开发出来，再逐渐负责让它正常运转。</p>
+        <p>我们越来越像一个渠道商。</p>
+        <p>渠道商当然也可以有自己的商业价值，关键在于能分到什么、掌握什么，以及为此承担多少成本。</p>
+        <p>但看着这些不断向外转移的商业能力，我总有一种给别人做嫁衣的感觉。</p>
+        <p>有趣的是，每个参与者似乎都知道自己想要什么。</p>
+        <p>硬件商想减少成本，权益运营方希望掌握商业资源，老板希望扩大业务版图。</p>
+        <p>这些诉求未必不合理。</p>
+        <p>可我越来越难以回答一个朴素的问题：</p>
+        <p><strong>我们究竟在为自己建设什么？</strong></p>
+        <p>产品上线是一件真事。</p>
+        <p>开发投入是一件真事。</p>
+        <p>至于公司最终积累了多少属于自己的商业能力，就不是一份项目成果汇报能够回答的了。</p>
+      </div></div></section>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>03</strong>魔镜</aside><div><h2><span class="act-no">第三幕</span>报价单</h2><div class="prose">
+        <p>第三个故事，是魔镜。</p>
+        <p>这件事多少有些故人重逢的意味。</p>
+        <p>多年前，我曾经主导过一家硬件厂商的卫浴镜产品设计。</p>
+        <p>后来我离开了，接替我负责开发管理的同事，又辗转跳槽去了那家硬件厂商。</p>
+        <p>多年以后，我们竟然在另一个项目里重新成为甲乙方。</p>
+        <p>这一次，我们公司要做美妆镜、健身镜、试衣镜。</p>
+        <p>三个产品原型已经被写进项目成果汇报。</p>
+        <p>但我心里清楚，原型设计、设备演示、业务功能开发和正式商业运营，是四件不同的事情。</p>
+        <p>美妆镜的商城还只是前端 Demo，运营后台没有真正打通。健身镜的样机连摄像头都没有，更谈不上完成体态识别的实机验证。</p>
+        <p>然而，在那套熟悉的商业叙事里，这些都可以被概括为两个字：</p>
+        <p>「完成」。</p>
+        <p>既然已经完成，总得拿点东西出来演示吧。</p>
+        <p>于是我开始追着硬件厂商要设备更新、要后台账号、要真实演示环境。</p>
+        <p>昔日的同事显然很熟悉我们的工作方式。</p>
+        <p>当我提出运营后台和功能需求时，她告诉我，需要立项，需要估价。</p>
+        <p>然后，她问了一个很精彩的问题：</p>
+        <p>「你们现在这个阶段是想做展示样品，还是为上市做准备啦？」</p>
+        <p>我看着这句话，忍不住想笑。</p>
+        <p>她太清楚了。</p>
+        <p>今天说做个样品，明天可能就要投入运营；今天说先展示一下，后天就要考虑商业化。只要不提前确定边界，需求总能像宇宙一样不断膨胀。</p>
+        <p>从供应商的立场看，她的做法完全正确。</p>
+        <p>我也没有为难她。</p>
+        <p>我回复：</p>
+        <p>「首期如果需要立项出报价，可以提出。我们看后评估推不推。」</p>
+        <p>然后，我在群里 @了老板。</p>
+        <p>毕竟，要不要花钱，应该由有权决定的人来决定。</p>
+        <p>老板没有回应。</p>
+        <p>这倒是一个很安静的下午。</p>
+        <p>当宏伟蓝图终于需要附上一张报价单，群聊突然失去了往日的热闹。</p>
+        <p>不过，已经具备的演示能力还是要推进。</p>
+        <p>李倩楠把后台账号交给我之后，我立即找 AI 制作了一批带 Alpha 透明通道的商品图片。</p>
+        <p>抠图、调整、上传。</p>
+        <p>设备升级之后，图片终于出现在真实的镜面界面里。</p>
+        <p>至少，一个能够实际操作、能够展示内容的 Demo 跑起来了。</p>
+        <p>我在群里 @老板，宣布：</p>
+        <p>「Demo 完成。」</p>
+        <p>结果下午真正需要上台展示时，老板不来了。</p>
+        <p>让我去讲。</p>
+        <p>我只好去了。</p>
+      </div></div></section>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>04</strong>现场</aside><div><h2><span class="act-no">第四幕</span>得力干将</h2><div class="prose">
+        <p>现场有人介绍我：</p>
+        <p>「这位是刘总的得力干将。」</p>
+        <p>多么体面的称呼。</p>
+        <p>得力干将。</p>
+        <p>负责产品，负责技术，负责推进供应商，负责制作演示，必要时还负责上台讲故事。</p>
+        <p>我硬着头皮吹了一通。</p>
+        <p>说实话，已经没有什么力气吹了。</p>
+        <p>我知道哪些功能是真的，哪些还只是原型；知道哪些能力已经跑通，哪些需要继续投入；也知道一个 Demo 与一件能够上市运营的商品之间，还隔着多少工作。</p>
+        <p>这些东西，我比台下很多人都清楚。</p>
+        <p>只是到了台上，有时候并没有人真正想听这些区别。</p>
+        <p>他们想听的是产品、市场、商业模式、未来。</p>
+        <p>我也曾经喜欢讲这些。</p>
+        <p>做产品的人，谁不曾为一个好想法兴奋过？谁不希望自己设计的东西真正走进人们的生活？</p>
+        <p>直到某一天，你发现自己越来越像一个负责维持幻觉的舞台工作人员。</p>
+        <p>灯光要亮，道具要动，画面要漂亮。</p>
+        <p>至于舞台后面那些尚未完成的工程，最好不要影响前面的演出。</p>
+        <p>我当然没有把事情全部搞砸。</p>
+        <p>只是已经不想再把它讲得那么动听。</p>
+        <p>更荒诞的是，<strong>这位「得力干将」，工资还被拖欠着。</strong></p>
+        <p>赞美可以即时到账。</p>
+        <p>工资不行。</p>
+      </div></div></section>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>05</strong>工资条</aside><div><h2><span class="act-no">第五幕</span>请给点面子</h2><div class="prose">
+        <p>说到工资，这周还有一出小戏。</p>
+        <p>工资依旧没有到账，公司却又让我们提前签工资条。</p>
+        <p>包工头来协调。</p>
+        <p>我告诉他，这次我准备如实写。</p>
+        <p>他说：</p>
+        <p>「给点面子。」</p>
+        <p>我说：</p>
+        <p>「没办法。」</p>
+        <p>后来，我想了想。</p>
+        <p>也没有必要争吵，更没有必要写什么长篇控诉。</p>
+        <p>我只在工资条上写了一句：</p>
+        <p><strong>「不做到账证明。」</strong></p>
+        <p>然后签上名字，写下日期。</p>
+        <p>就这样。</p>
+        <p>我签过字，但这不代表我收到了钱。</p>
+        <p>很简单的一件事。</p>
+        <p>简单到我甚至有点惊讶，为什么还需要特意写下来。</p>
+        <p>这句话当然不能替代银行流水，也不能自动解决欠薪。它只是我在那张纸上能够留下的一点事实。</p>
+        <p>我没有拒绝签字，也没有让任何人下不来台。</p>
+        <p>至于面子，我想，我已经给得足够多了。</p>
+        <p>一个人按要求工作，完成项目，替公司出面展示，最后还要在没有收到工资的时候，考虑怎样照顾催他签字的人的面子。</p>
+        <p>这大概也是一种职场艺术。</p>
+        <p>只是我不太想继续精进这门艺术了。</p>
+      </div></div></section>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>06</strong>群像</aside><div><h2><span class="act-no">第六幕</span>各自的位置</h2><div class="prose">
+        <p>这一周接触了很多人。</p>
+        <p>老板、管理者、硬件供应商、权益运营商、昔日同事，还有各式各样的合作方。</p>
+        <p>每个人都有自己的立场。</p>
+        <p>有人急着甩掉旧系统的成本，有人忙着掌握新的商业资源，有人懂得先报价再开发，有人希望在董事会面前呈现漂亮的成果。</p>
+        <p>甚至那个让我签工资条的包工头，也可能觉得自己不过是在完成一项上面交代的工作。</p>
+        <p>如果从各自的位置出发，他们的行为似乎都能找到某种解释。</p>
+        <p>这才是有意思的地方。</p>
+        <p>现实中的人，并不总是以好人和坏人的方式出现。</p>
+        <p>一个人可以对你很客气，同时在利益问题上寸步不让。</p>
+        <p>一个人可以真诚地赞美你的能力，却迟迟没有解决你的报酬。</p>
+        <p>一个人可以描绘令人激动的商业未来，却不愿轻易为其中某项具体功能批准预算。</p>
+        <p>而一个熟悉旧日工作方式的同事，换了家公司、换了位置之后，也会学着用立项和报价保护自己的边界。</p>
+        <p>我并不觉得她有什么错。</p>
+        <p>事实上，我甚至有点欣赏。</p>
+        <p>毕竟，我们都在同一个世界里讨生活。</p>
+        <p>很多年前，我大概还会执着于把每件事情做好。</p>
+        <p>看到一个产品不完整，就想着补齐；看到一个流程走不通，就想着解决；看到一项承诺没有兑现，就想着怎样把它变成现实。</p>
+        <p>这当然是一种职业习惯。</p>
+        <p>但职业习惯不应该成为别人无限支取你劳动的理由。</p>
+        <p>这一周，我做了几件以前未必会做的事情。</p>
+        <p>本地生活交付，我要求明确签收。</p>
+        <p>微框需要额外开发，我让供应商报价，把决定权交给老板。</p>
+        <p>工资没有到账，我就在工资条上写明不做到账证明。</p>
+        <p>没有一件惊天动地。</p>
+        <p>甚至没有一件算得上胜利。</p>
+        <p>项目仍然在那里，商业关系仍然复杂，工资也没有因为我写下那几个字就立即到账。</p>
+        <p>但至少，我开始认真区分一些事情。</p>
+        <p>谁提出需求，谁决定投入。</p>
+        <p>谁接收交付，谁确认责任。</p>
+        <p>谁掌握利益，谁应该承担相应的成本。</p>
+        <p>还有，谁欠了工资，就应该承认工资尚未支付。</p>
+        <p>这些道理并不高深。</p>
+        <p>奇怪的是，在现实里，它们竟然需要一个人花费那么多力气去坚持。</p>
+      </div></div></section>
+      <section class="chapter-shell act"><aside class="margin-note"><strong>07</strong>谢幕</aside><div><h2><span class="act-no">第七幕</span>众生</h2><div class="prose">
+        <p>写到这里，我才发现，这周的周记其实不太需要一个宏大的主题。</p>
+        <p>本来只想写写工作，结果写出一群人来。</p>
+        <p>有老狐狸，有包工头，有故人，有老板。</p>
+        <p>有的人精明，有的人圆滑，有的人善于自保，有的人热衷描绘未来。</p>
+        <p>而我也并没有站在他们之外。</p>
+        <p>我同样有自己的盘算，有自己的不甘，也有自己不得不顾及的现实。</p>
+        <p>我会在群里 @老板，会要求别人签收，会在工资条上留下那几个字。</p>
+        <p>我也会在明知道某些事情尚未完成的时候，努力把一个 Demo 做出来，然后站到台上，尽可能把话讲完。</p>
+        <p>这并不是什么高尚的姿态。</p>
+        <p>只是我也要生活。</p>
+        <p>有时候，我觉得自己像一个旁观者，看着众人忙碌、计算、周旋，觉得荒唐又好笑。</p>
+        <p>转念一想，我又何尝不是其中的一员。</p>
+        <p>我们都在谋生。</p>
+        <p>有人谋的是利润，有人谋的是前程，有人谋的是体面，有人谋的是安全。</p>
+        <p>而我眼下所谋求的，不过是让做过的事情算数，让没有发生的事情不要被算作发生，让自己的劳动能够换回约定好的报酬。</p>
+        <p>仅此而已。</p>
+        <p>这周的演出还没有正式谢幕。</p>
+        <p>也许下周还会有新的角色登场，新的项目宣布完成，新的成本需要节省，新的商业蓝图等待落地。</p>
+        <p>我大概还会继续工作。</p>
+        <p>只是希望下一次站在聚光灯下时，我至少还有力气讲一点自己真正相信的东西。</p>
+        <p>如果没有，也无妨。</p>
+        <p>舞台很大，观众很多。</p>
+        <p>而我终于开始明白，<strong>并不是每一场演出，都需要由我负责让它成功。</strong></p>
+        <p>至于那些没做完的工作、没讲完的故事、没付清的工资……</p>
+        <p>就让它们如实地留在那里吧。</p>
+      </div></div></section>
+    </div>
+
+    <div class="ending-wrap" id="ending"><div class="ending" aria-label="公开结尾两段"><p>众生各有各的活法。</p><p>我也该有我的。</p></div></div>
+    <div class="curtain-call">二〇二六年十一月二十日 · 星期五<br>这一周尚未结束，但我已经写不动更多荒诞了。</div>
+  </main>
+  <footer class="colophon"><span><b>《众生》</b> · 一人剧团出品</span><span>本剧为作者亲历叙事，不设安全门禁，也不出售门票。</span></footer>
+</div>
+<script>
+(function () {
+  'use strict';
+  const form = document.getElementById('passwordForm');
+  const input = document.getElementById('password');
+  const feedback = document.getElementById('feedback');
+  const gateLocked = document.getElementById('gateLocked');
+  const gateUnlocked = document.getElementById('gateUnlocked');
+  const story = document.getElementById('story');
+  const gate = document.getElementById('gate');
+  const relock = document.getElementById('relock');
+  const openCurtain = function () {
+    gateLocked.hidden = true;
+    gateUnlocked.hidden = false;
+    story.hidden = false;
+    story.setAttribute('tabindex', '-1');
+    story.focus({ preventScroll: true });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      story.scrollIntoView();
+    } else {
+      story.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (input.value.trim().toLocaleLowerCase('en-US') === 'tomz') {
+      feedback.textContent = '';
+      openCurtain();
+    } else {
+      feedback.textContent = '票务系统表示疑惑：再看看作者的英文名。';
+      input.select();
+    }
+  });
+  relock.addEventListener('click', function () {
+    story.hidden = true;
+    gateUnlocked.hidden = true;
+    gateLocked.hidden = false;
+    input.value = '';
+    feedback.textContent = '';
+    gate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    input.focus({ preventScroll: true });
+  });
+  // Keep the same-origin embedded theatre as tall as its visible content.
+  // This is a presentation detail, not an access-control mechanism.
+  const fitTheatreFrame = () => {
+    try {
+      const embeddingFrame = window.frameElement;
+      const stage = document.querySelector('.frame');
+      if (!embeddingFrame || !stage) return;
+      const neededHeight = Math.ceil(stage.getBoundingClientRect().height) + 12;
+      if (Math.abs(embeddingFrame.getBoundingClientRect().height - neededHeight) > 2) {
+        embeddingFrame.style.setProperty('height', neededHeight + 'px', 'important');
+      }
+    } catch (_) { /* Still works as a standalone HTML page. */ }
+  };
+  if (window.ResizeObserver) new ResizeObserver(fitTheatreFrame).observe(document.querySelector('.frame'));
+  window.addEventListener('load', fitTheatreFrame);
+  window.addEventListener('resize', fitTheatreFrame);
+  fitTheatreFrame();
+})();
+</script>
+</body>
+</html>
