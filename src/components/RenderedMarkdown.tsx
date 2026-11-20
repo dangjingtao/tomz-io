@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 
-export default function RenderedMarkdown({
+function RenderedMarkdown({
   html,
   className = "markdown",
 }: {
@@ -8,6 +8,9 @@ export default function RenderedMarkdown({
   className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  // Keep the raw HTML prop stable across parent scroll-state renders.
+  // Otherwise React can rewrite innerHTML, destroying interactive iframes.
+  const innerHTML = useMemo(() => ({ __html: html }), [html]);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -76,7 +79,10 @@ export default function RenderedMarkdown({
     <div
       ref={containerRef}
       className={className}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={innerHTML}
     />
   );
 }
+
+// Scroll-driven updates of the article header must not remount embedded content.
+export default memo(RenderedMarkdown);
