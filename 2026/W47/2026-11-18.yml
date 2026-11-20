@@ -22,7 +22,7 @@
   topic: "GitHub Event Streams、长连接、PR 事件、轮询替代、本地 Agent"
   discoveredAt: "2026-11-18"
   origin: "radar"
-  note: "GitHub 11 月 17 日公布 Event Streams 预览，允许订阅 PR 后保持连接，接收 review、commit、冲突、合并/关闭及 check suites 变化事件；不需要公网 webhook 接收端，适合在本地电脑运行的工具。当前需申请 waitlist 并获批准，不能当作已全面开放或可靠交付承诺。编辑问题：以事件唤醒取代轮询，能否降低小团队自动化的运行成本与维护复杂度？"
+  note: "GitHub 11 月 17 日公布 Event Streams 预览，允许订阅 PR 后保持连接，接收 review、commit、冲突、合并/关闭及 check suites 变化事件；不需要公网 webhook 接收端，适合在本地电脑运行的工具。当前需申请 waitlist 并获批准，不能当作已全面开放或可靠交付承诺。2026-11-20 续注：GitHub 11 月 18 日宣布 gh CLI v2.105.0 新增 `gh event listen`，支持按 PR URL 等待 review、状态、冲突与 check suites 等事件，默认收到首个事件即退出，可用 --follow、--count、--timeout 和 --jq；但命令仍受 Event Streams 预览权限限制，不能视为普遍可用。官方出处：https://github.blog/changelog/2026-11-18-wait-for-pull-request-events-with-github-cli/ 。编辑问题：以事件唤醒取代轮询，能否降低小团队自动化的运行成本与维护复杂度？"
   status: "candidate"
   kind: "capability"
   opportunityNote: "本地开发工具和轻量协作服务可减少公网 webhook 基建；需实测断线补偿、鉴权、事件覆盖、重放和 GitHub 锁定，不能只根据官方‘省 token’宣传推断节省比例。"
