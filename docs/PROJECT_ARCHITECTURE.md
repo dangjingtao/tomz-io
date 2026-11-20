@@ -218,6 +218,8 @@ prepare:site
 → vite build
 → apply-content-times-to-static
 → generate:rss
+→ generate:book-catalog
+→ generate:feed
 ~~~
 
 GitHub Pages build：
@@ -227,14 +229,16 @@ prepare:site
 → vite build --mode github-pages
 → apply-content-times-to-static
 → generate:rss
+→ generate:book-catalog
+→ generate:feed
 ~~~
 
-两种模式共享内容、静态 SEO 与 RSS 逻辑，主要差别是 base：
+两种模式共享内容、静态 SEO、RSS 与 JSON Feed 逻辑，主要差别是 base：
 
 - Cloudflare / root：`/`
 - GitHub Pages：`/tomz-io/`
 
-## 7. 静态 SEO 与 RSS
+## 7. 静态 SEO、RSS 与 JSON Feed
 
 主要入口：
 
@@ -244,11 +248,15 @@ vite.config.ts
 scripts/apply-content-times-to-static.mjs
 scripts/generate-rss.mjs
 scripts/verify-rss.mjs
+scripts/generate-feed.mjs
+scripts/verify-json-feed.mjs
 ~~~
 
 公开页面构建时输出或校验静态正文 HTML、canonical、metadata、JSON-LD、Article / CollectionPage 语义、sitemap、lastmod、404 / noindex 行为与历史 URL redirect。
 
 RSS 不维护第二套文章清单，而是从最终静态 HTML 中的 canonical 与 Article JSON-LD 派生 `dist/rss.xml`，并把 RSS alternate link 写回静态 HTML。这样 RSS、SEO 与实际公开正文共用同一事实源。
+
+`dist/feed.json` 同样是构建期投影：条目身份、canonical、标题、摘要、作者、发布时间与修改时间来自最终 Article JSON-LD；周刊 `issue` 关系来自已发布的 Markdown 元数据；Book 关系来自 `dist/books/catalog.json`。它不复制正文、不维护第二套文章索引，也不改变 `/rss.xml` 或 `/books/catalog.json`。只有来源确实带时区的发布时间才写入 JSON Feed 标准 `date_published`；仅日期精度保留在 `_tomzio.publishedDate`。
 
 书籍原生内容、客座投稿与《见π》都必须进入同一套静态 SEO / 内容时间链，而不是只在客户端能打开。
 
