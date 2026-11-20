@@ -26,6 +26,23 @@ function identity(value) {
   return canonical(value).replace(/\/$/, "");
 }
 
+// JSON Feed 1.1 item.image comes from the final published Article image,
+// never from Markdown text, a filename convention, or a second cover list.
+function publishedIssueImage(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    throw new Error("Published Issue has no Article image");
+  }
+  let image;
+  try { image = new URL(value); } catch { throw new Error("Invalid published Issue image: " + value); }
+  if (image.protocol !== "https:" ||
+      !["https://tomz.io", "https://assets.tomz.io"].includes(image.origin) ||
+      image.username || image.password || image.hash || image.pathname === "/" ||
+      image.pathname.endsWith("/tomz-avatar.png")) {
+    throw new Error("Untrusted or placeholder published Issue image: " + value);
+  }
+  return image.toString();
+}
+
 function dateParts(value, field) {
   if (value == null || value === "") return {};
   if (typeof value !== "string") throw new Error("Invalid " + field + ": not a string");
@@ -66,7 +83,8 @@ function sourceMetadata(pagesRoot) {
     const number = Number(Array.isArray(meta.issue) ? meta.issue[0] : meta.issue);
     const issue = Number.isInteger(number) && number > 0 ? number : undefined;
     const isIssueIndex = section === "weekly" && /^weekly\/[^/]+\/index\.md$/.test(source) && issue !== undefined;
-    const record = { section, issue, isIssueIndex };
+    const hasDeclaredCover = typeof meta.cover === "string" && Boolean(meta.cover.trim());
+    const record = { section, issue, isIssueIndex, hasDeclaredCover };
     byRoute.set(doc.path.replace(/\/$/, "") || "/", record);
     if (isIssueIndex) {
       if (issues.has(issue)) throw new Error("Duplicate source Issue metadata: " + issue);
@@ -127,11 +145,16 @@ export function collectJsonFeed({ distRoot, pagesRoot, catalog = collectBookCata
     const published = dateParts(article.datePublished, "datePublished");
     const modified = dateParts(article.dateModified, "dateModified");
     const names = authorNames(article.author);
+    if (source?.isIssueIndex && !source.hasDeclaredCover) {
+      throw new Error("Published Issue source has no declared cover: " + route);
+    }
+    const issueImage = source?.isIssueIndex ? publishedIssueImage(article.image) : undefined;
 
     const item = {
       id: url,
       url,
       title,
+      ...(issueImage ? { image: issueImage } : {}),
       ...(description ? { summary: description } : {}),
       content_text: description || title,
       ...(published.precision === "datetime" ? { date_published: published.date } : {}),

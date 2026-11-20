@@ -252,6 +252,8 @@ RSS 不维护第二套文章清单，而是从最终静态 HTML 中的 canonical
 
 书籍原生内容、客座投稿与《见π》都必须进入同一套静态 SEO / 内容时间链，而不是只在客户端能打开。
 
+《见π》期号索引的封面已经由本期 Markdown frontmatter `cover` 声明，并投影到最终静态页面的 Article JSON-LD `image`。JSON Feed 1.1 的期号条目应从**最终发布的 Article.image** 输出标准 `items[].image`，不得解析正文第一张图片或按期号猜路径；存在期号但未声明真实封面、或最终静态页面缺失有效封面时构建失败。普通文章不得被附加虚构的期号封面；媒体管线将本地图片改为 R2 URL 时，以最终静态产物为准。
+
 公开书架元数据订阅的只读 JSON 派生输出详见 [Book catalog subscription](BOOK_CATALOG_SUBSCRIPTION.md)。它从已有书架 CollectionPage / ItemList 静态输出生成，不复制原始书籍正文；现有 RSS 仍负责 Article 篇章更新。
 
 ## 8. 通用正文媒体与 R2

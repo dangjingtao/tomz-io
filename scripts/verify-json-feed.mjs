@@ -42,6 +42,15 @@ for (const item of feed.items) {
   if (item.date_modified) assert.match(item.date_modified, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/);
   const escaped = item.url.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   assert.ok(rss.includes(`<guid isPermaLink="true">${escaped}</guid>`), "RSS missing published canonical: " + item.url);
+  if (item._tomzio.kind === "issue") {
+    assert.ok(typeof item.image === "string", "Published Issue must export the real cover image");
+    const cover = new URL(item.image);
+    assert.equal(cover.protocol, "https:", "Issue cover must be HTTPS");
+    assert.ok(["https://tomz.io", "https://assets.tomz.io"].includes(cover.origin),
+      "Issue cover must be a publisher-owned URL");
+  } else {
+    assert.equal(item.image, undefined, "Do not invent cover images for non-Issue articles");
+  }
   if (item._tomzio.issue) {
     const issue = item._tomzio.issue;
     assert.ok(allCanonicalIds.has(issue.url), "Issue reference must point to a real published Issue");

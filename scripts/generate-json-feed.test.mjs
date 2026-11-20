@@ -36,10 +36,11 @@ afterEach(() => rmSync(root, { recursive: true, force: true }));
 
 describe("JSON Feed 1.1 published-static projection", () => {
   it("distinguishes confirmed Issue from its article; preserves date-only and author order", () => {
-    source("weekly/010/index.md", "issue: 10");
+    source("weekly/010/index.md", "issue: 10\ncover: https://assets.tomz.io/jianpi/010/cover.webp");
     source("weekly/010/story.md", "issue: 10");
     published("/weekly/010", {
       headline: "见π 010", description: "真实期号摘要", datePublished: "2026-11-15",
+      image: "https://assets.tomz.io/jianpi/010/cover.webp",
       dateModified: "2026-11-16T07:18:27+08:00",
       author: [{ name: "Mira" }, { name: "Tomz Dang" }],
     });
@@ -61,8 +62,36 @@ describe("JSON Feed 1.1 published-static projection", () => {
     expect(issue._tomzio.publishedPrecision).toBe("date");
     expect(issue).not.toHaveProperty("date_published");
     expect(issue.date_modified).toBe("2026-11-16T07:18:27+08:00");
+    expect(issue.image).toBe("https://assets.tomz.io/jianpi/010/cover.webp");
+    expect(story).not.toHaveProperty("image");
     expect(issue.content_text).toBe("真实期号摘要");
     expect(story.content_text).toBe("真实文章");
+  });
+
+  it("publishes only the verified Issue cover from its final Article JSON-LD", () => {
+    source("weekly/008/index.md", "issue: 8\ncover: /images/weekly-008-cover.webp");
+    published("/weekly/008", {
+      headline: "见π 008", image: "https://assets.tomz.io/tomz-io/media/ab/hash.webp",
+    });
+    expect(collect().items[0].image).toBe("https://assets.tomz.io/tomz-io/media/ab/hash.webp");
+    // A local Markdown path has been content-addressed during production media
+    // publication. The feed must use the final public image, not the source path.
+    published("/weekly/008", {
+      headline: "见π 008", image: "https://untrusted.example/cover.webp",
+    });
+    expect(() => collect()).toThrow("Untrusted or placeholder published Issue image");
+    published("/weekly/008", { headline: "见π 008" });
+    expect(() => collect()).toThrow("Published Issue has no Article image");
+    published("/weekly/008", { headline: "见π 008", image: "https://tomz.io/tomz-avatar.png" });
+    expect(() => collect()).toThrow("placeholder published Issue image");
+  });
+
+  it("does not silently invent a weekly cover when the source has none", () => {
+    source("weekly/011/index.md", "issue: 11");
+    published("/weekly/011", {
+      headline: "见π 011", image: "https://assets.tomz.io/jianpi/011/random.webp",
+    });
+    expect(() => collect()).toThrow("source has no declared cover");
   });
 
   it("keeps one canonical when a Blog is logically archived in multiple Books", () => {
