@@ -19,3 +19,19 @@
 /books/catalog.json
   Cache-Control: public, max-age=300, must-revalidate
   Access-Control-Expose-Headers: ETag, Last-Modified
+
+# Keep publication resources fresh, expose CDN validators to cross-origin readers.
+# CORS allow-origin is already managed by Cloudflare; do not duplicate it.
+/rss.xml
+  Cache-Control: public, max-age=300, must-revalidate
+  Access-Control-Expose-Headers: ETag, Last-Modified
+
+/feed.json
+  Content-Type: application/feed+json; charset=utf-8
+  Cache-Control: public, max-age=300, must-revalidate
+  Access-Control-Expose-Headers: ETag, Last-Modified
+
+/feeds.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=300, must-revalidate
+  Access-Control-Expose-Headers: ETag, Last-Modified
