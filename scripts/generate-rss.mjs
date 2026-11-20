@@ -1,4 +1,5 @@
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { filesUnder, canonicalFromHtml, jsonLdObjects, isArticle, authorNames } from "./static-article-source.mjs";
 import { resolve } from "node:path";
 
 const distRoot = resolve(process.cwd(), "dist");
@@ -8,13 +9,6 @@ if (!existsSync(distRoot)) {
   throw new Error(`Missing build output: ${distRoot}`);
 }
 
-function filesUnder(directory) {
-  return readdirSync(directory).flatMap((name) => {
-    const path = resolve(directory, name);
-    return statSync(path).isDirectory() ? filesUnder(path) : [path];
-  });
-}
-
 function xml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -22,39 +16,6 @@ function xml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
-}
-
-function canonicalFromHtml(html) {
-  return html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["'][^>]*>/i)?.[1]
-    || html.match(/<link\s+href=["']([^"']+)["']\s+rel=["']canonical["'][^>]*>/i)?.[1];
-}
-
-function jsonLdObjects(html) {
-  const objects = [];
-  for (const match of html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
-    try {
-      const parsed = JSON.parse(match[1]);
-      if (Array.isArray(parsed)) objects.push(...parsed);
-      else if (parsed && Array.isArray(parsed["@graph"])) objects.push(...parsed["@graph"]);
-      else objects.push(parsed);
-    } catch {
-      // Static-output verification owns malformed JSON-LD failures. RSS simply skips it.
-    }
-  }
-  return objects.filter((value) => value && typeof value === "object");
-}
-
-function isArticle(value) {
-  const type = value?.["@type"];
-  return Array.isArray(type) ? type.includes("Article") : type === "Article";
-}
-
-function authorNames(author) {
-  const values = Array.isArray(author) ? author : author ? [author] : [];
-  return values
-    .map((value) => typeof value === "string" ? value : value?.name)
-    .map((value) => String(value || "").trim())
-    .filter(Boolean);
 }
 
 function rssDate(value) {
