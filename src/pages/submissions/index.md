@@ -31,6 +31,12 @@ Mira Mobile 的主要维护人，十八年前计协老会长。
 - [为什么手机端 Agent 都不给填自定义 API](/submissions/t-zt/why-mobile-agents-dont-allow-custom-api)
 - [Agent 聊天为什么越用越卡：五层瓶颈调研](/submissions/t-zt/why-agent-chat-sync-feels-laggy)
 
+### [JonathanOwenTJ](/submissions/jonathanowentj)
+
+维护中文学习与创作资料目录，记录网站开发和资料整理中的实际问题。
+
+- [给网盘资料做目录页时，如何留下可核对的线索](/submissions/jonathanowentj/making-archive-previews-verifiable)
+
 以后如果还有人来，就继续在这里增加作者，而不是把客座文章塞回博客。
 
 ## 什么适合放进来

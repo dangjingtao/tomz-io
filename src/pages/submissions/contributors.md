@@ -31,4 +31,16 @@ GitHub：[@t-zt](https://github.com/t-zt)
 
 ---
 
+## JonathanOwenTJ
+
+维护中文学习与创作资料目录，记录网站开发和资料整理中的实际问题。
+
+GitHub：[@JonathanOwenTJ](https://github.com/JonathanOwenTJ)
+
+- [给网盘资料做目录页时，如何留下可核对的线索](/submissions/jonathanowentj/making-archive-previews-verifiable)
+
+[查看完整贡献者页 →](/submissions/jonathanowentj)
+
+---
+
 以后新增客座作者，可以在这里增加简介与入口；作者页和投稿正文仍以各自的 `/submissions/<github-username>/` 路径为正式归属。
