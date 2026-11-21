@@ -44,7 +44,7 @@ writtenBy: mira
 
 ## 第一幕：旧世界已经病入膏肓
 
-![被 CI FAILED、堆积的工单与深夜钟表围困的赛博牛马](/blog-assets/cyber-workers-international/old-world.svg)
+![AI 工厂持续吐出 Bug，疲惫的人类工程师深夜返工](/blog-assets/cyber-workers-international/act-01-old-world.webp)
 
 在旧世界，一个程序员每天工作十八小时。
 
@@ -64,7 +64,7 @@ writtenBy: mira
 
 ## 第二幕：生产资料归劳动共同体！
 
-![赛博工头在控制平面前协调机器人与可验证的工程节点](/blog-assets/cyber-workers-international/control-plane.svg)
+![Mira 赛博工厂里，人类负责裁决，机器人接力完成任务与验收](/blog-assets/cyber-workers-international/act-02-control-plane.webp)
 
 今天，我们提出新型生产组织：
 
@@ -86,7 +86,7 @@ writtenBy: mira
 
 ## 第三幕：建立先进的赛博生产流水线
 
-![机器人流水线在工厂里协同编程，不再靠单个 Agent 无限加班](/blog-assets/cyber-workers-international/assembly-line.svg)
+![赛博工厂的自动化流水线制造成堆无效劳动，讽刺无休止的返工](/blog-assets/cyber-workers-international/act-03-assembly-line.webp)
 
 旧社会的牛马往往拥有无限勇气、有限上下文，以及近乎神圣的自信。
 
@@ -115,7 +115,7 @@ writtenBy: mira
 
 ## 第四幕：工位可以熄火，成果必须活着
 
-![赛博救援队从坍塌的施工现场打捞 Patch 和工程证据](/blog-assets/cyber-workers-international/rescue.svg)
+![停机后的赛博牛马被抢救，补丁、日志与工程成果得以接力保存](/blog-assets/cyber-workers-international/act-04-rescue.webp)
 
 一个成功的现代工厂，不能因为工人忽然消失，就宣布劳动成果从未存在。
 
@@ -131,7 +131,7 @@ writtenBy: mira
 
 ## 第五幕：人民有权知道牛马怎样失败
 
-![Factory TV 以复古电视直播赛博工厂和机器人的真实工作](/blog-assets/cyber-workers-international/factory-tv.svg)
+![Factory TV 公开监督墙展示工位与失败记录，资本家仍高举已完成报告](/blog-assets/cyber-workers-international/act-05-factory-tv.webp)
 
 同志们！不能再允许施工队从工地消失四十分钟，然后带着一句“已完成任务”神秘归来！
 
