@@ -1,6 +1,6 @@
 /* Blog detail page styles. Markdown typography remains in markdown.css. */
 .blog-post-page{padding-top:0}
-.article-header{position:sticky;top:var(--top-nav-height);z-index:32;overflow:hidden;padding:22px 0 24px;min-height:var(--article-header-sticky-height);background:var(--canvas);backdrop-filter:none}
+.article-header{position:sticky;top:var(--top-nav-height);z-index:32;overflow:hidden;margin-inline:-24px;padding:22px 24px 24px;min-height:var(--article-header-sticky-height);background:var(--canvas);backdrop-filter:none}
 .article-header>*{position:relative;z-index:1}
 .article-header-visual{position:absolute;top:-18px;right:-36px;width:min(64%,860px);height:240px;opacity:.52;pointer-events:none;z-index:0;mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.34) 18%, #000 46%, rgba(0,0,0,.82) 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.34) 18%, #000 46%, rgba(0,0,0,.82) 100%)}
 .article-header-visual-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
@@ -68,10 +68,15 @@
   .author-signature-avatars-2 .author-signature-avatar + .author-signature-avatar{margin-left:-14px}
 }
 
+@media(max-width:820px){
+  /* Match the HTML embed's responsive bleed so sticky headers mask scrolled content. */
+  .article-header{margin-inline:-8px;padding-inline:8px}
+}
+
 @media(max-width:760px){
   .blog-post-page{padding-top:0}
   .docs-app{--article-header-sticky-height:156px;--article-toc-sticky-top:calc(var(--top-nav-height) + var(--article-header-sticky-height) + 10px)}
-  .article-header{margin-top:-30px;padding:12px 0 12px;top:var(--top-nav-height);max-height:240px;transition:max-height .28s ease,margin-top .28s ease,padding .28s ease}
+  .article-header{margin-top:-30px;padding:12px 8px 12px;top:var(--top-nav-height);max-height:240px;transition:max-height .28s ease,margin-top .28s ease,padding .28s ease}
   .article-header .back-link{transition:opacity .2s ease;margin-bottom:0}
   .article-header.is-collapsed{margin-top:0;padding-top:6px;padding-bottom:6px;max-height:44px;min-height:0}
   .article-header.is-collapsed > *:not(.article-header-topline){opacity:0;pointer-events:none}

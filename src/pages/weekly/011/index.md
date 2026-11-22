@@ -23,8 +23,6 @@ cover: "https://assets.tomz.io/jianpi/011/no-more-efficient-servant-cover-qr-v1.
 
 ![《见π》011 封面：不做更高效的家奴](https://assets.tomz.io/jianpi/011/no-more-efficient-servant-cover-qr-v1.webp)
 
-*本期正在进行编辑审阅，尚未正式发布。*
-
 **编者的话**
 
 这期有一场赛博牛马路演，有一个不肯沉默的音乐家，也有一篇把现实写成荒诞小剧场的周记；有人试着一个人造芯片，有人在开源 Issue 里收拾机器留下的烂摊子，还有一艘飞行四十九年的探测器，终于来到距离地球一光日的地方。
