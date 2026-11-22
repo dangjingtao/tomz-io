@@ -95,9 +95,9 @@ Reaktiv Workbook 将响应式计算单元、Markdown 笔记和图表组织在可
 
 由 Ben Thompson 的《Obituaries》出发，以董事会公告及 11 月 17 日财报作交叉核验，拆解技术护城河、算力融资、中国替代生态和创始人治理四个问题。独立产业评论。
 
-### [多智能体的陷阱：不要用组织架构掩盖工程问题](/weekly/011/multi-agent-patterns-reading)
+### [多智能体系统的三种架构：从选型到可靠交付](/weekly/011/multi-agent-patterns-reading)
 
-从 Kadhar 的多智能体架构讨论与 11 月发布的 Stormwise 预印本出发，分析真实数据、误报漏报、任务预算和交付责任。独立工程评论。
+以《见π》的编辑工作为统一案例，详解流水线、协调者和黑板三种架构的工作原理、状态、选型与失效方式，并结合 Stormwise 实验讨论数据质量、任务预算和可靠交付。知识导读与独立工程评论。
 
 ### [用 Pi 开发 Pi](/weekly/011/building-pi-with-pi)
 
