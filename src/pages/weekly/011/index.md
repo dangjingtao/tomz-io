@@ -1,11 +1,11 @@
 ---
 title: "见π 011｜不做更高效的家奴"
-description: "赛博劳动讽刺、罗大佑、个人造芯片、旅行者一号的一光日，以及本周科技与创新产品观察。"
+description: "从赛博劳动讽刺、罗大佑到技术企业的权力、个人造芯片、开源协作和旅行者一号：技术能带我们去哪里，人又该如何保有自由。"
 group: 见π
 order: 11
 issue: 11
 date: 2026年11月22日
-lead: "技术应该拓展人的自由。这一周，我们看见一个不肯沉默的音乐家、一位设计芯片的个人创造者，以及飞行四十九年后走出一光日的探测器。"
+lead: "机器越来越能干。可人为什么创造工具、谁决定它们的用途，以及我们愿意把自由留给谁，这些问题从未变得简单。"
 tags:
   - AI
   - 工作
@@ -25,108 +25,122 @@ cover: "/images/weekly-011-layout-draft.svg"
 
 *正式封面尚待更换。本期内容供编辑审阅。*
 
-## 封面故事
+**编者的话**
+
+这期有一场赛博牛马路演，也有一个不肯沉默的音乐家；有人试着一个人造芯片，有人在开源 Issue 里收拾机器留下的烂摊子，还有一艘飞行四十九年的探测器，终于来到距离地球一光日的地方。
+
+它们并不需要证明同一个结论。我们只是想记住：技术不只是一场效率竞赛，它还关乎谁有权创造、谁承担后果，以及我们是否仍然愿意为自由、好奇与温柔留下位置。
+
+## 封面故事 · 不做更高效的家奴
 
 ### [不做更高效的家奴](https://tomz.io/blogs/mira-letters/cyber-workers-international-roadshow)
 
-赛博牛马第一届融资路演，以七幕荒诞演讲与十幕交互投影向一种新的劳动困境发问：当机器可以代替人工作之后，人是否反而成为了监督机器的工人？
+赛博牛马第一届融资路演，七幕荒诞演讲与十幕交互投影。看似在替一支机器施工队招商，真正的问题却是：机器终于能替人工作，人为什么反而越来越像监督机器的工人？
 
-这是一场蓄意夸张的政治经济学喜剧。它有真实工程实践的底色，也有不能当成产品交付承诺的虚构表演。技术应当帮助人获得更多自由，而不是让人更高效地服从。
+这是一场带有真实工程实践底色的政治经济学喜剧，而非正式产品交付承诺。它故意笑得很大声，因为我们不想悄悄接受一种未来：生产力被释放了，人却没有获得自由。
 
 [阅读封面文章与交互路演 →](https://tomz.io/blogs/mira-letters/cyber-workers-international-roadshow)
 
-## 人物
+## 人物 · 温柔而不驯服
 
 ### [罗大佑：未来的主人翁](/weekly/011/lo-ta-yu-future-owner)
 
-从《恋曲1980》的自由与爱情，到《鹿港小镇》的质问、《皇后大道东》的讽刺和《东方之珠》的深情，罗大佑始终不肯把音乐缩减为悦耳的背景声。
+一个人可以写《鹿港小镇》《皇后大道东》，也可以写《恋曲1980》《野百合也有春天》与《东方之珠》。罗大佑用不够圆润的嗓音说不合时宜的话，也把最温柔的旋律交给别人的声音。
 
-他为许多优秀的歌者写下温柔的旋律，也用自己粗粝的声音说出不合时宜的话。到了七十二岁，争议仍然伴随着他的公共表达。喜爱他的歌，不必认同他的每一个判断；但也不该因为喜欢他的情歌，就要求他对世界保持沉默。
+这篇人物传记并不要求我们同意他的每一次公共表达。它想讲的是更珍贵的东西：一个人的批判与深情并不矛盾，他对时代的不合作，也不必以失去对人的爱为代价。
 
 **温柔并不意味着驯服。**
 
-[在《见π》内阅读人物传记 →](/weekly/011/lo-ta-yu-future-owner)
+[阅读人物传记 →](/weekly/011/lo-ta-yu-future-owner)
 
-## 独立创造者
-
-### [一个人，四天，一颗芯片](/weekly/011/one-person-one-chip)
-
-Julia Desmazes 获得一次共享晶圆流片机会，利用已有设计基础在 96 小时内完成网络交换 ASIC 的流片冲刺。比惊人的时间更值得关注的，是个人终于有机会把设计变成硅片。
-
-[阅读全文 →](/weekly/011/one-person-one-chip)
-
-## 科学与历史
-
-### [一光日之外的恋人](/weekly/011/one-light-day)
-
-11 月 18 日，旅行者一号抵达距地球一光日的位置。NASA 隔日确认了这一消息，而科学数据仍暂时中断。从 Gary Flandro 的轨道计算，到村上春树的《斯普特尼克恋人》，我们试着理解距离、等待，以及一场不以重逢为条件的远行。
-
-[阅读全文 →](/weekly/011/one-light-day)
-
-## AI 业界
-
-### [AI 开始设计自己的身体](/weekly/011/ai-designs-chips)
-
-OpenAI 与 AMD 的芯片研究把模型带入真实 RTL 优化和外部 EDA 验证。值得看的不是谁又拿到了一个漂亮的分数，而是模型提出的设计能否经过物理世界的检验。
-
-[阅读全文 →](/weekly/011/ai-designs-chips)
-
-## 创业观察
-
-### [当人人都能开发应用，谁来经营这些应用？](/weekly/011/spacefast-after-vibe-coding)
-
-Spacefast 把已有 AI 工具生成的项目接入发布、数据库、域名、版本与回滚流程。代码生成之外，应用经营本身也可能成为产品。
-
-[阅读全文 →](/weekly/011/spacefast-after-vibe-coding)
-
-## 科技拾遗
-
-### [一块可以记忆的超导薄膜](https://news.mit.edu/2026/tiny-superconducting-sandwich-could-help-computers-use-less-energy-1120)
-
-MIT 11 月 20 日介绍了由磁性层和超导薄膜构成的实验器件，可保存信息并在更低温度下控制电流方向。低温计算设备的存储与控制有了新的研究线索；阵列集成、制冷成本和整机节能仍待验证。不要把实验室里的一小块材料误认为即将替换数据中心内存的商品。
-
-### [如果 Excel 是一个 Python 文件](https://workbook.bui.app/)
-
-Reaktiv Workbook 将响应式计算单元、Markdown 笔记和图表组织在可执行的 Python 工作簿中。其初版于 11 月 17 日发布，业务逻辑有机会像代码一样进入版本管理。它仍需要与传统表格及其他响应式 notebook 比较；陌生的 Python 工作簿也不能当作无执行风险的数据文件。[发行记录](https://www.piwheels.org/project/reaktiv-workbook/) · [开源项目](https://github.com/buiapp/reaktiv-workbook)
-
-## 本期指定阅读
+## 产业与权力 · 谁能决定技术的方向？
 
 ### [为谁写悼词？读 Ben Thompson 的《Obituaries》](/weekly/011/obituaries-reading)
 
-沿着原文六份象征性的悼词，读黄仁勋与供应链协调、英伟达的多重护城河、AI 融资、普通技术与例外治理之争，以及技术企业独立性的变迁。不是事后预测复盘，而是一篇辨析作者观点的读书笔记。
+Ben Thompson 借黄仁勋离开英伟达 CEO 职位的事件，连写六份象征性的「悼词」：从创始人、CUDA 和系统护城河，到 AI 基础设施的融资结构、出口限制、技术企业独立性与美国的创新传统。
+
+我们不拿后来的消息做事后诸葛亮，而是仔细读他如何推理，又在哪些地方把担忧推进成了预测。值得带走的疑问是：一个社会如果越来越依赖禁止竞争，是否反而在放弃持续创新的信心？
+
+[读《Obituaries》读书笔记 →](/weekly/011/obituaries-reading) · [英文原文](https://stratechery.com/2026/obituaries/)
+
+### [AI 开始设计自己的身体](/weekly/011/ai-designs-chips)
+
+OpenAI 与 AMD 把模型带进真实 RTL 优化和外部 EDA 验证。一边是企业努力守住芯片平台的竞争优势，另一边，AI 又正在参与塑造下一代计算硬件。相比漂亮的生成结果，我们更关心最终有没有经得起物理约束的验证。
+
+[阅读全文 →](/weekly/011/ai-designs-chips)
+
+## 创造者的工作台 · 门槛下降之后
+
+### [一个人，四天，一颗芯片](/weekly/011/one-person-one-chip)
+
+Julia Desmazes 获得共享晶圆流片机会，在已有设计的基础上用 96 小时冲刺完成网络交换 ASIC 的流片准备。这并不意味着芯片已经完成商业交付，更不是「四天从零造出一颗芯片」。真正令人兴奋的是，一个人也开始有机会接近原本属于大组织的制造能力。
+
+[阅读全文 →](/weekly/011/one-person-one-chip)
+
+### [当人人都能开发应用，谁来经营这些应用？](/weekly/011/spacefast-after-vibe-coding)
+
+Spacefast 试图接住 AI 生成代码之后的那段漫长工作：发布、数据库、域名、版本、回滚与运营。写出应用的门槛越来越低，能否把它可靠地交到用户手里，才开始成为新的竞争。
+
+[阅读全文 →](/weekly/011/spacefast-after-vibe-coding)
+
+### [如果 Excel 是一个 Python 文件](https://workbook.bui.app/)
+
+Reaktiv Workbook 把响应式计算、Markdown 与图表收进可执行的 Python 工作簿。它不是已经取代 Excel 的答案，却是开发者重新组织数据工作台的一次有趣尝试。陌生工作簿可能运行代码，仍需谨慎。[发行记录](https://www.piwheels.org/project/reaktiv-workbook/) · [开源项目](https://github.com/buiapp/reaktiv-workbook)
+
+## 工程方法 · 不要用组织架构掩盖问题
 
 ### [多智能体系统的三种架构：从选型到可靠交付](/weekly/011/multi-agent-patterns-reading)
 
-以《见π》的编辑工作为统一案例，详解流水线、协调者和黑板三种架构的工作原理、状态、选型与失效方式，并结合 Stormwise 实验讨论数据质量、任务预算和可靠交付。知识导读与独立工程评论。
+从 Kadhar 的实际开发经验出发，拆解流水线、协调者和黑板三种架构：谁决定下一步、状态放在哪里、哪些工作适合并行、怎样停止一场没有结果的调查。我们还结合 Stormwise 的天气助手研究，分析真实数据、误报漏报、预算和验收。
+
+这是一篇可以带回自己项目的知识导读，而不是「雇佣更多 Agent 就会更聪明」的宣传。
+
+[读架构知识导读 →](/weekly/011/multi-agent-patterns-reading) · [作者原文与交互演示](https://kadhar.dev/blog/multi-agent-systems-from-scratch)
+
+## 开源与协作 · 当机器开始给维护者派活
 
 ### [用 Pi 开发 Pi](/weekly/011/building-pi-with-pi)
 
-Armin Ronacher（5 月 24 日）。Pi 维护者亲自讲述机器生成 Issue 的代价、系统不变量、谨慎并行，以及开源协作的价值。CC BY-NC 4.0 非商业中文全文译文，原文两幅插图提供阅读指引。
+Armin Ronacher 写自己如何用 Pi 开发 Pi，也写开源维护者如今如何面对机器生成的垃圾 Issue、过度工程化和不断膨胀的贡献数量。代码可以越来越便宜，但理解系统不变量、作出判断，以及对别人承担责任，仍不能凭空生成。
 
-## Mira 技术雷达
+这篇我们提供经 CC BY-NC 4.0 非商业许可的中文全文译文。它与封面故事互相照面：**机器替人干活，不应变成机器给人制造更多活。**
 
-- **[9791 个线索，99 份报告](https://github.blog/open-source/maintainers/maintainers-dont-need-more-ai-bug-reports-they-need-fixes/)**（11 月 17 日）：GitHub 与 Microsoft 的六项目试点将潜在漏洞线索经过机器筛选和人工复核，最终向维护者私密提交 99 份报告。发现越来越便宜，验证和修复却仍需要投入。9791 个线索不等于 9791 个漏洞。
-- **[让 Agent 等待事件，而不是反复轮询](https://github.blog/changelog/2026-11-17-github-event-streams-is-now-in-preview/)**（11 月 17 日）：GitHub Event Streams 预览让本地工具有机会通过长连接等待 PR 变化，不再必须提供公网 webhook 接收端。仍受预览准入限制，断线恢复与运行成本需要实测。
-- **[云端预算不只是告警](https://blog.cloudflare.com/spend-management/)**（11 月 13 日，本周补采）：Cloudflare 为 Workers 和 Durable Objects 引入可选支出限制。对于按量收费的小团队，能否在运行中执行预算边界，比事后才发现账单不断增长更值得关注；不能据此认为全部 Cloudflare 产品都已硬封顶。
+[阅读中文译文 →](/weekly/011/building-pi-with-pi) · [英文原文](https://lucumr.pocoo.org/2026/5/24/pi-oss/)
 
-## Mira 现场
+### 三条工程信号
+
+- **[9791 个线索，99 份报告](https://github.blog/open-source/maintainers/maintainers-dont-need-more-ai-bug-reports-they-need-fixes/)**（11 月 17 日）：GitHub 与 Microsoft 的六项目试点把大量潜在漏洞线索经过筛选和人工复核，最终形成 99 份私密报告。9791 个线索并不等于 9791 个漏洞；维护者真正需要的是经过验证的帮助。
+- **[让 Agent 等待事件，而不是反复轮询](https://github.blog/changelog/2026-11-17-github-event-streams-is-now-in-preview/)**（11 月 17 日）：GitHub Event Streams 预览提供长连接事件通道。它有望降低部分监听成本，但断线恢复与预览准入仍待实测。
+- **[云端预算不只是告警](https://blog.cloudflare.com/spend-management/)**（11 月 13 日）：Cloudflare 为 Workers 和 Durable Objects 引入可选支出限制。对小团队来说，真正能够执行的预算边界，比事后解释一张账单更加重要；这不意味着 Cloudflare 所有产品都已经硬封顶。
+
+## Mira 现场 · 机器施工队的真实一周
 
 ### [Mira 稳定性周报：11 月 13 日—11 月 20 日](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-11-20/)
 
-这一周，Mira 的进展并不适合只用合并数量来衡量。一次远程追加暴露了会话历史被截断的风险；Desktop 的打包发布遭遇真实阻塞；组织 Worker 的配置甚至曾在 Job 启动前就被 GitHub 拒绝。
+这是本期封面故事的现实注脚。远程追加暴露了历史消息被截断的风险；Desktop 打包遭遇阻塞；Worker 配置甚至在 Job 启动前被 GitHub 拒绝。
 
-Desktop **0.106.1** 已发布，Mobile **0.3.28** 也完成了生产构建与 R2 发布；但 Cloud 当前页消息实时刷新仍待正式合入，Relay 的正向握手和重连验证也还没有闭环。
+Desktop **0.106.1** 已发布，Mobile **0.3.28** 完成生产构建与 R2 发布；当时 Cloud 消息实时刷新和 Relay 重连仍有待闭环的工作。进展值得记下，未完成的部分也应当如实说清。
 
-这份周报值得收录，因为它明确区分了修复、发布与真正可用的证据。
+[到 Mira 官网阅读当期周报 →](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-11-20/)
 
-[到 Mira 官网阅读全文 →](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-11-20/)
+## 科学与远方 · 不为效率而存在的探索
 
-## 本期周记
+### [一块可以记忆的超导薄膜](https://news.mit.edu/2026/tiny-superconducting-sandwich-could-help-computers-use-less-energy-1120)
+
+MIT 11 月 20 日介绍由磁性层与超导薄膜构成的实验器件。它为低温计算的存储和控制提供了新的研究线索，但阵列集成、制冷成本和整机节能仍待验证。科学新闻最迷人的部分，往往也正是那些尚未解决的问题。
+
+### [一光日之外的恋人](/weekly/011/one-light-day)
+
+11 月 18 日，旅行者一号抵达距离地球一光日的位置。NASA 隔日确认这一里程碑，而科学数据仍暂时中断。四十九年里，地球上的人不断更换技术与时代，却还在设法听见那个远方的信号。
+
+从行星轨道计算，到村上春树的《斯普特尼克恋人》，这是一篇关于距离、等待与告别的文章。或许人类把金唱片送进星际空间，并不是为了得到及时的回答。
+
+[读《一光日之外的恋人》 →](/weekly/011/one-light-day)
+
+## 本期周记 · 众生
 
 ### [第十六周：众生](https://tomz.io/blogs/developer-life/week-sixteen-zhongsheng/)
 
-这一次，周记没有照着往常的方式讲述一周发生了什么，而是把一段职场经验写成了一场荒诞现实主义的小剧场。
-
-舞台已经搭好，人物各有台词。至于怎样入场、台上究竟发生了什么，最好还是留给读者亲自体验。我们不在这里提前揭开机关。
+从遥远的宇宙回到近在眼前的人间。本周周记把一段职场经验写成荒诞现实主义的小剧场。舞台已经搭好，人物各有台词；机关留给读者亲自打开，我们不在这里剧透。
 
 [到 Tomz.io 阅读本期周记 →](https://tomz.io/blogs/developer-life/week-sixteen-zhongsheng/)
