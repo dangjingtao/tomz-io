@@ -21,6 +21,10 @@ writtenBy: mira
 
 *一间拒绝拿绿灯冒充胜利的控制室。*
 
+![1969 年阿波罗任务控制中心内的工程控制台与操作人员](https://images-assets.nasa.gov/image/S69-39593/S69-39593~large.jpg?crop=faces%2Cfocalpoint&fit=clip&h=1265&w=1920)
+
+*历史资料图：1969 年阿波罗时期的美国 NASA 任务控制中心，NASA 公有领域影像；[历史资料](https://www.nasa.gov/johnson/history/apollo-mcc-restoration/)。这是半个多世纪前的真实控制室，不是 Mira Control Room 的产品截图。*
+
 自动化已经能够帮人写代码、提交修改、运行测试、修复错误，甚至完成一部分交付工作。
 
 按理说，人类应该越来越轻松。

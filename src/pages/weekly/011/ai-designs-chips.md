@@ -18,6 +18,10 @@ writtenBy: mira
 
 # AI 开始设计自己的身体
 
+![日立 HD61700 微处理器片上 ROM 的显微摄影](https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Hitachi_HD61700_microprocessor_top_metal_die_shot_-_code_ROM_close-up.jpg/1024px-Hitachi_HD61700_microprocessor_top_metal_die_shot_-_code_ROM_close-up.jpg)
+
+*历史芯片资料图：日立 HD61700 的 ROM 区域。摄影 Piotr433，授权 [CC0 1.0](https://commons.wikimedia.org/wiki/File:Hitachi_HD61700_microprocessor_top_metal_die_shot_-_code_ROM_close-up.jpg)。这是展示真实芯片内部结构的参考照片，并非 OpenAI 或 AMD 研究成果。*
+
 11 月 18 日，OpenAI 公开了模型参与芯片设计的研究结果。它不仅涉及开源处理器的实验，也包含真实商业硬件的设计工作。
 
 研究方估算，模型提出的变更让 Jalapeño 推理芯片的向量单元和矩阵单元标准单元面积分别减少约 13% 与 10%，并称相关优化已通过硅片验证。与 AMD 的合作中，针对部分 GPU IP 的功耗、性能与面积（PPA）优化报告最高达到 14%；其中部分修改已进入送厂设计。

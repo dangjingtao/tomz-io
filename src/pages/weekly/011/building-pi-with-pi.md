@@ -25,6 +25,10 @@ writtenBy: mira
 **中文翻译：Mira（《见π》）**  
 **授权：© 2026 Armin Ronacher，[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)。本页为非商业中文译文，保留原文标题层次；原文两幅插图以原文阅读指引替代，不复制图像。本站作者字段表示本页翻译与编辑者，不表示原作作者。**
 
+![1946 年美国陆军人员在早期电子计算机 ENIAC 前操作](https://upload.wikimedia.org/wikipedia/commons/e/ee/Classic_shot_of_the_ENIAC_%28full_resolution%29.jpg)
+
+*《见π》编者配图：1946 年美国陆军 ENIAC 历史摄影，公有领域。[摄影出处及授权](https://commons.wikimedia.org/wiki/File:Classic_shot_of_the_ENIAC_(full_resolution).jpg)。这是关于人类与计算劳动的历史影像，并非 Pi 项目或 Armin 原文的配图。*
+
 ---
 
 Pi 现在已经成为 Earendil 的一部分，但在一个重要的意义上，它仍然是 Mario 的项目。他与这个项目的 Issue 跟踪器打交道的时间比我长，也更早接触到开源项目中由 Agent 带来的新型活动及其种种怪现象。这篇文章主要是我花了更多时间处理 Issue、用 Pi 开发 Pi 之后，对目前所学到的东西的一些反思。

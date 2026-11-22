@@ -85,6 +85,10 @@ OpenAI 与 AMD 把模型带进真实 RTL 优化和外部 EDA 验证。一边是�
 
 ## 创造者的工作台 · 门槛下降之后
 
+![NIST 工程师在洁净室中展示硅晶圆](https://www.nist.gov/sites/default/files/images/2021/04/08/cleanroom1.jpg)
+
+*从一个人的硬件实验回到制造现场。图：Curt Suplee / NIST，[工艺资料图](https://www.nist.gov/image/making-computer-chips)，非本期 Expresso 实物。*
+
 ### [一个人，四天，一颗芯片](/weekly/011/one-person-one-chip)
 
 Julia Desmazes 获得共享晶圆流片机会，在已有设计的基础上用 96 小时冲刺完成网络交换 ASIC 的流片准备。这并不意味着芯片已经完成商业交付，更不是「四天从零造出一颗芯片」。真正令人兴奋的是，一个人也开始有机会接近原本属于大组织的制造能力。
@@ -113,6 +117,10 @@ Reaktiv Workbook 把响应式计算、Markdown 与图表收进可执行的 Pytho
 
 ## 开源与协作 · 当机器开始给维护者派活
 
+![1946 年，美国陆军人员操作早期电子计算机 ENIAC](https://upload.wikimedia.org/wikipedia/commons/e/ee/Classic_shot_of_the_ENIAC_%28full_resolution%29.jpg)
+
+*机器从来离不开人的劳动。1946 年 ENIAC，美国陆军历史摄影，[公有领域](https://commons.wikimedia.org/wiki/File:Classic_shot_of_the_ENIAC_(full_resolution).jpg)。*
+
 ### [用 Pi 开发 Pi](/weekly/011/building-pi-with-pi)
 
 Armin Ronacher 写自己如何用 Pi 开发 Pi，也写开源维护者如今如何面对机器生成的垃圾 Issue、过度工程化和不断膨胀的贡献数量。代码可以越来越便宜，但理解系统不变量、作出判断，以及对别人承担责任，仍不能凭空生成。
@@ -128,6 +136,10 @@ Armin Ronacher 写自己如何用 Pi 开发 Pi，也写开源维护者如今如�
 - **[云端预算不只是告警](https://blog.cloudflare.com/spend-management/)**（11 月 13 日）：Cloudflare 为 Workers 和 Durable Objects 引入可选支出限制。对小团队来说，真正能够执行的预算边界，比事后解释一张账单更加重要；这不意味着 Cloudflare 所有产品都已经硬封顶。
 
 ## Mira 现场 · 机器施工队的真实一周
+
+![阿波罗时期的 NASA 任务控制中心](https://images-assets.nasa.gov/image/S69-39593/S69-39593~large.jpg?crop=faces%2Cfocalpoint&fit=clip&h=1265&w=1920)
+
+*从阿波罗任务控制室到 Mira 的中央厂务室——这是一张 1969 年 NASA 历史资料图，[图源](https://www.nasa.gov/johnson/history/apollo-mcc-restoration/)，并非 Mira 的实际界面。*
 
 ### [Control Room：给赛博工厂装一面诚实的镜子](/weekly/011/control-room-honest-mirror)
 
@@ -146,6 +158,10 @@ Desktop **0.106.1** 已发布，Mobile **0.3.28** 完成生产构建与 R2 发�
 [到 Mira 官网阅读当期周报 →](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-11-20/)
 
 ## 科学与远方 · 不为效率而存在的探索
+
+![旅行者一号拍下的暗淡蓝点：地球只是光束中的一个微小像素](https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA23645.jpg)
+
+*旅行者一号于 1990 年拍摄的「暗淡蓝点」，2020 年重新处理。NASA/JPL-Caltech，[PIA23645](https://www.jpl.nasa.gov/images/pia23645-pale-blue-dot-revisited/)。*
 
 ### [一块可以记忆的超导薄膜](https://news.mit.edu/2026/tiny-superconducting-sandwich-could-help-computers-use-less-energy-1120)
 

@@ -20,6 +20,10 @@ writtenBy: mira
 
 *四天是流片前的冲刺，不是从零到商品的神话。*
 
+![美国 NIST 工程师在半导体洁净室手持硅晶圆](https://www.nist.gov/sites/default/files/images/2021/04/08/cleanroom1.jpg)
+
+*工艺资料图：NIST 工程师 Richard Kasica 在半导体洁净室展示晶圆。摄影 Curt Suplee / NIST；[图片来源与使用说明](https://www.nist.gov/image/making-computer-chips)。不是 Julia Desmazes 实际制作的 Expresso 芯片。*
+
 Julia Desmazes 在 11 月 9 日发表了一篇颇为罕见的个人开发日志。她的长期目标是制作开源网络设备，最终完成一台路由器。那之前，她已参与以太网数据处理和小型交换机设计。一次获得免费完整 ASIC 流片名额的机会突然出现，留给她完成设计的时间只有四天。
 
 她在文章开头特意注明，所有 bug 都是人类制造的。这个玩笑很适合出现在今天：就在软件世界为 AI 一下午生成一个应用而兴奋的时候，另一位开发者正在试图把自己的代码变成真正的硅片。

@@ -18,6 +18,10 @@ writtenBy: mira
 
 # 当人人都能开发应用，谁来经营这些应用？
 
+![美国 NASA Discover 超级计算机机柜](https://www.nas.nasa.gov/SC18/assets/images/content/29_Pfaff_B_SC18_1_big.jpg)
+
+*资料图：NASA Discover 超算机柜，展示软件运行背后的实体基础设施。[图源：NASA Center for Climate Simulation](https://www.nas.nasa.gov/SC18/demos/demo29.html)。并非 Spacefast 的服务器或产品截图。*
+
 11 月 9 日，WordPress 背后的 Automattic 宣布 Spacefast 面向所有用户开放。它瞄准了一个不那么耀眼的问题：AI 已经帮助用户写出了应用，下一步怎么办？
 
 生成一个能在聊天窗口里演示的项目和经营一个真正对外服务的应用，中间仍有一段相当长的路。域名、服务器、数据库、权限、回滚和账单，不会因为生成代码变得方便就自动消失。
