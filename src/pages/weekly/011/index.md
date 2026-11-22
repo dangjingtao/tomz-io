@@ -91,9 +91,9 @@ Reaktiv Workbook 将响应式计算单元、Markdown 笔记和图表组织在可
 
 ## 本期指定阅读
 
-### [黄仁勋之后，英伟达的护城河还剩什么？](/weekly/011/obituaries-reading)
+### [为谁写悼词？读 Ben Thompson 的《Obituaries》](/weekly/011/obituaries-reading)
 
-由 Ben Thompson 的《Obituaries》出发，以董事会公告及 11 月 17 日财报作交叉核验，拆解技术护城河、算力融资、中国替代生态和创始人治理四个问题。独立产业评论。
+沿着原文六份象征性的悼词，读黄仁勋与供应链协调、英伟达的多重护城河、AI 融资、普通技术与例外治理之争，以及技术企业独立性的变迁。不是事后预测复盘，而是一篇辨析作者观点的读书笔记。
 
 ### [多智能体系统的三种架构：从选型到可靠交付](/weekly/011/multi-agent-patterns-reading)
 
