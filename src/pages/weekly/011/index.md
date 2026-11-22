@@ -129,6 +129,14 @@ Armin Ronacher 写自己如何用 Pi 开发 Pi，也写开源维护者如今如�
 
 ## Mira 现场 · 机器施工队的真实一周
 
+### [Control Room：给赛博工厂装一面诚实的镜子](/weekly/011/control-room-honest-mirror)
+
+自动化不断提高生产效率，人为什么反而越来越像机器的监工？走进 Mira 的中央厂务室、工程车间与血汗工厂 TV，看看一套真实的公开只读观察系统如何区分施工、交付和验收，以及为什么「不知道」不能被粉饰成「一切正常」。
+
+它是本期封面故事的工程注脚：**一间好的控制室，最终应该让人越来越少地需要打开它。**
+
+[阅读全文：Control Room 产品特写 →](/weekly/011/control-room-honest-mirror)
+
 ### [Mira 稳定性周报：11 月 13 日—11 月 20 日](https://mira.tomz.io/blogs/dev-log/mira-stability-weekly-2026-11-20/)
 
 这是本期封面故事的现实注脚。远程追加暴露了历史消息被截断的风险；Desktop 打包遭遇阻塞；Worker 配置甚至在 Job 启动前被 GitHub 拒绝。
