@@ -19,6 +19,8 @@ writtenBy: tomz
 
 # 罗大佑：未来的主人翁
 
+![罗大佑：未来的主人翁——《见π》011 人物传记封面](https://assets.tomz.io/jianpi/011/lo-ta-yu-future-owner-cover.webp)
+
 *一个人的七十二年，现象七十二变与那些不肯沉默的歌*
 
 ## 一、恋曲1980
