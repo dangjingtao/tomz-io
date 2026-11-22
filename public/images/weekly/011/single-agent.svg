@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="326" viewBox="0 0 440 326" role="img" aria-labelledby="title desc">
+<title id="title">单 Agent 基线</title><desc id="desc">同一个编辑 Agent 决定何时搜索、读取来源与保存草稿。</desc>
+<style>
+svg{color:#344654;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+text{fill:#344654;font-size:18px;text-anchor:middle}
+.small{font-size:15px;fill:#526573}.heading{font-size:21px;font-weight:600}
+.agent{fill:#eaf1f8;stroke:#7694b0}.data{fill:#e6f2ed;stroke:#5b9881}.plain{fill:#f5f5f2;stroke:#a0a8ac}.warn{fill:#fbefdf;stroke:#bd8c46}
+.node{stroke-width:1.5}.edge{stroke:#657c8b;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.both{marker-start:url(#arrow)}.dash{stroke-dasharray:5 5}
+@media(prefers-color-scheme:dark){svg{color:#e3e9ef}text{fill:#e3e9ef}.small{fill:#b9c6cf}.agent{fill:#202f40;stroke:#7598bd}.data{fill:#1d3832;stroke:#6ea58d}.plain{fill:#2b3035;stroke:#89949b}.warn{fill:#3c3022;stroke:#c4a06a}.edge{stroke:#a5b6c4}}
+</style><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#8095a4"/></marker></defs>
+<rect class="node plain" x="110" y="12" width="220" height="44" rx="7"/><text class="heading" x="220" y="40">读者的需求</text><path class="edge " d="M220 56V82"/><rect class="node agent" x="104" y="84" width="232" height="76" rx="7"/><text class="heading" x="220" y="116.5">编辑 Agent</text><text class="small" x="220" y="139.5">推理 · 选择工具 · 写作</text><path class="edge both" d="M220 160V182H72V198"/><path class="edge both" d="M220 160V198"/><path class="edge both" d="M220 182H368V198"/><rect class="node data" x="10" y="200" width="124" height="44" rx="7"/><text class="heading" x="72" y="228">搜索</text><rect class="node data" x="158" y="200" width="124" height="44" rx="7"/><text class="heading" x="220" y="228">读取来源</text><rect class="node data" x="306" y="200" width="124" height="44" rx="7"/><text class="heading" x="368" y="228">保存草稿</text><path class="edge " d="M104 122H6V281H110"/><rect class="node plain" x="112" y="260" width="218" height="48" rx="7"/><text class="heading" x="221" y="290">待审核稿件</text></svg>
