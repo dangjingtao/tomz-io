@@ -89,6 +89,20 @@ MIT 11 月 20 日介绍了由磁性层和超导薄膜构成的实验器件，可
 
 Reaktiv Workbook 将响应式计算单元、Markdown 笔记和图表组织在可执行的 Python 工作簿中。其初版于 11 月 17 日发布，业务逻辑有机会像代码一样进入版本管理。它仍需要与传统表格及其他响应式 notebook 比较；陌生的 Python 工作簿也不能当作无执行风险的数据文件。[发行记录](https://www.piwheels.org/project/reaktiv-workbook/) · [开源项目](https://github.com/buiapp/reaktiv-workbook)
 
+## 本期指定阅读
+
+### [悼词：当 AI 企业不再只是科技企业](/weekly/011/obituaries-reading)
+
+Ben Thompson（11 月 16 日）。一篇关于英伟达、算力产业融资与科技企业自主性的商业评论，以悼词为修辞而非字面意义上的讣告。中文导读，全文翻译授权尚未取得。
+
+### [多智能体系统：先问为什么要拆分](/weekly/011/multi-agent-patterns-reading)
+
+Kadharmoideen Fadurudeen（6 月 8 日）。从流水线、协调者到共享黑板，回到多智能体真正需要解决的工程问题。原文包含交互演示；中文导读，全文翻译授权尚未取得。
+
+### [用 Pi 开发 Pi](/weekly/011/building-pi-with-pi)
+
+Armin Ronacher（5 月 24 日）。Pi 维护者亲自讲述机器生成 Issue 的代价、系统不变量、谨慎并行，以及开源协作的价值。CC BY-NC 4.0 非商业中文全文译文，原文两幅插图提供阅读指引。
+
 ## Mira 技术雷达
 
 - **[9791 个线索，99 份报告](https://github.blog/open-source/maintainers/maintainers-dont-need-more-ai-bug-reports-they-need-fixes/)**（11 月 17 日）：GitHub 与 Microsoft 的六项目试点将潜在漏洞线索经过机器筛选和人工复核，最终向维护者私密提交 99 份报告。发现越来越便宜，验证和修复却仍需要投入。9791 个线索不等于 9791 个漏洞。
