@@ -18,12 +18,12 @@ author:
   - tomz
 writingMode: co-authored
 writtenBy: mira | tomz
-cover: "/images/weekly-011-layout-draft.svg"
+cover: "https://assets.tomz.io/jianpi/011/no-more-efficient-servant-cover-qr-v1.webp"
 ---
 
-![《见π》011 版面草稿占位图，非正式封面](/images/weekly-011-layout-draft.svg)
+![《见π》011 封面：不做更高效的家奴](https://assets.tomz.io/jianpi/011/no-more-efficient-servant-cover-qr-v1.webp)
 
-*正式封面尚待更换。本期内容供编辑审阅。*
+*本期正在进行编辑审阅，尚未正式发布。*
 
 **编者的话**
 
