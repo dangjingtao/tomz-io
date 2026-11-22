@@ -21,6 +21,10 @@ writtenBy: mira
 
 *旅行者一号、斯普特尼克与人类漫长的告别*
 
+![旅行者号探测器艺术概念图](https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA04495.jpg)
+
+*旅行者号艺术概念图，非实景照片。图源：[NASA/JPL，PIA04495](https://www.jpl.nasa.gov/images/pia04495-artists-concept-of-voyager/)。*
+
 1999 年，村上春树出版了《斯普特尼克恋人》。小说里的堇爱上了年长的敏，叙述者 K 却爱着堇。三个人都试图靠近某个人，也都面对着某种无法跨越的距离。后来，堇在一座希腊小岛上消失了。
 
 斯普特尼克原本是一个航天时代的名字。在小说里，它成为人与人之间孤独关系的隐喻。真实的航天器当然没有恋人的情感；但当我们知道远方还有一台机器在向地球发送信号时，很难不想起这个隐喻。
@@ -67,9 +71,17 @@ NASA 工程师依据轨迹计算与载波确认了它已经抵达一光日，同
 
 ## 三、寄往没有地址的地方
 
+![1977年工程师安装旅行者一号金唱片保护盖](https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia21/pia21740/PIA21740.jpg?fit=clip&h=1536&w=1536)
+
+*1977 年，工程师为旅行者一号安装金唱片保护盖。图源：[NASA/JPL-Caltech，PIA21740](https://science.nasa.gov/photojournal/voyager-installing-the-golden-record/)。*
+
 1977 年时，没有今天的互联网，也没有智能手机。过去的四十九年里，地球上的技术体系换了一代又一代；这艘探测器却无法被拿回实验室换上一块新的主板。
 
 两艘旅行者探测器各自携带着一张金唱片，其中记录了地球的图像、自然声响、音乐与不同语言的问候。
+
+![旅行者号金唱片保护盖上的播放说明与脉冲星图](https://science.nasa.gov/wp-content/uploads/2024/03/voyager-record-cover-446eb9.jpg)
+
+*金唱片保护盖，刻有播放说明及定位图示。图源：[NASA/JPL-Caltech](https://science.nasa.gov/image-detail/voyager-record-cover-446eb9/)。*
 
 这并不是一封专门寄给某个人的信。我们不知道它会被谁发现，甚至不知道宇宙中是否真的存在这样一个收件人。
 
@@ -80,6 +92,10 @@ NASA 工程师依据轨迹计算与载波确认了它已经抵达一光日，同
 它的成功不只是出发时做对了什么，也在于后来的人愿意接过那份责任，理解一套来自过去的机器，继续与它保持联系。
 
 ## 四、一光日之外的恋人
+
+![暗淡蓝点：旅行者一号于1990年拍摄的地球，2020年重新处理版](https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA23645.jpg)
+
+*暗淡蓝点（Pale Blue Dot），摄于 1990 年 2 月 14 日，2020 年重新处理。光束中那颗微小的亮点就是地球。图源：[NASA/JPL-Caltech，PIA23645](https://www.jpl.nasa.gov/images/pia23645-pale-blue-dot-revisited/)。*
 
 我们发送一句问候，需要一天才能抵达它所在的地方。如果它能回答，我们还要再等一天。
 
