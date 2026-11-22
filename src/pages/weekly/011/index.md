@@ -91,13 +91,13 @@ Reaktiv Workbook 将响应式计算单元、Markdown 笔记和图表组织在可
 
 ## 本期指定阅读
 
-### [悼词：当 AI 企业不再只是科技企业](/weekly/011/obituaries-reading)
+### [黄仁勋之后，英伟达的护城河还剩什么？](/weekly/011/obituaries-reading)
 
-Ben Thompson（11 月 16 日）。一篇关于英伟达、算力产业融资与科技企业自主性的商业评论，以悼词为修辞而非字面意义上的讣告。中文导读，全文翻译授权尚未取得。
+由 Ben Thompson 的《Obituaries》出发，以董事会公告及 11 月 17 日财报作交叉核验，拆解技术护城河、算力融资、中国替代生态和创始人治理四个问题。独立产业评论。
 
-### [多智能体系统：先问为什么要拆分](/weekly/011/multi-agent-patterns-reading)
+### [多智能体的陷阱：不要用组织架构掩盖工程问题](/weekly/011/multi-agent-patterns-reading)
 
-Kadharmoideen Fadurudeen（6 月 8 日）。从流水线、协调者到共享黑板，回到多智能体真正需要解决的工程问题。原文包含交互演示；中文导读，全文翻译授权尚未取得。
+从 Kadhar 的多智能体架构讨论与 11 月发布的 Stormwise 预印本出发，分析真实数据、误报漏报、任务预算和交付责任。独立工程评论。
 
 ### [用 Pi 开发 Pi](/weekly/011/building-pi-with-pi)
 
