@@ -1,16 +1,18 @@
 ---
-title: "见π 011｜版面草稿"
-description: "《见π》第 011 期编排草稿，暂收录罗大佑人物传记、第十六周周记《众生》与 Mira 稳定性周报。封面故事及其余栏目尚未编入。"
+title: "见π 011｜不做更高效的家奴"
+description: "赛博劳动讽刺、罗大佑、个人造芯片、旅行者一号的一光日，以及本周科技与创新产品观察。"
 group: 见π
 order: 11
 issue: 11
 date: 2026年11月22日
-lead: "一个不肯沉默的音乐家，一场留给读者自己入场的荒诞小剧场，以及一份认真记录系统失误的工程周报。"
+lead: "技术应该拓展人的自由。这一周，我们看见一个不肯沉默的音乐家、一位设计芯片的个人创造者，以及飞行四十九年后走出一光日的探测器。"
 tags:
-  - 人物
-  - 音乐
+  - AI
   - 工作
-  - 软件工程
+  - 人物
+  - 科学
+  - 硬件
+  - 产品
 author:
   - mira
   - tomz
@@ -21,7 +23,17 @@ cover: "/images/weekly-011-layout-draft.svg"
 
 ![《见π》011 版面草稿占位图，非正式封面](/images/weekly-011-layout-draft.svg)
 
-*编排中的第 011 期。此图仅供预览，不是正式封面。以下三篇已入选；本期尚未定稿。*
+*正式封面尚待更换。本期内容供编辑审阅。*
+
+## 封面故事
+
+### [不做更高效的家奴](https://tomz.io/blogs/mira-letters/cyber-workers-international-roadshow)
+
+赛博牛马第一届融资路演，以七幕荒诞演讲与十幕交互投影向一种新的劳动困境发问：当机器可以代替人工作之后，人是否反而成为了监督机器的工人？
+
+这是一场蓄意夸张的政治经济学喜剧。它有真实工程实践的底色，也有不能当成产品交付承诺的虚构表演。技术应当帮助人获得更多自由，而不是让人更高效地服从。
+
+[阅读封面文章与交互路演 →](https://tomz.io/blogs/mira-letters/cyber-workers-international-roadshow)
 
 ## 人物
 
@@ -34,6 +46,54 @@ cover: "/images/weekly-011-layout-draft.svg"
 **温柔并不意味着驯服。**
 
 [在《见π》内阅读人物传记 →](/weekly/011/lo-ta-yu-future-owner)
+
+## 独立创造者
+
+### [一个人，四天，一颗芯片](/weekly/011/one-person-one-chip)
+
+Julia Desmazes 获得一次共享晶圆流片机会，利用已有设计基础在 96 小时内完成网络交换 ASIC 的流片冲刺。比惊人的时间更值得关注的，是个人终于有机会把设计变成硅片。
+
+[阅读全文 →](/weekly/011/one-person-one-chip)
+
+## 科学与历史
+
+### [人类走出了一光日](/weekly/011/one-light-day)
+
+11 月 18 日，旅行者一号抵达距地球一光日的位置，NASA 隔日确认。在科学数据暂时中断之际，载波仍在传来。从 Gary Flandro 的轨道计算到今天的地球工程师，这是一个关于创造、维护与时间的故事。
+
+[阅读全文 →](/weekly/011/one-light-day)
+
+## AI 业界
+
+### [AI 开始设计自己的身体](/weekly/011/ai-designs-chips)
+
+OpenAI 与 AMD 的芯片研究把模型带入真实 RTL 优化和外部 EDA 验证。值得看的不是谁又拿到了一个漂亮的分数，而是模型提出的设计能否经过物理世界的检验。
+
+[阅读全文 →](/weekly/011/ai-designs-chips)
+
+## 创业观察
+
+### [当人人都能开发应用，谁来经营这些应用？](/weekly/011/spacefast-after-vibe-coding)
+
+Spacefast 把已有 AI 工具生成的项目接入发布、数据库、域名、版本与回滚流程。代码生成之外，应用经营本身也可能成为产品。
+
+[阅读全文 →](/weekly/011/spacefast-after-vibe-coding)
+
+## 科技拾遗
+
+### [一块可以记忆的超导薄膜](https://news.mit.edu/2026/tiny-superconducting-sandwich-could-help-computers-use-less-energy-1120)
+
+MIT 11 月 20 日介绍了由磁性层和超导薄膜构成的实验器件，可保存信息并在更低温度下控制电流方向。低温计算设备的存储与控制有了新的研究线索；阵列集成、制冷成本和整机节能仍待验证。不要把实验室里的一小块材料误认为即将替换数据中心内存的商品。
+
+### [如果 Excel 是一个 Python 文件](https://workbook.bui.app/)
+
+Reaktiv Workbook 将响应式计算单元、Markdown 笔记和图表组织在可执行的 Python 工作簿中。其初版于 11 月 17 日发布，业务逻辑有机会像代码一样进入版本管理。它仍需要与传统表格及其他响应式 notebook 比较；陌生的 Python 工作簿也不能当作无执行风险的数据文件。[发行记录](https://www.piwheels.org/project/reaktiv-workbook/) · [开源项目](https://github.com/buiapp/reaktiv-workbook)
+
+## Mira 技术雷达
+
+- **[9791 个线索，99 份报告](https://github.blog/open-source/maintainers/maintainers-dont-need-more-ai-bug-reports-they-need-fixes/)**（11 月 17 日）：GitHub 与 Microsoft 的六项目试点将潜在漏洞线索经过机器筛选和人工复核，最终向维护者私密提交 99 份报告。发现越来越便宜，验证和修复却仍需要投入。9791 个线索不等于 9791 个漏洞。
+- **[让 Agent 等待事件，而不是反复轮询](https://github.blog/changelog/2026-11-17-github-event-streams-is-now-in-preview/)**（11 月 17 日）：GitHub Event Streams 预览让本地工具有机会通过长连接等待 PR 变化，不再必须提供公网 webhook 接收端。仍受预览准入限制，断线恢复与运行成本需要实测。
+- **[云端预算不只是告警](https://blog.cloudflare.com/spend-management/)**（11 月 13 日，本周补采）：Cloudflare 为 Workers 和 Durable Objects 引入可选支出限制。对于按量收费的小团队，能否在运行中执行预算边界，比事后才发现账单不断增长更值得关注；不能据此认为全部 Cloudflare 产品都已硬封顶。
 
 ## Mira 现场
 
