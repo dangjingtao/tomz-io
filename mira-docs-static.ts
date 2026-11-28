@@ -31,6 +31,9 @@ type StaticDoc = MiraDoc & {
   mergeIndex?: boolean;
 };
 
+const jonathanAvatarUrl = "https://avatars.githubusercontent.com/u/35655049?v=4";
+const jonathanBio = "维护中文学习与创作资料目录，记录网站开发和资料整理中的实际问题。";
+
 const tztAvatarUrl = "https://avatars.githubusercontent.com/u/194352280?v=4";
 const tztBio = "Mira Mobile 的主要维护人，十八年前计协老会长。";
 
@@ -57,6 +60,7 @@ function authorName(value: string): string {
   const normalized = value.trim().toLowerCase();
   if (normalized === "tomz") return siteName;
   if (normalized === "mira") return "Mira";
+  if (normalized === "jonathanowentj") return "JonathanOwenTJ";
   if (normalized === "t-zt") return "t-zt";
   if (normalized === "simon-willison") return "Simon Willison";
   return value;
@@ -64,12 +68,14 @@ function authorName(value: string): string {
 
 function authorAvatar(name: string): string {
   if (name === "Mira") return miraAvatarUrl;
+  if (name.toLowerCase() === "jonathanowentj") return jonathanAvatarUrl;
   if (name.toLowerCase() === "t-zt") return tztAvatarUrl;
   if (name === "Simon Willison") return "https://github.com/simonw.png";
   return authorAvatarUrl;
 }
 
 function authorBio(name: string): string {
+  if (name.toLowerCase() === "jonathanowentj") return jonathanBio;
   if (name.toLowerCase() === "t-zt") return tztBio;
   if (name === "Simon Willison") return "开发者、Django 共同创建者。此篇为其公开演讲的中文译稿。";
   return "";

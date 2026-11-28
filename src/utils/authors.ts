@@ -50,11 +50,12 @@ export function getDocSignature(doc: Doc) {
       accentClassName: "",
     };
   }
-  if (authors[0] === "t-zt") {
+  if (authors[0] === "t-zt" || authors[0] === "jonathanowentj") {
+    const profile = authorProfiles[authors[0]];
     return {
-      title: authorProfiles["t-zt"].name,
-      body: authorProfiles["t-zt"].bio,
-      links: [{ label: "GitHub", href: "https://github.com/t-zt" }],
+      title: profile.name,
+      body: profile.bio,
+      links: [{ label: "GitHub", href: `https://github.com/${profile.name}` }],
       showKicker: true,
       accentClassName: "",
     };

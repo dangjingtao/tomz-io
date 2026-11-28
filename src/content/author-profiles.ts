@@ -30,6 +30,12 @@ export const authorProfiles: Record<
     bio: "开发者、Django 共同创建者与技术作者。此处收录其 2026 年闭幕演讲的中文译稿，原作及观点归 Simon Willison。",
     roleLabel: "ORIGINAL AUTHOR · TRANSLATED TALK",
   },
+  jonathanowentj: {
+    name: "JonathanOwenTJ",
+    avatar: "https://avatars.githubusercontent.com/u/35655049?v=4",
+    bio: "维护中文学习与创作资料目录，记录网站开发和资料整理中的实际问题。",
+    roleLabel: "GUEST CONTRIBUTOR",
+  },
   "t-zt": {
     name: "t-zt",
     avatar: "https://avatars.githubusercontent.com/u/194352280?v=4",
